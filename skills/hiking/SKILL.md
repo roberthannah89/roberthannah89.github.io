@@ -101,50 +101,79 @@ Use this when user asks "is this safe today?"
 
 ## Image Sourcing Checklist (for agents adding hikes)
 
-When adding a hike to the website, always source and **validate** images before committing:
+When adding a hike to the website, always source and **validate** images before committing.
+**Automated API approaches fail** (403 blocking from Wikimedia/Wikipedia). Use manual browsing instead.
 
-1. **Search for hero image (landscape, 1600+ px wide):**
-   - Wikimedia Commons (search + validate URL with `curl -I`)
-   - Hikr.org trip reports (link directly, check CC license)
-   - Google Images (filter by CC license, verify)
-   - Regional tourism sites (SwissTopo, Swisstopo blogs, SAC publications)
+### Reliable sources (tested order)
 
-2. **Test every URL before saving:**
-   ```bash
-   curl -I "https://example.com/image.jpg"
-   # Must return HTTP 200, not 404/403
-   ```
+**1. Wikimedia Commons — Manual browsing (most reliable)**
+- Go to: `https://commons.wikimedia.org/`
+- Search for peak name or hike name
+- Filter for **Images** ≥1280px wide, landscape orientation
+- Right-click → **Open image in new tab** → copy full URL
+- **Validate with `curl -I "<URL>"` — must return HTTP 200 OK**
 
-3. **Collect metadata:**
-   - Photo credit / artist name
-   - License (CC-BY, CC-BY-SA, public domain, etc.)
-   - Image dimensions (hero ≥1600w, thumbnails ≥600w)
+**2. Hikr.org — Direct browsing (authentic user photos)**
+- Search: `https://hikr.org/` for peak/route name
+- Open trip reports → galleries
+- Right-click photo → check URL
+- Most photos are CC-licensed by users
+- **Test URL with `curl -I` before using**
 
-4. **Common sources:**
-   - **Wikimedia Commons API**: Reliable but URLs must be tested (often 404 if guessed)
-   - **Hikr.org**: Best user photos, but behind Cloudflare (manually verify in browser first)
-   - **Google Images (CC search)**: Wide selection, but requires license verification
-   - **Tourism board sites**: Official images, usually CC or free-to-use
-   - **Wikipedia**: Linked Wikimedia photos often higher quality than direct Commons search
+**3. Google Images + CC License filter**
+- Search: `"<peak-name>" Switzerland` or `<peak-name> <canton>`
+- Click **Tools** → **Usage rights** → **Creative Commons licenses**
+- **Verify license** (CC-BY, CC-BY-SA, or public domain required)
+- Test URL with `curl -I` before using
 
-5. **If no valid image found:**
-   - Leave hero image as `"TODO: Wikimedia Commons URL"` (will render placeholder on page)
-   - Document search results in a comment for later curation
-   - Do not use broken links or placeholder services
+**4. Tourism board sites**
+- **Regional:** `<region>.ch` (e.g., `verbier.ch`, `zermatt.ch`)
+- **Official:** `swisstopo.admin.ch`, `jungfrau.swiss`
+- Look for Media / Gallery sections
+- Usually free-to-use for non-commercial
 
-6. **Store in spec or data.json:**
-   ```json
-   "hero": {
-     "image_url": "https://TESTED-AND-VALID.url/image.jpg",
-     "subtitle_html": "Photo © Name"
-   },
-   "photos": [{
-     "url": "https://TESTED-AND-VALID.url/image.jpg",
-     "lightbox_url": "https://TESTED-AND-VALID.url/image-hires.jpg",
-     "alt": "View of Peak Name",
-     "caption_html": "<p>Caption with credit.</p>"
-   }]
-   ```
+**5. Pexels / Unsplash (generic Alpine fallback)**
+- Go to: `https://unsplash.com/` or `https://pexels.com/`
+- Search: `Switzerland`, `Alps`, or peak name
+- All are CC0 (free); use only as placeholder
+
+### Validation (MUST pass all)
+
+```bash
+# 1. Test accessibility
+curl -I "https://example.com/image.jpg"
+# Expected: HTTP 200 OK (not 404/403)
+
+# 2. Check dimensions
+# Hero: ≥ 1280px wide
+# Thumbnails: ≥ 600px wide
+
+# 3. Visual check (open in browser)
+# - Landscape (wider than tall)
+# - Shows distinctive peak/hike feature (not generic)
+# - No watermarks or paywalls
+```
+
+### Store in spec or data.json:
+
+```json
+"hero": {
+  "image_url": "https://TESTED-URL/image.jpg",
+  "subtitle_html": "Photo © Artist Name"
+},
+"photos": [{
+  "url": "https://TESTED-URL/image.jpg",
+  "lightbox_url": "https://TESTED-URL/image-hires.jpg",
+  "alt": "View of Peak Name",
+  "caption_html": "<p>Caption with credit.</p>"
+}]
+```
+
+### If no valid image found
+
+- Leave hero as `"TODO: Wikimedia Commons URL"` (renders placeholder)
+- Document search attempts in code comment
+- Do **not** use broken links or guessed URLs
 
 ## Language and Scope Notes
 

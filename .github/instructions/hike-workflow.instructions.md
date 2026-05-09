@@ -68,26 +68,78 @@ That means agents can fill only the sections they already know (for example
 `index_card`, `hero`, `intro_html`, `photos`, `trip_reports`) and leave the
 rest as template TODOs.
 
-### Image sourcing & validation
+### Image sourcing — reliable process
 
-**Always validate that image URLs work before adding them to a spec.**
+**Critical:** Image URLs fail silently. Always validate before committing.
 
-1. **Search multiple sources:**
-   - **Wikimedia Commons** (`commons.wikimedia.org`) — Use the API or search; **test the final URL** with `curl -I` to confirm 200 OK (not 404)
-   - **Hikr.org** — Trip reports often have embedded photos; link directly from photo pages
-   - **Google Images** — Find CC-licensed or public-domain images; verify license before using
-   - **SwissTopo / Swisstopo imagery** — Check if embedding is permitted
-   - **Panoramio / Panorama platforms** — Historical/archived photos
+#### Reliable image sources (tested order)
 
-2. **Before committing, validate URLs:**
-   ```bash
-   curl -I "https://example.com/image.jpg"
-   # Should return HTTP 200, not 403/404
-   ```
+**1. Wikimedia Commons — Manual browsing (most reliable)**
+- Go to: `https://commons.wikimedia.org/`
+- Search for peak name or hike name (e.g., "Eiger", "Gornergrat", "Hardergrat")
+- Filter: **File type** → **Images** → Look for landscape photos ≥1280px wide
+- **NEVER use direct API queries** (they return 403 Forbidden)
+- Right-click image → **Open image in new tab** → copy full URL
+- Validate with `curl -I "<URL>"` — must return **HTTP 200 OK**
 
-3. **Store in spec as:**
-   ```json
-   "photos": [{
+**2. Hikr.org — Direct browsing (authentic user photos)**
+- Go to: `https://hikr.org/`
+- Search for the peak name or route
+- Click trip reports → open galleries
+- Right-click photo → inspect URL
+- Most Hikr photos are CC-licensed by users
+- **Note:** Hikr is behind Cloudflare; links work in browser but API calls fail
+- Validate URL with `curl -I` before using
+
+**3. Google Images + CC License filter**
+- Go to: `https://google.com/images`
+- Search: `"<peak-name>" Switzerland hiking` or `<peak-name> <canton>`
+- Click **Tools** (bottom-left) → **Usage rights** → **Creative Commons licenses**
+- Click image → **View Image** → copy URL
+- **Verify license in image details** (must be CC-BY, CC-BY-SA, or public domain)
+- Validate with `curl -I` before using
+
+**4. Tourism board sites (authority, official license)**
+- **Regional tourism:** `<region>.ch` (e.g., `verbier.ch`, `zermatt.ch`)
+- **Official bodies:** `swisstopo.admin.ch`, `jungfrau.swiss`
+- Usually have free-to-use licensing for non-commercial
+- Look for **Gallery** or **Media** sections
+- Copy image URLs and validate
+
+**5. Pexels / Unsplash (generic Alpine fallback)**
+- Go to: `https://www.pexels.com/` or `https://unsplash.com/`
+- Search: `"Switzerland" OR "Alps" OR "<peak-name>"`
+- All images are **free CC0 license**
+- Works reliably but will be generic (not specific to hike)
+- Use only as **placeholder** if no specific photos found
+
+#### Validation checklist (MUST pass all)
+
+Before saving a URL to `data.json`:
+
+```bash
+# 1. Test accessibility (HTTP 200)
+curl -I "https://example.com/image.jpg"
+# Expected: "HTTP/2 200" or "HTTP/1.1 200 OK"
+
+# 2. Check dimensions (inspect in browser or with `identify`)
+# Required: ≥ 1280px wide for hero image, ≥ 600px for thumbnails
+
+# 3. Verify attribution
+# Document artist/photographer name and license (CC-BY, CC-BY-SA, public domain, or site TOS)
+
+# 4. Visual check
+# Open URL in browser to confirm:
+#   - Landscape orientation (wider than tall, ideally)
+#   - Shows distinctive feature of peak/hike (not generic)
+#   - No watermarks or paywalls
+#   - No obvious low quality/noise
+```
+
+#### Store in spec as:
+
+```json
+"photos": [{
      "url": "https://VALIDATED.url/image.jpg",
      "lightbox_url": "https://VALIDATED.url/image-hires.jpg",
      "alt": "Short description of image content",
