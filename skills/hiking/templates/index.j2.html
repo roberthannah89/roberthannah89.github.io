@@ -350,6 +350,13 @@
       <button class="filter-btn active" data-value="all">Any</button>
       <!-- canton buttons injected by JS -->
     </div>
+    <div class="filter-group" data-filter="weather">
+      <span class="filter-label">Weather</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="good">☀️ Clear</button>
+      <button class="filter-btn" data-value="ok">⛅ OK</button>
+      <button class="filter-btn" data-value="bad">🌧️ Poor</button>
+    </div>
   </div>
 
   <div class="grid" id="grid"><!-- cards injected by JS --></div>
@@ -458,7 +465,7 @@ cantons.forEach(c => {
 });
 
 /* ------------- filtering ------------- */
-const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all" };
+const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all" };
 document.querySelectorAll(".filter-group").forEach(group => {
   const key = group.dataset.filter;
   group.addEventListener("click", e => {
@@ -478,6 +485,18 @@ function gradeMatch(g, filter) {
   if (filter === "alpine") return g >= 4;
   return true;
 }
+function wxCategory(icon) {
+  if (icon === "☀️" || icon === "🌤️") return "good";
+  if (icon === "⛅" || icon === "☁️" || icon === "🌫️") return "ok";
+  return "bad";
+}
+function updateCardWeather() {
+  document.querySelectorAll(".card").forEach(card => {
+    const idx = parseInt(card.dataset.idx, 10);
+    const wd = weatherByHike[idx];
+    if (wd && wd[mapDayActive]) card.dataset.wx = wxCategory(wd[mapDayActive].icon);
+  });
+}
 function applyFilters() {
   let visible = 0;
   document.querySelectorAll(".card").forEach(card => {
@@ -489,6 +508,7 @@ function applyFilters() {
     if (ok && activeFilters.duration === "multi") ok = multi;
     if (ok && activeFilters.region !== "all") ok = region === activeFilters.region;
     if (ok && activeFilters.canton !== "all") ok = card.dataset.canton === activeFilters.canton;
+    if (ok && activeFilters.weather !== "all") ok = card.dataset.wx === activeFilters.weather;
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
     const idx = parseInt(card.dataset.idx, 10);
@@ -565,6 +585,8 @@ function setMapDay(dayIdx) {
     if (!wd || !wd[dayIdx]) return;
     m.setIcon(makeWeatherPin(wd[dayIdx].icon, wd[dayIdx].tmax));
   });
+  updateCardWeather();
+  applyFilters();
 }
 
 function updateMapDayBtns(dates) {
@@ -662,6 +684,8 @@ async function loadWeather() {
       strip.classList.remove("loading");
       strip.innerHTML = html;
       if (!mapDayBtnsSet) { updateMapDayBtns(days.time); mapDayBtnsSet = true; }
+      updateCardWeather();
+      applyFilters();
     } catch (e) {
       strip.classList.remove("loading");
       strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
