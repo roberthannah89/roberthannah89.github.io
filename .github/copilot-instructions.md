@@ -97,16 +97,27 @@ Use `make new ... --no-gpx` flag pattern if you want to skip GPX building.
    - `photos` — array of `{url, lightbox_url, alt, caption_html}`
    - `sections` — detailed route write-up
 
-3. **Verify all image URLs** — Wikimedia Commons URLs must be real filenames:
+3. **Verify all image URLs** — Use automated validation:
    ```bash
-   # Find real filenames in a category:
-   curl "https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers\
-   &cmtitle=Category:Pizol&cmlimit=20&format=json" | python3 -m json.tool | grep title
-
-   # Verify each URL returns 200 (not 404 or 301):
-   curl -sI -A "Mozilla/5.0" "https://commons.wikimedia.org/wiki/Special:FilePath/Filename.jpg?width=1600"
+   # Validate all images across all hikes
+   ~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py
+   
+   # Validate single hike
+   ~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py --slug <slug>
+   
+   # Auto-fix convertible wiki-page URLs
+   ~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py --fix
    ```
-   Use format: `https://commons.wikimedia.org/wiki/Special:FilePath/<Filename>?width=1600`
+
+   **Important note on Wikimedia URLs:** Wikimedia Commons returns HTTP 403 to automated
+   HEAD requests (bot detection), but images display fine in browsers. The validator
+   automatically skips Wikimedia URLs and assumes they're valid. For manual verification,
+   open the URL in a web browser instead of using `curl -I`.
+
+   **Supported formats:**
+   - `https://commons.wikimedia.org/wiki/Special:FilePath/<Filename>?width=1600` ✅
+   - `https://upload.wikimedia.org/wikipedia/commons/<path>/<filename>` ✅
+   - Other CDNs (Hikr, tourism sites, etc.) — auto-validated with HEAD requests
 
 4. **Render**: `make render slug=X` — check output in `hikes/X/X.html`
 

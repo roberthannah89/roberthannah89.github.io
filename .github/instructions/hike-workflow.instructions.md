@@ -13,6 +13,11 @@ by `skills/hiking/scripts/render_hike.py` from `skills/hiking/templates/hike_pag
 ```bash
 cd /opt/code/website
 
+# Validate all image URLs (skips Wikimedia bot-blocking, catches real 404s):
+~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py
+~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py --slug <slug>  # single hike
+~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py --fix          # auto-fix wiki URLs
+
 # Fast path for agents / batch work:
 ~/venvs/dev/bin/python skills/hiking/scripts/add_hike.py \
   --spec /abs/path/to/<slug>.spec.json
@@ -85,9 +90,9 @@ Generic Alpine or Swiss mountain photos are not acceptable — they undermine th
 - Go to: `https://commons.wikimedia.org/`
 - Search for peak name or hike name (e.g., "Eiger", "Gornergrat", "Hardergrat")
 - Filter: **File type** → **Images** → Look for landscape photos ≥1280px wide
-- **NEVER use direct API queries** (they return 403 Forbidden)
 - Right-click image → **Open image in new tab** → copy full URL
-- Validate with `curl -I "<URL>"` — must return **HTTP 200 OK**
+- **Verify in browser (not with `curl`)** — Wikimedia blocks automated requests with 403
+- Use format: `https://commons.wikimedia.org/wiki/Special:FilePath/<Filename>?width=1600`
 
 **2. Hikr.org — Direct browsing (authentic user photos)**
 - Go to: `https://hikr.org/`
@@ -95,8 +100,7 @@ Generic Alpine or Swiss mountain photos are not acceptable — they undermine th
 - Click trip reports → open galleries
 - Right-click photo → inspect URL
 - Most Hikr photos are CC-licensed by users
-- **Note:** Hikr is behind Cloudflare; links work in browser but API calls fail
-- Validate URL with `curl -I` before using
+- **Verify URL works in browser** (Hikr may block automated requests)
 
 **3. Google Images + CC License filter**
 - Go to: `https://google.com/images`
@@ -104,7 +108,7 @@ Generic Alpine or Swiss mountain photos are not acceptable — they undermine th
 - Click **Tools** (bottom-left) → **Usage rights** → **Creative Commons licenses**
 - Click image → **View Image** → copy URL
 - **Verify license in image details** (must be CC-BY, CC-BY-SA, or public domain)
-- Validate with `curl -I` before using
+- Test URL before using
 
 **4. Tourism board sites (authority, official license)**
 - **Regional tourism:** `<region>.ch` (e.g., `verbier.ch`, `zermatt.ch`)
@@ -123,8 +127,12 @@ Before saving a URL to `data.json`:
 
 ```bash
 # 1. Test accessibility (HTTP 200)
+# NOTE: Wikimedia Commons returns HTTP 403 to automated HEAD requests (bot detection).
+# This is expected behavior. Browser GET requests work fine. Use the automated
+# validator below which skips Wikimedia URLs. For manual testing:
 curl -I "https://example.com/image.jpg"
 # Expected: "HTTP/2 200" or "HTTP/1.1 200 OK"
+# For Wikimedia URLs, skip automated testing and verify in a browser instead.
 
 # 2. Check dimensions (inspect in browser or with `identify`)
 # Required: ≥ 1280px wide for hero image, ≥ 600px for thumbnails
@@ -139,6 +147,32 @@ curl -I "https://example.com/image.jpg"
 #   - No watermarks or paywalls
 #   - No obvious low quality/noise
 ```
+
+#### Automated validation (`validate_images.py`)
+
+Run this to check all image URLs for broken links across all hikes:
+
+```bash
+cd /opt/code/website
+
+# Check all hikes
+~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py
+
+# Check single hike
+~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py --slug <slug>
+
+# Auto-fix convertible wiki-page URLs (converts to Special:FilePath format)
+~/venvs/dev/bin/python skills/hiking/scripts/validate_images.py --fix
+```
+
+**How it works:**
+- Skips Wikimedia URLs (they block bots with 403, but work fine in browsers)
+- Reports actual 404s and network errors from other CDNs
+- Returns exit code 0 if all images are valid
+- Safe to run in CI without false positives
+
+**Important:** Wikimedia URLs are assumed valid automatically. If you need to verify a
+Wikimedia image before committing, open the URL in a web browser (not `curl`).
 
 #### Store in spec as:
 
@@ -234,9 +268,12 @@ Pages render a freshness warning automatically once `page.reports_updated` is ol
 
 ## Gotchas
 
+- **WIKIMEDIA COMMONS BLOCKS BOTS** — All Wikimedia URLs return HTTP 403 to automated
+  HEAD requests (curl, requests.head(), etc.) but display fine in browsers (GET requests).
+  This is intentional bot detection. Use the `validate_images.py` script which skips
+  Wikimedia validation automatically. For manual verification of Wikimedia images, open
+  the URL in a web browser, not on the command line.
 - **FOTO-WEBCAM URL sizes**: use `/current/1200.jpg` or `/current/1920.jpg` — never `/current/1024.jpg` (404).
-- **Wikimedia Commons rate-limits HEAD floods** — `--probe` may 429 on photo URLs that are
-  fine in a browser. Re-probe individually if unsure.
 - **SRTM under-reads sharp summits** by ~50–100 m. Use catalog elevation (SAC/Wikipedia)
   for `peak.elev`; SRTM is fine for the elevation chart.
 - **Hikr is behind Cloudflare** — direct fetches fail. Use a web search for snippets.

@@ -50,6 +50,9 @@ applyTo: "**"
 
 ## Sources that don't work for scripted fetching
 
+- **Wikimedia Commons** — Returns HTTP 403 to automated HEAD requests (bot detection).
+  Images work fine in browsers. Browse manually and verify URLs in a web browser.
+  The `validate_images.py` script skips Wikimedia validation automatically.
 - **hikr.org** — Cloudflare 403. Use web search for snippets instead.
 - **SAC Route Portal GPX** — requires SAC member login.
 - **Komoot / Wikiloc / AllTrails GPX** — login required for export.
