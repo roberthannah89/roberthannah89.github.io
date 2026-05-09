@@ -2,9 +2,9 @@
 
 A self-contained interactive HTML page per hike, with embedded live transit, 7-day forecast, trip-report digest, GPX-derived elevation profile, and nearby webcams. Lives at `hikes/<slug>/<slug>.html` alongside its GPX file.
 
-**Architecture (refactored 2026-05):** all per-hike content is a single `<slug>.data.json` file. The HTML is rendered from a shared Jinja template ([`templates/hike_page.j2.html`](./templates/hike_page.j2.html)) by [`scripts/render_hike.py`](./scripts/render_hike.py). Shared CSS and JS live in [`templates/_assets/hike_page.{css,js}`](./templates/_assets/) and are copied to `<root>/_assets/` on every render — each hike page is ~370 lines instead of ~800. To change a hike, edit the JSON. To improve all hike pages at once, edit the asset files or the template and re-render. Never hand-edit a generated `<slug>.html`.
+**Architecture (refactored 2026-05):** all per-hike content is a single `<slug>.data.json` file. The HTML is rendered from a shared Jinja template ([`skills/hiking/templates/hike_page.j2.html`](./skills/hiking/templates/hike_page.j2.html)) by [`skills/hiking/scripts/render_hike.py`](./skills/hiking/scripts/render_hike.py). Shared CSS and JS live in [`skills/hiking/templates/_assets/hike_page.{css,js}`](./skills/hiking/templates/_assets/) and are copied to `<root>/_assets/` on every render — each hike page is ~370 lines instead of ~800. To change a hike, edit the JSON. To improve all hike pages at once, edit the asset files or the template and re-render. Never hand-edit a generated `<slug>.html`.
 
-**Validation:** every `data.json` is checked against [`templates/hike_data.schema.json`](./templates/hike_data.schema.json) before rendering. Missing required fields fail fast with a clear error.
+**Validation:** every `data.json` is checked against [`skills/hiking/templates/hike_data.schema.json`](./skills/hiking/templates/hike_data.schema.json) before rendering. Missing required fields fail fast with a clear error.
 
 **Auto-derivation from GPX:** `render_hike.py` automatically:
 - parses `<wpt>` entries from `<slug>.gpx` into the data file's `waypoints` field if you leave it empty (matches the trailhead/peak names to set `kind`).
@@ -13,15 +13,24 @@ A self-contained interactive HTML page per hike, with embedded live transit, 7-d
 
 ## Workflow for a new hike
 
+0. **Scaffold.** Run the scaffold script to create the directory and a pre-filled starter `data.json`:
+   ```bash
+   cd /opt/code/website
+   python skills/hiking/scripts/new_hike.py \
+     --slug <slug> --name <Name> \
+     --region <Region> --canton <Canton> \
+     --grade T3 --elev <elev> --trailhead <Village>
+   ```
+   The script creates `hikes/<slug>/` and `hikes/<slug>/<slug>.data.json` with all required schema fields pre-filled (TODO placeholders for fields you still need to author). It prints a checklist of remaining TODOs after creation.
 1. **Slug.** Pick `<peak-slug>` (lowercase, hyphenated, ASCII).
 2. **Identify peak.** SAC Route Portal lookup; cross-check Wikipedia (DE) for elevation, prominence, dominance.
 3. **Trailhead.** Pick the standard trailhead from SAC.
 4. **Routed GPX + track.js with elevations.** Run the build script (writes to `hikes/<slug>/`):
    ```bash
-   python scripts/build_hike_gpx.py \
+   python skills/hiking/scripts/build_hike_gpx.py \
      --slug <slug> --peak <Peak> --trailhead <Village> \
      --via <Waypoint1> --via <Waypoint2> \
-     --bbox <s,w,n,e> --out-dir <slug>/
+     --bbox <s,w,n,e> --out-dir hikes/<slug>/
    ```
    Outputs `<slug>.gpx` (full track) and `<slug>.track.js` (~200 points, Douglas-Peucker).
 5. **Photos.** 4 Wikimedia Commons photos (`Special:FilePath` recipe) — peak from 2 angles + 1 ridge + 1 valley/lake context shot.
@@ -30,7 +39,7 @@ A self-contained interactive HTML page per hike, with embedded live transit, 7-d
 8. **Author `<slug>.data.json`.** Copy the structure from any existing hike (e.g. `hikes/zindlenspitz/zindlenspitz.data.json`) and fill in fields. See **Schema** below.
 9. **Render + verify.**
    ```bash
-   python scripts/render_hike.py --slug <slug> --probe
+   python skills/hiking/scripts/render_hike.py --slug <slug> --probe
    ```
    Open the resulting `hikes/<slug>/<slug>.html` in a browser.
 
@@ -38,23 +47,23 @@ A self-contained interactive HTML page per hike, with embedded live transit, 7-d
 
 ```
 # Render every *.data.json under the hikes repo (parallel, profiled):
-python scripts/render_hike.py
+python skills/hiking/scripts/render_hike.py
 
 # Single hike:
-python scripts/render_hike.py --slug santis
+python skills/hiking/scripts/render_hike.py --slug santis
 
 # Also HEAD-check every webcam + photo URL (parallel):
-python scripts/render_hike.py --probe
+python skills/hiking/scripts/render_hike.py --probe
 
 # Profile the slowest hike (cProfile, top-30 cumulative):
-python scripts/render_hike.py --profile
+python skills/hiking/scripts/render_hike.py --profile
 
 # Force serial (debugging):
-python scripts/render_hike.py --jobs 1
+python skills/hiking/scripts/render_hike.py --jobs 1
 
 # Skip the index.html regen (e.g. if you only want to update one hike page):
-python scripts/render_hike.py --slug santis      # implicit --no-index when --slug used
-python scripts/render_hike.py --no-index         # explicit
+python skills/hiking/scripts/render_hike.py --slug santis      # implicit --no-index when --slug used
+python skills/hiking/scripts/render_hike.py --no-index         # explicit
 ```
 
 The script auto-renders `hikes/index.html` after all per-hike pages render (unless `--slug` or `--no-index` is given). The index is fully derived from per-hike `data.json` files — never hand-edit `hikes/index.html`.
