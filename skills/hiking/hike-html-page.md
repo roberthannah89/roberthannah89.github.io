@@ -1,4 +1,9 @@
-# Hike Plan HTML page (preferred deliverable)
+# Hike Plan HTML page — workflow & schema
+
+> **Superseded.** Canonical reference:
+> `/opt/code/website/.github/instructions/hike-workflow.instructions.md`
+>
+> Edit that file when the schema or scripts change. This file is a redirect only.
 
 A self-contained interactive HTML page per hike, with embedded live transit, 7-day forecast, trip-report digest, GPX-derived elevation profile, and nearby webcams. Lives at `hikes/<slug>/<slug>.html` alongside its GPX file.
 

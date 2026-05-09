@@ -1,5 +1,10 @@
 # Topographic Route Map Recipe (SwissTopo WMTS)
 
+> **Superseded.** Canonical reference:
+> `/opt/code/website/.github/instructions/hike-gpx.instructions.md`
+>
+> Edit that file when tile endpoints or the routing algorithm change. This file is a redirect only.
+
 When the user wants a real map with a route overlay (NOT ASCII art), generate a PNG by
 stitching SwissTopo WMTS tiles and drawing the route in PIL.
 

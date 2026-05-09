@@ -13,6 +13,10 @@ by `skills/hiking/scripts/render_hike.py` from `skills/hiking/templates/hike_pag
 ```bash
 cd /opt/code/website
 
+# Fast path for agents / batch work:
+~/venvs/dev/bin/python skills/hiking/scripts/add_hike.py \
+  --spec /abs/path/to/<slug>.spec.json
+
 # Scaffold a new hike:
 ~/venvs/dev/bin/python skills/hiking/scripts/new_hike.py \
   --slug <slug> --name <Name> --region <Region> --canton <Canton> \
@@ -30,6 +34,46 @@ cd /opt/code/website
 ~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --probe         # + URL checks
 ~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --jobs 1        # serial
 ```
+
+### Preferred fast path (`add_hike.py`)
+
+Use `add_hike.py` when parallel agents are researching multiple hikes at once.
+It does three things in one command:
+
+1. Generates `hikes/<slug>/<slug>.data.json` from the normal template.
+2. Merges the provided JSON spec on top of the template.
+3. Runs `build_hike_gpx.py` and `render_hike.py --slug <slug>`.
+
+Supported flags:
+
+- `--overwrite` — replace an existing `<slug>.data.json`
+- `--skip-gpx` — write data only
+- `--skip-render` — write data (and maybe GPX) only
+- `--probe` — pass `--probe` through to `render_hike.py`
+- `--print-spec-template` — emit an example spec JSON
+
+Spec examples live in `skills/hiking/spec-examples/`.
+
+- `eiger-trail.spec.json` — straightforward route with named waypoints only
+- `kreuzberge.spec.json` — explicit waypoint coordinates for ambiguous OSM names
+
+Required spec keys:
+
+- `slug`, `name`, `region`, `canton`, `grade`, `elev`
+- `peak.{name?,lat,lon}`
+- `trailhead.{name,lat,lon}`
+
+All other top-level keys are merged directly into the generated `data.json`.
+That means agents can fill only the sections they already know (for example
+`index_card`, `hero`, `intro_html`, `photos`, `trip_reports`) and leave the
+rest as template TODOs.
+
+`route_build` controls GPX generation:
+
+- `via` and `descend_via` may contain either strings or objects with
+  `{ "name", "lat", "lon" }`
+- `end_name` / `end_ll` are optional
+- `bbox` is optional when `peak.lat/lon` and `trailhead.lat/lon` are present
 
 `--slug` implicitly skips the index regen. Use `--no-index` to skip explicitly on full runs.
 The summary table prints per-hike stage timings and GPX stats for sanity-checking.
@@ -103,3 +147,17 @@ Pages render a freshness warning automatically once `page.reports_updated` is ol
 - **SRTM under-reads sharp summits** by ~50–100 m. Use catalog elevation (SAC/Wikipedia)
   for `peak.elev`; SRTM is fine for the elevation chart.
 - **Hikr is behind Cloudflare** — direct fetches fail. Use a web search for snippets.
+
+## `_config.js` (optional per-hike)
+
+Each `hikes/<slug>/` folder may contain a `_config.js` with a referrer-restricted
+Google Maps Embed API key and a default transit origin:
+
+```js
+window.HIKE_CONFIG = {
+  gmaps_key: "YOUR_KEY",  // Maps Embed API; restrict to localhost:* + file:///*
+  transit_origin: "Zurich HB",
+};
+```
+
+Pages work without it — the embedded transit iframe disappears, but deep-link buttons remain.

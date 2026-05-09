@@ -19,6 +19,26 @@ cd /opt/code/website
 
 `--bbox` is optional when `--peak-ll` and `--trailhead-ll` are both provided (±0.05° auto-computed).
 
+When OSM name lookup is flaky for intermediate waypoints, pass explicit waypoint
+coordinates in the same order:
+
+```bash
+~/venvs/dev/bin/python skills/hiking/scripts/build_hike_gpx.py \
+  --slug kreuzberge --peak "Chrüzberg" --trailhead Wasserauen \
+  --peak-ll 47.262,9.432 --trailhead-ll 47.286,9.430 \
+  --via Seealpsee --via-ll 47.283,9.417 \
+  --via "Saxer Lücke" --via-ll 47.249,9.437 \
+  --out-dir hikes/kreuzberge/
+```
+
+Supported explicit-coordinate flags:
+
+- `--peak-ll`
+- `--trailhead-ll`
+- `--via-ll` (repeat once per `--via`, same order)
+- `--descend-via-ll` (repeat once per `--descend-via`, same order)
+- `--end-ll`
+
 ---
 
 ## Algorithm (for debugging or modifications)

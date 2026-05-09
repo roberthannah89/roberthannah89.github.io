@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := skills/hiking/scripts
 port    ?= 8000
 
-.PHONY: help new gpx render validate probe serve install-hooks
+.PHONY: help new gpx render validate check-docs probe serve install-hooks
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -28,6 +28,7 @@ help:
 	@echo "  gpx            Build a GPX route via build_hike_gpx.py"
 	@echo "  render         Render hike HTML pages via render_hike.py"
 	@echo "  validate       Validate hike data only (no output written)"
+	@echo "  check-docs     Validate hiking instructions against current CLI flags"
 	@echo "  probe          Probe hike data sources"
 	@echo "  serve          Render then serve the site on localhost"
 	@echo "  install-hooks  Install git pre-commit validation hook"
@@ -112,7 +113,13 @@ render:
 # -----------------------------------------------------------------------------
 ## validate : Validate hike data without writing any output
 validate:
+	$(PYTHON) $(SCRIPTS)/check_hiking_docs.py
 	$(PYTHON) $(SCRIPTS)/render_hike.py --validate-only
+
+# -----------------------------------------------------------------------------
+## check-docs : Validate canonical hiking instructions against current scripts
+check-docs:
+	$(PYTHON) $(SCRIPTS)/check_hiking_docs.py
 
 # -----------------------------------------------------------------------------
 ## probe : Probe hike data sources (pass slug= to limit to one hike)
@@ -127,6 +134,6 @@ serve: render
 # -----------------------------------------------------------------------------
 ## install-hooks : Write and activate .git/hooks/pre-commit validation hook
 install-hooks:
-	@printf '#!/bin/sh\n~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --validate-only\n' > .git/hooks/pre-commit
+	@printf '#!/bin/sh\n~/venvs/dev/bin/python skills/hiking/scripts/check_hiking_docs.py\n~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --validate-only\n' > .git/hooks/pre-commit
 	@chmod +x .git/hooks/pre-commit
 	@printf '✓ .git/hooks/pre-commit installed\n'

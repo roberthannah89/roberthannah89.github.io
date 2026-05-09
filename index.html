@@ -60,13 +60,14 @@
     transform: translate(-50%, -50%);
     border: 0;
     pointer-events: none;
+    filter: brightness(1.15) saturate(1.08);
   }
   .hero-video::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at center, rgba(11,12,16,0.35) 0%, rgba(11,12,16,0.85) 75%, rgba(11,12,16,1) 100%);
+      radial-gradient(ellipse at center, rgba(11,12,16,0.05) 0%, rgba(11,12,16,0.25) 65%, rgba(11,12,16,0.45) 100%);
     z-index: 1;
   }
   .hero-content {

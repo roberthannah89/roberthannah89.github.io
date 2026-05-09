@@ -1,0 +1,81 @@
+{
+  "slug": "eiger-trail",
+  "name": "Eiger Trail",
+  "region": "Bernese Oberland",
+  "canton": "Bern",
+  "grade": "T2",
+  "elev": 2320,
+  "peak": {
+    "name": "Eigergletscher",
+    "elev": 2320,
+    "lat": 46.5771,
+    "lon": 8.0051
+  },
+  "trailhead": {
+    "name": "Alpiglen",
+    "elev": 1616,
+    "lat": 46.5936,
+    "lon": 7.982,
+    "transit_dest": "Alpiglen"
+  },
+  "route_build": {
+    "via": [
+      "Fallbodensee"
+    ],
+    "end_name": "Eigergletscher"
+  },
+  "index_card": {
+    "region": "Bernese Oberland",
+    "canton": "Bern",
+    "distance": "6.4 km",
+    "gain": "160 m",
+    "time": "2.5–3.5 h",
+    "transit": "Excellent",
+    "route_type": "point-to-point"
+  },
+  "hero": {
+    "grade": "T2",
+    "subtitle_html": "Alpiglen → Eigergletscher under the Eiger north face — <span class=\"pill t2\">SAC T2</span> · ~160 m gain · ~6.4 km · ~3 h"
+  },
+  "intro_html": "<p>The Eiger Trail is one of the clearest examples of the spec-driven workflow: short approach, famous objective, straightforward GPX routing, and a small number of sections to override. It is a good starter example for parallel agents because the route narrative is simple and the logistics are unusually clean.</p>",
+  "quick_facts": [
+    [
+      "Summit / high point",
+      "<strong>Eigergletscher, 2320 m</strong>"
+    ],
+    [
+      "Trailhead",
+      "Alpiglen"
+    ],
+    [
+      "Route type",
+      "Point-to-point"
+    ],
+    [
+      "Character",
+      "Balcony trail below the Eiger north face"
+    ],
+    [
+      "Best for",
+      "Clear-weather half day with dramatic scenery"
+    ]
+  ],
+  "getting_there": {
+    "by_pt_html": "<ul><li>Train to Grindelwald Terminal or Kleine Scheidegg corridor, then WAB to <strong>Alpiglen</strong>.</li><li>Finish at <strong>Eigergletscher</strong> and ride down by Jungfrau rail / gondola connection.</li></ul>",
+    "by_car_html": "<p>Parking is simplest at Grindelwald Terminal; use mountain rail for the start and finish.</p>"
+  },
+  "weather": {
+    "season_html": "<strong>Best window:</strong> late June to October, depending on snow lingering under the north face.",
+    "lapse_rate": {
+      "valley_ref": "Grindelwald (~1030 m)",
+      "summit_above_ref_m": 1290,
+      "temp_drop_c": 8,
+      "example_html": "Example: <strong>20 °C in Grindelwald → about 12 °C near Eigergletscher</strong>."
+    }
+  },
+  "resources_html": [
+    "<a href=\"https://www.jungfrau.ch/en-gb/\" target=\"_blank\">Jungfrau rail / gondola logistics</a>",
+    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB timetable</a>",
+    "<a href=\"https://map.geo.admin.ch/\" target=\"_blank\">SwissTopo map</a>"
+  ]
+}

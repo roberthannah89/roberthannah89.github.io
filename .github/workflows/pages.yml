@@ -31,6 +31,9 @@ jobs:
       - name: Validate hike data
         run: python skills/hiking/scripts/render_hike.py --validate-only
 
+      - name: Validate hiking instructions
+        run: python skills/hiking/scripts/check_hiking_docs.py
+
       - name: Render hike pages
         run: python skills/hiking/scripts/render_hike.py --probe
         continue-on-error: true

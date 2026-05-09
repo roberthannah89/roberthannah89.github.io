@@ -1,5 +1,10 @@
 # Swiss Hiking — Resources & Tools
 
+> **Superseded.** Canonical reference:
+> `/opt/code/website/.github/instructions/hike-resources.instructions.md`
+>
+> Edit that file when sources or tool notes change. This file is a redirect only.
+
 Reference for the hiking skill. Authoritative Swiss sources first; secondary tools below.
 
 ## Authoritative Swiss sources

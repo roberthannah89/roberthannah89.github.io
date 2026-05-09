@@ -178,7 +178,11 @@ def find_node(query: str) -> tuple[float, float] | None:
     return None
 
 
-def resolve_named_point(name: str, bbox: tuple[float, float, float, float]) -> tuple[float, float]:
+def resolve_named_point(
+    name: str,
+    bbox: tuple[float, float, float, float],
+    role: str = "point",
+) -> tuple[float, float]:
     """Try several OSM tag patterns for a named point; raise if not found."""
     s, w, n, e = bbox
     bb = f"({s},{w},{n},{e})"
@@ -198,7 +202,16 @@ def resolve_named_point(name: str, bbox: tuple[float, float, float, float]) -> t
         pt = find_node(q)
         if pt:
             return pt
-    raise SystemExit(f"OSM: could not resolve '{name}' inside bbox {bbox}")
+    role_hint = {
+        "trailhead": "pass --trailhead-ll lat,lon or tighten --bbox around the trailhead",
+        "peak": "pass --peak-ll lat,lon or tighten --bbox around the summit",
+        "end": "pass --end-ll lat,lon or tighten --bbox around the descent endpoint",
+        "via": "check the exact OSM spelling, tighten --bbox, or pass --via-ll lat,lon in the same order as --via",
+        "descend-via": "check the exact OSM spelling, tighten --bbox, or pass --descend-via-ll lat,lon in the same order as --descend-via",
+    }.get(role, "tighten --bbox or use explicit coordinates where supported")
+    raise SystemExit(
+        f"OSM: could not resolve {role} '{name}' inside bbox {bbox}; {role_hint}."
+    )
 
 
 def fetch_walkable_ways(bbox):
@@ -468,13 +481,34 @@ def parse_latlon(s: str) -> tuple[float, float]:
     return float(a), float(b)
 
 
+def _resolve_ordered_points(
+    names: list[str],
+    explicit_points: list[tuple[float, float]],
+    bbox: tuple[float, float, float, float],
+    role: str,
+) -> list[tuple[float, float]]:
+    """Resolve an ordered list of named points, optionally using explicit coordinates."""
+    if explicit_points and len(explicit_points) != len(names):
+        raise SystemExit(
+            f"ERROR: {role} coordinates count ({len(explicit_points)}) must match "
+            f"the number of {role} names ({len(names)})."
+        )
+    if explicit_points:
+        return explicit_points
+    return [resolve_named_point(name, bbox, role=role) for name in names]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--slug", required=True, help="output filename stem, e.g. 'santis'")
     ap.add_argument("--peak", required=True, help="peak/summit name as in OSM")
     ap.add_argument("--trailhead", required=True, help="trailhead name as in OSM (station/village/...)")
     ap.add_argument("--via", action="append", default=[], help="ordered intermediate waypoint name(s) BEFORE the peak")
+    ap.add_argument("--via-ll", action="append", default=[], type=parse_latlon,
+                    help="explicit lat,lon for each --via waypoint, in the same order")
     ap.add_argument("--descend-via", action="append", default=[], help="ordered intermediate waypoint name(s) AFTER the peak (descent)")
+    ap.add_argument("--descend-via-ll", action="append", default=[], type=parse_latlon,
+                    help="explicit lat,lon for each --descend-via waypoint, in the same order")
     ap.add_argument("--end", help="optional descent endpoint name (default: same as trailhead)")
     ap.add_argument("--peak-ll", type=parse_latlon, help="override peak lat,lon")
     ap.add_argument("--trailhead-ll", type=parse_latlon, help="override trailhead lat,lon")
@@ -503,13 +537,18 @@ def main():
             sys.exit(1)
 
     print("[1/6] resolving endpoints in OSM...", flush=True)
-    trailhead_ll = args.trailhead_ll or resolve_named_point(args.trailhead, args.bbox)
-    peak_ll = args.peak_ll or resolve_named_point(args.peak, args.bbox)
-    via_lls = [resolve_named_point(v, args.bbox) for v in args.via]
-    descend_lls = [resolve_named_point(v, args.bbox) for v in args.descend_via]
+    trailhead_ll = args.trailhead_ll or resolve_named_point(args.trailhead, args.bbox, role="trailhead")
+    peak_ll = args.peak_ll or resolve_named_point(args.peak, args.bbox, role="peak")
+    via_lls = _resolve_ordered_points(args.via, args.via_ll, args.bbox, role="via")
+    descend_lls = _resolve_ordered_points(
+        args.descend_via,
+        args.descend_via_ll,
+        args.bbox,
+        role="descend-via",
+    )
     end_ll = None
     if args.end or args.end_ll:
-        end_ll = args.end_ll or resolve_named_point(args.end, args.bbox)
+        end_ll = args.end_ll or resolve_named_point(args.end, args.bbox, role="end")
     print(f"  trailhead {args.trailhead}: {trailhead_ll}")
     for name, ll in zip(args.via, via_lls):
         print(f"  via {name}: {ll}")

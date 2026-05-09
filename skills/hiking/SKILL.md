@@ -8,49 +8,22 @@ description: 'Use when the user asks about hiking in Switzerland or the Swiss Al
 A practical planning guide for summer day hikes and hut-to-hut trips in the
 Swiss Alps, using authoritative Swiss sources first.
 
-## Reference files (load on demand)
+## Canonical instruction files
 
-- [links.md](./links.md) — authoritative Swiss sources, planning tools, hazard pages,
-  tool notes, map legend
-- [hike-html-page.md](./hike-html-page.md) — **preferred deliverable**: rich
-  interactive Hike Plan HTML page with embedded transit, weather, trip reports,
-  elevation profile, and webcams. The renderer + Jinja templates + JSON schema
-  live in the website repo at `/opt/code/website/skills/hiking/`. Per-hike
-  content is `/opt/code/website/hikes/<slug>/<slug>.data.json`.
-- [readme-template.md](./readme-template.md) — 12-section template for the alternative
-  flat-text Markdown README deliverable
-- [topo-map-recipe.md](./topo-map-recipe.md) — SwissTopo WMTS map generation +
-  OSM/Overpass GPX routing + elevation pass for Hike Plan HTML pages
+All workflow details, schema, and script references are maintained in
+`.github/instructions/` inside the website repo. These files are **auto-loaded**
+in every conversation when working in `/opt/code/website`. When working outside
+that workspace, load them with `read_file`:
 
-## Hike Plan deliverable — quick reference
+| File | Content |
+|------|---------|
+| `hike-workflow.instructions.md` | data.json schema, script commands, render workflow |
+| `hike-resources.instructions.md` | SAC grades, Swiss sources, tool notes, webcam sources |
+| `hike-gpx.instructions.md` | OSM routing, SwissTopo WMTS tiles, elevation API |
 
-**Single source of truth per hike: `<slug>.data.json`.** Never hand-edit a
-generated `<slug>.html` or `index.html`. Tooling lives in the website repo at
-`/opt/code/website/`, not in this skill.
+Absolute paths: `/opt/code/website/.github/instructions/<filename>`
 
-```bash
-cd /opt/code/website
-
-# 0. Scaffold the new hike directory + starter data.json:
-python skills/hiking/scripts/new_hike.py --slug <slug> --name <Name> \
-    --region <Region> --canton <Canton> --grade T3 --elev <elev> \
-    --trailhead <Village>
-
-# 1. Build GPX + track.js (one-time per hike):
-python skills/hiking/scripts/build_hike_gpx.py --slug <slug> --peak <Peak> \
-    --trailhead <Village> --via <Wpt1> --via <Wpt2> --bbox <s,w,n,e> \
-    --out-dir hikes/<slug>/
-
-# 2. Author hikes/<slug>/<slug>.data.json (copy from an existing hike).
-#    Validated against skills/hiking/templates/hike_data.schema.json on render.
-
-# 3. Render (parallel; auto-renders index.html and copies _assets/):
-python skills/hiking/scripts/render_hike.py
-python skills/hiking/scripts/render_hike.py --probe          # also HEAD-check URLs
-python skills/hiking/scripts/render_hike.py --slug <slug>    # single hike, no index
-```
-
-See [hike-html-page.md](./hike-html-page.md) for the full data schema.
+For the alternative Markdown README deliverable, see [readme-template.md](./readme-template.md).
 
 ## Safety Disclaimer (state to user when relevant)
 
