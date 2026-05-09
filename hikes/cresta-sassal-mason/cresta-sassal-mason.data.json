@@ -57,10 +57,28 @@
   ],
   "photos": [
     {
-      "url": "./images/2528139k.jpg",
-      "lightbox_url": "./images/2528139.jpg",
-      "alt": "Cresta Sassal Mason ridge",
-      "caption_html": "<p>Photo via hikr.org</p>"
+      "url": "https://f.hikr.org/files/3426252s.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3426252l.jpg",
+      "alt": "Gipfelpanorama",
+      "caption_html": "<p>Summit panorama. Photo via hikr.org</p>"
+    },
+    {
+      "url": "https://f.hikr.org/files/3426251s.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3426251l.jpg",
+      "alt": "Gipfelaussicht",
+      "caption_html": "<p>Peak views. Photo via hikr.org</p>"
+    },
+    {
+      "url": "https://f.hikr.org/files/4248647s.jpg",
+      "lightbox_url": "https://f.hikr.org/files/4248647l.jpg",
+      "alt": "Blick zurück zum Sassal Mason",
+      "caption_html": "<p>Looking back at Sassal Mason. Photo via hikr.org</p>"
+    },
+    {
+      "url": "https://f.hikr.org/files/2806345s.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2806345l.jpg",
+      "alt": "Alpine terrain",
+      "caption_html": "<p>Alpine terrain. Photo via hikr.org</p>"
     }
   ],
   "waypoints": [],
