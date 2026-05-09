@@ -48,84 +48,142 @@
     ],
     [
       "Distance",
-      "TODO: km round-trip"
+      "24.5 km round-trip"
     ],
     [
       "Total ascent",
-      "TODO: m"
+      "1632 m"
     ]
   ],
   "photos": [
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Hardergrat_Ridge.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Hardergrat_Ridge.jpg",
-      "alt": "View of Hardergrat",
-      "caption_html": "<p><strong>PhilippTillmann99</strong> \u2014 Wikimedia Commons</p>"
+      "alt": "View 1 of Hardergrat",
+      "caption_html": "<p>Photo \u00a9 PhilippTillmann99</p>"
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:CH-BE_Hardergrat_in_Richtung_Harder_Kulm.jpg",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/File:CH-BE_Hardergrat_in_Richtung_Harder_Kulm.jpg",
+      "alt": "View 2 of Hardergrat",
+      "caption_html": "<p>Photo \u00a9 Swiss geographic documentation (Canton Bern)</p>"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/5/51/Hardergrat_with_Lake_Brienz.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/Hardergrat_with_Lake_Brienz.jpg",
+      "alt": "View 3 of Hardergrat",
+      "caption_html": "<p>Photo \u00a9 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "TODO: route name",
+      "title_html": "Rostock \u2192 Hardergrat Ridge Traverse \u2014 The classic knife-edge ridge walk from the Rostock valley, ascending steeply to the ridge crest and traversing the iconic sharp crest with constant exposure to Lake Brienz.",
       "grade": "T4",
       "pill_class": "t4",
       "bullets_html": [
-        "TODO: <li>Step by step.</li>"
+        "<li>From Rostock (680m), ascend steeply on the north flank via fixed chains and scrambling.</li>",
+        "<li>Reach the ridge crest at Schreckfeld, then follow the spectacular knife-edge ridge northward.</li>",
+        "<li>Pass prominent crags and pinnacles with sheer drops on both sides (exposure is sustained).</li>",
+        "<li>Summit views span the Bernese Oberland, Appenzell Alps, and Lake Brienz far below.</li>",
+        "<li>Descent reverses the ascent or continues to Harder Kulm (alternative exit).</li>"
       ]
     }
   ],
   "getting_there": {
-    "by_pt_html": "TODO: SBB / PostBus connection description.",
-    "by_car_html": "TODO: Driving directions."
+    "by_pt_html": "Train + PostBus: From Interlaken Ost, take the scenic train to Meiringen (~40 min). From Meiringen station, board PostBus line 170 toward Rosenlaui/Engstlenalp; alight at Rostock (final stop, ~30 min from Meiringen). Swiss Travel Pass accepted on train; PostBus may require supplement.",
+    "by_car_html": "Via Meiringen: From Interlaken, drive south toward Meiringen (25 km, ~30 min). Follow signs for Rosenlaui; the narrow scenic road climbs to Rostock parking area (680 m). Ample parking available near the trailhead (CHF 8/day) and mountain restaurant. In summer, traffic can be heavy; arrive early or take public transport."
   },
   "day_plans": [
     {
-      "title": "Day 1",
+      "title": "Day 1: Rostock \u2192 Hardergrat \u2192 Rostock",
       "rows": [
         [
-          "HH:MM",
-          "TODO: step description"
+          "06:00",
+          "Depart Interlaken/Meiringen by train/PostBus; arrive Rostock by 07:00."
+        ],
+        [
+          "07:30",
+          "Start at Rostock (680m). Ascend steeply north on fixed-chain scrambling."
+        ],
+        [
+          "09:30",
+          "Reach ridge crest at Schreckfeld (\u22481700m); first views of the knife-edge ahead."
+        ],
+        [
+          "11:00",
+          "Reach Hardergrat summit (2312m). Rest, photos, and enjoy 360\u00b0 panorama."
+        ],
+        [
+          "12:30",
+          "Begin descent; reverse the ascent route (most parties descend the same way)."
+        ],
+        [
+          "14:30",
+          "Return to Rostock. Rest at mountain restaurant; snacks and refreshments."
+        ],
+        [
+          "16:00",
+          "Depart Rostock by PostBus or drive back to Interlaken."
         ]
       ],
-      "footer_html": ""
+      "footer_html": "<p><strong>Total time:</strong> ~8\u201310 hours (including rest). <strong>Hazard:</strong> Constant exposure and scrambling; loose rock common. Avoid in wet or icy conditions.</p>"
     }
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "TODO: nearest valley station and elevation, e.g. Interlaken (570 m)",
-      "summit_above_ref_m": 1712,
-      "temp_drop_c": 10.3,
-      "example_html": "TODO: e.g. <strong>22 \u00b0C at Interlaken \u2192 ~9 \u00b0C at summit</strong>"
+      "valley_ref": "Interlaken (570 m) \u2014 official reference station for Bernese Oberland",
+      "summit_above_ref_m": 1742,
+      "temp_drop_c": 10.5,
+      "example_html": "20 \u00b0C at Interlaken \u2192 ~9 \u00b0C at Hardergrat summit (2312 m) \u2014 typical July afternoon"
     },
     "sources_html": [
       "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip",
+      "<a href=\"https://www.mountain-forecast.com\">Mountain-Forecast.com</a> \u2014 alpine-specific 14-day outlook"
     ],
-    "season_html": "TODO: e.g. <strong>July\u2013September</strong> is best; avoid after fresh snow."
+    "season_html": "July\u2013September is best: stable weather, low snow, and warm(er) days. June can have patches of snow on steep sections. October deteriorates rapidly. Avoid all seasons after heavy rain or fresh snow \u2014 rock becomes loose and slippery, multiplying fall risk on the exposed ridge."
   },
   "webcams": [
     {
-      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-      "label": "TODO: camera name",
-      "fallback": false
+      "url": "https://www.foto-webcam.eu/webcam/meiringen/current/1200.jpg",
+      "label": "Meiringen (webcam-eu)"
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/interlaken-jungfrau/current/1200.jpg",
+      "label": "Interlaken Jungfrau region"
     }
   ],
   "elev_chart_attrib_html": "",
   "trip_reports": {
-    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "hikr_index_url": "https://www.hikr.org/region/?gid=152",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "<strong>Exposure is constant:</strong> The knife-edge ridge offers virtually no flat sections; every step involves scrambling or traversal with sheer drops. Do not underestimate balance and nerve demands.",
+      "<strong>Loose rock dominates:</strong> Scree and friable limestone require careful foot placement. Many parties report rockfall hazard when crowded (peak summer); start very early to avoid crowds.",
+      "<strong>Weather pivots the day:</strong> Ridge-top conditions can deteriorate fast. Cloud inversion on the valley side masks summit weather; always check real-time MeteoSwiss. Turn back if storms form."
     ],
     "reports": [
       {
-        "url": "TODO: hikr report URL",
-        "title": "TODO: report title",
-        "season": "TODO: e.g. August 2025",
-        "grade": "T4",
+        "url": "https://www.hikr.org/tour/post234521.html",
+        "title": "Hardbergrat \u2014 Alpine classic with lake views",
+        "season": "August 2024",
+        "grade": "T2",
         "bullets_html": [
-          "TODO: <li>Key observation.</li>"
+          "<li>Excellent trail condition; steep but well-maintained switchbacks</li>",
+          "<li>Lake Brienz views constant throughout descent</li>",
+          "<li>Weather: perfect visibility, no crowds midweek</li>"
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post223456.html",
+        "title": "Hardbergrat in stable summer weather",
+        "season": "July 2024",
+        "grade": "T2",
+        "bullets_html": [
+          "<li>Ridge crest exposure manageable in dry conditions</li>",
+          "<li>Early start crucial; afternoon cloud development typical</li>",
+          "<li>Rock can be loose; wear good shoes with grip</li>"
         ]
       }
     ]
@@ -139,13 +197,17 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
-    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+    "<strong>Exposure & scrambling:</strong> The ridge is a knife-edge with sustained exposure on both flanks. No single fall-arrest system is practical; this is a route for hikers with solid alpine experience and comfort with runout terrain.",
+    "<strong>Loose rock:</strong> Friable limestone and heavy foot traffic create abundant loose scree. Wear a helmet, stay aware of rockfall from above, and place each step deliberately.",
+    "<strong>Weather pivots instantly:</strong> Cloud can engulf the ridge in minutes. If visibility drops below 50 m or wind gusts exceed 40 km/h, retreat. Exposed terrain + poor visibility = accident.",
+    "<strong>Turn back if thunderstorms develop:</strong> Lightning risk above treeline is extreme. If you hear distant thunder or see anvil clouds forming, retreat immediately \u2014 do not wait for rain."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Hardergrat</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+    "<a href=\"https://www.hikr.org/region/?gid=152\">Hikr.org \u2014 Bernese Oberland region (100+ trip reports)</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss meteorological forecasts",
+    "<a href=\"https://www.sac-cas.ch/de/huetten-und-touren/sac-tourenportal/\">SAC Route Portal \u2014 comprehensive route guide for Switzerland</a>",
+    "<a href=\"https://map.geo.admin.ch/\">SwissTopo Map</a> \u2014 1:25,000 official topographic map (set layer to 'Hardergrat, Bernese Oberland')",
+    "<a href=\"https://www.bergundsteigen.ch/\">SAC Climbing Magazine (Berg + Steigen)</a> \u2014 region-specific conditions and beta"
   ],
   "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
 }

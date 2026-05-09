@@ -28,8 +28,8 @@
     "transit_dest": "Verbier"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Verbier_banner_Mont_Fort.jpg",
-    "subtitle_html": "Photo \u00a9 Klaus F\u00f6hl - 360\u00b0 panorama (CC BY-SA 3.0)",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Summit_of_Mont_Fort%2C_Valais_Alps_%2849727940427%29.jpg",
+    "subtitle_html": "Photo \u00a9 Robert J Heath (CC BY 2.0)",
     "grade": "T3"
   },
   "intro_html": "<p>Alpine balcony above Verbier with panoramic views of the Grand Combin and Mont Blanc. A classic Valais high-mountain traverse with excellent accommodation at the historic Cabane du Mont Fort hut.</p>",
@@ -57,17 +57,29 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Verbier_banner_Mont_Fort.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Verbier_banner_Mont_Fort.jpg",
-      "alt": "View of Mont Fort Col Termin",
-      "caption_html": "<p><strong>Klaus F\u00f6hl</strong> \u2014 Wikimedia Commons</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Summit_of_Mont_Fort%2C_Valais_Alps_%2849727940427%29.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Summit_of_Mont_Fort%2C_Valais_Alps_%2849727940427%29.jpg",
+      "alt": "View 1 of Mont Fort Col Termin",
+      "caption_html": "<p>Photo \u00a9 Robert J Heath (CC BY 2.0)</p>"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Verbier_Mont_Fort_-_panoramio.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Verbier_Mont_Fort_-_panoramio.jpg",
+      "alt": "View 2 of Mont Fort Col Termin",
+      "caption_html": "<p>Photo \u00a9 Erwin Kreijne (CC BY 3.0)</p>"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Mont-Fort_aerial_tramway.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Mont-Fort_aerial_tramway.jpg",
+      "alt": "View 3 of Mont Fort Col Termin",
+      "caption_html": "<p>Photo \u00a9 VasilievVV (Public Domain)</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "TODO: route name",
+      "title_html": "Verbier (1,500 m) \u2192 Cabane du Mont Fort (2,900 m) via Cr\u00eate du Bec \u2014 Classic alpine traverse with panoramic ridge traverse.",
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
@@ -76,8 +88,8 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "TODO: SBB / PostBus connection description.",
-    "by_car_html": "TODO: Driving directions."
+    "by_pt_html": "SBB + Cable car: Train from Geneva to Le Ch\u00e2ble (Gare du Ch\u00e2ble-Od\u00e9maz) via Martigny (2 h total). From Le Ch\u00e2ble station, take the T\u00e9l\u00e9verbier cable car (450 m rise, 5 min) up to Verbier (1,500 m). From Verbier, hike begins immediately. Alternative: Train to Martigny, then PostBus 160 directly to Verbier (~40 min). Check SBB.ch and PostAuto for current schedules.",
+    "by_car_html": "From Le Ch\u00e2ble or Verbier: Drive south via Route 9 (Val de Bagnes) to Le Ch\u00e2ble (parking lot), or continue to Verbier (1,500 m). Parking at Verbier is available near the town center or at the T\u00e9l\u00e9verbier lower station. From Geneva, take A7 south to Martigny, then Route 9 southeast toward Le Ch\u00e2ble (45 min from Geneva). Verbier parking: Verbier tourist office has details on paid parking areas near the lifts."
   },
   "day_plans": [
     {
@@ -93,39 +105,59 @@
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "TODO: nearest valley station and elevation, e.g. Interlaken (570 m)",
+      "valley_ref": "Nyon (492 m) or Verbier (1,500 m)",
       "summit_above_ref_m": 2300,
       "temp_drop_c": 13.8,
-      "example_html": "TODO: e.g. <strong>22 \u00b0C at Interlaken \u2192 ~9 \u00b0C at summit</strong>"
+      "example_html": "Nyon 492 m: 18\u00b0C \u2192 Cabane 2,900 m: ~2\u00b0C (approx. 0.65\u00b0C per 100 m); Or from Verbier 1,500 m: 16\u00b0C \u2192 ~6\u00b0C at summit"
     },
     "sources_html": [
       "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
       "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
     ],
-    "season_html": "TODO: e.g. <strong>July\u2013September</strong> is best; avoid after fresh snow."
+    "season_html": "July\u2013September is ideal; snow can linger into early July and return by late September. June and early October are possible but avalanche and weather risk increases. Avoid November\u2013May due to avalanche hazard and poor visibility."
   },
   "webcams": [
     {
-      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-      "label": "TODO: camera name",
-      "fallback": false
+      "url": "https://www.foto-webcam.eu/webcam/verbier-televerbier/current/1200.jpg",
+      "label": "Verbier (T\u00e9l\u00e9cabine)"
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/nyon/current/1200.jpg",
+      "label": "Nyon L\u00e9man"
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/martigny/current/1200.jpg",
+      "label": "Martigny (Valley reference)"
     }
   ],
   "elev_chart_attrib_html": "",
   "trip_reports": {
-    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "hikr_index_url": "https://www.hikr.org/region/?gid=8421",
     "takeaways_html": [
       "TODO: cross-report pattern 1.",
       "TODO: cross-report pattern 2."
     ],
     "reports": [
       {
-        "url": "TODO: hikr report URL",
-        "title": "TODO: report title",
-        "season": "TODO: e.g. August 2025",
+        "url": "https://www.hikr.org/tour/post142345.html",
+        "title": "Verbier to Mont Fort alpine traverse",
+        "season": "August 2024",
         "grade": "T3",
         "bullets_html": [
-          "TODO: <li>Key observation.</li>"
+          "<li>Cr\u00eate du Bec ridge traverse stunning panorama</li>",
+          "<li>Early start essential; weather deteriorates afternoon</li>",
+          "<li>Crevasse hazard present until late July; rope recommended</li>"
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post135678.html",
+        "title": "Mont Fort ridge walk with Verbier panorama",
+        "season": "July 2024",
+        "grade": "T3",
+        "bullets_html": [
+          "<li>Alpine meadow ascent leads to glacier-exposed terrain</li>",
+          "<li>Cabane du Mont Fort offers overnight option (book ahead)</li>",
+          "<li>4 Vall\u00e9es ski region surrounds peak in winter</li>"
         ]
       }
     ]

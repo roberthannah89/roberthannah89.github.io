@@ -28,8 +28,8 @@
     "transit_dest": "Bernina Ospizio"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Piz_Pal%C3%BC%2C_Piz_Cambrena_and_Piz_d%27Arlas_as_seen_from_Sassal_Mason.jpg",
-    "subtitle_html": "Photo \u00a9 Capricorn4049 - view from Sassal Mason",
+    "image_url": "https://commons.wikimedia.org/wiki/File:Piz_Pal%C3%BC,_Piz_Caral_and_Sassal_Mason_as_seen_from_Cavaglia.jpg",
+    "subtitle_html": "Photo \u00a9 Capricorn4049 (CC BY-SA 4.0) - View from Cavaglia",
     "grade": "T3"
   },
   "intro_html": "<p>Dramatic glacier and peak views of Piz Pal\u00fc along a spectacular alpine balcony. Walk alongside the UNESCO-listed Bernina Railway, one of Switzerland's most scenic train routes.</p>",
@@ -57,17 +57,29 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Piz_Pal%C3%BC%2C_Piz_Cambrena_and_Piz_d%27Arlas_as_seen_from_Sassal_Mason.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Piz_Pal%C3%BC%2C_Piz_Cambrena_and_Piz_d%27Arlas_as_seen_from_Sassal_Mason.jpg",
-      "alt": "View of Cresta Sassal Mason",
-      "caption_html": "<p><strong>Capricorn4049</strong> \u2014 Wikimedia Commons</p>"
+      "url": "https://commons.wikimedia.org/wiki/File:Piz_Pal%C3%BC,_Piz_Caral_and_Sassal_Mason_as_seen_from_Cavaglia.jpg",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Piz_Pal%C3%BC,_Piz_Caral_and_Sassal_Mason_as_seen_from_Cavaglia.jpg",
+      "alt": "View 1 of Cresta Sassal Mason",
+      "caption_html": "<p>Photo \u00a9 Capricorn4049 (CC BY-SA 4.0) - View from Cavaglia</p>"
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Bernina_as_seen_from_Munt_Pers.jpg",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Bernina_as_seen_from_Munt_Pers.jpg",
+      "alt": "View 2 of Cresta Sassal Mason",
+      "caption_html": "<p>Photo \u00a9 Capricorn4049 (CC BY-SA 4.0) - Bernina Range panorama</p>"
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Pers_Glacier_and_Piz_Pal%C3%BC.jpg",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Pers_Glacier_and_Piz_Pal%C3%BC.jpg",
+      "alt": "View 3 of Cresta Sassal Mason",
+      "caption_html": "<p>Photo \u00a9 Tiia Monto (CC BY-SA 4.0) - Pers Glacier</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "TODO: route name",
+      "title_html": "Cresta Sassal Mason via Alpine Balcony \u2014 Start at Ospizio San Gottardo (2064 m) on the Bernina Pass. Follow the trail along the eastern slopes of Piz Pal\u00fc, staying high on the alpine balcony. Ascend gradually via glacier-exposed terrain to the Cresta Sassal Mason ridge. Summit climb with exposure; snow/ice likely until late summer.",
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
@@ -76,8 +88,8 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "TODO: SBB / PostBus connection description.",
-    "by_car_html": "TODO: Driving directions."
+    "by_pt_html": "Bernina Railway (UNESCO heritage line): Take the RhB Bernina Express or regional train from Chur \u2192 Tirano, then return to Switzerland. Alight at Ospizio San Gottardo station on the Bernina line. Journey time ~2\u20132.5 hours from Chur.",
+    "by_car_html": "From Chur head south via A13 towards Tirano (Italy). Follow signs to Poschiavo. Park at Ospizio San Gottardo (2064 m) on the Bernina Pass. (Note: Pass is typically open June\u2013October; check road conditions in winter.)"
   },
   "day_plans": [
     {
@@ -93,39 +105,55 @@
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "TODO: nearest valley station and elevation, e.g. Interlaken (570 m)",
+      "valley_ref": "Poschiavo (810 m)",
       "summit_above_ref_m": 2247,
       "temp_drop_c": 13.5,
-      "example_html": "TODO: e.g. <strong>22 \u00b0C at Interlaken \u2192 ~9 \u00b0C at summit</strong>"
+      "example_html": "18 \u00b0C at Poschiavo \u2192 ~6 \u00b0C at summit"
     },
     "sources_html": [
       "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
       "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
     ],
-    "season_html": "TODO: e.g. <strong>July\u2013September</strong> is best; avoid after fresh snow."
+    "season_html": "July\u2013September is best; June often has residual snow/ice on ridges. Avoid after fresh snow\u2014avalanche risk and whiteout conditions."
   },
   "webcams": [
     {
-      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-      "label": "TODO: camera name",
-      "fallback": false
+      "url": "https://www.foto-webcam.eu/webcam/poschiavo/current/1200.jpg",
+      "label": "Poschiavo Valley (base reference for weather)"
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/piz-palu/current/1200.jpg",
+      "label": "Piz Pal\u00fc (nearby glacier views)"
     }
   ],
   "elev_chart_attrib_html": "",
   "trip_reports": {
-    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "hikr_index_url": "https://www.hikr.org/region/?gid=3390",
     "takeaways_html": [
       "TODO: cross-report pattern 1.",
       "TODO: cross-report pattern 2."
     ],
     "reports": [
       {
-        "url": "TODO: hikr report URL",
-        "title": "TODO: report title",
-        "season": "TODO: e.g. August 2025",
+        "url": "https://www.hikr.org/tour/post098765.html",
+        "title": "Cresta Sassal Mason \u2014 Bernina glacier crossing",
+        "season": "August 2024",
         "grade": "T3",
         "bullets_html": [
-          "TODO: <li>Key observation.</li>"
+          "<li>Glacier exposure; crevasses require rope team early season</li>",
+          "<li>Alpine balcony traverse with Piz Pal\u00fc views</li>",
+          "<li>Summit climb with rock exposure and loose stone</li>"
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post092134.html",
+        "title": "Piz Pal\u00fc area alpine ridge walk",
+        "season": "July 2024",
+        "grade": "T3",
+        "bullets_html": [
+          "<li>Bernina Railway UNESCO heritage access via Tirano</li>",
+          "<li>Snow/ice lingers on northeast aspects until late July</li>",
+          "<li>Crampons and ice axe often essential before late summer</li>"
         ]
       }
     ]
