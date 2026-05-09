@@ -33,11 +33,34 @@ cd /opt/code/website
   --via <Wpt1> --via <Wpt2> \
   --bbox <s,w,n,e> --out-dir hikes/<slug>/
 
-# Render (all hikes + index.html):
+## Render (all hikes + index.html)
+
+**CRITICAL: After updating ANY hike's hero image, you MUST regenerate index.html:**
+
+```bash
+cd /opt/code/website
+
+# Render all hikes + regenerate index (always do this after updating hero images):
 ~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py
-~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --slug <slug>   # single
-~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --probe         # + URL checks
-~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --jobs 1        # serial
+
+# Render single hike (skip index):
+~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --slug <slug>
+
+# Probe + validate all URLs (slow, use after major updates):
+~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --probe
+
+# Serial rendering (for debugging):
+~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --jobs 1
+```
+
+**Why regenerate index.html?**
+The index gallery displays hero images from all 20 hikes. If you update a hike's hero image URL and forget to regenerate, the old image URL will remain in the index until the next full render. **Always run the full render (no `--slug` flag) after adding/updating hero images** to ensure the gallery is in sync.
+
+**Workflow checklist after adding images:**
+1. Update `hikes/<slug>/<slug>.data.json` with hero + photos
+2. Run `~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py` (full render)
+3. Force-add HTML: `git add -f hikes/<slug>/*.html hikes/index.html`
+4. Commit + push
 ```
 
 ### Preferred fast path (`add_hike.py`)
