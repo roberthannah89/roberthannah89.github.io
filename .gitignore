@@ -1,0 +1,18 @@
+# Generated outputs — rebuilt by skills/hiking/scripts/render_hike.py
+hikes/index.html
+hikes/*/[!_]*.html
+hikes/*/_assets/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

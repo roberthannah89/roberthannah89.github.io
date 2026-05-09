@@ -1,0 +1,250 @@
+{
+  "slug": "zindlenspitz",
+  "page": {
+    "title": "Zindlenspitz (2097 m) — Hike Plan",
+    "generated": "2026-05-06",
+    "reports_updated": "2026-05-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Zindlenspitz",
+    "elev": 2097,
+    "lat": 47.0763,
+    "lon": 8.9598
+  },
+  "index_card": {
+    "region": "Wägitaler Alps",
+    "distance": "9.5 km",
+    "gain": "1200 m",
+    "time": "~6 h"
+  },
+  "trailhead": {
+    "name": "Innerthal",
+    "elev": 915,
+    "lat": 47.1055,
+    "lon": 8.9183,
+    "transit_dest": "Innerthal, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Zindlenspitz01.jpg?width=1600",
+    "subtitle_html": "Standard route from Innerthal — <span class=\"pill t3\">SAC T3</span> · ~1200 m gain · ~9.5 km one-way · ~6 h round-trip",
+    "grade": "T3"
+  },
+  "intro_html": "<blockquote>\"Zindlenspitz is one of the most characteristic mountains of Wägital. Viewed from the valley, it looks so uninviting that you hesitate to choose it as your hiking target. However, the steep limestone tooth is astonishingly easy to climb: T3, which does not even qualify the summit as an alpine hiking summit.\"<br>— <em>SAC Route Portal</em></blockquote><p>Also written <strong>Zindelspitz</strong> / <strong>Zindelnspitz</strong>; the SAC Route Portal uses <strong>Zindlenspitz</strong>. Elevation is 2097 m (the \"2260\" in the SAC URL is an internal ID, not the height).</p>",
+  "quick_facts": [
+    ["Summit elevation", "<strong>2097 m</strong>"],
+    ["Range", "Schwyzer Alps (sub-range of the Glarner Alps)"],
+    ["Cantons", "Schwyz (Innerthal) / Glarus (Glarus Nord) — border just east of summit"],
+    ["Valleys", "<strong>Wägital</strong> (NW, Wägitalersee 900 m) / <strong>Oberseetal</strong> (SE)"],
+    ["Prominence", "196 m"],
+    ["Dominance", "1.2 km → Brünnelistock"],
+    ["Coordinates", "47°04′35″ N, 8°57′36″ E (CH1903 715529 / 215037)"],
+    ["Activity", "Mountain hiking (Bergwandern)"],
+    ["Standard SAC grade", "<span class=\"pill t3\">T3</span> steep but non-alpine"],
+    ["Distance", "9.5 km one-way · ~19 km round-trip (from Innerthal)"],
+    ["Nearest village", "Innerthal (Wägital, SZ)"]
+  ],
+  "photos": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Zindlenspitz%20from%20Rosalpsitz.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Zindlenspitz%20from%20Rosalpsitz.jpg?width=1600",
+      "alt": "Zindlenspitz from Rosalpsitz",
+      "caption_html": "Zindlenspitz seen from Rosalpelispitz on a clear summer day."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Zindlenspitz02.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Zindlenspitz02.jpg?width=1600",
+      "alt": "Zindlenspitz alternate view",
+      "caption_html": "The peak from the south-east; classic limestone tooth profile."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Rossalpelispitz.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Rossalpelispitz.jpg?width=1600",
+      "alt": "Rossalpelispitz and Zindlenspitz",
+      "caption_html": "Rossalpelispitz (2075 m, left) and Zindlenspitz (2097 m, right) — the two summits of the standard ridge traverse."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/W%C3%A4gitalersee%2020220716i081.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/W%C3%A4gitalersee%2020220716i081.jpg?width=1600",
+      "alt": "Wägitalersee with the trilogy ridge",
+      "caption_html": "Wägitalersee with the <strong>trilogy</strong>: Brünnelistock, Rossalpelispitz, Zindlenspitz."
+    }
+  ],
+  "waypoints": [
+    {"lat": 47.1055, "lon": 8.9183, "label": "Innerthal (~915 m)", "kind": "start"},
+    {"lat": 47.0763, "lon": 8.9598, "label": "Zindlenspitz (2097 m)", "kind": "summit"}
+  ],
+  "routes_subtitle": "(from the SAC Route Portal)",
+  "routes": [
+    {
+      "title_html": "1. From the south (Wägitalersee / Innerthal) — standard route",
+      "grade": "T3",
+      "bullets_html": [
+        "Source: SAC archive document <em>Von Süden</em> / <em>Alpinführer Glarner Alpen (1)</em>, 11th ed. 2013, German.",
+        "Start: Innerthal / Wägitalersee (~915 m). Reachable by Postbus from Siebnen-Wangen.",
+        "Approach via Hohfläschen alps to the south-west flank.",
+        "Ascent gain: ~1200 m to the summit.",
+        "Variant exists at T5 on harder terrain near the summit ridge."
+      ]
+    },
+    {
+      "title_html": "2. Brünnelistock + Rossälplispitz + Zindlenspitz — traverse",
+      "grade": "T5",
+      "grade_label": "T5−",
+      "bullets_html": [
+        "Local nickname: <em>Wägitaler Trilogie</em> / <em>Hohfläschentrilogie</em>.",
+        "Three summits along the ridge; significant exposure and route-finding.",
+        "<strong>Not for beginners.</strong> Requires sure-footedness, scrambling, and good weather."
+      ]
+    }
+  ],
+  "getting_there": {
+    "by_car_html": "<p>Drive to Innerthal (Schwyz). Parking near the Wägitalersee dam or in the village.</p>",
+    "by_pt_html": "<ul><li>Train: Zürich HB → <strong>Siebnen-Wangen</strong> (≈40–50 min, S-Bahn).</li><li>Postbus from Siebnen-Wangen / Schübelbach into the Wägital, terminating near Innerthal / Wägitalersee.</li><li>Plan via <a href=\"https://www.sbb.ch/en\" target=\"_blank\">sbb.ch</a>.</li></ul>"
+  },
+  "day_plans": [
+    {
+      "title": "Day Plan (T3 standard)",
+      "rows": [
+        ["~06:30", "Train Zürich HB → Siebnen-Wangen"],
+        ["~08:30", "Bus reaches Innerthal, start hiking (~915 m)"],
+        ["~09:00", "Hohfläschen alp"],
+        ["~12:00–12:30", "Summit Zindlenspitz — ascent ~3.5–4 h"],
+        ["~12:30–13:00", "Lunch / photos at summit"],
+        ["~15:30", "Back at Wägitalersee — descent ~2.5 h"],
+        ["~17:00", "Bus + train back to Zürich"]
+      ],
+      "footer_html": "Earlier start if combining with the trilogy or if afternoon storms are forecast."
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "Schübelbach / Siebnen, ~400 m",
+      "summit_above_ref_m": 1700,
+      "temp_drop_c": 11,
+      "example_html": "Example: valley forecast 10–21 °C → summit ≈ <strong>−1 °C to +10 °C</strong>."
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a> — most accurate Swiss forecast (use Schübelbach or Innerthal point).",
+      "<a href=\"https://www.meteoblue.com/en/weather/week/innerthal_switzerland\" target=\"_blank\">Meteoblue Innerthal</a> — forecast + nearby webcams.",
+      "Thunderstorms in the forecast → consider postponing. Wägital is steep limestone; lightning + wet rock = bad."
+    ],
+    "season_html": "<strong>Summer hike only.</strong> Best window: late June to mid-October, depending on snow."
+  },
+  "webcams": [
+    {
+      "url": "https://www.foto-webcam.eu/webcam/brunnen/current/1200.jpg",
+      "label": "Brunnen / Vierwaldstättersee — same canton, ~25 km west; regional cloud + visibility indicator.",
+      "fallback": false
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/wildhaus/current/1200.jpg",
+      "label": "Wildhaus / Gamserrugg — looking toward Säntis, ~40 km east; useful for north-side weather.",
+      "fallback": false
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/innerthal_switzerland",
+      "label": "Meteoblue webcams near Innerthal (link only — Meteoblue blocks iframe embedding).",
+      "fallback": true
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (1078 points, OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).",
+  "trip_reports": {
+    "hikr_index_url": "https://www.hikr.org/dir/Zindlenspitz_6039/",
+    "takeaways_html": [
+      "The first 4 km from Innerthal is flat shore-road walking along Wägitalersee — factor it into your start time and consider the Postbus to the Schiffstation if you want to skip it.",
+      "The standard T3 ascent goes via Aberliboden and Ziggenbach to Alp Zindlen, then zigzags through forest and crosses a rocky ridge before the final 130 m push from point 1604 to the summit.",
+      "The Trilogie traverse (Brünnelistock + Rossalpelispitz + Zindlenspitz) is firmly T5− with significant exposure — early start essential and not recommended in damp/wet conditions on the limestone.",
+      "Summit views span the inner Swiss Alps, the Wägitalersee, and the Glarner Oberseetal (turquoise lake visible to the SE)."
+    ],
+    "reports": [
+      {
+        "url": "https://www.hikr.org/tour/post87174.html",
+        "title": "Zindlenspitz: wie ein Flug über dem Wägital",
+        "season": "summer",
+        "grade": "T3",
+        "bullets_html": [
+          "Standard ascent from Innerthal: 4 km lakeside road first, then up the Ziggenbach side to Aberliboden.",
+          "Forest zigzags, rocky ridge crossing, then a relatively flat traverse at Alp Zindlen.",
+          "From p.1604 the final 130 m to the summit cross — dramatic Wägital \"flight\" panorama."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post24644.html",
+        "title": "Trilogie: Brünnelistock + Rossalpelispitz + Zindlenspitz",
+        "season": "summer",
+        "grade": "T5",
+        "grade_label": "T5−",
+        "bullets_html": [
+          "Three summits along the ridge in one outing — the classic Wägitaler Trilogie.",
+          "Significant exposure on the connecting ridges; sure-footedness and scrambling required.",
+          "Plan a long day with an early start; descent off Zindlenspitz is the standard T3 route."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post87628.html",
+        "title": "Fluebrig–Zindlenspitz–Bockmattli — drei Voralpen-Gipfel",
+        "season": "summer",
+        "grade": "T5",
+        "grade_label": "T4–T5",
+        "bullets_html": [
+          "Multi-summit day combining three of the most distinctive Voralpen peaks of the Wägital basin.",
+          "Different starting/ending points; logistics are easier with two cars or a long return walk.",
+          "Each peak is distinct in character — Zindlenspitz the tooth, Fluebrig the broad ridge, Bockmattli the pyramid."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Mandatory",
+      "items_html": [
+        "Sturdy hiking boots (B-grade, ankle support)",
+        "2–3 L water + electrolytes",
+        "Food + emergency snack",
+        "Sun: hat, sunglasses, SPF 30+",
+        "Layers: base + insulating + windproof / rainproof shell",
+        "Hat + gloves (summit can be near freezing)",
+        "Headlamp",
+        "Phone with offline SwissTopo map + GPX",
+        "Small first-aid kit",
+        "Cash / card for the Postbus"
+      ]
+    },
+    {
+      "title": "Recommended",
+      "items_html": ["Trekking poles", "Power bank", "Whistle"]
+    },
+    {
+      "title": "Trilogy traverse only",
+      "items_html": [
+        "Helmet",
+        "Optional via-ferrata set / short rope",
+        "Significantly more time and an early start"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>Exposure:</strong> T3 still means steep grass and rock; a slip can be serious.",
+    "<strong>Limestone:</strong> dries fast but slippery when wet — avoid in or just after rain.",
+    "<strong>Thunderstorms:</strong> ridge is fully exposed. Descend if weather builds.",
+    "<strong>Cattle:</strong> mother cows with calves can be defensive — give space.",
+    "<strong>Phone reception:</strong> patchy. Download maps offline.",
+    "<strong>Emergency:</strong> Rega <strong>1414</strong> or <strong>112</strong>.",
+    "This is a <strong>summer route</strong>. Winter ascent involves avalanche terrain."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/zindlenspitz-2260/mountain-hiking/\" target=\"_blank\">SAC Route Portal — Zindlenspitz</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/zindlenspitz-2260/mountain-hiking/bruennelistock-rossaelplispitz-and-zindlenspitz-4567/\" target=\"_blank\">SAC — Brünnelistock + Rossälplispitz + Zindlenspitz traverse (T5−)</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/document/6473/\" target=\"_blank\">SAC archive document — \"Von Süden\" (T3 / T5)</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bockmattlihuette-2147000037/\" target=\"_blank\">Bockmattlihütte (nearest SAC hut, T1, 1501 m)</a>",
+    "<a href=\"https://www.hikr.org/dir/Zindlenspitz_6039/\" target=\"_blank\">Trip reports &amp; photos (hikr.org, German)</a>",
+    "<a href=\"https://de.wikipedia.org/wiki/Zindlenspitz\" target=\"_blank\">German Wikipedia — Zindlenspitz</a>",
+    "<a href=\"https://map.geo.admin.ch/?lang=en&amp;topic=ech&amp;zoom=11&amp;E=2715529&amp;N=1215037&amp;crosshair=marker&amp;layers=ch.swisstopo.swisstlm3d-wanderwege\" target=\"_blank\">SwissTopo viewer (centered on summit)</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a>",
+    "<a href=\"https://www.meteoblue.com/en/weather/week/innerthal_switzerland\" target=\"_blank\">Meteoblue Innerthal</a>",
+    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB timetable</a>",
+    "Swiss alpine rescue (Rega): <strong>1414</strong>"
+  ],
+  "disclaimer_html": "Compiled from the SAC Route Portal, German Wikipedia, and hikr.org references. <strong>Not professional mountain-safety advice.</strong> Conditions in the Alps change rapidly. Always re-check MeteoSwiss, the SAC situation warnings, and any trail closures before setting out. If in doubt about your ability for the T3 standard route — and especially the T5− trilogy — go with someone experienced or hire a guide."
+}

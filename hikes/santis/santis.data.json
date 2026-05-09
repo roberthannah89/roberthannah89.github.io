@@ -1,0 +1,283 @@
+{
+  "slug": "santis",
+  "page": {
+    "title": "Säntis (2502 m) — Hike Plan",
+    "generated": "2026-05-08",
+    "reports_updated": "2026-05-08",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Säntis",
+    "elev": 2502,
+    "lat": 47.2494,
+    "lon": 9.3433
+  },
+  "index_card": {
+    "region": "Alpstein",
+    "distance": "14.8 km",
+    "gain": "1730 m",
+    "time": "2 days",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Wasserauen",
+    "elev": 868,
+    "lat": 47.2856,
+    "lon": 9.4286,
+    "transit_dest": "Wasserauen, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Blick_vom_S%C3%A4ntis_ins_Alpsteinmassiv_Richtung_Appenzell_und_Bodensee.jpg?width=1600",
+    "subtitle_html": "Wasserauen → Lisengrat → Säntis → Schwägalp — <span class=\"pill t5\">SAC T4</span> · ~1730 m gain · ~14.8 km point-to-point · 2-day traverse",
+    "grade": "T4"
+  },
+  "intro_html": "<blockquote>\"The Lisengrat is the iconic ridge between Rotsteinpass and the Säntis summit — a continuously cabled limestone ridge with breathtaking drops on both sides. The most rewarding way up Säntis.\"<br>— <em>Alpstein guidebook (paraphrased)</em></blockquote><p>The <strong>Lisengrat</strong> is the iconic ridge between Rotsteinpass and the Säntis summit — a continuously cabled traverse that defines the SAC <strong>T4</strong> grade of this route. The moves themselves are reasonable when dry; the grade comes from the exposure. After rain or snowfall the ridge becomes \"quickly precarious.\"</p>",
+  "quick_facts": [
+    ["Summit elevation", "<strong>2502 m</strong> (2501.9 m on official cadastre)"],
+    ["Range", "Alpstein subrange of the Appenzell Alps"],
+    ["Cantons (tri-canton point)", "Appenzell Ausserrhoden / Appenzell Innerrhoden / St. Gallen"],
+    ["Valleys", "<strong>Schwendetal</strong> (E, Wasserauen 868 m) / <strong>Schwägalp</strong> (NW, 1352 m) / <strong>Toggenburg</strong> (S, Wildhaus)"],
+    ["Prominence", "<strong>2015 m</strong> — 13th most prominent peak in the Alps"],
+    ["Dominance", "25.78 km → Magerrain"],
+    ["Coordinates", "47°14′58″ N, 9°20′36″ E (CH1903 744178 / 234920)"],
+    ["Activity", "Alpine hiking (Bergwandern, with cabled ridge)"],
+    ["Standard SAC grade", "<span class=\"pill t5\">T4</span> Lisengrat ridge — exposed, secured"],
+    ["Distance", "14.8 km point-to-point (Wasserauen → Säntis → Schwägalp)"],
+    ["Total ascent / descent", "~1730 m gain · ~1250 m descent"],
+    ["Format", "2-day with overnight at Berggasthaus Meglisalp (1517 m)"],
+    ["Nearest village", "Schwende-Rüte / Wasserauen (Appenzell Innerrhoden)"]
+  ],
+  "photos": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Blick_vom_S%C3%A4ntis_ins_Alpsteinmassiv_Richtung_Appenzell_und_Bodensee.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Blick_vom_S%C3%A4ntis_ins_Alpsteinmassiv_Richtung_Appenzell_und_Bodensee.jpg?width=1600",
+      "alt": "View from Säntis summit toward the Alpstein, Appenzell, and Bodensee",
+      "caption_html": "Summit panorama south-east into the Alpstein toward Appenzell and the Bodensee."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Schw%C3%A4galp-S%C3%A4ntis_-_panoramio_(10).jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Schw%C3%A4galp-S%C3%A4ntis_-_panoramio_(10).jpg?width=1600",
+      "alt": "Säntis north face from Schwägalp",
+      "caption_html": "Säntis north face seen from the Schwägalp pass — the cable-car side."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/LisengratPanorama02.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/LisengratPanorama02.jpg?width=1600",
+      "alt": "Lisengrat ridge between Rotsteinpass and Säntis",
+      "caption_html": "Panorama along the Lisengrat ridge — cabled limestone crest, the route's defining T4 section."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Seealpsee_and_S%C3%A4ntis.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Seealpsee_and_S%C3%A4ntis.jpg?width=1600",
+      "alt": "Seealpsee with Säntis behind",
+      "caption_html": "Seealpsee on the Wasserauen approach, with the Säntis massif rising behind."
+    }
+  ],
+  "waypoints": [
+    {"lat": 47.2856, "lon": 9.4286, "label": "Wasserauen (868 m)", "kind": "start"},
+    {"lat": 47.2671, "lon": 9.4090, "label": "Seealpsee (1141 m)", "kind": "way"},
+    {"lat": 47.2559, "lon": 9.3855, "label": "Meglisalp (1517 m)", "kind": "way"},
+    {"lat": 47.2494, "lon": 9.3433, "label": "Säntis (2502 m)", "kind": "summit"},
+    {"lat": 47.2561, "lon": 9.3193, "label": "Schwägalp (1352 m)", "kind": "way"}
+  ],
+  "routes": [
+    {
+      "title_html": "1. Wasserauen → Lisengrat → Säntis (planned route)",
+      "grade": "T4",
+      "pill_class": "t5",
+      "bullets_html": [
+        "<strong>Day 1 — Wasserauen to Meglisalp</strong> (~1.5–2 h, ~650 m gain). Train terminus Wasserauen (868 m) → Seealpsee (1141 m, lakeshore) → Meglisalp (1517 m, historic alp/inn). Easy T2 hiking. Overnight at <a href=\"https://meglisalp.ch/\" target=\"_blank\" rel=\"noopener\">Berggasthaus Meglisalp</a>.",
+        "<strong>Day 2 — Meglisalp to Säntis to Schwägalp</strong> (~7–8 h moving, ~1000 m gain + 1150 m descent). Meglisalp → Rotsteinpass (2120 m, ~2.5 h, T2/T3) → Lisengrat ridge → Säntis summit (2502 m, ~1 h on the ridge). Descend on foot via the north flank (Tierwies / Wagenlücke) to Schwägalp (1352 m, ~2.5–3 h, T3).",
+        "<strong>Lisengrat:</strong> ~1.5–2 km cabled ridge, T4 / via-ferrata grade A. Steel cables and pegs in exposed sections. Big drops on both sides. ~50 min – 1.5 h depending on traffic and conditions. <strong>Quickly precarious when wet or snowy.</strong>"
+      ]
+    },
+    {
+      "title_html": "2. Schwägalp → Säntis (cable-car-down day-trip)",
+      "grade": "T3",
+      "grade_label": "T3",
+      "bullets_html": [
+        "Schwägalp (1352 m) → Tierwies → Wagenlücke → Säntis summit. ~3.5–4.5 h, ~1150 m gain. Standard \"tourist hike\" up the north flank.",
+        "Normally finished with the Schwebebahn down to Schwägalp. <strong>Not available in 2026 — cable car closed for renewal.</strong>"
+      ]
+    },
+    {
+      "title_html": "3. Lisengrat-only via-ferrata loop",
+      "grade": "T4",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Cable car up to Säntis (when running) → Lisengrat → Rotsteinpass → cable car back via Schwägalp. The fastest taste of the ridge if you don't want a long approach."
+      ]
+    }
+  ],
+  "getting_there": {
+    "by_car_html": "<p>Drive to Wasserauen (Schwende-Rüte, AI). Pay parking at the train terminus. <strong>Car-shuttle problem:</strong> the route ends at Schwägalp, ~25 km away by road — leave one car at Schwägalp or rely on the PostBus from Schwägalp to Urnäsch/Gossau and the train back.</p>",
+    "by_pt_heading": "By public transport (recommended for point-to-point)",
+    "by_pt_html": "<ul><li>Train: Zürich HB → Gossau SG → Appenzell → <strong>Wasserauen</strong> (≈2 h end-to-end).</li><li>Day 2 finish: Schwägalp → PostBus 791 to Urnäsch → train Urnäsch → Gossau → Zürich (≈2.5 h end-to-end).</li><li>Plan via <a href=\"https://www.sbb.ch/en\" target=\"_blank\">sbb.ch</a> — point-to-point works seamlessly on the SBB-PostBus combined ticket.</li></ul>"
+  },
+  "day_plans": [
+    {
+      "title": "Day Plan (T4 traverse, 2 days)",
+      "subheading": "Day 1 — Wasserauen to Meglisalp",
+      "rows": [
+        ["~12:00", "Train Zürich HB → Wasserauen (arrives ~13:50)"],
+        ["~14:00", "Start hiking at Wasserauen (868 m)"],
+        ["~15:00", "Seealpsee (1141 m) — short break, lake views"],
+        ["~16:30", "Berggasthaus Meglisalp (1517 m) — overnight, dinner"]
+      ]
+    },
+    {
+      "title": "",
+      "subheading": "Day 2 — Meglisalp to Säntis to Schwägalp",
+      "rows": [
+        ["~06:30", "Breakfast at Meglisalp; depart ~07:00"],
+        ["~09:30", "Rotsteinpass (2120 m) — Lisengrat begins"],
+        ["~10:30–11:30", "Säntis summit (2502 m) — Lisengrat ~1 h on the ridge"],
+        ["~12:00–12:30", "Summit break; weather check; restaurant if open"],
+        ["~15:00–15:30", "Schwägalp (1352 m) — descent ~2.5–3 h via Tierwies"],
+        ["~16:00", "PostBus 791 to Urnäsch; train back to Zürich"]
+      ],
+      "footer_html": "<strong>Earlier start essential</strong> if afternoon storms are forecast — the Lisengrat is a fully exposed ridge and lightning is the dominant hazard on the day."
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "Appenzell / Wasserauen, ~870 m",
+      "summit_above_ref_m": 1630,
+      "temp_drop_c": 11,
+      "example_html": "Example: valley forecast 12–22 °C → summit ≈ <strong>+1 °C to +11 °C</strong>."
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a> — most accurate Swiss forecast (use Schwende or Wasserauen point).",
+      "<a href=\"https://www.meteoblue.com/en/weather/week/saentis_switzerland\" target=\"_blank\">Meteoblue Säntis</a> — forecast + nearby webcams.",
+      "Säntis hosts an official MeteoSwiss summit weather station — its live readings are public on the MeteoSwiss site.",
+      "Thunderstorms in the forecast → <strong>postpone or cancel.</strong> The Lisengrat is a fully exposed knife-edge ridge; lightning + wet rock = unsurvivable."
+    ],
+    "season_html": "<strong>Summer hike only.</strong> Best window: <strong>July to early October</strong> for snow-free, dry Lisengrat conditions. Snow can linger on the ridge into early summer; the cabled sections become serious in any snow or ice."
+  },
+  "webcams": [
+    {
+      "url": "https://www.foto-webcam.eu/webcam/wildhaus/current/1200.jpg",
+      "label": "Wildhaus / Gamserrugg — direct view toward Säntis and Schafberg from the south-east.",
+      "fallback": false
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/hoherkasten/current/1200.jpg",
+      "label": "Hoher Kasten — eastern Alpstein, view across to Säntis and the Rheintal.",
+      "fallback": false
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/saentis_switzerland",
+      "label": "Meteoblue webcams near Säntis (link only — Meteoblue blocks iframe embedding). Roundshot Säntis is also useful for summit conditions.",
+      "fallback": true
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (400 points, OSM/Overpass routed via Dijkstra; elevations from SwissTopo Height API).",
+  "trip_reports": {
+    "hikr_index_url": "https://www.hikr.org/dir/Saentis_55798/",
+    "takeaways_html": [
+      "<strong>Lisengrat is rock-solid when dry</strong> — the cabled sections feel reasonable in T4 terms; it's the exposure (500 m+ drops on both sides), not the moves, that defines the grade.",
+      "<strong>Wet rock changes everything</strong> — multiple reports flag the ridge as <em>\"quickly precarious\"</em> after rain or snow. Cabled holds become slippery; bypass on a marginal weather day.",
+      "<strong>Crowds are real</strong> mid-summer; the Säntis summit is a tourist hub (restaurant, weather station) and the Lisengrat cables back up with traffic on weekends. Start early or pick a weekday.",
+      "<strong>Optimal window: July to early October</strong> for snow-free, dry conditions on the ridge. Late November is occasionally usable if conditions are unusually dry."
+    ],
+    "reports": [
+      {
+        "url": "https://www.hikr.org/tour/post190912.html",
+        "title": "Schwägalp – Girenspitz – Säntis – Lisengrat – Rotsteinpass – Unterwasser",
+        "season": "Nov 2024",
+        "grade": "T4",
+        "pill_class": "t5",
+        "bullets_html": [
+          "Late-autumn full traverse exploiting unusually good November weather.",
+          "Companion stat (Bergfex): 17.8 km, 1243 m gain, 8 h 12 min.",
+          "Continuous cabling on the ridge; route was dry — no specific snow notes."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post180561.html",
+        "title": "Lisengrat – Rotsteinpass – Meglisalp – Seealpsee: a rock & wildflower tour",
+        "season": "Jul 2023",
+        "grade": "T4",
+        "grade_label": "T3+/T4",
+        "pill_class": "t5",
+        "bullets_html": [
+          "Combined the ridge traverse with the wildflower-heavy descent through Meglisalp / Seealpsee.",
+          "Used the Säntisbahn up; descended via the Wasserauen-side route — same ridge as our planned ascent.",
+          "\"Steel-cable secured throughout the ridge\" — straightforward in dry conditions."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post27120.html",
+        "title": "Säntis über Lisengrat (Wildhaus → Schafboden → Rotsteinpass → Säntis)",
+        "season": "summer",
+        "grade": "T4",
+        "pill_class": "t5",
+        "bullets_html": [
+          "South-side variant from Wildhaus / Toggenburg — different approach, same Lisengrat finish.",
+          "\"Well-secured\" cabled path — author confirms the modern cabling has tamed historical T4+ moves.",
+          "Useful comparison if you want a different Day 1 (Wildhaus → Schafboden hut overnight)."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Mandatory",
+      "items_html": [
+        "Sturdy hiking boots (B/B+, ankle support — the Lisengrat is rocky and exposed)",
+        "2–3 L water + electrolytes (top up at Meglisalp Day 2 morning)",
+        "Food + emergency snack (Meglisalp serves dinner + breakfast; pack lunch for Day 2)",
+        "Sun: hat, sunglasses, SPF 30+ — exposure on the ridge is total",
+        "Layers: base + insulating + windproof / rainproof shell",
+        "Hat + gloves (Säntis weather station has held Swiss low-temp records)",
+        "Headlamp (Day 2 may start before full daylight)",
+        "Phone with offline SwissTopo map + GPX",
+        "Small first-aid kit",
+        "Cash / card for hut and PostBus",
+        "Sleeping-bag liner (hut requirement at Meglisalp)"
+      ]
+    },
+    {
+      "title": "Recommended for the Lisengrat",
+      "items_html": [
+        "Helmet — light alpine helmet for rockfall on the ridge in busy conditions",
+        "Trekking poles (collapsible — strap to pack on the cabled sections)",
+        "Light gloves for grip on cold cables",
+        "A short via-ferrata set is overkill for T4 / grade A but reasonable if you're nervous on exposure"
+      ]
+    },
+    {
+      "title": "Optional",
+      "items_html": [
+        "Power bank",
+        "Whistle",
+        "Lightweight bivvy / emergency blanket"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>Lisengrat exposure:</strong> 500 m+ drops on both sides; cabled but committing. Sure-footedness and head for heights mandatory.",
+    "<strong>Wet rock:</strong> the cabled sections become slippery fast. Postpone in or just after rain.",
+    "<strong>Thunderstorms:</strong> the ridge is a 1.5+ km fully exposed knife-edge. Lightning + steel cables + wet rock = unsurvivable. Watch the afternoon convection forecast and turn around at the first sign of buildup.",
+    "<strong>Snow / ice:</strong> shoulder-season snow patches on the north flank descent (Tierwies) can persist into July. If patches block the trail, do not bypass on steep grass.",
+    "<strong>Cattle:</strong> Meglisalp pastures host mother cows with calves — give space, no eye contact.",
+    "<strong>Phone reception:</strong> good on the summit (cell tower), patchy in Schwendetal. Download maps offline.",
+    "<strong>2026 cable-car closure:</strong> no descent option from the summit — you must walk to Schwägalp. If conditions deteriorate, the alternative is to retreat the way you came (Lisengrat → Rotsteinpass → Meglisalp / Seealpsee → Wasserauen).",
+    "<strong>Emergency:</strong> Rega <strong>1414</strong> or <strong>112</strong>. The Säntis summit has staff and a restaurant — useful safety net if conditions go bad.",
+    "This is a <strong>summer route</strong>. Winter ascent involves serious avalanche terrain on the north flank and ice on the Lisengrat."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/?keywords=Säntis\" target=\"_blank\">SAC Route Portal — Säntis search</a>",
+    "<a href=\"https://meglisalp.ch/\" target=\"_blank\">Berggasthaus Meglisalp — bookings &amp; menus</a> (Day 1 overnight)",
+    "<a href=\"https://www.berggasthaus-rotsteinpass.ch/\" target=\"_blank\">Berggasthaus Rotsteinpass</a> (alternative overnight at the foot of the Lisengrat)",
+    "<a href=\"https://saentisbahn.ch/\" target=\"_blank\">Säntis-Schwebebahn — closure status &amp; reopening</a> (closed 2026)",
+    "<a href=\"https://www.hikr.org/dir/Saentis_55798/\" target=\"_blank\">Trip reports &amp; photos (hikr.org, German)</a>",
+    "<a href=\"https://de.wikipedia.org/wiki/Säntis\" target=\"_blank\">German Wikipedia — Säntis</a>",
+    "<a href=\"https://map.geo.admin.ch/?lang=en&amp;topic=ech&amp;zoom=11&amp;E=2744178&amp;N=1234920&amp;crosshair=marker&amp;layers=ch.swisstopo.swisstlm3d-wanderwege\" target=\"_blank\">SwissTopo viewer (centered on summit)</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a> — official Säntis summit station readings",
+    "<a href=\"https://www.meteoblue.com/en/weather/week/saentis_switzerland\" target=\"_blank\">Meteoblue Säntis</a>",
+    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB timetable</a> (Wasserauen / Schwägalp PostBus)",
+    "Swiss alpine rescue (Rega): <strong>1414</strong>"
+  ],
+  "disclaimer_html": "Compiled from the SAC Route Portal, German Wikipedia, hikr.org references, and direct probing of foto-webcam.eu / saentisbahn.ch. <strong>Not professional mountain-safety advice.</strong> Conditions in the Alps change rapidly. Always re-check MeteoSwiss, the SAC situation warnings, the Säntis-Schwebebahn closure status, and any trail closures before setting out. The Lisengrat is a real T4 objective — if you're unsure on exposure, hire a guide or pick the Schwägalp-side T3 ascent (when the cable car is running again)."
+}
