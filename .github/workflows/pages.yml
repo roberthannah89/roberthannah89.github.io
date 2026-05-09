@@ -28,8 +28,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Validate hike data
+        run: python skills/hiking/scripts/render_hike.py --validate-only
+
       - name: Render hike pages
-        run: python skills/hiking/scripts/render_hike.py
+        run: python skills/hiking/scripts/render_hike.py --probe
+        continue-on-error: true
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3

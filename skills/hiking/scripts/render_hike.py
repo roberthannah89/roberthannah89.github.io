@@ -533,6 +533,8 @@ def main(argv: list[str] | None = None) -> int:
                    help="HEAD-check webcam + photo URLs in parallel before rendering.")
     p.add_argument("--no-index", action="store_true",
                    help="Skip rendering the index.html landing page.")
+    p.add_argument("--validate-only", action="store_true",
+                   help="Schema-validate all data.json files without rendering. Exits non-zero on any error.")
     args = p.parse_args(argv)
 
     data_files = find_data_files(args.root, args.slug)
@@ -543,6 +545,31 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Found {len(data_files)} hike(s):")
     for f in data_files:
         print(f"  {f}")
+
+    if args.validate_only:
+        errors_found = False
+        for f in data_files:
+            slug = f.stem.replace(".data", "")
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+                if Draft7Validator is not None and _SCHEMA is not None:
+                    errs = sorted(Draft7Validator(_SCHEMA).iter_errors(data),
+                                  key=lambda e: list(e.absolute_path))
+                    if errs:
+                        errors_found = True
+                        for e in errs[:5]:
+                            loc = "/".join(str(p) for p in e.absolute_path) or "<root>"
+                            print(f"[validate] FAIL {slug}: {loc}: {e.message}")
+                    else:
+                        print(f"[validate] OK   {slug}")
+                elif Draft7Validator is None:
+                    print(f"[validate] SKIP {slug}  (jsonschema not installed)")
+                else:
+                    print(f"[validate] SKIP {slug}  (schema file missing)")
+            except json.JSONDecodeError as exc:
+                errors_found = True
+                print(f"[validate] FAIL {slug}: JSON parse error: {exc}")
+        return 1 if errors_found else 0
 
     if args.probe:
         probe_urls(data_files)
