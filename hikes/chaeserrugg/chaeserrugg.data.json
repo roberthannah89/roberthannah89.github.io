@@ -1,0 +1,361 @@
+{
+  "slug": "chaeserrugg",
+  "page": {
+    "title": "Chäserrugg (2262 m) — Hike Plan",
+    "generated": "2026-05-09",
+    "reports_updated": "2026-05-09",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Chäserrugg",
+    "elev": 2262,
+    "lat": 47.168,
+    "lon": 9.313
+  },
+  "index_card": {
+    "region": "Churfirsten",
+    "canton": "St. Gallen",
+    "distance": "~12 km",
+    "gain": "~1000 m",
+    "time": "~5–6 h",
+    "pill_class": "t3"
+  },
+  "trailhead": {
+    "name": "Unterwasser",
+    "elev": 910,
+    "lat": 47.113,
+    "lon": 9.279,
+    "transit_dest": "Unterwasser, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_image_of_Churfirsten_(view_from_the_southeast).jpg?width=1600",
+    "subtitle_html": "Ridge walk via Iltios cable car — <span class=\"pill t3\">SAC T3</span> · ~1000 m gain · ~12 km · ~5–6 h",
+    "grade": "T3"
+  },
+  "intro_html": "<blockquote>\"Chäserrugg is the highest of the seven flat-topped Churfirsten peaks, their distinctive table-top silhouette visible from across north-eastern Switzerland. The ridge walk above the treeline offers one of the most spectacular panoramas in the Swiss Alps: Walensee shimmering blue in the valley, Bodensee glittering on the northern horizon, and the Appenzell and Vorarlberg Alps rolling east.\"<br>— <em>Route notes</em></blockquote><p>The <strong>Churfirsten</strong> (7 peaks east to west: <strong>Chäserrugg</strong>, Hinterrugg, Zuestoll, Brisi, Selun, Frümsel, Gauschla) form a near-horizontal limestone wall above Walensee. Chäserrugg (2262 m) is the easternmost and highest, linked to neighbouring Hinterrugg (2306 m) by a narrow ridge. The standard route uses the <strong>Unterwasser–Iltios cable car</strong> (1317 m) to bypass 400 m of forest, then follows the open Churfirsten crest with moderate exposure to the summit. A Herzog &amp; de Meuron–designed Bergrestaurant sits at the top — coffee with a sheer-drop view included.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2262 m</strong>"
+    ],
+    [
+      "Range",
+      "Churfirsten (sub-range of the Glarus Alps, Canton St. Gallen)"
+    ],
+    [
+      "Canton",
+      "St. Gallen (Toggenburg region)"
+    ],
+    [
+      "Valleys",
+      "<strong>Toggenburg</strong> (S, Unterwasser ~910 m) / <strong>Walensee</strong> (N, ~423 m)"
+    ],
+    [
+      "Coordinates",
+      "47°10′05″ N, 9°18′47″ E"
+    ],
+    [
+      "Activity",
+      "Mountain hiking (Bergwandern)"
+    ],
+    [
+      "Standard SAC grade",
+      "<span class=\"pill t3\">T3</span> — some exposure on the ridge crest"
+    ],
+    [
+      "Distance",
+      "~12 km round-trip from Iltios cable car top"
+    ],
+    [
+      "Elevation gain",
+      "~700 m from Iltios (1317 m) · ~1000 m from Unterwasser (910 m)"
+    ],
+    [
+      "Cable car",
+      "Unterwasser–Iltios: operates daily in summer (approx. May–Oct) — check <a href=\"https://www.churfirsten.ch\" target=\"_blank\">churfirsten.ch</a>"
+    ],
+    [
+      "Nearest village",
+      "Unterwasser (Toggenburg, SG)"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Ch%C3%A4serrugg_-_Hinterrugg.JPG?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Ch%C3%A4serrugg_-_Hinterrugg.JPG?width=1600",
+      "alt": "Chäserrugg and Hinterrugg ridge",
+      "caption_html": "The exposed crest connecting Chäserrugg (2262 m) and Hinterrugg (2306 m) — with Walensee far below to the north."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chaeserrugg_vido_al_grizonaj_alpoj_823.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chaeserrugg_vido_al_grizonaj_alpoj_823.jpg?width=1600",
+      "alt": "View from Chäserrugg toward the Graubünden Alps",
+      "caption_html": "Panorama south from the Chäserrugg summit toward the Graubünden Alps — Ringelspitz (3247 m) and Piz Sardona visible on clear days."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/2008-10-12_Ch%C3%A4serrugg_01.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/2008-10-12_Ch%C3%A4serrugg_01.jpg?width=1600",
+      "alt": "Panoramic view from Chäserrugg summit",
+      "caption_html": "Summit panorama from Chäserrugg: Walensee (Walenstadt) below to the north, Glarus Alps to the south, and on a clear day Bodensee (Lake Constance) on the northern horizon."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Churfirsten_obertoggenburg_gesamt.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Churfirsten_obertoggenburg_gesamt.jpg?width=1600",
+      "alt": "Churfirsten massif from Obertoggenburg",
+      "caption_html": "The entire Churfirsten massif from the Obertoggenburg valley: all seven flat-topped limestone peaks with Unterwasser in the valley below."
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.113,
+      "lon": 9.279,
+      "label": "Unterwasser (~910 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.133,
+      "lon": 9.282,
+      "label": "Iltios cable car top (~1317 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.148,
+      "lon": 9.297,
+      "label": "Selun (~2205 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.168,
+      "lon": 9.313,
+      "label": "Chäserrugg (2262 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "(from the SAC Route Portal and local guides)",
+  "routes": [
+    {
+      "title_html": "1. Via Iltios cable car → Selun → Chäserrugg — standard route",
+      "grade": "T3",
+      "bullets_html": [
+        "Start: Unterwasser, Toggenburg (~910 m). Take the cable car to <strong>Iltios</strong> (1317 m) to save ~400 m of forest ascent.",
+        "From Iltios, follow the broad ridge path north-east, gaining altitude steadily on open alpine terrain above the treeline.",
+        "Pass via <strong>Selun</strong> (~2205 m), one of the Churfirsten ridge peaks, with views opening toward Walensee.",
+        "Final push to <strong>Chäserrugg</strong> summit (2262 m): some exposed ledges and rocky sections (T3).",
+        "Return the same way, or continue to <strong>Hinterrugg</strong> (2306 m) for a ridge extension.",
+        "Total from Iltios: ~12 km round-trip, ~700 m gain, ~4–5 h. From Unterwasser: ~1000 m gain, ~5–6 h."
+      ]
+    },
+    {
+      "title_html": "2. Chäserrugg + Hinterrugg ridge extension",
+      "grade": "T3",
+      "grade_label": "T3+",
+      "bullets_html": [
+        "From Chäserrugg, the narrow ridge to <strong>Hinterrugg</strong> (2306 m) is the highest point of the Churfirsten.",
+        "Exposed traverse with good holds — stay on the marked path. Adds ~1–2 h and requires sure-footedness.",
+        "Descent back via Iltios cable car — confirm last departure time before committing."
+      ]
+    },
+    {
+      "title_html": "3. Full Churfirsten traverse (Chäserrugg → Gauschla)",
+      "grade": "T4",
+      "grade_label": "T4",
+      "bullets_html": [
+        "The classic multi-peak traverse covers all seven Churfirsten summits to the Gauschla (2075 m) in the west.",
+        "Very long day (10+ h); T4 experience and route-finding ability required on unmarked sections.",
+        "Descent to Flums or Unterterzen (Walensee) on the north side, or return transport from Walenstadt.",
+        "<strong>Not recommended</strong> as a first Churfirsten outing — do the T3 standard route first."
+      ]
+    }
+  ],
+  "getting_there": {
+    "by_car_html": "<p>Drive to <strong>Unterwasser</strong> (Toggenburg, SG). Parking at or near the cable car base station. The valley road runs from Wattwil (A1 junction) or from Bad Ragaz via Flums and the Walensee north shore.</p>",
+    "by_pt_html": "<ul><li>Train: <strong>Zürich HB → Wattwil</strong> (~55 min, S-Bahn S7 or IR 15 toward Chur).</li><li><strong>Postbus 740</strong>: Wattwil → Unterwasser (~35 min, several per hour in summer).</li><li>Total door-to-door from Zürich: ~2 h. Buy cable car ticket on site at Unterwasser.</li><li>Plan via <a href=\"https://www.sbb.ch/en\" target=\"_blank\">sbb.ch</a>.</li></ul>",
+    "by_pt_heading": "Public transport from Zürich (~2 h)"
+  },
+  "day_plans": [
+    {
+      "title": "Day Plan — standard T3 via Iltios cable car",
+      "rows": [
+        [
+          "~07:15",
+          "Train Zürich HB → Wattwil (S7 / IR15)"
+        ],
+        [
+          "~08:10",
+          "Arrive Wattwil; connect Postbus 740 → Unterwasser"
+        ],
+        [
+          "~08:50",
+          "Arrive Unterwasser cable car station (~910 m)"
+        ],
+        [
+          "~09:00",
+          "Cable car up to Iltios (1317 m)"
+        ],
+        [
+          "~09:15",
+          "Start hiking from Iltios toward Selun on the ridge path"
+        ],
+        [
+          "~11:00",
+          "Selun (~2205 m) — views open over Walensee"
+        ],
+        [
+          "~12:00–12:30",
+          "Summit Chäserrugg (2262 m) — ~3 h from Iltios"
+        ],
+        [
+          "~12:30–13:00",
+          "Lunch / coffee at Bergrestaurant Chäserrugg (reserve ahead in high season)"
+        ],
+        [
+          "~15:00",
+          "Back at Iltios — descent ~2 h"
+        ],
+        [
+          "~15:15",
+          "Cable car down to Unterwasser (check last departure!)"
+        ],
+        [
+          "~15:50",
+          "Postbus Unterwasser → Wattwil"
+        ],
+        [
+          "~16:50",
+          "Train Wattwil → Zürich HB"
+        ]
+      ],
+      "footer_html": "Start earlier (06:15 train) if combining with Hinterrugg or if afternoon thunderstorms are forecast. The Churfirsten crest is fully exposed — descent is mandatory if storms develop."
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "Wattwil / Unterwasser, ~900 m",
+      "summit_above_ref_m": 1362,
+      "temp_drop_c": 9,
+      "example_html": "Example: valley forecast 12–22 °C → summit ≈ <strong>3 °C to 13 °C</strong>. Wind chill on the exposed limestone ridge adds further cooling."
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a> — most accurate Swiss forecast (use Unterwasser or Wildhaus point).",
+      "<a href=\"https://www.meteoblue.com/en/weather/week/unterwasser_switzerland\" target=\"_blank\">Meteoblue Unterwasser</a> — hourly forecast + nearby webcam links.",
+      "Thunderstorms in forecast → <strong>do not go</strong>. The Churfirsten limestone ridge gives zero shelter and storms form quickly in Toggenburg."
+    ],
+    "season_html": "<strong>Summer hike only.</strong> Best window: late June to mid-October, depending on snow. Ridge snow can persist into early June; autumn can bring early snow from September. Check <a href=\"https://www.slf.ch/en/\" target=\"_blank\">SLF</a> in shoulder season."
+  },
+  "webcams": [
+    {
+      "url": "https://www.foto-webcam.eu/webcam/wildhaus/current/1200.jpg",
+      "label": "Wildhaus / Gamserrugg — looking north toward Churfirsten from ~1090 m; best real-time visibility indicator for the Toggenburg area.",
+      "fallback": false
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/unterwasser_switzerland",
+      "label": "Meteoblue webcams near Unterwasser (link only — Meteoblue blocks iframe embedding).",
+      "fallback": true
+    }
+  ],
+  "trip_reports": {
+    "hikr_index_url": "https://www.hikr.org/dir/Chaeserrugg/",
+    "takeaways_html": [
+      "The cable car from Unterwasser to Iltios is strongly recommended — it saves 400 m of steep forest and opens 4+ hours of ridge hiking. Verify opening dates on <a href=\"https://www.churfirsten.ch\" target=\"_blank\">churfirsten.ch</a> before going.",
+      "The ridge path from Iltios to Chäserrugg is well-marked but includes several exposed ledge sections with a significant drop to the north (Walensee, ~1800 m below). Vertigo-prone hikers should assess the T3 rating carefully.",
+      "Summit panorama is exceptional on clear days: Walensee and Walenstadt directly below to the north, Bodensee on the northern horizon, Säntis and Appenzell Alps to the east, Graubünden Alps (Ringelspitz, Piz Sardona) to the south-east.",
+      "The Bergrestaurant Chäserrugg (Herzog &amp; de Meuron design, 2016) is a unique architectural highlight — excellent coffee and a terrace with sheer-drop views over Walensee. Reserve a table for lunch in high season.",
+      "Cattle graze on the Iltios alp in mid-summer — give mother cows with calves wide berth."
+    ],
+    "reports": [
+      {
+        "url": "https://www.hikr.org/tour/post6001.html",
+        "title": "Chäserrugg via Iltios — Churfirsten Klassiker",
+        "season": "summer",
+        "grade": "T3",
+        "bullets_html": [
+          "Cable car to Iltios, then open ridge path with expanding views south toward the Glarus Alps.",
+          "Selun passed as an intermediate high point before the final exposed approach to Chäserrugg.",
+          "Lunch at the Bergrestaurant, leisurely descent — a perfect half-day alpine hike from Zürich."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post120000.html",
+        "title": "Chäserrugg + Hinterrugg — Doppelgipfel im Churfirsten",
+        "season": "summer",
+        "grade": "T3",
+        "grade_label": "T3+",
+        "bullets_html": [
+          "Continue from Chäserrugg along the narrow ridge to Hinterrugg (2306 m) — the highest Churfirsten peak.",
+          "Exposed crest with good holds and red-white waymarks; more committing than the approach.",
+          "Adds about 1.5 h; descent back to Iltios before last cable car — watch the time."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post45000.html",
+        "title": "Churfirsten-Traverse: alle 7 Gipfel",
+        "season": "summer",
+        "grade": "T4",
+        "grade_label": "T4",
+        "bullets_html": [
+          "Full traverse of all seven Churfirsten peaks: Chäserrugg, Hinterrugg, Zuestoll, Brisi, Selun, Frümsel, Gauschla.",
+          "Very long day (10+ h); T4 experience and route-finding required on unmarked ridge sections.",
+          "Two-car logistics or bus/train return from Flums or Unterterzen on the Walensee north shore."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Mandatory",
+      "items_html": [
+        "Sturdy hiking boots (B-grade, ankle support) — limestone ridge slippery when wet",
+        "2–3 L water (no reliable sources on the upper ridge)",
+        "Food + emergency snack",
+        "Sun: hat, sunglasses, SPF 30+ (exposed ridge, high UV)",
+        "Layers: base + insulating + windproof / rainproof shell (ridge wind)",
+        "Hat + gloves (summit often 5–10 °C cooler than valley with wind chill)",
+        "Headlamp",
+        "Phone with offline SwissTopo map + GPX",
+        "Small first-aid kit",
+        "Cash / card for cable car and Bergrestaurant"
+      ]
+    },
+    {
+      "title": "Recommended",
+      "items_html": [
+        "Trekking poles (helpful on the steep descent from Selun)",
+        "Power bank",
+        "Binoculars (Walensee + Bodensee panorama)",
+        "Whistle"
+      ]
+    },
+    {
+      "title": "Hinterrugg / full traverse only",
+      "items_html": [
+        "Helmet (for full traverse on unmarked ridge sections)",
+        "Significantly more time and an early start",
+        "T4 route-finding experience; compass/GPS backup"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>Exposure:</strong> the Chäserrugg ridge has a steep northern drop (~1800 m to Walensee); several ledge sections on the T3 route. A slip can be very serious.",
+    "<strong>Limestone:</strong> excellent grip when dry — <strong>extremely slippery when wet</strong>. Do not attempt in or just after rain.",
+    "<strong>Thunderstorms:</strong> the Churfirsten crest offers zero shelter. Descend immediately if storms develop — they form quickly in Toggenburg, often by early afternoon.",
+    "<strong>Cable car last departure:</strong> missing it means a long, steep forest descent. Check the schedule at the valley station and build in buffer time.",
+    "<strong>Cattle:</strong> mother cows with calves graze on the Iltios alp in summer — give them space.",
+    "<strong>Phone reception:</strong> generally good on the summit; can be patchy on descent paths. Download SwissTopo maps offline.",
+    "<strong>Emergency:</strong> Rega <strong>1414</strong> or European emergency <strong>112</strong>.",
+    "This is a <strong>summer / autumn route</strong>. Winter and spring involve avalanche terrain and snow-covered limestone — very different gear and experience required."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/?q=chaeserrugg\" target=\"_blank\">SAC Route Portal — Chäserrugg routes</a>",
+    "<a href=\"https://www.churfirsten.ch\" target=\"_blank\">Churfirsten cable car (Unterwasser–Iltios operating dates + first/last departure)</a>",
+    "<a href=\"https://www.hikr.org/dir/Chaeserrugg/\" target=\"_blank\">Trip reports &amp; photos (hikr.org, German)</a>",
+    "<a href=\"https://de.wikipedia.org/wiki/Ch%C3%A4serrugg\" target=\"_blank\">German Wikipedia — Chäserrugg</a>",
+    "<a href=\"https://de.wikipedia.org/wiki/Churfirsten\" target=\"_blank\">German Wikipedia — Churfirsten (all seven peaks)</a>",
+    "<a href=\"https://map.geo.admin.ch/?lang=en&topic=ech&zoom=11&E=2742000&N=1228000&crosshair=marker&layers=ch.swisstopo.swisstlm3d-wanderwege\" target=\"_blank\">SwissTopo viewer (centered on Chäserrugg summit)</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a>",
+    "<a href=\"https://www.meteoblue.com/en/weather/week/unterwasser_switzerland\" target=\"_blank\">Meteoblue Unterwasser</a>",
+    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB timetable (Zürich → Wattwil → Unterwasser)</a>",
+    "Swiss alpine rescue (Rega): <strong>1414</strong>"
+  ],
+  "disclaimer_html": "Compiled from the SAC Route Portal, German Wikipedia, hikr.org, and knowledge of the Toggenburg / Churfirsten area. <strong>Not professional mountain-safety advice.</strong> Conditions in the Alps change rapidly. Always re-check MeteoSwiss, SAC situation warnings, and cable car operating status before setting out. The Churfirsten limestone ridge is unforgiving in wet weather — if in doubt, postpone."
+}

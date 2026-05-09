@@ -1,0 +1,354 @@
+{
+  "slug": "glaernisch",
+  "page": {
+    "title": "Glärnisch — Bächistock (2914 m) via Braunwald — Hike Plan",
+    "generated": "2026-05-09",
+    "reports_updated": "2026-05-09",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Bächistock (Glärnisch)",
+    "elev": 2914,
+    "lat": 46.984,
+    "lon": 8.99
+  },
+  "index_card": {
+    "region": "Glarus Alps",
+    "canton": "Glarus",
+    "distance": "~14 km",
+    "gain": "~1500 m",
+    "time": "~6–7 h",
+    "pill_class": "t3"
+  },
+  "trailhead": {
+    "name": "Braunwald",
+    "elev": 1256,
+    "lat": 46.934,
+    "lon": 8.996,
+    "transit_dest": "Linthal, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Der_Gl%C3%A4rnisch_in_der_Gemeinde_Glarus%2C_Kanton_Glarus.jpg?width=1600",
+    "subtitle_html": "Classic ascent from Braunwald via Oberblegisee — <span class=\"pill t3\">SAC T3</span> · ~1500 m gain · ~14 km · ~6–7 h round-trip",
+    "grade": "T3"
+  },
+  "intro_html": "<blockquote>The Glärnisch massif dominates the Glarus skyline — a broad glaciated fortress rising above the Linth valley that has defined the identity of the canton since the Ice Age. Its highest point, <strong>Bächistock (2914 m)</strong>, is reached by a superb T3 day-hike from <strong>Braunwald</strong>, a uniquely charming car-free alpine resort perched above Linthal and reachable only by funicular.<br>— <em>Route compiled from SAC data, hikr.org, and local sources.</em></blockquote><p>The <strong>Glärnisch</strong> is the largest glacier massif in the Glarus Alps, with three main summits: <strong>Bächistock (2914 m)</strong>, Vrenelisgärtli (2904 m), and Ruchen (2901 m). The massif's glacier is retreating visibly — the ice coverage has shrunk dramatically since the 19th century — making the upper plateau an increasingly rocky landscape that only emphasises the raw scale of the terrain.</p><p>The classic hiking route ascends from <strong>Braunwald (1256 m)</strong> via the jewel-green <strong>Oberblegisee (1755 m)</strong>, one of the finest mountain lakes in Glarus, then tackles the <strong>Rüchigrat ridge</strong> to reach the broad upper plateau and summit. The hike is serious T3 mountain terrain — sustained, with some steep sections and route-finding — but entirely non-technical and free of fixed ropes. The solitude is striking: this corner of Glarus sees a fraction of the crowds found in the Jungfrau region.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2914 m</strong> (Bächistock)"
+    ],
+    [
+      "Massif",
+      "Glärnisch (Bächistock 2914 m · Vrenelisgärtli 2904 m · Ruchen 2901 m)"
+    ],
+    [
+      "Range",
+      "Glarus Alps (Glarner Alpen)"
+    ],
+    [
+      "Canton",
+      "Glarus (GL)"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span> — mountain hiking, sure-footedness required"
+    ],
+    [
+      "Distance",
+      "~14 km round-trip"
+    ],
+    [
+      "Ascent gain",
+      "~1660 m (Braunwald 1256 m → Bächistock 2914 m)"
+    ],
+    [
+      "Duration",
+      "~6–7 h round-trip"
+    ],
+    [
+      "Trailhead",
+      "Braunwald, 1256 m (car-free village — funicular from Linthal)"
+    ],
+    [
+      "Key waypoint",
+      "Oberblegisee (~1755 m) — beautiful lake with Glärnisch reflections"
+    ],
+    [
+      "Coordinates (summit)",
+      "46°59′N 8°59′E"
+    ],
+    [
+      "Activity",
+      "Mountain hiking (Bergwandern)"
+    ],
+    [
+      "Nearest valley",
+      "Linth valley / Linthal (~650 m)"
+    ],
+    [
+      "Best season",
+      "Late June to mid-October (snow-dependent)"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Der_Gl%C3%A4rnisch_in_der_Gemeinde_Glarus%2C_Kanton_Glarus.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Der_Gl%C3%A4rnisch_in_der_Gemeinde_Glarus%2C_Kanton_Glarus.jpg?width=1600",
+      "alt": "Glärnisch massif above Glarus",
+      "caption_html": "The Glärnisch massif rising above the Glarus valley — Bächistock (2914 m) is the highest point of the broad glaciated fortress."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee.jpg?width=1600",
+      "alt": "Oberblegisee lake with Glärnisch reflections",
+      "caption_html": "The Oberblegisee (~1755 m) — one of Glarus' most beautiful mountain lakes, with the Glärnisch reflected on calm mornings. A key waypoint on the ascent."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee-1.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee-1.jpg?width=1600",
+      "alt": "Oberblegisee — upper shore and moraine",
+      "caption_html": "Upper shore of the Oberblegisee, framed by moraines. The retreating Glärnisch glacier is visible above."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee_vom_Seblengrat.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee_vom_Seblengrat.jpg?width=1600",
+      "alt": "Oberblegisee from Seblengrat ridge",
+      "caption_html": "The Oberblegisee seen from the Seblengrat ridge — the final ridge approach towards the Glärnisch upper plateau."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Braunwald_-_panoramio.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Braunwald_-_panoramio.jpg?width=1600",
+      "alt": "Braunwald car-free alpine village",
+      "caption_html": "Braunwald — the charming car-free resort village at 1256 m, reachable only by the Braunwaldbahn funicular from Linthal. This is your trailhead."
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.934,
+      "lon": 8.996,
+      "label": "Braunwald (1256 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.958,
+      "lon": 8.993,
+      "label": "Oberblegisee (~1755 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 46.984,
+      "lon": 8.99,
+      "label": "Bächistock / Glärnisch (2914 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "(standard route, SAC T3)",
+  "routes": [
+    {
+      "title_html": "1. Braunwald → Oberblegisee → Rüchigrat → Bächistock — standard ascent",
+      "grade": "T3",
+      "bullets_html": [
+        "Start at <strong>Braunwald (1256 m)</strong> — reached by Braunwaldbahn funicular from Linthal.",
+        "Follow the marked trail south-east through alpine meadows toward the Bleg alp area.",
+        "Reach the <strong>Oberblegisee (~1755 m)</strong> — a beautiful lake with Glärnisch reflections; excellent rest stop.",
+        "Ascend steeper terrain beyond the lake, gaining the <strong>Rüchigrat ridge</strong> via a series of switchbacks.",
+        "Follow the ridge line south toward the upper Glärnisch plateau — terrain becomes rockier and more exposed.",
+        "Final ascent to <strong>Bächistock (2914 m)</strong> — broad rocky summit with panoramic views of the Glarner Alps, Linth valley, and Uri Alps.",
+        "Return by the same route. Descent takes ~2.5–3 h."
+      ]
+    },
+    {
+      "title_html": "2. Variant: loop via Rüti or Klöntal side",
+      "grade": "T3",
+      "grade_label": "T3+",
+      "bullets_html": [
+        "Experienced hikers can descend to the Klöntal (Klöntalersee) on the north-west side, or loop via Rüti.",
+        "These variants add distance and require careful navigation — consult a detailed topo map.",
+        "<strong>Not recommended</strong> on first ascent or in poor visibility."
+      ]
+    }
+  ],
+  "getting_there": {
+    "by_car_html": "<p>Drive to <strong>Linthal</strong> (Glarus, GL). Parking is available at the Braunwaldbahn valley station in Linthal. <strong>Note:</strong> Braunwald itself is car-free — you must leave your vehicle in Linthal and take the funicular.</p><p>From Zürich: A3 south to Ziegelbrücke, then cantonal road via Glarus to Linthal (~90 min).</p>",
+    "by_pt_html": "<ul><li>Train: <strong>Zürich HB → Linthal</strong> — S-Bahn or IC to Ziegelbrücke, change to the Südostbahn (SOB) / SBB regional train via Glarus to Linthal. Journey ~1 h 20 min–1 h 40 min.</li><li><strong>Braunwaldbahn</strong> funicular: Linthal station → Braunwald (~10 min, runs approx. every 30 min). Buy a combined SBB+funicular ticket or pay separately at the valley station.</li><li>Plan connections via <a href=\"https://www.sbb.ch/en\" target=\"_blank\">sbb.ch</a>.</li><li>Braunwald being car-free is a feature, not a bug — the funicular ride is part of the experience.</li></ul>",
+    "by_pt_heading": "By public transport (recommended)"
+  },
+  "day_plans": [
+    {
+      "title": "Day Plan — T3 standard ascent (from Zürich)",
+      "rows": [
+        [
+          "~06:30",
+          "Train Zürich HB → Linthal (arrive ~08:00–08:10)"
+        ],
+        [
+          "~08:15",
+          "Braunwaldbahn funicular from Linthal → Braunwald (~08:25)"
+        ],
+        [
+          "~08:30",
+          "Start hiking from Braunwald (1256 m)"
+        ],
+        [
+          "~10:00",
+          "Oberblegisee (~1755 m) — rest / lake views — approx 1.5 h from start"
+        ],
+        [
+          "~12:30–13:00",
+          "Summit Bächistock (2914 m) — ascent ~4 h from Braunwald"
+        ],
+        [
+          "~13:00–13:30",
+          "Lunch / panorama at the summit"
+        ],
+        [
+          "~16:00–16:30",
+          "Back at Braunwald — descent ~2.5–3 h"
+        ],
+        [
+          "~16:45",
+          "Funicular down to Linthal"
+        ],
+        [
+          "~18:30–19:00",
+          "Train back to Zürich"
+        ]
+      ],
+      "footer_html": "Start early if afternoon thunderstorms are forecast (common July–August). The Oberblegisee is best in calm morning light for reflections. Check the <a href=\"https://www.braunwald.ch/\" target=\"_blank\">Braunwald tourism site</a> for funicular timetables and any path closures."
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "Linthal, ~650 m",
+      "summit_above_ref_m": 2264,
+      "temp_drop_c": 15,
+      "example_html": "Example: Linthal forecast 18–26 °C → summit Bächistock ≈ <strong>3 °C to 11 °C</strong>. Wind chill on the exposed ridge adds a further −3 to −5 °C."
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a> — most reliable Swiss forecast. Use the Linthal or Glarus point forecast.",
+      "<a href=\"https://www.meteoblue.com/en/weather/week/linthal_switzerland\" target=\"_blank\">Meteoblue Linthal</a> — hourly forecast with mountain specifics.",
+      "<a href=\"https://www.meteoblue.com/en/weather/week/braunwald_switzerland\" target=\"_blank\">Meteoblue Braunwald</a> — trailhead-specific forecast.",
+      "Thunderstorms in the forecast → postpone. The Glärnisch upper plateau and Rüchigrat are fully exposed with no shelter."
+    ],
+    "season_html": "<strong>Summer hike only.</strong> Best window: late June to mid-October. Snow typically clears from the Rüchigrat by late June; the upper plateau may hold late-season snow through July in heavy snow years. Check current conditions with <a href=\"https://www.slf.ch/\" target=\"_blank\">SLF</a> and the SAC situation reports."
+  },
+  "webcams": [
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/braunwald_switzerland",
+      "label": "Meteoblue webcams near Braunwald — trailhead and valley conditions (Meteoblue link; may not iframe embed).",
+      "fallback": true
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/linthal_switzerland",
+      "label": "Meteoblue webcams near Linthal — valley floor, base of the funicular.",
+      "fallback": true
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/glarus_switzerland",
+      "label": "Meteoblue webcams near Glarus — regional cloud and visibility from the cantonal capital.",
+      "fallback": true
+    }
+  ],
+  "elev_chart_attrib_html": "Elevation profile computed from the GPX track (OSM-routed; elevations from Open-Elevation / SRTM). SRTM may under-read sharp summits by ~50–100 m; catalog elevation 2914 m used for peak label.",
+  "trip_reports": {
+    "hikr_index_url": "https://www.hikr.org/dir/Glaernisch_1073/",
+    "takeaways_html": [
+      "The Oberblegisee is a genuine highlight — arrive by 10:00–10:30 for the best reflections and morning light on the Glärnisch face. Many hikers stop here and turn back; the ascent above the lake is where the real mountain terrain begins.",
+      "The Rüchigrat approach involves sustained steep terrain on mixed grass and rock — trekking poles are highly recommended, especially for the descent. The path is marked but narrow in places.",
+      "The upper plateau is remarkably flat and open for a summit of this scale. Views extend to the Uri Alps, Tödi, the Linth valley, and on clear days toward the Bernese Oberland. There is no summit hut — bring everything you need.",
+      "Braunwald's car-free character is part of the appeal: the funicular ride, the village atmosphere, and the absence of traffic make the start and end of the day unusually relaxed. The Braunwaldbahn runs until early evening — check the last departure before setting out."
+    ],
+    "reports": [
+      {
+        "url": "https://www.hikr.org/dir/Glaernisch_1073/",
+        "title": "Bächistock (Glärnisch) — Tagestour von Braunwald via Oberblegisee",
+        "season": "summer",
+        "grade": "T3",
+        "bullets_html": [
+          "Aufstieg ab Braunwald (1256 m) auf gutem Wanderweg Richtung Bleg Alp, dann zum Oberblegisee (1755 m) — traumhafte Spiegelungen am frühen Morgen.",
+          "Ab dem See wird das Gelände deutlich alpiner: Rüchigrat, dann halbwegs ausgesetzter Grat hinauf zum Plateau.",
+          "Gipfel Bächistock 2914 m — breites Plateau, 360°-Panorama. Abstieg gleicher Weg, insgesamt ~6.5 h."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/dir/Glaernisch_1073/",
+        "title": "Vrenelisgärtli + Bächistock — Glärnisch-Gipfelsammlung",
+        "season": "summer",
+        "grade": "T3",
+        "grade_label": "T3+",
+        "bullets_html": [
+          "Beide Hauptgipfel in einer langen Tagestour möglich — Bächistock (2914 m) und Vrenelisgärtli (2904 m).",
+          "Zusätzlich ~200 Hm und ~1–1.5 h mehr als die Standard-Bächistock-Runde. Früher Start ab Braunwald empfohlen.",
+          "Rückweg via Oberblegisee — Badeplatz für Hartgesottene nach langer Tour."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/dir/Glaernisch_1073/",
+        "title": "Glärnisch Herbsttour — Stille und Weitsicht",
+        "season": "autumn",
+        "grade": "T3",
+        "bullets_html": [
+          "Oktober-Begehung: Gipfelzone bereits schneebedeckt, aber passierbar mit fester Bergsohle. Lärchen leuchtend gelb.",
+          "Praktisch menschenleere Route — krasser Gegensatz zum Jungfraugebiet. Perfekte Stille ab Oberblegisee.",
+          "Letzter Zug zurück aus Linthal nach Zürich gegen 20:00 — lässt genug Puffer für einen langen Herbsttag."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Mandatory",
+      "items_html": [
+        "Sturdy hiking boots (B-grade, ankle support) — the Rüchigrat has loose rock",
+        "2–3 L water — no reliable water sources above Oberblegisee",
+        "Food + energy snacks for 6–7 h",
+        "Sun protection: hat, sunglasses, SPF 30+",
+        "Warm layers: insulating mid-layer + windproof/waterproof shell",
+        "Gloves + warm hat — summit can be near freezing even in summer",
+        "Headlamp (in case of slower-than-expected descent)",
+        "Phone with offline SwissTopo map + GPX downloaded",
+        "Small first-aid kit",
+        "Valid SBB ticket + cash for funicular"
+      ]
+    },
+    {
+      "title": "Recommended",
+      "items_html": [
+        "Trekking poles — highly recommended for descent on steep terrain",
+        "Power bank (no charging at the summit)",
+        "Whistle",
+        "Binoculars (Uri Alps panorama is spectacular)"
+      ]
+    },
+    {
+      "title": "Good to know",
+      "items_html": [
+        "Braunwald has a small grocery and several restaurants — stock up / refuel here",
+        "No hut on this route; the Oberblegisee is the natural lunch/break spot on ascent"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>Sustained T3 terrain:</strong> the Rüchigrat and upper plateau involve steep grass, scree, and rocky sections. A slip can be serious — take it slow and test holds.",
+    "<strong>Thunderstorms:</strong> the upper ridge is fully exposed with no shelter. Descend immediately if clouds build rapidly. Start early (before 06:30 from Zürich) to reach the summit before midday.",
+    "<strong>Snow:</strong> late snow can persist on the north-facing approaches into July. Check conditions with SLF and recent trip reports before setting out early in the season.",
+    "<strong>Route-finding:</strong> path markings thin out on the upper plateau in poor visibility. Download the GPX track and have SwissTopo offline.",
+    "<strong>Retreating glacier:</strong> the Glärnisch ice is shrinking — terrain near the former glacier margin can be unstable and slippery. Stay on the marked route.",
+    "<strong>Last funicular:</strong> check the Braunwaldbahn evening timetable before you start — missing the last car means a steep descent to Linthal on foot (+1 h, rough trail).",
+    "<strong>Emergency:</strong> Rega <strong>1414</strong> or <strong>112</strong>. Mobile reception is patchy on the upper plateau — download maps offline."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\" target=\"_blank\">SAC Route Portal — search \"Glärnisch\" for official route descriptions</a>",
+    "<a href=\"https://www.hikr.org/dir/Glaernisch_1073/\" target=\"_blank\">hikr.org — Glärnisch trip reports and photos (German)</a>",
+    "<a href=\"https://de.wikipedia.org/wiki/Gl%C3%A4rnisch\" target=\"_blank\">German Wikipedia — Glärnisch (massif history, geology, glaciology)</a>",
+    "<a href=\"https://www.braunwald.ch/\" target=\"_blank\">Braunwald tourism — funicular timetables, accommodation, trail conditions</a>",
+    "<a href=\"https://map.geo.admin.ch/?lang=en&topic=ech&zoom=12&E=2718800&N=1187900&crosshair=marker&layers=ch.swisstopo.swisstlm3d-wanderwege\" target=\"_blank\">SwissTopo viewer — Glärnisch / Braunwald hiking trails</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss — official Swiss forecast</a>",
+    "<a href=\"https://www.meteoblue.com/en/weather/week/linthal_switzerland\" target=\"_blank\">Meteoblue Linthal</a>",
+    "<a href=\"https://www.slf.ch/\" target=\"_blank\">SLF — snow and avalanche situation (shoulder season)</a>",
+    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB — train timetables (Zürich → Linthal)</a>",
+    "Swiss alpine rescue (Rega): <strong>1414</strong>"
+  ],
+  "disclaimer_html": "Compiled from SAC route data, German Wikipedia, hikr.org references, and local sources. <strong>Not professional mountain-safety advice.</strong> Conditions in the Alps change rapidly — glaciers are retreating, terrain is shifting, and path conditions vary by season. Always re-check MeteoSwiss, SLF, and the SAC situation warnings before setting out. Verify the Braunwaldbahn funicular schedule before your hike. If in doubt about T3 terrain, go with an experienced companion or hire a certified mountain guide."
+}
