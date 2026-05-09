@@ -751,48 +751,93 @@ function highlightMarker(i, on) {
 }
 
 /* ------------- weather ------------- */
-async function loadWeather() {
-  let mapDayBtnsSet = false;
-  await Promise.all(HIKES.map(async (h, i) => {
+const WX_CACHE_KEY = "hikes_wx_v1";
+const WX_CACHE_TTL = 60 * 60 * 1000;  // 1 hour
+
+function wxCacheLoad() {
+  try {
+    const raw = sessionStorage.getItem(WX_CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > WX_CACHE_TTL) return null;
+    return data;
+  } catch { return null; }
+}
+function wxCacheSave(data) {
+  try { sessionStorage.setItem(WX_CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch {}
+}
+
+function applyWeatherData(allDays) {
+  // allDays: array parallel to HIKES, each element is a `daily` object (or null)
+  let datesSet = false;
+  allDays.forEach((days, i) => {
     const strip = document.querySelector(`.weather-strip[data-hike="${i}"]`);
     if (!strip) return;
-    if (h.lat == null || h.lon == null) {
-      strip.classList.remove("loading");
-      strip.innerHTML = "";
-      return;
-    }
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${h.lat}&longitude=${h.lon}`
-      + `&daily=weather_code,temperature_2m_max`
-      + `&timezone=Europe%2FZurich&forecast_days=7`;
-    try {
-      const r = await fetch(url);
-      const j = await r.json();
-      const days = j.daily;
-      let html = "";
-      for (let d = 0; d < 7; d++) {
-        const code = days.weather_code[d];
-        const tmax = Math.round(days.temperature_2m_max[d]);
-        const [icon, label] = wmoIcon(code);
-        const date = days.time[d];
-        html += `<div class="wx" title="${label}">
-          <div class="dow">${fmtDow(date)}</div>
-          <div class="icon">${icon}</div>
-          <div class="tmax">${tmax}°</div>
-        </div>`;
-        if (!weatherByHike[i]) weatherByHike[i] = {};
-        weatherByHike[i][d] = { icon, label, tmax };
-        if (d === mapDayActive && markers[i]) markers[i].setIcon(makeWeatherPin(icon, tmax));
-      }
-      strip.classList.remove("loading");
-      strip.innerHTML = html;
-      if (!mapDayBtnsSet) { updateMapDayBtns(days.time); mapDayBtnsSet = true; }
-      updateCardWeather();
-      applyFilters();
-    } catch (e) {
+    if (!days) {
       strip.classList.remove("loading");
       strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
+      return;
     }
-  }));
+    let html = "";
+    for (let d = 0; d < 7; d++) {
+      const code = days.weather_code[d];
+      const tmax = Math.round(days.temperature_2m_max[d]);
+      const [icon, label] = wmoIcon(code);
+      const date = days.time[d];
+      html += `<div class="wx" title="${label}">
+        <div class="dow">${fmtDow(date)}</div>
+        <div class="icon">${icon}</div>
+        <div class="tmax">${tmax}°</div>
+      </div>`;
+      if (!weatherByHike[i]) weatherByHike[i] = {};
+      weatherByHike[i][d] = { icon, label, tmax };
+      if (d === mapDayActive && markers[i]) markers[i].setIcon(makeWeatherPin(icon, tmax));
+    }
+    strip.classList.remove("loading");
+    strip.innerHTML = html;
+    if (!datesSet) { updateMapDayBtns(days.time); datesSet = true; }
+  });
+  updateCardWeather();
+  applyFilters();
+}
+
+async function loadWeather() {
+  // Try cache first
+  const cached = wxCacheLoad();
+  if (cached) { applyWeatherData(cached); return; }
+
+  // Batch: one request for all hikes with coordinates
+  const indexed = HIKES.map((h, i) => ({ h, i })).filter(({ h }) => h.lat != null && h.lon != null);
+  if (!indexed.length) return;
+
+  const lats = indexed.map(({ h }) => h.lat).join(",");
+  const lons = indexed.map(({ h }) => h.lon).join(",");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}`
+    + `&daily=weather_code,temperature_2m_max&timezone=Europe%2FZurich&forecast_days=7`;
+
+  // Mark hikes without coords as unavailable immediately
+  HIKES.forEach((h, i) => {
+    if (h.lat == null || h.lon == null) {
+      const strip = document.querySelector(`.weather-strip[data-hike="${i}"]`);
+      if (strip) { strip.classList.remove("loading"); strip.innerHTML = ""; }
+    }
+  });
+
+  try {
+    const r = await fetch(url);
+    const j = await r.json();
+    // Single location returns object; multiple returns array
+    const results = Array.isArray(j) ? j : [j];
+    const allDays = HIKES.map(() => null);
+    results.forEach((res, ri) => { allDays[indexed[ri].i] = res.daily; });
+    wxCacheSave(allDays);
+    applyWeatherData(allDays);
+  } catch (e) {
+    indexed.forEach(({ i }) => {
+      const strip = document.querySelector(`.weather-strip[data-hike="${i}"]`);
+      if (strip) { strip.classList.remove("loading"); strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>'; }
+    });
+  }
 }
 loadWeather();
 </script>
