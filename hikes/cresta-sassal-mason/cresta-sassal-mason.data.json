@@ -28,8 +28,8 @@
     "transit_dest": "Bernina Ospizio"
   },
   "hero": {
-    "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-    "subtitle_html": "Photo placeholder (TODO: source specific Piz Pal\u00fc glacier image)",
+    "image_url": "TODO: specific hike-distinctive photo",
+    "subtitle_html": "TODO: Find and validate image URL for cresta-sassal-mason. See .github/instructions/hike-workflow.instructions.md",
     "grade": "T3"
   },
   "intro_html": "<p>Dramatic glacier and peak views of Piz Pal\u00fc along a spectacular alpine balcony. Walk alongside the UNESCO-listed Bernina Railway, one of Switzerland's most scenic train routes.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-      "lightbox_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-      "alt": "Piz Pal\u00fc glacier",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual Piz Pal\u00fc glacier photo. See instructions in .github/instructions/hike-workflow.instructions.md for image sourcing checklist.</p>"
+      "url": "TODO: specific hike-distinctive photo",
+      "lightbox_url": "TODO: high-res version of photo",
+      "alt": "View of cresta-sassal-mason",
+      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
     }
   ],
   "waypoints": [],

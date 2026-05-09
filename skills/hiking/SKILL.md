@@ -101,6 +101,13 @@ Use this when user asks "is this safe today?"
 
 ## Image Sourcing Checklist (for agents adding hikes)
 
+**POLICY: No generic images.**
+
+Every hike photo must be **specific and distinctive** to that peak or route.
+Generic Alpine/Swiss mountain photos are not acceptable.
+
+If no specific image can be sourced, **leave hero as TODO placeholder** rather than use a generic substitute.
+
 When adding a hike to the website, always source and **validate** images before committing.
 **Automated API approaches fail** (403 blocking from Wikimedia/Wikipedia). Use manual browsing instead.
 
@@ -132,10 +139,9 @@ When adding a hike to the website, always source and **validate** images before 
 - Look for Media / Gallery sections
 - Usually free-to-use for non-commercial
 
-**5. Pexels / Unsplash (generic Alpine fallback)**
-- Go to: `https://unsplash.com/` or `https://pexels.com/`
-- Search: `Switzerland`, `Alps`, or peak name
-- All are CC0 (free); use only as placeholder
+**5. ~~Pexels / Unsplash~~ — DO NOT USE**
+- Generic images are explicitly prohibited
+- If no specific hike photo found: use TODO placeholder instead
 
 ### Validation (MUST pass all)
 

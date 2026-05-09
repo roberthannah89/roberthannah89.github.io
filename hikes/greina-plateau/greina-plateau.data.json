@@ -28,8 +28,8 @@
     "transit_dest": "Vrin via Sumvitg"
   },
   "hero": {
-    "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-    "subtitle_html": "Photo placeholder (TODO: source specific Greina Alpine plateau image)",
+    "image_url": "TODO: specific hike-distinctive photo",
+    "subtitle_html": "TODO: Find and validate image URL for greina-plateau. See .github/instructions/hike-workflow.instructions.md",
     "grade": "T2"
   },
   "intro_html": "<p>The \"Swiss Tibet\": a vast, windswept, tundra-like protected high-altitude plateau offering Alpine solitude and sweeping 360\u00b0 views across the Lepontine Alps. A timeless Alpine crossing through one of Switzerland's most remote and ecologically precious landscapes.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-      "lightbox_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-      "alt": "Greina Alpine plateau",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual Greina Alpine plateau photo. See instructions in .github/instructions/hike-workflow.instructions.md for image sourcing checklist.</p>"
+      "url": "TODO: specific hike-distinctive photo",
+      "lightbox_url": "TODO: high-res version of photo",
+      "alt": "View of greina-plateau",
+      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
     }
   ],
   "waypoints": [],

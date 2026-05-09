@@ -70,6 +70,13 @@ rest as template TODOs.
 
 ### Image sourcing — reliable process
 
+**POLICY: No generic images allowed.**
+
+Every hike must have a **specific, distinctive photo** of that peak or route.
+Generic Alpine or Swiss mountain photos are not acceptable — they undermine the quality and uniqueness of each hike entry.
+
+**If you cannot find a specific image, leave the hero field as a TODO placeholder** rather than using a generic substitute.
+
 **Critical:** Image URLs fail silently. Always validate before committing.
 
 #### Reliable image sources (tested order)
@@ -106,12 +113,9 @@ rest as template TODOs.
 - Look for **Gallery** or **Media** sections
 - Copy image URLs and validate
 
-**5. Pexels / Unsplash (generic Alpine fallback)**
-- Go to: `https://www.pexels.com/` or `https://unsplash.com/`
-- Search: `"Switzerland" OR "Alps" OR "<peak-name>"`
-- All images are **free CC0 license**
-- Works reliably but will be generic (not specific to hike)
-- Use only as **placeholder** if no specific photos found
+**5. ~~Pexels / Unsplash~~ — DO NOT USE**
+- Generic Alpine images are explicitly prohibited
+- If you cannot source a specific hike photo, **leave hero as TODO placeholder** instead
 
 #### Validation checklist (MUST pass all)
 

@@ -28,8 +28,8 @@
     "transit_dest": "Alpiglen"
   },
   "hero": {
-    "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-    "subtitle_html": "Photo placeholder (TODO: source specific Eiger North Face image)",
+    "image_url": "TODO: specific hike-distinctive photo",
+    "subtitle_html": "TODO: Find and validate image URL for eiger-trail. See .github/instructions/hike-workflow.instructions.md",
     "grade": "T2"
   },
   "intro_html": "<p>Walk beneath the legendary North Face of the Eiger on this famous and relatively easy trail. Stunning views of the Swiss Alps' most iconic rock wall. This descent hike from Eigergletscher to Alpiglen is a must-do for anyone visiting the Jungfrau region.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-      "lightbox_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
-      "alt": "Eiger North Face",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual Eiger North Face photo. See instructions in .github/instructions/hike-workflow.instructions.md for image sourcing checklist.</p>"
+      "url": "TODO: specific hike-distinctive photo",
+      "lightbox_url": "TODO: high-res version of photo",
+      "alt": "View of eiger-trail",
+      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
     }
   ],
   "waypoints": [],
