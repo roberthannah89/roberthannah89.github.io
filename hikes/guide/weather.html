@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="/favicon-512.png">
+<title>Reading alpine weather</title>
+<link rel="stylesheet" href="/notes/_assets/notes.css">
+</head>
+<body>
+<div class="wrap">
+  <p class="crumbs">
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="/hikes/">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Weather
+  </p>
+
+  <h1>Reading alpine weather</h1>
+  <p class="lede">
+    Mountain weather is nothing like valley weather. A perfect day at 400&nbsp;m can mean 0°C and high
+    winds at 2,500&nbsp;m. Here's how to assess conditions before committing to a hike.
+  </p>
+
+  <h2>MeteoSwiss — the go-to forecast</h2>
+  <p>
+    <a href="https://www.meteoswiss.admin.ch/home.html" target="_blank" rel="noopener">MeteoSwiss</a>
+    is the Swiss national weather service and the most accurate forecast available for Switzerland.
+    It uses a high-resolution numerical model tuned for complex alpine terrain.
+  </p>
+
+  <h3>How to use it</h3>
+  <ul>
+    <li>Search for the nearest town or village to your trailhead — not the summit itself, which usually has no forecast point.</li>
+    <li>Look at the <strong>8-day forecast</strong> for daily max/min temperatures, precipitation probability, and thunderstorm risk.</li>
+    <li>Check the <strong>regional forecast maps</strong> for convective activity — afternoon thunderstorms are common in summer and can develop quickly.</li>
+    <li>The <strong>radar and satellite</strong> views are useful day-of for real-time conditions.</li>
+  </ul>
+
+  <h3>Go / no-go criteria</h3>
+  <ul>
+    <li><strong>No-go:</strong> Thunderstorms forecast for any part of the day, especially afternoon. Lightning above treeline is extremely dangerous.</li>
+    <li><strong>Caution:</strong> Precipitation above &gt;40% — wet rock on T3+ routes becomes significantly more dangerous.</li>
+    <li><strong>Good:</strong> &lt;20% precipitation, no convective symbols, light winds. Check the summit wind separately (see below).</li>
+  </ul>
+
+  <hr>
+
+  <h2>Temperature at altitude</h2>
+  <p>
+    Temperature drops with altitude at roughly <strong>6.5°C per 1,000&nbsp;m</strong>
+    (the environmental lapse rate). On clear, sunny days, the actual surface temperature can be close
+    to the adiabatic lapse rate (~10°C/1,000&nbsp;m) in exposed terrain.
+  </p>
+
+  <p>A practical formula:</p>
+
+  <blockquote>
+    <strong>Summit temp ≈ valley forecast &minus; (elevation gain in metres / 1,000) &times; 6.5°C</strong>
+  </blockquote>
+
+  <p><strong>Example:</strong> Valley forecast 15°C at 400&nbsp;m, summit at 2,100&nbsp;m:</p>
+  <blockquote>
+    15 &minus; (1,700 / 1,000) &times; 6.5 = 15 &minus; 11.1 = <strong>~4°C at the summit</strong>
+  </blockquote>
+
+  <p>
+    Wind chill makes this feel significantly colder. At 4°C with a 40 km/h wind, the feels-like
+    temperature is around &minus;3°C. Always carry an insulating layer above ~1,800&nbsp;m even in summer.
+  </p>
+
+  <h3>What to bring based on summit temperature</h3>
+  <table>
+    <thead>
+      <tr><th>Estimated summit temp</th><th>Clothing</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Above 10°C</td><td>T-shirt + light layer in pack</td></tr>
+      <tr><td>5–10°C</td><td>Fleece or softshell + wind layer</td></tr>
+      <tr><td>0–5°C</td><td>Insulating mid-layer + wind/rain shell</td></tr>
+      <tr><td>Below 0°C</td><td>Down jacket + shell + gloves + hat</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2>Meteoblue — localized detail</h2>
+  <p>
+    <a href="https://www.meteoblue.com" target="_blank" rel="noopener">Meteoblue</a> provides
+    forecasts at specific coordinates, so you can query the summit itself rather than the nearest town.
+    It's generally considered slightly less accurate than MeteoSwiss but more granular.
+  </p>
+
+  <ul>
+    <li>Use Meteoblue to cross-check MeteoSwiss, especially for summit-level wind and cloud predictions.</li>
+    <li>The <strong>multimodel view</strong> is useful — it shows multiple model runs and gives a sense of forecast uncertainty.</li>
+    <li>The <strong>snowpack / precipitation type</strong> tabs help when there's snow risk at altitude (relevant even in June on north-facing slopes above 2,000&nbsp;m).</li>
+  </ul>
+
+  <hr>
+
+  <h2>Webcams — checking conditions visually</h2>
+  <p>
+    Before any hike above ~1,800&nbsp;m I check webcams to see actual conditions, not just forecast numbers.
+    Webcams tell you things the forecast can't: is there still snow on the approach? Is there cloud on the
+    ridge? Is visibility good?
+  </p>
+
+  <ul>
+    <li><a href="https://www.foto-webcam.eu" target="_blank" rel="noopener">foto-webcam.eu</a> — high-quality archived webcam images from many Alpine summits and huts. Check the hour-by-hour archive to see how conditions evolved through the day.</li>
+    <li><a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank" rel="noopener">Meteoblue webcams</a> — searchable by region, shows nearest cams to any location.</li>
+    <li>Many Swiss valley tourist offices maintain live webcams linked from their websites.</li>
+    <li>All of my individual <a href="/hikes/">hike pages</a> have direct webcam links for that route's summit area.</li>
+  </ul>
+
+  <h3>What to look for</h3>
+  <ul>
+    <li><strong>Cloud and visibility:</strong> Can you see the ridgeline? Is cloud building from the south or west (storm signal in summer)?</li>
+    <li><strong>Snow on approach:</strong> North-facing couloirs and shaded valleys can hold snow well into July. Snow on a T3–T4 route without crampons and an ice axe is a serious hazard.</li>
+    <li><strong>Trail condition:</strong> After rain, check if there's visible standing water or mud. Some limestone trails are extremely slippery when wet.</li>
+  </ul>
+</div>
+
+<footer>
+  Dr. Robert Hannah &middot; Quantitative Researcher, Citadel Securities &middot;
+  <a href="https://github.com/roberthannah89">GitHub</a>
+</footer>
+</body>
+</html>

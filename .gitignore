@@ -2,6 +2,8 @@
 hikes/index.html
 hikes/*/[!_]*.html
 hikes/*/_assets/
+# Exception: hand-authored guide pages are not generated
+!hikes/guide/*.html
 
 # Python
 __pycache__/
