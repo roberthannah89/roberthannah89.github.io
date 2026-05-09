@@ -439,6 +439,7 @@ def build_index_hikes(data_files: list[Path],
         hikes.append({
             "name": peak.get("name", slug),
             "region": ic.get("region", ""),
+            "canton": ic.get("canton", ""),
             "href": f"{slug}/{slug}.html",
             "elev": f"{peak.get('elev', '')} m" if peak.get("elev") else "",
             "grade": grade,

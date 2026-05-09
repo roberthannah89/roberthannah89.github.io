@@ -228,6 +228,40 @@
   }
 
   .card.dimmed { opacity: .35; }
+
+  .canton-tag {
+    display: inline-block;
+    font-size: .72rem;
+    color: var(--fg-dim);
+    padding: .08rem .4rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-soft);
+    white-space: nowrap;
+  }
+  .card .canton-row { display: flex; align-items: center; gap: .4rem; margin-top: -.1rem; }
+
+  /* Leaflet canton legend (inside map) */
+  .canton-legend {
+    background: rgba(11,12,16,0.85) !important;
+    color: var(--fg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: .45rem .7rem !important;
+    font-size: .72rem;
+    line-height: 1.7;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+  }
+  .canton-legend .legend-item { display: flex; align-items: center; gap: .4rem; }
+  .canton-legend .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,.3);
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
   .marker-hl { filter: drop-shadow(0 0 6px var(--accent)); }
 
   @media (max-width: 700px) {
@@ -266,6 +300,11 @@
       <span class="filter-label">Region</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <!-- region buttons injected by JS -->
+    </div>
+    <div class="filter-group" data-filter="canton">
+      <span class="filter-label">Canton</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <!-- canton buttons injected by JS -->
     </div>
   </div>
 
@@ -322,6 +361,7 @@ HIKES.forEach((h, i) => {
   card.dataset.grade = gradeNum(h.grade);
   card.dataset.region = (h.region || "").toLowerCase();
   card.dataset.multi = isMultiDay(h.time) ? "1" : "0";
+  card.dataset.canton = (h.canton || "").toLowerCase();
   card.innerHTML = `
     <div class="photo-wrap">
       ${h.photo ? `<img src="${escAttr(h.photo)}" alt="${escAttr(h.name)}" loading="lazy">` : ""}
@@ -342,6 +382,7 @@ HIKES.forEach((h, i) => {
           ${h.time ? `<span>${h.time}</span>` : ""}
         </span>
       </div>
+      ${h.canton ? `<div class="canton-row"><span class="canton-tag">${h.canton}</span></div>` : ""}
       <div class="weather-strip loading" data-hike="${i}"></div>
     </div>
   `;
@@ -361,8 +402,19 @@ regions.forEach(r => {
   regionGroup.appendChild(b);
 });
 
+/* ------------- canton filter buttons ------------- */
+const cantonGroup = document.querySelector('.filter-group[data-filter="canton"]');
+const cantons = [...new Set(HIKES.map(h => h.canton).filter(Boolean))].sort();
+cantons.forEach(c => {
+  const b = document.createElement("button");
+  b.className = "filter-btn";
+  b.dataset.value = c.toLowerCase();
+  b.textContent = c;
+  cantonGroup.appendChild(b);
+});
+
 /* ------------- filtering ------------- */
-const activeFilters = { grade: "all", duration: "all", region: "all" };
+const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all" };
 document.querySelectorAll(".filter-group").forEach(group => {
   const key = group.dataset.filter;
   group.addEventListener("click", e => {
@@ -392,6 +444,7 @@ function applyFilters() {
     if (ok && activeFilters.duration === "day") ok = !multi;
     if (ok && activeFilters.duration === "multi") ok = multi;
     if (ok && activeFilters.region !== "all") ok = region === activeFilters.region;
+    if (ok && activeFilters.canton !== "all") ok = card.dataset.canton === activeFilters.canton;
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
     const idx = parseInt(card.dataset.idx, 10);
@@ -425,14 +478,38 @@ swisstopo.on("tileerror", () => {
   }
 });
 
+/* canton colour palette */
+const CANTON_COLORS = {
+  "appenzell innerrhoden": "#ff5c5c",
+  "bern":                  "#4a9eff",
+  "schwyz":                "#ff9b43",
+  "appenzell ausserrhoden":"#c084fc",
+  "st. gallen":            "#34d399",
+  "glarus":                "#fbbf24",
+  "uri":                   "#f87171",
+  "obwalden":              "#60a5fa",
+  "nidwalden":             "#a78bfa",
+};
+function cantonColor(canton) {
+  return CANTON_COLORS[(canton || "").toLowerCase()] || "#8888aa";
+}
+
 const markers = [];
 const latlngs = [];
 HIKES.forEach((h, i) => {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
-  const m = L.marker([h.lat, h.lon]);
+  const color = cantonColor(h.canton);
+  const m = L.circleMarker([h.lat, h.lon], {
+    radius: 9,
+    fillColor: color,
+    color: "#fff",
+    weight: 2,
+    fillOpacity: 0.92,
+  });
   const popup = `
     ${h.photo ? `<img src="${escAttr(h.photo)}" alt="">` : ""}
     <div class="pop-name">${h.name}</div>
+    ${h.canton ? `<div style="font-size:.78rem;color:#a0a4ad;margin:.1rem 0 .2rem;">${h.canton}</div>` : ""}
     ${h.grade ? `<div style="margin:.2rem 0;"><span class="pill ${h.gradeClass}">${h.grade}</span></div>` : ""}
     <a href="${h.href}">View plan →</a>
   `;
@@ -447,14 +524,26 @@ if (latlngs.length) {
   map.setView([46.8, 8.2], 8);
 }
 
+/* canton legend control */
+const legendCtrl = L.control({ position: "bottomleft" });
+legendCtrl.onAdd = function() {
+  const div = L.DomUtil.create("div", "canton-legend");
+  const seen = new Map();
+  HIKES.forEach(h => { if (h.canton && !seen.has(h.canton)) seen.set(h.canton, cantonColor(h.canton)); });
+  div.innerHTML = [...seen.entries()].map(([name, col]) =>
+    `<div class="legend-item"><span class="legend-dot" style="background:${col}"></span>${name}</div>`
+  ).join("");
+  return div;
+};
+legendCtrl.addTo(map);
+
 function highlightMarker(i, on) {
   const m = markers[i];
   if (!m) return;
-  const el = m.getElement();
-  if (!el) return;
-  el.classList.toggle("marker-hl", on);
-  if (on) m.setZIndexOffset(1000);
-  else m.setZIndexOffset(0);
+  m.setStyle(on
+    ? { radius: 13, weight: 3, fillOpacity: 1 }
+    : { radius: 9,  weight: 2, fillOpacity: 0.92 });
+  if (on) m.bringToFront();
 }
 
 /* ------------- weather ------------- */
