@@ -1,0 +1,151 @@
+{
+  "slug": "hardergrat",
+  "page": {
+    "title": "Hardergrat (2312 m) \u2014 Hike Plan",
+    "generated": "2026-05-09",
+    "reports_updated": "2026-05-09",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Hardergrat",
+    "elev": 2312,
+    "lat": 46.651,
+    "lon": 8.524
+  },
+  "index_card": {
+    "region": "Bernese Oberland",
+    "canton": "Bern",
+    "distance": "24.5 km",
+    "gain": "1632 m",
+    "time": "8\u201310 h",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Rostock",
+    "elev": 680,
+    "lat": 46.663,
+    "lon": 8.397,
+    "transit_dest": "Interlaken"
+  },
+  "hero": {
+    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
+    "subtitle_html": "TODO: e.g. Rostock \u2192 Hardergrat \u2014 <span class=\"pill t4\">SAC T4</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "grade": "T4"
+  },
+  "intro_html": "<p>The iconic knife-edge ridge traverse above Lake Brienz, with dramatic alpine scenery and constant exposure along the Bernese Oberland's most famous high-mountain ridge. One of Switzerland's most celebrated day hikes, combining technical scrambling with stunning panoramic views of the Central Alps.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2312 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Rostock"
+    ],
+    [
+      "Distance",
+      "TODO: km round-trip"
+    ],
+    [
+      "Total ascent",
+      "TODO: m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "TODO: description",
+      "caption_html": "TODO: caption"
+    }
+  ],
+  "waypoints": [],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "TODO: route name",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "TODO: <li>Step by step.</li>"
+      ]
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station and elevation, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 1712,
+      "temp_drop_c": 10.3,
+      "example_html": "TODO: e.g. <strong>22 \u00b0C at Interlaken \u2192 ~9 \u00b0C at summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July\u2013September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
+        "bullets_html": [
+          "TODO: <li>Key observation.</li>"
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "<li>Hiking poles</li><li>Sun protection (cream + glasses + hat)</li><li>2 L water</li><li>Emergency snacks</li>"
+      ]
+    }
+  ],
+  "safety_html": [
+    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
+    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Hardergrat</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
+}
