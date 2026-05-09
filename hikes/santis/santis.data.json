@@ -91,13 +91,13 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Blick_vom_S%C3%A4ntis_ins_Alpsteinmassiv_Richtung_Appenzell_und_Bodensee.jpg?width=600",
+      "url": "./images/Blick_vom_S_ntis_ins_Alpsteinmassiv_Richtung_Appenzell_und_Bodensee.jpg",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Blick_vom_S%C3%A4ntis_ins_Alpsteinmassiv_Richtung_Appenzell_und_Bodensee.jpg?width=1600",
       "alt": "View from Säntis summit toward the Alpstein, Appenzell, and Bodensee",
       "caption_html": "Summit panorama south-east into the Alpstein toward Appenzell and the Bodensee."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Schw%C3%A4galp-S%C3%A4ntis_-_panoramio_(10).jpg?width=600",
+      "url": "./images/Schw_galp-S_ntis_-_panoramio__10_.jpg",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Schw%C3%A4galp-S%C3%A4ntis_-_panoramio_(10).jpg?width=1600",
       "alt": "Säntis north face from Schwägalp",
       "caption_html": "Säntis north face seen from the Schwägalp pass — the cable-car side."

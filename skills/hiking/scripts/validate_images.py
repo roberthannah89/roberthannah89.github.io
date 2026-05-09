@@ -48,16 +48,17 @@ def validate_url(url, timeout=3):
     Test if URL returns 200 OK.
     Returns (is_valid, status_code, error_msg)
     
-    Note: Wikimedia Commons blocks bot requests with 403. We skip validation
-    for Wikimedia URLs and assume they're valid (they display fine in browsers).
+    Wikimedia Commons returns 403 to default User-Agents (bot detection) but
+    accepts requests with a real browser User-Agent. We always send a UA so
+    Wikimedia 404s (broken URLs) are detected correctly.
     """
-    # Skip validation for Wikimedia URLs (they block bots with 403)
-    if 'commons.wikimedia.org' in url or 'upload.wikimedia.org' in url:
-        return True, 200, None  # Assume valid; works in browsers
-    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+                      '(KHTML, like Gecko) Chrome/120.0 Safari/537.36'
+    }
     try:
         # Use HEAD request (faster)
-        response = requests.head(url, timeout=timeout, allow_redirects=True)
+        response = requests.head(url, timeout=timeout, allow_redirects=True, headers=headers)
         return response.status_code == 200, response.status_code, None
     except requests.Timeout:
         return False, None, "timeout"
