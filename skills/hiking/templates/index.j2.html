@@ -638,13 +638,13 @@ async function loadWeather() {
     }
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${h.lat}&longitude=${h.lon}`
       + `&daily=weather_code,temperature_2m_max`
-      + `&timezone=Europe%2FZurich&forecast_days=5`;
+      + `&timezone=Europe%2FZurich&forecast_days=7`;
     try {
       const r = await fetch(url);
       const j = await r.json();
       const days = j.daily;
       let html = "";
-      for (let d = 0; d < 5; d++) {
+      for (let d = 0; d < 7; d++) {
         const code = days.weather_code[d];
         const tmax = Math.round(days.temperature_2m_max[d]);
         const [icon, label] = wmoIcon(code);
