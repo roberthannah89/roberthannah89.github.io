@@ -357,6 +357,27 @@
       <button class="filter-btn" data-value="ok">⛅ OK</button>
       <button class="filter-btn" data-value="bad">🌧️ Poor</button>
     </div>
+    <div class="filter-group" data-filter="dist">
+      <span class="filter-label">Distance</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="short">≤ 10 km</button>
+      <button class="filter-btn" data-value="medium">11–15 km</button>
+      <button class="filter-btn" data-value="long">&gt; 15 km</button>
+    </div>
+    <div class="filter-group" data-filter="gain">
+      <span class="filter-label">Elev. gain</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="gentle">≤ 700 m</button>
+      <button class="filter-btn" data-value="moderate">701–1300 m</button>
+      <button class="filter-btn" data-value="strenuous">&gt; 1300 m</button>
+    </div>
+    <div class="filter-group" data-filter="temp">
+      <span class="filter-label">Temperature</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="cold">&lt; 5°</button>
+      <button class="filter-btn" data-value="cool">5–15°</button>
+      <button class="filter-btn" data-value="warm">&gt; 15°</button>
+    </div>
   </div>
 
   <div class="grid" id="grid"><!-- cards injected by JS --></div>
@@ -380,6 +401,7 @@ const HIKES = {{ hikes | tojson }};
 /* ------------- helpers ------------- */
 function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
 function gradeNum(g) { const m = String(g).match(/T(\d)/); return m ? parseInt(m[1], 10) : 0; }
+function parseNum(s) { const m = String(s || "").match(/([\d.]+)/); return m ? parseFloat(m[1]) : NaN; }
 function isMultiDay(t) {
   const s = String(t).toLowerCase();
   const m = s.match(/(\d+(?:\.\d+)?)\s*day/);
@@ -413,6 +435,8 @@ HIKES.forEach((h, i) => {
   card.dataset.region = (h.region || "").toLowerCase();
   card.dataset.multi = isMultiDay(h.time) ? "1" : "0";
   card.dataset.canton = (h.canton || "").toLowerCase();
+  card.dataset.dist = parseNum(h.distance);
+  card.dataset.gain = parseNum(h.gain);
   card.innerHTML = `
     <div class="photo-wrap">
       ${h.photo ? `<img src="${escAttr(h.photo)}" alt="${escAttr(h.name)}" loading="lazy">` : ""}
@@ -465,7 +489,7 @@ cantons.forEach(c => {
 });
 
 /* ------------- filtering ------------- */
-const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all" };
+const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all" };
 document.querySelectorAll(".filter-group").forEach(group => {
   const key = group.dataset.filter;
   group.addEventListener("click", e => {
@@ -494,7 +518,10 @@ function updateCardWeather() {
   document.querySelectorAll(".card").forEach(card => {
     const idx = parseInt(card.dataset.idx, 10);
     const wd = weatherByHike[idx];
-    if (wd && wd[mapDayActive]) card.dataset.wx = wxCategory(wd[mapDayActive].icon);
+    if (wd && wd[mapDayActive]) {
+      card.dataset.wx = wxCategory(wd[mapDayActive].icon);
+      card.dataset.temp = wd[mapDayActive].tmax;
+    }
   });
 }
 function applyFilters() {
@@ -509,6 +536,24 @@ function applyFilters() {
     if (ok && activeFilters.region !== "all") ok = region === activeFilters.region;
     if (ok && activeFilters.canton !== "all") ok = card.dataset.canton === activeFilters.canton;
     if (ok && activeFilters.weather !== "all") ok = card.dataset.wx === activeFilters.weather;
+    if (ok && activeFilters.dist !== "all") {
+      const d = parseFloat(card.dataset.dist);
+      if (activeFilters.dist === "short") ok = !isNaN(d) && d <= 10;
+      else if (activeFilters.dist === "medium") ok = !isNaN(d) && d > 10 && d <= 15;
+      else if (activeFilters.dist === "long") ok = !isNaN(d) && d > 15;
+    }
+    if (ok && activeFilters.gain !== "all") {
+      const g2 = parseFloat(card.dataset.gain);
+      if (activeFilters.gain === "gentle") ok = !isNaN(g2) && g2 <= 700;
+      else if (activeFilters.gain === "moderate") ok = !isNaN(g2) && g2 > 700 && g2 <= 1300;
+      else if (activeFilters.gain === "strenuous") ok = !isNaN(g2) && g2 > 1300;
+    }
+    if (ok && activeFilters.temp !== "all") {
+      const t = parseFloat(card.dataset.temp);
+      if (activeFilters.temp === "cold") ok = !isNaN(t) && t < 5;
+      else if (activeFilters.temp === "cool") ok = !isNaN(t) && t >= 5 && t <= 15;
+      else if (activeFilters.temp === "warm") ok = !isNaN(t) && t > 15;
+    }
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
     const idx = parseInt(card.dataset.idx, 10);
