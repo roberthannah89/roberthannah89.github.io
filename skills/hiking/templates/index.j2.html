@@ -6,12 +6,13 @@
 <title>Hike Plans — Swiss Alps</title>
 <style>
   :root {
-    --fg: #1a1a1a;
-    --muted: #555;
-    --accent: #c41e1e;
-    --bg: #fafaf7;
-    --card: #ffffff;
-    --border: #e0ddd5;
+    --fg: #e8e8ea;
+    --muted: #a0a4ad;
+    --accent: #ff5c5c;
+    --bg: #0b0c10;
+    --card: #14161c;
+    --border: #23262e;
+    --soft: #1d1f27;
   }
   * { box-sizing: border-box; }
   body {
@@ -46,12 +47,12 @@
     vertical-align: middle;
   }
   thead th {
-    background: #f3f1ea;
+    background: var(--soft);
     font-weight: 600;
     font-size: .82rem;
     text-transform: uppercase;
     letter-spacing: .04em;
-    color: #444;
+    color: var(--fg);
     border-bottom: 2px solid var(--border);
     white-space: nowrap;
   }
@@ -60,7 +61,7 @@
   thead th.weather-col .date { display: block; color: var(--muted); font-weight: 400; }
 
   thead th.sortable { cursor: pointer; user-select: none; position: relative; }
-  thead th.sortable:hover { background: #ebe7dc; }
+  thead th.sortable:hover { background: #262934; }
   thead th.sortable::after {
     content: "";
     display: inline-block;
@@ -72,13 +73,13 @@
     border-bottom: 5px solid transparent;
     vertical-align: middle;
     opacity: .35;
-    border-top-color: #888;
+    border-top-color: #aaa;
     border-bottom: 0;
   }
-  thead th.sortable.sort-asc::after { border-top: 0; border-bottom: 5px solid #444; opacity: 1; }
-  thead th.sortable.sort-desc::after { border-bottom: 0; border-top: 5px solid #444; opacity: 1; }
+  thead th.sortable.sort-asc::after { border-top: 0; border-bottom: 5px solid #ddd; opacity: 1; }
+  thead th.sortable.sort-desc::after { border-bottom: 0; border-top: 5px solid #ddd; opacity: 1; }
 
-  tbody tr:hover { background: #f9f7f1; }
+  tbody tr:hover { background: #181a22; }
   tbody tr:last-child td { border-bottom: none; }
 
   td.name a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 1.05rem; }
@@ -93,14 +94,14 @@
     object-fit: cover;
     border-radius: 8px;
     display: block;
-    background: #ddd;
-    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    background: #000;
+    box-shadow: 0 1px 4px rgba(0,0,0,.4);
   }
 
   td.weather { text-align: center; padding: .6rem .3rem; }
   td.weather .icon { font-size: 1.5rem; line-height: 1; }
   td.weather .temp { font-size: .82rem; color: var(--fg); margin-top: 2px; }
-  td.weather .precip { font-size: .72rem; color: #2466a8; margin-top: 1px; }
+  td.weather .precip { font-size: .72rem; color: #6cb4ff; margin-top: 1px; }
   td.weather.loading { color: var(--muted); font-size: .8rem; }
 
   .pill {

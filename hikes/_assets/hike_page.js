@@ -40,12 +40,12 @@
     { attribution: "© OpenStreetMap contributors", maxZoom: 19 });
   const layers = { topo: swissTopo, hike: swissHike, aerial: swissAerial, osm: osm };
 
-  const map = L.map("map", { layers: [swissTopo], zoomControl: true });
+  const map = L.map("map", { layers: [swissHike], zoomControl: true });
   const halo = L.polyline([], { color: "white", weight: 8, opacity: 0.9 }).addTo(map);
-  const line = L.polyline([], { color: "#c41e1e", weight: 4, opacity: 1 }).addTo(map);
+  const line = L.polyline([], { color: "#ff5c5c", weight: 4, opacity: 1 }).addTo(map);
 
   WAYPOINTS.forEach(([lat, lon, label, kind]) => {
-    const color = kind === "start" ? "#2e7d32" : "#c41e1e";
+    const color = kind === "start" ? "#2e7d32" : "#ff5c5c";
     L.circleMarker([lat, lon], {
       radius: 9, fillColor: color, color: "#222", weight: 2, fillOpacity: 1
     }).addTo(map).bindPopup(`<strong>${label}</strong>`).bindTooltip(label, {
@@ -66,7 +66,7 @@
   const gpxBtn = document.getElementById("gpxBtn");
   if (gpxBtn) gpxBtn.href = GPX_FILENAME;
 
-  let current = swissTopo;
+  let current = swissHike;
   document.querySelectorAll(".map-controls button[data-layer]").forEach(btn => {
     btn.onclick = () => {
       const next = layers[btn.dataset.layer];
