@@ -99,6 +99,53 @@ Use this when user asks "is this safe today?"
 - Check cable-car seasonal operation days.
 - Download offline maps and GPX before leaving cell coverage.
 
+## Image Sourcing Checklist (for agents adding hikes)
+
+When adding a hike to the website, always source and **validate** images before committing:
+
+1. **Search for hero image (landscape, 1600+ px wide):**
+   - Wikimedia Commons (search + validate URL with `curl -I`)
+   - Hikr.org trip reports (link directly, check CC license)
+   - Google Images (filter by CC license, verify)
+   - Regional tourism sites (SwissTopo, Swisstopo blogs, SAC publications)
+
+2. **Test every URL before saving:**
+   ```bash
+   curl -I "https://example.com/image.jpg"
+   # Must return HTTP 200, not 404/403
+   ```
+
+3. **Collect metadata:**
+   - Photo credit / artist name
+   - License (CC-BY, CC-BY-SA, public domain, etc.)
+   - Image dimensions (hero ≥1600w, thumbnails ≥600w)
+
+4. **Common sources:**
+   - **Wikimedia Commons API**: Reliable but URLs must be tested (often 404 if guessed)
+   - **Hikr.org**: Best user photos, but behind Cloudflare (manually verify in browser first)
+   - **Google Images (CC search)**: Wide selection, but requires license verification
+   - **Tourism board sites**: Official images, usually CC or free-to-use
+   - **Wikipedia**: Linked Wikimedia photos often higher quality than direct Commons search
+
+5. **If no valid image found:**
+   - Leave hero image as `"TODO: Wikimedia Commons URL"` (will render placeholder on page)
+   - Document search results in a comment for later curation
+   - Do not use broken links or placeholder services
+
+6. **Store in spec or data.json:**
+   ```json
+   "hero": {
+     "image_url": "https://TESTED-AND-VALID.url/image.jpg",
+     "subtitle_html": "Photo © Name"
+   },
+   "photos": [{
+     "url": "https://TESTED-AND-VALID.url/image.jpg",
+     "lightbox_url": "https://TESTED-AND-VALID.url/image-hires.jpg",
+     "alt": "View of Peak Name",
+     "caption_html": "<p>Caption with credit.</p>"
+   }]
+   ```
+
 ## Language and Scope Notes
 
 - Many SAC pages are multilingual (DE/FR/IT/EN), but route details may still be

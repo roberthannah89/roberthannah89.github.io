@@ -68,6 +68,43 @@ That means agents can fill only the sections they already know (for example
 `index_card`, `hero`, `intro_html`, `photos`, `trip_reports`) and leave the
 rest as template TODOs.
 
+### Image sourcing & validation
+
+**Always validate that image URLs work before adding them to a spec.**
+
+1. **Search multiple sources:**
+   - **Wikimedia Commons** (`commons.wikimedia.org`) — Use the API or search; **test the final URL** with `curl -I` to confirm 200 OK (not 404)
+   - **Hikr.org** — Trip reports often have embedded photos; link directly from photo pages
+   - **Google Images** — Find CC-licensed or public-domain images; verify license before using
+   - **SwissTopo / Swisstopo imagery** — Check if embedding is permitted
+   - **Panoramio / Panorama platforms** — Historical/archived photos
+
+2. **Before committing, validate URLs:**
+   ```bash
+   curl -I "https://example.com/image.jpg"
+   # Should return HTTP 200, not 403/404
+   ```
+
+3. **Store in spec as:**
+   ```json
+   "photos": [{
+     "url": "https://VALIDATED.url/image.jpg",
+     "lightbox_url": "https://VALIDATED.url/image-hires.jpg",
+     "alt": "Short description of image content",
+     "caption_html": "<p>Photo credit & context.</p>"
+   }],
+   "hero": {
+     "image_url": "https://VALIDATED.url/hero-image.jpg",
+     "subtitle_html": "Photo © Attribution Name"
+   }
+   ```
+
+4. **Common gotchas:**
+   - Wikimedia thumbnail URLs often 404 if filename or format is wrong; **always test**
+   - Google Images links may be direct or may require referrer headers
+   - Hikr photos often need session cookies (use web browser to verify first)
+   - Check image dimensions: hero images should be landscape (1600+ width); thumbnails 600+ width
+
 `route_build` controls GPX generation:
 
 - `via` and `descend_via` may contain either strings or objects with
