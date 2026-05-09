@@ -28,7 +28,7 @@
     "transit_dest": "Zermatt"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matterhorn_Reflection.jpg/1280px-Matterhorn_Reflection.jpg",
+    "image_url": "TODO: Wikimedia Commons URL",
     "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T2"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matterhorn_Reflection.jpg/1280px-Matterhorn_Reflection.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matterhorn_Reflection.jpg/1280px-Matterhorn_Reflection.jpg",
-      "alt": "Matterhorn reflection in glacier lake",
-      "caption_html": "<p>Matterhorn reflection in glacier lake. Photo \u00a9 Wikimedia Commons</p>"
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "Gornergrat in Valais",
+      "caption_html": "<p>View of Gornergrat (3135 m).</p>"
     }
   ],
   "waypoints": [],

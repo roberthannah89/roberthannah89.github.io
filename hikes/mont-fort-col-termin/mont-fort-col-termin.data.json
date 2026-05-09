@@ -28,7 +28,7 @@
     "transit_dest": "Verbier"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Verbier_-_Mont-Blanc.jpg/1280px-Verbier_-_Mont-Blanc.jpg",
+    "image_url": "TODO: Wikimedia Commons URL",
     "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T3"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Verbier_-_Mont-Blanc.jpg/1280px-Verbier_-_Mont-Blanc.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Verbier_-_Mont-Blanc.jpg/1280px-Verbier_-_Mont-Blanc.jpg",
-      "alt": "Mont Blanc view from Verbier area",
-      "caption_html": "<p>Mont Blanc view from Verbier area. Photo \u00a9 Wikimedia Commons</p>"
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "Mont Fort in Valais",
+      "caption_html": "<p>View of Mont Fort (2900 m).</p>"
     }
   ],
   "waypoints": [],

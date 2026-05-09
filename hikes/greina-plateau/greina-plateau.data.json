@@ -28,7 +28,7 @@
     "transit_dest": "Vrin via Sumvitg"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Greina_Plateau.jpg/1280px-Greina_Plateau.jpg",
+    "image_url": "TODO: Wikimedia Commons URL",
     "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T2"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Greina_Plateau.jpg/1280px-Greina_Plateau.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Greina_Plateau.jpg/1280px-Greina_Plateau.jpg",
-      "alt": "Greina Plateau - Swiss Alps high plateau",
-      "caption_html": "<p>Greina Plateau - Swiss Alps high plateau. Photo \u00a9 Wikimedia Commons</p>"
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "Greina Plateau in Graub\u00fcnden",
+      "caption_html": "<p>View of Greina Plateau (2355 m).</p>"
     }
   ],
   "waypoints": [],

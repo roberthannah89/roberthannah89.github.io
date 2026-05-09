@@ -28,7 +28,7 @@
     "transit_dest": "Bernina Ospizio"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Pizpalue.jpg/1280px-Pizpalue.jpg",
+    "image_url": "TODO: Wikimedia Commons URL",
     "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T3"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Pizpalue.jpg/1280px-Pizpalue.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Pizpalue.jpg/1280px-Pizpalue.jpg",
-      "alt": "Piz Pal\u00fc glacier near Cresta Sassal Mason",
-      "caption_html": "<p>Piz Pal\u00fc glacier near Cresta Sassal Mason. Photo \u00a9 Wikimedia Commons</p>"
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "Sassal Mason in Graub\u00fcnden",
+      "caption_html": "<p>View of Sassal Mason (2847 m).</p>"
     }
   ],
   "waypoints": [],

@@ -28,7 +28,7 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hohtuerli_Pass.jpg/1280px-Hohtuerli_Pass.jpg",
+    "image_url": "TODO: Wikimedia Commons URL",
     "subtitle_html": "Photo \u00a9 SarahSophie2014",
     "grade": "T3"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hohtuerli_Pass.jpg/1280px-Hohtuerli_Pass.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hohtuerli_Pass.jpg/1280px-Hohtuerli_Pass.jpg",
-      "alt": "Hoht\u00fcrli pass in the Bernese Alps",
-      "caption_html": "<p>Hoht\u00fcrli pass in the Bernese Alps. Photo \u00a9 SarahSophie2014</p>"
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "Hoht\u00fcrli in Bernese Oberland",
+      "caption_html": "<p>View of Hoht\u00fcrli (2778 m).</p>"
     }
   ],
   "waypoints": [],

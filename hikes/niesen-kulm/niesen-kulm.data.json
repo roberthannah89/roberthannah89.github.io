@@ -28,7 +28,7 @@
     "transit_dest": "M\u00fclenen"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Niesen_from_Lake_Thun.jpg/1280px-Niesen_from_Lake_Thun.jpg",
+    "image_url": "TODO: Wikimedia Commons URL",
     "subtitle_html": "Photo \u00a9 Claude T Spierer",
     "grade": "T2"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Niesen_from_Lake_Thun.jpg/1280px-Niesen_from_Lake_Thun.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Niesen_from_Lake_Thun.jpg/1280px-Niesen_from_Lake_Thun.jpg",
-      "alt": "Niesen mountain above Lake Thun",
-      "caption_html": "<p>Niesen mountain above Lake Thun. Photo \u00a9 Claude T Spierer</p>"
+      "url": "TODO: Wikimedia width=600 URL",
+      "lightbox_url": "TODO: Wikimedia width=1600 URL",
+      "alt": "Niesen in Bernese Oberland",
+      "caption_html": "<p>View of Niesen (2362 m).</p>"
     }
   ],
   "waypoints": [],
