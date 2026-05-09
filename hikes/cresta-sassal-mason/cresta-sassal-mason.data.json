@@ -28,7 +28,7 @@
     "transit_dest": "Bernina Ospizio"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Piz_Pal%C3%BC%2C_Piz_Caral_and_Sassal_Mason_as_seen_from_Cavaglia.jpg",
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Piz_Bernina_SW_1979.jpg?width=1600",
     "subtitle_html": "Photo \u00a9 Capricorn4049 (CC BY-SA 4.0) - View from Cavaglia",
     "grade": "T3"
   },
@@ -57,20 +57,20 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Piz_Pal%C3%BC%2C_Piz_Caral_and_Sassal_Mason_as_seen_from_Cavaglia.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Piz_Pal%C3%BC%2C_Piz_Caral_and_Sassal_Mason_as_seen_from_Cavaglia.jpg",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Piz_Bernina_SW_1979.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Piz_Bernina_SW_1979.jpg?width=1600",
       "alt": "View 1 of Cresta Sassal Mason",
       "caption_html": "<p>Photo \u00a9 Capricorn4049 (CC BY-SA 4.0) - View from Cavaglia</p>"
     },
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Bernina_as_seen_from_Munt_Pers.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Bernina_as_seen_from_Munt_Pers.jpg",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Engadin_Valley.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Engadin_Valley.jpg?width=1600",
       "alt": "View 2 of Cresta Sassal Mason",
       "caption_html": "<p>Photo \u00a9 Capricorn4049 (CC BY-SA 4.0) - Bernina Range panorama</p>"
     },
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Pers_Glacier_and_Piz_Pal%C3%BC.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Pers_Glacier_and_Piz_Pal%C3%BC.jpg",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Swiss_Glacier.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Swiss_Glacier.jpg?width=1600",
       "alt": "View 3 of Cresta Sassal Mason",
       "caption_html": "<p>Photo \u00a9 Tiia Monto (CC BY-SA 4.0) - Pers Glacier</p>"
     }
