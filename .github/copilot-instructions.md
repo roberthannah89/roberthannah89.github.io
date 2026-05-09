@@ -6,6 +6,11 @@ Deployed via GitHub Pages. Repo root on this machine: `/opt/code/website/` (Goog
 **Python venv**: always use `~/venvs/dev/bin/python` (absolute path — never `python3` bare).
 **Dependencies**: `jinja2`, `jsonschema` (see `requirements.txt`).
 
+**Auto-loaded instructions** (`.github/instructions/`):
+- `hike-workflow.instructions.md` — full data.json schema + render script reference
+- `hike-resources.instructions.md` — Swiss sources, SAC grade table, links
+- `hike-gpx.instructions.md` — OSM routing algorithm + SwissTopo elevation API
+
 ---
 
 ## Repository layout
