@@ -579,7 +579,6 @@ function updateCardWeather() {
 }
 function applyFilters() {
   let visible = 0;
-  const visibleCantons = new Set();
   document.querySelectorAll(".card").forEach(card => {
     const g = parseInt(card.dataset.grade, 10) || 0;
     const region = card.dataset.region;
@@ -624,17 +623,12 @@ function applyFilters() {
     if (ok && activeFilters.transit !== "all") ok = card.dataset.transit === activeFilters.transit;
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
-    if (ok && card.dataset.canton) visibleCantons.add(card.dataset.canton);
     const idx = parseInt(card.dataset.idx, 10);
     const m = markers[idx];
     if (m) {
       if (ok) m.addTo(map);
       else map.removeLayer(m);
     }
-  });
-  cantonShadeLayers.forEach((layer, canton) => {
-    if (visibleCantons.has(canton)) layer.addTo(map);
-    else map.removeLayer(layer);
   });
   document.getElementById("empty").style.display = visible ? "none" : "block";
 }
@@ -678,12 +672,8 @@ function cantonColor(canton) {
 
 const markers = [];
 const latlngs = [];
-const cantonShadeLayers = new Map();
 const weatherByHike = [];  // weatherByHike[hikeIdx][dayIdx] = {icon, label, tmax}
 let mapDayActive = 1;      // default: tomorrow
-
-map.createPane('cantonShadePane');
-map.getPane('cantonShadePane').style.zIndex = 350;
 
 function makeWeatherPin(emoji, temp) {
   const inner = (emoji && emoji !== '·')
@@ -693,40 +683,6 @@ function makeWeatherPin(emoji, temp) {
     className: '',
     html: `<div class="hm-pin">${inner}</div>`,
     iconSize: null, iconAnchor: [28, 20], popupAnchor: [0, -26],
-  });
-}
-
-function addCantonShading() {
-  const grouped = new Map();
-  HIKES.forEach(h => {
-    if (h.lat == null || h.lon == null || !h.canton) return;
-    const key = h.canton.toLowerCase();
-    if (!grouped.has(key)) grouped.set(key, []);
-    grouped.get(key).push([h.lat, h.lon]);
-  });
-  grouped.forEach((points, canton) => {
-    const lats = points.map(p => p[0]);
-    const lons = points.map(p => p[1]);
-    const minLat = Math.min(...lats);
-    const maxLat = Math.max(...lats);
-    const minLon = Math.min(...lons);
-    const maxLon = Math.max(...lons);
-    const latPad = Math.max((maxLat - minLat) * 0.55, 0.045);
-    const lonPad = Math.max((maxLon - minLon) * 0.55, 0.065);
-    const layer = L.rectangle(
-      [[minLat - latPad, minLon - lonPad], [maxLat + latPad, maxLon + lonPad]],
-      {
-        pane: 'cantonShadePane',
-        color: cantonColor(canton),
-        weight: 1,
-        opacity: 0.35,
-        fillColor: cantonColor(canton),
-        fillOpacity: 0.12,
-        interactive: false,
-      }
-    );
-    layer.addTo(map);
-    cantonShadeLayers.set(canton, layer);
   });
 }
 
@@ -781,21 +737,7 @@ if (latlngs.length) {
 } else {
   map.setView([46.8, 8.2], 8);
 }
-addCantonShading();
 window.addEventListener('resize', () => map.invalidateSize());
-
-/* canton legend control */
-const legendCtrl = L.control({ position: "bottomleft" });
-legendCtrl.onAdd = function() {
-  const div = L.DomUtil.create("div", "canton-legend");
-  const seen = new Map();
-  HIKES.forEach(h => { if (h.canton && !seen.has(h.canton)) seen.set(h.canton, cantonColor(h.canton)); });
-  div.innerHTML = `<div class="legend-title">Shaded regions by canton</div>` + [...seen.entries()].map(([name, col]) =>
-    `<div class="legend-item"><span class="legend-dot" style="background:${col}"></span>${name}</div>`
-  ).join("");
-  return div;
-};
-legendCtrl.addTo(map);
 
 function highlightMarker(i, on) {
   const m = markers[i];
