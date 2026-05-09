@@ -28,8 +28,8 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Commons URL",
-    "subtitle_html": "Photo \u00a9 SarahSophie2014",
+    "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+    "subtitle_html": "Photo placeholder (TODO: source specific Hoht\u00fcrli Alpine pass image)",
     "grade": "T3"
   },
   "intro_html": "<p>Traverse to Switzerland's highest pass in the Bernese Alps, passing turquoise Oeschinensee and the historic Bl\u00fcemlisalph\u00fctte hut. Spectacular alpine panorama.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "Hoht\u00fcrli in Bernese Oberland",
-      "caption_html": "<p>View of Hoht\u00fcrli (2778 m).</p>"
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+      "lightbox_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+      "alt": "Hoht\u00fcrli Alpine pass",
+      "caption_html": "<p><strong>TODO:</strong> Replace with actual Hoht\u00fcrli Alpine pass photo. See instructions in .github/instructions/hike-workflow.instructions.md for image sourcing checklist.</p>"
     }
   ],
   "waypoints": [],

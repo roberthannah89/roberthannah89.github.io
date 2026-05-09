@@ -28,8 +28,8 @@
     "transit_dest": "M\u00fclenen"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Commons URL",
-    "subtitle_html": "Photo \u00a9 Claude T Spierer",
+    "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+    "subtitle_html": "Photo placeholder (TODO: source specific Niesen mountain image)",
     "grade": "T2"
   },
   "intro_html": "<p>The iconic \"Swiss Pyramid\" \u2013 a relentless 1700 m climb with extraordinary views of Lake Thun and the Bernese Alps. Popular funicular descent option.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "Niesen in Bernese Oberland",
-      "caption_html": "<p>View of Niesen (2362 m).</p>"
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+      "lightbox_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+      "alt": "Niesen mountain",
+      "caption_html": "<p><strong>TODO:</strong> Replace with actual Niesen mountain photo. See instructions in .github/instructions/hike-workflow.instructions.md for image sourcing checklist.</p>"
     }
   ],
   "waypoints": [],

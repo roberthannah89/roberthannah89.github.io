@@ -28,8 +28,8 @@
     "transit_dest": "Interlaken"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Commons URL",
-    "subtitle_html": "Photo \u00a9 Mtb2014",
+    "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+    "subtitle_html": "Photo placeholder (TODO: source specific Hardergrat ridge image)",
     "grade": "T4"
   },
   "intro_html": "<p>The iconic knife-edge ridge traverse above Lake Brienz, with dramatic alpine scenery and constant exposure along the Bernese Oberland's most famous high-mountain ridge. One of Switzerland's most celebrated day hikes, combining technical scrambling with stunning panoramic views of the Central Alps.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "Hardergrat in Bernese Oberland",
-      "caption_html": "<p>View of Hardergrat (2312 m).</p>"
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+      "lightbox_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600",
+      "alt": "Hardergrat ridge",
+      "caption_html": "<p><strong>TODO:</strong> Replace with actual Hardergrat ridge photo. See instructions in .github/instructions/hike-workflow.instructions.md for image sourcing checklist.</p>"
     }
   ],
   "waypoints": [],
