@@ -198,18 +198,30 @@ curl -I "https://example.com/image.jpg"
 # Expected: "HTTP/2 200" or "HTTP/1.1 200 OK"
 # For Wikimedia URLs, skip automated testing and verify in a browser instead.
 
-# 2. Check dimensions (inspect in browser or with `identify`)
-# Required: ≥ 1280px wide for hero image, ≥ 600px for thumbnails
+# 2. Check dimensions — PRIORITIZE HIGHEST RESOLUTION
+# **Hero image:** ≥1600px wide (sharp display on index gallery + hike page)
+# **Lightbox (full-res):** ≥2000px wide when possible (high-quality click-through)
+# **Gallery thumbnails:** ≥800px wide (sharp preview on desktop)
+#
+# Use `identify image.jpg` to check:
+#   $ identify https://f.hikr.org/files/3831865.jpg
+#   Should show dimensions like "2400x1600" or similar
 
 # 3. Verify attribution
 # Document artist/photographer name and license (CC-BY, CC-BY-SA, public domain, or site TOS)
 
-# 4. Visual check
+# 4. Visual check — QUALITY OVER VOLUME
 # Open URL in browser to confirm:
 #   - Landscape orientation (wider than tall, ideally)
-#   - Shows distinctive feature of peak/hike (not generic)
+#   - Shows distinctive feature of peak/hike (not generic, not washed-out)
 #   - No watermarks or paywalls
-#   - No obvious low quality/noise
+#   - NO obvious low quality/noise/grain (reject blurry or grainy shots)
+#   - Sharp focus on peak or main subject
+#   - Good lighting (avoid underexposed/overexposed; golden hour preferred)
+#
+# **Golden rule:** Pick fewer higher-resolution images over many mediocre ones.
+# If Hikr gallery only has 1-2 sharp photos, use those + leave other slots empty
+# rather than filling with low-quality images.
 ```
 
 #### Automated validation (`validate_images.py`)
