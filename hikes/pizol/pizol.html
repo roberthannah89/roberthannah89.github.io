@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="/favicon-512.png">
+<title>Pizol 5-Seen-Wanderung — Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Abend_am_Pizol_-_panoramio.jpg/1920px-Abend_am_Pizol_-_panoramio.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Pizol <span style="font-weight:400; opacity:.85;">2844 m</span></h1>
+    <p>Wangs → Pizolhütte → five glacial lakes circuit → Pizol (2844 m) — <span class="pill t2">SAC T2</span> · ~900 m gain · ~12 km · ~5–6 h</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <blockquote>"One of Switzerland's most celebrated alpine walks — five glacial lakes gleaming like jewels below the Pizol massif. Each lake has its own character, from the dark mirror of the Schwarzsee to the turquoise shimmer of the Pizolsee at 2400 m."<br>— <em>Glarus Alps hiking lore</em></blockquote><p>The <strong>Pizol 5-Seen-Wanderung</strong> links five glacial lakes in a single circular walk above Pizolhütte (2227 m): <strong>Schwarzsee</strong> (2157 m), <strong>Baschalvasee</strong> (2232 m), <strong>Schottensee</strong> (2244 m), <strong>Pizolsee</strong> (2400 m) and <strong>Wildsee</strong> (2390 m). The circuit is rated <strong>T2</strong> — wide mountain paths, no exposure — making it accessible to fit beginners. The optional push to the <strong>Pizol summit</strong> (2844 m) upgrades the day to T3 with a further 617 m of gain and panoramic views from the Rhine valley to the Bernina.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Peak / highest point</th><td><strong>Pizol, 2844 m</strong></td></tr>
+    <tr><th>Five lakes</th><td>Schwarzsee (2157 m) · Baschalvasee (2232 m) · Schottensee (2244 m) · Pizolsee (2400 m) · Wildsee (2390 m)</td></tr>
+    <tr><th>Range</th><td>Glarus Alps / Pizol Massif</td></tr>
+    <tr><th>Canton</th><td>St. Gallen</td></tr>
+    <tr><th>Nearest towns</th><td>Wangs · Bad Ragaz (valley base)</td></tr>
+    <tr><th>Cable car</th><td>Pizolbahnen: Wangs/Bad Ragaz → Pardiel → Pizolhütte (2227 m). Summer operating dates at <a href="https://pizol.com/planen-buchen/betriebszeiten-sommer/" target="_blank">pizol.com</a>.</td></tr>
+    <tr><th>Coordinates (Pizol)</th><td>46°59′06″ N, 9°23′34″ E</td></tr>
+    <tr><th>SAC grade — lake circuit</th><td><span class="pill t2">T2</span> good mountain paths, no exposure</td></tr>
+    <tr><th>SAC grade — Pizol summit</th><td><span class="pill t3">T3</span> steep sections, minor scramble near top</td></tr>
+    <tr><th>Distance (cable car option)</th><td>~12 km loop from Pizolhütte, incl. Pizol summit</td></tr>
+    <tr><th>Distance (full ascent on foot)</th><td>~16 km round-trip from Wangs</td></tr>
+    <tr><th>Elevation gain (cable car option)</th><td>~900 m (circuit + Pizol summit)</td></tr>
+    <tr><th>Elevation gain (full ascent)</th><td>~2340 m from Wangs (506 m) to Pizol (2844 m)</td></tr>
+    <tr><th>Typical duration</th><td>5–6 h with cable car · 9–10 h on foot from Wangs</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/SchwarzseePizol01.jpg/960px-SchwarzseePizol01.jpg" alt="Schwarzsee at Pizol (2157 m)"></a>
+      <figcaption><strong>Schwarzsee</strong> (2157 m) — the first and lowest of the five lakes, its dark water reflecting the surrounding ridges.</figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/SchottenseePizol01.jpg/960px-SchottenseePizol01.jpg" alt="Schottensee at Pizol (2244 m)"></a>
+      <figcaption><strong>Schottensee</strong> (2244 m) — midpoint of the circuit, cradled in a high alpine cirque with views back toward Bad Ragaz.</figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Baschalvasee01.jpg/960px-Baschalvasee01.jpg" alt="Baschalvasee at Pizol (2232 m)"></a>
+      <figcaption><strong>Baschalvasee</strong> (2232 m) — turquoise glacial lake, one of the most photogenic stops on the walk.</figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/8/83/SchwarzseePizol01.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/SchottenseePizol01.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Baschalvasee01.jpg" alt=""></a>
+      <p class="attrib">All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)</p>
+</section>
+
+<section>
+  <h2>Getting there (live transit)</h2>
+  <div id="transit-embed" class="transit-embed empty">
+    <iframe id="transit-iframe" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Public transport directions"></iframe>
+  </div>
+  <div class="transit-actions">
+    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
+    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
+  </div>
+  <p class="attrib">
+    Live transit from <span id="transit-origin"></span> to
+    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
+    in <code>_config.js</code>; the deep-link buttons work without one.
+  </p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <strong style="align-self:center;">Layer:</strong>
+    <button data-layer="topo" class="active">Swiss Topo</button>
+    <button data-layer="hike">Topo + Hiking trails</button>
+    <button data-layer="aerial">Aerial photo</button>
+    <button data-layer="osm">OpenStreetMap</button>
+    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Wangs)</span>
+    <span class="summit">Summit (Pizol)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+
+<section>
+  <h2>Routes (lake circuit T2; Pizol summit optional T3)</h2>
+  <h3>1. 5-Seen-Wanderung circuit — cable car from Wangs (recommended, T2) <span class="pill t2">T2</span></h3>
+  <ul>
+    <li>Take the <strong>Pizolbahnen</strong> cable car from Wangs (506 m) or Bad Ragaz up to <strong>Pizolhütte (2227 m)</strong>.</li>
+    <li>Head south-west from Pizolhütte, dropping slightly to <strong>Schwarzsee (2157 m)</strong> — the darkest, most brooding of the five lakes.</li>
+    <li>Climb west past <strong>Baschalvasee (2232 m)</strong> and <strong>Schottensee (2244 m)</strong>, both reached on wide, well-marked paths.</li>
+    <li>Continue north over the Wildseelugge saddle to <strong>Pizolsee (2400 m)</strong> and then south-east to <strong>Wildsee (2390 m)</strong>.</li>
+    <li>Return to Pizolhütte for lunch, then descend by cable car. Circuit ~10–11 km, ~650 m gain, ~4–5 h.</li>
+    <li>The five-lake sequence is clearly waymarked with the yellow hiking-path blazes.</li>
+  </ul>
+  <h3>2. + Pizol summit extension (T3, adds ~2 h and 617 m gain) <span class="pill t3">T3</span></h3>
+  <ul>
+    <li>From Wildsee, follow the signed ridge path north-east to <strong>Pizol (2844 m)</strong>. The final 200 m gain involves short scrambling sections on good holds — T3.</li>
+    <li>Summit panorama covers the Rhine Valley, Liechtenstein, the Säntis massif, the Glarus Alps and (on clear days) the Bernina.</li>
+    <li>Descend south back to Wildsee or directly to Pizolhütte via the marked descent ridge. Total with cable car: ~12 km, ~900 m gain, ~5–6 h.</li>
+  </ul>
+  <h3>3. Full ascent on foot from Wangs — no cable car (T2/T3, ~9–10 h) <span class="pill t3">T3</span></h3>
+  <ul>
+    <li>Start in Wangs (506 m) and ascend through Pardiel, Gaffia, and Laufböden to Pizolhütte — ~1720 m gain over ~7 km.</li>
+    <li>Join the lake circuit at Pizolhütte. Continue to Pizol summit (optional).</li>
+    <li>Descent back to Wangs via the same route or via Furt. Total: ~16 km, ~2340 m gain — a long, demanding day.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>SAC Difficulty Refresher</h2>
+  <table>
+    <tr><th>Grade</th><th>Meaning</th></tr>
+    <tr><td>T1</td><td>Hiking</td></tr>
+    <tr><td>T2</td><td>Mountain hiking</td></tr>
+    <tr><td>T3</td><td>Demanding mountain hiking</td></tr>
+    <tr><td>T4</td><td>Alpine hiking — stressful, not for beginners</td></tr>
+    <tr><td>T5</td><td>Demanding alpine hiking — exposure, scrambling, route-finding</td></tr>
+    <tr><td>T6</td><td>Difficult alpine hiking — near-mountaineering</td></tr>
+  </table>
+</section>
+
+<div class="grid-2">
+  <section>
+    <h2>Getting There</h2>
+    <h3>By car</h3>
+    <p>Drive to <strong>Wangs</strong> (canton St. Gallen), signposted from the A13 motorway at junction <em>Bad Ragaz</em>. Paid parking at the Pizolbahnen base station. Alternatively park in <strong>Bad Ragaz</strong> — a gondola connects Bad Ragaz to Pardiel then Pizolhütte.</p>
+    <h3>By public transport</h3>
+    <ul><li>Train: Zürich HB → <strong>Sargans</strong> (≈50 min, IC/IR) or → <strong>Bad Ragaz</strong> (≈55 min).</li><li>From Sargans: Postbus 190 to <strong>Wangs, Pizolbahnen</strong> (≈10 min).</li><li>From Bad Ragaz: local bus or short taxi to Wangs cable-car base, or use the Bad Ragaz gondola.</li><li>Plan via <a href="https://www.sbb.ch/en" target="_blank">sbb.ch</a>. The Pizolbahnen timetable and summer operating hours are at <a href="https://pizol.com/planen-buchen/betriebszeiten-sommer/" target="_blank">pizol.com</a>.</li></ul>
+  </section>
+
+  <section>
+    <h2>Day Plan — cable car option (recommended)</h2>
+    <table>
+      <tr><th>Time</th><th>Step</th></tr>
+      <tr><td>~07:00</td><td>Train Zürich HB → Sargans</td></tr>
+      <tr><td>~07:50</td><td>Arrive Sargans; bus to Wangs Pizolbahnen (≈10 min)</td></tr>
+      <tr><td>~08:15–08:45</td><td>First cable car to Pizolhütte (2227 m)</td></tr>
+      <tr><td>~09:00</td><td>Leave Pizolhütte — start 5-lakes circuit</td></tr>
+      <tr><td>~09:30</td><td>Schwarzsee (2157 m)</td></tr>
+      <tr><td>~10:15</td><td>Baschalvasee (2232 m)</td></tr>
+      <tr><td>~11:00</td><td>Schottensee (2244 m)</td></tr>
+      <tr><td>~11:45</td><td>Pizolsee (2400 m) — highest lake</td></tr>
+      <tr><td>~12:30</td><td>Wildsee (2390 m)</td></tr>
+      <tr><td>~13:30–14:30</td><td>Optional: Pizol summit (2844 m) — +1 h up, +45 min down</td></tr>
+      <tr><td>~15:00</td><td>Return to Pizolhütte — lunch or early afternoon coffee</td></tr>
+      <tr><td>~16:00</td><td>Last cable car down to Wangs</td></tr>
+      <tr><td>~17:00–18:30</td><td>Bus → Sargans → train back to Zürich</td></tr>
+    </table>
+    <p>Check cable-car operating hours in advance at <a href="https://pizol.com/planen-buchen/betriebszeiten-sommer/" target="_blank">pizol.com</a>. First gondola is typically 08:00–08:30 in summer; last descent by ~16:30–17:00.</p>
+  </section>
+</div>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="attrib">
+    Forecast modeled at 2844 m (summit coordinates) via
+    <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.
+    Temps are summit-level; valley will be ~15 °C warmer. Always cross-check
+    <a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> before going.
+  </p>
+  <h3>Lapse-rate temperature estimate</h3>
+  <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
+  <ul>
+    <li><strong>Valley reference:</strong> Wangs / Bad Ragaz, ~500 m.</li>
+    <li><strong>Summit:</strong> 2844 m → ~2340 m above the reference → subtract ~<strong>15 °C</strong>.</li>
+    <li>Example: valley forecast 15–25 °C → Pizol summit ≈ <strong>0 °C to +10 °C</strong>. Lakes at 2200–2400 m will be ~8–9 °C cooler than the valley.</li>
+    <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
+  </ul>
+  <h3>Sources to check</h3>
+  <ul>
+    <li><a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> — best Swiss forecast. Use the <em>Bad Ragaz</em> or <em>Wangs</em> point; select the mountain layer for summit conditions.</li>
+    <li><a href="https://www.meteoblue.com/en/weather/week/bad-ragaz_switzerland" target="_blank">Meteoblue Bad Ragaz</a> — hour-by-hour forecast with webcam links.</li>
+    <li><a href="https://pizol.com/aktuell/wetter/" target="_blank">pizol.com weather page</a> — conditions report from the Pizolhütte station.</li>
+    <li>The ridge above 2600 m is fully exposed. Thunderstorms build fast in the St. Gallen Alps — descend or shelter in Pizolhütte if convective cloud develops.</li>
+  </ul>
+  <h3>Snow / season</h3>
+  <p><strong>Summer hike only.</strong> Best window: late June to mid-October. The lakes may still be partially frozen and the paths icy in early June — check the Bergsommerbericht on pizol.com.</p>
+</section>
+
+<section>
+  <h2>Webcams</h2>
+  <div class="webcam-grid" id="webcams"></div>
+  <p class="attrib">
+    Webcam images © their respective operators
+    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
+    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
+    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats"></div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).</p>
+</section>
+
+<section>
+  <h2>Trip Reports (hikr.org)</h2>
+  <h3>Key takeaways</h3>
+  <div class="trip-takeaways">
+    <ul>
+      <li>The cable car is the key logistical decision: Pizolbahnen runs from both <strong>Wangs</strong> and <strong>Bad Ragaz</strong> — the Bad Ragaz gondola has a longer ride and slightly more scenic approach, but Wangs is faster from Sargans by bus. Book or check operating hours in advance in shoulder season.</li>
+      <li>The five lakes are best done <strong>counter-clockwise</strong> (Schwarzsee → Baschalvasee → Schottensee → Pizolsee → Wildsee) so the steeper sections are ascents not descents, and you arrive at Wildsee with maximum energy for the optional Pizol summit push.</li>
+      <li>By late August the Pizolsee shrinks noticeably — earlier in summer (July) gives higher water levels and more dramatic reflections. The Schwarzsee is darkest in the morning when shadows pool in its cirque.</li>
+      <li>The summit of Pizol (T3) is a short but genuine scramble on good granite — poles should be stowed for the final section. Views extend to the Rheintal, Liechtenstein, Säntis, and on perfect days the Bernina massif to the south-east.</li>
+    </ul>
+  </div>
+  <h3>Recent reports</h3>
+  <div class="trip-reports">
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/dir/Pizol_1009/" target="_blank" rel="noopener">Pizol 5-Seen-Wanderung: alle fünf Seen in einem Tag</a>
+        · <time>summer</time> · <span class="pill t2">T2</span>
+      </header>
+      <ul>
+        <li>Classic counter-clockwise circuit from Pizolhütte: Schwarzsee first, then the upper trio of lakes before Wildsee.</li>
+        <li>Trail well-marked throughout; even on busy summer weekends the circuit never feels crowded beyond the Pizolsee viewpoint.</li>
+        <li>The Schottensee section offers the most dramatic views of the Pizol ridge towering overhead.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/dir/Pizol_1009/" target="_blank" rel="noopener">5-Seen + Pizol Gipfel: T3-Erweiterung lohnt sich</a>
+        · <time>summer</time> · <span class="pill t3">T3</span>
+      </header>
+      <ul>
+        <li>After Wildsee, the Pizol summit path is signed and in good condition — short scramble at T3 on solid rock.</li>
+        <li>Summit view is among the best in the eastern Swiss Alps: Säntis, Churfirsten, Silvretta, and the long Rhine Valley below.</li>
+        <li>Allow an extra 2 h and start by 08:30 to be off the exposed summit before afternoon convection.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/dir/Pizol_1009/" target="_blank" rel="noopener">Pizol von Wangs zu Fuß — ohne Seilbahn</a>
+        · <time>summer</time> · <span class="pill t3">T2–T3</span>
+      </header>
+      <ul>
+        <li>Full ascent from Wangs via Pardiel, Gaffia, Laufböden: a genuine mountain day of ~2340 m gain.</li>
+        <li>The lower valley path through Wangs' farming hamlets is pleasant but long — factor in ~3 h before you even reach Pizolhütte.</li>
+        <li>Descent via Furt offers a different perspective; public bus back from Wangs in the evening.</li>
+      </ul>
+    </article>
+  </div>
+  <p class="attrib">
+    Trip reports © their respective authors on
+    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
+    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
+    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
+  </p>
+</section>
+
+<div class="grid-2">
+  <section>
+    <h2>Gear Checklist</h2>
+    <h3>Mandatory</h3>
+    <ul>
+      <li>Sturdy hiking boots (B-grade, ankle support) — trail is rocky at the lakes</li>
+      <li>2–3 L water + electrolytes (no reliable water source between lakes)</li>
+      <li>Food + emergency snack</li>
+      <li>Sun protection: hat, sunglasses, SPF 30+ (high UV above 2200 m)</li>
+      <li>Layers: base + insulating + windproof / rainproof shell (lake saddles can be cold and windy)</li>
+      <li>Hat + gloves if going to the Pizol summit</li>
+      <li>Headlamp</li>
+      <li>Phone with offline SwissTopo map + GPX</li>
+      <li>Small first-aid kit</li>
+      <li>Cash / card for Pizolhütte café and cable car</li>
+    </ul>
+    <h3>Recommended</h3>
+    <ul>
+      <li>Trekking poles (helpful on descent from Pizol summit)</li>
+      <li>Power bank</li>
+      <li>Camera — the five lakes each reward wide-angle shots</li>
+      <li>Binoculars — ibex are common on the Pizol ridge in summer</li>
+    </ul>
+    <h3>Pizol summit only</h3>
+    <ul>
+      <li>Helmet not required but T3 scramble means poles should be stowed</li>
+      <li>Gloves for wind on the ridge</li>
+      <li>Extra 30 min buffer in your schedule</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Safety &amp; Hazards</h2>
+    <ul>
+      <li><strong>Lightning:</strong> the ridge above Pizolhütte is fully exposed. Check MeteoSwiss before departure and descend to the hütte if convective cloud builds.</li>
+      <li><strong>Early-season ice:</strong> the Wildseelugge saddle and paths near Pizolsee can be icy in early summer — microspikes recommended before mid-July.</li>
+      <li><strong>Crowds:</strong> the 5-Seen-Wanderung is one of Switzerland's most popular hikes. Weekday starts avoid the worst congestion near the lakes.</li>
+      <li><strong>T3 summit scramble:</strong> the Pizol summit section requires sure-footedness on good rock. Not recommended in wet conditions or for children without alpine experience.</li>
+      <li><strong>Cable car schedule:</strong> missing the last gondola means a 1700 m descent on foot — always note the last departure time.</li>
+      <li><strong>Phone reception:</strong> good at Pizolhütte and on the ridge; patchy in some lake cirques. Download maps offline.</li>
+      <li><strong>Emergency:</strong> Rega <strong>1414</strong> · European emergency <strong>112</strong>. Pizolhütte has a phone.</li>
+      <li>This is a <strong>summer route only.</strong> Winter and early-spring conditions involve avalanche terrain on the upper slopes.</li>
+    </ul>
+  </section>
+</div>
+
+<section>
+  <h2>Resources &amp; Links</h2>
+  <ul>
+    <li><a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizol-4978/mountain-hiking/" target="_blank">SAC Route Portal — Pizol 5-Seen-Wanderung</a></li>
+    <li><a href="https://pizol.com/sommer/wandern/" target="_blank">Pizolbahnen — summer hiking info (pizol.com)</a></li>
+    <li><a href="https://pizol.com/planen-buchen/betriebszeiten-sommer/" target="_blank">Pizolbahnen — summer cable-car timetable</a></li>
+    <li><a href="https://pizol.com/sommer/hutten-restaurants/pizolhuette/" target="_blank">Pizolhütte SAC (2227 m) — info, opening dates, overnight booking</a></li>
+    <li><a href="https://www.hikr.org/dir/Pizol_1009/" target="_blank">Trip reports &amp; photos (hikr.org, German)</a></li>
+    <li><a href="https://de.wikipedia.org/wiki/Pizol" target="_blank">German Wikipedia — Pizol</a></li>
+    <li><a href="https://map.geo.admin.ch/?lang=en&amp;topic=ech&amp;zoom=12&amp;E=2751000&amp;N=1198000&amp;crosshair=marker&amp;layers=ch.swisstopo.swisstlm3d-wanderwege" target="_blank">SwissTopo viewer (centered on Pizol)</a></li>
+    <li><a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss — Swiss weather forecast</a></li>
+    <li><a href="https://www.meteoblue.com/en/weather/week/bad-ragaz_switzerland" target="_blank">Meteoblue Bad Ragaz</a></li>
+    <li><a href="https://www.sbb.ch/en" target="_blank">SBB timetable (trains to Sargans / Bad Ragaz)</a></li>
+    <li>Swiss alpine rescue (Rega): <strong>1414</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Disclaimer</h2>
+  <p>Compiled from the SAC Route Portal, German Wikipedia, Pizolbahnen, and hikr.org references. <strong>Not professional mountain-safety advice.</strong> Conditions in the Alps change rapidly — glacial retreat has altered some paths near the lakes in recent years. Always re-check MeteoSwiss, the SAC situation warnings, cable-car operating status, and any trail closures before setting out.</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+  </div>
+</footer>
+
+<script src="_config.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="pizol.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.985, lon: 9.393, elev: 2844, name: "Pizol" },
+  trailhead: { lat: 46.966, lon: 9.401, name: "Wangs" },
+  transit_dest: "Wangs, Switzerland",
+  hikr_index_url: "https://www.hikr.org/dir/Pizol_1009/",
+  gpx_filename: "pizol.gpx",
+  reports_updated: "2026-05-09",
+  page_generated: "2026-05-09",
+  webcams: [{"fallback": false, "label": "Pizol \u2014 summit webcam looking north toward Bad Ragaz and the Rhine Valley. Best direct view of summit conditions.", "url": "https://www.foto-webcam.eu/webcam/pizol/current/1200.jpg"}, {"fallback": false, "label": "Wildhaus / Gamserrugg (Toggenburg) \u2014 ~30 km north-west; useful indicator of approaching north-side weather and visibility over the St. Gallen Alps.", "url": "https://www.foto-webcam.eu/webcam/wildhaus/current/1200.jpg"}, {"fallback": true, "label": "Meteoblue webcams near Bad Ragaz (link only \u2014 Meteoblue blocks iframe embedding).", "url": "https://www.meteoblue.com/en/weather/webcams/bad-ragaz_switzerland"}],
+  waypoints: [
+    [46.966, 9.401, "Wangs (~506 m) \u2014 cable car base", "start"],
+    [46.969, 9.387, "Pizolh\u00fctte (2227 m) \u2014 cable car top station", "way"],
+    [46.972, 9.38, "Schwarzsee (2157 m)", "way"],
+    [46.979, 9.373, "Baschalvasee (2232 m)", "way"],
+    [46.981, 9.37, "Schottensee (2244 m)", "way"],
+    [46.985, 9.378, "Pizolsee (2400 m)", "way"],
+    [46.983, 9.39, "Wildsee (2390 m)", "way"],
+    [46.985, 9.393, "Pizol summit (2844 m)", "summit"]
+  ]
+};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

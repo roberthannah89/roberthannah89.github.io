@@ -1,13 +1,13 @@
 {
   "slug": "hohturli-bluemlisalphuette",
   "page": {
-    "title": "Hoht\u00fcrli & Bl\u00fcemlisalph\u00fctte (2778 m) \u2014 Hike Plan",
+    "title": "Hohtürli & Blüemlisalphütte (2778 m) — Hike Plan",
     "generated": "2026-05-09",
     "reports_updated": "2026-05-09",
     "year": 2026
   },
   "peak": {
-    "name": "Hoht\u00fcrli",
+    "name": "Hohtürli",
     "elev": 2778,
     "lat": 46.475,
     "lon": 7.745
@@ -17,7 +17,7 @@
     "canton": "Bern",
     "distance": "11.2 km",
     "gain": "1200 m",
-    "time": "5\u20136.5 h",
+    "time": "5–6.5 h",
     "pill_class": "t3"
   },
   "trailhead": {
@@ -28,11 +28,11 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Hoht%C3%BCrli_Pass.jpg",
-    "subtitle_html": "Photo \u00a9 UCaetano (CC BY-SA 4.0)",
+    "image_url": "https://f.hikr.org/files/3618365l.jpg",
+    "subtitle_html": "Photo via hikr.org - Hohtürli and Blüemlisalp",
     "grade": "T3"
   },
-  "intro_html": "<p>Traverse to Switzerland's highest pass in the Bernese Alps, passing turquoise Oeschinensee and the historic Bl\u00fcemlisalph\u00fctte hut. Spectacular alpine panorama.</p>",
+  "intro_html": "<p>Traverse to Switzerland's highest pass in the Bernese Alps, passing turquoise Oeschinensee and the historic Blüemlisalphütte hut. Spectacular alpine panorama.</p>",
   "quick_facts": [
     [
       "Summit elevation",
@@ -57,29 +57,35 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Hoht%C3%BCrli_Pass.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Hoht%C3%BCrli_Pass.jpg",
-      "alt": "View 1 of Hohturli Bluemlisalphuette",
-      "caption_html": "<p>Photo \u00a9 UCaetano (CC BY-SA 4.0)</p>"
+      "url": "https://f.hikr.org/files/3618365l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3618365.jpg",
+      "alt": "Hohtürli ridge and Blüemlisalp from the hike",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Oeschinen_Lake%2C_Kandersteg%2C_Switzerland.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Oeschinen_Lake%2C_Kandersteg%2C_Switzerland.jpg",
-      "alt": "View 2 of Hohturli Bluemlisalphuette",
-      "caption_html": "<p>Photo \u00a9 Dino Reichmuth (CC0 - Oeschinen Lake)</p>"
+      "url": "https://f.hikr.org/files/3546499l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3546499.jpg",
+      "alt": "Alpine meadow towards Blüemlisalp",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Oeschinen_Lake_in_the_Bernese_Oberland.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Oeschinen_Lake_in_the_Bernese_Oberland.jpg",
-      "alt": "View 3 of Hohturli Bluemlisalphuette",
-      "caption_html": "<p>Photo \u00a9 Yuuuuk 10 (CC BY-SA 4.0)</p>"
+      "url": "https://f.hikr.org/files/2951648l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2951648.jpg",
+      "alt": "Summit view from Hohtürli",
+      "caption_html": "<p>Photo via hikr.org</p>"
+    },
+    {
+      "url": "https://f.hikr.org/files/2749942l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2749942.jpg",
+      "alt": "Oeschinen Lake valley from ridge",
+      "caption_html": "<p>Photo via hikr.org</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "Kandersteg \u2192 Oeschinen Lake \u2192 Oeschinen Pass \u2192 Bl\u00fcemlisalph\u00fcette \u2192 Hoht\u00fcrli Pass (classical T3 traverse)",
+      "title_html": "Kandersteg → Oeschinen Lake → Oeschinen Pass → Blüemlisalphüette → Hohtürli Pass (classical T3 traverse)",
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
@@ -88,7 +94,7 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "Train: Bern HB \u2192 Frutigen (30 min) \u2192 Kandersteg (10 min). Plan via sbb.ch \u2014 typically a direct regional train from Bern. Kandersteg is a car-free mountain village with shuttle buses from the main parking area to the trailhead.",
+    "by_pt_html": "Train: Bern HB → Frutigen (30 min) → Kandersteg (10 min). Plan via sbb.ch — typically a direct regional train from Bern. Kandersteg is a car-free mountain village with shuttle buses from the main parking area to the trailhead.",
     "by_car_html": "Drive to Kandersteg via the A6 freeway from Frutigen (Bern direction). Follow regional roads toward the Oeschinen valley. Pay parking is available at the Kandersteg trailhead area near the lake access."
   },
   "day_plans": [
@@ -108,22 +114,22 @@
       "valley_ref": "Kandersteg, 1520 m",
       "summit_above_ref_m": 2178,
       "temp_drop_c": 13.1,
-      "example_html": "Example: 20 \u00b0C at Kandersteg \u2192 ~7 \u00b0C at Hoht\u00fcrli summit"
+      "example_html": "Example: 20 °C at Kandersteg → ~7 °C at Hohtürli summit"
     },
     "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
     ],
-    "season_html": "July\u2013September is the main season; the hut is typically open from mid-June to mid-October. Snow can linger into July; avoid after fresh snowfall as the pass terrain becomes serious."
+    "season_html": "July–September is the main season; the hut is typically open from mid-June to mid-October. Snow can linger into July; avoid after fresh snowfall as the pass terrain becomes serious."
   },
   "webcams": [
     {
       "url": "https://www.foto-webcam.eu/webcam/kandersteg-sonnenbuehl/current/1200.jpg",
-      "label": "Kandersteg Sonnenb\u00fchl \u2014 panorama across the Oeschinen valley"
+      "label": "Kandersteg Sonnenbühl — panorama across the Oeschinen valley"
     },
     {
       "url": "https://www.foto-webcam.eu/webcam/adelboden/current/1200.jpg",
-      "label": "Adelboden \u2014 regional view of the Bernese Oberland peaks"
+      "label": "Adelboden — regional view of the Bernese Oberland peaks"
     }
   ],
   "elev_chart_attrib_html": "",
@@ -136,18 +142,18 @@
     "reports": [
       {
         "url": "https://www.hikr.org/tour/post165432.html",
-        "title": "Kandersteg to Hoht\u00fcrli \u2014 Alpine traverse",
+        "title": "Kandersteg to Hohtürli — Alpine traverse",
         "season": "August 2024",
         "grade": "T3",
         "bullets_html": [
           "<li>Oeschinen Pass section steady but rewarding</li>",
-          "<li>Bl\u00fcemlisalph\u00fcette hut booking essential July\u2013August</li>",
+          "<li>Blüemlisalphüette hut booking essential July–August</li>",
           "<li>Exposed alpine ridge with cairns; wind can be extreme</li>"
         ]
       },
       {
         "url": "https://www.hikr.org/tour/post158765.html",
-        "title": "Oeschinen Pass to Bl\u00fcemlisalph\u00fcette hut overnight",
+        "title": "Oeschinen Pass to Blüemlisalphüette hut overnight",
         "season": "July 2024",
         "grade": "T3",
         "bullets_html": [
@@ -167,11 +173,11 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
-    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Hoht\u00fcrli & Bl\u00fcemlisalph\u00fctte</a>",
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Hohtürli & Blüemlisalphütte</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
   ],
