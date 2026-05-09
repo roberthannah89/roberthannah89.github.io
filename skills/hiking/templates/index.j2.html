@@ -270,6 +270,43 @@
     main { padding: 1rem .75rem 2rem; }
     .filter-label { min-width: 100%; margin-bottom: .15rem; }
   }
+  /* ---- Map weather-day toggle ---- */
+  .map-day-bar {
+    display: flex; align-items: center; gap: .5rem;
+    margin-bottom: .5rem; flex-wrap: wrap;
+  }
+  .map-day-label { color: var(--fg-dim); font-size: .82rem; }
+  .map-day-btns { display: flex; gap: .3rem; flex-wrap: wrap; }
+  .map-day-btn {
+    padding: .2rem .65rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-soft);
+    color: var(--fg);
+    font-size: .78rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .12s;
+  }
+  .map-day-btn:hover { background: var(--bg-soft-2); }
+  .map-day-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  /* Weather pin markers inside Leaflet */
+  .hm-pin {
+    background: var(--bg-soft, #14161c);
+    border: 2px solid var(--accent, #ff5c5c);
+    border-radius: 8px;
+    padding: 2px 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    cursor: pointer;
+  }
+  .hm-icon { font-size: 1rem; line-height: 1; }
+  .hm-temp { font-size: .72rem; color: #e8e8ea; font-weight: 600; }
+
 </style>
 </head>
 <body>
@@ -280,7 +317,13 @@
 </header>
 
 <main>
-  <div id="map" aria-label="Map of all hikes"></div>
+  <div class="map-day-bar">
+  <span class="map-day-label">Weather on map:</span>
+  <div class="map-day-btns" id="mapDayBtns">
+    <button class="map-day-btn" disabled style="opacity:.5">Loading forecast…</button>
+  </div>
+</div>
+<div id="map" aria-label="Map of all hikes"></div>
 
   <div class="filters" id="filters">
     <div class="filter-group" data-filter="grade">
@@ -496,15 +539,51 @@ function cantonColor(canton) {
 
 const markers = [];
 const latlngs = [];
+const weatherByHike = [];  // weatherByHike[hikeIdx][dayIdx] = {icon, label, tmax}
+let mapDayActive = 1;      // default: tomorrow
+
+function makeWeatherPin(emoji, temp) {
+  const inner = (emoji && emoji !== '·')
+    ? `<span class="hm-icon">${emoji}</span><span class="hm-temp">${temp}°</span>`
+    : `<span class="hm-icon" style="opacity:.3">📍</span>`;
+  return L.divIcon({
+    className: '',
+    html: `<div class="hm-pin">${inner}</div>`,
+    iconSize: null, iconAnchor: [28, 20], popupAnchor: [0, -26],
+  });
+}
+
+function setMapDay(dayIdx) {
+  mapDayActive = dayIdx;
+  document.querySelectorAll('.map-day-btn').forEach((btn, i) =>
+    btn.classList.toggle('active', i === dayIdx));
+  HIKES.forEach((h, i) => {
+    const m = markers[i];
+    if (!m) return;
+    const wd = weatherByHike[i];
+    if (!wd || !wd[dayIdx]) return;
+    m.setIcon(makeWeatherPin(wd[dayIdx].icon, wd[dayIdx].tmax));
+  });
+}
+
+function updateMapDayBtns(dates) {
+  const bar = document.getElementById('mapDayBtns');
+  if (!bar) return;
+  bar.innerHTML = '';
+  dates.forEach((date, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'map-day-btn' + (i === mapDayActive ? ' active' : '');
+    const label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : fmtDow(date);
+    btn.textContent = `${label} · ${new Date(date + 'T00:00').toLocaleDateString(undefined, {month:'short', day:'numeric'})}`;
+    btn.onclick = () => setMapDay(i);
+    bar.appendChild(btn);
+  });
+}
+
 HIKES.forEach((h, i) => {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
-  const color = cantonColor(h.canton);
-  const m = L.circleMarker([h.lat, h.lon], {
-    radius: 9,
-    fillColor: color,
-    color: "#fff",
-    weight: 2,
-    fillOpacity: 0.92,
+  const m = L.marker([h.lat, h.lon], {
+    icon: makeWeatherPin('·', ''),
   });
   const popup = `
     ${h.photo ? `<img src="${escAttr(h.photo)}" alt="">` : ""}
@@ -548,6 +627,7 @@ function highlightMarker(i, on) {
 
 /* ------------- weather ------------- */
 async function loadWeather() {
+  let mapDayBtnsSet = false;
   await Promise.all(HIKES.map(async (h, i) => {
     const strip = document.querySelector(`.weather-strip[data-hike="${i}"]`);
     if (!strip) return;
@@ -574,9 +654,13 @@ async function loadWeather() {
           <div class="icon">${icon}</div>
           <div class="tmax">${tmax}°</div>
         </div>`;
+        if (!weatherByHike[i]) weatherByHike[i] = {};
+        weatherByHike[i][d] = { icon, label, tmax };
+        if (d === mapDayActive && markers[i]) markers[i].setIcon(makeWeatherPin(icon, tmax));
       }
       strip.classList.remove("loading");
       strip.innerHTML = html;
+      if (!mapDayBtnsSet) { updateMapDayBtns(days.time); mapDayBtnsSet = true; }
     } catch (e) {
       strip.classList.remove("loading");
       strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
