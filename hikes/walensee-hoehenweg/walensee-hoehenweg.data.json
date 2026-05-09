@@ -18,7 +18,9 @@
     "distance": "~18 km",
     "gain": "~800 m",
     "time": "~6–7 h",
-    "pill_class": "t2"
+    "pill_class": "t2",
+    "transit": "excellent",
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Walenstadt",

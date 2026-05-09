@@ -18,7 +18,9 @@
     "distance": "~12 km",
     "gain": "~1260 m",
     "time": "~6–7 h",
-    "pill_class": "t4"
+    "pill_class": "t4",
+    "transit": "excellent",
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Wasserauen",

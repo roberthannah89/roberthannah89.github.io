@@ -381,6 +381,33 @@
       <button class="filter-btn" data-value="cool">5–15°</button>
       <button class="filter-btn" data-value="warm">&gt; 15°</button>
     </div>
+    <div class="filter-group" data-filter="elev">
+      <span class="filter-label">Summit</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="low">≤ 2000 m</button>
+      <button class="filter-btn" data-value="mid">2001–2500 m</button>
+      <button class="filter-btn" data-value="high">&gt; 2500 m</button>
+    </div>
+    <div class="filter-group" data-filter="time">
+      <span class="filter-label">Hike time</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="short">≤ 4 h</button>
+      <button class="filter-btn" data-value="medium">4–7 h</button>
+      <button class="filter-btn" data-value="long">&gt; 7 h</button>
+    </div>
+    <div class="filter-group" data-filter="route">
+      <span class="filter-label">Route type</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="loop">Loop</button>
+      <button class="filter-btn" data-value="out-and-back">Out &amp; back</button>
+      <button class="filter-btn" data-value="point-to-point">Point-to-point</button>
+    </div>
+    <div class="filter-group" data-filter="transit">
+      <span class="filter-label">Transit</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="excellent">🚂 Excellent</button>
+      <button class="filter-btn" data-value="good">🚌 Good</button>
+    </div>
   </div>
 
   <div class="grid" id="grid"><!-- cards injected by JS --></div>
@@ -405,6 +432,15 @@ const HIKES = {{ hikes | tojson }};
 function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
 function gradeNum(g) { const m = String(g).match(/T(\d)/); return m ? parseInt(m[1], 10) : 0; }
 function parseNum(s) { const m = String(s || "").match(/([\d.]+)/); return m ? parseFloat(m[1]) : NaN; }
+function parseHours(s) {
+  if (!s) return NaN;
+  // handle "~6 h", "~5–6 h", "2 days", "~7–8 h (or overnight)"
+  if (/day/i.test(s)) return 12;  // treat multi-day as >7h
+  const m = String(s).match(/([\d.]+)\s*[–-]\s*([\d.]+)/);
+  if (m) return (parseFloat(m[1]) + parseFloat(m[2])) / 2;
+  const m2 = String(s).match(/([\d.]+)/);
+  return m2 ? parseFloat(m2[1]) : NaN;
+}
 function isMultiDay(t) {
   const s = String(t).toLowerCase();
   const m = s.match(/(\d+(?:\.\d+)?)\s*day/);
@@ -440,6 +476,10 @@ HIKES.forEach((h, i) => {
   card.dataset.canton = (h.canton || "").toLowerCase();
   card.dataset.dist = parseNum(h.distance);
   card.dataset.gain = parseNum(h.gain);
+  card.dataset.elev = parseNum(h.elev);
+  card.dataset.timeH = parseHours(h.time);
+  card.dataset.route = (h.route_type || "").toLowerCase();
+  card.dataset.transit = (h.transit || "").toLowerCase();
   card.innerHTML = `
     <div class="photo-wrap">
       ${h.photo ? `<img src="${escAttr(h.photo)}" alt="${escAttr(h.name)}" loading="lazy">` : ""}
@@ -492,7 +532,7 @@ cantons.forEach(c => {
 });
 
 /* ------------- filtering ------------- */
-const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all" };
+const activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all", transit: "all" };
 document.querySelectorAll(".filter-group").forEach(group => {
   const key = group.dataset.filter;
   group.addEventListener("click", e => {
@@ -557,6 +597,20 @@ function applyFilters() {
       else if (activeFilters.temp === "cool") ok = !isNaN(t) && t >= 5 && t <= 15;
       else if (activeFilters.temp === "warm") ok = !isNaN(t) && t > 15;
     }
+    if (ok && activeFilters.elev !== "all") {
+      const e = parseFloat(card.dataset.elev);
+      if (activeFilters.elev === "low")  ok = !isNaN(e) && e <= 2000;
+      else if (activeFilters.elev === "mid")  ok = !isNaN(e) && e > 2000 && e <= 2500;
+      else if (activeFilters.elev === "high") ok = !isNaN(e) && e > 2500;
+    }
+    if (ok && activeFilters.time !== "all") {
+      const h2 = parseFloat(card.dataset.timeH);
+      if (activeFilters.time === "short")  ok = !isNaN(h2) && h2 <= 4;
+      else if (activeFilters.time === "medium") ok = !isNaN(h2) && h2 > 4 && h2 <= 7;
+      else if (activeFilters.time === "long")   ok = !isNaN(h2) && h2 > 7;
+    }
+    if (ok && activeFilters.route !== "all") ok = card.dataset.route === activeFilters.route;
+    if (ok && activeFilters.transit !== "all") ok = card.dataset.transit === activeFilters.transit;
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
     const idx = parseInt(card.dataset.idx, 10);

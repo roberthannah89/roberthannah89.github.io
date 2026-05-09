@@ -18,7 +18,9 @@
     "distance": "~16 km",
     "gain": "~1460 m",
     "time": "~7–8 h (or overnight)",
-    "pill_class": "t4"
+    "pill_class": "t4",
+    "transit": "good",
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Linthal",

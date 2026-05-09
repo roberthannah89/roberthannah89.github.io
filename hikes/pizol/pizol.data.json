@@ -18,7 +18,9 @@
     "distance": "~12 km",
     "gain": "~900 m",
     "time": "~5–6 h",
-    "pill_class": "t2"
+    "pill_class": "t2",
+    "transit": "good",
+    "route_type": "loop"
   },
   "trailhead": {
     "name": "Wangs",

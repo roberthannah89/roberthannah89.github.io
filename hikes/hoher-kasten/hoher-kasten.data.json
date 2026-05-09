@@ -18,7 +18,9 @@
     "distance": "~8 km",
     "gain": "~1000 m",
     "time": "~4–5 h (or cable car up)",
-    "pill_class": "t2"
+    "pill_class": "t2",
+    "transit": "good",
+    "route_type": "loop"
   },
   "trailhead": {
     "name": "Brülisau",

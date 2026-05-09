@@ -18,7 +18,9 @@
     "distance": "14.8 km",
     "gain": "1730 m",
     "time": "2 days",
-    "pill_class": "t4"
+    "pill_class": "t4",
+    "transit": "excellent",
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Wasserauen",
@@ -34,19 +36,58 @@
   },
   "intro_html": "<blockquote>\"The Lisengrat is the iconic ridge between Rotsteinpass and the Säntis summit — a continuously cabled limestone ridge with breathtaking drops on both sides. The most rewarding way up Säntis.\"<br>— <em>Alpstein guidebook (paraphrased)</em></blockquote><p>The <strong>Lisengrat</strong> is the iconic ridge between Rotsteinpass and the Säntis summit — a continuously cabled traverse that defines the SAC <strong>T4</strong> grade of this route. The moves themselves are reasonable when dry; the grade comes from the exposure. After rain or snowfall the ridge becomes \"quickly precarious.\"</p>",
   "quick_facts": [
-    ["Summit elevation", "<strong>2502 m</strong> (2501.9 m on official cadastre)"],
-    ["Range", "Alpstein subrange of the Appenzell Alps"],
-    ["Cantons (tri-canton point)", "Appenzell Ausserrhoden / Appenzell Innerrhoden / St. Gallen"],
-    ["Valleys", "<strong>Schwendetal</strong> (E, Wasserauen 868 m) / <strong>Schwägalp</strong> (NW, 1352 m) / <strong>Toggenburg</strong> (S, Wildhaus)"],
-    ["Prominence", "<strong>2015 m</strong> — 13th most prominent peak in the Alps"],
-    ["Dominance", "25.78 km → Magerrain"],
-    ["Coordinates", "47°14′58″ N, 9°20′36″ E (CH1903 744178 / 234920)"],
-    ["Activity", "Alpine hiking (Bergwandern, with cabled ridge)"],
-    ["Standard SAC grade", "<span class=\"pill t5\">T4</span> Lisengrat ridge — exposed, secured"],
-    ["Distance", "14.8 km point-to-point (Wasserauen → Säntis → Schwägalp)"],
-    ["Total ascent / descent", "~1730 m gain · ~1250 m descent"],
-    ["Format", "2-day with overnight at Berggasthaus Meglisalp (1517 m)"],
-    ["Nearest village", "Schwende-Rüte / Wasserauen (Appenzell Innerrhoden)"]
+    [
+      "Summit elevation",
+      "<strong>2502 m</strong> (2501.9 m on official cadastre)"
+    ],
+    [
+      "Range",
+      "Alpstein subrange of the Appenzell Alps"
+    ],
+    [
+      "Cantons (tri-canton point)",
+      "Appenzell Ausserrhoden / Appenzell Innerrhoden / St. Gallen"
+    ],
+    [
+      "Valleys",
+      "<strong>Schwendetal</strong> (E, Wasserauen 868 m) / <strong>Schwägalp</strong> (NW, 1352 m) / <strong>Toggenburg</strong> (S, Wildhaus)"
+    ],
+    [
+      "Prominence",
+      "<strong>2015 m</strong> — 13th most prominent peak in the Alps"
+    ],
+    [
+      "Dominance",
+      "25.78 km → Magerrain"
+    ],
+    [
+      "Coordinates",
+      "47°14′58″ N, 9°20′36″ E (CH1903 744178 / 234920)"
+    ],
+    [
+      "Activity",
+      "Alpine hiking (Bergwandern, with cabled ridge)"
+    ],
+    [
+      "Standard SAC grade",
+      "<span class=\"pill t5\">T4</span> Lisengrat ridge — exposed, secured"
+    ],
+    [
+      "Distance",
+      "14.8 km point-to-point (Wasserauen → Säntis → Schwägalp)"
+    ],
+    [
+      "Total ascent / descent",
+      "~1730 m gain · ~1250 m descent"
+    ],
+    [
+      "Format",
+      "2-day with overnight at Berggasthaus Meglisalp (1517 m)"
+    ],
+    [
+      "Nearest village",
+      "Schwende-Rüte / Wasserauen (Appenzell Innerrhoden)"
+    ]
   ],
   "photos": [
     {
@@ -75,11 +116,36 @@
     }
   ],
   "waypoints": [
-    {"lat": 47.2856, "lon": 9.4286, "label": "Wasserauen (868 m)", "kind": "start"},
-    {"lat": 47.2671, "lon": 9.4090, "label": "Seealpsee (1141 m)", "kind": "way"},
-    {"lat": 47.2559, "lon": 9.3855, "label": "Meglisalp (1517 m)", "kind": "way"},
-    {"lat": 47.2494, "lon": 9.3433, "label": "Säntis (2502 m)", "kind": "summit"},
-    {"lat": 47.2561, "lon": 9.3193, "label": "Schwägalp (1352 m)", "kind": "way"}
+    {
+      "lat": 47.2856,
+      "lon": 9.4286,
+      "label": "Wasserauen (868 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.2671,
+      "lon": 9.409,
+      "label": "Seealpsee (1141 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.2559,
+      "lon": 9.3855,
+      "label": "Meglisalp (1517 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.2494,
+      "lon": 9.3433,
+      "label": "Säntis (2502 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 47.2561,
+      "lon": 9.3193,
+      "label": "Schwägalp (1352 m)",
+      "kind": "way"
+    }
   ],
   "routes": [
     {
@@ -120,22 +186,52 @@
       "title": "Day Plan (T4 traverse, 2 days)",
       "subheading": "Day 1 — Wasserauen to Meglisalp",
       "rows": [
-        ["~12:00", "Train Zürich HB → Wasserauen (arrives ~13:50)"],
-        ["~14:00", "Start hiking at Wasserauen (868 m)"],
-        ["~15:00", "Seealpsee (1141 m) — short break, lake views"],
-        ["~16:30", "Berggasthaus Meglisalp (1517 m) — overnight, dinner"]
+        [
+          "~12:00",
+          "Train Zürich HB → Wasserauen (arrives ~13:50)"
+        ],
+        [
+          "~14:00",
+          "Start hiking at Wasserauen (868 m)"
+        ],
+        [
+          "~15:00",
+          "Seealpsee (1141 m) — short break, lake views"
+        ],
+        [
+          "~16:30",
+          "Berggasthaus Meglisalp (1517 m) — overnight, dinner"
+        ]
       ]
     },
     {
       "title": "",
       "subheading": "Day 2 — Meglisalp to Säntis to Schwägalp",
       "rows": [
-        ["~06:30", "Breakfast at Meglisalp; depart ~07:00"],
-        ["~09:30", "Rotsteinpass (2120 m) — Lisengrat begins"],
-        ["~10:30–11:30", "Säntis summit (2502 m) — Lisengrat ~1 h on the ridge"],
-        ["~12:00–12:30", "Summit break; weather check; restaurant if open"],
-        ["~15:00–15:30", "Schwägalp (1352 m) — descent ~2.5–3 h via Tierwies"],
-        ["~16:00", "PostBus 791 to Urnäsch; train back to Zürich"]
+        [
+          "~06:30",
+          "Breakfast at Meglisalp; depart ~07:00"
+        ],
+        [
+          "~09:30",
+          "Rotsteinpass (2120 m) — Lisengrat begins"
+        ],
+        [
+          "~10:30–11:30",
+          "Säntis summit (2502 m) — Lisengrat ~1 h on the ridge"
+        ],
+        [
+          "~12:00–12:30",
+          "Summit break; weather check; restaurant if open"
+        ],
+        [
+          "~15:00–15:30",
+          "Schwägalp (1352 m) — descent ~2.5–3 h via Tierwies"
+        ],
+        [
+          "~16:00",
+          "PostBus 791 to Urnäsch; train back to Zürich"
+        ]
       ],
       "footer_html": "<strong>Earlier start essential</strong> if afternoon storms are forecast — the Lisengrat is a fully exposed ridge and lightning is the dominant hazard on the day."
     }

@@ -17,7 +17,9 @@
     "canton": "Schwyz",
     "distance": "9.5 km",
     "gain": "1200 m",
-    "time": "~6 h"
+    "time": "~6 h",
+    "transit": "good",
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Innerthal",
@@ -33,17 +35,50 @@
   },
   "intro_html": "<blockquote>\"Zindlenspitz is one of the most characteristic mountains of Wägital. Viewed from the valley, it looks so uninviting that you hesitate to choose it as your hiking target. However, the steep limestone tooth is astonishingly easy to climb: T3, which does not even qualify the summit as an alpine hiking summit.\"<br>— <em>SAC Route Portal</em></blockquote><p>Also written <strong>Zindelspitz</strong> / <strong>Zindelnspitz</strong>; the SAC Route Portal uses <strong>Zindlenspitz</strong>. Elevation is 2097 m (the \"2260\" in the SAC URL is an internal ID, not the height).</p>",
   "quick_facts": [
-    ["Summit elevation", "<strong>2097 m</strong>"],
-    ["Range", "Schwyzer Alps (sub-range of the Glarner Alps)"],
-    ["Cantons", "Schwyz (Innerthal) / Glarus (Glarus Nord) — border just east of summit"],
-    ["Valleys", "<strong>Wägital</strong> (NW, Wägitalersee 900 m) / <strong>Oberseetal</strong> (SE)"],
-    ["Prominence", "196 m"],
-    ["Dominance", "1.2 km → Brünnelistock"],
-    ["Coordinates", "47°04′35″ N, 8°57′36″ E (CH1903 715529 / 215037)"],
-    ["Activity", "Mountain hiking (Bergwandern)"],
-    ["Standard SAC grade", "<span class=\"pill t3\">T3</span> steep but non-alpine"],
-    ["Distance", "9.5 km one-way · ~19 km round-trip (from Innerthal)"],
-    ["Nearest village", "Innerthal (Wägital, SZ)"]
+    [
+      "Summit elevation",
+      "<strong>2097 m</strong>"
+    ],
+    [
+      "Range",
+      "Schwyzer Alps (sub-range of the Glarner Alps)"
+    ],
+    [
+      "Cantons",
+      "Schwyz (Innerthal) / Glarus (Glarus Nord) — border just east of summit"
+    ],
+    [
+      "Valleys",
+      "<strong>Wägital</strong> (NW, Wägitalersee 900 m) / <strong>Oberseetal</strong> (SE)"
+    ],
+    [
+      "Prominence",
+      "196 m"
+    ],
+    [
+      "Dominance",
+      "1.2 km → Brünnelistock"
+    ],
+    [
+      "Coordinates",
+      "47°04′35″ N, 8°57′36″ E (CH1903 715529 / 215037)"
+    ],
+    [
+      "Activity",
+      "Mountain hiking (Bergwandern)"
+    ],
+    [
+      "Standard SAC grade",
+      "<span class=\"pill t3\">T3</span> steep but non-alpine"
+    ],
+    [
+      "Distance",
+      "9.5 km one-way · ~19 km round-trip (from Innerthal)"
+    ],
+    [
+      "Nearest village",
+      "Innerthal (Wägital, SZ)"
+    ]
   ],
   "photos": [
     {
@@ -72,8 +107,18 @@
     }
   ],
   "waypoints": [
-    {"lat": 47.1055, "lon": 8.9183, "label": "Innerthal (~915 m)", "kind": "start"},
-    {"lat": 47.0763, "lon": 8.9598, "label": "Zindlenspitz (2097 m)", "kind": "summit"}
+    {
+      "lat": 47.1055,
+      "lon": 8.9183,
+      "label": "Innerthal (~915 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.0763,
+      "lon": 8.9598,
+      "label": "Zindlenspitz (2097 m)",
+      "kind": "summit"
+    }
   ],
   "routes_subtitle": "(from the SAC Route Portal)",
   "routes": [
@@ -107,13 +152,34 @@
     {
       "title": "Day Plan (T3 standard)",
       "rows": [
-        ["~06:30", "Train Zürich HB → Siebnen-Wangen"],
-        ["~08:30", "Bus reaches Innerthal, start hiking (~915 m)"],
-        ["~09:00", "Hohfläschen alp"],
-        ["~12:00–12:30", "Summit Zindlenspitz — ascent ~3.5–4 h"],
-        ["~12:30–13:00", "Lunch / photos at summit"],
-        ["~15:30", "Back at Wägitalersee — descent ~2.5 h"],
-        ["~17:00", "Bus + train back to Zürich"]
+        [
+          "~06:30",
+          "Train Zürich HB → Siebnen-Wangen"
+        ],
+        [
+          "~08:30",
+          "Bus reaches Innerthal, start hiking (~915 m)"
+        ],
+        [
+          "~09:00",
+          "Hohfläschen alp"
+        ],
+        [
+          "~12:00–12:30",
+          "Summit Zindlenspitz — ascent ~3.5–4 h"
+        ],
+        [
+          "~12:30–13:00",
+          "Lunch / photos at summit"
+        ],
+        [
+          "~15:30",
+          "Back at Wägitalersee — descent ~2.5 h"
+        ],
+        [
+          "~17:00",
+          "Bus + train back to Zürich"
+        ]
       ],
       "footer_html": "Earlier start if combining with the trilogy or if afternoon storms are forecast."
     }
@@ -214,7 +280,11 @@
     },
     {
       "title": "Recommended",
-      "items_html": ["Trekking poles", "Power bank", "Whistle"]
+      "items_html": [
+        "Trekking poles",
+        "Power bank",
+        "Whistle"
+      ]
     },
     {
       "title": "Trilogy traverse only",

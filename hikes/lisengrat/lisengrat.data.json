@@ -18,12 +18,14 @@
     "distance": "16.4 km",
     "gain": "1950 m",
     "time": "~7–8 h",
-    "pill_class": "t4"
+    "pill_class": "t4",
+    "transit": "excellent",
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Ebenalp (cable car top, 1640 m)",
     "elev": 1640,
-    "lat": 47.2820,
+    "lat": 47.282,
     "lon": 9.4137,
     "transit_dest": "Wasserauen, Switzerland"
   },
@@ -34,18 +36,54 @@
   },
   "intro_html": "<blockquote>\"The Lisengrat is the iconic ridge between Rotsteinpass and the Säntis summit — a continuously cabled limestone crest with breathtaking drops on both sides. Wet rock turns it lethal.\"<br>— <em>Alpstein guidebook (paraphrased)</em></blockquote><p>This page frames the <strong>Lisengrat ridge itself as a one-day objective</strong>, accessed via the <strong>Ebenalp cable car</strong> for an early start at 1640 m. You skip the ~770 m Wasserauen→Schäfler climb, traverse the Schäfler ridgeline, drop to Mesmer, climb to Rotsteinpass, cross the Lisengrat, summit Säntis, and descend on foot to Schwägalp — all in a single, weather-sensitive day.</p><p><strong>Different from the 2-day plan.</strong> If you'd rather sleep at Berggasthaus Meglisalp and split the day, see the <a href=\"../santis/santis.html\">Wasserauen → Lisengrat → Schwägalp 2-day traverse</a>. This page is the cable-car-assisted day-trip variant — same Lisengrat, longer total distance, no overnight.</p><p><strong>2026 note:</strong> the <strong>Säntis Schwebebahn is closed for renewal all year</strong>. There is <em>no</em> cable-car descent option. You must walk down — to Schwägalp via Tierwies/Wagenlücke (point-to-point), or back over the Lisengrat to Meglisalp/Seealpsee/Wasserauen (loop). Plan accordingly.</p>",
   "quick_facts": [
-    ["Summit elevation", "<strong>2502 m</strong> (Säntis)"],
-    ["Range", "Alpstein subrange of the Appenzell Alps"],
-    ["Cantons (tri-canton point)", "Appenzell Ausserrhoden / Appenzell Innerrhoden / St. Gallen"],
-    ["Approach", "<strong>Ebenalp cable car</strong> from Wasserauen (~6 min, 1640 m top station)"],
-    ["Crux section", "<strong>Lisengrat</strong> — ~1.5–2 km cabled limestone ridge, T4 / via-ferrata grade A"],
-    ["Coordinates (summit)", "47°14′58″ N, 9°20′36″ E (CH1903 744178 / 234920)"],
-    ["Activity", "Alpine hiking (Bergwandern, with cabled exposed ridge)"],
-    ["Standard SAC grade", "<span class=\"pill t4\">T4</span> — Lisengrat ridge defines the grade"],
-    ["Distance", "~16.4 km point-to-point (Ebenalp → Säntis → Schwägalp, OSM-routed)"],
-    ["Total ascent / descent", "~1950 m gain · ~2050 m descent (lots of undulation: Schäfler ridge, Mesmer dip, Rotsteinpass climb)"],
-    ["Format", "Single day, weather-sensitive, early start essential"],
-    ["Cable cars", "<strong>Ebenalp:</strong> open May–Oct, first car ~07:30 (verify season). <strong>Säntis Schwebebahn:</strong> <span class=\"pill t5\">CLOSED 2026</span> for renewal — descend on foot."]
+    [
+      "Summit elevation",
+      "<strong>2502 m</strong> (Säntis)"
+    ],
+    [
+      "Range",
+      "Alpstein subrange of the Appenzell Alps"
+    ],
+    [
+      "Cantons (tri-canton point)",
+      "Appenzell Ausserrhoden / Appenzell Innerrhoden / St. Gallen"
+    ],
+    [
+      "Approach",
+      "<strong>Ebenalp cable car</strong> from Wasserauen (~6 min, 1640 m top station)"
+    ],
+    [
+      "Crux section",
+      "<strong>Lisengrat</strong> — ~1.5–2 km cabled limestone ridge, T4 / via-ferrata grade A"
+    ],
+    [
+      "Coordinates (summit)",
+      "47°14′58″ N, 9°20′36″ E (CH1903 744178 / 234920)"
+    ],
+    [
+      "Activity",
+      "Alpine hiking (Bergwandern, with cabled exposed ridge)"
+    ],
+    [
+      "Standard SAC grade",
+      "<span class=\"pill t4\">T4</span> — Lisengrat ridge defines the grade"
+    ],
+    [
+      "Distance",
+      "~16.4 km point-to-point (Ebenalp → Säntis → Schwägalp, OSM-routed)"
+    ],
+    [
+      "Total ascent / descent",
+      "~1950 m gain · ~2050 m descent (lots of undulation: Schäfler ridge, Mesmer dip, Rotsteinpass climb)"
+    ],
+    [
+      "Format",
+      "Single day, weather-sensitive, early start essential"
+    ],
+    [
+      "Cable cars",
+      "<strong>Ebenalp:</strong> open May–Oct, first car ~07:30 (verify season). <strong>Säntis Schwebebahn:</strong> <span class=\"pill t5\">CLOSED 2026</span> for renewal — descend on foot."
+    ]
   ],
   "photos": [
     {
@@ -74,12 +112,42 @@
     }
   ],
   "waypoints": [
-    {"lat": 47.2820, "lon": 9.4137, "label": "Ebenalp top station (1640 m)", "kind": "start"},
-    {"lat": 47.2760, "lon": 9.3904, "label": "Schäfler (1925 m)", "kind": "way"},
-    {"lat": 47.2633, "lon": 9.3871, "label": "Mesmer (~1600 m)", "kind": "way"},
-    {"lat": 47.2428, "lon": 9.3652, "label": "Rotsteinpass (2120 m)", "kind": "way"},
-    {"lat": 47.2494, "lon": 9.3433, "label": "Säntis (2502 m)", "kind": "summit"},
-    {"lat": 47.2565, "lon": 9.3176, "label": "Schwägalp (1352 m)", "kind": "way"}
+    {
+      "lat": 47.282,
+      "lon": 9.4137,
+      "label": "Ebenalp top station (1640 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.276,
+      "lon": 9.3904,
+      "label": "Schäfler (1925 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.2633,
+      "lon": 9.3871,
+      "label": "Mesmer (~1600 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.2428,
+      "lon": 9.3652,
+      "label": "Rotsteinpass (2120 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 47.2494,
+      "lon": 9.3433,
+      "label": "Säntis (2502 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 47.2565,
+      "lon": 9.3176,
+      "label": "Schwägalp (1352 m)",
+      "kind": "way"
+    }
   ],
   "routes_subtitle": "(both options assume the Säntis Schwebebahn is closed — descent on foot)",
   "routes": [
@@ -128,18 +196,54 @@
       "title": "Day Plan (T4 single day, Route 1)",
       "subheading": "Pre-dawn train · on the ridge by mid-morning · off the ridge by 14:00",
       "rows": [
-        ["~05:30", "Train Zürich HB → Wasserauen (catch the first usable connection — verify on the day)"],
-        ["~07:15", "Arrive Wasserauen (868 m); short walk to Ebenalp cable-car valley station"],
-        ["~07:30", "First Ebenalp cable car up to Ebenalp top station (1640 m)"],
-        ["~08:00", "On the trail at Ebenalp; head W along Schäfler ridge"],
-        ["~09:30", "Schäfler (1925 m) — quick break, water top-up at Berggasthaus Schäfler"],
-        ["~10:30", "Mesmer (~1600 m) — through the Mesmerloch basin"],
-        ["~12:00", "Rotsteinpass (2120 m) — <strong>weather-check decision point</strong>; food. If it's building, bail to Meglisalp."],
-        ["~12:15–13:30", "Lisengrat — cabled traverse to Säntis. <strong>Aim to be off the ridge by 14:00.</strong>"],
-        ["~13:30–14:00", "Säntis summit (2502 m) — short summit break; refill at the restaurant"],
-        ["~14:00", "Begin descent via Tierwies / Wagenlücke (no cable car in 2026)"],
-        ["~16:30–17:00", "Schwägalp (1352 m); PostBus 791 to Urnäsch"],
-        ["~19:00–19:30", "Back in Zürich"]
+        [
+          "~05:30",
+          "Train Zürich HB → Wasserauen (catch the first usable connection — verify on the day)"
+        ],
+        [
+          "~07:15",
+          "Arrive Wasserauen (868 m); short walk to Ebenalp cable-car valley station"
+        ],
+        [
+          "~07:30",
+          "First Ebenalp cable car up to Ebenalp top station (1640 m)"
+        ],
+        [
+          "~08:00",
+          "On the trail at Ebenalp; head W along Schäfler ridge"
+        ],
+        [
+          "~09:30",
+          "Schäfler (1925 m) — quick break, water top-up at Berggasthaus Schäfler"
+        ],
+        [
+          "~10:30",
+          "Mesmer (~1600 m) — through the Mesmerloch basin"
+        ],
+        [
+          "~12:00",
+          "Rotsteinpass (2120 m) — <strong>weather-check decision point</strong>; food. If it's building, bail to Meglisalp."
+        ],
+        [
+          "~12:15–13:30",
+          "Lisengrat — cabled traverse to Säntis. <strong>Aim to be off the ridge by 14:00.</strong>"
+        ],
+        [
+          "~13:30–14:00",
+          "Säntis summit (2502 m) — short summit break; refill at the restaurant"
+        ],
+        [
+          "~14:00",
+          "Begin descent via Tierwies / Wagenlücke (no cable car in 2026)"
+        ],
+        [
+          "~16:30–17:00",
+          "Schwägalp (1352 m); PostBus 791 to Urnäsch"
+        ],
+        [
+          "~19:00–19:30",
+          "Back in Zürich"
+        ]
       ],
       "footer_html": "<strong>Hard cutoffs:</strong> if you're not at Rotsteinpass by 12:30 → bail via Meglisalp; if afternoon convection is building at the Rotsteinpass weather check → do not enter the Lisengrat. The ridge is a 1.5+ km fully exposed knife-edge with steel cables — lightning + wet rock = unsurvivable."
     }

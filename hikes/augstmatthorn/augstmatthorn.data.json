@@ -17,7 +17,9 @@
     "canton": "Bern",
     "distance": "14 km",
     "gain": "1200 m",
-    "time": "~6 h"
+    "time": "~6 h",
+    "transit": "good",
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Habkern",

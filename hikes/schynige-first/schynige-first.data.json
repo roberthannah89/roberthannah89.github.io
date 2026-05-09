@@ -18,7 +18,9 @@
     "distance": "16 km",
     "gain": "600 m",
     "time": "~6 h",
-    "pill_class": "t2"
+    "pill_class": "t2",
+    "transit": "excellent",
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Schynige Platte",

@@ -18,7 +18,9 @@
     "distance": "~14 km",
     "gain": "~1500 m",
     "time": "~6–7 h",
-    "pill_class": "t3"
+    "pill_class": "t3",
+    "transit": "good",
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Braunwald",
