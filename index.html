@@ -20,11 +20,28 @@
   a { color: #c41e1e; text-decoration: none; font-weight: 600; }
   a:hover { text-decoration: underline; }
   .desc { display: block; color: #555; font-weight: 400; font-size: .92rem; margin-top: .15rem; }
+  .video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 0 0 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 </style>
 </head>
 <body>
   <h1>Rob Hannah</h1>
   <p class="tagline">Notes &amp; projects.</p>
+  <div class="video">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/6WKA9oWiR44?autoplay=1&mute=1&loop=1&playlist=6WKA9oWiR44&controls=1&modestbranding=1&playsinline=1&rel=0"
+      title="YouTube video"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
   <ul>
     <li>
       <a href="hikes/">Hike Plans</a>
