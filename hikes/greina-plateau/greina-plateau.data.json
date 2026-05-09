@@ -28,8 +28,8 @@
     "transit_dest": "Vrin via Sumvitg"
   },
   "hero": {
-    "image_url": "TODO: specific hike-distinctive photo",
-    "subtitle_html": "TODO: Find and validate image URL for greina-plateau. See .github/instructions/hike-workflow.instructions.md",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Greina_Panorama.jpg",
+    "subtitle_html": "Photo \u00a9 Whgler - Swiss Tibet panorama (CC BY-SA 4.0)",
     "grade": "T2"
   },
   "intro_html": "<p>The \"Swiss Tibet\": a vast, windswept, tundra-like protected high-altitude plateau offering Alpine solitude and sweeping 360\u00b0 views across the Lepontine Alps. A timeless Alpine crossing through one of Switzerland's most remote and ecologically precious landscapes.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: specific hike-distinctive photo",
-      "lightbox_url": "TODO: high-res version of photo",
-      "alt": "View of greina-plateau",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Greina_Panorama.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Greina_Panorama.jpg",
+      "alt": "View of Greina Plateau",
+      "caption_html": "<p><strong>Whgler</strong> \u2014 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

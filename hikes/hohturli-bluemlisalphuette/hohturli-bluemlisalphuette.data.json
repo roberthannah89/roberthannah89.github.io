@@ -28,8 +28,8 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "TODO: specific hike-distinctive photo",
-    "subtitle_html": "TODO: Find and validate image URL for hohturli-bluemlisalphuette. See .github/instructions/hike-workflow.instructions.md",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/KanderstegLake.jpg",
+    "subtitle_html": "Photo \u00a9 AntoineB31 - Oeschinen Lake (CC BY-SA 4.0)",
     "grade": "T3"
   },
   "intro_html": "<p>Traverse to Switzerland's highest pass in the Bernese Alps, passing turquoise Oeschinensee and the historic Bl\u00fcemlisalph\u00fctte hut. Spectacular alpine panorama.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: specific hike-distinctive photo",
-      "lightbox_url": "TODO: high-res version of photo",
-      "alt": "View of hohturli-bluemlisalphuette",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/KanderstegLake.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/KanderstegLake.jpg",
+      "alt": "View of Hohturli Bluemlisalphuette",
+      "caption_html": "<p><strong>AntoineB31</strong> \u2014 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

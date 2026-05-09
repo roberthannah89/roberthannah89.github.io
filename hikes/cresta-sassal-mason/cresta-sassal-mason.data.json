@@ -28,8 +28,8 @@
     "transit_dest": "Bernina Ospizio"
   },
   "hero": {
-    "image_url": "TODO: specific hike-distinctive photo",
-    "subtitle_html": "TODO: Find and validate image URL for cresta-sassal-mason. See .github/instructions/hike-workflow.instructions.md",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Piz_Pal%C3%BC%2C_Piz_Cambrena_and_Piz_d%27Arlas_as_seen_from_Sassal_Mason.jpg",
+    "subtitle_html": "Photo \u00a9 Capricorn4049 - view from Sassal Mason",
     "grade": "T3"
   },
   "intro_html": "<p>Dramatic glacier and peak views of Piz Pal\u00fc along a spectacular alpine balcony. Walk alongside the UNESCO-listed Bernina Railway, one of Switzerland's most scenic train routes.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: specific hike-distinctive photo",
-      "lightbox_url": "TODO: high-res version of photo",
-      "alt": "View of cresta-sassal-mason",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Piz_Pal%C3%BC%2C_Piz_Cambrena_and_Piz_d%27Arlas_as_seen_from_Sassal_Mason.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Piz_Pal%C3%BC%2C_Piz_Cambrena_and_Piz_d%27Arlas_as_seen_from_Sassal_Mason.jpg",
+      "alt": "View of Cresta Sassal Mason",
+      "caption_html": "<p><strong>Capricorn4049</strong> \u2014 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

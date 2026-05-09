@@ -28,8 +28,8 @@
     "transit_dest": "M\u00fclenen"
   },
   "hero": {
-    "image_url": "TODO: specific hike-distinctive photo",
-    "subtitle_html": "TODO: Find and validate image URL for niesen-kulm. See .github/instructions/hike-workflow.instructions.md",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Niesen_mountain.jpg",
+    "subtitle_html": "Photo \u00a9 Urs Schmid (CC BY-SA 4.0)",
     "grade": "T2"
   },
   "intro_html": "<p>The iconic \"Swiss Pyramid\" \u2013 a relentless 1700 m climb with extraordinary views of Lake Thun and the Bernese Alps. Popular funicular descent option.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: specific hike-distinctive photo",
-      "lightbox_url": "TODO: high-res version of photo",
-      "alt": "View of niesen-kulm",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Niesen_mountain.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Niesen_mountain.jpg",
+      "alt": "View of Niesen Kulm",
+      "caption_html": "<p><strong>Urs Schmid</strong> \u2014 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

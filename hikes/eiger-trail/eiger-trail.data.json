@@ -28,8 +28,8 @@
     "transit_dest": "Alpiglen"
   },
   "hero": {
-    "image_url": "TODO: specific hike-distinctive photo",
-    "subtitle_html": "TODO: Find and validate image URL for eiger-trail. See .github/instructions/hike-workflow.instructions.md",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Eiger_von_der_Abz.Gleckstein.jpg",
+    "subtitle_html": "Photo \u00a9 Patrick Liermann",
     "grade": "T2"
   },
   "intro_html": "<p>Walk beneath the legendary North Face of the Eiger on this famous and relatively easy trail. Stunning views of the Swiss Alps' most iconic rock wall. This descent hike from Eigergletscher to Alpiglen is a must-do for anyone visiting the Jungfrau region.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: specific hike-distinctive photo",
-      "lightbox_url": "TODO: high-res version of photo",
-      "alt": "View of eiger-trail",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Eiger_von_der_Abz.Gleckstein.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Eiger_von_der_Abz.Gleckstein.jpg",
+      "alt": "View of Eiger Trail",
+      "caption_html": "<p><strong>Patrick Liermann</strong> \u2014 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

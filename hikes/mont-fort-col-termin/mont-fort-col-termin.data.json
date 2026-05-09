@@ -28,8 +28,8 @@
     "transit_dest": "Verbier"
   },
   "hero": {
-    "image_url": "TODO: specific hike-distinctive photo",
-    "subtitle_html": "TODO: Find and validate image URL for mont-fort-col-termin. See .github/instructions/hike-workflow.instructions.md",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Verbier_banner_Mont_Fort.jpg",
+    "subtitle_html": "Photo \u00a9 Klaus F\u00f6hl - 360\u00b0 panorama (CC BY-SA 3.0)",
     "grade": "T3"
   },
   "intro_html": "<p>Alpine balcony above Verbier with panoramic views of the Grand Combin and Mont Blanc. A classic Valais high-mountain traverse with excellent accommodation at the historic Cabane du Mont Fort hut.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: specific hike-distinctive photo",
-      "lightbox_url": "TODO: high-res version of photo",
-      "alt": "View of mont-fort-col-termin",
-      "caption_html": "<p><strong>TODO:</strong> Replace with actual hike photo. Per policy: must be specific to this peak/route (not generic Alpine image). See image sourcing checklist in .github/instructions/hike-workflow.instructions.md</p>"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Verbier_banner_Mont_Fort.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Verbier_banner_Mont_Fort.jpg",
+      "alt": "View of Mont Fort Col Termin",
+      "caption_html": "<p><strong>Klaus F\u00f6hl</strong> \u2014 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],
