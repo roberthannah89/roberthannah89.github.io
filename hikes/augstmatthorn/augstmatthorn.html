@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="/favicon-512.png">
+<title>Augstmatthorn (2137 m) — Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=1600'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Augstmatthorn <span style="font-weight:400; opacity:.85;">2137 m</span></h1>
+    <p>Habkern → Lombachalp → Augstmatthorn — <span class="pill t3">SAC T3</span> · ~1200 m gain · ~14 km loop · ~6 h</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <blockquote>"Der Brienzergrat ist einer der schmalsten und ausgesetztesten Grasgrate der Alpen — eine Messerschneide zwischen Brienzersee und Habkerntal mit dramatischen Tiefblicken auf beiden Seiten."<br>— <em>hikr.org (paraphrased)</em></blockquote><p>The <strong>Augstmatthorn</strong> (2137 m) is the eastern signature peak of the <strong>Brienzergrat</strong>, a narrow grass-and-limestone ridge running ~20 km along the north shore of Lake Brienz. Often called a <em>"mini Hardergrat"</em>: same knife-edge grass character as its longer neighbour to the west, but with bailouts that make it accessible as a single-day T3 from Habkern. Famous for resident <strong>ibex</strong> (Steinbock) on the south flank and dramatic 1500 m drops to the lake.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2137 m</strong></td></tr>
+    <tr><th>Range</th><td>Emmental Alps / Brienzergrat (north of Lake Brienz)</td></tr>
+    <tr><th>Cantons</th><td>Bern (Habkern / Brienz / Niederried)</td></tr>
+    <tr><th>Valleys</th><td><strong>Habkerntal</strong> (N, Habkern 1056 m) / <strong>Brienzersee</strong> (S, ~564 m)</td></tr>
+    <tr><th>Prominence</th><td>~117 m</td></tr>
+    <tr><th>Coordinates</th><td>46°44′32″ N, 7°55′43″ E</td></tr>
+    <tr><th>Activity</th><td>Mountain hiking (Bergwandern) — exposed grass ridge</td></tr>
+    <tr><th>Standard SAC grade</th><td><span class="pill t3">T3</span> demanding mountain hiking</td></tr>
+    <tr><th>Distance</th><td>~14 km loop from Habkern · ~6 h moving</td></tr>
+    <tr><th>Total ascent / descent</th><td>~1200 m gain · ~1200 m descent</td></tr>
+    <tr><th>Nearest village</th><td>Habkern (Bern)</td></tr>
+    <tr><th>Wildlife</th><td>Resident ibex colony on the south flank</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ridge_from_Suggiture_130615.JPG?width=600" alt="Augstmatthorn ridge from Suggiture"></a>
+      <figcaption>The Augstmatthorn summit ridge seen from Suggiture along the Brienzergrat — knife-edge grass crest above Lake Brienz.</figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg_zum_Augstmatthorn_hoch_%C3%BCber_dem_Brienzersee.jpg?width=600" alt="Ascent to Augstmatthorn high above Lake Brienz"></a>
+      <figcaption>Ascent to the Augstmatthorn with the 1500 m drop to Lake Brienz directly below.</figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=600" alt="Ibex on the Augstmatthorn"></a>
+      <figcaption>Ibex (Steinbock) are commonly seen on the south flank of the Augstmatthorn, especially in early morning.</figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/AugstmatthornHerbst.jpg?width=600" alt="Augstmatthorn in autumn"></a>
+      <figcaption>Autumn colours along the Brienzergrat — the season extends well into October in dry years.</figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=1600" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg zum Augstmatthorn hoch über dem Brienzersee.jpg?width=1600" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ibex.jpg?width=1600" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/AugstmatthornHerbst.jpg?width=1600" alt=""></a>
+      <p class="attrib">All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)</p>
+</section>
+
+<section>
+  <h2>Getting there (live transit)</h2>
+  <div id="transit-embed" class="transit-embed empty">
+    <iframe id="transit-iframe" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Public transport directions"></iframe>
+  </div>
+  <div class="transit-actions">
+    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
+    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
+  </div>
+  <p class="attrib">
+    Live transit from <span id="transit-origin"></span> to
+    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
+    in <code>_config.js</code>; the deep-link buttons work without one.
+  </p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <strong style="align-self:center;">Layer:</strong>
+    <button data-layer="topo" class="active">Swiss Topo</button>
+    <button data-layer="hike">Topo + Hiking trails</button>
+    <button data-layer="aerial">Aerial photo</button>
+    <button data-layer="osm">OpenStreetMap</button>
+    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Habkern)</span>
+    <span class="summit">Summit (Augstmatthorn)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+
+<section>
+  <h2>Routes (Brienzergrat — north-side ascent from Habkern)</h2>
+  <h3>1. Habkern → Lombachalp → Augstmatthorn (loop) — standard route <span class="pill t3">T3</span></h3>
+  <ul>
+    <li>Start: <strong>Habkern</strong> (1056 m), reached by PostBus 104 from Interlaken West.</li>
+    <li>Up the Lombach valley to <strong>Lombachalp</strong> (~1525 m) — broad pastoral basin, ~2 h of T1/T2 farm tracks and trails.</li>
+    <li>From Lombachalp climb the north flank to the ridge between Suggiture and Augstmatthorn (~2050 m), then follow the <strong>Brienzergrat</strong> east to the summit cross at 2137 m.</li>
+    <li><strong>Ridge character:</strong> narrow grass crest with steep drops south to Lake Brienz; T3 sure-footedness essential, no scrambling required when dry.</li>
+    <li>Descent: reverse the route via Lombachalp, or loop via the Suggiture/Hohgant trail back into the Lombach valley.</li>
+    <li>Total: ~14 km, ~1200 m gain, ~6 h moving.</li>
+  </ul>
+  <h3>2. Brienzergrat traverse — Augstmatthorn → Niederhorn (point-to-point) <span class="pill t3">T3</span></h3>
+  <ul>
+    <li>Continue west from the summit along the full Brienzergrat: Augstmatthorn → Suggiture (2085 m) → Gemmenalphorn (2061 m) → <strong>Niederhorn</strong> (1963 m).</li>
+    <li>~10 km of continuous narrow grass ridge, mostly T3 with short T3+ steps; the easiest end of the Hardergrat family.</li>
+    <li><strong>Bailout:</strong> from any saddle, descend north into the Habkern/Lombach basin (well-marked) or south to the Beatenberg cable-car stations.</li>
+    <li>Finish: ride the <a href="https://niederhorn.ch/" target="_blank" rel="noopener">Niederhorn cable car</a> down to Beatenberg → funicular to Interlaken.</li>
+    <li>Adds ~3–4 h to the day; viable as a one-way variant in good weather, not in fog.</li>
+  </ul>
+  <h3>3. Full Hardergrat traverse — Harder Kulm → Augstmatthorn (extreme) <span class="pill t5">T5</span></h3>
+  <ul>
+    <li>The famous <strong>Hardergrat</strong>: ~22 km of unbroken knife-edge grass from Interlaken to the Augstmatthorn.</li>
+    <li>Sustained T5 exposure on grass — slip-and-die terrain. <strong>Not for beginners under any circumstances.</strong></li>
+    <li>Out of scope for this plan; mentioned as context only.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>SAC Difficulty Refresher</h2>
+  <table>
+    <tr><th>Grade</th><th>Meaning</th></tr>
+    <tr><td>T1</td><td>Hiking</td></tr>
+    <tr><td>T2</td><td>Mountain hiking</td></tr>
+    <tr><td class="hl"><strong>T3</strong></td><td><strong>Demanding mountain hiking</strong> — exposure possible, sure-footedness needed</td></tr>
+    <tr><td>T4</td><td>Alpine hiking — stressful, not for beginners</td></tr>
+    <tr><td>T5</td><td>Demanding alpine hiking — exposure, scrambling, route-finding</td></tr>
+    <tr><td>T6</td><td>Difficult alpine hiking — near-mountaineering</td></tr>
+  </table>
+</section>
+
+<div class="grid-2">
+  <section>
+    <h2>Getting There</h2>
+    <h3>By car</h3>
+    <p>Drive to <strong>Habkern</strong> (Bern) via Interlaken — ~15 km up the Habkerntal road from Interlaken Ost. Free / paid parking at the village or at the upper Lombachalp parking (saves ~1.5 h on foot).</p>
+    <h3>By public transport (recommended)</h3>
+    <ul><li>Train: Zürich HB → Bern → <strong>Interlaken West</strong> (≈2 h end-to-end).</li><li>PostBus <strong>104</strong> Interlaken West → Habkern, Post (~25 min).</li><li>Total Zürich → Habkern: ~2.5 h door-to-door.</li><li>If finishing on the Niederhorn: cable car Niederhorn → <strong>Beatenberg Station</strong> → funicular to Interlaken Ost → train home.</li><li>Plan via <a href="https://www.sbb.ch/en" target="_blank">sbb.ch</a>.</li></ul>
+  </section>
+
+  <section>
+    <h2>Day Plan (T3 single-day loop)</h2>
+    <table>
+      <tr><th>Time</th><th>Step</th></tr>
+      <tr><td>~05:30</td><td>Train Zürich HB → Bern → Interlaken West</td></tr>
+      <tr><td>~07:30</td><td>Interlaken West, board PostBus 104 to Habkern</td></tr>
+      <tr><td>~08:00</td><td>Habkern (1056 m) — start hiking</td></tr>
+      <tr><td>~10:00</td><td>Lombachalp (~1525 m) — pastoral basin, last reliable refill</td></tr>
+      <tr><td>~12:00–12:30</td><td>Augstmatthorn summit (2137 m) — ascent ~4 h</td></tr>
+      <tr><td>~13:00</td><td>Lunch at the cross / start descent</td></tr>
+      <tr><td>~15:30</td><td>Back at Lombachalp</td></tr>
+      <tr><td>~16:30</td><td>Habkern village</td></tr>
+      <tr><td>~17:00–18:00</td><td>PostBus + train back to Zürich</td></tr>
+    </table>
+    <p>Variant: continue the ridge west to <strong>Niederhorn</strong> (~3–4 h additional, T3 sustained) and descend by cable car. Decide at the summit based on weather and time. <strong>Bailouts north into the Lombach basin exist from every saddle.</strong></p>
+  </section>
+</div>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="attrib">
+    Forecast modeled at 2137 m (summit coordinates) via
+    <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.
+    Temps are summit-level; valley will be ~10 °C warmer. Always cross-check
+    <a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> before going.
+  </p>
+  <h3>Lapse-rate temperature estimate</h3>
+  <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
+  <ul>
+    <li><strong>Valley reference:</strong> Interlaken, ~570 m.</li>
+    <li><strong>Summit:</strong> 2137 m → ~1567 m above the reference → subtract ~<strong>10 °C</strong>.</li>
+    <li>Example: Interlaken forecast 12–24 °C → summit ≈ <strong>+2 °C to +14 °C</strong>. Add wind chill — the Brienzergrat is fully exposed.</li>
+    <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
+  </ul>
+  <h3>Sources to check</h3>
+  <ul>
+    <li><a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> — most accurate Swiss forecast (Interlaken or Habkern point).</li>
+    <li><a href="https://www.meteoblue.com/en/weather/week/habkern_switzerland" target="_blank">Meteoblue Habkern</a> — forecast + nearby webcams.</li>
+    <li><strong>Wet grass = no-go.</strong> The Brienzergrat is steep grass on both sides; once wet it becomes a slip hazard and the T3 grade is no longer realistic.</li>
+    <li>Thunderstorms: the ridge is fully exposed for ~10 km. Turn back early if convection is forecast.</li>
+  </ul>
+  <h3>Snow / season</h3>
+  <p><strong>Summer hike only.</strong> Best window: <strong>late June to mid-October</strong>, when the grass is dry and the snow is fully off the north flank. Spring snow lingers on the north side until mid-June.</p>
+</section>
+
+<section>
+  <h2>Webcams</h2>
+  <div class="webcam-grid" id="webcams"></div>
+  <p class="attrib">
+    Webcam images © their respective operators
+    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
+    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
+    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats"></div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from SwissTopo height API).</p>
+</section>
+
+<section>
+  <h2>Trip Reports (hikr.org)</h2>
+  <h3>Key takeaways</h3>
+  <div class="trip-takeaways">
+    <ul>
+      <li>Most reports start from Habkern or the Lombachalp upper parking and reach the summit in 3–4 h.</li>
+      <li>The final ridge from Suggiture to the Augstmatthorn cross is the highlight — ~30–45 min of narrow grass with steep south drops to Lake Brienz.</li>
+      <li>Ibex (Steinbock) sightings on the south flank are very common in the early morning; bring a zoom lens.</li>
+      <li>Continuing west to Niederhorn doubles the ridge time and is highly recommended in stable weather; bailouts exist at every saddle.</li>
+      <li>Universal warning: <strong>do not attempt in or after rain</strong> — the grass becomes unsafe.</li>
+    </ul>
+  </div>
+  <h3>Recent reports</h3>
+  <div class="trip-reports">
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post156234.html" target="_blank" rel="noopener">Augstmatthorn ab Habkern — der schöne Grasgrat</a>
+        · <time>summer</time> · <span class="pill t3">T3</span>
+      </header>
+      <ul>
+        <li>Standard ascent from Habkern via Lombachalp; ~4 h to the summit.</li>
+        <li>Final ridge described as a narrow grass crest with dramatic Brienzersee views.</li>
+        <li>Resident ibex herd encountered on the south flank just below the summit.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post142119.html" target="_blank" rel="noopener">Augstmatthorn — Niederhorn Gratwanderung</a>
+        · <time>summer</time> · <span class="pill t3">T3</span>
+      </header>
+      <ul>
+        <li>Full Brienzergrat traverse east → west: Augstmatthorn → Suggiture → Gemmenalphorn → Niederhorn.</li>
+        <li>~10 km of sustained narrow grass ridge, T3 throughout with a few T3+ steps.</li>
+        <li>Cable car down from Niederhorn to Beatenberg makes the logistics easy.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post98875.html" target="_blank" rel="noopener">Hardergrat — Harder Kulm bis Augstmatthorn</a>
+        · <time>summer</time> · <span class="pill t5">T5</span>
+      </header>
+      <ul>
+        <li>The famous full Hardergrat — 22 km of knife-edge grass from Interlaken to the Augstmatthorn.</li>
+        <li>Sustained T5 exposure on grass; the author emphasises that a slip on the south side is not survivable.</li>
+        <li>Cited as context — most parties should ascend only the Augstmatthorn end from Habkern.</li>
+      </ul>
+    </article>
+  </div>
+  <p class="attrib">
+    Trip reports © their respective authors on
+    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
+    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
+    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
+  </p>
+</section>
+
+<div class="grid-2">
+  <section>
+    <h2>Gear Checklist</h2>
+    <h3>Mandatory</h3>
+    <ul>
+      <li>Sturdy hiking boots with grippy soles (B-grade, ankle support) — grass ridges punish smooth soles</li>
+      <li>2.5–3 L water (no refill on the ridge)</li>
+      <li>Food + emergency snack</li>
+      <li>Sun: hat, sunglasses, SPF 30+ — fully exposed ridge</li>
+      <li>Layers: base + insulating + windproof / rainproof shell</li>
+      <li>Hat + light gloves (summit wind)</li>
+      <li>Headlamp (long day if you continue to Niederhorn)</li>
+      <li>Phone with offline SwissTopo map + GPX</li>
+      <li>Small first-aid kit</li>
+      <li>Cash / card for the PostBus and cable car</li>
+    </ul>
+    <h3>Recommended</h3>
+    <ul>
+      <li>Trekking poles (very useful on grass descent)</li>
+      <li>Power bank</li>
+      <li>Whistle</li>
+      <li>Zoom-capable camera or binoculars (ibex)</li>
+    </ul>
+    <h3>If continuing the full Hardergrat (T5)</h3>
+    <ul>
+      <li>Helmet + via-ferrata-grade focus</li>
+      <li>Rope skills for confidence on grass — but realistically: don't, unless experienced</li>
+      <li>Pre-dawn start, escape plan to the Brienz side, no afternoon-thunderstorm tolerance</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Safety &amp; Hazards</h2>
+    <ul>
+      <li><strong>WET GRASS IS THE #1 HAZARD.</strong> The Brienzergrat is steep grass on both sides; once it is wet (rain, dew, fog) the T3 grade is no longer realistic and a slip on the south side has fatal consequences. <strong>If it has rained in the last 12 hours, choose a different objective.</strong></li>
+      <li><strong>Exposure:</strong> the summit ridge is a knife-edge with ~1500 m of drop south to Lake Brienz. Sure-footedness essential; not for those uncomfortable with heights.</li>
+      <li><strong>Not for beginners.</strong> T3 demands experience with exposed mountain hiking. If unsure, hire a guide or pick a T2.</li>
+      <li><strong>Thunderstorms:</strong> the ridge is fully exposed for the entire summit section. Descend early if convection is forecast.</li>
+      <li><strong>Ibex:</strong> protected wildlife — observe quietly from the trail, do not approach or feed.</li>
+      <li><strong>Cattle:</strong> mother cows with calves on Lombachalp can be defensive; give wide berth.</li>
+      <li><strong>Phone reception:</strong> intermittent on the ridge. Download maps offline.</li>
+      <li><strong>Emergency:</strong> Rega <strong>1414</strong> or <strong>112</strong>.</li>
+      <li>This is a <strong>summer route</strong>. Out of season the north flank holds snow and the grass is unstable.</li>
+    </ul>
+  </section>
+</div>
+
+<section>
+  <h2>Resources &amp; Links</h2>
+  <ul>
+    <li><a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/?query=Augstmatthorn" target="_blank">SAC Route Portal — Augstmatthorn search</a></li>
+    <li><a href="https://www.hikr.org/dir/Augstmatthorn_8848/" target="_blank">Trip reports &amp; photos (hikr.org, German)</a></li>
+    <li><a href="https://de.wikipedia.org/wiki/Augstmatthorn" target="_blank">German Wikipedia — Augstmatthorn</a></li>
+    <li><a href="https://de.wikipedia.org/wiki/Brienzergrat" target="_blank">German Wikipedia — Brienzergrat</a></li>
+    <li><a href="https://map.geo.admin.ch/?lang=en&amp;topic=ech&amp;zoom=11&amp;lat=46.7423&amp;lon=7.9286&amp;crosshair=marker&amp;layers=ch.swisstopo.swisstlm3d-wanderwege" target="_blank">SwissTopo viewer (centered on summit)</a></li>
+    <li><a href="https://niederhorn.ch/" target="_blank">Niederhorn cable car (Beatenberg) — bailout option</a></li>
+    <li><a href="https://www.habkern.ch/" target="_blank">Habkern tourism / village info</a></li>
+    <li><a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a></li>
+    <li><a href="https://www.meteoblue.com/en/weather/week/habkern_switzerland" target="_blank">Meteoblue Habkern</a></li>
+    <li><a href="https://www.sbb.ch/en" target="_blank">SBB timetable</a></li>
+    <li>Swiss alpine rescue (Rega): <strong>1414</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Disclaimer</h2>
+  <p>Compiled from German Wikipedia, hikr.org, SAC references, and MeteoSwiss. <strong>Not professional mountain-safety advice.</strong> The Brienzergrat is a steep, exposed grass ridge — the T3 grade assumes dry conditions, sure-footedness, and a head for heights. Conditions change rapidly; always re-check MeteoSwiss and any trail closures before setting out, and turn back if grass is wet. If in doubt about the exposure, go with someone experienced or hire a guide.</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+  </div>
+</footer>
+
+<script src="_config.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="augstmatthorn.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.7423, lon: 7.9286, elev: 2137, name: "Augstmatthorn" },
+  trailhead: { lat: 46.7318, lon: 7.8613, name: "Habkern" },
+  transit_dest: "Habkern, Switzerland",
+  hikr_index_url: "https://www.hikr.org/dir/Augstmatthorn_8848/",
+  gpx_filename: "augstmatthorn.gpx",
+  reports_updated: "2026-05-08",
+  page_generated: "2026-05-08",
+  webcams: [{"fallback": false, "label": "Brunnen \u2013 Lake Lucerne", "url": "https://www.foto-webcam.eu/webcam/brunnen/current/1200.jpg"}, {"fallback": false, "label": "Glecksteinh\u00fctte \u2013 Grindelwald glacier", "url": "https://www.foto-webcam.eu/webcam/glecksteinhuette/current/1200.jpg"}, {"fallback": true, "label": "Meteoblue Interlaken webcams", "url": "https://www.meteoblue.com/en/weather/webcams/interlaken_switzerland"}],
+  waypoints: [
+    [46.7318, 7.8613, "Habkern (1056 m)", "start"],
+    [46.7444, 7.9076, "Lombachalp (~1525 m)", "way"],
+    [46.7423, 7.9286, "Augstmatthorn (2137 m)", "summit"]
+  ]
+};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

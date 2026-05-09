@@ -1,7 +1,7 @@
 {
   "slug": "gornergrat-riffelalp",
   "page": {
-    "title": "Gornergrat & Riffelalp (3135 m) \u2014 Hike Plan",
+    "title": "Gornergrat & Riffelalp (3135 m) — Hike Plan",
     "generated": "2026-05-09",
     "reports_updated": "2026-05-09",
     "year": 2026
@@ -15,9 +15,9 @@
   "index_card": {
     "region": "Valais",
     "canton": "Valais",
-    "distance": "6\u20137 km",
+    "distance": "6–7 km",
     "gain": "600 m",
-    "time": "3\u20134 h",
+    "time": "3–4 h",
     "pill_class": "t2"
   },
   "trailhead": {
@@ -28,11 +28,11 @@
     "transit_dest": "Zermatt"
   },
   "hero": {
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Panorama_vom_Gornergrat_Zermatt.jpg",
-    "subtitle_html": "Photo \u00a9 Wikimedia Commons - Gornergrat panorama",
+    "image_url": "TODO",
+    "subtitle_html": "Photo © hikr.org - Matterhorn and glaciers from Gornergrat",
     "grade": "T2"
   },
-  "intro_html": "<p>Switzerland's most photographed easy alpine hike: traverse past five glacier-fed lakes\u2014Riffelsee, Stellisee, Grindjesee, and more\u2014with the Matterhorn reflected in crystalline waters at every turn. Accessible via the Gornergrat Railway from car-free Zermatt, this quintessential Valais experience combines accessibility with breathtaking alpine scenery.</p>",
+  "intro_html": "<p>Switzerland's most photographed easy alpine hike: traverse past five glacier-fed lakes—Riffelsee, Stellisee, Grindjesee, and more—with the Matterhorn reflected in crystalline waters at every turn. Accessible via the Gornergrat Railway from car-free Zermatt, this quintessential Valais experience combines accessibility with breathtaking alpine scenery.</p>",
   "quick_facts": [
     [
       "Summit elevation",
@@ -57,29 +57,35 @@
   ],
   "photos": [
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Panorama_vom_Gornergrat_Zermatt.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Panorama_vom_Gornergrat_Zermatt.jpg",
-      "alt": "View 1 of Gornergrat Riffelalp",
-      "caption_html": "<p>Photo © Wikimedia Commons - Gornergrat panorama</p>"
+      "url": "https://f.hikr.org/files/3831865l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3831865.jpg",
+      "alt": "Matterhorn and glaciers from Gornergrat",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Gornergletscher.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Gornergletscher.jpg",
-      "alt": "View 2 of Gornergrat Riffelalp",
-      "caption_html": "<p>Photo © Wikimedia Commons - Gorner Glacier</p>"
+      "url": "https://f.hikr.org/files/3831864l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3831864.jpg",
+      "alt": "Gornergletscher",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Gornergrat_Station_and_Matterhorn.jpg",
-      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Gornergrat_Station_and_Matterhorn.jpg",
-      "alt": "View 3 of Gornergrat Riffelalp",
-      "caption_html": "<p>Photo \u00a9 Wikimedia Commons - Gornergrat Railway</p>"
+      "url": "https://f.hikr.org/files/2806308l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2806308.jpg",
+      "alt": "Gornergrat panorama",
+      "caption_html": "<p>Photo via hikr.org</p>"
+    },
+    {
+      "url": "https://f.hikr.org/files/2806307l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2806307.jpg",
+      "alt": "Riffelalp hut view",
+      "caption_html": "<p>Photo via hikr.org</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "Gornergrat Ridge & Riffelalp Loop \u2014 Grade: T2 (Hiking) | Elevation gain: 400 m | Time: 3\u20134 hours | Distance: ~7 km. Scenic alpine walk from Gornergrat (3,110 m) descending to Riffelalp via the exposed east ridge, returning via Rotenboden to Riffelalp station. Outstanding Matterhorn viewpoint throughout the route. Well-marked, safe trail suitable for mountain-experienced hikers.",
+      "title_html": "Gornergrat Ridge & Riffelalp Loop — Grade: T2 (Hiking) | Elevation gain: 400 m | Time: 3–4 hours | Distance: ~7 km. Scenic alpine walk from Gornergrat (3,110 m) descending to Riffelalp via the exposed east ridge, returning via Rotenboden to Riffelalp station. Outstanding Matterhorn viewpoint throughout the route. Well-marked, safe trail suitable for mountain-experienced hikers.",
       "grade": "T2",
       "pill_class": "t2",
       "bullets_html": [
@@ -88,8 +94,8 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "By Train: Take the main rail line to Visp or Brig (via Zurich, Bern, or Geneva). Visp to Zermatt: Take the Matterhorn Gotthard Bahn (MGB) regional train from Visp to Zermatt (1.5 hours, runs hourly). Zermatt to Gornergrat: From Zermatt train station, walk 50 m to the Gornergrat Bahn (GGB) mountain railway station. The rack railway climbs 1,620 m vertically in just 9 km, reaching Gornergrat in approximately 40 minutes. Departures every 20\u201330 minutes in summer (typically 07:00\u201316:30, with later departures on clear evenings). Journey time from Geneva: Approximately 4\u20135 hours total (train + transfers). Swiss Travel Pass / Half-Fare Card: Valid on all mountain railways in the region.",
-    "by_car_html": "From Basel / Zurich / Geneva: Drive via A2/A9 motorway towards Valais. Exit at Visp or Brig, then head south to Zermatt (63 km from Visp, approximately 1.5 hours). Parking in Zermatt: No personal cars allowed in Zermatt village. Leave your car at a parking facility: Parkhaus Zermatt: Large multi-story car park near the train station entrance (CHF 15\u201320/day). Parking Winkelmatten: Larger lot on the outskirts, slightly cheaper. Free parking: Some spaces available along Bahnhofstrasse early morning (limited, first-come basis). Free shuttle bus runs frequently between car parks and village centre. Walk to Gornergrat railway station (5\u201310 min) or use electric taxis (Zermatt is car-free)."
+    "by_pt_html": "By Train: Take the main rail line to Visp or Brig (via Zurich, Bern, or Geneva). Visp to Zermatt: Take the Matterhorn Gotthard Bahn (MGB) regional train from Visp to Zermatt (1.5 hours, runs hourly). Zermatt to Gornergrat: From Zermatt train station, walk 50 m to the Gornergrat Bahn (GGB) mountain railway station. The rack railway climbs 1,620 m vertically in just 9 km, reaching Gornergrat in approximately 40 minutes. Departures every 20–30 minutes in summer (typically 07:00–16:30, with later departures on clear evenings). Journey time from Geneva: Approximately 4–5 hours total (train + transfers). Swiss Travel Pass / Half-Fare Card: Valid on all mountain railways in the region.",
+    "by_car_html": "From Basel / Zurich / Geneva: Drive via A2/A9 motorway towards Valais. Exit at Visp or Brig, then head south to Zermatt (63 km from Visp, approximately 1.5 hours). Parking in Zermatt: No personal cars allowed in Zermatt village. Leave your car at a parking facility: Parkhaus Zermatt: Large multi-story car park near the train station entrance (CHF 15–20/day). Parking Winkelmatten: Larger lot on the outskirts, slightly cheaper. Free parking: Some spaces available along Bahnhofstrasse early morning (limited, first-come basis). Free shuttle bus runs frequently between car parks and village centre. Walk to Gornergrat railway station (5–10 min) or use electric taxis (Zermatt is car-free)."
   },
   "day_plans": [
     {
@@ -108,30 +114,30 @@
       "valley_ref": "Zermatt (1,620 m)",
       "summit_above_ref_m": 2535,
       "temp_drop_c": 15.2,
-      "example_html": "Zermatt +20\u00b0C \u2192 Gornergrat approximately +5\u00b0C (roughly 1\u00b0C per 300 m elevation gain). Example: If 20\u00b0C in Zermatt, expect 5\u20138\u00b0C on Gornergrat with significant wind chill."
+      "example_html": "Zermatt +20°C → Gornergrat approximately +5°C (roughly 1°C per 300 m elevation gain). Example: If 20°C in Zermatt, expect 5–8°C on Gornergrat with significant wind chill."
     },
     "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
     ],
-    "season_html": "Best season: June\u2013September. July\u2013August offers the most stable weather and shortest daylight hours are still sufficient for full-day tours. June: Snow possible above 3,000 m, glacier crossings may be risky. July\u2013August: Optimal conditions; high tourist traffic. September: Fewer crowds, reliable weather, still excellent conditions. October onwards: Significant snow, railway may close during storms. Weather hazards: Rapid afternoon thunderstorms (common June\u2013August). Strong f\u00f6hn winds from south. UV intensity extreme at altitude\u2014bring high-SPF sunscreen. Temperature can drop rapidly; layer clothing. Wind-chill makes conditions feel 10\u201315\u00b0C colder than actual temperature."
+    "season_html": "Best season: June–September. July–August offers the most stable weather and shortest daylight hours are still sufficient for full-day tours. June: Snow possible above 3,000 m, glacier crossings may be risky. July–August: Optimal conditions; high tourist traffic. September: Fewer crowds, reliable weather, still excellent conditions. October onwards: Significant snow, railway may close during storms. Weather hazards: Rapid afternoon thunderstorms (common June–August). Strong föhn winds from south. UV intensity extreme at altitude—bring high-SPF sunscreen. Temperature can drop rapidly; layer clothing. Wind-chill makes conditions feel 10–15°C colder than actual temperature."
   },
   "webcams": [
     {
       "url": "https://www.gornergrat.ch/en/webcam",
-      "label": "Gornergrat Live Cam \u2013 Matterhorn View"
+      "label": "Gornergrat Live Cam – Matterhorn View"
     },
     {
       "url": "https://www.gornergratrail.ch/webcam",
-      "label": "Gornergrat Bahn \u2013 Railway Station Webcam"
+      "label": "Gornergrat Bahn – Railway Station Webcam"
     },
     {
       "url": "https://www.zermatt.ch/en/webcam",
-      "label": "Zermatt Village \u2013 Matterstrasse (Main Street)"
+      "label": "Zermatt Village – Matterstrasse (Main Street)"
     },
     {
       "url": "https://www.gornergrat.ch/en/riffelalp-webcam",
-      "label": "Riffelalp Station \u2013 Alpine Meadow"
+      "label": "Riffelalp Station – Alpine Meadow"
     }
   ],
   "elev_chart_attrib_html": "",
@@ -144,13 +150,13 @@
     "reports": [
       {
         "url": "https://www.hikr.org/tour/post128765.html",
-        "title": "Gornergrat to Riffelalp \u2014 Matterhorn views",
+        "title": "Gornergrat to Riffelalp — Matterhorn views",
         "season": "August 2024",
         "grade": "T2",
         "bullets_html": [
           "<li>Matterhorn dominates every perspective</li>",
           "<li>Gorner Glacier visible below; crevasses present</li>",
-          "<li>Riffelalp meadows excellent wildflower habitat July\u2013August</li>"
+          "<li>Riffelalp meadows excellent wildflower habitat July–August</li>"
         ]
       },
       {
@@ -161,7 +167,7 @@
         "bullets_html": [
           "<li>Railway efficient access; book in advance peak season</li>",
           "<li>3110m elevation with extreme exposure to lightning</li>",
-          "<li>September crowds lighter than peak July\u2013August</li>"
+          "<li>September crowds lighter than peak July–August</li>"
         ]
       }
     ]
@@ -175,11 +181,11 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
-    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Gornergrat & Riffelalp</a>",
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Gornergrat & Riffelalp</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
   ],
