@@ -30,8 +30,8 @@
     "transit_dest": "Linthal, Switzerland"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Der_Gl%C3%A4rnisch_in_der_Gemeinde_Glarus%2C_Kanton_Glarus.jpg?width=1600",
-    "subtitle_html": "Classic ascent from Braunwald via Oberblegisee — <span class=\"pill t3\">SAC T3</span> · ~1500 m gain · ~14 km · ~6–7 h round-trip",
+    "image_url": "https://f.hikr.org/files/3250664l.jpg",
+    "subtitle_html": "Photo via hikr.org - Glärnisch and Bächistock",
     "grade": "T3"
   },
   "intro_html": "<blockquote>The Glärnisch massif dominates the Glarus skyline — a broad glaciated fortress rising above the Linth valley that has defined the identity of the canton since the Ice Age. Its highest point, <strong>Bächistock (2914 m)</strong>, is reached by a superb T3 day-hike from <strong>Braunwald</strong>, a uniquely charming car-free alpine resort perched above Linthal and reachable only by funicular.<br>— <em>Route compiled from SAC data, hikr.org, and local sources.</em></blockquote><p>The <strong>Glärnisch</strong> is the largest glacier massif in the Glarus Alps, with three main summits: <strong>Bächistock (2914 m)</strong>, Vrenelisgärtli (2904 m), and Ruchen (2901 m). The massif's glacier is retreating visibly — the ice coverage has shrunk dramatically since the 19th century — making the upper plateau an increasingly rocky landscape that only emphasises the raw scale of the terrain.</p><p>The classic hiking route ascends from <strong>Braunwald (1256 m)</strong> via the jewel-green <strong>Oberblegisee (1755 m)</strong>, one of the finest mountain lakes in Glarus, then tackles the <strong>Rüchigrat ridge</strong> to reach the broad upper plateau and summit. The hike is serious T3 mountain terrain — sustained, with some steep sections and route-finding — but entirely non-technical and free of fixed ropes. The solitude is striking: this corner of Glarus sees a fraction of the crowds found in the Jungfrau region.</p>",
@@ -95,34 +95,28 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Der_Gl%C3%A4rnisch_in_der_Gemeinde_Glarus%2C_Kanton_Glarus.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Der_Gl%C3%A4rnisch_in_der_Gemeinde_Glarus%2C_Kanton_Glarus.jpg?width=1600",
-      "alt": "Glärnisch massif above Glarus",
-      "caption_html": "The Glärnisch massif rising above the Glarus valley — Bächistock (2914 m) is the highest point of the broad glaciated fortress."
+      "url": "https://f.hikr.org/files/3250664l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3250664.jpg",
+      "alt": "Glärnisch massif and Bächistock from ridge",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee.jpg?width=1600",
-      "alt": "Oberblegisee lake with Glärnisch reflections",
-      "caption_html": "The Oberblegisee (~1755 m) — one of Glarus' most beautiful mountain lakes, with the Glärnisch reflected on calm mornings. A key waypoint on the ascent."
+      "url": "https://f.hikr.org/files/3029468l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/3029468.jpg",
+      "alt": "Oberblegisee alpine lake",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee-1.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee-1.jpg?width=1600",
-      "alt": "Oberblegisee — upper shore and moraine",
-      "caption_html": "Upper shore of the Oberblegisee, framed by moraines. The retreating Glärnisch glacier is visible above."
+      "url": "https://f.hikr.org/files/2878129l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2878129.jpg",
+      "alt": "Summit view from Bächistock",
+      "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee_vom_Seblengrat.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberblegisee_vom_Seblengrat.jpg?width=1600",
-      "alt": "Oberblegisee from Seblengrat ridge",
-      "caption_html": "The Oberblegisee seen from the Seblengrat ridge — the final ridge approach towards the Glärnisch upper plateau."
-    },
-    {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Braunwald_-_panoramio.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Braunwald_-_panoramio.jpg?width=1600",
-      "alt": "Braunwald car-free alpine village",
-      "caption_html": "Braunwald — the charming car-free resort village at 1256 m, reachable only by the Braunwaldbahn funicular from Linthal. This is your trailhead."
+      "url": "https://f.hikr.org/files/2878123l.jpg",
+      "lightbox_url": "https://f.hikr.org/files/2878123.jpg",
+      "alt": "Glacier and plateau terrain",
+      "caption_html": "<p>Photo via hikr.org</p>"
     }
   ],
   "waypoints": [
