@@ -272,9 +272,19 @@ def render_one(data_path: Path) -> RenderResult:
                     trailhead_name=data.get("trailhead", {}).get("name"),
                 )
             # Auto-derive hero subtitle from GPX when requested.
+            # Auto-populate hero image from photos[0] if hero image is missing/TODO
             hero = data.get("hero") or {}
             if hero.get("auto_subtitle") and gpx_stats:
                 hero["subtitle_html"] = auto_subtitle(hero.get("grade", ""), gpx_stats)
+            
+            # Auto-use first photo as hero if hero image is empty or TODO
+            photos = data.get("photos") or []
+            hero_url = hero.get("image_url", "").strip()
+            if photos and (not hero_url or "TODO" in hero_url):
+                hero["image_url"] = photos[0].get("url", "")
+                hero["subtitle_html"] = hero.get("subtitle_html", "") or f"Photo via {photos[0].get('caption_html', '')}"
+            
+            if hero:
                 data["hero"] = hero
 
         with StageTimer(stages, "load_template"):

@@ -56,8 +56,30 @@ cd /opt/code/website
 **Why regenerate index.html?**
 The index gallery displays hero images from all 20 hikes. If you update a hike's hero image URL and forget to regenerate, the old image URL will remain in the index until the next full render. **Always run the full render (no `--slug` flag) after adding/updating hero images** to ensure the gallery is in sync.
 
+**Automatic hero population:**
+If you leave `hero.image_url` as "TODO" or empty, the render script automatically populates it from `photos[0]`. This ensures the hero is always in sync with your photos array—no manual sync needed. Example:
+
+```json
+"hero": {
+  "image_url": "TODO",
+  "subtitle_html": "Scenic peak view"
+},
+"photos": [
+  {
+    "url": "https://f.hikr.org/files/3831865l.jpg",
+    "lightbox_url": "https://f.hikr.org/files/3831865.jpg",
+    "alt": "Summit panorama",
+    "caption_html": "<p>Photo via hikr.org</p>"
+  },
+  { ... }
+]
+```
+
+After running `render_hike.py`, hero.image_url becomes `https://f.hikr.org/files/3831865l.jpg` automatically.
+
 **Workflow checklist after adding images:**
 1. Update `hikes/<slug>/<slug>.data.json` with hero + photos
+   - **Optional:** Leave `hero.image_url` as "TODO" — the render script will auto-populate from `photos[0]`
 2. Run `~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py` (full render)
 3. Force-add HTML: `git add -f hikes/<slug>/*.html hikes/index.html`
 4. Commit + push
