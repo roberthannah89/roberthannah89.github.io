@@ -86,21 +86,62 @@ Generic Alpine or Swiss mountain photos are not acceptable — they undermine th
 
 #### Reliable image sources (tested order)
 
-**1. Wikimedia Commons — Manual browsing (most reliable)**
+**1. Hikr.org — PREFERRED for reliability & bot-friendliness (PROVEN STABLE)**
+
+Hikr is the **primary recommended source** for Swiss hiking images. It is:
+- **Bot-friendly:** robots.txt explicitly allows crawling (search=yes, only ai-train=no)
+- **Rate-limit friendly:** No aggressive throttling or 429 errors
+- **Stable URLs:** Photo IDs use consistent CDN pattern `f.hikr.org/files/<id>`
+- **High quality:** Authentic user trip reports with galleries of 20+ photos per hike
+- **CC-licensed:** Photos are user-uploaded, typically CC-BY or site TOS allows use
+
+**Step-by-step Hikr sourcing:**
+
+1. Go to: `https://www.hikr.org/dir/` (Geo portal)
+2. Search for peak or hike name (e.g., "Gornergrat", "Eiger", "Säntis")
+3. Click the **main peak/hike link** → opens `/dir/<PeakName>_<ID>/`
+4. Click **Gallery** link → `/dir/<PeakName>_<ID>/gallery/`
+5. Browse photos; identify 4–5 best shots (summit view, route, glaciers, panorama)
+6. Right-click photo → inspect **href** attribute of the link
+   - Format: `/dir/<PeakName>_<ID>/gallery/photo<PHOTOID>.html`
+   - Extract the numeric **PHOTOID**
+
+**URL construction:**
+- **Thumbnail (display in gallery):** `https://f.hikr.org/files/<PHOTOID>l.jpg` (large preview, sharp)
+- **Lightbox (full-resolution click):** `https://f.hikr.org/files/<PHOTOID>.jpg` (original, highest quality)
+
+**Example (Gornergrat):**
+```json
+{
+  "url": "https://f.hikr.org/files/3831865l.jpg",
+  "lightbox_url": "https://f.hikr.org/files/3831865.jpg",
+  "alt": "Matterhorn and glaciers from Gornergrat",
+  "caption_html": "<p>Photo via hikr.org</p>"
+}
+```
+
+**Advantages over alternatives:**
+- No 429 rate-limiting (unlike Wikimedia Commons)
+- No bot-blocking (unlike Wikimedia Commons)
+- Authentic hike photos (not generic stock)
+- Consistent URL structure across all photos
+- Direct CDN access (no session cookies needed)
+- Volume: Most popular peaks have 50–200 photos available
+
+**2. Wikimedia Commons — Manual browsing (LEGACY, use for hero images)**
 - Go to: `https://commons.wikimedia.org/`
 - Search for peak name or hike name (e.g., "Eiger", "Gornergrat", "Hardergrat")
 - Filter: **File type** → **Images** → Look for landscape photos ≥1280px wide
 - Right-click image → **Open image in new tab** → copy full URL
 - **Verify in browser (not with `curl`)** — Wikimedia blocks automated requests with 403
 - Use format: `https://commons.wikimedia.org/wiki/Special:FilePath/<Filename>?width=1600`
+- **Caveat:** Subject to 429 rate-limiting and bot-blocking; validate before committing
 
-**2. Hikr.org — Direct browsing (authentic user photos)**
-- Go to: `https://hikr.org/`
-- Search for the peak name or route
-- Click trip reports → open galleries
-- Right-click photo → inspect URL
-- Most Hikr photos are CC-licensed by users
-- **Verify URL works in browser** (Hikr may block automated requests)
+**3. Direct browsing (Hikr trip reports as secondary fallback)**
+- When Hikr gallery doesn't have enough photos
+- Visit individual trip reports on: `https://www.hikr.org/tour/` (search results)
+- Photos embedded in reports may have working URLs
+- Extract photo IDs and construct f.hikr.org URLs as above
 
 **3. Google Images + CC License filter**
 - Go to: `https://google.com/images`
