@@ -27,7 +27,7 @@
     "transit_dest": "Schynige Platte, Switzerland"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalpsee_Reflexion.jpg?width=1600",
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalp Lake ( Bachalpsee ).jpg?width=1600",
     "subtitle_html": "Schynige Platte → Faulhorn → Bachalpsee → First — <span class=\"pill t2\">SAC T2</span> · ~600 m gain · ~16 km point-to-point · ~6 h",
     "grade": "T2"
   },
@@ -49,28 +49,28 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalpsee_Reflexion.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalpsee_Reflexion.jpg?width=1600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalp Lake ( Bachalpsee ).jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalp Lake ( Bachalpsee ).jpg?width=1600",
       "alt": "Bachalpsee with reflection of the Bernese Alps",
       "caption_html": "<strong>Bachalpsee</strong> (2265 m) — the iconic reflection of Schreckhorn, Wetterhorn and Finsteraarhorn from the standard photo stop on the trail."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Faulhorn_Berghotel.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Faulhorn_Berghotel.jpg?width=1600",
-      "alt": "Berghotel Faulhorn near the summit",
-      "caption_html": "<strong>Berghotel Faulhorn</strong> (2681 m) — one of the oldest mountain hotels in Europe (built 1832), just below the summit. Open July–October."
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5831 - Schynige Platte - Faulhorn.JPG?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/5831 - Schynige Platte - Faulhorn.JPG?width=1600",
+      "alt": "Faulhorn from the Schynige Platte ridge",
+      "caption_html": "<strong>Faulhorn</strong> (2680 m) seen from the Schynige Platte side of the panoramaweg — the optional summit detour on the traverse."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Schynige_Platte_railway.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Schynige_Platte_railway.jpg?width=1600",
-      "alt": "Schynige Platte rack railway",
-      "caption_html": "<strong>Schynige Platte Bahn</strong> — historic rack railway from Wilderswil (since 1893). The summer-only line that opens this whole traverse."
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5791-5796 - Schynige Platte - View over Jungfrau area.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/5791-5796 - Schynige Platte - View over Jungfrau area.jpg?width=1600",
+      "alt": "Eiger, Mönch and Jungfrau panorama from Schynige Platte",
+      "caption_html": "The Eiger / Mönch / Jungfrau panorama across the Lütschental — the front-row view that defines the entire traverse."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/First_Grindelwald.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/First_Grindelwald.jpg?width=1600",
-      "alt": "First top station above Grindelwald",
-      "caption_html": "<strong>First</strong> (2168 m) — the gondola top station above Grindelwald and the end of the traverse. Eiger north face to the right."
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5824-5828 - Schynige Platte - View over Brienzersee.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/5824-5828 - Schynige Platte - View over Brienzersee.jpg?width=1600",
+      "alt": "View over Lake Brienz from Schynige Platte",
+      "caption_html": "North-side view from the Schynige Platte balcony down to Lake Brienz — the rack railway and the Brienzergrat opposite."
     }
   ],
   "waypoints": [

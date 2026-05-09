@@ -26,7 +26,7 @@
     "transit_dest": "Habkern, Switzerland"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_-_panoramio.jpg?width=1600",
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=1600",
     "subtitle_html": "Habkern → Lombachalp → Augstmatthorn — <span class=\"pill t3\">SAC T3</span> · ~1200 m gain · ~14 km loop · ~6 h",
     "grade": "T3"
   },
@@ -47,28 +47,28 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_-_panoramio.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_-_panoramio.jpg?width=1600",
-      "alt": "Augstmatthorn summit ridge",
-      "caption_html": "The summit pyramid of the Augstmatthorn from the western Brienzergrat ridge."
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=1600",
+      "alt": "Augstmatthorn ridge from Suggiture",
+      "caption_html": "The Augstmatthorn summit ridge seen from Suggiture along the Brienzergrat — knife-edge grass crest above Lake Brienz."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Brienzergrat_from_Augstmatthorn.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Brienzergrat_from_Augstmatthorn.jpg?width=1600",
-      "alt": "Brienzergrat ridge from Augstmatthorn",
-      "caption_html": "Looking west along the Brienzergrat from the summit toward the Hardergrat — knife-edge grass crest above Lake Brienz."
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg zum Augstmatthorn hoch über dem Brienzersee.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg zum Augstmatthorn hoch über dem Brienzersee.jpg?width=1600",
+      "alt": "Ascent to Augstmatthorn high above Lake Brienz",
+      "caption_html": "Ascent to the Augstmatthorn with the 1500 m drop to Lake Brienz directly below."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Brienzersee_from_Augstmatthorn.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Brienzersee_from_Augstmatthorn.jpg?width=1600",
-      "alt": "Lake Brienz from the summit",
-      "caption_html": "The 1500 m drop to Lake Brienz directly below the summit ridge."
-    },
-    {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Capra_ibex_Augstmatthorn.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Capra_ibex_Augstmatthorn.jpg?width=1600",
-      "alt": "Ibex on the Augstmatthorn south flank",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ibex.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ibex.jpg?width=1600",
+      "alt": "Ibex on the Augstmatthorn",
       "caption_html": "Ibex (Steinbock) are commonly seen on the south flank of the Augstmatthorn, especially in early morning."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/AugstmatthornHerbst.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/AugstmatthornHerbst.jpg?width=1600",
+      "alt": "Augstmatthorn in autumn",
+      "caption_html": "Autumn colours along the Brienzergrat — the season extends well into October in dry years."
     }
   ],
   "waypoints": [
