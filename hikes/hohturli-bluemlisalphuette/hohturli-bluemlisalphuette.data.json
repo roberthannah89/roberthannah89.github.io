@@ -28,7 +28,7 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/File:Hoht%C3%BCrli_Pass.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Hoht%C3%BCrli_Pass.jpg",
     "subtitle_html": "Photo \u00a9 UCaetano (CC BY-SA 4.0)",
     "grade": "T3"
   },
@@ -57,20 +57,20 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/File:Hoht%C3%BCrli_Pass.jpg",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Hoht%C3%BCrli_Pass.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Hoht%C3%BCrli_Pass.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Hoht%C3%BCrli_Pass.jpg",
       "alt": "View 1 of Hohturli Bluemlisalphuette",
       "caption_html": "<p>Photo \u00a9 UCaetano (CC BY-SA 4.0)</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/File:Oeschinen_Lake%2C_Kandersteg%2C_Switzerland_%28Unsplash%29.jpg",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Oeschinen_Lake%2C_Kandersteg%2C_Switzerland_%28Unsplash%29.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Oeschinen_Lake%2C_Kandersteg%2C_Switzerland.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Oeschinen_Lake%2C_Kandersteg%2C_Switzerland.jpg",
       "alt": "View 2 of Hohturli Bluemlisalphuette",
       "caption_html": "<p>Photo \u00a9 Dino Reichmuth (CC0 - Oeschinen Lake)</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/File:Oeschinen_Lake_in_the_Bernese_Oberland.jpg",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Oeschinen_Lake_in_the_Bernese_Oberland.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Oeschinen_Lake_in_the_Bernese_Oberland.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Oeschinen_Lake_in_the_Bernese_Oberland.jpg",
       "alt": "View 3 of Hohturli Bluemlisalphuette",
       "caption_html": "<p>Photo \u00a9 Yuuuuk 10 (CC BY-SA 4.0)</p>"
     }
