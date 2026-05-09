@@ -30,7 +30,7 @@
     "transit_dest": "Wangs, Switzerland"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Abend%20am%20Pizol%20-%20panoramio.jpg?width=1600",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Abend_am_Pizol_-_panoramio.jpg/1920px-Abend_am_Pizol_-_panoramio.jpg",
     "subtitle_html": "Wangs → Pizolhütte → five glacial lakes circuit → Pizol (2844 m) — <span class=\"pill t2\">SAC T2</span> · ~900 m gain · ~12 km · ~5–6 h",
     "grade": "T2"
   },
@@ -95,26 +95,26 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/931-5Seen-Pizol.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/931-5Seen-Pizol.jpg?width=1600",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/75/931-5Seen-Pizol.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/931-5Seen-Pizol.jpg",
       "alt": "Overview of the Pizol 5-Seen-Wanderung route",
       "caption_html": "Classic route overview showing all five lakes of the Pizol 5-Seen-Wanderung above Wangs / Bad Ragaz."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/SchwarzseePizol01.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/SchwarzseePizol01.jpg?width=1600",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/SchwarzseePizol01.jpg/960px-SchwarzseePizol01.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/8/83/SchwarzseePizol01.jpg",
       "alt": "Schwarzsee at Pizol (2157 m)",
       "caption_html": "<strong>Schwarzsee</strong> (2157 m) — the first and lowest of the five lakes, its dark water reflecting the surrounding ridges."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/SchottenseePizol01.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/SchottenseePizol01.jpg?width=1600",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/SchottenseePizol01.jpg/960px-SchottenseePizol01.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/SchottenseePizol01.jpg",
       "alt": "Schottensee at Pizol (2244 m)",
       "caption_html": "<strong>Schottensee</strong> (2244 m) — midpoint of the circuit, cradled in a high alpine cirque with views back toward Bad Ragaz."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Baschalvasee01.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Baschalvasee01.jpg?width=1600",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Baschalvasee01.jpg/960px-Baschalvasee01.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/d/da/Baschalvasee01.jpg",
       "alt": "Baschalvasee at Pizol (2232 m)",
       "caption_html": "<strong>Baschalvasee</strong> (2232 m) — turquoise glacial lake, one of the most photogenic stops on the walk."
     }
