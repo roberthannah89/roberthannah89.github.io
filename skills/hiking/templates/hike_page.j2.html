@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <title>{{ page.title }}</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="../_assets/hike_page.css"/>
@@ -72,8 +74,8 @@
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <strong style="align-self:center;">Layer:</strong>
-    <button data-layer="topo">Swiss Topo</button>
-    <button data-layer="hike" class="active">Topo + Hiking trails</button>
+    <button data-layer="topo" class="active">Swiss Topo</button>
+    <button data-layer="hike">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
     <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>

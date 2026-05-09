@@ -4,134 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hike Plans — Swiss Alps</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
   :root {
-    --fg: #e8e8ea;
-    --muted: #a0a4ad;
-    --accent: #ff5c5c;
     --bg: #0b0c10;
-    --card: #14161c;
+    --bg-soft: #14161c;
+    --bg-soft-2: #1a1d25;
+    --fg: #e8e8ea;
+    --fg-dim: #a0a4ad;
+    --accent: #ff5c5c;
     --border: #23262e;
-    --soft: #1d1f27;
   }
   * { box-sizing: border-box; }
+  html, body { background: var(--bg); }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.55;
     color: var(--fg);
-    background: var(--bg);
   }
+  a { color: var(--accent); }
+
   header.hero {
-    padding: 3rem 1.5rem 2.5rem;
-    background: linear-gradient(135deg, #2c5530 0%, #1e3a4f 100%);
-    color: white;
+    padding: 3rem 1.5rem 2.25rem;
+    background:
+      radial-gradient(1200px 400px at 20% -20%, rgba(255,92,92,0.18), transparent 60%),
+      radial-gradient(900px 360px at 90% 10%, rgba(70,110,200,0.18), transparent 60%),
+      linear-gradient(180deg, #0d0f15 0%, #0b0c10 100%);
+    border-bottom: 1px solid var(--border);
     text-align: center;
   }
-  header.hero h1 { font-size: 2.4rem; margin: 0 0 .4rem; font-weight: 700; letter-spacing: -0.02em; }
-  header.hero p { margin: 0; font-size: 1.05rem; opacity: .9; }
-
-  main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 3rem; }
-
-  .table-wrap {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow-x: auto;
-  }
-  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
-  th, td {
-    padding: .8rem .9rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  thead th {
-    background: var(--soft);
-    font-weight: 600;
-    font-size: .82rem;
-    text-transform: uppercase;
-    letter-spacing: .04em;
+  header.hero h1 {
+    font-size: 2.4rem; margin: 0 0 .4rem;
+    font-weight: 700; letter-spacing: -0.02em;
     color: var(--fg);
-    border-bottom: 2px solid var(--border);
-    white-space: nowrap;
   }
-  thead th.weather-col { text-align: center; font-size: .72rem; min-width: 78px; }
-  thead th.weather-col .dow { display: block; font-weight: 700; color: var(--fg); font-size: .8rem; }
-  thead th.weather-col .date { display: block; color: var(--muted); font-weight: 400; }
+  header.hero p { margin: 0; font-size: 1.05rem; color: var(--fg-dim); }
 
-  thead th.sortable { cursor: pointer; user-select: none; position: relative; }
-  thead th.sortable:hover { background: #262934; }
-  thead th.sortable::after {
-    content: "";
-    display: inline-block;
-    width: 0; height: 0;
-    margin-left: .35em;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    vertical-align: middle;
-    opacity: .35;
-    border-top-color: #aaa;
-    border-bottom: 0;
+  main { max-width: 1280px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  /* Map */
+  #map {
+    height: 400px;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-soft);
+    margin-bottom: 1.25rem;
   }
-  thead th.sortable.sort-asc::after { border-top: 0; border-bottom: 5px solid #ddd; opacity: 1; }
-  thead th.sortable.sort-desc::after { border-bottom: 0; border-top: 5px solid #ddd; opacity: 1; }
-
-  tbody tr:hover { background: #181a22; }
-  tbody tr:last-child td { border-bottom: none; }
-
-  td.name a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 1.05rem; }
-  td.name a:hover { text-decoration: underline; }
-  td.name .region { display: block; color: var(--muted); font-size: .82rem; font-weight: 400; margin-top: 1px; }
-
-  td.photo { padding: .5rem .6rem; width: 220px; }
-  td.photo a { display: block; }
-  td.photo img {
-    width: 200px;
-    height: 140px;
-    object-fit: cover;
+  .leaflet-popup-content-wrapper {
+    background: var(--bg-soft);
+    color: var(--fg);
+    border: 1px solid var(--border);
     border-radius: 8px;
+  }
+  .leaflet-popup-tip { background: var(--bg-soft); }
+  .leaflet-popup-content { margin: .5rem .65rem; font-size: .85rem; }
+  .leaflet-popup-content img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
     display: block;
-    background: #000;
-    box-shadow: 0 1px 4px rgba(0,0,0,.4);
+    margin-bottom: .35rem;
+  }
+  .leaflet-popup-content .pop-name { font-weight: 600; color: var(--fg); }
+  .leaflet-popup-content a { color: var(--accent); text-decoration: none; }
+  .leaflet-popup-content a:hover { text-decoration: underline; }
+  .leaflet-container a.leaflet-popup-close-button { color: var(--fg-dim); }
+
+  /* Filters */
+  .filters { margin: 0 0 1.25rem; }
+  .filter-group {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    align-items: center; margin-bottom: .5rem;
+  }
+  .filter-label {
+    font-size: .72rem; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--fg-dim);
+    margin-right: .4rem; min-width: 70px;
+  }
+  .filter-btn {
+    background: var(--bg-soft);
+    color: var(--fg-dim);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: .3rem .8rem;
+    font-size: .82rem;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: inherit;
+  }
+  .filter-btn:hover { color: var(--fg); border-color: #34384450; }
+  .filter-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
   }
 
-  td.weather { text-align: center; padding: .6rem .3rem; }
-  td.weather .icon { font-size: 1.5rem; line-height: 1; }
-  td.weather .temp { font-size: .82rem; color: var(--fg); margin-top: 2px; }
-  td.weather .precip { font-size: .72rem; color: #6cb4ff; margin-top: 1px; }
-  td.weather.loading { color: var(--muted); font-size: .8rem; }
+  /* Card grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.1rem;
+  }
+  .card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  }
+  .card .photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-soft-2);
+    overflow: hidden;
+  }
+  .card .photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .card .region-badge {
+    position: absolute;
+    top: .6rem; left: .6rem;
+    background: rgba(11,12,16,0.78);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: .2rem .55rem;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 500;
+  }
+  .card .body { padding: .85rem 1rem 1rem; display: flex; flex-direction: column; gap: .55rem; }
+  .card .title-row {
+    display: flex; align-items: baseline;
+    justify-content: space-between; gap: .5rem;
+  }
+  .card .name {
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--fg); letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+  .card .elev { color: var(--fg-dim); font-size: .82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .card .stats {
+    display: flex; gap: .65rem; flex-wrap: wrap;
+    font-size: .8rem; color: var(--fg-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .card .stats .sep { opacity: .4; }
+  .card .grade-row { display: flex; align-items: center; gap: .5rem; }
 
   .pill {
     display: inline-block;
     padding: .12rem .55rem;
     border-radius: 999px;
-    font-size: .78rem;
+    font-size: .75rem;
     font-weight: 600;
     white-space: nowrap;
   }
-  .pill.t1 { background: #d6f0d6; color: #1a5a1a; }
-  .pill.t2 { background: #d6f0d6; color: #1a5a1a; }
-  .pill.t3 { background: #ffe9c2; color: #8a4d00; }
-  .pill.t4 { background: #ffd2a8; color: #7a3500; }
-  .pill.t5 { background: #fbcccc; color: #8a0000; }
-  .pill.t6 { background: #fbcccc; color: #8a0000; }
+  .pill.t1, .pill.t2 { background: #1f3d22; color: #8fd693; }
+  .pill.t3 { background: #3d2f12; color: #f0c878; }
+  .pill.t4 { background: #4a2a14; color: #f1a36a; }
+  .pill.t5, .pill.t6 { background: #4a1f1f; color: #ff8a8a; }
 
-  .num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  /* Weather strip in card */
+  .weather-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .25rem;
+    padding-top: .55rem;
+    border-top: 1px solid var(--border);
+    min-height: 56px;
+  }
+  .weather-strip .wx {
+    text-align: center;
+    font-size: .7rem;
+    color: var(--fg-dim);
+    line-height: 1.15;
+  }
+  .weather-strip .wx .dow { font-size: .65rem; opacity: .75; }
+  .weather-strip .wx .icon { font-size: 1.1rem; line-height: 1.1; margin: 1px 0; }
+  .weather-strip .wx .tmax { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .weather-strip.loading { color: var(--fg-dim); font-size: .72rem; align-items: center; }
+  .weather-strip.loading::before {
+    content: "loading forecast…";
+    grid-column: 1 / -1;
+    text-align: center;
+    align-self: center;
+  }
 
-  .legend { margin-top: 1rem; font-size: .82rem; color: var(--muted); text-align: right; }
-  .legend a { color: var(--muted); }
+  .meta { text-align: center; color: var(--fg-dim); font-size: .78rem; margin: 1.5rem 0 0; }
+  .legend {
+    margin: 1rem 0 0; font-size: .78rem;
+    color: var(--fg-dim); text-align: center;
+  }
+  .legend a { color: var(--fg-dim); }
 
-  .meta { text-align: center; color: var(--muted); font-size: .78rem; margin: .25rem 0 0; opacity: .8; }
+  footer { text-align: center; color: var(--fg-dim); font-size: .85rem; padding: 2rem 1rem 3rem; }
 
-  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 2rem 1rem 3rem; }
+  .empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--fg-dim);
+    font-style: italic;
+    grid-column: 1 / -1;
+    display: none;
+  }
+
+  .card.dimmed { opacity: .35; }
+  .marker-hl { filter: drop-shadow(0 0 6px var(--accent)); }
 
   @media (max-width: 700px) {
     header.hero h1 { font-size: 1.8rem; }
-    th, td { padding: .55rem .5rem; font-size: .85rem; }
-    thead th.weather-col { min-width: 60px; }
+    #map { height: 280px; }
+    main { padding: 1rem .75rem 2rem; }
+    .filter-label { min-width: 100%; margin-bottom: .15rem; }
   }
 </style>
 </head>
@@ -143,39 +246,55 @@
 </header>
 
 <main>
-  <div class="table-wrap">
-    <table id="hikes-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th class="sortable" data-sort="name">Hike</th>
-          <th class="sortable" data-sort="elev">Elev.</th>
-          <th class="sortable" data-sort="grade">Grade</th>
-          <th class="sortable" data-sort="distance">Distance</th>
-          <th class="sortable" data-sort="gain">Gain</th>
-          <th class="sortable" data-sort="time">Time</th>
-          <th class="weather-col sortable" data-sort="weather" data-day="0"></th>
-          <th class="weather-col sortable" data-sort="weather" data-day="1"></th>
-          <th class="weather-col sortable" data-sort="weather" data-day="2"></th>
-          <th class="weather-col sortable" data-sort="weather" data-day="3"></th>
-          <th class="weather-col sortable" data-sort="weather" data-day="4"></th>
-        </tr>
-      </thead>
-      <tbody><!-- populated by JS --></tbody>
-    </table>
+  <div id="map" aria-label="Map of all hikes"></div>
+
+  <div class="filters" id="filters">
+    <div class="filter-group" data-filter="grade">
+      <span class="filter-label">Difficulty</span>
+      <button class="filter-btn active" data-value="all">All</button>
+      <button class="filter-btn" data-value="easy">T1–T2 · Easy</button>
+      <button class="filter-btn" data-value="demanding">T3 · Demanding</button>
+      <button class="filter-btn" data-value="alpine">T4+ · Alpine</button>
+    </div>
+    <div class="filter-group" data-filter="duration">
+      <span class="filter-label">Duration</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="day">Day hike</button>
+      <button class="filter-btn" data-value="multi">Multi-day</button>
+    </div>
+    <div class="filter-group" data-filter="region">
+      <span class="filter-label">Region</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <!-- region buttons injected by JS -->
+    </div>
   </div>
+
+  <div class="grid" id="grid"><!-- cards injected by JS --></div>
+  <div class="empty" id="empty">No hikes match these filters.</div>
+
   <p class="legend">
-    Weather: daily max/min °C and precipitation (mm) at summit-area coordinates ·
-    forecast from <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
+    Weather forecast (5-day max temp) at summit-area coordinates from
+    <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> ·
+    Map © <a href="https://www.swisstopo.admin.ch" target="_blank" rel="noopener">swisstopo</a>
   </p>
   <p class="meta">Generated {{ generated }} · {{ hikes | length }} hike{{ '' if hikes | length == 1 else 's' }}</p>
 </main>
 
 <footer>Route data from swisstopo and OpenStreetMap.</footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 const HIKES = {{ hikes | tojson }};
 
+/* ------------- helpers ------------- */
+function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
+function gradeNum(g) { const m = String(g).match(/T(\d)/); return m ? parseInt(m[1], 10) : 0; }
+function isMultiDay(t) {
+  const s = String(t).toLowerCase();
+  const m = s.match(/(\d+(?:\.\d+)?)\s*day/);
+  return !!(m && parseFloat(m[1]) > 1);
+}
 function wmoIcon(code) {
   if (code === 0) return ["☀️", "Clear"];
   if (code === 1) return ["🌤️", "Mostly clear"];
@@ -190,131 +309,192 @@ function wmoIcon(code) {
   if (code >= 95) return ["⛈️", "Thunderstorm"];
   return ["·", ""];
 }
-
 function fmtDow(s) { return new Date(s + "T00:00").toLocaleDateString(undefined, { weekday: "short" }); }
-function fmtMd(s)  { return new Date(s + "T00:00").toLocaleDateString(undefined, { month: "short", day: "numeric" }); }
+function escAttr(s) { return String(s).replace(/"/g, "&quot;"); }
 
-function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
-function gradeNum(g) { const m = String(g).match(/T(\d)/); return m ? parseInt(m[1], 10) : 0; }
-function timeNum(t) {
-  const s = String(t).toLowerCase();
-  if (s.includes("day")) return num(s) * 24;
-  return num(s);
-}
+/* ------------- cards ------------- */
+const grid = document.getElementById("grid");
+HIKES.forEach((h, i) => {
+  const card = document.createElement("a");
+  card.className = "card";
+  card.href = h.href;
+  card.dataset.idx = i;
+  card.dataset.grade = gradeNum(h.grade);
+  card.dataset.region = (h.region || "").toLowerCase();
+  card.dataset.multi = isMultiDay(h.time) ? "1" : "0";
+  card.innerHTML = `
+    <div class="photo-wrap">
+      ${h.photo ? `<img src="${escAttr(h.photo)}" alt="${escAttr(h.name)}" loading="lazy">` : ""}
+      ${h.region ? `<span class="region-badge">${h.region}</span>` : ""}
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <span class="name">${h.name}</span>
+        ${h.elev ? `<span class="elev">${h.elev}</span>` : ""}
+      </div>
+      <div class="grade-row">
+        ${h.grade ? `<span class="pill ${h.gradeClass}">${h.grade}</span>` : ""}
+        <span class="stats">
+          ${h.distance ? `<span>${h.distance}</span>` : ""}
+          ${h.distance && h.gain ? `<span class="sep">·</span>` : ""}
+          ${h.gain ? `<span>${h.gain}</span>` : ""}
+          ${(h.distance || h.gain) && h.time ? `<span class="sep">·</span>` : ""}
+          ${h.time ? `<span>${h.time}</span>` : ""}
+        </span>
+      </div>
+      <div class="weather-strip loading" data-hike="${i}"></div>
+    </div>
+  `;
+  card.addEventListener("mouseenter", () => highlightMarker(i, true));
+  card.addEventListener("mouseleave", () => highlightMarker(i, false));
+  grid.appendChild(card);
+});
 
-function buildRows() {
-  const tbody = document.querySelector("#hikes-table tbody");
-  tbody.innerHTML = "";
-  HIKES.forEach((h, i) => {
-    const tr = document.createElement("tr");
-    tr.dataset.name = h.name.toLowerCase();
-    tr.dataset.elev = num(h.elev);
-    tr.dataset.grade = gradeNum(h.grade);
-    tr.dataset.distance = num(h.distance);
-    tr.dataset.gain = num(h.gain);
-    tr.dataset.time = timeNum(h.time);
-    tr.innerHTML = `
-      <td class="photo">
-        <a href="${h.href}"><img src="${h.photo}" alt="${h.name}" loading="lazy"></a>
-      </td>
-      <td class="name">
-        <a href="${h.href}">${h.name}</a>
-        <span class="region">${h.region}</span>
-      </td>
-      <td class="num">${h.elev}</td>
-      <td><span class="pill ${h.gradeClass}">${h.grade}</span></td>
-      <td class="num">${h.distance}</td>
-      <td class="num">${h.gain}</td>
-      <td class="num">${h.time}</td>
-      ${[0,1,2,3,4].map(d => `<td class="weather loading" data-hike="${i}" data-day="${d}" data-tmax="">…</td>`).join("")}
-    `;
-    tbody.appendChild(tr);
+/* ------------- region filter buttons ------------- */
+const regionGroup = document.querySelector('.filter-group[data-filter="region"]');
+const regions = [...new Set(HIKES.map(h => h.region).filter(Boolean))].sort();
+regions.forEach(r => {
+  const b = document.createElement("button");
+  b.className = "filter-btn";
+  b.dataset.value = r.toLowerCase();
+  b.textContent = r;
+  regionGroup.appendChild(b);
+});
+
+/* ------------- filtering ------------- */
+const activeFilters = { grade: "all", duration: "all", region: "all" };
+document.querySelectorAll(".filter-group").forEach(group => {
+  const key = group.dataset.filter;
+  group.addEventListener("click", e => {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    group.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilters[key] = btn.dataset.value;
+    applyFilters();
   });
+});
+
+function gradeMatch(g, filter) {
+  if (filter === "all") return true;
+  if (filter === "easy") return g >= 1 && g <= 2;
+  if (filter === "demanding") return g === 3;
+  if (filter === "alpine") return g >= 4;
+  return true;
+}
+function applyFilters() {
+  let visible = 0;
+  document.querySelectorAll(".card").forEach(card => {
+    const g = parseInt(card.dataset.grade, 10) || 0;
+    const region = card.dataset.region;
+    const multi = card.dataset.multi === "1";
+    let ok = gradeMatch(g, activeFilters.grade);
+    if (ok && activeFilters.duration === "day") ok = !multi;
+    if (ok && activeFilters.duration === "multi") ok = multi;
+    if (ok && activeFilters.region !== "all") ok = region === activeFilters.region;
+    card.style.display = ok ? "" : "none";
+    if (ok) visible++;
+    const idx = parseInt(card.dataset.idx, 10);
+    const m = markers[idx];
+    if (m) {
+      if (ok) m.addTo(map);
+      else map.removeLayer(m);
+    }
+  });
+  document.getElementById("empty").style.display = visible ? "none" : "block";
 }
 
+/* ------------- map ------------- */
+const map = L.map("map", { scrollWheelZoom: false });
+const swisstopo = L.tileLayer(
+  "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
+  {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.swisstopo.admin.ch">swisstopo</a>',
+  }
+);
+const osm = L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }
+);
+swisstopo.addTo(map);
+swisstopo.on("tileerror", () => {
+  if (!map.hasLayer(osm)) {
+    map.removeLayer(swisstopo);
+    osm.addTo(map);
+  }
+});
+
+const markers = [];
+const latlngs = [];
+HIKES.forEach((h, i) => {
+  if (h.lat == null || h.lon == null) { markers.push(null); return; }
+  const m = L.marker([h.lat, h.lon]);
+  const popup = `
+    ${h.photo ? `<img src="${escAttr(h.photo)}" alt="">` : ""}
+    <div class="pop-name">${h.name}</div>
+    ${h.grade ? `<div style="margin:.2rem 0;"><span class="pill ${h.gradeClass}">${h.grade}</span></div>` : ""}
+    <a href="${h.href}">View plan →</a>
+  `;
+  m.bindPopup(popup);
+  m.addTo(map);
+  markers.push(m);
+  latlngs.push([h.lat, h.lon]);
+});
+if (latlngs.length) {
+  map.fitBounds(latlngs, { padding: [30, 30], maxZoom: 11 });
+} else {
+  map.setView([46.8, 8.2], 8);
+}
+
+function highlightMarker(i, on) {
+  const m = markers[i];
+  if (!m) return;
+  const el = m.getElement();
+  if (!el) return;
+  el.classList.toggle("marker-hl", on);
+  if (on) m.setZIndexOffset(1000);
+  else m.setZIndexOffset(0);
+}
+
+/* ------------- weather ------------- */
 async function loadWeather() {
-  let headerDatesSet = false;
   await Promise.all(HIKES.map(async (h, i) => {
+    const strip = document.querySelector(`.weather-strip[data-hike="${i}"]`);
+    if (!strip) return;
+    if (h.lat == null || h.lon == null) {
+      strip.classList.remove("loading");
+      strip.innerHTML = "";
+      return;
+    }
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${h.lat}&longitude=${h.lon}`
-      + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum`
+      + `&daily=weather_code,temperature_2m_max`
       + `&timezone=Europe%2FZurich&forecast_days=5`;
     try {
       const r = await fetch(url);
       const j = await r.json();
       const days = j.daily;
-      if (!headerDatesSet && days?.time) {
-        document.querySelectorAll("th.weather-col").forEach((th, di) => {
-          const date = days.time[di];
-          if (date) th.innerHTML = `<span class="dow">${fmtDow(date)}</span><span class="date">${fmtMd(date)}</span>`;
-        });
-        headerDatesSet = true;
-      }
+      let html = "";
       for (let d = 0; d < 5; d++) {
-        const cell = document.querySelector(`td.weather[data-hike="${i}"][data-day="${d}"]`);
-        if (!cell) continue;
         const code = days.weather_code[d];
         const tmax = Math.round(days.temperature_2m_max[d]);
-        const tmin = Math.round(days.temperature_2m_min[d]);
-        const precip = days.precipitation_sum[d];
         const [icon, label] = wmoIcon(code);
-        cell.classList.remove("loading");
-        cell.title = label;
-        cell.dataset.tmax = tmax;
-        cell.innerHTML = `
+        const date = days.time[d];
+        html += `<div class="wx" title="${label}">
+          <div class="dow">${fmtDow(date)}</div>
           <div class="icon">${icon}</div>
-          <div class="temp">${tmax}° / ${tmin}°</div>
-          <div class="precip">${precip > 0 ? precip.toFixed(1) + " mm" : "—"}</div>
-        `;
+          <div class="tmax">${tmax}°</div>
+        </div>`;
       }
+      strip.classList.remove("loading");
+      strip.innerHTML = html;
     } catch (e) {
-      document.querySelectorAll(`td.weather[data-hike="${i}"]`).forEach(c => {
-        c.classList.remove("loading");
-        c.textContent = "—";
-      });
+      strip.classList.remove("loading");
+      strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
     }
   }));
 }
-
-buildRows();
 loadWeather();
-
-function sortBy(th) {
-  const key = th.dataset.sort;
-  if (!key) return;
-  const tbody = document.querySelector("#hikes-table tbody");
-  const rows = Array.from(tbody.querySelectorAll("tr"));
-  const isAsc = th.classList.contains("sort-asc");
-  const dir = isAsc ? -1 : 1;
-  document.querySelectorAll("thead th.sortable").forEach(t => t.classList.remove("sort-asc", "sort-desc"));
-  th.classList.add(isAsc ? "sort-desc" : "sort-asc");
-
-  let getVal;
-  if (key === "weather") {
-    const day = th.dataset.day;
-    getVal = (tr) => {
-      const cell = tr.querySelector(`td.weather[data-day="${day}"]`);
-      const v = cell?.dataset.tmax;
-      return v === "" || v == null ? -Infinity : parseFloat(v);
-    };
-  } else if (key === "name") {
-    getVal = (tr) => tr.dataset.name;
-  } else {
-    getVal = (tr) => parseFloat(tr.dataset[key]);
-  }
-
-  rows.sort((a, b) => {
-    const va = getVal(a), vb = getVal(b);
-    if (typeof va === "string") return va.localeCompare(vb) * dir;
-    if (isNaN(va) && isNaN(vb)) return 0;
-    if (isNaN(va)) return 1;
-    if (isNaN(vb)) return -1;
-    return (va - vb) * dir;
-  });
-  rows.forEach(r => tbody.appendChild(r));
-}
-document.querySelectorAll("thead th.sortable").forEach(th => {
-  th.addEventListener("click", () => sortBy(th));
-});
 </script>
 </body>
 </html>

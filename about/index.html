@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>About — Rob Hannah</title>
+<meta name="description" content="About Rob Hannah — background, links, and current projects.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-soft: #14161c;
+    --fg: #e8e8ea;
+    --fg-dim: #a0a4ad;
+    --accent: #ff5c5c;
+    --border: #23262e;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+  .crumbs {
+    font-size: .85rem;
+    color: var(--fg-dim);
+    margin: 0 0 2.5rem;
+  }
+  .crumbs a {
+    color: var(--fg-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .crumbs a:hover { color: var(--accent); border-color: var(--accent); }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0 0 .5rem;
+  }
+  .lede {
+    font-size: 1.1rem;
+    color: var(--fg-dim);
+    margin: 0 0 2.5rem;
+  }
+  p { margin: 0 0 1.2rem; }
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 2.5rem 0 1rem;
+  }
+  ul.links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: .6rem;
+  }
+  ul.links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .9rem 1.1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    text-decoration: none;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  ul.links a:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: #181a22;
+  }
+  ul.links .arrow { color: var(--accent); }
+  ul.links .label { font-weight: 600; }
+  ul.links .sub { color: var(--fg-dim); font-size: .88rem; margin-left: .6rem; font-weight: 400; }
+
+  footer {
+    text-align: center;
+    color: var(--fg-dim);
+    font-size: .82rem;
+    padding: 2rem 1.5rem 3rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+  footer a { color: var(--fg-dim); text-decoration: underline; text-decoration-color: var(--border); }
+  footer a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <p class="crumbs"><a href="/">← Rob Hannah</a></p>
+  <h1>About</h1>
+  <p class="lede">Mountains, code, and quiet experiments.</p>
+
+  <p>I'm Rob — based in Zürich, Switzerland, with a background in finance and tech. Most weekends I'm somewhere in the Swiss Alps with a map and a camera; most weekdays I'm tinkering with data, Python, or whatever rabbit hole has my attention.</p>
+
+  <p>This site is a slow-cooking collection of two things: <a href="/hikes/" style="color:var(--accent);">hike plans</a> I put together for my own trips (transit, weather, elevation, trip reports), and <a href="/notes/" style="color:var(--accent);">notes</a> on topics I keep coming back to — math, systems, photography, gear lists.</p>
+
+  <p>It's intentionally low-key. No tracking, no newsletter, no AI-generated filler. Just things I wanted to write down.</p>
+
+  <h2>Find me elsewhere</h2>
+  <ul class="links">
+    <li><a href="https://github.com/roberthannah89"><span><span class="label">GitHub</span><span class="sub">@roberthannah89</span></span><span class="arrow">→</span></a></li>
+    <li><a href="https://www.linkedin.com/in/robert-hannah-8606671b/"><span><span class="label">LinkedIn</span><span class="sub">Robert Hannah</span></span><span class="arrow">→</span></a></li>
+    <li><a href="/hikes/"><span><span class="label">Hike Plans</span><span class="sub">Swiss Alps routes</span></span><span class="arrow">→</span></a></li>
+    <li><a href="/notes/"><span><span class="label">Notes</span><span class="sub">Essays and reference lists</span></span><span class="arrow">→</span></a></li>
+  </ul>
+</main>
+
+<footer>
+  <p>© Rob Hannah · <a href="https://github.com/roberthannah89">GitHub</a></p>
+</footer>
+</body>
+</html>
