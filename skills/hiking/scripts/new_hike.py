@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from datetime import date
 from pathlib import Path
@@ -286,6 +287,8 @@ def scaffold_hike(
     peak_lon: float,
     trailhead_lat: float,
     trailhead_lon: float,
+    via: list[str] | None = None,
+    no_gpx: bool = False,
 ) -> None:
     """Create the hike directory and write a pre-filled data.json.
 
@@ -313,6 +316,12 @@ def scaffold_hike(
         Trailhead latitude (0.0 if unknown).
     trailhead_lon : float
         Trailhead longitude (0.0 if unknown).
+    via : list[str], optional
+        Intermediate waypoint names passed to ``build_hike_gpx.py`` (only used
+        when GPX auto-build is triggered).
+    no_gpx : bool, optional
+        If ``True``, skip auto-running ``build_hike_gpx.py`` even when all four
+        coordinates are known.
 
     Raises
     ------
@@ -352,7 +361,36 @@ def scaffold_hike(
     print(f"\n✓ Created: {out_path}\n")
     print("TODO fields to fill in:")
     for field in todos:
-        print(f"  • {field}")
+        print(f"  \u2022 {field}")
+
+    # Auto-trigger GPX build when all four coordinates are provided.
+    coords_known = all(c != 0.0 for c in (peak_lat, peak_lon, trailhead_lat, trailhead_lon))
+    if not no_gpx and coords_known:
+        gpx_script = Path(__file__).resolve().parent / "build_hike_gpx.py"
+        cmd = [
+            sys.executable, str(gpx_script),
+            "--slug", slug,
+            "--peak", name,
+            "--trailhead", trailhead,
+            "--peak-ll", f"{peak_lat},{peak_lon}",
+            "--trailhead-ll", f"{trailhead_lat},{trailhead_lon}",
+            "--out-dir", str(hike_dir),
+        ]
+        for v in (via or []):
+            cmd += ["--via", v]
+        print(f"\n[GPX] Auto-building route (bbox auto-computed from coordinates)...")
+        result = subprocess.run(cmd)
+        if result.returncode == 0:
+            print(f"\n\u2713 GPX written to hikes/{slug}/{slug}.gpx")
+        else:
+            print(f"\nWARNING: GPX generation failed (exit {result.returncode}).", file=sys.stderr)
+            print(f"  Re-run manually:", file=sys.stderr)
+            print(f"  python skills/hiking/scripts/build_hike_gpx.py \\", file=sys.stderr)
+            print(f"      --slug {slug} --peak \"{name}\" --trailhead \"{trailhead}\" \\", file=sys.stderr)
+            print(f"      --bbox s,w,n,e --out-dir hikes/{slug}/", file=sys.stderr)
+    elif not no_gpx and not coords_known:
+        print(f"\n[GPX] Skipped — pass --peak-lat/--peak-lon/--trailhead-lat/--trailhead-lon to auto-build.")
+
     print(
         f"\nTo render (probe mode):\n"
         f"  cd /opt/code/website && python skills/hiking/scripts/render_hike.py"
@@ -387,6 +425,11 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--peak-lon", type=float, default=0.0, help="Summit longitude (default: 0.0)")
     parser.add_argument("--trailhead-lat", type=float, default=0.0, help="Trailhead latitude (default: 0.0)")
     parser.add_argument("--trailhead-lon", type=float, default=0.0, help="Trailhead longitude (default: 0.0)")
+    parser.add_argument("--via", action="append", default=[],
+                        help="Intermediate waypoint name for GPX routing (repeat for multiple). "
+                             "Only used when all four coordinates are given.")
+    parser.add_argument("--no-gpx", action="store_true",
+                        help="Skip auto-running build_hike_gpx.py even when coordinates are known.")
     return parser.parse_args()
 
 
@@ -404,4 +447,6 @@ if __name__ == "__main__":
         peak_lon=args.peak_lon,
         trailhead_lat=args.trailhead_lat,
         trailhead_lon=args.trailhead_lon,
+        via=args.via,
+        no_gpx=args.no_gpx,
     )

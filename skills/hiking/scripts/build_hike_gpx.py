@@ -479,13 +479,28 @@ def main():
     ap.add_argument("--peak-ll", type=parse_latlon, help="override peak lat,lon")
     ap.add_argument("--trailhead-ll", type=parse_latlon, help="override trailhead lat,lon")
     ap.add_argument("--end-ll", type=parse_latlon, help="override end lat,lon")
-    ap.add_argument("--bbox", type=parse_bbox, required=True, help="south,west,north,east")
+    ap.add_argument("--bbox", type=parse_bbox, default=None,
+                    help="south,west,north,east. Omit when --peak-ll and --trailhead-ll are both given "
+                         "(auto-computed with ±0.05° padding).")
     ap.add_argument("--out-dir", required=True, type=Path)
     ap.add_argument("--track-points", type=int, default=200, help="downsampled point target for track.js")
     ap.add_argument("--elev-points", type=int, default=400, help="elevation lookup point target")
     args = ap.parse_args()
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Auto-compute bbox from explicit coords when not supplied.
+    if args.bbox is None:
+        if args.peak_ll and args.trailhead_ll:
+            PAD = 0.05
+            lats = [args.peak_ll[0], args.trailhead_ll[0]]
+            lons = [args.peak_ll[1], args.trailhead_ll[1]]
+            args.bbox = (min(lats) - PAD, min(lons) - PAD, max(lats) + PAD, max(lons) + PAD)
+            print(f"  auto-bbox from coordinates: {args.bbox[0]:.3f},{args.bbox[1]:.3f},{args.bbox[2]:.3f},{args.bbox[3]:.3f}")
+        else:
+            print("ERROR: --bbox is required unless both --peak-ll and --trailhead-ll are provided.",
+                  file=sys.stderr)
+            sys.exit(1)
 
     print("[1/6] resolving endpoints in OSM...", flush=True)
     trailhead_ll = args.trailhead_ll or resolve_named_point(args.trailhead, args.bbox)
