@@ -28,8 +28,8 @@
     "transit_dest": "M\u00fclenen"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
-    "subtitle_html": "TODO: e.g. M\u00fclenen \u2192 Niesen Kulm \u2014 <span class=\"pill t2\">SAC T2</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Niesen_from_Lake_Thun.jpg/1280px-Niesen_from_Lake_Thun.jpg",
+    "subtitle_html": "Photo \u00a9 Claude T Spierer",
     "grade": "T2"
   },
   "intro_html": "<p>The iconic \"Swiss Pyramid\" \u2013 a relentless 1700 m climb with extraordinary views of Lake Thun and the Bernese Alps. Popular funicular descent option.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "TODO: description",
-      "caption_html": "TODO: caption"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Niesen_from_Lake_Thun.jpg/1280px-Niesen_from_Lake_Thun.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Niesen_from_Lake_Thun.jpg/1280px-Niesen_from_Lake_Thun.jpg",
+      "alt": "Niesen mountain above Lake Thun",
+      "caption_html": "<p>Niesen mountain above Lake Thun. Photo \u00a9 Claude T Spierer</p>"
     }
   ],
   "waypoints": [],

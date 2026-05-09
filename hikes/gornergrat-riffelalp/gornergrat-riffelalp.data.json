@@ -28,8 +28,8 @@
     "transit_dest": "Zermatt"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
-    "subtitle_html": "TODO: e.g. Zermatt \u2192 Gornergrat & Riffelalp \u2014 <span class=\"pill t2\">SAC T2</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matterhorn_Reflection.jpg/1280px-Matterhorn_Reflection.jpg",
+    "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T2"
   },
   "intro_html": "<p>Switzerland's most photographed easy alpine hike: traverse past five glacier-fed lakes\u2014Riffelsee, Stellisee, Grindjesee, and more\u2014with the Matterhorn reflected in crystalline waters at every turn. Accessible via the Gornergrat Railway from car-free Zermatt, this quintessential Valais experience combines accessibility with breathtaking alpine scenery.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "TODO: description",
-      "caption_html": "TODO: caption"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matterhorn_Reflection.jpg/1280px-Matterhorn_Reflection.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matterhorn_Reflection.jpg/1280px-Matterhorn_Reflection.jpg",
+      "alt": "Matterhorn reflection in glacier lake",
+      "caption_html": "<p>Matterhorn reflection in glacier lake. Photo \u00a9 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

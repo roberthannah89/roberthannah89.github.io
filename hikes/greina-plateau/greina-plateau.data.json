@@ -28,8 +28,8 @@
     "transit_dest": "Vrin via Sumvitg"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
-    "subtitle_html": "TODO: e.g. Vrin \u2192 Greina Plateau \u2014 <span class=\"pill t2\">SAC T2</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Greina_Plateau.jpg/1280px-Greina_Plateau.jpg",
+    "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T2"
   },
   "intro_html": "<p>The \"Swiss Tibet\": a vast, windswept, tundra-like protected high-altitude plateau offering Alpine solitude and sweeping 360\u00b0 views across the Lepontine Alps. A timeless Alpine crossing through one of Switzerland's most remote and ecologically precious landscapes.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "TODO: description",
-      "caption_html": "TODO: caption"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Greina_Plateau.jpg/1280px-Greina_Plateau.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Greina_Plateau.jpg/1280px-Greina_Plateau.jpg",
+      "alt": "Greina Plateau - Swiss Alps high plateau",
+      "caption_html": "<p>Greina Plateau - Swiss Alps high plateau. Photo \u00a9 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

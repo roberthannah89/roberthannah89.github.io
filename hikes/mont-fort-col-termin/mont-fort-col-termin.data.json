@@ -28,8 +28,8 @@
     "transit_dest": "Verbier"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
-    "subtitle_html": "TODO: e.g. Verbier \u2192 Cabane du Mont Fort & Col Termin \u2014 <span class=\"pill t3\">SAC T3</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Verbier_-_Mont-Blanc.jpg/1280px-Verbier_-_Mont-Blanc.jpg",
+    "subtitle_html": "Photo \u00a9 Wikimedia Commons",
     "grade": "T3"
   },
   "intro_html": "<p>Alpine balcony above Verbier with panoramic views of the Grand Combin and Mont Blanc. A classic Valais high-mountain traverse with excellent accommodation at the historic Cabane du Mont Fort hut.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "TODO: description",
-      "caption_html": "TODO: caption"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Verbier_-_Mont-Blanc.jpg/1280px-Verbier_-_Mont-Blanc.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Verbier_-_Mont-Blanc.jpg/1280px-Verbier_-_Mont-Blanc.jpg",
+      "alt": "Mont Blanc view from Verbier area",
+      "caption_html": "<p>Mont Blanc view from Verbier area. Photo \u00a9 Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],

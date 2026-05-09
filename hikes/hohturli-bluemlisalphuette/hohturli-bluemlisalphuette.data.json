@@ -28,8 +28,8 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
-    "subtitle_html": "TODO: e.g. Kandersteg \u2192 Hoht\u00fcrli & Bl\u00fcemlisalph\u00fctte \u2014 <span class=\"pill t3\">SAC T3</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hohtuerli_Pass.jpg/1280px-Hohtuerli_Pass.jpg",
+    "subtitle_html": "Photo \u00a9 SarahSophie2014",
     "grade": "T3"
   },
   "intro_html": "<p>Traverse to Switzerland's highest pass in the Bernese Alps, passing turquoise Oeschinensee and the historic Bl\u00fcemlisalph\u00fctte hut. Spectacular alpine panorama.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "TODO: description",
-      "caption_html": "TODO: caption"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hohtuerli_Pass.jpg/1280px-Hohtuerli_Pass.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hohtuerli_Pass.jpg/1280px-Hohtuerli_Pass.jpg",
+      "alt": "Hoht\u00fcrli pass in the Bernese Alps",
+      "caption_html": "<p>Hoht\u00fcrli pass in the Bernese Alps. Photo \u00a9 SarahSophie2014</p>"
     }
   ],
   "waypoints": [],

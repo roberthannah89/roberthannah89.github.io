@@ -28,8 +28,8 @@
     "transit_dest": "Interlaken"
   },
   "hero": {
-    "image_url": "TODO: Wikimedia Special:FilePath URL at width=1600",
-    "subtitle_html": "TODO: e.g. Rostock \u2192 Hardergrat \u2014 <span class=\"pill t4\">SAC T4</span> \u00b7 ~850 m gain \u00b7 ~8.4 km \u00b7 ~5h round-trip",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hardergrat_2013-09-26.JPG/1280px-Hardergrat_2013-09-26.JPG",
+    "subtitle_html": "Photo \u00a9 Mtb2014",
     "grade": "T4"
   },
   "intro_html": "<p>The iconic knife-edge ridge traverse above Lake Brienz, with dramatic alpine scenery and constant exposure along the Bernese Oberland's most famous high-mountain ridge. One of Switzerland's most celebrated day hikes, combining technical scrambling with stunning panoramic views of the Central Alps.</p>",
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: Wikimedia width=600 URL",
-      "lightbox_url": "TODO: Wikimedia width=1600 URL",
-      "alt": "TODO: description",
-      "caption_html": "TODO: caption"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hardergrat_2013-09-26.JPG/1280px-Hardergrat_2013-09-26.JPG",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hardergrat_2013-09-26.JPG/1280px-Hardergrat_2013-09-26.JPG",
+      "alt": "Hardergrat ridge walk in Bernese Oberland",
+      "caption_html": "<p>Hardergrat ridge walk in Bernese Oberland. Photo \u00a9 Mtb2014</p>"
     }
   ],
   "waypoints": [],
