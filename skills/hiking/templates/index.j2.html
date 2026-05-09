@@ -254,6 +254,13 @@
     pointer-events: none;
     backdrop-filter: blur(4px);
   }
+  .canton-legend .legend-title {
+    margin-bottom: .2rem;
+    color: var(--fg-dim);
+    font-size: .66rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
   .canton-legend .legend-item { display: flex; align-items: center; gap: .4rem; }
   .canton-legend .legend-dot {
     width: 10px; height: 10px;
@@ -267,9 +274,12 @@
 
   @media (max-width: 700px) {
     header.hero h1 { font-size: 1.8rem; }
-    #map { height: 340px; }
+    #map { height: clamp(320px, 52vh, 520px); }
     main { padding: 1rem .75rem 2rem; }
     .filter-label { min-width: 100%; margin-bottom: .15rem; }
+  }
+  @media (min-width: 1400px) {
+    #map { height: min(68vh, 840px); }
   }
   /* ---- Map weather-day toggle ---- */
   .map-day-bar {
@@ -294,16 +304,24 @@
   /* Weather pin markers inside Leaflet */
   .hm-pin {
     background: var(--bg-soft, #14161c);
-    border: 2px solid var(--accent, #ff5c5c);
+    border: 2px solid var(--pin-col, var(--accent, #ff5c5c));
     border-radius: 8px;
-    padding: 2px 6px;
+    padding: 2px 7px 2px 6px;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     white-space: nowrap;
     box-shadow: 0 2px 8px rgba(0,0,0,.6);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     cursor: pointer;
+  }
+  .hm-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pin-col, var(--accent, #ff5c5c));
+    box-shadow: 0 0 0 1px rgba(255,255,255,.18);
+    flex-shrink: 0;
   }
   .hm-icon { font-size: 1rem; line-height: 1; }
   .hm-temp { font-size: .72rem; color: #e8e8ea; font-weight: 600; }
@@ -665,13 +683,14 @@ const latlngs = [];
 const weatherByHike = [];  // weatherByHike[hikeIdx][dayIdx] = {icon, label, tmax}
 let mapDayActive = 1;      // default: tomorrow
 
-function makeWeatherPin(emoji, temp) {
+function makeWeatherPin(emoji, temp, canton) {
+  const pinColor = cantonColor(canton);
   const inner = (emoji && emoji !== '·')
-    ? `<span class="hm-icon">${emoji}</span><span class="hm-temp">${temp}°</span>`
-    : `<span class="hm-icon" style="opacity:.3">📍</span>`;
+    ? `<span class="hm-dot"></span><span class="hm-icon">${emoji}</span><span class="hm-temp">${temp}°</span>`
+    : `<span class="hm-dot"></span><span class="hm-icon" style="opacity:.3">📍</span>`;
   return L.divIcon({
     className: '',
-    html: `<div class="hm-pin">${inner}</div>`,
+    html: `<div class="hm-pin" style="--pin-col:${pinColor}">${inner}</div>`,
     iconSize: null, iconAnchor: [28, 20], popupAnchor: [0, -26],
   });
 }
@@ -685,7 +704,7 @@ function setMapDay(dayIdx) {
     if (!m) return;
     const wd = weatherByHike[i];
     if (!wd || !wd[dayIdx]) return;
-    m.setIcon(makeWeatherPin(wd[dayIdx].icon, wd[dayIdx].tmax));
+    m.setIcon(makeWeatherPin(wd[dayIdx].icon, wd[dayIdx].tmax, h.canton));
   });
   updateCardWeather();
   applyFilters();
@@ -708,7 +727,7 @@ function updateMapDayBtns(dates) {
 HIKES.forEach((h, i) => {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
   const m = L.marker([h.lat, h.lon], {
-    icon: makeWeatherPin('·', ''),
+    icon: makeWeatherPin('·', '', h.canton),
   });
   const popup = `
     ${h.photo ? `<img src="${escAttr(h.photo)}" alt="">` : ""}
@@ -727,6 +746,7 @@ if (latlngs.length) {
 } else {
   map.setView([46.8, 8.2], 8);
 }
+window.addEventListener('resize', () => map.invalidateSize());
 
 /* canton legend control */
 const legendCtrl = L.control({ position: "bottomleft" });
@@ -734,7 +754,7 @@ legendCtrl.onAdd = function() {
   const div = L.DomUtil.create("div", "canton-legend");
   const seen = new Map();
   HIKES.forEach(h => { if (h.canton && !seen.has(h.canton)) seen.set(h.canton, cantonColor(h.canton)); });
-  div.innerHTML = [...seen.entries()].map(([name, col]) =>
+  div.innerHTML = `<div class="legend-title">Pin color by canton</div>` + [...seen.entries()].map(([name, col]) =>
     `<div class="legend-item"><span class="legend-dot" style="background:${col}"></span>${name}</div>`
   ).join("");
   return div;
@@ -744,9 +764,8 @@ legendCtrl.addTo(map);
 function highlightMarker(i, on) {
   const m = markers[i];
   if (!m) return;
-  m.setStyle(on
-    ? { radius: 13, weight: 3, fillOpacity: 1 }
-    : { radius: 9,  weight: 2, fillOpacity: 0.92 });
+  const el = m.getElement();
+  if (el) el.classList.toggle('marker-hl', on);
   if (on) m.bringToFront();
 }
 
