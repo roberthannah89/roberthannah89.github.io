@@ -28,7 +28,7 @@
     "transit_dest": "Zermatt"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/File:Panorama_vom_Gornergrat_Zermatt.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Panorama_vom_Gornergrat_Zermatt.jpg",
     "subtitle_html": "Photo \u00a9 Wikimedia Commons - Gornergrat panorama",
     "grade": "T2"
   },
@@ -57,20 +57,20 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/File:Panorama_vom_Gornergrat_Zermatt.jpg",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Panorama_vom_Gornergrat_Zermatt.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Panorama_vom_Gornergrat_Zermatt.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Panorama_vom_Gornergrat_Zermatt.jpg",
       "alt": "View 1 of Gornergrat Riffelalp",
-      "caption_html": "<p>Photo \u00a9 Wikimedia Commons - Gornergrat panorama</p>"
+      "caption_html": "<p>Photo © Wikimedia Commons - Gornergrat panorama</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/File:Gornergletscher.jpeg",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Gornergletscher.jpeg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Gornergletscher.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Gornergletscher.jpg",
       "alt": "View 2 of Gornergrat Riffelalp",
-      "caption_html": "<p>Photo \u00a9 Wikimedia Commons - Gorner Glacier</p>"
+      "caption_html": "<p>Photo © Wikimedia Commons - Gorner Glacier</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/File:Gornergrat_Railway_with_Matterhorn_view.jpg",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/File:Gornergrat_Railway_with_Matterhorn_view.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Gornergrat_Station_and_Matterhorn.jpg",
+      "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Gornergrat_Station_and_Matterhorn.jpg",
       "alt": "View 3 of Gornergrat Riffelalp",
       "caption_html": "<p>Photo \u00a9 Wikimedia Commons - Gornergrat Railway</p>"
     }
