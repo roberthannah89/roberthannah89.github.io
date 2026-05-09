@@ -33,34 +33,70 @@
   },
   "intro_html": "<blockquote>\"Der Brienzergrat ist einer der schmalsten und ausgesetztesten Grasgrate der Alpen — eine Messerschneide zwischen Brienzersee und Habkerntal mit dramatischen Tiefblicken auf beiden Seiten.\"<br>— <em>hikr.org (paraphrased)</em></blockquote><p>The <strong>Augstmatthorn</strong> (2137 m) is the eastern signature peak of the <strong>Brienzergrat</strong>, a narrow grass-and-limestone ridge running ~20 km along the north shore of Lake Brienz. Often called a <em>\"mini Hardergrat\"</em>: same knife-edge grass character as its longer neighbour to the west, but with bailouts that make it accessible as a single-day T3 from Habkern. Famous for resident <strong>ibex</strong> (Steinbock) on the south flank and dramatic 1500 m drops to the lake.</p>",
   "quick_facts": [
-    ["Summit elevation", "<strong>2137 m</strong>"],
-    ["Range", "Emmental Alps / Brienzergrat (north of Lake Brienz)"],
-    ["Cantons", "Bern (Habkern / Brienz / Niederried)"],
-    ["Valleys", "<strong>Habkerntal</strong> (N, Habkern 1056 m) / <strong>Brienzersee</strong> (S, ~564 m)"],
-    ["Prominence", "~117 m"],
-    ["Coordinates", "46°44′32″ N, 7°55′43″ E"],
-    ["Activity", "Mountain hiking (Bergwandern) — exposed grass ridge"],
-    ["Standard SAC grade", "<span class=\"pill t3\">T3</span> demanding mountain hiking"],
-    ["Distance", "~14 km loop from Habkern · ~6 h moving"],
-    ["Total ascent / descent", "~1200 m gain · ~1200 m descent"],
-    ["Nearest village", "Habkern (Bern)"],
-    ["Wildlife", "Resident ibex colony on the south flank"]
+    [
+      "Summit elevation",
+      "<strong>2137 m</strong>"
+    ],
+    [
+      "Range",
+      "Emmental Alps / Brienzergrat (north of Lake Brienz)"
+    ],
+    [
+      "Cantons",
+      "Bern (Habkern / Brienz / Niederried)"
+    ],
+    [
+      "Valleys",
+      "<strong>Habkerntal</strong> (N, Habkern 1056 m) / <strong>Brienzersee</strong> (S, ~564 m)"
+    ],
+    [
+      "Prominence",
+      "~117 m"
+    ],
+    [
+      "Coordinates",
+      "46°44′32″ N, 7°55′43″ E"
+    ],
+    [
+      "Activity",
+      "Mountain hiking (Bergwandern) — exposed grass ridge"
+    ],
+    [
+      "Standard SAC grade",
+      "<span class=\"pill t3\">T3</span> demanding mountain hiking"
+    ],
+    [
+      "Distance",
+      "~14 km loop from Habkern · ~6 h moving"
+    ],
+    [
+      "Total ascent / descent",
+      "~1200 m gain · ~1200 m descent"
+    ],
+    [
+      "Nearest village",
+      "Habkern (Bern)"
+    ],
+    [
+      "Wildlife",
+      "Resident ibex colony on the south flank"
+    ]
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ridge_from_Suggiture_130615.JPG?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=1600",
       "alt": "Augstmatthorn ridge from Suggiture",
       "caption_html": "The Augstmatthorn summit ridge seen from Suggiture along the Brienzergrat — knife-edge grass crest above Lake Brienz."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg zum Augstmatthorn hoch über dem Brienzersee.jpg?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg_zum_Augstmatthorn_hoch_%C3%BCber_dem_Brienzersee.jpg?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg zum Augstmatthorn hoch über dem Brienzersee.jpg?width=1600",
       "alt": "Ascent to Augstmatthorn high above Lake Brienz",
       "caption_html": "Ascent to the Augstmatthorn with the 1500 m drop to Lake Brienz directly below."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ibex.jpg?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ibex.jpg?width=1600",
       "alt": "Ibex on the Augstmatthorn",
       "caption_html": "Ibex (Steinbock) are commonly seen on the south flank of the Augstmatthorn, especially in early morning."
@@ -73,9 +109,24 @@
     }
   ],
   "waypoints": [
-    {"lat": 46.7318, "lon": 7.8613, "label": "Habkern (1056 m)", "kind": "start"},
-    {"lat": 46.7444, "lon": 7.9076, "label": "Lombachalp (~1525 m)", "kind": "way"},
-    {"lat": 46.7423, "lon": 7.9286, "label": "Augstmatthorn (2137 m)", "kind": "summit"}
+    {
+      "lat": 46.7318,
+      "lon": 7.8613,
+      "label": "Habkern (1056 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.7444,
+      "lon": 7.9076,
+      "label": "Lombachalp (~1525 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 46.7423,
+      "lon": 7.9286,
+      "label": "Augstmatthorn (2137 m)",
+      "kind": "summit"
+    }
   ],
   "routes_subtitle": "(Brienzergrat — north-side ascent from Habkern)",
   "routes": [
@@ -121,15 +172,42 @@
     {
       "title": "Day Plan (T3 single-day loop)",
       "rows": [
-        ["~05:30", "Train Zürich HB → Bern → Interlaken West"],
-        ["~07:30", "Interlaken West, board PostBus 104 to Habkern"],
-        ["~08:00", "Habkern (1056 m) — start hiking"],
-        ["~10:00", "Lombachalp (~1525 m) — pastoral basin, last reliable refill"],
-        ["~12:00–12:30", "Augstmatthorn summit (2137 m) — ascent ~4 h"],
-        ["~13:00", "Lunch at the cross / start descent"],
-        ["~15:30", "Back at Lombachalp"],
-        ["~16:30", "Habkern village"],
-        ["~17:00–18:00", "PostBus + train back to Zürich"]
+        [
+          "~05:30",
+          "Train Zürich HB → Bern → Interlaken West"
+        ],
+        [
+          "~07:30",
+          "Interlaken West, board PostBus 104 to Habkern"
+        ],
+        [
+          "~08:00",
+          "Habkern (1056 m) — start hiking"
+        ],
+        [
+          "~10:00",
+          "Lombachalp (~1525 m) — pastoral basin, last reliable refill"
+        ],
+        [
+          "~12:00–12:30",
+          "Augstmatthorn summit (2137 m) — ascent ~4 h"
+        ],
+        [
+          "~13:00",
+          "Lunch at the cross / start descent"
+        ],
+        [
+          "~15:30",
+          "Back at Lombachalp"
+        ],
+        [
+          "~16:30",
+          "Habkern village"
+        ],
+        [
+          "~17:00–18:00",
+          "PostBus + train back to Zürich"
+        ]
       ],
       "footer_html": "Variant: continue the ridge west to <strong>Niederhorn</strong> (~3–4 h additional, T3 sustained) and descend by cable car. Decide at the summit based on weather and time. <strong>Bailouts north into the Lombach basin exist from every saddle.</strong>"
     }
@@ -151,18 +229,18 @@
   },
   "webcams": [
     {
-      "url": "https://www.foto-webcam.eu/webcam/niederhorn/current/1200.jpg",
-      "label": "Niederhorn — west end of the Brienzergrat (~10 km), looks east directly along the ridge to Augstmatthorn.",
+      "label": "Brunnen – Lake Lucerne",
+      "url": "https://www.foto-webcam.eu/webcam/brunnen/current/1200.jpg",
       "fallback": false
     },
     {
-      "url": "https://www.foto-webcam.eu/webcam/interlaken/current/1200.jpg",
-      "label": "Interlaken — valley reference for cloud base and visibility (~10 km south).",
+      "label": "Glecksteinhütte – Grindelwald glacier",
+      "url": "https://www.foto-webcam.eu/webcam/glecksteinhuette/current/1200.jpg",
       "fallback": false
     },
     {
-      "url": "https://www.meteoblue.com/en/weather/webcams/habkern_switzerland",
-      "label": "Meteoblue webcams near Habkern (link only — Meteoblue blocks iframe embedding).",
+      "label": "Meteoblue Interlaken webcams",
+      "url": "https://www.meteoblue.com/en/weather/webcams/interlaken_switzerland",
       "fallback": true
     }
   ],
@@ -230,7 +308,12 @@
     },
     {
       "title": "Recommended",
-      "items_html": ["Trekking poles (very useful on grass descent)", "Power bank", "Whistle", "Zoom-capable camera or binoculars (ibex)"]
+      "items_html": [
+        "Trekking poles (very useful on grass descent)",
+        "Power bank",
+        "Whistle",
+        "Zoom-capable camera or binoculars (ibex)"
+      ]
     },
     {
       "title": "If continuing the full Hardergrat (T5)",

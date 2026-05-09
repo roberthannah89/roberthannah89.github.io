@@ -34,52 +34,116 @@
   },
   "intro_html": "<blockquote>\"One of the most spectacular and most-walked panoramaweg traverses in Switzerland — a continuous front-row view of the Eiger, Mönch and Jungfrau across the Lütschental from a high alpine balcony.\"<br>— <em>Berner Oberland tourism (paraphrased)</em></blockquote><p>The Schynige Platte → First traverse is the classic Berner Oberland panorama hike. It threads a high ridge between two mountain railways: the historic <strong>Schynige Platte Bahn</strong> (rack railway from Wilderswil, in service since 1893) and the <strong>Firstbahn</strong> gondola down to Grindelwald. Optional summit detour to <strong>Faulhorn</strong> (2680 m, +130 m) and the iconic photo stop at <strong>Bachalpsee</strong>.</p><p><strong>Critical:</strong> the Schynige Platte Bahn is <strong>summer-only</strong> — typically <strong>late May to late October</strong>. No winter access. Start early: limited service, slow rack railway up, and afternoon thunderstorm risk on the fully exposed ridge.</p>",
   "quick_facts": [
-    ["Faulhorn elevation", "<strong>2680 m</strong>"],
-    ["Schynige Platte (start)", "2068 m (rack railway top station)"],
-    ["First (end)", "2168 m (gondola top station)"],
-    ["Range", "Bernese Alps — Faulhorn group, north of the Lütschental"],
-    ["Canton", "Bern"],
-    ["Standard SAC grade", "<span class=\"pill t2\">T2</span> — well-marked Wanderweg the entire way"],
-    ["Distance", "~16 km point-to-point (Schynige Platte → First)"],
-    ["Total ascent / descent", "~600 m gain · ~500 m descent (excluding Faulhorn summit detour)"],
-    ["Faulhorn detour", "+130 m / +30 min for the summit (highly recommended)"],
-    ["Walking time", "5–6 h moving (SAC); plan a full day with the Faulhorn detour and rail logistics"],
-    ["Highlights", "Eiger / Mönch / Jungfrau panorama; Bachalpsee reflection; historic Berghotel Faulhorn (1832)"],
-    ["Mountain railway", "<a href=\"https://www.jungfrau.ch/en-gb/schynige-platte/\" target=\"_blank\">Schynige Platte Bahn</a> — summer-only (late May to late Oct)"],
-    ["Gondola", "<a href=\"https://www.jungfrau.ch/en-gb/first/\" target=\"_blank\">Firstbahn</a> — Grindelwald ↔ First, year-round"]
+    [
+      "Faulhorn elevation",
+      "<strong>2680 m</strong>"
+    ],
+    [
+      "Schynige Platte (start)",
+      "2068 m (rack railway top station)"
+    ],
+    [
+      "First (end)",
+      "2168 m (gondola top station)"
+    ],
+    [
+      "Range",
+      "Bernese Alps — Faulhorn group, north of the Lütschental"
+    ],
+    [
+      "Canton",
+      "Bern"
+    ],
+    [
+      "Standard SAC grade",
+      "<span class=\"pill t2\">T2</span> — well-marked Wanderweg the entire way"
+    ],
+    [
+      "Distance",
+      "~16 km point-to-point (Schynige Platte → First)"
+    ],
+    [
+      "Total ascent / descent",
+      "~600 m gain · ~500 m descent (excluding Faulhorn summit detour)"
+    ],
+    [
+      "Faulhorn detour",
+      "+130 m / +30 min for the summit (highly recommended)"
+    ],
+    [
+      "Walking time",
+      "5–6 h moving (SAC); plan a full day with the Faulhorn detour and rail logistics"
+    ],
+    [
+      "Highlights",
+      "Eiger / Mönch / Jungfrau panorama; Bachalpsee reflection; historic Berghotel Faulhorn (1832)"
+    ],
+    [
+      "Mountain railway",
+      "<a href=\"https://www.jungfrau.ch/en-gb/schynige-platte/\" target=\"_blank\">Schynige Platte Bahn</a> — summer-only (late May to late Oct)"
+    ],
+    [
+      "Gondola",
+      "<a href=\"https://www.jungfrau.ch/en-gb/first/\" target=\"_blank\">Firstbahn</a> — Grindelwald ↔ First, year-round"
+    ]
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalp Lake ( Bachalpsee ).jpg?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalp_Lake_%28_Bachalpsee_%29.jpg?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bachalp Lake ( Bachalpsee ).jpg?width=1600",
       "alt": "Bachalpsee with reflection of the Bernese Alps",
       "caption_html": "<strong>Bachalpsee</strong> (2265 m) — the iconic reflection of Schreckhorn, Wetterhorn and Finsteraarhorn from the standard photo stop on the trail."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5831 - Schynige Platte - Faulhorn.JPG?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5831_-_Schynige_Platte_-_Faulhorn.JPG?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/5831 - Schynige Platte - Faulhorn.JPG?width=1600",
       "alt": "Faulhorn from the Schynige Platte ridge",
       "caption_html": "<strong>Faulhorn</strong> (2680 m) seen from the Schynige Platte side of the panoramaweg — the optional summit detour on the traverse."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5791-5796 - Schynige Platte - View over Jungfrau area.jpg?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5791-5796_-_Schynige_Platte_-_View_over_Jungfrau_area.jpg?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/5791-5796 - Schynige Platte - View over Jungfrau area.jpg?width=1600",
       "alt": "Eiger, Mönch and Jungfrau panorama from Schynige Platte",
       "caption_html": "The Eiger / Mönch / Jungfrau panorama across the Lütschental — the front-row view that defines the entire traverse."
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5824-5828 - Schynige Platte - View over Brienzersee.jpg?width=600",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/5824-5828_-_Schynige_Platte_-_View_over_Brienzersee.jpg?width=600",
       "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/5824-5828 - Schynige Platte - View over Brienzersee.jpg?width=1600",
       "alt": "View over Lake Brienz from Schynige Platte",
       "caption_html": "North-side view from the Schynige Platte balcony down to Lake Brienz — the rack railway and the Brienzergrat opposite."
     }
   ],
   "waypoints": [
-    {"lat": 46.6504, "lon": 7.9097, "label": "Schynige Platte (2068 m)", "kind": "start"},
-    {"lat": 46.6602, "lon": 7.9542, "label": "Loucherhorn flank (~2200 m)", "kind": "way"},
-    {"lat": 46.6705, "lon": 8.0223, "label": "Faulhorn (2680 m)", "kind": "summit"},
-    {"lat": 46.6700, "lon": 8.0297, "label": "Bachalpsee (2265 m)", "kind": "way"},
-    {"lat": 46.6606, "lon": 8.0539, "label": "First (2168 m)", "kind": "way"}
+    {
+      "lat": 46.6504,
+      "lon": 7.9097,
+      "label": "Schynige Platte (2068 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.6602,
+      "lon": 7.9542,
+      "label": "Loucherhorn flank (~2200 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 46.6705,
+      "lon": 8.0223,
+      "label": "Faulhorn (2680 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.67,
+      "lon": 8.0297,
+      "label": "Bachalpsee (2265 m)",
+      "kind": "way"
+    },
+    {
+      "lat": 46.6606,
+      "lon": 8.0539,
+      "label": "First (2168 m)",
+      "kind": "way"
+    }
   ],
   "routes_subtitle": "(the classic panoramaweg, plus shorter variants)",
   "routes": [
@@ -130,15 +194,42 @@
       "title": "Day Plan (T2 traverse, single day)",
       "subheading": "Earlier is better — Schynige Platte Bahn has limited capacity, and afternoon thunderstorms are the dominant weather risk.",
       "rows": [
-        ["~06:00", "Train Zürich HB → Bern → Interlaken Ost (≈2 h)"],
-        ["~08:30", "Wilderswil — board the Schynige Platte Bahn (first trains ~07:25 / 08:05 / 08:45)"],
-        ["~09:30", "Schynige Platte (2068 m) — start hiking"],
-        ["~11:30", "Männdlenen / Weberhütte (2344 m) — short break"],
-        ["~13:00", "Faulhorn summit (2680 m) — lunch with the Eiger / Mönch / Jungfrau panorama"],
-        ["~14:30", "Bachalpsee (2265 m) — photo stop"],
-        ["~15:30", "First (2168 m) — gondola down to Grindelwald"],
-        ["~16:30", "Grindelwald — train Interlaken Ost → Bern → Zürich HB"],
-        ["~19:30", "Back in Zürich"]
+        [
+          "~06:00",
+          "Train Zürich HB → Bern → Interlaken Ost (≈2 h)"
+        ],
+        [
+          "~08:30",
+          "Wilderswil — board the Schynige Platte Bahn (first trains ~07:25 / 08:05 / 08:45)"
+        ],
+        [
+          "~09:30",
+          "Schynige Platte (2068 m) — start hiking"
+        ],
+        [
+          "~11:30",
+          "Männdlenen / Weberhütte (2344 m) — short break"
+        ],
+        [
+          "~13:00",
+          "Faulhorn summit (2680 m) — lunch with the Eiger / Mönch / Jungfrau panorama"
+        ],
+        [
+          "~14:30",
+          "Bachalpsee (2265 m) — photo stop"
+        ],
+        [
+          "~15:30",
+          "First (2168 m) — gondola down to Grindelwald"
+        ],
+        [
+          "~16:30",
+          "Grindelwald — train Interlaken Ost → Bern → Zürich HB"
+        ],
+        [
+          "~19:30",
+          "Back in Zürich"
+        ]
       ],
       "footer_html": "<strong>Earlier start strongly advised</strong> if afternoon storms are forecast. Catch the first or second Schynige Platte Bahn — the ridge is fully exposed for ~5 h. Last Firstbahn down is typically <strong>~17:00–17:30</strong> depending on the season; verify before leaving."
     }
@@ -160,23 +251,23 @@
   },
   "webcams": [
     {
-      "url": "https://www.foto-webcam.eu/webcam/maennlichen/current/1200.jpg",
-      "label": "Männlichen — looking south to the Eiger / Mönch / Jungfrau, ~5 km from the trail; best single indicator of conditions over the route.",
+      "label": "Glecksteinhütte – Grindelwald glacier",
+      "url": "https://www.foto-webcam.eu/webcam/glecksteinhuette/current/1200.jpg",
       "fallback": false
     },
     {
-      "url": "https://www.foto-webcam.eu/webcam/grindelwald/current/1200.jpg",
-      "label": "Grindelwald — valley view to the Eiger north face; useful for cloud base above the Lütschental.",
+      "label": "Brunnen – Lake Lucerne panorama",
+      "url": "https://www.foto-webcam.eu/webcam/brunnen/current/1200.jpg",
       "fallback": false
     },
     {
+      "label": "Jungfrau Region weather & webcams",
       "url": "https://www.jungfrau.ch/en-gb/weather-and-webcams/",
-      "label": "Jungfrau region official webcams — Schynige Platte, First, and Faulhorn cams (link only; the operator does not allow iframe embedding).",
       "fallback": true
     },
     {
+      "label": "Meteoblue Grindelwald webcams",
       "url": "https://www.meteoblue.com/en/weather/webcams/grindelwald_switzerland",
-      "label": "Meteoblue webcams near Grindelwald (link only — Meteoblue blocks iframe embedding).",
       "fallback": true
     }
   ],
