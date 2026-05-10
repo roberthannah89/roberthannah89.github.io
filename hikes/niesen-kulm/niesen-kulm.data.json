@@ -48,11 +48,11 @@
     ],
     [
       "Distance",
-      "TODO: km round-trip"
+      "~16 km round-trip"
     ],
     [
       "Total ascent",
-      "TODO: m"
+      "~1700 m"
     ]
   ],
   "photos": [
@@ -83,7 +83,12 @@
       "grade": "T2",
       "pill_class": "t2",
       "bullets_html": [
-        "TODO: <li>Step by step.</li>"
+        "<strong>Reichenbach trailhead</strong> (707m) — Start point; zigzag forest trail",
+        "<strong>Stöpfflue</strong> (1105m) — First elevation pass; meet asphalt road",
+        "<strong>Schwandegg Station</strong> (1666m) — Intermediate funicular station; enters more open terrain",
+        "<strong>Glogghore</strong> (1984m) — Ridge waypoint with serpentine paths",
+        "<strong>Räbmättli</strong> (~2150m) — High meadow; final approach begins",
+        "<strong>Niesen Kulm summit</strong> (2362m) — Restaurant and panoramic views of Lake Thun"
       ]
     }
   ],
@@ -95,10 +100,15 @@
     {
       "title": "Day 1",
       "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
+        ["07:00", "Depart Reichenbach trailhead; cool morning, beat crowds"],
+        ["07:30", "Reach Stöpfflue (1105m); first viewpoint, 30 min/400m gain"],
+        ["08:30", "Arrive Schlächtewald (1436m); steady alp road, 1 hour/330m gain"],
+        ["09:30", "Meet Schwandegg Station (1666m); funicular line, 1 hour/230m gain"],
+        ["10:45", "Reach Glogghore (1984m); steep serpentines, 1h 15m/320m gain"],
+        ["11:45", "Arrive Räbmättli (~2150m); ridge approach, 1 hour/160m gain"],
+        ["12:15", "Summit Niesen Kulm (2362m); total 5 hours up"],
+        ["12:45–13:15", "Lunch break & summit views; restaurant open in summer"],
+        ["17:30–18:00", "Return Reichenbach; 5+ hours down; 9.5–10.5 hours total"]
       ],
       "footer_html": ""
     }
@@ -130,8 +140,10 @@
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/dir/Niesen_1450/",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "<strong>Relentless steep gain from valley floor:</strong> Unbroken 1700m ascent; no real warm-up section. Valley base (707m) is unusually low; switchbacks don't relieve grade until mid-slope.",
+      "<strong>Overwhelming funicular tourist crowds:</strong> Masses of non-hiking tourists using the train create heavy congestion on upper trails. Serious hikers avoid Schwandegg section during peak train times (1:30–2:30pm).",
+      "<strong>'Bähnli-Berg' paradox:</strong> Funicular makes it a tourist destination; lower section from Reichenbach offers escape from crowds but adds 1700m vs. using mid-station. Upper trail becomes very crowded 10:00–16:00."
+
     ],
     "reports": [
       {
@@ -167,13 +179,20 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "<strong>Unrelenting grade:</strong> Steep ascent throughout; no terrain flattening until upper meadows. Recovery time limited; cumulative fatigue risk.",
+    "<strong>Weather exposure:</strong> Pyramid shape + 2362m elevation = exposed ridge; afternoon thunderstorms common May–September.",
+    "<strong>Trail congestion:</strong> Summer crowds peak 10:00–16:00; tight single-track on upper sections; traffic jams during turnaround.",
+    "<strong>Descent risk:</strong> Long downhill pounding on knees; loose scree on alternative descents.",
+    "<strong>Spring/winter transitions:</strong> Snowmelt creates water channels; icy sections on north-facing slopes (April, Oct–Nov).",
+    "<strong>Heat in July–Aug:</strong> South-facing slopes offer minimal shade; dehydration risk on steep sections.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Niesen Kulm</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\">SAC Route Portal — Niesen Kulm</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=616000&Y=620000&lang=en\">SwissTopo map (1:25,000) — Interlaken area</a>",
+    "<a href=\"https://www.niesenbahn.ch/\">Niesenbahn</a> — funicular railway schedules (April–November)",
+    "<a href=\"https://www.hikr.org/\">Hikr.org trip reports — Niesen</a>"
   ],
   "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
 }
