@@ -195,7 +195,11 @@ def build_template(
                 "title_html": "TODO: route name",
                 "grade": grade,
                 "pill_class": grade_lower,
-                "bullets_html": "TODO: <li>Step by step.</li>",
+                "bullets_html": [
+                    "TODO: <li>Step 1: description.</li>",
+                    "TODO: <li>Step 2: description.</li>",
+                ],
+                "source": "TODO: e.g. OSM hiking network or SAC Route Portal",
             }
         ],
         "getting_there": {
@@ -244,19 +248,22 @@ def build_template(
                     "title": "TODO: report title",
                     "season": "TODO: e.g. August 2025",
                     "grade": grade,
-                    "bullets_html": "TODO: <li>Key observation.</li>",
+                    "bullets_html": [
+                        "TODO: <li>Key observation 1.</li>",
+                        "TODO: <li>Key observation 2.</li>",
+                    ],
                 }
             ],
         },
         "gear": [
             {
                 "title": "Essential",
-                "items_html": (
-                    "<li>Hiking poles</li>"
-                    "<li>Sun protection (cream + glasses + hat)</li>"
-                    "<li>2 L water</li>"
-                    "<li>Emergency snacks</li>"
-                ),
+                "items_html": [
+                    "<li>Hiking poles</li>",
+                    "<li>Sun protection (cream + glasses + hat)</li>",
+                    "<li>2 L water</li>",
+                    "<li>Emergency snacks</li>",
+                ],
             }
         ],
         "safety_html": [

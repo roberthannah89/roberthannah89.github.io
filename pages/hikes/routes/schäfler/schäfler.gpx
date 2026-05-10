@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="hike-planner" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>Säntis -> Schäfler</name>
+    <desc>Routed from OSM (ODbL); elevations from SwissTopo / Open-Elevation</desc>
+  </metadata>
+  <wpt lat="47.253887" lon="9.261365">
+    <ele>1330.6</ele>
+    <name>Säntis</name>
+  </wpt>
+  <wpt lat="47.251655" lon="9.258288">
+    <ele>1198.8</ele>
+    <name>Schäfler</name>
+  </wpt>
+  <trk>
+    <name>Säntis -> Schäfler</name>
+    <trkseg>
+      <trkpt lat="47.253887" lon="9.261365">
+        <ele>1330.6</ele>
+      </trkpt>
+      <trkpt lat="47.254041" lon="9.260974">
+        <ele>1318.9</ele>
+      </trkpt>
+      <trkpt lat="47.253989" lon="9.260401">
+        <ele>1305.4</ele>
+      </trkpt>
+      <trkpt lat="47.253775" lon="9.259807">
+        <ele>1290.6</ele>
+      </trkpt>
+      <trkpt lat="47.253629" lon="9.259464">
+        <ele>1281.2</ele>
+      </trkpt>
+      <trkpt lat="47.253754" lon="9.258490">
+        <ele>1268.5</ele>
+      </trkpt>
+      <trkpt lat="47.253685" lon="9.258430">
+        <ele>1268.4</ele>
+      </trkpt>
+      <trkpt lat="47.253467" lon="9.258263">
+        <ele>1266.4</ele>
+      </trkpt>
+      <trkpt lat="47.253028" lon="9.258161">
+        <ele>1257.0</ele>
+      </trkpt>
+      <trkpt lat="47.252955" lon="9.258159">
+        <ele>1255.3</ele>
+      </trkpt>
+      <trkpt lat="47.252844" lon="9.258216">
+        <ele>1254.4</ele>
+      </trkpt>
+      <trkpt lat="47.252707" lon="9.258150">
+        <ele>1250.7</ele>
+      </trkpt>
+      <trkpt lat="47.252657" lon="9.258152">
+        <ele>1249.3</ele>
+      </trkpt>
+      <trkpt lat="47.252611" lon="9.258249">
+        <ele>1250.3</ele>
+      </trkpt>
+      <trkpt lat="47.252270" lon="9.258733">
+        <ele>1236.7</ele>
+      </trkpt>
+      <trkpt lat="47.252264" lon="9.258630">
+        <ele>1234.6</ele>
+      </trkpt>
+      <trkpt lat="47.252237" lon="9.258601">
+        <ele>1232.7</ele>
+      </trkpt>
+      <trkpt lat="47.252196" lon="9.258679">
+        <ele>1231.0</ele>
+      </trkpt>
+      <trkpt lat="47.252120" lon="9.258538">
+        <ele>1223.5</ele>
+      </trkpt>
+      <trkpt lat="47.252068" lon="9.258569">
+        <ele>1220.9</ele>
+      </trkpt>
+      <trkpt lat="47.252028" lon="9.258499">
+        <ele>1218.8</ele>
+      </trkpt>
+      <trkpt lat="47.251957" lon="9.258510">
+        <ele>1215.6</ele>
+      </trkpt>
+      <trkpt lat="47.251923" lon="9.258430">
+        <ele>1213.2</ele>
+      </trkpt>
+      <trkpt lat="47.251875" lon="9.258448">
+        <ele>1211.8</ele>
+      </trkpt>
+      <trkpt lat="47.251851" lon="9.258368">
+        <ele>1209.0</ele>
+      </trkpt>
+      <trkpt lat="47.251759" lon="9.258391">
+        <ele>1205.7</ele>
+      </trkpt>
+      <trkpt lat="47.251770" lon="9.258268">
+        <ele>1201.3</ele>
+      </trkpt>
+      <trkpt lat="47.251655" lon="9.258288">
+        <ele>1198.8</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
