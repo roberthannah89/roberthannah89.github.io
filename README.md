@@ -7,38 +7,41 @@ https://roberthannah89.github.io/.
 
 ```
 .
-├── index.html               # landing page
-├── hikes/                   # interactive Swiss Alps hike plans
-│   ├── santis/, zindlenspitz/   # per-hike folders (data.json + GPX + map)
-│   ├── _assets/             # generated, shared CSS/JS for hike pages
-│   └── index.html           # generated landing for the hike index
-└── skills/
-    └── hiking/              # Claude/Copilot "skill" — the hiking domain
-                             # workflow + render tooling. Symlinked into
-                             # ~/.claude/skills/hiking/ on dev machines.
+├── index.html            # landing page
+├── docs/                 # all documentation (start here: docs/README.md)
+├── scripts/              # Python build tools
+├── templates/            # Jinja2 templates
+├── hikes/                # interactive Swiss Alps hike plans
+│   ├── index.html        # generated gallery
+│   ├── guides/           # educational pages
+│   └── routes/           # per-hike folders (data.json + GPX + map)
+├── hike_data.schema.json # JSON schema for data.json validation
+└── Makefile              # build interface (run `make help`)
 ```
 
-## Updating the hike pages
-
-Each hike's source of truth is `hikes/<slug>/<slug>.data.json` + the GPX file.
-Render with:
+## Quick Start
 
 ```bash
-python skills/hiking/scripts/render_hike.py
+# Validate everything
+make validate
+
+# Render all hikes
+make render
+
+# Add a new hike
+make new slug=myname name="My Hike" region="Region" canton="Canton" grade="T2" elev="1500"
+
+# Serve locally
+make serve
 ```
 
-Generates `hikes/<slug>/<slug>.html` and `hikes/index.html` in parallel,
-auto-rebuilds the index from all `*.data.json` files. CI runs this on every
-push.
+## Documentation
 
-See [skills/hiking/hike-html-page.md](./skills/hiking/hike-html-page.md) for the
-data-JSON schema and the new-hike workflow.
+See [docs/README.md](./docs/README.md) for full documentation:
+- **ARCHITECTURE.md** — system design
+- **hiking/WORKFLOW.md** — step-by-step workflows
+- **hiking/DATA-SCHEMA.md** — `data.json` field reference
+- **hiking/ROUTING-ELEVATION.md** — GPX building
+- **hiking/TROUBLESHOOTING.md** — common issues
 
-## Local symlink for Claude
-
-```bash
-ln -sfn /opt/code/website/skills/hiking ~/.claude/skills/hiking
-```
-
-This makes the skill content + render tooling available to Claude in any
-workspace, while keeping a single source of truth in this repo.
+CI runs validation + render on every push to `main`.

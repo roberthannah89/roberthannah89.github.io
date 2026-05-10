@@ -1,9 +1,9 @@
-# Generated outputs — rebuilt by skills/hiking/scripts/render_hike.py
-hikes/index.html
-hikes/*/[!_]*.html
-hikes/*/_assets/
+# Generated outputs — rebuilt by scripts/render_hike.py
+pages/hikes/index.html
+pages/hikes/routes/*/[!_]*.html
+pages/hikes/routes/_assets/
 # Exception: hand-authored guide pages are not generated
-!hikes/guide/*.html
+!pages/hikes/guides/*.html
 
 # Python
 __pycache__/

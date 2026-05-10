@@ -3,15 +3,15 @@
 # =============================================================================
 # Run all targets from /opt/code/website/.
 #
-# Scripts:    skills/hiking/scripts/
-# Hike data:  hikes/<slug>/
+# Scripts:    scripts/
+# Hike data:  pages/hikes/routes/<slug>/
 # Python:     ~/venvs/dev/bin/python  (hardcoded venv — do not change)
 # =============================================================================
 
 .DEFAULT_GOAL := help
 
 PYTHON  := ~/venvs/dev/bin/python
-SCRIPTS := skills/hiking/scripts
+SCRIPTS := scripts
 port    ?= 8000
 
 .PHONY: help new gpx render validate check-docs probe serve install-hooks
@@ -103,7 +103,7 @@ gpx:
 		$(if $(trailhead),--trailhead "$(trailhead)") \
 		$(if $(bbox),--bbox "$(bbox)") \
 		$(foreach v,$(via),--via $(v)) \
-		--out-dir "hikes/$(slug)/"
+		--out-dir "pages/hikes/routes/$(slug)/"
 
 # -----------------------------------------------------------------------------
 ## render : Render hike HTML pages (pass slug= to limit to one hike)
@@ -127,13 +127,13 @@ probe:
 	$(PYTHON) $(SCRIPTS)/render_hike.py --probe $(if $(slug),--slug $(slug))
 
 # -----------------------------------------------------------------------------
-## serve : Render then serve the site locally (open http://localhost:$(port)/hikes/)
+## serve : Render then serve the site locally (open http://localhost:$(port)/pages/hikes/)
 serve: render
 	python3 -m http.server $(port)
 
 # -----------------------------------------------------------------------------
 ## install-hooks : Write and activate .git/hooks/pre-commit validation hook
 install-hooks:
-	@printf '#!/bin/sh\n~/venvs/dev/bin/python skills/hiking/scripts/check_hiking_docs.py\n~/venvs/dev/bin/python skills/hiking/scripts/render_hike.py --validate-only\n' > .git/hooks/pre-commit
+	@printf '#!/bin/sh\n~/venvs/dev/bin/python scripts/check_hiking_docs.py\n~/venvs/dev/bin/python scripts/render_hike.py --validate-only\n' > .git/hooks/pre-commit
 	@chmod +x .git/hooks/pre-commit
 	@printf '✓ .git/hooks/pre-commit installed\n'

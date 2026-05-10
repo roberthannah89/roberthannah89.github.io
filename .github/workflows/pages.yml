@@ -29,13 +29,13 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Validate hike data
-        run: python skills/hiking/scripts/render_hike.py --validate-only
+        run: python scripts/render_hike.py --validate-only
 
       - name: Validate hiking instructions
-        run: python skills/hiking/scripts/check_hiking_docs.py
+        run: python scripts/check_hiking_docs.py
 
       - name: Render hike pages
-        run: python skills/hiking/scripts/render_hike.py --probe
+        run: python scripts/render_hike.py --probe
         continue-on-error: true
 
       - name: Upload site
