@@ -39,7 +39,7 @@ CHECKS = [
     },
     {
         "script": REPO_ROOT / "scripts" / "build_hike_gpx.py",
-        "doc": INSTRUCTIONS_DIR / "hiking-gpx-full.md",
+        "doc": INSTRUCTIONS_DIR / "ROUTING-ELEVATION.md",
         "required_tokens": [
             "scripts/build_hike_gpx.py",
             "--peak-ll",

@@ -15,7 +15,7 @@ This is a Swiss Alps hiking website with interactive Leaflet.js maps, dynamicall
 
 This file links to:
 - **ARCHITECTURE.md** — folder structure and system design
-- **hiking/WORKFLOW.md** — step-by-step workflows
+- **hiking/hiking-workflow.md** — step-by-step workflows
 - **hiking/DATA-SCHEMA.md** — hike data format
 - **hiking/ROUTING-ELEVATION.md** — GPX building details
 - **hiking/TROUBLESHOOTING.md** — common issues
@@ -43,14 +43,15 @@ make serve port=8000
 
 ```
 website/
-├── docs/                    ← Full documentation (START HERE)
-├── scripts/                 ← Python build tools
-├── templates/               ← Jinja2 templates
-├── hikes/
-│   ├── index.html           (generated gallery)
-│   ├── guides/              (educational pages)
-│   └── routes/              (hike instances)
-├── templates/hike_data.schema.json
+├── index.html                ( landing page)
+├── pages/                    ← user-facing site (about, notes, hikes)
+│   └── hikes/
+│       ├── index.html        (generated gallery)
+│       ├── guides/           (educational pages)
+│       └── routes/           (hike instances)
+├── docs/                     ← Full documentation (START HERE)
+├── scripts/                  ← Python build tools
+├── templates/                ← Jinja2 templates + hike_data.schema.json
 └── Makefile
 ```
 

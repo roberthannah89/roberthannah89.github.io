@@ -1,10 +1,7 @@
----
-applyTo: "**"
----
 
 # Hike page workflow & data.json schema
 
-All per-hike content lives in `hikes/<slug>/<slug>.data.json`. The rendered HTML is generated
+All per-hike content lives in `pages/hikes/routes/<slug>/<slug>.data.json`. The rendered HTML is generated
 by `scripts/render_hike.py` from `templates/hike_page.j2.html`.
 **Never hand-edit a generated `<slug>.html` or `pages/hikes/index.html`.**
 
@@ -31,7 +28,7 @@ cd /opt/code/website
 ~/venvs/dev/bin/python scripts/build_hike_gpx.py \
   --slug <slug> --peak <Peak> --trailhead <Village> \
   --via <Wpt1> --via <Wpt2> \
-  --bbox <s,w,n,e> --out-dir hikes/<slug>/
+  --bbox <s,w,n,e> --out-dir pages/hikes/routes/<slug>/
 
 ## Render (all hikes + index.html)
 
@@ -78,10 +75,10 @@ If you leave `hero.image_url` as "TODO" or empty, the render script automaticall
 After running `render_hike.py`, hero.image_url becomes `https://f.hikr.org/files/3831865l.jpg` automatically.
 
 **Workflow checklist after adding images:**
-1. Update `hikes/<slug>/<slug>.data.json` with hero + photos
+1. Update `pages/hikes/routes/<slug>/<slug>.data.json` with hero + photos
    - **Optional:** Leave `hero.image_url` as "TODO" — the render script will auto-populate from `photos[0]`
 2. Run `~/venvs/dev/bin/python scripts/render_hike.py` (full render)
-3. Force-add HTML: `git add -f hikes/<slug>/*.html pages/hikes/index.html`
+3. Force-add HTML: `git add -f pages/hikes/routes/<slug>/*.html pages/hikes/index.html`
 4. Commit + push
 ```
 
@@ -90,7 +87,7 @@ After running `render_hike.py`, hero.image_url becomes `https://f.hikr.org/files
 Use `add_hike.py` when parallel agents are researching multiple hikes at once.
 It does three things in one command:
 
-1. Generates `hikes/<slug>/<slug>.data.json` from the normal template.
+1. Generates `pages/hikes/routes/<slug>/<slug>.data.json` from the normal template.
 2. Merges the provided JSON spec on top of the template.
 3. Runs `build_hike_gpx.py` and `render_hike.py --slug <slug>`.
 
@@ -378,7 +375,7 @@ Pages render a freshness warning automatically once `page.reports_updated` is ol
 
 ## `_config.js` (optional per-hike)
 
-Each `hikes/<slug>/` folder may contain a `_config.js` with a referrer-restricted
+Each `pages/hikes/routes/<slug>/` folder may contain a `_config.js` with a referrer-restricted
 Google Maps Embed API key and a default transit origin:
 
 ```js

@@ -7,16 +7,19 @@ https://roberthannah89.github.io/.
 
 ```
 .
-├── index.html            # landing page
-├── docs/                 # all documentation (start here: docs/README.md)
-├── scripts/              # Python build tools
-├── templates/            # Jinja2 templates
-├── hikes/                # interactive Swiss Alps hike plans
-│   ├── index.html        # generated gallery
-│   ├── guides/           # educational pages
-│   └── routes/           # per-hike folders (data.json + GPX + map)
-├── templates/hike_data.schema.json # JSON schema for data.json validation
-└── Makefile              # build interface (run `make help`)
+├── index.html              # landing page
+├── pages/                  # all user-facing pages (URLs map to /pages/...)
+│   ├── _assets/            # favicons
+│   ├── about/              # about page
+│   ├── notes/              # essays + reference lists
+│   └── hikes/              # interactive Swiss Alps hike plans
+│       ├── index.html      # generated gallery
+│       ├── guides/         # educational pages (difficulty, gear, planning, weather)
+│       └── routes/         # per-hike folders (data.json + GPX + map)
+├── docs/                   # all documentation (start here: docs/README.md)
+├── scripts/                # Python build tools
+├── templates/              # Jinja2 templates + hike_data.schema.json
+└── Makefile                # build interface (run `make help`)
 ```
 
 ## Quick Start
@@ -39,7 +42,7 @@ make serve
 
 See [docs/README.md](./docs/README.md) for full documentation:
 - **ARCHITECTURE.md** — system design
-- **hiking/WORKFLOW.md** — step-by-step workflows
+- **hiking/hiking-workflow.md** — step-by-step workflows
 - **hiking/DATA-SCHEMA.md** — `data.json` field reference
 - **hiking/ROUTING-ELEVATION.md** — GPX building
 - **hiking/TROUBLESHOOTING.md** — common issues

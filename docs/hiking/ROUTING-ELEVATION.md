@@ -186,6 +186,32 @@ make render slug=<slug>
 - Use a tool like QGIS to inspect the GPX file for malformed segments
 - Ensure all coordinates have both latitude and longitude
 
+## CLI Reference: `scripts/build_hike_gpx.py`
+
+```bash
+~/venvs/dev/bin/python scripts/build_hike_gpx.py \
+    --slug <slug> \
+    --peak "<PeakName>" \
+    --trailhead "<TrailheadName>" \
+    --via "<Waypoint1>" --via "<Waypoint2>" \
+    --bbox <s>,<w>,<n>,<e> \
+    --out-dir pages/hikes/routes/<slug>/
+```
+
+**Endpoint resolution flags** (use lat/lon overrides when Overpass name lookup is ambiguous):
+
+| Flag | Purpose |
+|------|---------|
+| `--peak-ll <lat,lon>` | Override peak coordinates (skip Overpass name lookup) |
+| `--trailhead-ll <lat,lon>` | Override trailhead coordinates |
+| `--via-ll <lat,lon>` | Override an ascent waypoint (repeatable, paired with `--via`) |
+| `--descend-via <name>` | Optional descent-only waypoint name |
+| `--descend-via-ll <lat,lon>` | Override descent waypoint coordinates |
+| `--end <name>` | End point if different from trailhead (point-to-point routes) |
+| `--end-ll <lat,lon>` | Override end-point coordinates |
+
+**Tuning:** `--track-points` (downsampled GPX point count, default ~400), `--elev-points` (elevation lookup count).
+
 ## References
 
 - [Overpass API Documentation](https://wiki.openstreetmap.org/wiki/Overpass_API)

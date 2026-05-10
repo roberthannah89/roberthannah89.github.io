@@ -14,17 +14,15 @@ Welcome! This folder contains all documentation for the hiking website project.
 - [ARCHITECTURE.md](ARCHITECTURE.md) — folder structure, file organization, concepts
 
 ### Hiking Content
-- [hiking/WORKFLOW.md](hiking/WORKFLOW.md) — step-by-step workflows (add hike, build GPX, render pages)
+- [hiking/hiking-workflow.md](hiking/hiking-workflow.md) — step-by-step workflows (add hike, build GPX, render pages)
 - [hiking/DATA-SCHEMA.md](hiking/DATA-SCHEMA.md) — structure of `data.json` files
 - [hiking/ROUTING-ELEVATION.md](hiking/ROUTING-ELEVATION.md) — GPX building (OSM Overpass API, SwissTopo elevation)
-- [hiking/RESOURCES.md](hiking/RESOURCES.md) — Swiss hiking resources (SAC grades, alpine huts, map sources)
 - [hiking/TROUBLESHOOTING.md](hiking/TROUBLESHOOTING.md) — common issues and solutions
 
 ### Templates & Tools
-- [hiking/hike-html-page.md](hiking/hike-html-page.md) — hike page structure and Leaflet map integration
-- [hiking/topo-map-recipe.md](hiking/topo-map-recipe.md) — creating topographic maps
-- [hiking/links.md](hiking/links.md) — useful links and references
-- [hiking/readme-template.md](hiking/readme-template.md) — template for new documentation
+- [../templates/hike_page.j2.html](../templates/hike_page.j2.html) — Jinja template for individual hike pages
+- [../templates/index.j2.html](../templates/index.j2.html) — Jinja template for the hike gallery
+- [../templates/hike_data.schema.json](../templates/hike_data.schema.json) — JSON schema for `data.json` validation
 
 ## Scripts
 
@@ -57,7 +55,7 @@ All build scripts live in `scripts/`:
   - `pages/hikes/routes/_assets/` — CSS/JS shared across all hike pages
 
 - **Config:**
-  - `templates/templates/hike_data.schema.json` — JSON schema for validating `data.json` files
+  - `templates/hike_data.schema.json` — JSON schema for validating `data.json` files
 
 ## Workflow
 
