@@ -55,32 +55,7 @@
       "1370–1400 m"
     ]
   ],
-  "photos": [
-    {
-      "url": "https://f.hikr.org/files/3618365.jpg",
-      "lightbox_url": "https://f.hikr.org/files/3618365.jpg",
-      "alt": "Hohtürli ridge and Blüemlisalp from the hike",
-      "caption_html": "<p>Photo via hikr.org</p>"
-    },
-    {
-      "url": "https://f.hikr.org/files/3546499.jpg",
-      "lightbox_url": "https://f.hikr.org/files/3546499.jpg",
-      "alt": "Alpine meadow towards Blüemlisalp",
-      "caption_html": "<p>Photo via hikr.org</p>"
-    },
-    {
-      "url": "https://f.hikr.org/files/2951648.jpg",
-      "lightbox_url": "https://f.hikr.org/files/2951648.jpg",
-      "alt": "Summit view from Hohtürli",
-      "caption_html": "<p>Photo via hikr.org</p>"
-    },
-    {
-      "url": "https://f.hikr.org/files/2749942.jpg",
-      "lightbox_url": "https://f.hikr.org/files/2749942.jpg",
-      "alt": "Oeschinen Lake valley from ridge",
-      "caption_html": "<p>Photo via hikr.org</p>"
-    }
-  ],
+  "photos": [],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
@@ -107,13 +82,34 @@
     {
       "title": "Day 1",
       "rows": [
-        ["06:30", "Start at Griesalp trailhead; head toward Alpiglen Alp"],
-        ["08:00", "Reach Alpiglen Alp (~1,800 m); continue into Sefinental Valley"],
-        ["09:30", "Begin major elevation gain; cross Sefinental stream (ankle to mid-calf depth)"],
-        ["11:30", "Reach alpine meadows & moraine (~2,400 m); final climb via cairn markers"],
-        ["13:00", "Summit Hohtürli Pass (2,778 m); spectacular alpine panorama"],
-        ["14:30", "Begin descent toward Kandersteg; steep switchbacks on scree terrain"],
-        ["16:30", "Reach valley meadows; final approach to Kandersteg village"]
+        [
+          "06:30",
+          "Start at Griesalp trailhead; head toward Alpiglen Alp"
+        ],
+        [
+          "08:00",
+          "Reach Alpiglen Alp (~1,800 m); continue into Sefinental Valley"
+        ],
+        [
+          "09:30",
+          "Begin major elevation gain; cross Sefinental stream (ankle to mid-calf depth)"
+        ],
+        [
+          "11:30",
+          "Reach alpine meadows & moraine (~2,400 m); final climb via cairn markers"
+        ],
+        [
+          "13:00",
+          "Summit Hohtürli Pass (2,778 m); spectacular alpine panorama"
+        ],
+        [
+          "14:30",
+          "Begin descent toward Kandersteg; steep switchbacks on scree terrain"
+        ],
+        [
+          "16:30",
+          "Reach valley meadows; final approach to Kandersteg village"
+        ]
       ],
       "footer_html": "<strong>Total time: 7–9 hours depending on fitness & pauses.</strong> Early start (6–7 AM) essential; aim to descend before 3 PM to avoid afternoon thunderstorms."
     }

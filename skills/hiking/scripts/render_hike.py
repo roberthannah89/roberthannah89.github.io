@@ -283,6 +283,9 @@ def render_one(data_path: Path) -> RenderResult:
             if photos and (not hero_url or "TODO" in hero_url):
                 hero["image_url"] = photos[0].get("url", "")
                 hero["subtitle_html"] = hero.get("subtitle_html", "") or f"Photo via {photos[0].get('caption_html', '')}"
+            elif not photos and (not hero_url or "TODO" in hero_url):
+                # No photos available; use placeholder
+                hero["image_url"] = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
             
             if hero:
                 data["hero"] = hero

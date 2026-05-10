@@ -84,32 +84,7 @@
       "Resident ibex colony on the south flank"
     ]
   ],
-  "photos": [
-    {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ridge_from_Suggiture_130615.JPG?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ridge from Suggiture 130615.JPG?width=1600",
-      "alt": "Augstmatthorn ridge from Suggiture",
-      "caption_html": "The Augstmatthorn summit ridge seen from Suggiture along the Brienzergrat — knife-edge grass crest above Lake Brienz."
-    },
-    {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg_zum_Augstmatthorn_hoch_%C3%BCber_dem_Brienzersee.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aufstieg zum Augstmatthorn hoch über dem Brienzersee.jpg?width=1600",
-      "alt": "Ascent to Augstmatthorn high above Lake Brienz",
-      "caption_html": "Ascent to the Augstmatthorn with the 1500 m drop to Lake Brienz directly below."
-    },
-    {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn ibex.jpg?width=1600",
-      "alt": "Ibex on the Augstmatthorn",
-      "caption_html": "Ibex (Steinbock) are commonly seen on the south flank of the Augstmatthorn, especially in early morning."
-    },
-    {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/AugstmatthornHerbst.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/AugstmatthornHerbst.jpg?width=1600",
-      "alt": "Augstmatthorn in autumn",
-      "caption_html": "Autumn colours along the Brienzergrat — the season extends well into October in dry years."
-    }
-  ],
+  "photos": [],
   "waypoints": [
     {
       "lat": 46.7318,
