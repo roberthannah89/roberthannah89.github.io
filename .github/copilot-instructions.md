@@ -13,6 +13,7 @@ After completing any task, **consider whether the change should be reflected in 
 - **Workflow steps for adding/editing hikes** → `docs/hiking/hiking-workflow.md`
 - **Common errors or gotchas you hit** → `docs/hiking/TROUBLESHOOTING.md`
 - **CI/deploy behavior** → `.github/workflows/pages.yml` + `docs/ARCHITECTURE.md`
+- **Pre-commit hook checks** (schema, docs, image validation) → `.git/hooks/pre-commit` + this file
 
 If a change is purely cosmetic, a one-off fix, or doesn't affect future work — skip the doc update. When in doubt, briefly mention what you'd update and ask.
 
@@ -22,6 +23,7 @@ If a change is purely cosmetic, a one-off fix, or doesn't affect future work —
 - **Python venv:** `~/venvs/dev/bin/python`
 - **Build:** `make render` (renders all hike pages)
 - **Validate:** `make validate` (checks hike data and docs)
+- **Pre-commit hook:** runs schema validation, docs checks, and image/URL validation via `--probe` mode
 
 ## Full Documentation
 
