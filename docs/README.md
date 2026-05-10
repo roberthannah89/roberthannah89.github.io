@@ -57,7 +57,7 @@ All build scripts live in `scripts/`:
   - `pages/hikes/routes/_assets/` — CSS/JS shared across all hike pages
 
 - **Config:**
-  - `hike_data.schema.json` — JSON schema for validating `data.json` files
+  - `templates/templates/hike_data.schema.json` — JSON schema for validating `data.json` files
 
 ## Workflow
 

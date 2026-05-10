@@ -9,7 +9,7 @@ A self-contained interactive HTML page per hike, with embedded live transit, 7-d
 
 **Architecture (refactored 2026-05):** all per-hike content is a single `<slug>.data.json` file. The HTML is rendered from a shared Jinja template ([`templates/hike_page.j2.html`](./templates/hike_page.j2.html)) by [`scripts/render_hike.py`](./scripts/render_hike.py). Shared CSS and JS live in [`templates/_assets/hike_page.{css,js}`](./templates/_assets/) and are copied to `<root>/_assets/` on every render — each hike page is ~370 lines instead of ~800. To change a hike, edit the JSON. To improve all hike pages at once, edit the asset files or the template and re-render. Never hand-edit a generated `<slug>.html`.
 
-**Validation:** every `data.json` is checked against [`templates/hike_data.schema.json`](./templates/hike_data.schema.json) before rendering. Missing required fields fail fast with a clear error.
+**Validation:** every `data.json` is checked against [`templates/templates/hike_data.schema.json`](./templates/templates/hike_data.schema.json) before rendering. Missing required fields fail fast with a clear error.
 
 **Auto-derivation from GPX:** `render_hike.py` automatically:
 - parses `<wpt>` entries from `<slug>.gpx` into the data file's `waypoints` field if you leave it empty (matches the trailhead/peak names to set `kind`).

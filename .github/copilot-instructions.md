@@ -50,7 +50,7 @@ website/
 │   ├── index.html           (generated gallery)
 │   ├── guides/              (educational pages)
 │   └── routes/              (hike instances)
-├── hike_data.schema.json
+├── templates/hike_data.schema.json
 └── Makefile
 ```
 

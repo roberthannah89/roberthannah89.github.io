@@ -48,7 +48,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 try:
     from jsonschema import Draft7Validator
-    SCHEMA_PATH = Path(__file__).resolve().parent.parent / "hike_data.schema.json"
+    SCHEMA_PATH = Path(__file__).resolve().parent.parent / "templates" / "hike_data.schema.json"
     _SCHEMA = json.loads(SCHEMA_PATH.read_text()) if SCHEMA_PATH.exists() else None
 except ImportError:
     Draft7Validator = None

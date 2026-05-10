@@ -80,7 +80,7 @@ website/ (repo root at /opt/code/website)
 │   └── workflows/
 │       └── pages.yml                    (GitHub Actions: validate → render → deploy)
 │
-├── hike_data.schema.json                (JSON schema for data.json validation)
+├── templates/hike_data.schema.json                (JSON schema for data.json validation)
 ├── Makefile                             (build interface)
 ├── README.md                            (project README)
 └── requirements.txt                     (Python dependencies)
@@ -92,7 +92,7 @@ website/ (repo root at /opt/code/website)
 
 1. **Source:** `pages/hikes/routes/<slug>/<slug>.data.json`
    - Hand-authored YAML/JSON with hike metadata, photos, route description
-   - Validated against `hike_data.schema.json`
+   - Validated against `templates/templates/hike_data.schema.json`
 
 2. **Processing:** `scripts/render_hike.py`
    - Loads all `data.json` files

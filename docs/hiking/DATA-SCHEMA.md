@@ -11,7 +11,7 @@ Each hike is defined by a JSON file: `pages/hikes/routes/<slug>/<slug>.data.json
 pages/hikes/routes/augstmatthorn/augstmatthorn.data.json
 ```
 
-The file is validated against `hike_data.schema.json` (JSON Schema Draft 7) before rendering.
+The file is validated against `templates/templates/hike_data.schema.json` (JSON Schema Draft 7) before rendering.
 
 ## Top-Level Structure
 

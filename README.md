@@ -15,7 +15,7 @@ https://roberthannah89.github.io/.
 │   ├── index.html        # generated gallery
 │   ├── guides/           # educational pages
 │   └── routes/           # per-hike folders (data.json + GPX + map)
-├── hike_data.schema.json # JSON schema for data.json validation
+├── templates/hike_data.schema.json # JSON schema for data.json validation
 └── Makefile              # build interface (run `make help`)
 ```
 
