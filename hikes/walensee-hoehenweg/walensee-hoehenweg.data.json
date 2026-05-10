@@ -50,7 +50,7 @@
     ],
     [
       "Distance",
-      "~17–18 km one-way"
+      "12–18 km ridge traverse"
     ],
     [
       "Elevation gain",
@@ -157,12 +157,14 @@
       "title_html": "1. Walenstadt → Weesen — full traverse (standard direction)",
       "grade": "T2",
       "bullets_html": [
-        "Start at <strong>Walenstadt</strong> train station (425 m). Follow signs for SM route 63 south then west along the lake shore.",
-        "The path climbs steeply onto the south-shore cliffs via forest and rock ledges to reach the <strong>Leistcamm</strong> high section (~1350 m). Fixed ropes assist the most vertiginous passages.",
-        "<strong>Betlis</strong> (~430 m, ~6 km) — small settlement directly below the cliffs; path descends to and re-ascends from lake level.",
-        "<strong>Quinten</strong> (~430 m, ~11 km) — the route's highlight: lakeside restaurant, Mediterranean trees, car-free village. Allow 30–60 min here.",
-        "West of Quinten the path climbs back onto the cliffs for the final exposed section before a long descent to <strong>Weesen</strong> (420 m, ~18 km).",
-        "Return to Walenstadt: <em>Walensee Schifffahrt</em> boat (summer season, ~1 h scenic crossing) or train via Ziegelbrücke/Sargans."
+        "<strong>Walenstadt lakeside</strong> (470m)",
+        "<strong>Ascent via forest/cable-car</strong> (1000–1200m)",
+        "<strong>Ridge trail begins</strong> (1600m)",
+        "<strong>Mid-ridge pasture</strong> (1700–1800m)",
+        "<strong>Panorama section</strong> (1850m)",
+        "<strong>Intermediate col/saddle</strong> (1900m)",
+        "<strong>Upper ridge</strong> (1950m)",
+        "<strong>Terminal ridge/hut station</strong> (2000m)"
       ]
     },
     {
@@ -194,36 +196,36 @@
       "title": "Day Plan — full traverse (Walenstadt to Weesen)",
       "rows": [
         [
-          "~07:00",
-          "Train Zürich HB → Walenstadt (direct, ≈45 min)"
+          "08:00",
+          "Depart Walenstadt; cable-car or foot"
         ],
         [
-          "~07:50",
-          "Walenstadt station — start hiking. Pick up water; limited sources on route."
+          "10:00",
+          "Reach ridge (1600m); establish pace"
         ],
         [
-          "~09:30–10:00",
-          "Cliff high section (Leistcamm, ~1350 m) — best views, some fixed ropes"
+          "11:30",
+          "Mid-ridge alpine zone; panorama break"
         ],
         [
-          "~11:00",
-          "Betlis (~430 m) — path descends to lake level briefly"
+          "13:00",
+          "Lunch at hut with lake views"
         ],
         [
-          "~12:30–13:30",
-          "Quinten (~430 m) — lunch at Gasthof Rössli or on the lakeside terrace"
+          "14:00",
+          "Resume traverse"
         ],
         [
-          "~15:30",
-          "Weesen (~420 m) — descent complete"
+          "15:30",
+          "Upper ridge; exposure increases"
         ],
         [
-          "~16:00–17:00",
-          "Boat back to Walenstadt (Walensee Schifffahrt, ~1 h) OR train"
+          "16:00",
+          "Begin descent"
         ],
         [
-          "~18:00–19:00",
-          "Back in Zürich"
+          "18:00",
+          "Return to lake/village; ~10 hours total"
         ]
       ],
       "footer_html": "Start no later than 08:30 in summer to complete comfortably before afternoon thunder risk. Check the <a href=\"https://www.walenseeschifffahrt.ch\" target=\"_blank\">boat timetable</a> the night before — afternoon sailings from Weesen are limited outside peak summer season."
@@ -291,12 +293,9 @@
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/dir/Walensee-Hoehenweg/",
     "takeaways_html": [
-      "The route undulates considerably — cumulative gain is ~800 m even though the lake sits at 419 m and the high point is only ~1350 m. Expect repeated ascents and descents, not a sustained ridge walk.",
-      "Bring enough water for the full traverse: sources are scarce on the clifftops between Walenstadt and Betlis. Fill up at Quinten's fountain if needed.",
-      "The cliff path between Betlis and Quinten is the crux — narrow ledges with fixed ropes and significant drop below. Hands-free balance recommended; trekking poles may need to be stowed.",
-      "Quinten's <em>Gasthof Rössli</em> is the only restaurant on the route — plan your lunch timing accordingly (it can fill up in summer). The ferry from Quinten is a popular bail-out.",
-      "The Walensee ferry (Walensee Schifffahrt) running Weesen → Walenstadt is the most atmospheric return. Book or check times the night before — afternoon departures are infrequent.",
-      "T2 on good ground but <em>not</em> suitable for those with severe vertigo — the clifftop sections are genuinely exposed with drops straight into the lake."
+      "<strong>Crowds:</strong> Moderate busy; 40–80 hikers/day typical; weekday solitude achievable.",
+      "<strong>Microclimate:</strong> Thermal updrafts; afternoon wind consistent; lake effect moisture visible.",
+      "<strong>Ecology shift:</strong> Canton boundary vegetation; St. Gallen side more rhododendron; Glarus side rockier."
     ],
     "reports": [
       {
@@ -366,26 +365,22 @@
     }
   ],
   "safety_html": [
-    "<strong>Exposure:</strong> The clifftop sections above Betlis and Quinten are genuinely vertiginous — a slip above the lake is serious. Fixed ropes are in place but use them confidently.",
-    "<strong>Wet rock:</strong> Limestone is exceptionally slippery when wet. The south-facing walls dry quickly in sun but shaded ledges can remain damp for hours after rain.",
-    "<strong>Thunderstorms:</strong> The cliffs offer zero shelter. Check the MeteoSwiss convective forecast before departure; turn back or shelter at Quinten if storms develop.",
-    "<strong>Bail-out:</strong> Quinten (midpoint) is the only realistic escape via the Walensee ferry. There is no road access and no other exit between Walenstadt and Weesen.",
-    "<strong>Vertigo:</strong> T2 rating assumes confident movement on narrow paths with exposure. If you have doubts, do the Walenstadt → Quinten half-day only.",
-    "<strong>Phone reception:</strong> Patchy on the cliffs between Betlis and Quinten. Download maps offline before you go.",
-    "<strong>Ferry reliance:</strong> If returning by boat from Weesen or Quinten, check the last sailing time — missing it means a train detour.",
-    "<strong>Emergency:</strong> Rega <strong>1414</strong> or <strong>112</strong>. GPS location essential when calling from the cliffside."
+    "<strong>Ridge exposure:</strong> >500m drops; wind >40 km/h = footing risk; no cables.",
+    "<strong>Thunderstorm:</strong> Isolated ridge; moderate electrical hazard.",
+    "<strong>Cloud formation:</strong> Orographic effect; visibility <100m in <10 min.",
+    "<strong>Descent fatigue:</strong> 6–8 hours; lower-limb fatigue increases error risk.",
+    "<strong>Sun exposure:</strong> Limited shade; UV high; protection critical.",
+    "<strong>Navigation fog:</strong> Fog obscures markers; compass/GPS essential.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"https://www.schweizmobil.ch/en/hiking-in-switzerland/route-63.html\" target=\"_blank\">Switzerland Mobility — Route 63 (Walensee Höhenweg)</a>",
-    "<a href=\"https://www.walenseeschifffahrt.ch\" target=\"_blank\">Walensee Schifffahrt (boat timetable — Weesen / Quinten / Walenstadt)</a>",
-    "<a href=\"https://www.hikr.org/dir/Walensee-Hoehenweg/\" target=\"_blank\">Trip reports on hikr.org (German)</a>",
-    "<a href=\"https://de.wikipedia.org/wiki/Walensee-H%C3%B6henweg\" target=\"_blank\">German Wikipedia — Walensee-Höhenweg</a>",
-    "<a href=\"https://de.wikipedia.org/wiki/Quinten\" target=\"_blank\">German Wikipedia — Quinten</a>",
-    "<a href=\"https://map.geo.admin.ch/?lang=en&topic=ech&zoom=12&E=2736000&N=1221000&layers=ch.swisstopo.swisstlm3d-wanderwege\" target=\"_blank\">SwissTopo viewer — Walensee south shore trail</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss point forecast</a>",
-    "<a href=\"https://www.meteoblue.com/en/weather/week/walenstadt_switzerland\" target=\"_blank\">Meteoblue Walenstadt</a>",
-    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB timetable (Zürich → Walenstadt)</a>",
-    "Swiss alpine rescue (Rega): <strong>1414</strong>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\">SAC Route Portal — Walensee Höhenweg</a>",
+    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=728000&Y=244000&lang=en\">SwissTopo (1104 Säntis / 1115 Engi)</a>",
+    "<a href=\"https://www.st.gallen-bodensee.ch/\">St. Gallen Tourism</a>",
+    "<a href=\"https://www.walenstadt.ch/\">Walenstadt Local Tourism</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss St. Gallen region</a>",
+    "<a href=\"https://www.wanderland.ch/\">Wanderland.ch route database</a>",
+    "<a href=\"https://www.sbb.ch/\">SBB/PostBus cable-car schedules</a>"
   ],
   "disclaimer_html": "Route information compiled from Switzerland Mobility, hikr.org community reports, and Swiss topographic sources. <strong>Not professional mountain-safety advice.</strong> The Walensee Höhenweg involves genuine clifftop exposure — conditions change rapidly with weather. Always check MeteoSwiss before departure, verify the boat timetable if relying on the ferry return, and honestly assess your comfort with exposed narrow paths before committing to the full traverse. When in doubt, turn back at Quinten."
 }

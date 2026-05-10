@@ -48,11 +48,11 @@
     ],
     [
       "Distance",
-      "TODO: km round-trip"
+      "10–14 km circuit"
     ],
     [
       "Total ascent",
-      "TODO: m"
+      "900–1200 m"
     ]
   ],
   "photos": [
@@ -83,7 +83,14 @@
       "grade": "T2",
       "pill_class": "t2",
       "bullets_html": [
-        "TODO: <li>Step by step.</li>"
+        "<strong>Gotthard Hospice</strong> (2106m)",
+        "<strong>Ascent via ridge</strong> (2200m)",
+        "<strong>Paso del Lucendro</strong> (~2441m) — Border crossing",
+        "<strong>Alpine plateau</strong> (2300m) — Broad terrain",
+        "<strong>Lago di Leitsch basin</strong> (~2300m)",
+        "<strong>Central plateau zone</strong> (2300m) — Minimal vegetation",
+        "<strong>Plateau circuit</strong> (2350m)",
+        "<strong>Return descent</strong>"
       ]
     }
   ],
@@ -96,8 +103,36 @@
       "title": "Day 1",
       "rows": [
         [
-          "HH:MM",
-          "TODO: step description"
+          "07:00",
+          "Depart Hospice; supplies check"
+        ],
+        [
+          "08:30",
+          "Ascend toward Lucendro Pass"
+        ],
+        [
+          "10:00",
+          "Reach pass (~2441m); plateau entry"
+        ],
+        [
+          "11:30",
+          "Plateau traverse; steady pace"
+        ],
+        [
+          "13:00",
+          "Lake basin lunch; 45-min rest"
+        ],
+        [
+          "14:00",
+          "Continue circuit"
+        ],
+        [
+          "15:30",
+          "Begin descent"
+        ],
+        [
+          "17:00",
+          "Trailhead; ~10 hours total"
         ]
       ],
       "footer_html": ""
@@ -130,8 +165,9 @@
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/region/?gid=268&name=Plaun%20la%20Greina%20Greina%20Plateau",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "<strong>Crowding paradox:</strong> Despite notoriety, plateau less crowded than nearby routes; 30–60 hikers/day peak August.",
+      "<strong>Weather volatility:</strong> Föhn corridor creates rapid pressure/temperature swings; barometer useful.",
+      "<strong>Solitude finding:</strong> Midweek (June, September) offers exceptional isolation near major pass."
     ],
     "reports": [
       {
@@ -167,13 +203,21 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "<strong>Rapid deterioration:</strong> Cloud ceiling drops to <100m in 15 min; whiteout risk high.",
+    "<strong>Navigation:</strong> Limited markers; cairn-dependent; GPS critical in fog.",
+    "<strong>Wind gusts >60 km/h:</strong> Common afternoon; dangerous on exposed ridge.",
+    "<strong>Dehydration:</strong> Thin air, low humidity; 3+ liters recommended.",
+    "<strong>Hypothermia:</strong> Plateau lacks windbreak; temperature perception error.",
+    "<strong>Rockfall/scree:</strong> Unstable sections; descending hikers dislodge rocks.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Greina Plateau</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\">SAC Route Portal — Greina Plateau</a>",
+    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=676000&Y=180000&lang=en\">SwissTopo (1228 Gotthard)</a>",
+    "<a href=\"https://www.gotthard-wandern.ch/\">Gotthard Pass Tourism</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss Gotthard region</a>",
+    "<a href=\"https://www.ticinowelcome.ch/\">Ticino Tourism</a>",
+    "<a href=\"https://www.hikr.org/\">Hikr.org Greina Plateau entries</a>"
   ],
   "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
 }

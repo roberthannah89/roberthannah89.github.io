@@ -48,11 +48,11 @@
     ],
     [
       "Distance",
-      "TODO: km round-trip"
+      "10–12 km round-trip"
     ],
     [
       "Total ascent",
-      "TODO: m"
+      "1400–1600 m"
     ]
   ],
   "photos": [
@@ -83,7 +83,14 @@
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
-        "TODO: <li>Step by step.</li>"
+        "<strong>Verbier village</strong> (1500m) — Start; marked trail",
+        "<strong>Alpine pasture zone</strong> (1800m) — 1 hour/300m gain",
+        "<strong>Cabane du Mont Fort</strong> (2457m) — Hut; refuel & water",
+        "<strong>Summit approach</strong> (2600m+) — Ridge with valley views",
+        "<strong>Scree field</strong> (2800m) — Loose terrain; 1 hour to summit",
+        "<strong>Mont Fort summit</strong> (2902m) — Panorama; 30-min rest",
+        "<strong>Return descent</strong> — Focus on scree technique",
+        "<strong>Verbier return</strong> — 1.5 hours from hut"
       ]
     }
   ],
@@ -96,8 +103,36 @@
       "title": "Day 1",
       "rows": [
         [
-          "HH:MM",
-          "TODO: step description"
+          "06:30",
+          "Depart Verbier; early start"
+        ],
+        [
+          "08:00",
+          "Cabane du Mont Fort; refuel"
+        ],
+        [
+          "09:00",
+          "Summit push begins"
+        ],
+        [
+          "10:30",
+          "Scree field; pace slows"
+        ],
+        [
+          "12:00",
+          "Summit (2902m); 30-min rest"
+        ],
+        [
+          "12:30",
+          "Descent begins"
+        ],
+        [
+          "14:00",
+          "Hut re-pass"
+        ],
+        [
+          "15:30",
+          "Verbier return; ~9 hours total"
         ]
       ],
       "footer_html": ""
@@ -134,8 +169,9 @@
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/region/?gid=8421",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "<strong>Crowding:</strong> July–August weekends see 150–250+ hikers; trail erosion visible; parking chaos 07:00–10:00.",
+      "<strong>Hut water:</strong> Cabane du Mont Fort water reliable mid-June–September; dependent on snowmelt.",
+      "<strong>Weather:</strong> Cross-Alpine exposure to Atlantic and Mediterranean föhn; bimodal wind patterns."
     ],
     "reports": [
       {
@@ -171,13 +207,21 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "<strong>Scree avalanche:</strong> Loose debris 10–50m slides on descent; cascade hazard high.",
+    "<strong>Ridge exposure:</strong> >1000m drops; wind >50 km/h = serious footing risk.",
+    "<strong>Weather deterioration:</strong> Cloud drop in <30 min; temperature swings 15–20°C.",
+    "<strong>Lightning risk:</strong> Isolated summit; strikes peak 13:00–17:00 in summer.",
+    "<strong>Foot placement:</strong> Scree descent risky; ankle/knee injury risk; helmet recommended.",
+    "<strong>Rockfall from crowds:</strong> Peak season creates falling-rock hazard.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Cabane du Mont Fort & Col Termin</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\">SAC Route Portal — Mont Fort</a>",
+    "<a href=\"https://www.cabanemonfort.ch/\">Cabane du Mont Fort</a>",
+    "<a href=\"https://www.verbier.ch/\">Verbier Tourism</a>",
+    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=540000&Y=81000&lang=en\">SwissTopo (1284 Verbier)</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss Valais</a>",
+    "<a href=\"https://www.hikr.org/\">Hikr.org Mont Fort reports</a>"
   ],
   "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
 }

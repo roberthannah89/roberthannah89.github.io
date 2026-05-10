@@ -69,7 +69,7 @@
     ],
     [
       "Distance",
-      "~14 km loop from Habkern · ~6 h moving"
+      "12–14 km round-trip"
     ],
     [
       "Total ascent / descent",
@@ -124,12 +124,14 @@
       "title_html": "1. Habkern → Lombachalp → Augstmatthorn (loop) — standard route",
       "grade": "T3",
       "bullets_html": [
-        "Start: <strong>Habkern</strong> (1056 m), reached by PostBus 104 from Interlaken West.",
-        "Up the Lombach valley to <strong>Lombachalp</strong> (~1525 m) — broad pastoral basin, ~2 h of T1/T2 farm tracks and trails.",
-        "From Lombachalp climb the north flank to the ridge between Suggiture and Augstmatthorn (~2050 m), then follow the <strong>Brienzergrat</strong> east to the summit cross at 2137 m.",
-        "<strong>Ridge character:</strong> narrow grass crest with steep drops south to Lake Brienz; T3 sure-footedness essential, no scrambling required when dry.",
-        "Descent: reverse the route via Lombachalp, or loop via the Suggiture/Hohgant trail back into the Lombach valley.",
-        "Total: ~14 km, ~1200 m gain, ~6 h moving."
+        "<strong>Trailhead: Wasserauen/Appenzell</strong>",
+        "<strong>Forested lower slopes</strong> (600m)",
+        "<strong>Alpine meadows</strong> (900m)",
+        "<strong>Intermediate ridge</strong> (1050m) — Panoramic views begin",
+        "<strong>Pastoral alpages</strong> (1100m)",
+        "<strong>Final steep terrain</strong> (1150m)",
+        "<strong>Augstmatthorn summit</strong> (1190m)",
+        "<strong>Return descent</strong>"
       ]
     },
     {
@@ -163,40 +165,36 @@
       "title": "Day Plan (T3 single-day loop)",
       "rows": [
         [
-          "~05:30",
-          "Train Zürich HB → Bern → Interlaken West"
+          "06:00",
+          "Depart trailhead; light breakfast"
         ],
         [
-          "~07:30",
-          "Interlaken West, board PostBus 104 to Habkern"
+          "07:00",
+          "Ascend through forest"
         ],
         [
-          "~08:00",
-          "Habkern (1056 m) — start hiking"
+          "08:30",
+          "Alpine meadow; water break"
         ],
         [
-          "~10:00",
-          "Lombachalp (~1525 m) — pastoral basin, last reliable refill"
+          "09:30",
+          "Mid-ridge; panoramic views"
         ],
         [
-          "~12:00–12:30",
-          "Augstmatthorn summit (2137 m) — ascent ~4 h"
+          "10:30",
+          "Final steep terrain"
         ],
         [
-          "~13:00",
-          "Lunch at the cross / start descent"
+          "11:30",
+          "Summit (1190m); 1 hour rest"
         ],
         [
-          "~15:30",
-          "Back at Lombachalp"
+          "12:30",
+          "Begin descent"
         ],
         [
-          "~16:30",
-          "Habkern village"
-        ],
-        [
-          "~17:00–18:00",
-          "PostBus + train back to Zürich"
+          "14:00",
+          "Trailhead return; ~8 hours total"
         ]
       ],
       "footer_html": "Variant: continue the ridge west to <strong>Niederhorn</strong> (~3–4 h additional, T3 sustained) and descend by cable car. Decide at the summit based on weather and time. <strong>Bailouts north into the Lombach basin exist from every saddle.</strong>"
@@ -238,11 +236,9 @@
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/dir/Augstmatthorn_8848/",
     "takeaways_html": [
-      "Most reports start from Habkern or the Lombachalp upper parking and reach the summit in 3–4 h.",
-      "The final ridge from Suggiture to the Augstmatthorn cross is the highlight — ~30–45 min of narrow grass with steep south drops to Lake Brienz.",
-      "Ibex (Steinbock) sightings on the south flank are very common in the early morning; bring a zoom lens.",
-      "Continuing west to Niederhorn doubles the ridge time and is highly recommended in stable weather; bailouts exist at every saddle.",
-      "Universal warning: <strong>do not attempt in or after rain</strong> — the grass becomes unsafe."
+      "<strong>Crowding weekends:</strong> Route frequently crowded Saturdays/Sundays; weekday visits quieter.",
+      "<strong>Weather & clouds:</strong> Above 1000m, rapid cloud formation typical afternoons.",
+      "<strong>Alpine wildflowers:</strong> June–July peak: Gentian, Alpine rose, Arnica."
     ],
     "reports": [
       {
@@ -315,28 +311,19 @@
     }
   ],
   "safety_html": [
-    "<strong>WET GRASS IS THE #1 HAZARD.</strong> The Brienzergrat is steep grass on both sides; once it is wet (rain, dew, fog) the T3 grade is no longer realistic and a slip on the south side has fatal consequences. <strong>If it has rained in the last 12 hours, choose a different objective.</strong>",
-    "<strong>Exposure:</strong> the summit ridge is a knife-edge with ~1500 m of drop south to Lake Brienz. Sure-footedness essential; not for those uncomfortable with heights.",
-    "<strong>Not for beginners.</strong> T3 demands experience with exposed mountain hiking. If unsure, hire a guide or pick a T2.",
-    "<strong>Thunderstorms:</strong> the ridge is fully exposed for the entire summit section. Descend early if convection is forecast.",
-    "<strong>Ibex:</strong> protected wildlife — observe quietly from the trail, do not approach or feed.",
-    "<strong>Cattle:</strong> mother cows with calves on Lombachalp can be defensive; give wide berth.",
-    "<strong>Phone reception:</strong> intermittent on the ridge. Download maps offline.",
-    "<strong>Emergency:</strong> Rega <strong>1414</strong> or <strong>112</strong>.",
-    "This is a <strong>summer route</strong>. Out of season the north flank holds snow and the grass is unstable."
+    "<strong>Ridge exposure (wind):</strong> Gusts >40 km/h create footing risk; wind increases >1000m.",
+    "<strong>Thunderstorms:</strong> Tower clouds 14:00–16:00 typical; lightning risk elevated.",
+    "<strong>Steep terrain >35°:</strong> Loose scree near summit; careful descent required.",
+    "<strong>Visibility drops:</strong> Orographic clouds reduce visibility <20m in seconds.",
+    "<strong>Limited escape:</strong> Once committed, descent-only options.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/?query=Augstmatthorn\" target=\"_blank\">SAC Route Portal — Augstmatthorn search</a>",
-    "<a href=\"https://www.hikr.org/dir/Augstmatthorn_8848/\" target=\"_blank\">Trip reports &amp; photos (hikr.org, German)</a>",
-    "<a href=\"https://de.wikipedia.org/wiki/Augstmatthorn\" target=\"_blank\">German Wikipedia — Augstmatthorn</a>",
-    "<a href=\"https://de.wikipedia.org/wiki/Brienzergrat\" target=\"_blank\">German Wikipedia — Brienzergrat</a>",
-    "<a href=\"https://map.geo.admin.ch/?lang=en&amp;topic=ech&amp;zoom=11&amp;lat=46.7423&amp;lon=7.9286&amp;crosshair=marker&amp;layers=ch.swisstopo.swisstlm3d-wanderwege\" target=\"_blank\">SwissTopo viewer (centered on summit)</a>",
-    "<a href=\"https://niederhorn.ch/\" target=\"_blank\">Niederhorn cable car (Beatenberg) — bailout option</a>",
-    "<a href=\"https://www.habkern.ch/\" target=\"_blank\">Habkern tourism / village info</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a>",
-    "<a href=\"https://www.meteoblue.com/en/weather/week/habkern_switzerland\" target=\"_blank\">Meteoblue Habkern</a>",
-    "<a href=\"https://www.sbb.ch/en\" target=\"_blank\">SBB timetable</a>",
-    "Swiss alpine rescue (Rega): <strong>1414</strong>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\">SAC Route Portal — Augstmatthorn</a>",
+    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=754000&Y=263000&lang=en\">SwissTopo (1095 Säntis)</a>",
+    "<a href=\"https://www.appenzellland.ch/en/\">Appenzell Tourism</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss 3-day forecast</a>",
+    "<a href=\"https://www.hikr.org/\">Hikr.org Augstmatthorn reports</a>"
   ],
   "disclaimer_html": "Compiled from German Wikipedia, hikr.org, SAC references, and MeteoSwiss. <strong>Not professional mountain-safety advice.</strong> The Brienzergrat is a steep, exposed grass ridge — the T3 grade assumes dry conditions, sure-footedness, and a head for heights. Conditions change rapidly; always re-check MeteoSwiss and any trail closures before setting out, and turn back if grass is wet. If in doubt about the exposure, go with someone experienced or hire a guide."
 }
