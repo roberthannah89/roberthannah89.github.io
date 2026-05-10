@@ -2,6 +2,20 @@
 
 This is a Swiss Alps hiking website with interactive Leaflet.js maps, dynamically rendered from `data.json` files.
 
+## Keep Docs in Sync
+
+After completing any task, **consider whether the change should be reflected in the docs** so future work (by you or another agent) inherits it. Update when the change affects:
+
+- **Folder/file structure** → `README.md`, `docs/README.md`, `docs/ARCHITECTURE.md`
+- **Build commands or Makefile targets** → `Makefile` help, `README.md`, `.github/copilot-instructions.md`
+- **`data.json` schema or fields** → `templates/hike_data.schema.json`, `docs/hiking/DATA-SCHEMA.md`
+- **Script CLI flags** → `docs/hiking/hiking-workflow.md` or `ROUTING-ELEVATION.md` (then `make check-docs` to verify)
+- **Workflow steps for adding/editing hikes** → `docs/hiking/hiking-workflow.md`
+- **Common errors or gotchas you hit** → `docs/hiking/TROUBLESHOOTING.md`
+- **CI/deploy behavior** → `.github/workflows/pages.yml` + `docs/ARCHITECTURE.md`
+
+If a change is purely cosmetic, a one-off fix, or doesn't affect future work — skip the doc update. When in doubt, briefly mention what you'd update and ask.
+
 ## Quick Reference
 
 - **Repo root:** `/opt/code/website`
