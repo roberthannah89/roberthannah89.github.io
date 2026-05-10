@@ -241,6 +241,56 @@ def difficulty_blurb(grade: str) -> str:
     return blurbs.get(grade, "Check the route notes below for terrain and commitment level.")
 
 
+def _source_to_link(source: str) -> str:
+    """Convert a source string to HTML hyperlinks, handling multiple sources."""
+    import re
+    # Map of source keywords to URLs
+    url_map = {
+        "hikr.org": "https://www.hikr.org/",
+        "SAC Route Portal": "https://www.sac-cas.ch/",
+        "SAC": "https://www.sac-cas.ch/",
+        "Switzerland Mobility": "https://www.schweizmobil.ch/",
+        "Wikimedia Commons": "https://commons.wikimedia.org/",
+        "Pizolbahnen": "https://pizol.com/",
+        "Jungfrau Region": "https://www.jungfrau.ch/",
+    }
+    
+    # If source contains a URL in parentheses (e.g., "hikr.org (https://...)"), use that
+    url_match = re.search(r'\((https?://[^)]+)\)', source)
+    if url_match:
+        url = url_match.group(1)
+        display = source[:url_match.start()].strip()
+        return f'<a href="{url}" target="_blank" rel="noopener">{display}</a>'
+    
+    # Split multiple sources (separated by " and ", ", ", or ";")
+    # Split on commas and "and", removing "and" from results
+    parts = re.split(r',\s*|\s+and\s+', source)
+    parts = [p.strip().lstrip('and ').strip() for p in parts if p.strip()]
+    links = []
+    
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+        
+        # Try to find a matching URL from the map
+        url = None
+        for keyword, base_url in url_map.items():
+            if keyword.lower() in part.lower():
+                url = base_url
+                break
+        
+        if url:
+            links.append(f'<a href="{url}" target="_blank" rel="noopener">{part}</a>')
+        else:
+            links.append(part)
+    
+    # Rejoin with " and " or ", " as appropriate
+    if len(links) > 1:
+        return ", ".join(links[:-1]) + ", and " + links[-1]
+    return links[0] if links else source
+
+
 def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: list[dict] | None = None) -> list[list[str]]:
     """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
@@ -270,8 +320,13 @@ def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: 
             if "source" in route:
                 unique_sources.add(route["source"])
         if unique_sources:
-            sources_text = "; ".join(sorted(unique_sources))
-            facts.append(["Route sources", sources_text])
+            # Convert sources to hyperlinks
+            source_links = []
+            for source in sorted(unique_sources):
+                link = _source_to_link(source)
+                source_links.append(link)
+            sources_html = "; ".join(source_links)
+            facts.append(["Route sources", sources_html])
     
     return facts
 
@@ -446,8 +501,10 @@ def probe_urls(data_files: Iterable[Path], max_workers: int = 16) -> None:
         print(f"[probe] {len(bad)} bad URLs in {dt:.2f}s:")
         for slug, url, err in bad:
             print(f"  [{slug}] {url}  →  {err}")
+        return True
     else:
         print(f"[probe] all {len(targets)} URLs OK ({dt:.2f}s)")
+        return False
 
 
 ####################################################################################################################################
@@ -669,8 +726,12 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"[validate] FAIL {slug}: JSON parse error: {exc}")
         return 1 if errors_found else 0
 
+    probe_failed = False
     if args.probe:
-        probe_urls(data_files)
+        probe_failed = probe_urls(data_files)
+        if probe_failed:
+            print("\n[probe] FAILED: broken URLs detected (see above)")
+            return 1
 
     copied, total = sync_assets(args.root)
     if total:

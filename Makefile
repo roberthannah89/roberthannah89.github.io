@@ -114,6 +114,7 @@ render:
 ## validate : Validate hike data without writing any output
 validate:
 	$(PYTHON) $(SCRIPTS)/check_hiking_docs.py
+	$(PYTHON) $(SCRIPTS)/validate_hike_files.py
 	$(PYTHON) $(SCRIPTS)/render_hike.py --validate-only
 
 # -----------------------------------------------------------------------------
