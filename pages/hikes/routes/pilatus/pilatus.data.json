@@ -28,7 +28,7 @@
     "transit_dest": "Alpnachstad, Switzerland"
   },
   "hero": {
-    "image_url": "TODO: hikr image URL (e.g. https://f.hikr.org/files/123456.jpg?width=1600)",
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_Mountain.jpg?width=1600",
     "subtitle_html": "Alpnachstad → Tomlishorn / Pilatus — <span class=\"pill t2\">SAC T2</span> · ~1690 m gain · ~9.8 km round-trip · 5–6 h",
     "grade": "T2"
   },
@@ -57,10 +57,10 @@
   ],
   "photos": [
     {
-      "url": "TODO: hikr image URL (e.g. https://f.hikr.org/files/123456.jpg?width=600)",
-      "lightbox_url": "TODO: hikr image URL (e.g. https://f.hikr.org/files/123456.jpg?width=1600)",
-      "alt": "Pilatus above Lake Lucerne",
-      "caption_html": "Pilatus towers above the Swiss midlands and Lake Lucerne — a dramatic backdrop from Lucerne and Alpnachstad."
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_NearLucernFromAbove.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_NearLucernFromAbove.jpg?width=1600",
+      "alt": "Pilatus hotel and cog railway station from above",
+      "caption_html": "Summit view of the famous Pilatus hotel and cogwheel railway station, with Oberhaupt and Esel peaks nearby."
     }
   ],
   "waypoints": [],
@@ -135,8 +135,8 @@
   },
   "webcams": [
     {
-      "url": "TODO: find valid webcam URL (e.g. https://f.hikr.org/... or https://www.foto-webcam.eu/...)",
-      "label": "TODO: camera location",
+      "url": "https://www.pilatus.ch/en/webcams",
+      "label": "Pilatus official webcam",
       "fallback": false
     }
   ],
