@@ -64,13 +64,13 @@
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
-        "<li><strong>Griesalp Trailhead</strong> (1,408 m) — Starting point in upper Kiental</li>",
-        "<li><strong>Alpiglen Alp</strong> (~1,800 m) — First major grazing meadow with trail junction</li>",
-        "<li><strong>Sefinental Valley</strong> (~2,100 m) — Alpine valley with stream crossings; begins steepening</li>",
-        "<li><strong>Alpine Meadows & Moraine</strong> (~2,400–2,600 m) — Final push through scree/cairn terrain</li>",
-        "<li><strong>Hohtürli Pass</strong> (2,778 m) — Summit col; small cairn between Wildi Frau & Dündenhorn</li>",
-        "<li><strong>Descent Switchbacks</strong> (~2,400–2,000 m) — Steep descent on scree toward Kandersteg</li>",
-        "<li><strong>Kandersteg Valley Floor</strong> (1,174 m) — Final approach through meadows to village</li>"
+        "<strong>Griesalp Trailhead</strong> (1,408 m) — Starting point in upper Kiental",
+        "<strong>Alpiglen Alp</strong> (~1,800 m) — First major grazing meadow with trail junction",
+        "<strong>Sefinental Valley</strong> (~2,100 m) — Alpine valley with stream crossings; begins steepening",
+        "<strong>Alpine Meadows & Moraine</strong> (~2,400–2,600 m) — Final push through scree/cairn terrain",
+        "<strong>Hohtürli Pass</strong> (2,778 m) — Summit col; small cairn between Wildi Frau & Dündenhorn",
+        "<strong>Descent Switchbacks</strong> (~2,400–2,000 m) — Steep descent on scree toward Kandersteg",
+        "<strong>Kandersteg Valley Floor</strong> (1,174 m) — Final approach through meadows to village"
       ]
     }
   ],
