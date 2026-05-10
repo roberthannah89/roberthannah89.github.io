@@ -84,7 +84,20 @@
       "Resident ibex colony on the south flank"
     ]
   ],
-  "photos": [],
+  "photos": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=2560",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=4000",
+      "alt": "Alpine Ibex on the Augstmatthorn",
+      "caption_html": "<p>Alpine Ibex on the Augstmatthorn. Photo via <a href=\"https://commons.wikimedia.org/wiki/File:Augstmatthorn_ibex.jpg\">Wikimedia Commons</a></p>"
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Sunrise_Austmatthorn.jpg?width=2560",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Sunrise_Austmatthorn.jpg?width=4000",
+      "alt": "Sunrise on Augstmatthorn",
+      "caption_html": "<p>Sunrise on a summer morning on Augstmatthorn. Photo via <a href=\"https://commons.wikimedia.org/wiki/File:Sunrise_Austmatthorn.jpg\">Wikimedia Commons</a></p>"
+    }
+  ],
   "waypoints": [
     {
       "lat": 46.7318,
