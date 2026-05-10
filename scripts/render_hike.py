@@ -241,26 +241,38 @@ def difficulty_blurb(grade: str) -> str:
     return blurbs.get(grade, "Check the route notes below for terrain and commitment level.")
 
 
-def build_display_quick_facts(quick_facts: list[list[str]], grade: str) -> list[list[str]]:
-    """Return quick facts with one consolidated difficulty row."""
+def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: list[dict] | None = None) -> list[list[str]]:
+    """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
-    if not grade:
-        return facts
-    difficulty_value = (
-        f'<span class="pill {grade.lower()}">SAC {grade}</span> '
-        f'{difficulty_blurb(grade)} '
-        f'<a href="../../guides/difficulty.html">Guide</a>'
-    )
-    labels_to_replace = {"standard sac grade", "difficulty", "sac grade", "grade"}
-    for idx, item in enumerate(facts):
-        if len(item) != 2:
-            continue
-        label, _value = item
-        if label.strip().lower() in labels_to_replace:
-            facts[idx] = ["Difficulty", difficulty_value]
-            break
-    else:
-        facts.append(["Difficulty", difficulty_value])
+    
+    # Add difficulty if grade is available
+    if grade:
+        difficulty_value = (
+            f'<span class="pill {grade.lower()}">SAC {grade}</span> '
+            f'{difficulty_blurb(grade)} '
+            f'<a href="../../guides/difficulty.html">Guide</a>'
+        )
+        labels_to_replace = {"standard sac grade", "difficulty", "sac grade", "grade"}
+        for idx, item in enumerate(facts):
+            if len(item) != 2:
+                continue
+            label, _value = item
+            if label.strip().lower() in labels_to_replace:
+                facts[idx] = ["Difficulty", difficulty_value]
+                break
+        else:
+            facts.append(["Difficulty", difficulty_value])
+    
+    # Add route sources if available
+    if routes:
+        unique_sources = set()
+        for route in routes:
+            if "source" in route:
+                unique_sources.add(route["source"])
+        if unique_sources:
+            sources_text = "; ".join(sorted(unique_sources))
+            facts.append(["Route sources", sources_text])
+    
     return facts
 
 
@@ -352,6 +364,7 @@ def render_one(data_path: Path) -> RenderResult:
             data["display_quick_facts"] = build_display_quick_facts(
                 data.get("quick_facts") or [],
                 hero.get("grade", ""),
+                data.get("routes"),
             )
             data["specific_gear"] = filter_specific_gear(data.get("gear") or [])
             # Optional per-hike _config.js (e.g. Google Maps Embed API key).
