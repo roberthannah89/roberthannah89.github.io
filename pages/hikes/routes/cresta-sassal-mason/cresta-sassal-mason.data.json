@@ -83,7 +83,8 @@
         "<strong>Cresta ridge approach</strong> (2600m+) — Traverse along exposed ridge",
         "<strong>Sassal Mason summit approach</strong> (2800m) — Final alpine scramble with panoramic views",
         "<strong>Cresta Sassal Mason</strong> (2847m) — Summit with Piz Palü glacier & Bernina Railway vista"
-      ]
+      ],
+      "source": "hikr.org community reports"
     }
   ],
   "getting_there": {
@@ -94,14 +95,38 @@
     {
       "title": "Day 1",
       "rows": [
-        ["08:00", "Depart Ospizio San Gottardo (2064m); early start for optimal lighting on glacier"],
-        ["08:45", "Reach Alp Grum area (~2100m); begin Bernina terrain ascent"],
-        ["10:00", "Arrive Piz Palü glacial base (~2400m); glacier views & railway context"],
-        ["10:45", "Enter Cresta ridge approach (2600m+); exposure increases"],
-        ["11:30", "Alpine scramble toward Sassal Mason; final 250m vertical"],
-        ["12:15", "Summit Cresta Sassal Mason (2847m); total ~4 hours up"],
-        ["13:00", "Begin descent; same route return"],
-        ["15:00", "Return to Ospizio San Gottardo; ~7 hours total"]
+        [
+          "08:00",
+          "Depart Ospizio San Gottardo (2064m); early start for optimal lighting on glacier"
+        ],
+        [
+          "08:45",
+          "Reach Alp Grum area (~2100m); begin Bernina terrain ascent"
+        ],
+        [
+          "10:00",
+          "Arrive Piz Palü glacial base (~2400m); glacier views & railway context"
+        ],
+        [
+          "10:45",
+          "Enter Cresta ridge approach (2600m+); exposure increases"
+        ],
+        [
+          "11:30",
+          "Alpine scramble toward Sassal Mason; final 250m vertical"
+        ],
+        [
+          "12:15",
+          "Summit Cresta Sassal Mason (2847m); total ~4 hours up"
+        ],
+        [
+          "13:00",
+          "Begin descent; same route return"
+        ],
+        [
+          "15:00",
+          "Return to Ospizio San Gottardo; ~7 hours total"
+        ]
       ],
       "footer_html": ""
     }
@@ -136,7 +161,6 @@
       "<strong>Glacier terrain & crevasse hazards:</strong> Route crosses or approaches Piz Palü glacial zone; late spring/early summer requires rope team & crampons. Summer conditions more stable but require route-finding skill.",
       "<strong>Bernina Railway UNESCO heritage context:</strong> Red-line train passes continuously through the valley; iconic photogenic vantage point. Trail timing can sync with train departures for photography.",
       "<strong>Weather & rockfall exposure:</strong> High altitude (2847m) + exposed ridge + glacial hangings make this a serious alpine route. Afternoon thunderstorms can develop rapidly. Rockfall risk from warming glacial slopes in mid-summer."
-
     ],
     "reports": [
       {

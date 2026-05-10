@@ -102,13 +102,14 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["title_html", "grade", "bullets_html"],
+        "required": ["title_html", "grade", "bullets_html", "source"],
         "properties": {
           "title_html":   { "type": "string" },
           "grade":        { "type": "string", "pattern": "^T[1-6]$" },
           "grade_label":  { "type": "string" },
           "pill_class":   { "type": "string" },
-          "bullets_html": { "type": "array", "items": { "type": "string" } }
+          "bullets_html": { "type": "array", "items": { "type": "string" } },
+          "source":       { "type": "string", "description": "The original source where this route was discovered/documented (e.g., hikr.org, SAC guidebook, personal exploration)" }
         }
       }
     },

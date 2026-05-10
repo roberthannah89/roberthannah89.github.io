@@ -89,7 +89,8 @@
         "<strong>Gornergrat trail proper</strong> (2900m) — Exposed ridge with cairns; T2 terrain",
         "<strong>Hohtälli plateau approach</strong> (3085m) — Final approach to summit platform",
         "<strong>Gornergrat summit</strong> (3135m) — Panoramic platform with 29 peaks visible"
-      ]
+      ],
+      "source": "hikr.org"
     }
   ],
   "getting_there": {
@@ -100,14 +101,38 @@
     {
       "title": "Day 1",
       "rows": [
-        ["07:00", "Depart Rotenboden station; early start to avoid afternoon crowds"],
-        ["08:15", "Reach Riffelhorn area; Matterhorn panorama photo break"],
-        ["09:45", "Arrive at Riffelberg Hotel (2600m); 1st rest & optional refreshment"],
-        ["10:30", "Enter Gornergrat trail; alpine plateau with exposed terrain"],
-        ["12:00", "Reach Hohtälli area (3085m); final 50m vertical push"],
-        ["12:45", "Summit Gornergrat (3135m); lunch & panorama viewing"],
-        ["14:30", "Begin descent; return via outbound route or Riffelalp variant"],
-        ["17:00–17:30", "Return to Rotenboden station; total ~10–11 hours"]
+        [
+          "07:00",
+          "Depart Rotenboden station; early start to avoid afternoon crowds"
+        ],
+        [
+          "08:15",
+          "Reach Riffelhorn area; Matterhorn panorama photo break"
+        ],
+        [
+          "09:45",
+          "Arrive at Riffelberg Hotel (2600m); 1st rest & optional refreshment"
+        ],
+        [
+          "10:30",
+          "Enter Gornergrat trail; alpine plateau with exposed terrain"
+        ],
+        [
+          "12:00",
+          "Reach Hohtälli area (3085m); final 50m vertical push"
+        ],
+        [
+          "12:45",
+          "Summit Gornergrat (3135m); lunch & panorama viewing"
+        ],
+        [
+          "14:30",
+          "Begin descent; return via outbound route or Riffelalp variant"
+        ],
+        [
+          "17:00–17:30",
+          "Return to Rotenboden station; total ~10–11 hours"
+        ]
       ],
       "footer_html": ""
     }

@@ -1,0 +1,204 @@
+{
+  "slug": "pilatus",
+  "page": {
+    "title": "Tomlishorn / Pilatus (2128 m) — Hike Plan",
+    "generated": "2026-05-09",
+    "reports_updated": "2026-05-09",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Tomlishorn / Pilatus",
+    "elev": 2128,
+    "lat": 46.9739,
+    "lon": 8.2414
+  },
+  "index_card": {
+    "region": "Central Switzerland",
+    "canton": "Nidwalden",
+    "distance": "9.8 km",
+    "gain": "1690 m",
+    "time": "5–6 h",
+    "pill_class": "t2"
+  },
+  "trailhead": {
+    "name": "Alpnachstad",
+    "elev": 438,
+    "lat": 46.9943,
+    "lon": 8.2287,
+    "transit_dest": "Alpnachstad, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_above_Lake_Lucerne_3.jpg?width=1600",
+    "subtitle_html": "Alpnachstad → Tomlishorn / Pilatus — <span class=\"pill t2\">SAC T2</span> · ~1690 m gain · ~9.8 km round-trip · 5–6 h",
+    "grade": "T2"
+  },
+  "intro_html": "<p>Pilatus is one of Central Switzerland's most iconic mountains, rising sharply from the shores of Lake Lucerne above Alpnachstad. This direct hiking route climbs steadily through forest and Alpine meadow to the summit plateau and the famous Tomlishorn — the highest peak in the Pilatus massif.</p><p>The route is a solid T2 mountain hike with excellent trail infrastructure. The return journey offers stunning panoramic views across the Emmental Alps, Lake Lucerne, and on clear days, views toward the distant Bernese Oberland and Säntis.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2128 m</strong> (Tomlishorn)"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Alpnachstad (438 m)"
+    ],
+    [
+      "Distance",
+      "9.8 km round-trip"
+    ],
+    [
+      "Total ascent",
+      "1690 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_above_Lake_Lucerne_3.jpg?width=600",
+      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_above_Lake_Lucerne_3.jpg?width=1600",
+      "alt": "Pilatus above Lake Lucerne",
+      "caption_html": "Pilatus towers above the Swiss midlands and Lake Lucerne — a dramatic backdrop from Lucerne and Alpnachstad."
+    }
+  ],
+  "waypoints": [],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "Alpnachstad → Tomlishorn (Direct hiking route)",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [
+        "From Alpnachstad village, follow hiking signs toward the railway / cable car base stations.",
+        "Enter the forested slopes and climb steadily on well-marked trails through mixed pine and beech forest.",
+        "Cross open Alpine meadows as the forest thins; continue climbing toward the ridge.",
+        "Emerge onto the summit plateau and ascend final slopes to Tomlishorn (2128 m), the highest peak of the Pilatus massif.",
+        "Return via the same route or explore the nearby Oberhaupt (2105 m) before descending."
+      ],
+      "source": "OSM hiking network + Pilatus.ch"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "From <strong>Lucerne</strong> (main station): take local buses or regional trains toward Alpnachstad (~20 min by car, ~30 min by bus). <strong>SBB Timetable:</strong> <a href=\"https://www.sbb.ch/\">sbb.ch</a> — search \"Lucerne to Alpnachstad\" or \"Pilatus Kulm\". PostBus lines service the valley year-round. <strong>Note:</strong> The famous Pilatus cogwheel railway (world's steepest) operates May–November and is primarily for descent; hiking up via the railway is not typical and is not covered by this plan.",
+    "by_car_html": "From <strong>Lucerne</strong>: drive south toward Alpnachstad via Alpnach (~15 km; 20–25 min). Ample parking at Alpnachstad village or near the railway/cable car base station. From <strong>Bern</strong> or <strong>Interlaken</strong>: cross to Lucerne (45–60 min), then proceed to Alpnachstad."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1 (round-trip)",
+      "rows": [
+        [
+          "08:00",
+          "Start at Alpnachstad village; fill water bottles."
+        ],
+        [
+          "08:30–10:30",
+          "Climb through forest on main trail; steady ascent."
+        ],
+        [
+          "10:30–11:30",
+          "Transition to Alpine meadow; views open up."
+        ],
+        [
+          "11:30–13:00",
+          "Final push to summit plateau; reach Tomlishorn."
+        ],
+        [
+          "13:00–13:45",
+          "Lunch and rest on summit; panoramic views of Lake Lucerne, Bernese Oberland."
+        ],
+        [
+          "13:45–16:00",
+          "Descend via same route; watch footing on steep sections."
+        ],
+        [
+          "16:00",
+          "Return to Alpnachstad; catch bus or train back to Lucerne."
+        ]
+      ],
+      "footer_html": "<p><strong>Fitness & pacing:</strong> This is a solid 5–6 hour day hike for fit parties; descent adds 2.5–3 hours. Pace yourself on the initial forest section to conserve energy for sustained climbing.</p>"
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "Lucerne (435 m)",
+      "summit_above_ref_m": 1693,
+      "temp_drop_c": 10.1,
+      "example_html": "<strong>22 °C at Lucerne → ~12 °C at Tomlishorn summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
+    ],
+    "season_html": "<strong>June–October</strong> is ideal; July–September offers the most stable weather. Avoid after fresh snow. Winter and early spring: the upper slopes can be icy or snow-covered."
+  },
+  "webcams": [
+    {
+      "url": "https://www.foto-webcam.eu/webcam/pilatus/current/1200.jpg",
+      "label": "Pilatus summit webcam",
+      "fallback": false
+    },
+    {
+      "url": "https://www.foto-webcam.eu/webcam/lucerne/current/1200.jpg",
+      "label": "Lucerne (valley reference)",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "",
+  "trip_reports": {
+    "hikr_index_url": "https://www.hikr.org/region/?gid=125",
+    "takeaways_html": [
+      "Trail infrastructure is excellent; marked throughout. Start early to avoid crowds, especially on weekends.",
+      "Bring substantial water (2 L minimum); only limited water sources on the climb."
+    ],
+    "reports": [
+      {
+        "url": "https://www.hikr.org/tour/12814/",
+        "title": "Pilatus Kulm — classic summer hike",
+        "season": "summer",
+        "grade": "T2",
+        "bullets_html": [
+          "Popular hiking route, well-trodden and signposted.",
+          "Excellent panoramic views on clear days."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Sturdy hiking boots (ankle support for steep sections)",
+        "2–3 L water (few water sources on the climb)",
+        "Food + emergency snacks",
+        "Sun protection: hat, sunglasses, SPF 30+",
+        "Layers: base + insulating + windproof shell",
+        "Headlamp (optional, but useful for early starts)",
+        "Small first-aid kit",
+        "Phone with offline SwissTopo map + GPX",
+        "Cash / card for the summit hotel restaurant or PostBus"
+      ]
+    },
+    {
+      "title": "Recommended",
+      "items_html": [
+        "Trekking poles (helpful for steep descent)",
+        "Hat + gloves (summit can be 10+ °C colder than Lucerne)"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>Water scarcity:</strong> The trail traverses steep slopes with few reliable water sources until the summit. Carry at least 2 L and plan water breaks carefully.",
+    "<strong>Exposure & steep terrain:</strong> Sections near the ridge can be steep and exposed. Stable footing essential, especially after rain.",
+    "<strong>Weather:</strong> Turn back immediately if thunderstorms develop — the summit is above treeline and lightning risk is extreme.",
+    "<strong>Crowds & popularity:</strong> Pilatus is very popular; early starts help avoid congestion and heat exhaustion in summer."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/\">Swiss Alpine Club (SAC)</a> — guidebooks and route data",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss weather forecast",
+    "<a href=\"https://www.swisstopo.ch/en\">SwissTopo</a> — topographic maps and digital terrain models",
+    "<a href=\"https://www.hikr.org/region/?gid=125\">Hikr.org — Pilatus region reports and photos</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
+}
