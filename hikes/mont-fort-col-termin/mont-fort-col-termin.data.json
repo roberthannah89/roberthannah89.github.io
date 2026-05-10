@@ -1,7 +1,7 @@
 {
   "slug": "mont-fort-col-termin",
   "page": {
-    "title": "Cabane du Mont Fort & Col Termin (2900 m) \u2014 Hike Plan",
+    "title": "Cabane du Mont Fort & Col Termin (2900 m) — Hike Plan",
     "generated": "2026-05-09",
     "reports_updated": "2026-05-09",
     "year": 2026
@@ -17,7 +17,7 @@
     "canton": "Valais",
     "distance": "8.5 km",
     "gain": "800 m",
-    "time": "4\u20135 h",
+    "time": "4–5 h",
     "pill_class": "t3"
   },
   "trailhead": {
@@ -60,26 +60,26 @@
       "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Summit_of_Mont_Fort%2C_Valais_Alps_%2849727940427%29.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Summit_of_Mont_Fort%2C_Valais_Alps_%2849727940427%29.jpg",
       "alt": "View 1 of Mont Fort Col Termin",
-      "caption_html": "<p>Photo \u00a9 Robert J Heath (CC BY 2.0)</p>"
+      "caption_html": "<p>Photo © Robert J Heath (CC BY 2.0)</p>"
     },
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Verbier_Mont_Fort_-_panoramio.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Verbier_Mont_Fort_-_panoramio.jpg",
       "alt": "View 2 of Mont Fort Col Termin",
-      "caption_html": "<p>Photo \u00a9 Erwin Kreijne (CC BY 3.0)</p>"
+      "caption_html": "<p>Photo © Erwin Kreijne (CC BY 3.0)</p>"
     },
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Mont-Fort_aerial_tramway.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Mont-Fort_aerial_tramway.jpg",
       "alt": "View 3 of Mont Fort Col Termin",
-      "caption_html": "<p>Photo \u00a9 VasilievVV (Public Domain)</p>"
+      "caption_html": "<p>Photo © VasilievVV (Public Domain)</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "Verbier (1,500 m) \u2192 Cabane du Mont Fort (2,900 m) via Cr\u00eate du Bec \u2014 Classic alpine traverse with panoramic ridge traverse.",
+      "title_html": "Verbier (1,500 m) → Cabane du Mont Fort (2,900 m) via Crête du Bec — Classic alpine traverse with panoramic ridge traverse.",
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
@@ -88,8 +88,8 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "SBB + Cable car: Train from Geneva to Le Ch\u00e2ble (Gare du Ch\u00e2ble-Od\u00e9maz) via Martigny (2 h total). From Le Ch\u00e2ble station, take the T\u00e9l\u00e9verbier cable car (450 m rise, 5 min) up to Verbier (1,500 m). From Verbier, hike begins immediately. Alternative: Train to Martigny, then PostBus 160 directly to Verbier (~40 min). Check SBB.ch and PostAuto for current schedules.",
-    "by_car_html": "From Le Ch\u00e2ble or Verbier: Drive south via Route 9 (Val de Bagnes) to Le Ch\u00e2ble (parking lot), or continue to Verbier (1,500 m). Parking at Verbier is available near the town center or at the T\u00e9l\u00e9verbier lower station. From Geneva, take A7 south to Martigny, then Route 9 southeast toward Le Ch\u00e2ble (45 min from Geneva). Verbier parking: Verbier tourist office has details on paid parking areas near the lifts."
+    "by_pt_html": "SBB + Cable car: Train from Geneva to Le Châble (Gare du Châble-Odémaz) via Martigny (2 h total). From Le Châble station, take the Téléverbier cable car (450 m rise, 5 min) up to Verbier (1,500 m). From Verbier, hike begins immediately. Alternative: Train to Martigny, then PostBus 160 directly to Verbier (~40 min). Check SBB.ch and PostAuto for current schedules.",
+    "by_car_html": "From Le Châble or Verbier: Drive south via Route 9 (Val de Bagnes) to Le Châble (parking lot), or continue to Verbier (1,500 m). Parking at Verbier is available near the town center or at the Téléverbier lower station. From Geneva, take A7 south to Martigny, then Route 9 southeast toward Le Châble (45 min from Geneva). Verbier parking: Verbier tourist office has details on paid parking areas near the lifts."
   },
   "day_plans": [
     {
@@ -108,22 +108,22 @@
       "valley_ref": "Nyon (492 m) or Verbier (1,500 m)",
       "summit_above_ref_m": 2300,
       "temp_drop_c": 13.8,
-      "example_html": "Nyon 492 m: 18\u00b0C \u2192 Cabane 2,900 m: ~2\u00b0C (approx. 0.65\u00b0C per 100 m); Or from Verbier 1,500 m: 16\u00b0C \u2192 ~6\u00b0C at summit"
+      "example_html": "Nyon 492 m: 18°C → Cabane 2,900 m: ~2°C (approx. 0.65°C per 100 m); Or from Verbier 1,500 m: 16°C → ~6°C at summit"
     },
     "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
     ],
-    "season_html": "July\u2013September is ideal; snow can linger into early July and return by late September. June and early October are possible but avalanche and weather risk increases. Avoid November\u2013May due to avalanche hazard and poor visibility."
+    "season_html": "July–September is ideal; snow can linger into early July and return by late September. June and early October are possible but avalanche and weather risk increases. Avoid November–May due to avalanche hazard and poor visibility."
   },
   "webcams": [
     {
       "url": "https://www.foto-webcam.eu/webcam/verbier-televerbier/current/1200.jpg",
-      "label": "Verbier (T\u00e9l\u00e9cabine)"
+      "label": "Verbier (Télécabine)"
     },
     {
       "url": "https://www.foto-webcam.eu/webcam/nyon/current/1200.jpg",
-      "label": "Nyon L\u00e9man"
+      "label": "Nyon Léman"
     },
     {
       "url": "https://www.foto-webcam.eu/webcam/martigny/current/1200.jpg",
@@ -144,9 +144,9 @@
         "season": "August 2024",
         "grade": "T3",
         "bullets_html": [
-          "<li>Cr\u00eate du Bec ridge traverse stunning panorama</li>",
-          "<li>Early start essential; weather deteriorates afternoon</li>",
-          "<li>Crevasse hazard present until late July; rope recommended</li>"
+          "Crête du Bec ridge traverse stunning panorama",
+          "Early start essential; weather deteriorates afternoon",
+          "Crevasse hazard present until late July; rope recommended"
         ]
       },
       {
@@ -155,9 +155,9 @@
         "season": "July 2024",
         "grade": "T3",
         "bullets_html": [
-          "<li>Alpine meadow ascent leads to glacier-exposed terrain</li>",
-          "<li>Cabane du Mont Fort offers overnight option (book ahead)</li>",
-          "<li>4 Vall\u00e9es ski region surrounds peak in winter</li>"
+          "Alpine meadow ascent leads to glacier-exposed terrain",
+          "Cabane du Mont Fort offers overnight option (book ahead)",
+          "4 Vallées ski region surrounds peak in winter"
         ]
       }
     ]
@@ -171,11 +171,11 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
-    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Cabane du Mont Fort & Col Termin</a>",
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Cabane du Mont Fort & Col Termin</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
   ],

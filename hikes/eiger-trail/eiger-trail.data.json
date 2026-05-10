@@ -1,7 +1,7 @@
 {
   "slug": "eiger-trail",
   "page": {
-    "title": "Eiger Trail (2320 m) \u2014 Hike Plan",
+    "title": "Eiger Trail (2320 m) — Hike Plan",
     "generated": "2026-05-09",
     "reports_updated": "2026-05-09",
     "year": 2026
@@ -17,7 +17,7 @@
     "canton": "Bern",
     "distance": "6.4 km",
     "gain": "700 m descent",
-    "time": "2.5\u20133.5 h",
+    "time": "2.5–3.5 h",
     "pill_class": "t2"
   },
   "trailhead": {
@@ -60,26 +60,26 @@
       "url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Mittellegi_ridge%2C_Eiger.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Mittellegi_ridge%2C_Eiger.jpg",
       "alt": "View 1 of Eiger Trail",
-      "caption_html": "<p>Photo \u00a9 Wikimedia Commons</p>"
+      "caption_html": "<p>Photo © Wikimedia Commons</p>"
     },
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Eiger_Mittellegi-Ridge.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Eiger_Mittellegi-Ridge.jpg",
       "alt": "View 2 of Eiger Trail",
-      "caption_html": "<p>Photo \u00a9 Wikimedia Commons</p>"
+      "caption_html": "<p>Photo © Wikimedia Commons</p>"
     },
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Wanderung_in_Grindelwald_01.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Wanderung_in_Grindelwald_01.jpg",
       "alt": "View 3 of Eiger Trail",
-      "caption_html": "<p>Photo \u00a9 Wikimedia Commons</p>"
+      "caption_html": "<p>Photo © Wikimedia Commons</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "Eigergletscher \u2192 Alpiglen \u2014 Beneath the North Face \u2014 Descend the stunning switchback trail beneath the legendary Eiger North Face with unobstructed views of this 1800 m rock wall. Well-maintained path through alpine meadows and rocky terrain.",
+      "title_html": "Eigergletscher → Alpiglen — Beneath the North Face — Descend the stunning switchback trail beneath the legendary Eiger North Face with unobstructed views of this 1800 m rock wall. Well-maintained path through alpine meadows and rocky terrain.",
       "grade": "T2",
       "pill_class": "t2",
       "bullets_html": [
@@ -88,7 +88,7 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "Train + Cog Railway: From Interlaken Ost, take the scenic railway to Grindelwald (~35 min). From Grindelwald station, follow signs to the Jungfraubahn terminal. Take the Jungfraubahn (cog railway) uphill toward Jungfraujoch; alight at Eigergletscher station (~40 min from Grindelwald). Swiss Travel Pass accepted on rail; Jungfraubahn requires additional ticket (CHF 50\u201370). Return via cable car from Alpiglen to Grindelwald (CHF 15) or hike down further.",
+    "by_pt_html": "Train + Cog Railway: From Interlaken Ost, take the scenic railway to Grindelwald (~35 min). From Grindelwald station, follow signs to the Jungfraubahn terminal. Take the Jungfraubahn (cog railway) uphill toward Jungfraujoch; alight at Eigergletscher station (~40 min from Grindelwald). Swiss Travel Pass accepted on rail; Jungfraubahn requires additional ticket (CHF 50–70). Return via cable car from Alpiglen to Grindelwald (CHF 15) or hike down further.",
     "by_car_html": "Via Grindelwald: From Interlaken, drive north to Grindelwald (19 km, ~25 min on scenic mountain road). Park at the Grindelwald terminal parking (CHF 3/h) near Jungfraubahn station. Take the cog railway to Eigergletscher (see transit details above). Alternatively, park lower in Grindelwald and use the Alpiglen cable car for return descent to Grindelwald village."
   },
   "day_plans": [
@@ -105,16 +105,16 @@
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "Interlaken (570 m) \u2014 reference station for Bernese Oberland",
+      "valley_ref": "Interlaken (570 m) — reference station for Bernese Oberland",
       "summit_above_ref_m": 1720,
       "temp_drop_c": 10.3,
-      "example_html": "22 \u00b0C at Interlaken \u2192 ~11 \u00b0C at Eigergletscher"
+      "example_html": "22 °C at Interlaken → ~11 °C at Eigergletscher"
     },
     "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
     ],
-    "season_html": "June\u2013September is peak season; July\u2013August warmest but often crowded. Avoid after fresh snow or during afternoon thunderstorms."
+    "season_html": "June–September is peak season; July–August warmest but often crowded. Avoid after fresh snow or during afternoon thunderstorms."
   },
   "webcams": [
     {
@@ -123,7 +123,7 @@
     },
     {
       "url": "https://www.foto-webcam.eu/webcam/eiger-jungfrau/current/1200.jpg",
-      "label": "Eiger\u2013Jungfrau Massif"
+      "label": "Eiger–Jungfrau Massif"
     }
   ],
   "elev_chart_attrib_html": "",
@@ -136,13 +136,13 @@
     "reports": [
       {
         "url": "https://www.hikr.org/tour/post201234.html",
-        "title": "Eiger Trail \u2014 Descent beneath the North Face",
+        "title": "Eiger Trail — Descent beneath the North Face",
         "season": "August 2024",
         "grade": "T2",
         "bullets_html": [
-          "<li>North Face views spectacular; stop for photos often</li>",
-          "<li>Well-marked switchbacks; suitable for families</li>",
-          "<li>Eigersee glacial lake is photogenic rest point</li>"
+          "North Face views spectacular; stop for photos often",
+          "Well-marked switchbacks; suitable for families",
+          "Eigersee glacial lake is photogenic rest point"
         ]
       },
       {
@@ -151,9 +151,9 @@
         "season": "July 2024",
         "grade": "T2",
         "bullets_html": [
-          "<li>Cog railway efficient; don't miss Eigergletscher station</li>",
-          "<li>Trail 100% marked; impossible to get lost</li>",
-          "<li>Cable car from Alpiglen saves 1h if legs tired</li>"
+          "Cog railway efficient; don't miss Eigergletscher station",
+          "Trail 100% marked; impossible to get lost",
+          "Cable car from Alpiglen saves 1h if legs tired"
         ]
       }
     ]
@@ -167,11 +167,11 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
-    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Eiger Trail</a>",
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Eiger Trail</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
   ],

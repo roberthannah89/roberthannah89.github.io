@@ -131,19 +131,16 @@ currently active mountain-hiking entry plus archived guidebook routes.
 
 ---
 
-## SAC Difficulty Refresher
+## Difficulty
 
-| Grade | Meaning |
-|---|---|
-| T1 | Hiking |
-| T2 | Mountain hiking |
-| **T3** | **Demanding mountain hiking** — exposure possible, sure-footedness needed |
-| T4 | Alpine hiking — stressful, **not for beginners** |
-| **T5** | **Demanding alpine hiking** — exposure, scrambling, route-finding |
-| T6 | Difficult alpine hiking — near-mountaineering |
+**Standard route:** SAC **T3** — demanding mountain hiking with some exposure
+and a real need for sure-footedness.
 
-Zindlenspitz standard route is the upper end of "still a hike." The trilogy
-traverse is firmly alpine.
+**Trilogy traverse variant:** SAC **T5−** — alpine terrain with exposure,
+scrambling, and route-finding.
+
+See the [SAC difficulty scale guide](../guide/difficulty.html) for the full
+T1-T6 grading system.
 
 ---
 

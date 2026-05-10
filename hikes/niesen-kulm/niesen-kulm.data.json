@@ -1,7 +1,7 @@
 {
   "slug": "niesen-kulm",
   "page": {
-    "title": "Niesen Kulm (2362 m) \u2014 Hike Plan",
+    "title": "Niesen Kulm (2362 m) — Hike Plan",
     "generated": "2026-05-09",
     "reports_updated": "2026-05-09",
     "year": 2026
@@ -17,22 +17,22 @@
     "canton": "Bern",
     "distance": "7.5 km",
     "gain": "1700 m",
-    "time": "4\u20135 h",
+    "time": "4–5 h",
     "pill_class": "t2"
   },
   "trailhead": {
-    "name": "M\u00fclenen",
+    "name": "Mülenen",
     "elev": 680,
     "lat": 46.5926,
     "lon": 7.6795,
-    "transit_dest": "M\u00fclenen"
+    "transit_dest": "Mülenen"
   },
   "hero": {
     "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Niesen_Panorama.jpg",
-    "subtitle_html": "Photo \u00a9 Simon Eggimann (Featured Wikipedia image)",
+    "subtitle_html": "Photo © Simon Eggimann (Featured Wikipedia image)",
     "grade": "T2"
   },
-  "intro_html": "<p>The iconic \"Swiss Pyramid\" \u2013 a relentless 1700 m climb with extraordinary views of Lake Thun and the Bernese Alps. Popular funicular descent option.</p>",
+  "intro_html": "<p>The iconic \"Swiss Pyramid\" – a relentless 1700 m climb with extraordinary views of Lake Thun and the Bernese Alps. Popular funicular descent option.</p>",
   "quick_facts": [
     [
       "Summit elevation",
@@ -44,7 +44,7 @@
     ],
     [
       "Trailhead",
-      "M\u00fclenen"
+      "Mülenen"
     ],
     [
       "Distance",
@@ -60,26 +60,26 @@
       "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Niesen_Panorama.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Niesen_Panorama.jpg",
       "alt": "View 1 of Niesen Kulm",
-      "caption_html": "<p>Photo \u00a9 Simon Eggimann (Featured Wikipedia image)</p>"
+      "caption_html": "<p>Photo © Simon Eggimann (Featured Wikipedia image)</p>"
     },
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Niesen2.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Niesen2.jpg",
       "alt": "View 2 of Niesen Kulm",
-      "caption_html": "<p>Photo \u00a9 Stefan Gr\u00fcnig</p>"
+      "caption_html": "<p>Photo © Stefan Grünig</p>"
     },
     {
       "url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Mountain_Niesen_-_View_from_Merligen_Thunersee.jpg",
       "lightbox_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Mountain_Niesen_-_View_from_Merligen_Thunersee.jpg",
       "alt": "View 3 of Niesen Kulm",
-      "caption_html": "<p>Photo \u00a9 Marco Ghinolfi (CC0)</p>"
+      "caption_html": "<p>Photo © Marco Ghinolfi (CC0)</p>"
     }
   ],
   "waypoints": [],
   "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "M\u00fclenen \u2192 Niesen Kulm \u2014 the classic \"Swiss Pyramid\" ascent \u2014 A relentless but non-technical 1700 m climb from the valley floor, gaining elevation through pasture, forest, and alpine terrain. Iconic views of Lake Thun dominate the descent.",
+      "title_html": "Mülenen → Niesen Kulm — the classic \"Swiss Pyramid\" ascent — A relentless but non-technical 1700 m climb from the valley floor, gaining elevation through pasture, forest, and alpine terrain. Iconic views of Lake Thun dominate the descent.",
       "grade": "T2",
       "pill_class": "t2",
       "bullets_html": [
@@ -88,8 +88,8 @@
     }
   ],
   "getting_there": {
-    "by_pt_html": "Train + PostBus: From Thun (main station), take the regional train toward Spiez (~10 min), then board PostBus line 1 or 2 toward M\u00fclenen (~30 min from Spiez, final stop). Combined SBB + PostBus journey \u224860 min total. From Interlaken, take the scenic train to Thun (~20 min) then proceed as above. Swiss Travel Pass covers both; check current PostBus route numbers on sbb.ch.",
-    "by_car_html": "Via Simmental: From Thun, drive south toward Spiez, then follow the scenic Simmental valley road toward M\u00fclenen (1680m elevation, ~40 km from Thun center, ~45\u201350 min). Excellent parking at the M\u00fclenen trailhead near the valley station; ample space and facilities. Alternatively, approach from Bern via Spiez. Road access is open year-round but can be busy on weekends."
+    "by_pt_html": "Train + PostBus: From Thun (main station), take the regional train toward Spiez (~10 min), then board PostBus line 1 or 2 toward Mülenen (~30 min from Spiez, final stop). Combined SBB + PostBus journey ≈60 min total. From Interlaken, take the scenic train to Thun (~20 min) then proceed as above. Swiss Travel Pass covers both; check current PostBus route numbers on sbb.ch.",
+    "by_car_html": "Via Simmental: From Thun, drive south toward Spiez, then follow the scenic Simmental valley road toward Mülenen (1680m elevation, ~40 km from Thun center, ~45–50 min). Excellent parking at the Mülenen trailhead near the valley station; ample space and facilities. Alternatively, approach from Bern via Spiez. Road access is open year-round but can be busy on weekends."
   },
   "day_plans": [
     {
@@ -105,25 +105,25 @@
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "Thun (428 m) \u2014 main valley reference for Thunersee region",
+      "valley_ref": "Thun (428 m) — main valley reference for Thunersee region",
       "summit_above_ref_m": 1762,
       "temp_drop_c": 10.6,
-      "example_html": "20 \u00b0C at Thun \u2192 ~7 \u00b0C at Niesen Kulm (2362 m) \u2014 typical July afternoon. Wind exposure on the summit is high; bring extra layers."
+      "example_html": "20 °C at Thun → ~7 °C at Niesen Kulm (2362 m) — typical July afternoon. Wind exposure on the summit is high; bring extra layers."
     },
     "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> \u2014 official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> \u2014 hourly wind/precip"
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
     ],
-    "season_html": "July\u2013September is optimal: stable weather, minimal snow, warm(ish) days. June can see snow patches above 1800 m. October deteriorates with increasing cloud and wind. The Niesen-Bahn funicular operates May\u2013October, so plan descent accordingly if using the railway."
+    "season_html": "July–September is optimal: stable weather, minimal snow, warm(ish) days. June can see snow patches above 1800 m. October deteriorates with increasing cloud and wind. The Niesen-Bahn funicular operates May–October, so plan descent accordingly if using the railway."
   },
   "webcams": [
     {
       "url": "https://www.foto-webcam.eu/webcam/thun/current/1200.jpg",
-      "label": "Thun \u2014 valley-level view"
+      "label": "Thun — valley-level view"
     },
     {
       "url": "https://www.foto-webcam.eu/webcam/interlaken/current/1200.jpg",
-      "label": "Interlaken \u2014 Bernese Oberland perspective"
+      "label": "Interlaken — Bernese Oberland perspective"
     }
   ],
   "elev_chart_attrib_html": "",
@@ -136,24 +136,24 @@
     "reports": [
       {
         "url": "https://www.hikr.org/tour/post187234.html",
-        "title": "Niesen \u2014 Swiss Pyramid ascent with Thunersee views",
+        "title": "Niesen — Swiss Pyramid ascent with Thunersee views",
         "season": "August 2024",
         "grade": "T2",
         "bullets_html": [
-          "<li>1700m gain is relentless but rewarding</li>",
-          "<li>M\u00fclenen trailhead easily accessible; ample parking</li>",
-          "<li>Funicular descent is legitimate time-saver (CHF 17)</li>"
+          "1700m gain is relentless but rewarding",
+          "Mülenen trailhead easily accessible; ample parking",
+          "Funicular descent is legitimate time-saver (CHF 17)"
         ]
       },
       {
         "url": "https://www.hikr.org/tour/post179345.html",
-        "title": "M\u00fclenen to Niesen descent via funicular",
+        "title": "Mülenen to Niesen descent via funicular",
         "season": "September 2024",
         "grade": "T2",
         "bullets_html": [
-          "<li>Afternoon thunderstorm risk is real; turn back by 13:30</li>",
-          "<li>360\u00b0 summit panorama includes Jungfrau and S\u00e4ntis</li>",
-          "<li>Fewer crowds midweek than weekends</li>"
+          "Afternoon thunderstorm risk is real; turn back by 13:30",
+          "360° summit panorama includes Jungfrau and Säntis",
+          "Fewer crowds midweek than weekends"
         ]
       }
     ]
@@ -167,11 +167,11 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard \u2014 e.g. <strong>Exposure</strong>: ... ",
-    "Turn back if thunderstorms develop \u2014 lightning risk above treeline is extreme."
+    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal \u2014 Niesen Kulm</a>",
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Niesen Kulm</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
   ],
