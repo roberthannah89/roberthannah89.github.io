@@ -34,9 +34,11 @@ jobs:
       - name: Validate hiking instructions
         run: python scripts/check_hiking_docs.py
 
-      - name: Render hike pages
+      - name: Probe image and webcam URLs
         run: python scripts/render_hike.py --probe
-        continue-on-error: true
+
+      - name: Render hike pages
+        run: python scripts/render_hike.py
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
