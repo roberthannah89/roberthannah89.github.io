@@ -249,7 +249,7 @@ def build_display_quick_facts(quick_facts: list[list[str]], grade: str) -> list[
     difficulty_value = (
         f'<span class="pill {grade.lower()}">SAC {grade}</span> '
         f'{difficulty_blurb(grade)} '
-        f'<a href="../guide/difficulty.html">Guide</a>'
+        f'<a href="../../guides/difficulty.html">Guide</a>'
     )
     labels_to_replace = {"standard sac grade", "difficulty", "sac grade", "grade"}
     for idx, item in enumerate(facts):
@@ -354,6 +354,8 @@ def render_one(data_path: Path) -> RenderResult:
                 hero.get("grade", ""),
             )
             data["specific_gear"] = filter_specific_gear(data.get("gear") or [])
+            # Optional per-hike _config.js (e.g. Google Maps Embed API key).
+            data["has_config_js"] = (data_path.parent / "_config.js").exists()
 
         with StageTimer(stages, "load_template"):
             env = _make_env()

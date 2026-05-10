@@ -1,0 +1,14 @@
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="hiking-skill GPX generator" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <time>2026-05-10T02:55:51.022191Z</time>
+  </metadata>
+  <trk>
+    <name>Mont-Fort</name>
+    <trkseg>
+      <trkpt lat="46.1" lon="7.217"/>
+      <trkpt lat="46.095" lon="7.265"/>
+      <trkpt lat="46.09" lon="7.3"/>
+      <trkpt lat="46.0806" lon="7.3186"/>
+    </trkseg>
+  </trk>
+</gpx>

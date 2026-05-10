@@ -225,7 +225,7 @@
 {%- if specific_gear %}
   <section>
     <h2>Additional Gear For This Hike</h2>
-    <p>For the standard summer hiking kit, see the <a href="../guide/gear.html">gear guide</a>.</p>
+    <p>For the standard summer hiking kit, see the <a href="../../guides/gear.html">gear guide</a>.</p>
 {%- for g in specific_gear %}
     <h3>{{ g.title }}</h3>
     <ul>
@@ -270,7 +270,7 @@
   </div>
 </footer>
 
-<script src="_config.js"></script>
+{% if has_config_js %}<script src="_config.js"></script>{% endif %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="{{ slug }}.track.js"></script>
 <script>
