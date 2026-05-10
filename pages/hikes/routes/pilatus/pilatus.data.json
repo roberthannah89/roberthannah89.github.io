@@ -133,13 +133,7 @@
     ],
     "season_html": "<strong>June–October</strong> is ideal; July–September offers the most stable weather. Avoid after fresh snow. Winter and early spring: the upper slopes can be icy or snow-covered."
   },
-  "webcams": [
-    {
-      "url": "https://www.pilatus.ch/en/webcams",
-      "label": "Pilatus official webcam",
-      "fallback": false
-    }
-  ],
+  "webcams": [],
   "elev_chart_attrib_html": "",
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/region/?gid=125",
