@@ -28,7 +28,7 @@
     "transit_dest": "Zermatt"
   },
   "hero": {
-    "image_url": "TODO",
+    "image_url": "https://f.hikr.org/files/3831865.jpg",
     "subtitle_html": "Photo © hikr.org - Matterhorn and glaciers from Gornergrat",
     "grade": "T2"
   },
@@ -57,25 +57,25 @@
   ],
   "photos": [
     {
-      "url": "https://f.hikr.org/files/3831865l.jpg",
+      "url": "https://f.hikr.org/files/3831865.jpg",
       "lightbox_url": "https://f.hikr.org/files/3831865.jpg",
       "alt": "Matterhorn and glaciers from Gornergrat",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/3831864l.jpg",
+      "url": "https://f.hikr.org/files/3831864.jpg",
       "lightbox_url": "https://f.hikr.org/files/3831864.jpg",
       "alt": "Gornergletscher",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2806308l.jpg",
+      "url": "https://f.hikr.org/files/2806308.jpg",
       "lightbox_url": "https://f.hikr.org/files/2806308.jpg",
       "alt": "Gornergrat panorama",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2806307l.jpg",
+      "url": "https://f.hikr.org/files/2806307.jpg",
       "lightbox_url": "https://f.hikr.org/files/2806307.jpg",
       "alt": "Riffelalp hut view",
       "caption_html": "<p>Photo via hikr.org</p>"

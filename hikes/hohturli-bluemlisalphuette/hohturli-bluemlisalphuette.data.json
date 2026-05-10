@@ -28,7 +28,7 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "TODO",
+    "image_url": "https://f.hikr.org/files/3618365.jpg",
     "subtitle_html": "Photo via hikr.org - Hohtürli and Blüemlisalp",
     "grade": "T3"
   },
@@ -57,25 +57,25 @@
   ],
   "photos": [
     {
-      "url": "https://f.hikr.org/files/3618365l.jpg",
+      "url": "https://f.hikr.org/files/3618365.jpg",
       "lightbox_url": "https://f.hikr.org/files/3618365.jpg",
       "alt": "Hohtürli ridge and Blüemlisalp from the hike",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/3546499l.jpg",
+      "url": "https://f.hikr.org/files/3546499.jpg",
       "lightbox_url": "https://f.hikr.org/files/3546499.jpg",
       "alt": "Alpine meadow towards Blüemlisalp",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2951648l.jpg",
+      "url": "https://f.hikr.org/files/2951648.jpg",
       "lightbox_url": "https://f.hikr.org/files/2951648.jpg",
       "alt": "Summit view from Hohtürli",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2749942l.jpg",
+      "url": "https://f.hikr.org/files/2749942.jpg",
       "lightbox_url": "https://f.hikr.org/files/2749942.jpg",
       "alt": "Oeschinen Lake valley from ridge",
       "caption_html": "<p>Photo via hikr.org</p>"

@@ -28,7 +28,7 @@
     "transit_dest": "Bernina Ospizio"
   },
   "hero": {
-    "image_url": "TODO",
+    "image_url": "https://f.hikr.org/files/3426252.jpg",
     "subtitle_html": "Photo via hikr.org",
     "grade": "T3"
   },
@@ -57,25 +57,25 @@
   ],
   "photos": [
     {
-      "url": "https://f.hikr.org/files/3426252l.jpg",
+      "url": "https://f.hikr.org/files/3426252.jpg",
       "lightbox_url": "https://f.hikr.org/files/3426252.jpg",
       "alt": "Gipfelpanorama",
       "caption_html": "<p>Summit panorama. Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/3426251l.jpg",
+      "url": "https://f.hikr.org/files/3426251.jpg",
       "lightbox_url": "https://f.hikr.org/files/3426251.jpg",
       "alt": "Gipfelaussicht",
       "caption_html": "<p>Peak views. Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/4248647l.jpg",
+      "url": "https://f.hikr.org/files/4248647.jpg",
       "lightbox_url": "https://f.hikr.org/files/4248647.jpg",
       "alt": "Blick zurück zum Sassal Mason",
       "caption_html": "<p>Looking back at Sassal Mason. Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2806345l.jpg",
+      "url": "https://f.hikr.org/files/2806345.jpg",
       "lightbox_url": "https://f.hikr.org/files/2806345.jpg",
       "alt": "Alpine terrain",
       "caption_html": "<p>Alpine terrain. Photo via hikr.org</p>"

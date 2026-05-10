@@ -30,7 +30,7 @@
     "transit_dest": "Linthal, Switzerland"
   },
   "hero": {
-    "image_url": "TODO",
+    "image_url": "https://f.hikr.org/files/3250664.jpg",
     "subtitle_html": "Photo via hikr.org - Glärnisch and Bächistock",
     "grade": "T3"
   },
@@ -95,25 +95,25 @@
   ],
   "photos": [
     {
-      "url": "https://f.hikr.org/files/3250664l.jpg",
+      "url": "https://f.hikr.org/files/3250664.jpg",
       "lightbox_url": "https://f.hikr.org/files/3250664.jpg",
       "alt": "Glärnisch massif and Bächistock from ridge",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/3029468l.jpg",
+      "url": "https://f.hikr.org/files/3029468.jpg",
       "lightbox_url": "https://f.hikr.org/files/3029468.jpg",
       "alt": "Oberblegisee alpine lake",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2878129l.jpg",
+      "url": "https://f.hikr.org/files/2878129.jpg",
       "lightbox_url": "https://f.hikr.org/files/2878129.jpg",
       "alt": "Summit view from Bächistock",
       "caption_html": "<p>Photo via hikr.org</p>"
     },
     {
-      "url": "https://f.hikr.org/files/2878123l.jpg",
+      "url": "https://f.hikr.org/files/2878123.jpg",
       "lightbox_url": "https://f.hikr.org/files/2878123.jpg",
       "alt": "Glacier and plateau terrain",
       "caption_html": "<p>Photo via hikr.org</p>"
