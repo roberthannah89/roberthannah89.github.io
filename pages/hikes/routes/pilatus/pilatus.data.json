@@ -28,7 +28,7 @@
     "transit_dest": "Alpnachstad, Switzerland"
   },
   "hero": {
-    "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_above_Lake_Lucerne_3.jpg?width=1600",
+    "image_url": "TODO: hikr image URL (e.g. https://f.hikr.org/files/123456.jpg?width=1600)",
     "subtitle_html": "Alpnachstad → Tomlishorn / Pilatus — <span class=\"pill t2\">SAC T2</span> · ~1690 m gain · ~9.8 km round-trip · 5–6 h",
     "grade": "T2"
   },
@@ -57,8 +57,8 @@
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_above_Lake_Lucerne_3.jpg?width=600",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_above_Lake_Lucerne_3.jpg?width=1600",
+      "url": "TODO: hikr image URL (e.g. https://f.hikr.org/files/123456.jpg?width=600)",
+      "lightbox_url": "TODO: hikr image URL (e.g. https://f.hikr.org/files/123456.jpg?width=1600)",
       "alt": "Pilatus above Lake Lucerne",
       "caption_html": "Pilatus towers above the Swiss midlands and Lake Lucerne — a dramatic backdrop from Lucerne and Alpnachstad."
     }
@@ -135,13 +135,8 @@
   },
   "webcams": [
     {
-      "url": "https://www.foto-webcam.eu/webcam/pilatus/current/1200.jpg",
-      "label": "Pilatus summit webcam",
-      "fallback": false
-    },
-    {
-      "url": "https://www.foto-webcam.eu/webcam/lucerne/current/1200.jpg",
-      "label": "Lucerne (valley reference)",
+      "url": "TODO: find valid webcam URL (e.g. https://f.hikr.org/... or https://www.foto-webcam.eu/...)",
+      "label": "TODO: camera location",
       "fallback": false
     }
   ],

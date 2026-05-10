@@ -80,6 +80,19 @@ website/
 - **Wikimedia filenames are case-sensitive** — verify via the API before hardcoding
 - **Run `make render` before committing** — rendered HTML is committed to git for CI
 
+## Images for New Hikes
+
+When creating a new hike, source **hero images and photos** from **hikr.org** — it has a large community-contributed library with proper usage rights:
+
+1. Visit the hike's hikr page: `https://www.hikr.org/tour/<id>/` or search `https://www.hikr.org/region/?gid=...`
+2. Look for high-quality summit/route photos in the gallery
+3. Right-click image → **Copy image link**
+4. Use the direct hikr URL in `data.json` (e.g. `https://f.hikr.org/files/123456.jpg`)
+5. For responsive display: use `width=600` for thumbnail and `width=1600` for lightbox
+6. If no good hikr images exist, fall back to **Wikimedia Commons** with proper `width=` parameters
+
+**Pre-commit hook will reject broken image URLs**, so verify links work before commit.
+
 ## When Stuck
 
 1. Check [`docs/hiking/TROUBLESHOOTING.md`](../docs/hiking/TROUBLESHOOTING.md)
