@@ -28,8 +28,8 @@
     "transit_dest": "Kandersteg"
   },
   "hero": {
-    "image_url": "https://f.hikr.org/files/3618365.jpg",
-    "subtitle_html": "Photo via hikr.org - Hohtürli and Blüemlisalp",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/A_view_of_Oeschinensee_Lake_during_spring%2C_Switzerland.jpg",
+    "subtitle_html": "Photo © Vavaloin (CC BY-SA 4.0) — Oeschinensee alpine lake",
     "grade": "T3"
   },
   "intro_html": "<p>Traverse to Switzerland's highest pass in the Bernese Alps, passing turquoise Oeschinensee and the historic Blüemlisalphütte hut. Spectacular alpine panorama.</p>",
@@ -48,11 +48,11 @@
     ],
     [
       "Distance",
-      "TODO: km round-trip"
+      "18–20 km round-trip"
     ],
     [
       "Total ascent",
-      "TODO: m"
+      "1370–1400 m"
     ]
   ],
   "photos": [
@@ -89,7 +89,13 @@
       "grade": "T3",
       "pill_class": "t3",
       "bullets_html": [
-        "TODO: <li>Step by step.</li>"
+        "<li><strong>Griesalp Trailhead</strong> (1,408 m) — Starting point in upper Kiental</li>",
+        "<li><strong>Alpiglen Alp</strong> (~1,800 m) — First major grazing meadow with trail junction</li>",
+        "<li><strong>Sefinental Valley</strong> (~2,100 m) — Alpine valley with stream crossings; begins steepening</li>",
+        "<li><strong>Alpine Meadows & Moraine</strong> (~2,400–2,600 m) — Final push through scree/cairn terrain</li>",
+        "<li><strong>Hohtürli Pass</strong> (2,778 m) — Summit col; small cairn between Wildi Frau & Dündenhorn</li>",
+        "<li><strong>Descent Switchbacks</strong> (~2,400–2,000 m) — Steep descent on scree toward Kandersteg</li>",
+        "<li><strong>Kandersteg Valley Floor</strong> (1,174 m) — Final approach through meadows to village</li>"
       ]
     }
   ],
@@ -101,12 +107,15 @@
     {
       "title": "Day 1",
       "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
+        ["06:30", "Start at Griesalp trailhead; head toward Alpiglen Alp"],
+        ["08:00", "Reach Alpiglen Alp (~1,800 m); continue into Sefinental Valley"],
+        ["09:30", "Begin major elevation gain; cross Sefinental stream (ankle to mid-calf depth)"],
+        ["11:30", "Reach alpine meadows & moraine (~2,400 m); final climb via cairn markers"],
+        ["13:00", "Summit Hohtürli Pass (2,778 m); spectacular alpine panorama"],
+        ["14:30", "Begin descent toward Kandersteg; steep switchbacks on scree terrain"],
+        ["16:30", "Reach valley meadows; final approach to Kandersteg village"]
       ],
-      "footer_html": ""
+      "footer_html": "<strong>Total time: 7–9 hours depending on fitness & pauses.</strong> Early start (6–7 AM) essential; aim to descend before 3 PM to avoid afternoon thunderstorms."
     }
   ],
   "weather": {
@@ -136,8 +145,9 @@
   "trip_reports": {
     "hikr_index_url": "https://www.hikr.org/dir/Hohtuerli_52566/",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "<strong>Weather is the controlling factor:</strong> Rapid conditions changes at/above 2,500 m are common. Clear mornings often deteriorate to cloud/rain by afternoon. Trip reports strongly recommend early starts (6–7 AM) and descent before 3 PM.",
+      "<strong>Sefinental creek crossings are the bottleneck:</strong> High-water season (May–early July) can be difficult; many reports note water thigh-deep after rain. Trekking poles are mandatory; water shoes helpful.",
+      "<strong>Solitude vs. traffic:</strong> Alpine Pass Route users pass in clusters; independent day-hikers are sparse. The pass itself is rarely crowded, but Kandersteg & Griesalp bus terminals create bottlenecks."
     ],
     "reports": [
       {
@@ -173,13 +183,19 @@
     }
   ],
   "safety_html": [
-    "TODO: main hazard — e.g. <strong>Exposure</strong>: ... ",
+    "<strong>Exposure:</strong> Rocky ridge sections near the pass with exposed ledges; trail mostly stable but demands careful footing, especially in descent.",
+    "<strong>Scree Fields:</strong> Loose rock dominant on south descent; stable on ascent. Risk of falls from destabilized stones.",
+    "<strong>Stream Crossings:</strong> Sefinental creek crossings (ankle- to mid-calf depth); snowmelt (May–July) raises water levels significantly. Use poles or sticks for support.",
+    "<strong>Weather Deterioration:</strong> Pass at 2,778 m highly exposed to rapid weather changes; afternoon thunderstorms common (Jun–Aug).",
+    "<strong>Scrambling Sections (T3):</strong> Final ascent requires hand-holds on rocky terrain; not technical but exposed and demanding sure-footedness.",
+    "<strong>Navigation:</strong> Occasional poor trail marking above 2,400 m in poor visibility; GPS/map essential in clouds.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal — Hohtürli & Blüemlisalphütte</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+    "<a href=\"https://www.sac-cas.ch/de/huetten-und-touren/sac-tourenportal/\">SAC Tourenportal — Hohtürli & Blüemlisalphüette</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=151182&Y=625403&lang=en\">SwissTopo map (1:25,000) — Jungfrau–Blüemlisalp</a>",
+    "<a href=\"https://www.hikr.org/dir/Hohtuerli_52566/\">Hikr.org trip reports — Hohtürli</a>"
   ],
   "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
 }
