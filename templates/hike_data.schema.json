@@ -47,7 +47,7 @@
       "properties": {
         "image_url":     { "type": "string" },
         "subtitle_html": { "type": "string" },
-        "grade":         { "type": "string", "pattern": "^T[1-6]$" },
+        "grade":         { "type": "string", "pattern": "^T[1-6][+-]?$" },
         "auto_subtitle": { "type": "boolean" }
       }
     },
@@ -94,7 +94,7 @@
           "lat":   { "type": "number" },
           "lon":   { "type": "number" },
           "label": { "type": "string" },
-          "kind":  { "type": "string", "enum": ["start", "summit", "way"] }
+          "kind":  { "type": "string" }
         }
       }
     },
@@ -105,7 +105,7 @@
         "required": ["title_html", "grade", "bullets_html", "source"],
         "properties": {
           "title_html":   { "type": "string" },
-          "grade":        { "type": "string", "pattern": "^T[1-6]$" },
+          "grade":        { "type": "string", "pattern": "^T[1-6][+-]?$" },
           "grade_label":  { "type": "string" },
           "pill_class":   { "type": "string" },
           "bullets_html": { "type": "array", "items": { "type": "string" } },

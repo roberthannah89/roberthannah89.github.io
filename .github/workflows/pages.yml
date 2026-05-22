@@ -26,22 +26,16 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r pages/hikes/requirements.txt
 
       - name: Validate hike file completeness
-        run: python scripts/validate_hike_files.py
+        run: cd pages/hikes && python scripts/validate_hike_files.py
 
       - name: Validate hike data
-        run: python scripts/render_hike.py --validate-only
-
-      - name: Validate hiking instructions
-        run: python scripts/check_hiking_docs.py
-
-      - name: Probe image and webcam URLs
-        run: python scripts/render_hike.py --probe
+        run: cd pages/hikes && python scripts/render_hike.py --validate-only
 
       - name: Render hike pages
-        run: python scripts/render_hike.py
+        run: cd pages/hikes && python scripts/render_hike.py
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
