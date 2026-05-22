@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>{{ page.title }}</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('{{ hero.image_url }}'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>{{ peak.name }} <span style="font-weight:400; opacity:.85;">{{ peak.elev }} m</span></h1>
+    <p>{{ hero.subtitle_html | safe }}</p>
+  </div>
+</header>
+
+<main>
+
+{% if intro_html is defined %}
+<section>
+  {{ intro_html | safe }}
+</section>
+{% endif %}
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+{%- for label, value in display_quick_facts | default(quick_facts, true) %}
+    <tr><th>{{ label }}</th><td>{{ value | safe }}</td></tr>
+{%- endfor %}
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+{%- for p in photos %}
+    <figure>
+      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}"></a>
+      <figcaption>{{ p.caption_html | safe }}</figcaption>
+    </figure>
+{%- endfor %}
+  </div>
+{%- for p in photos %}
+      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt=""></a>
+{%- endfor %}
+      <p class="attrib">{{ photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true) | safe }}</p>
+</section>
+
+<section>
+  <h2>Getting there (live transit)</h2>
+  <div id="transit-embed" class="transit-embed empty">
+    <iframe id="transit-iframe" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Public transport directions"></iframe>
+  </div>
+  <div class="transit-actions">
+    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
+    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
+  </div>
+  <p class="attrib">
+    Live transit from <span id="transit-origin"></span> to
+    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
+    in <code>_config.js</code>; the deep-link buttons work without one.
+  </p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <strong style="align-self:center;">Layer:</strong>
+    <button data-layer="hike" class="active">Topo + Hiking trails</button>
+    <button data-layer="aerial">Aerial photo</button>
+    <button data-layer="osm">OpenStreetMap</button>
+    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start ({{ trailhead.name }})</span>
+    <span class="summit">Summit ({{ peak.name }})</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+
+<section>
+  <h2>Routes{% if routes_subtitle is defined %} {{ routes_subtitle | safe }}{% endif %}</h2>
+{%- for r in routes %}
+  <h3>{{ r.title_html | safe }}{% if r.grade %} <span class="pill {{ r.get('pill_class') or (r.grade | lower) }}">{{ r.get('grade_label') or r.grade }}</span>{% endif %}</h3>
+  <ul>
+{%- for b in r.bullets_html %}
+    <li>{{ b | safe }}</li>
+{%- endfor %}
+  </ul>
+{%- endfor %}
+</section>
+
+<div class="grid-2">
+  <section>
+    <h2>Getting There</h2>
+    <h3>By car</h3>
+    {{ getting_there.by_car_html | safe }}
+    <h3>{{ getting_there.get('by_pt_heading') or 'By public transport' }}</h3>
+    {{ getting_there.by_pt_html | safe }}
+  </section>
+
+  <section>
+{%- for plan in day_plans %}
+{%- if plan.title %}
+    <h2>{{ plan.title }}</h2>
+{%- endif %}
+{%- if plan.get('subheading') %}
+    <h3>{{ plan.subheading }}</h3>
+{%- endif %}
+    <table>
+      <tr><th>Time</th><th>Step</th></tr>
+{%- for time, step in plan.rows %}
+      <tr><td>{{ time }}</td><td>{{ step | safe }}</td></tr>
+{%- endfor %}
+    </table>
+{%- if plan.get('footer_html') %}
+    <p>{{ plan.footer_html | safe }}</p>
+{%- endif %}
+{%- endfor %}
+  </section>
+</div>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="attrib">
+    Forecast modeled at {{ peak.elev }} m (summit coordinates) via
+    <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.
+    Temps are summit-level; valley will be ~{{ weather.lapse_rate.temp_drop_c }} °C warmer. Always cross-check
+    <a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> before going.
+  </p>
+  <h3>Lapse-rate temperature estimate</h3>
+  <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
+  <ul>
+    <li><strong>Valley reference:</strong> {{ weather.lapse_rate.valley_ref }}.</li>
+    <li><strong>Summit:</strong> {{ peak.elev }} m → ~{{ weather.lapse_rate.summit_above_ref_m }} m above the reference → subtract ~<strong>{{ weather.lapse_rate.temp_drop_c }} °C</strong>.</li>
+    <li>{{ weather.lapse_rate.example_html | safe }}</li>
+    <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
+  </ul>
+  <h3>Sources to check</h3>
+  <ul>
+{%- for s in weather.sources_html %}
+    <li>{{ s | safe }}</li>
+{%- endfor %}
+  </ul>
+  <h3>Snow / season</h3>
+  <p>{{ weather.season_html | safe }}</p>
+</section>
+
+<section>
+  <h2>Webcams</h2>
+  <div class="webcam-grid" id="webcams"></div>
+  <p class="attrib">
+    Webcam images © their respective operators
+    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
+    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
+    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats"></div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">{{ elev_chart_attrib_html | default('Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).', true) | safe }}</p>
+</section>
+
+<section>
+  <h2>Trip Reports (hikr.org)</h2>
+  <h3>Key takeaways</h3>
+  <div class="trip-takeaways">
+    <ul>
+{%- for t in trip_reports.takeaways_html %}
+      <li>{{ t | safe }}</li>
+{%- endfor %}
+    </ul>
+  </div>
+  <h3>Recent reports</h3>
+  <div class="trip-reports">
+{%- for r in trip_reports.reports %}
+    <article class="trip-report">
+      <header>
+        <a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.title }}</a>
+        · <time>{{ r.season }}</time> · <span class="pill {{ r.get('pill_class') or (r.grade | lower) }}">{{ r.get('grade_label') or r.grade }}</span>
+      </header>
+      <ul>
+{%- for b in r.bullets_html %}
+        <li>{{ b | safe }}</li>
+{%- endfor %}
+      </ul>
+    </article>
+{%- endfor %}
+  </div>
+  <p class="attrib">
+    Trip reports © their respective authors on
+    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
+    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
+    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
+  </p>
+</section>
+
+<div class="grid-2">
+{%- if specific_gear %}
+  <section>
+    <h2>Additional Gear For This Hike</h2>
+    <p>For the standard summer hiking kit, see the <a href="../../guides/gear.html">gear guide</a>.</p>
+{%- for g in specific_gear %}
+    <h3>{{ g.title }}</h3>
+    <ul>
+{%- for item in g.items_html %}
+      <li>{{ item | safe }}</li>
+{%- endfor %}
+    </ul>
+{%- endfor %}
+  </section>
+{%- endif %}
+
+  <section>
+    <h2>Safety &amp; Hazards</h2>
+    <ul>
+{%- for s in safety_html %}
+      <li>{{ s | safe }}</li>
+{%- endfor %}
+    </ul>
+  </section>
+</div>
+
+<section>
+  <h2>Resources &amp; Links</h2>
+  <ul>
+{%- for r in resources_html %}
+    <li>{{ r | safe }}</li>
+{%- endfor %}
+  </ul>
+</section>
+
+<section>
+  <h2>Disclaimer</h2>
+  <p>{{ disclaimer_html | safe }}</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© {{ page.get('year') or 2026 }} — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+  </div>
+</footer>
+
+{% if has_config_js %}<script src="_config.js"></script>{% endif %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
+<script src="{{ slug }}.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: {{ peak.lat }}, lon: {{ peak.lon }}, elev: {{ peak.elev }}, name: {{ peak.name | tojson }} },
+  trailhead: { lat: {{ trailhead.lat }}, lon: {{ trailhead.lon }}, name: {{ trailhead.name | tojson }} },
+  transit_dest: {{ trailhead.transit_dest | tojson }},
+  hikr_index_url: {{ trip_reports.hikr_index_url | tojson }},
+  gpx_filename: {{ (slug ~ '.gpx') | tojson }},
+  reports_updated: {{ page.reports_updated | tojson }},
+  page_generated: {{ page.generated | tojson }},
+  webcams: {{ webcams | tojson }},
+  waypoints: [
+{%- for w in waypoints %}
+    [{{ w.lat }}, {{ w.lon }}, {{ w.label | tojson }}, {{ w.kind | tojson }}]{% if not loop.last %},{% endif %}
+{%- endfor %}
+  ]
+};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

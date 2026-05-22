@@ -1,0 +1,256 @@
+{
+  "slug": "risetestock",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/traverse-from-gfellen-to-blaue-tosse-4347/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/"
+    }
+  ],
+  "page": {
+    "title": "Risetestock (1758 m) -- Hike Plan",
+    "generated": "2026-05-15",
+    "reports_updated": "2026-05-15",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Risetestock",
+    "elev": 1758,
+    "lat": 46.9579,
+    "lon": 8.1506
+  },
+  "index_card": {
+    "region": "Pilatus / Entlebuch",
+    "canton": "Lucerne",
+    "distance": "~8 km",
+    "gain": "820 m",
+    "time": "~4 h",
+    "route_type": "traverse",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Gfellen",
+    "elev": 938,
+    "lat": 46.956,
+    "lon": 8.1291,
+    "transit_dest": "Gfellen, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/7/csm_1560072236_1842610991master_23e409c196.jpg",
+    "subtitle_html": "Gfellen → Risetestock → Blaue Tosse — <span class=\"pill t4\">SAC T4</span> · ~820 m gain · ~4 h traverse",
+    "grade": "T4",
+    "auto_subtitle": false
+  },
+  "intro_html": "<p>The <strong>Risetestock</strong> (1758 m) is a western outcrop of the <strong>Pilatus</strong> range, rising above the small hamlet of Gfellen in the Entlebuch. The SAC-rated T4 traverse from Gfellen to Blaue Tosse crosses exposed terrain opposite the Schimberig, with 820 m of ascent through steep alpine ground.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1758 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Gfellen"
+    ],
+    [
+      "Distance",
+      "~8 km (traverse)"
+    ],
+    [
+      "Total ascent",
+      "~820 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/7/csm_1560072236_1842610991master_23e409c196.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/7/csm_1560072236_1842610991master_23e409c196.jpg",
+      "alt": "Risetestock (Pilatus) — peak photo",
+      "caption_html": "<p>Risetestock (Pilatus) — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077115_20792563Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077115_20792563L.jpg",
+      "alt": "The meadow leading up to the edge of the forest at ca. 1420 m",
+      "caption_html": "<p>The meadow leading up to the edge of the forest at ca. 1420 m</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077114_2117296704Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077114_2117296704L.jpg",
+      "alt": "In the forest, at ca. 1450 m",
+      "caption_html": "<p>In the forest, at ca. 1450 m</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077114_1255694444Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077114_1255694444L.jpg",
+      "alt": "On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.",
+      "caption_html": "<p>On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1596360012Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1596360012L.jpg",
+      "alt": "The passage from the boulder to the rocky ledge",
+      "caption_html": "<p>The passage from the boulder to the rocky ledge</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_295237288Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_295237288L.jpg",
+      "alt": "The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.",
+      "caption_html": "<p>The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1339036483Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1339036483L.jpg",
+      "alt": "The summit of Blaue Tosse",
+      "caption_html": "<p>The summit of Blaue Tosse</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_228587591Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_228587591L.jpg",
+      "alt": "Descending below the rocks of Blaue Tosse",
+      "caption_html": "<p>Descending below the rocks of Blaue Tosse</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077103_2024635569Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077103_2024635569L.jpg",
+      "alt": "Descending the steepest passage equipped with fixed ropes",
+      "caption_html": "<p>Descending the steepest passage equipped with fixed ropes</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560077103_1709541666Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077103_1709541666L.jpg",
+      "alt": "This is the face of the descent, above to the left is Blaue Tosse.",
+      "caption_html": "<p>This is the face of the descent, above to the left is Blaue Tosse.</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.956,
+      "lon": 8.1291,
+      "label": "Gfellen (938 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.9579,
+      "lon": 8.1506,
+      "label": "Risetestock (1758 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "1. Gfellen → Risetestock → Blaue Tosse (traverse)",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "<strong>Start:</strong> Gfellen (~938 m) — ascend 820 m to Risetestock summit.",
+        "<strong>Summit:</strong> Risetestock (1758 m) — western Pilatus range, opposite Schimberig.",
+        "<strong>Descent:</strong> Continue traverse to Blaue Tosse (~1.5 h descent, 820 m loss).",
+        "SAC time: 2h30 ascent + 1h30 descent = ~4 h total."
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<ul><li>Train to <strong>Schüpfheim</strong> (BLS Entlebuch line from Bern or Luzern).</li><li>PostBus to <strong>Gfellen</strong> (Finsterwald b. Entlebuch).</li><li>Plan via <a href=\"https://www.sbb.ch/en\" target=\"_blank\">sbb.ch</a>.</li></ul>",
+    "by_car_html": "<p>Drive to <strong>Gfellen</strong> (6162 Finsterwald b. Entlebuch) via Schüpfheim or Entlebuch. Limited parking at the hamlet.</p>"
+  },
+  "day_plans": [
+    {
+      "title": "Day Plan (T4 traverse)",
+      "rows": [
+        [
+          "07:00",
+          "Depart Gfellen (~938 m)"
+        ],
+        [
+          "08:15",
+          "Treeline; steeper terrain begins"
+        ],
+        [
+          "09:30",
+          "Risetestock summit (1758 m); break"
+        ],
+        [
+          "10:00",
+          "Begin traverse descent toward Blaue Tosse"
+        ],
+        [
+          "11:30",
+          "Arrive Blaue Tosse; end of route"
+        ]
+      ],
+      "footer_html": "SAC reference times: 2h30 ascent, 1h30 descent. Adjust for conditions and fitness."
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "Schüpfheim, ~723 m",
+      "summit_above_ref_m": 1035,
+      "temp_drop_c": 6.2,
+      "example_html": "Example: Schüpfheim forecast 22 °C → summit ≈ <strong>~16 °C</strong>. Add wind chill on exposed sections."
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/en/weather/week/entlebuch_switzerland\">Meteoblue Entlebuch</a> — hourly wind/precip"
+    ],
+    "season_html": "<strong>June to October</strong> is best. T4 terrain requires dry conditions; avoid after fresh snow or rain."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>T4 terrain:</strong> Exposed sections require sure-footedness and a head for heights. Hands may be needed in places.",
+    "<strong>Wet conditions:</strong> Steep grass and rock become dangerous when wet — postpone if rain is forecast.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/\">SAC Route Portal — Risetestock</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://map.geo.admin.ch/?zoom=14&E=8.15&N=46.958&lang=en&bgLayer=ch.swisstopo.pixelkarte-farbe\">SwissTopo map</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "photos_attrib_html": "All photos: Marco Volken / SAC Route Portal"
+}

@@ -1,9 +1,8 @@
 # Generated outputs — rebuilt by scripts/render_hike.py
-pages/hikes/index.html
-pages/hikes/routes/*/[!_]*.html
-pages/hikes/routes/_assets/
-# Exception: hand-authored guide pages are not generated
-!pages/hikes/guides/*.html
+# (Committed so GitHub Pages can serve them without a build step)
+# index.html
+# routes/*/[!_]*.html
+# routes/_assets/
 
 # Python
 __pycache__/
@@ -11,6 +10,12 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+
+# Playwright MCP (ephemeral snapshots + npm artifacts)
+.playwright-mcp/
+node_modules/
+package.json
+package-lock.json
 
 # OS / editor
 .DS_Store

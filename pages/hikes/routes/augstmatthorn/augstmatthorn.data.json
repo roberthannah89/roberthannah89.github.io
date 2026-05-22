@@ -1,5 +1,19 @@
 {
   "slug": "augstmatthorn",
+  "sources": [
+    {
+      "name": "SAC Route Portal",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/"
+    },
+    {
+      "name": "hikr.org",
+      "url": "https://www.hikr.org/dir/Augstmatthorn_8848/"
+    },
+    {
+      "name": "SwissTopo",
+      "url": "https://map.geo.admin.ch/?zoom=11&X=754000&Y=263000&lang=en"
+    }
+  ],
   "page": {
     "title": "Augstmatthorn (2137 m) — Hike Plan",
     "generated": "2026-05-08",

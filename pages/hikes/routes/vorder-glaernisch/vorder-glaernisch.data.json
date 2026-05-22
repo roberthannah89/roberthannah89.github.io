@@ -1,0 +1,213 @@
+{
+  "slug": "vorder-glaernisch",
+  "page": {
+    "title": "Vorder Glärnisch (2328 m) -- Hike Plan",
+    "generated": "2026-05-15",
+    "reports_updated": "2026-05-15",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Vorder Glärnisch",
+    "elev": 2328,
+    "lat": 47.02185607508844,
+    "lon": 9.040805691562825
+  },
+  "index_card": {
+    "region": "Glarus Alps",
+    "canton": "Glarus",
+    "distance": "11.9 km",
+    "gain": "1608 m",
+    "time": "~5h",
+    "route_type": "out-and-back",
+    "pill_class": "t5"
+  },
+  "trailhead": {
+    "name": "Schwändi b. Schwanden GL, Post",
+    "elev": 701,
+    "lat": 47.00565468345417,
+    "lon": 9.066721142777304,
+    "transit_dest": "Schwändi b. Schwanden GL, Post, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1534163073_935098032master_156d76cf67.jpg",
+    "subtitle_html": "Schwändi b. Schwanden GL, Post -> Vorder Glärnisch -- <span class=\"pill t5\">SAC T5+</span> | ~1608 m gain | ~11.9 km | ~5h",
+    "grade": "T5+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Vorder Glärnisch is for alpine hikers what Glärnisch is for climbers: an exciting tour to a fabulous viewpoint. The view down to Glarus from Vorder Glärnisch is even more impressive than from Vrenelisgärtli. The city of Glarus burnt down 150 years ago and was rebuilt as a planned city with a geometrical street layout, which, viewed from the summit, looks like a scale model. The ascent on the steep south face with its two huge gullies is more interesting than the usual white-blue marked route on the barren north face which has scree and rubble.</p>\n<p>Vorder Glärnisch offers an impressive view deep down to Glarus. There is a summit cross and book. Besides the popular usual ascent from Hintersackberg, Vorder Glärnisch with its open faces on all sides offers an almost unlimited choice of routes, which are mostly on steep grassy slopes (up to 60°). \nStöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary summits or offshoots of the ridge, which can be climbed on various routes, but are not really targets in their own right. Schwösteren / Schwestern (P. 1947) is the last of the original three towers on the north-east ridge. Two of them collapsed in the last few centuries. There is the so called «Pandurenweg» which leads across Stöckli from Unter Sagg to Fadenwald.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2328 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5+</span>"
+    ],
+    [
+      "Trailhead",
+      "Schwändi b. Schwanden GL, Post"
+    ],
+    [
+      "Distance",
+      "11.9 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1608 m"
+    ],
+    [
+      "Elevation range",
+      "701-2308 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1534163073_935098032master_156d76cf67.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1534163073_935098032master_156d76cf67.jpg",
+      "alt": "Vorder Glärnisch — peak photo",
+      "caption_html": "<p>Vorder Glärnisch — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1555341147_1526623915Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555341147_1526623915L.jpg",
+      "alt": "Traversing Hanslirus: difficulties depending on the condition / presence of the trail.",
+      "caption_html": "<p>Traversing Hanslirus: difficulties depending on the condition / presence of the trail.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1534163323_2029062832Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1534163323_2029062832L.jpg",
+      "alt": "Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.",
+      "caption_html": "<p>Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1555402905_160773831Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555402905_160773831L.jpg",
+      "alt": "The bifurcation on the descent via Schlattalpli",
+      "caption_html": "<p>The bifurcation on the descent via Schlattalpli</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.00560003436884,
+      "lon": 9.066653282446573,
+      "label": "Schwändi b. Schwanden GL, Post (700 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.017088174405835,
+      "lon": 9.03602528346597,
+      "label": "Furggle (GL) (2057 m)",
+      "kind": "traverse"
+    },
+    {
+      "lat": 47.02202742106748,
+      "lon": 9.041105741499322,
+      "label": "Vorder Glärnisch (2328 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>Traverse from Schwändi to Klöntalersee</strong>",
+      "grade": "T5+",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Schwändi – Schwändisienen",
+        "Schwändisienen - Vorder Glärnisch",
+        "Vorder Glärnisch - Hintersackberg",
+        "Hintersackberg - Rhodannenberg"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glärnisch-794/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Schwändi b. Schwanden GL, Post</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 1728,
+      "temp_drop_c": 10.4,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T5+",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T5+</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glärnisch-794/mountain-hiking/\">SAC Route Portal — Traverse from Schwändi to Klöntalersee</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glärnisch-794/mountain-hiking/\">SAC Peak Page — Vorder Glärnisch</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glaernisch-794/mountain-hiking/traverse-from-schwaendi-to-kloentalersee-1369/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glaernisch-794/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Fabian Lippuner / SAC Route Portal"
+}

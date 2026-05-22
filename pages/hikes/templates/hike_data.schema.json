@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Hike data file",
+  "description": "Schema for <slug>.data.json. Validated by render_hike.py before rendering.",
+  "type": "object",
+  "required": ["page", "peak", "trailhead", "hero", "quick_facts", "photos",
+               "waypoints", "routes", "getting_there", "day_plans", "weather",
+               "webcams", "trip_reports", "gear", "safety_html", "resources_html",
+               "disclaimer_html", "index_card"],
+  "additionalProperties": true,
+  "properties": {
+    "slug": { "type": "string" },
+    "sources": {
+      "type": "array",
+      "description": "Golden sources: the authoritative websites this hike page is based on (e.g. SAC Route Portal, hikr.org, SwissTopo)",
+      "items": {
+        "type": "object",
+        "required": ["name", "url"],
+        "properties": {
+          "name": { "type": "string", "description": "Source name (e.g. 'SAC Route Portal')" },
+          "url":  { "type": "string", "format": "uri", "description": "URL to the source page" }
+        }
+      }
+    },
+    "page": {
+      "type": "object",
+      "required": ["title", "generated", "reports_updated"],
+      "properties": {
+        "title": { "type": "string" },
+        "generated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "reports_updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "year": { "type": "integer" }
+      }
+    },
+    "peak": {
+      "type": "object",
+      "required": ["name", "elev", "lat", "lon"],
+      "properties": {
+        "name": { "type": "string" },
+        "elev": { "type": "number" },
+        "lat":  { "type": "number" },
+        "lon":  { "type": "number" }
+      }
+    },
+    "trailhead": {
+      "type": "object",
+      "required": ["name", "lat", "lon", "transit_dest"],
+      "properties": {
+        "name": { "type": "string" },
+        "elev": { "type": "number" },
+        "lat":  { "type": "number" },
+        "lon":  { "type": "number" },
+        "transit_dest": { "type": "string" }
+      }
+    },
+    "hero": {
+      "type": "object",
+      "required": ["image_url", "subtitle_html", "grade"],
+      "properties": {
+        "image_url":     { "type": "string" },
+        "subtitle_html": { "type": "string" },
+        "grade":         { "type": "string", "pattern": "^T[1-6][+-]?$" },
+        "auto_subtitle": { "type": "boolean" }
+      }
+    },
+    "index_card": {
+      "type": "object",
+      "required": ["region", "time"],
+      "properties": {
+        "region":     { "type": "string" },
+        "time":       { "type": "string" },
+        "distance":   { "type": "string" },
+        "gain":       { "type": "string" },
+        "pill_class": { "type": "string" },
+        "photo_url":  { "type": "string" }
+      }
+    },
+    "quick_facts": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 2, "maxItems": 2,
+        "items": { "type": "string" }
+      }
+    },
+    "photos": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["url", "alt", "caption_html"],
+        "properties": {
+          "url":          { "type": "string" },
+          "alt":          { "type": "string" },
+          "caption_html": { "type": "string" },
+          "lightbox_url": { "type": "string" }
+        }
+      }
+    },
+    "waypoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lat", "lon", "label", "kind"],
+        "properties": {
+          "lat":   { "type": "number" },
+          "lon":   { "type": "number" },
+          "label": { "type": "string" },
+          "kind":  { "type": "string" }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title_html", "grade", "bullets_html", "source"],
+        "properties": {
+          "title_html":   { "type": "string" },
+          "grade":        { "type": "string", "pattern": "^T[1-6][+-]?$" },
+          "grade_label":  { "type": "string" },
+          "pill_class":   { "type": "string" },
+          "bullets_html": { "type": "array", "items": { "type": "string" } },
+          "source":       { "type": "string", "description": "The original source where this route was discovered/documented (e.g., hikr.org, SAC guidebook, personal exploration)" }
+        }
+      }
+    },
+    "getting_there": {
+      "type": "object",
+      "required": ["by_car_html", "by_pt_html"],
+      "properties": {
+        "by_car_html":     { "type": "string" },
+        "by_pt_html":      { "type": "string" },
+        "by_pt_heading":   { "type": "string" }
+      }
+    },
+    "day_plans": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["rows"],
+        "properties": {
+          "title":       { "type": "string" },
+          "subheading":  { "type": "string" },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "minItems": 2, "maxItems": 2,
+              "items": { "type": "string" }
+            }
+          },
+          "footer_html": { "type": "string" }
+        }
+      }
+    },
+    "weather": {
+      "type": "object",
+      "required": ["lapse_rate", "sources_html", "season_html"],
+      "properties": {
+        "lapse_rate": {
+          "type": "object",
+          "required": ["valley_ref", "summit_above_ref_m", "temp_drop_c", "example_html"],
+          "properties": {
+            "valley_ref":         { "type": "string" },
+            "summit_above_ref_m": { "type": "number" },
+            "temp_drop_c":        { "type": "number" },
+            "example_html":       { "type": "string" }
+          }
+        },
+        "sources_html": { "type": "array", "items": { "type": "string" } },
+        "season_html":  { "type": "string" }
+      }
+    },
+    "webcams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "label"],
+        "properties": {
+          "url":      { "type": "string" },
+          "label":    { "type": "string" },
+          "fallback": { "type": "boolean" }
+        }
+      }
+    },
+    "trip_reports": {
+      "type": "object",
+      "required": ["hikr_index_url", "takeaways_html", "reports"],
+      "properties": {
+        "hikr_index_url": { "type": "string" },
+        "takeaways_html": { "type": "array", "items": { "type": "string" } },
+        "reports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url", "title", "season", "grade", "bullets_html"],
+            "properties": {
+              "url":          { "type": "string" },
+              "title":        { "type": "string" },
+              "season":       { "type": "string" },
+              "grade":        { "type": "string", "pattern": "^T[1-6]" },
+              "grade_label":  { "type": "string" },
+              "pill_class":   { "type": "string" },
+              "bullets_html": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "gear": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "items_html"],
+        "properties": {
+          "title":      { "type": "string" },
+          "items_html": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "safety_html":     { "type": "array", "items": { "type": "string" } },
+    "resources_html":  { "type": "array", "items": { "type": "string" } },
+    "disclaimer_html": { "type": "string" },
+    "intro_html":      { "type": "string" },
+    "routes_subtitle": { "type": "string" },
+    "elev_chart_attrib_html": { "type": "string" },
+    "photos_attrib_html":     { "type": "string" }
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "slug": "monte-rosa-huette",
+  "page": {
+    "title": "Monte-Rosa-Hütte SAC (2883 m) -- Hike Plan",
+    "generated": "2026-05-21",
+    "reports_updated": "2026-05-21",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Monte-Rosa-Hütte SAC",
+    "elev": 2883,
+    "lat": 45.957916307332574,
+    "lon": 7.823234670421523
+  },
+  "index_card": {
+    "region": "Valais",
+    "canton": "VS",
+    "distance": "8.7 km",
+    "gain": "361 m",
+    "time": "~2h30",
+    "route_type": "out-and-back",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Rotenboden",
+    "elev": 2816,
+    "lat": 45.98438585619631,
+    "lon": 7.765301137315145,
+    "transit_dest": "Rotenboden, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/e/csm_1707226427_490611027master_8a9c331cfd.jpg",
+    "subtitle_html": "Rotenboden -> Monte-Rosa-Hütte SAC -- <span class=\"pill t4\">SAC T4</span> | ~361 m gain | ~8.7 km | ~2h30",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The second half of the normal approach to the Monte Rosa hut SAC is not a normal alpine hike, but a glacier tour: crampons, harness, rope and ice axe are essential. The approach is well marked white-blue-white, bars are placed on the glacier. With glacier shrinkage, the transition to the glacier and the route over it varies from year to year.\nIn summer 2019 a new route, the \"Panoramaweg Monte Rosa Hütte\", was added, which is about quarter an hour shorter than the old way.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2883 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Rotenboden"
+    ],
+    [
+      "Distance",
+      "8.7 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~361 m"
+    ],
+    [
+      "Elevation range",
+      "2636-2917 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/e/csm_1707226427_490611027master_8a9c331cfd.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/e/csm_1707226427_490611027master_8a9c331cfd.jpg",
+      "alt": "Monte-Rosa-Hütte SAC — peak photo",
+      "caption_html": "<p>Monte-Rosa-Hütte SAC — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1802346846Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1802346846L.jpg",
+      "alt": "At the start of the hut path by Rotenboden",
+      "caption_html": "<p>At the start of the hut path by Rotenboden</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1529498271_116724229Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529498271_116724229L.jpg",
+      "alt": "Eastward traverse beneath the Gornergrat",
+      "caption_html": "<p>Eastward traverse beneath the Gornergrat</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1529499157_846903134Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529499157_846903134L.jpg",
+      "alt": "Eastward traverse, hut in the background.",
+      "caption_html": "<p>Eastward traverse, hut in the background.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1529498270_1858934420Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529498270_1858934420L.jpg",
+      "alt": "View back to the unmistakable form of the Matterhorn",
+      "caption_html": "<p>View back to the unmistakable form of the Matterhorn</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1660228164_1396593547Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660228164_1396593547L.jpg",
+      "alt": "Viewpoint, where the old and the new route branche off.",
+      "caption_html": "<p>Viewpoint, where the old and the new route branche off.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1660229718_400254306Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660229718_400254306L.jpg",
+      "alt": "On the \"Panorama Trail Monte Rosa Hut",
+      "caption_html": "<p>On the \"Panorama Trail Monte Rosa Hut</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1617665102Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1617665102L.jpg",
+      "alt": "On the Gornergletscher \"old route\"",
+      "caption_html": "<p>On the Gornergletscher \"old route\"</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1529499157_1914867076Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529499157_1914867076L.jpg",
+      "alt": "On the Gornergletscher \"old route\"",
+      "caption_html": "<p>On the Gornergletscher \"old route\"</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1529499839_1526523142Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529499839_1526523142L.jpg",
+      "alt": "Start of the glacier. \"old route\"",
+      "caption_html": "<p>Start of the glacier. \"old route\"</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1686485385Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1686485385L.jpg",
+      "alt": "Soon there! The Monte-Rosa-Hütte, and the Liskamm Nordwand behind it.",
+      "caption_html": "<p>Soon there! The Monte-Rosa-Hütte, and the Liskamm Nordwand behind it.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1660228239_1037527005Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660228239_1037527005L.jpg",
+      "alt": "The Monte-Rosa-Hütte, SAC.",
+      "caption_html": "<p>The Monte-Rosa-Hütte, SAC.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1562156562_1072933279Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156562_1072933279L.jpg",
+      "alt": "The Monte-Rosa-Hütte, SAC.",
+      "caption_html": "<p>The Monte-Rosa-Hütte, SAC.</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 45.98475668982105,
+      "lon": 7.764816705873433,
+      "label": "Rotenboden (2815 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 45.9568732011247,
+      "lon": 7.8145619889964655,
+      "label": "Monte-Rosa-Hütte SAC (2883 m)",
+      "kind": "hut"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>From Rotenboden via the Gornergletscher</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Rotenboden - Viewpoint Gornerglescher P. 2649",
+        "Gornerglescher P. 2649 - «Panoramaweg Monte-Rosa-Hütte»\"-  Monte-Rosa-Hütte"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Zahnradbahn</strong> to <strong>Rotenboden</strong>.</p>\n<p>Information about the cable car Zermatt - Rotenboden: https://www.gornergratbahn.ch/de/sommer/bahninformationen/</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 2283,
+      "temp_drop_c": 13.7,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T4</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/\">SAC Route Portal — From Rotenboden via the Gornergletscher</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/\">SAC Peak Page — Monte-Rosa-Hütte SAC</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/from-rotenboden-via-the-gornergletscher-554/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Fabian Lippuner, Weh Ludwig, davidschweizer.ch / SAC Route Portal"
+}

@@ -1,0 +1,213 @@
+{
+  "slug": "saentis",
+  "page": {
+    "title": "Säntis (2502 m) -- Hike Plan",
+    "generated": "2026-05-17",
+    "reports_updated": "2026-05-17",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Säntis",
+    "elev": 2502,
+    "lat": 47.24936961249966,
+    "lon": 9.343336068527574
+  },
+  "index_card": {
+    "region": "Alpstein",
+    "canton": "AR/AI",
+    "distance": "10.1 km",
+    "gain": "1351 m",
+    "time": "~4h30",
+    "route_type": "out-and-back",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Schwägalp, Säntis aerial cableway",
+    "elev": 1346,
+    "lat": 47.256259395387104,
+    "lon": 9.3184713977177,
+    "transit_dest": "Schwägalp, Säntis aerial cableway, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1533557725_705491663master_e13216823f.jpg",
+    "subtitle_html": "Schwägalp, Säntis aerial cableway -> Säntis -- <span class=\"pill t4\">SAC T4+</span> | ~1351 m gain | ~10.1 km | ~4h30",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>With the usual and Chammhalden routes this is the third itinerary on the Säntis north face (second in terms of difficulty). Steep, equipped with steel cables and marked white-blue (alpine hiking route), it leads 600 metres of vertical height to Hintere Öhrligrueb. The detour to Öhrlikopf (on the national map new \"Öhrlikopf\") with some scrambling in shell limestone seems more difficult than it really is. Towards the end of the tour the often crowded mountain hiking route Ebenalp-Schäfler-Säntis can be avoided by undertaking the described, demanding ridge hike.</p>\n<p>Säntis is the highest peak of the Alpstein range and a unique viewpoint on the north-eastern end of the Swiss Alps. From here the five neighbouring countries of Switzerland can be seen. The border of the St. Gall and Appenzell cantons meets at the summit. \nThe first cabin to house visitors was built in 1846 and since then has been continuously enlarged to become the guesthouse it is today. In 1882 the first meteorological station was installed, while in the second half of the 20th century the radio transmitting installations were added. The aerial cableway from Schwägalp was built between 1933 and 1935. Transporting passengers metres of vertical height in 10 minutes, it is one of the most popular cableways in Switzerland.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2502 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Schwägalp, Säntis aerial cableway"
+    ],
+    [
+      "Distance",
+      "10.1 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1351 m"
+    ],
+    [
+      "Elevation range",
+      "1308-2501 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1533557725_705491663master_e13216823f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1533557725_705491663master_e13216823f.jpg",
+      "alt": "Säntis — peak photo",
+      "caption_html": "<p>Säntis — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1533555866_787592781Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1533555866_787592781L.jpg",
+      "alt": "Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route",
+      "caption_html": "<p>Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1660206042_120038184Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660206042_120038184L.jpg",
+      "alt": "The nostrils - the trail to the actual \"holes\" is a dead end",
+      "caption_html": "<p>The nostrils - the trail to the actual \"holes\" is a dead end</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.256226029234966,
+      "lon": 9.318781159171294,
+      "label": "Schwägalp, Säntis aerial cableway (1352 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.259074451506685,
+      "lon": 9.348499754384077,
+      "label": "Hüenerberg (2311 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 47.265456414093315,
+      "lon": 9.360656643609772,
+      "label": "Öhrlikopf / Öhrli (2193 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 47.24942770995953,
+      "lon": 9.343232624692618,
+      "label": "Säntis (2502 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>From Schwägalp via Nasenlöcher</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Schwägalp – Potersalp",
+        "Potersalp - Hintere Öhrligrueb",
+        "Detour to Öhrlikopf",
+        "Hintere Öhrligrueb – Säntis"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Schwägalp, Säntis-Schwebebahn</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 1902,
+      "temp_drop_c": 11.4,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4+",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T4+</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Route Portal — From Schwägalp via Nasenlöcher</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Peak Page — Säntis</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/from-schwaegalp-via-nasenloecher-2360/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Fabian Lippuner, Pascal Keller / SAC Route Portal"
+}
