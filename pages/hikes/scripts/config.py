@@ -54,31 +54,6 @@ SOURCE_URL_MAP: dict[str, str] = {
 # Default disclaimer (for new hike scaffolds)
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-# Guide pages (rendered as nav links on the index hero)
-# Each entry: (href-relative-to-index, label)
-# ---------------------------------------------------------------------------
-GUIDE_PAGES: list[dict[str, str]] = [
-    {"href": "planning.html",    "label": "Planning",
-     "card_title": "Planning a hike",
-     "card_desc": "Finding routes on the SAC portal, building custom routes in Komoot, and using the SwissTopo app for offline navigation."},
-    {"href": "difficulty.html",  "label": "Trail grades",
-     "card_title": "Trail grades (T1–T6)",
-     "card_desc": "What the SAC mountain hiking scale actually means in practice — terrain, exposure, and equipment for each grade."},
-    {"href": "weather.html",     "label": "Weather",
-     "card_title": "Reading alpine weather",
-     "card_desc": "MeteoSwiss vs Meteoblue, temperature at altitude, go/no-go criteria, and how to check webcams before committing."},
-    {"href": "gear.html",        "label": "Gear & safety",
-     "card_title": "Gear & safety",
-     "card_desc": "What to pack, the Swiss trail marking system, emergency numbers, the Rega app, and the small habits that prevent avoidable incidents."},
-    {"href": "regions.html",     "label": "Regions & cantons",
-     "card_title": "Regions & cantons",
-     "card_desc": "Where these hikes are — browsing by SAC guidebook region and Swiss canton, with an interactive map."},
-    {"href": "classics.html",    "label": "50 Golden Classics",
-     "card_title": "50 Golden Classics",
-     "card_desc": "The 50 essential Swiss hikes — a curated list spanning every region and difficulty level, from gentle lakeside walks to committing alpine ridges."},
-]
-
-# ---------------------------------------------------------------------------
 # Default disclaimer (for new hike scaffolds)
 # ---------------------------------------------------------------------------
 DEFAULT_DISCLAIMER = (

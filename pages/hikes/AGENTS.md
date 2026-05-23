@@ -22,10 +22,20 @@
 | `routes/<slug>/<slug>.html` | `hike_page.j2.html` | Individual hike page |
 | `routes/<slug>/<slug>.track.js` | *(generated from GPX)* | Leaflet track data |
 | `index.html` | `index.j2.html` | Gallery landing page with filters and map |
+| `guides/index.html` | `guide_index.j2.html` | Guide landing page with card grid (auto-discovered) |
 | `guides/regions.html` | `regions.j2.html` | Hikes grouped by region/canton |
 | `guides/difficulty.html` | `difficulty.j2.html` | SAC grade guide with auto-populated hike examples |
 
-The remaining guide pages (`guides/planning.html`, `guides/weather.html`, `guides/gear.html`, `guides/index.html`) are static HTML — edit them directly.
+The remaining guide pages (e.g. `guides/planning.html`, `guides/weather.html`, `guides/gear.html`, `guides/trails.html`) are static HTML — edit them directly. To add a new guide page to the index, include these `<meta>` tags in its `<head>`:
+
+```html
+<meta name="guide-label" content="Short nav label">
+<meta name="guide-card-title" content="Card title on guide index">
+<meta name="guide-card-desc" content="One-line description for the card.">
+<meta name="guide-order" content="50">
+```
+
+The render script auto-discovers all `guides/*.html` files with these tags and builds the guide index and main-page nav from them. Use `guide-order` to control sort position (10, 20, 30… — leave gaps for future pages).
 
 ## Shared constants — `scripts/config.py`
 

@@ -47,12 +47,13 @@ from typing import Iterable
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from html.parser import HTMLParser
+
 from config import (
     DIFFICULTY_BLURBS,
     EARTH_RADIUS_M,
     ELEV_SMOOTH_M,
     GOLDEN_CLASSICS,
-    GUIDE_PAGES,
     INDEX_PHOTO_WIDTH,
     NAISMITH_ASCENT_MH,
     NAISMITH_SPEED_KMH,
@@ -82,7 +83,62 @@ CLASSICS_TEMPLATE_NAME = "classics.j2.html"
 GUIDE_INDEX_TEMPLATE_NAME = "guide_index.j2.html"
 DEFAULT_ROOT = REPO_ROOT / "routes"
 
+CLASSIC_NAME_TO_SLUG: dict[str, str] = {
+    "Pilatus (Tomlishorn)": "tomlishorn",
+    "Geltenhütte": "geltenhuette",
+    "Monte Tamaro – Monte Lema": "monte-tamaro",
+    "Monte Rosa Hütte": "monte-rosa-huette",
+    "Greina Hochebene": "greina",
+    "Grosser Mythen": "gross-mythen",
+    "Planurahuette": "planurahuette",
+    "Üssers Barrhorn": "uessers-barrhorn",
+}
+
 GPX_NS = {"g": "http://www.topografix.com/GPX/1/1"}
+
+
+class _GuideMetaParser(HTMLParser):
+    """Extract guide-* meta tags from an HTML file's <head>."""
+
+    def __init__(self):
+        super().__init__()
+        self.meta: dict[str, str] = {}
+        self._in_head = False
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
+        if tag == "head":
+            self._in_head = True
+        if tag == "meta" and self._in_head:
+            d = dict(attrs)
+            name = d.get("name", "")
+            if name.startswith("guide-") and d.get("content"):
+                self.meta[name] = d["content"]
+
+    def handle_endtag(self, tag: str):
+        if tag == "head":
+            self._in_head = False
+
+
+def discover_guide_pages(guides_dir: Path) -> list[dict[str, str]]:
+    """Scan guides/ for HTML files with guide-* meta tags, return sorted list."""
+    pages: list[dict[str, str]] = []
+    for html_file in sorted(guides_dir.glob("*.html")):
+        if html_file.name == "index.html":
+            continue
+        parser = _GuideMetaParser()
+        parser.feed(html_file.read_text(encoding="utf-8"))
+        m = parser.meta
+        if "guide-card-title" not in m:
+            continue
+        pages.append({
+            "href": html_file.name,
+            "label": m.get("guide-label", m["guide-card-title"]),
+            "card_title": m["guide-card-title"],
+            "card_desc": m.get("guide-card-desc", ""),
+            "_order": int(m.get("guide-order", "999")),
+        })
+    pages.sort(key=lambda p: p["_order"])
+    return pages
 GENERIC_GEAR_TITLES = {
     "mandatory",
     "recommended",
@@ -603,6 +659,26 @@ def _index_photo_url(data: dict) -> str:
     return url
 
 
+def _build_classic_slugs(data_files: list[Path]) -> set[str]:
+    """Return the set of slugs that match a golden classic."""
+    slug_to_peak: dict[str, str] = {}
+    for f in data_files:
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        slug = d.get("slug") or f.stem.replace(".data", "")
+        peak = d.get("peak") or {}
+        slug_to_peak[slug] = peak.get("name", slug)
+
+    classic_slugs: set[str] = set()
+    for c in GOLDEN_CLASSICS:
+        slug = CLASSIC_NAME_TO_SLUG.get(c["name"]) or _match_classic_to_slug(c["name"], slug_to_peak)
+        if slug:
+            classic_slugs.add(slug)
+    return classic_slugs
+
+
 def build_index_hikes(data_files: list[Path],
                       results: list[RenderResult]) -> list[dict]:
     """Build the HIKES list for the index page from per-hike data + GPX stats.
@@ -612,6 +688,7 @@ def build_index_hikes(data_files: list[Path],
     (everything else falls back to peak/hero/photos[0] + GPX).
     """
     gpx_by_slug = {r.slug: r.gpx_stats for r in results}
+    classic_slugs = _build_classic_slugs(data_files)
     hikes: list[dict] = []
     for f in data_files:
         try:
@@ -633,7 +710,7 @@ def build_index_hikes(data_files: list[Path],
         gain = ic.get("gain") or (
             f"{int(round(gpx['ascent_m']))} m" if gpx.get("ascent_m") else "—")
 
-        hikes.append({
+        entry = {
             "name": peak.get("name", slug),
             "region": ic.get("region", ""),
             "canton": ic.get("canton", ""),
@@ -650,7 +727,10 @@ def build_index_hikes(data_files: list[Path],
             "lon": peak.get("lon"),
             "summitElev": peak.get("elev", ""),
             "photo": _index_photo_url(d),
-        })
+        }
+        if slug in classic_slugs:
+            entry["classic"] = True
+        hikes.append(entry)
     return hikes
 
 
@@ -662,9 +742,10 @@ def render_index(root: Path, hikes: list[dict]) -> tuple[Path, float]:
     t0 = time.perf_counter()
     env = _make_env()
     template = env.get_template(INDEX_TEMPLATE_NAME)
+    guide_pages = discover_guide_pages(root.parent / "guides")
     html = template.render(
         hikes=hikes,
-        guide_pages=GUIDE_PAGES,
+        guide_pages=guide_pages,
         generated=time.strftime("%Y-%m-%d"),
     )
     out_path = root.parent / "index.html"
@@ -804,21 +885,9 @@ def render_classics(root: Path, data_files: list[Path]) -> tuple[Path, float]:
         peak = d.get("peak") or {}
         slug_to_peak[slug] = peak.get("name", slug)
 
-    # Manual overrides for names that don't match slug/peak exactly
-    name_to_slug: dict[str, str] = {
-        "Pilatus (Tomlishorn)": "tomlishorn",
-        "Geltenhütte": "geltenhuette",
-        "Monte Tamaro – Monte Lema": "monte-tamaro",
-        "Monte Rosa Hütte": "monte-rosa-huette",
-        "Greina Hochebene": "greina",
-        "Grosser Mythen": "gross-mythen",
-        "Planurahuette": "planurahuette",
-        "Üssers Barrhorn": "uessers-barrhorn",
-    }
-
     classics = []
     for rank, c in enumerate(GOLDEN_CLASSICS, 1):
-        slug = name_to_slug.get(c["name"]) or _match_classic_to_slug(c["name"], slug_to_peak)
+        slug = CLASSIC_NAME_TO_SLUG.get(c["name"]) or _match_classic_to_slug(c["name"], slug_to_peak)
         on_site = slug is not None
         href = f"../routes/{slug}/{slug}.html" if slug else None
         grade = c["grade"]
@@ -850,11 +919,12 @@ def render_classics(root: Path, data_files: list[Path]) -> tuple[Path, float]:
 def render_guide_index(root: Path) -> tuple[Path, float]:
     """Render the guide index page; returns (out_path, elapsed_seconds)."""
     t0 = time.perf_counter()
-    env = _make_env()
-    template = env.get_template(GUIDE_INDEX_TEMPLATE_NAME)
-    html = template.render(guide_pages=GUIDE_PAGES)
     guides_dir = root.parent / "guides"
     guides_dir.mkdir(exist_ok=True)
+    guide_pages = discover_guide_pages(guides_dir)
+    env = _make_env()
+    template = env.get_template(GUIDE_INDEX_TEMPLATE_NAME)
+    html = template.render(guide_pages=guide_pages)
     out_path = guides_dir / "index.html"
     out_path.write_text(html, encoding="utf-8")
     return out_path, time.perf_counter() - t0
