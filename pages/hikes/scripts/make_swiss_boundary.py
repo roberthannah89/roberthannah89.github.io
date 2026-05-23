@@ -7,7 +7,8 @@ import urllib.request
 from pathlib import Path
 
 GADM_URL = "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_CHE_0.json"
-OUTPUT = Path(__file__).resolve().parent.parent / "routes" / "_assets" / "switzerland.geojson"
+OUTPUT = Path(__file__).resolve().parent.parent / "routes" / "_assets" / "swiss_border.js"
+TEMPLATE_OUTPUT = Path(__file__).resolve().parent.parent / "templates" / "_assets" / "swiss_border.js"
 
 def rdp_simplify(coords, epsilon):
     """Ramer-Douglas-Peucker line simplification."""
@@ -75,11 +76,14 @@ def main():
         ],
     }
 
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(geojson))
+    js_content = "window.SWISS_BORDER=" + json.dumps(geojson, separators=(",", ":")) + ";"
+    for dest in (OUTPUT, TEMPLATE_OUTPUT):
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(js_content)
+
     size_kb = OUTPUT.stat().st_size / 1024
     print(f"Simplified {total_before} → {total_after} points ({size_kb:.1f} KB)")
-    print(f"Saved to {OUTPUT}")
+    print(f"Saved to {OUTPUT} and {TEMPLATE_OUTPUT}")
 
 
 if __name__ == "__main__":

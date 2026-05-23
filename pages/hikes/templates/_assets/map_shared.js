@@ -67,27 +67,20 @@
       bar.appendChild(btn);
     });
 
+    addSwissBorder(map);
+    addFullscreen(map, mapEl);
+
     return layers;
   }
 
-  var BORDER_URL = (function () {
-    var scripts = document.getElementsByTagName("script");
-    for (var i = 0; i < scripts.length; i++) {
-      var m = scripts[i].src && scripts[i].src.match(/(.*\/)map_shared\.js/);
-      if (m) return m[1] + "switzerland.geojson";
-    }
-    return "routes/_assets/switzerland.geojson";
-  })();
-
   function addSwissBorder(map) {
-    fetch(BORDER_URL)
-      .then(function (r) { return r.json(); })
-      .then(function (geojson) {
-        L.geoJSON(geojson, {
-          style: { color: "#000", weight: 4, fillOpacity: 0, interactive: false },
-        }).addTo(map);
-      })
-      .catch(function () {});
+    if (!window.SWISS_BORDER) return;
+    map.createPane("border");
+    map.getPane("border").style.zIndex = 650;
+    L.geoJSON(window.SWISS_BORDER, {
+      pane: "border",
+      style: { color: "#000", weight: 2.5, fillOpacity: 0, interactive: false },
+    }).addTo(map);
   }
 
   function addFullscreen(map, el) {

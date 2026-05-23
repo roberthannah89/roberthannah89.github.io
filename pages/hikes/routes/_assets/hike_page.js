@@ -23,11 +23,7 @@
 
   const MS = window.MapShared;
   const map = L.map("map", { zoomControl: true });
-  if (MS) {
-    MS.addLayerControl(map, { defaultLayer: "hike" });
-    MS.addFullscreen(map, document.getElementById("map"));
-    MS.addSwissBorder(map);
-  }
+  if (MS) MS.addLayerControl(map, { defaultLayer: "hike" });
   const line = L.polyline([], { color: "#9b59b6", weight: 3, opacity: 0.85, dashArray: "8 6" }).addTo(map);
 
   WAYPOINTS.forEach(([lat, lon, label, kind]) => {

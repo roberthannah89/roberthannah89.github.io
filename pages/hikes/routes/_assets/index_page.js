@@ -203,11 +203,7 @@ function applyFilters() {
 /* ------------- map ------------- */
 var map = L.map("map");
 var MS = window.MapShared;
-if (MS) {
-  MS.addLayerControl(map, { defaultLayer: "color" });
-  MS.addFullscreen(map, document.getElementById("map"));
-  MS.addSwissBorder(map);
-}
+if (MS) MS.addLayerControl(map, { defaultLayer: "color" });
 
 /* canton colour palette */
 var CANTON_COLORS = {
