@@ -49,6 +49,17 @@ from datetime import date
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+from config import (
+    DEFAULT_DISCLAIMER,
+    DEFAULT_WEATHER_SOURCES,
+    EARTH_RADIUS_M,
+    ELEV_SMOOTH_M,
+    LAPSE_RATE_C_PER_KM,
+    LOOP_THRESHOLD_M,
+    NAISMITH_ASCENT_MH,
+    NAISMITH_SPEED_KMH,
+)
+
 ###########################################################################################################################################################################################################
 # Public API
 ###########################################################################################################################################################################################################
@@ -84,7 +95,7 @@ GPX_NS_URI = "http://www.topografix.com/GPX/1/1"
 
 def _haversine_m(a: tuple[float, float], b: tuple[float, float]) -> float:
     """Great-circle distance between two (lat, lon) points in metres."""
-    r = 6371000.0
+    r = EARTH_RADIUS_M
     lat1, lat2 = math.radians(a[0]), math.radians(b[0])
     dlat = math.radians(b[0] - a[0])
     dlon = math.radians(b[1] - a[1])
@@ -121,7 +132,7 @@ def parse_gpx(gpx_path: Path) -> dict:
     )
 
     start, end = pts[0], pts[-1]
-    is_loop = _haversine_m((start[0], start[1]), (end[0], end[1])) < 500
+    is_loop = _haversine_m((start[0], start[1]), (end[0], end[1])) < LOOP_THRESHOLD_M
 
     result: dict = {
         "track_name": track_name,
@@ -138,7 +149,7 @@ def parse_gpx(gpx_path: Path) -> dict:
         last_ele = pts[0][2]
         for p in pts[1:]:
             d = p[2] - last_ele
-            if abs(d) >= 3:
+            if abs(d) >= ELEV_SMOOTH_M:
                 if d > 0:
                     asc += d
                 else:
@@ -154,7 +165,7 @@ def parse_gpx(gpx_path: Path) -> dict:
             "min_ele": min(elevations),
             "max_ele": max(elevations),
             "summit": {"lat": summit_pt[0], "lon": summit_pt[1], "ele": summit_pt[2]},
-            "naismith_hours": dist / 1000.0 / 5.0 + asc / 600.0,
+            "naismith_hours": dist / 1000.0 / NAISMITH_SPEED_KMH + asc / NAISMITH_ASCENT_MH,
         })
 
     wpts: list[dict] = []
@@ -337,7 +348,7 @@ def build_template(
 
     # Valley reference: use trailhead elevation from GPX start point
     trailhead_elev = int(g["start"]["ele"]) if g.get("start", {}).get("ele") else 0
-    temp_drop = round((elev - trailhead_elev) * 6.5 / 1000, 1) if trailhead_elev else 0
+    temp_drop = round((elev - trailhead_elev) * LAPSE_RATE_C_PER_KM / 1000, 1) if trailhead_elev else 0
 
     # --- Index card: use GPX stats when available, else TODO ---
     if has_ele:
@@ -503,10 +514,7 @@ def build_template(
                     if temp_drop else "TODO: e.g. <strong>22 °C valley → ~X °C summit</strong>"
                 ),
             },
-            "sources_html": [
-                '<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a> -- official Swiss forecast',
-                '<a href="https://www.meteoblue.com/">Meteoblue</a> -- hourly wind/precip',
-            ],
+            "sources_html": list(DEFAULT_WEATHER_SOURCES),
             "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.",
         },
         "webcams": [
@@ -546,10 +554,7 @@ def build_template(
             '<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a>',
             '<a href="TODO: SwissTopo map URL">SwissTopo map</a>',
         ],
-        "disclaimer_html": (
-            "This page is an informal hike plan, not professional mountain-safety advice. "
-            "Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
-        ),
+        "disclaimer_html": DEFAULT_DISCLAIMER,
     }
 
 

@@ -1,0 +1,111 @@
+/* Shared map styles — used by hike pages, index, and regions guide. */
+.ms-map {
+  height: 560px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border, #23262e);
+  background: var(--card, #14161c);
+}
+.ms-map:fullscreen,
+.ms-map:-webkit-full-screen {
+  height: 100vh !important;
+  width: 100vw !important;
+  border-radius: 0;
+}
+@media (min-width: 1400px) {
+  .ms-map { height: min(68vh, 840px); }
+}
+@media (max-width: 700px) {
+  .ms-map { height: clamp(320px, 52vh, 520px); }
+}
+
+/* Fullscreen button */
+.ms-fullscreen-btn {
+  background: rgba(11,12,16,0.88) !important;
+  border: 1px solid #23262e !important;
+  border-radius: 4px !important;
+  color: #e8e8ea !important;
+  cursor: pointer;
+  font-size: 16px;
+  width: 30px !important;
+  height: 30px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+.ms-fullscreen-btn:hover { background: #23262e !important; }
+
+/* Dark-theme popups */
+.leaflet-popup-content-wrapper {
+  background: #14161c;
+  color: #e8e8ea;
+  border: 1px solid #23262e;
+  border-radius: 8px;
+}
+.leaflet-popup-tip { background: #14161c; }
+.leaflet-popup-content { margin: .4rem .6rem; font-size: .85rem; }
+.leaflet-popup-content a { color: #ff5c5c; }
+.leaflet-container a.leaflet-popup-close-button { color: #a0a4ad; }
+
+/* Dark-theme layer control */
+.leaflet-control-layers {
+  background: rgba(11,12,16,0.92) !important;
+  border: 1px solid #23262e !important;
+  border-radius: 8px !important;
+  color: #e8e8ea !important;
+}
+.leaflet-control-layers label { color: #e8e8ea; }
+.leaflet-control-layers-toggle {
+  background-color: rgba(11,12,16,0.88) !important;
+  border: 1px solid #23262e !important;
+  border-radius: 4px !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+/* Region-specific: legend overlays, labels */
+.ms-legend {
+  background: rgba(11,12,16,0.88);
+  color: #e8e8ea;
+  border: 1px solid #23262e;
+  border-radius: 8px;
+  padding: .5rem .7rem;
+  font-size: .75rem;
+  line-height: 1.8;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.ms-legend .legend-title {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #a0a4ad;
+  margin-bottom: .2rem;
+}
+.ms-legend .legend-group {
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #888;
+  margin-top: .3rem;
+}
+.ms-legend .legend-item { display: flex; align-items: center; gap: .4rem; }
+.ms-legend .legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,.2);
+}
+.ms-region-label {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #e8e8ea;
+  font-size: 11px;
+  font-weight: 600;
+  text-shadow: 0 0 4px #000, 0 0 2px #000;
+  white-space: nowrap;
+  pointer-events: none;
+}

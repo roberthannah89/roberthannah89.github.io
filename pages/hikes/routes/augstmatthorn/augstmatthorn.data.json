@@ -1,346 +1,322 @@
 {
   "slug": "augstmatthorn",
-  "sources": [
-    {
-      "name": "SAC Route Portal",
-      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/"
-    },
-    {
-      "name": "hikr.org",
-      "url": "https://www.hikr.org/dir/Augstmatthorn_8848/"
-    },
-    {
-      "name": "SwissTopo",
-      "url": "https://map.geo.admin.ch/?zoom=11&X=754000&Y=263000&lang=en"
-    }
-  ],
   "page": {
-    "title": "Augstmatthorn (2137 m) — Hike Plan",
-    "generated": "2026-05-08",
-    "reports_updated": "2026-05-08",
+    "title": "Augstmatthorn (2136 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
     "year": 2026
   },
   "peak": {
     "name": "Augstmatthorn",
-    "elev": 2137,
+    "elev": 2136,
     "lat": 46.7423,
     "lon": 7.9286
   },
   "index_card": {
-    "region": "Bernese Alps (Brienzergrat)",
+    "region": "Northern Alps",
     "canton": "Bern",
-    "distance": "14 km",
-    "gain": "1200 m",
-    "time": "~6 h",
-    "transit": "good",
-    "route_type": "out-and-back"
+    "distance": "21.0 km",
+    "gain": "1622 m",
+    "time": "~7h",
+    "route_type": "out-and-back",
+    "pill_class": "t4"
   },
   "trailhead": {
-    "name": "Habkern",
-    "elev": 1056,
-    "lat": 46.7318,
-    "lon": 7.8613,
-    "transit_dest": "Habkern, Switzerland"
+    "name": "Kemmeriboden",
+    "elev": 976,
+    "lat": 46.8025,
+    "lon": 7.9351,
+    "transit_dest": "Kemmeriboden, Switzerland"
   },
   "hero": {
-    "image_url": "TODO",
-    "subtitle_html": "Habkern → Lombachalp → Augstmatthorn — <span class=\"pill t3\">SAC T3</span> · ~1200 m gain · ~14 km loop · ~6 h",
-    "grade": "T3"
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1594053010_668048460master_9c17af9b1d.jpg",
+    "subtitle_html": "Kemmeriboden -> Augstmatthorn -- <span class=\"pill t4\">SAC T4</span> | ~1622 m gain | ~21.0 km | ~7h",
+    "grade": "T4",
+    "auto_subtitle": true
   },
-  "intro_html": "<blockquote>\"Der Brienzergrat ist einer der schmalsten und ausgesetztesten Grasgrate der Alpen — eine Messerschneide zwischen Brienzersee und Habkerntal mit dramatischen Tiefblicken auf beiden Seiten.\"<br>— <em>hikr.org (paraphrased)</em></blockquote><p>The <strong>Augstmatthorn</strong> (2137 m) is the eastern signature peak of the <strong>Brienzergrat</strong>, a narrow grass-and-limestone ridge running ~20 km along the north shore of Lake Brienz. Often called a <em>\"mini Hardergrat\"</em>: same knife-edge grass character as its longer neighbour to the west, but with bailouts that make it accessible as a single-day T3 from Habkern. Famous for resident <strong>ibex</strong> (Steinbock) on the south flank and dramatic 1500 m drops to the lake.</p>",
+  "intro_html": "<p>Wenn man den ganzen Brienzergrat überschreiten wollte, wäre das für Normalwandernde mit An- und Abreise ein sehr langes Tageswerk. Der erste Gratabschnitt um das Tannhorn ist für Alpinwandernde am interessantesten, doch auch die hier beschriebene Fortsetzung über die luftigen Grasgrate zwischen Schnierenhörnli und Augstmatthorn ist ein Leckerbissen. Der Einstieg ist sowohl von Norden (Kemmeribodenbad, landschaftlich interessant, längere Wegstrecke), von Süden (Oberried am Brienzersee, sehr steil, dafür kürzere Wegstrecke) oder vom östlichen Teil Brienzergrat (ab Brienzer Rothorn oder gar dem Brünigpass) möglich.\nDie Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüge sind verboten, dafür stehen die Chancen für eine Steinbockbegegnung gut. Die Einhaltung der Regeln im Jagdbanngebiet und respektvolles Verhalten (z.B. kein offensives Annähern an die Tiere zum Fotografieren) ist auf dem populären Brienzergrat leider nicht für alle selbstverständlich.</p>\n<p>Sehr schöner Aussichtspunkt, auf den Bergwanderwegen ab Lombachalp rasch zu erreichen und darum sehr populär. Der Blick auf den 1570 m tiefer liegenden See ist besonders schön.</p>",
   "quick_facts": [
     [
       "Summit elevation",
-      "<strong>2137 m</strong>"
+      "<strong>2136 m</strong>"
     ],
     [
-      "Range",
-      "Emmental Alps / Brienzergrat (north of Lake Brienz)"
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
     ],
     [
-      "Cantons",
-      "Bern (Habkern / Brienz / Niederried)"
-    ],
-    [
-      "Valleys",
-      "<strong>Habkerntal</strong> (N, Habkern 1056 m) / <strong>Brienzersee</strong> (S, ~564 m)"
-    ],
-    [
-      "Prominence",
-      "~117 m"
-    ],
-    [
-      "Coordinates",
-      "46°44′32″ N, 7°55′43″ E"
-    ],
-    [
-      "Activity",
-      "Mountain hiking (Bergwandern) — exposed grass ridge"
-    ],
-    [
-      "Standard SAC grade",
-      "<span class=\"pill t3\">T3</span> demanding mountain hiking"
+      "Trailhead",
+      "Kemmeriboden"
     ],
     [
       "Distance",
-      "12–14 km round-trip"
+      "21.0 km (out-and-back)"
     ],
     [
-      "Total ascent / descent",
-      "~1200 m gain · ~1200 m descent"
+      "Total ascent",
+      "~1622 m"
     ],
     [
-      "Nearest village",
-      "Habkern (Bern)"
-    ],
-    [
-      "Wildlife",
-      "Resident ibex colony on the south flank"
+      "Elevation range",
+      "976-2136 m"
     ]
   ],
   "photos": [
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=2560",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Augstmatthorn_ibex.jpg?width=4000",
-      "alt": "Alpine Ibex on the Augstmatthorn",
-      "caption_html": "<p>Alpine Ibex on the Augstmatthorn. Photo via <a href=\"https://commons.wikimedia.org/wiki/File:Augstmatthorn_ibex.jpg\">Wikimedia Commons</a></p>"
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1594053010_668048460master_9c17af9b1d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1594053010_668048460master_9c17af9b1d.jpg",
+      "alt": "Augstmatthorn — peak photo",
+      "caption_html": "<p>Augstmatthorn — peak photo</p>"
     },
     {
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Sunrise_Austmatthorn.jpg?width=2560",
-      "lightbox_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Sunrise_Austmatthorn.jpg?width=4000",
-      "alt": "Sunrise on Augstmatthorn",
-      "caption_html": "<p>Sunrise on a summer morning on Augstmatthorn. Photo via <a href=\"https://commons.wikimedia.org/wiki/File:Sunrise_Austmatthorn.jpg\">Wikimedia Commons</a></p>"
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700685149_1914509002Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700685149_1914509002L.jpg",
+      "alt": "Fast schnurgerade: der Gratzug zwischen Blasenhubel und Suggiture.",
+      "caption_html": "<p>Fast schnurgerade: der Gratzug zwischen Blasenhubel und Suggiture.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1594053010_668048460Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594053010_668048460L.jpg",
+      "alt": "Blick in Richtung Augstmatthorn bei der Mirrenegg im Aufstieg Kemmeribodenbad - Ällgäuwlicka.",
+      "caption_html": "<p>Blick in Richtung Augstmatthorn bei der Mirrenegg im Aufstieg Kemmeribodenbad - Ällgäuwlicka.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700044224_2005331040Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700044224_2005331040L.jpg",
+      "alt": "Rückblick zum soeben überschrittenen Schnirenhireli.",
+      "caption_html": "<p>Rückblick zum soeben überschrittenen Schnirenhireli.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700685149_1269515549Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700685149_1269515549L.jpg",
+      "alt": "Blick vom Gummhoren zurück zum Schnirenhireli.",
+      "caption_html": "<p>Blick vom Gummhoren zurück zum Schnirenhireli.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700044217_997731581Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700044217_997731581L.jpg",
+      "alt": "Typisches Gelände am Grat: technisch nicht zu schwierig, aber exponiert und bei Nässe sehr rutschig.",
+      "caption_html": "<p>Typisches Gelände am Grat: technisch nicht zu schwierig, aber exponiert und bei Nässe sehr rutschig.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700685149_1708719200Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700685149_1708719200L.jpg",
+      "alt": "Nur wenig Auf- und Ab zwischen Gummhoren und Blasenhubel.",
+      "caption_html": "<p>Nur wenig Auf- und Ab zwischen Gummhoren und Blasenhubel.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700044222_2081222607Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700044222_2081222607L.jpg",
+      "alt": "Blasenhubel, Abstiegsmöglichkeit nach Oberried am Brienzersee.",
+      "caption_html": "<p>Blasenhubel, Abstiegsmöglichkeit nach Oberried am Brienzersee.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700044224_520286820Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700044224_520286820L.jpg",
+      "alt": "Instagram und Co. lassen Grüssen: der Brienzergrat ist ein populärer Fotospot geworden.",
+      "caption_html": "<p>Instagram und Co. lassen Grüssen: der Brienzergrat ist ein populärer Fotospot geworden.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700650549_11156327Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700650549_11156327L.jpg",
+      "alt": "Der Aufstieg zum Wytlouwihoren ist teils kettenversichert.",
+      "caption_html": "<p>Der Aufstieg zum Wytlouwihoren ist teils kettenversichert.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700043864_1625936969Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700043864_1625936969L.jpg",
+      "alt": "Zwischen Wytlouwihoren und Augstmatthorn.",
+      "caption_html": "<p>Zwischen Wytlouwihoren und Augstmatthorn.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700044093_1329734543Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700044093_1329734543L.jpg",
+      "alt": "Rückblick vom Augstmatthorn auf den gesamten Brienzergrat.",
+      "caption_html": "<p>Rückblick vom Augstmatthorn auf den gesamten Brienzergrat.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700685150_1210575861Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700685150_1210575861L.jpg",
+      "alt": "Vom Augstmatthorn zum letzen Gipfel vor dem Harder, dem Suggiture.",
+      "caption_html": "<p>Vom Augstmatthorn zum letzen Gipfel vor dem Harder, dem Suggiture.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700650549_1568029643Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700650549_1568029643L.jpg",
+      "alt": "Suggiture, voraus der Hardergrat.",
+      "caption_html": "<p>Suggiture, voraus der Hardergrat.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700650549_1048283418Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700650549_1048283418L.jpg",
+      "alt": "Letzter Blick vom Suggiture auf den Brienzergrat, markant mittig Tannhorn und Brienzer Rothorn ganz rechts.",
+      "caption_html": "<p>Letzter Blick vom Suggiture auf den Brienzergrat, markant mittig Tannhorn und Brienzer Rothorn ganz rechts.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700043298_1374390250Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700043298_1374390250L.jpg",
+      "alt": "Rückblick bei Horet zum Augstmatthorn und Suggiture (rechts).",
+      "caption_html": "<p>Rückblick bei Horet zum Augstmatthorn und Suggiture (rechts).</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700043299_70278336Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700043299_70278336L.jpg",
+      "alt": "Countdown Harder bei Horet: noch rund anderthalb Stunden, ab hier verläuft der Weg im Wald.",
+      "caption_html": "<p>Countdown Harder bei Horet: noch rund anderthalb Stunden, ab hier verläuft der Weg im Wald.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700043298_1328996120Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700043298_1328996120L.jpg",
+      "alt": "Countdown Harder unter der Roteflue: noch 1 Stunde.",
+      "caption_html": "<p>Countdown Harder unter der Roteflue: noch 1 Stunde.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1700043299_1987463619Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1700043299_1987463619L.jpg",
+      "alt": "Countdown Harder Abzweigung P. 1577: noch 40 Minuten.",
+      "caption_html": "<p>Countdown Harder Abzweigung P. 1577: noch 40 Minuten.</p>"
     }
   ],
   "waypoints": [
     {
-      "lat": 46.7318,
-      "lon": 7.8613,
-      "label": "Habkern (1056 m)",
+      "lat": 46.80244135930057,
+      "lon": 7.935476413898836,
+      "label": "Kemmeriboden (975 m)",
       "kind": "start"
     },
     {
-      "lat": 46.7444,
-      "lon": 7.9076,
-      "label": "Lombachalp (~1525 m)",
-      "kind": "way"
+      "lat": 46.76604844341088,
+      "lon": 7.9703016181383,
+      "label": "Ällgäuwlicka (1918 m)",
+      "kind": "traverse"
     },
     {
-      "lat": 46.7423,
-      "lon": 7.9286,
-      "label": "Augstmatthorn (2137 m)",
+      "lat": 46.764381225219466,
+      "lon": 7.9650979178710815,
+      "label": "Schnierenhireli / Schnierenhörnli (2070 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.75871866644226,
+      "lon": 7.955266420979519,
+      "label": "Gummhoren (2040 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.75149246409992,
+      "lon": 7.945297153663761,
+      "label": "Blasenhubel (1965 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.74379143212783,
+      "lon": 7.929708274990762,
+      "label": "Wytlouwihoren (2106 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.73488581810693,
+      "lon": 7.920821904552448,
+      "label": "Suggiture (2084 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.74225537074325,
+      "lon": 7.92860901650306,
+      "label": "Augstmatthorn (2136 m)",
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "(Brienzergrat — north-side ascent from Habkern)",
+  "routes_subtitle": "",
   "routes": [
     {
-      "title_html": "1. Habkern → Lombachalp → Augstmatthorn (loop) — standard route",
-      "grade": "T3",
+      "title_html": "<strong>Brienzergrat-Überschreitung zweiter Teil Schnierenhörnli - Harder Kulm</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
       "bullets_html": [
-        "<strong>Trailhead: Wasserauen/Appenzell</strong>",
-        "<strong>Forested lower slopes</strong> (600m)",
-        "<strong>Alpine meadows</strong> (900m)",
-        "<strong>Intermediate ridge</strong> (1050m) — Panoramic views begin",
-        "<strong>Pastoral alpages</strong> (1100m)",
-        "<strong>Final steep terrain</strong> (1150m)",
-        "<strong>Augstmatthorn summit</strong> (1190m)",
-        "<strong>Return descent</strong>"
+        "Kemmeribodenbad - Ällgäuwlicka",
+        "Ällgäuwlicka - Augstmatthorn",
+        "Augstmatthorn - Harder Kulm"
       ],
-      "source": "hikr.org (https://www.hikr.org/dir/Augstmatthorn_8848/)"
-    },
-    {
-      "title_html": "2. Brienzergrat traverse — Augstmatthorn → Niederhorn (point-to-point)",
-      "grade": "T3",
-      "bullets_html": [
-        "Continue west from the summit along the full Brienzergrat: Augstmatthorn → Suggiture (2085 m) → Gemmenalphorn (2061 m) → <strong>Niederhorn</strong> (1963 m).",
-        "~10 km of continuous narrow grass ridge, mostly T3 with short T3+ steps; the easiest end of the Hardergrat family.",
-        "<strong>Bailout:</strong> from any saddle, descend north into the Habkern/Lombach basin (well-marked) or south to the Beatenberg cable-car stations.",
-        "Finish: ride the <a href=\"https://niederhorn.ch/\" target=\"_blank\" rel=\"noopener\">Niederhorn cable car</a> down to Beatenberg → funicular to Interlaken.",
-        "Adds ~3–4 h to the day; viable as a one-way variant in good weather, not in fog."
-      ],
-      "source": "hikr.org (https://www.hikr.org/dir/Augstmatthorn_8848/)"
-    },
-    {
-      "title_html": "3. Full Hardergrat traverse — Harder Kulm → Augstmatthorn (extreme)",
-      "grade": "T5",
-      "bullets_html": [
-        "The famous <strong>Hardergrat</strong>: ~22 km of unbroken knife-edge grass from Interlaken to the Augstmatthorn.",
-        "Sustained T5 exposure on grass — slip-and-die terrain. <strong>Not for beginners under any circumstances.</strong>",
-        "Out of scope for this plan; mentioned as context only."
-      ],
-      "source": "hikr.org (https://www.hikr.org/dir/Augstmatthorn_8848/)"
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/)"
     }
   ],
   "getting_there": {
-    "by_car_html": "<p>Drive to <strong>Habkern</strong> (Bern) via Interlaken — ~15 km up the Habkerntal road from Interlaken Ost. Free / paid parking at the village or at the upper Lombachalp parking (saves ~1.5 h on foot).</p>",
-    "by_pt_heading": "By public transport (recommended)",
-    "by_pt_html": "<ul><li>Train: Zürich HB → Bern → <strong>Interlaken West</strong> (≈2 h end-to-end).</li><li>PostBus <strong>104</strong> Interlaken West → Habkern, Post (~25 min).</li><li>Total Zürich → Habkern: ~2.5 h door-to-door.</li><li>If finishing on the Niederhorn: cable car Niederhorn → <strong>Beatenberg Station</strong> → funicular to Interlaken Ost → train home.</li><li>Plan via <a href=\"https://www.sbb.ch/en\" target=\"_blank\">sbb.ch</a>.</li></ul>"
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Kemmeriboden</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
   },
   "day_plans": [
     {
-      "title": "Day Plan (T3 single-day loop)",
+      "title": "Day 1",
       "rows": [
         [
-          "06:00",
-          "Depart trailhead; light breakfast"
-        ],
-        [
-          "07:00",
-          "Ascend through forest"
-        ],
-        [
-          "08:30",
-          "Alpine meadow; water break"
-        ],
-        [
-          "09:30",
-          "Mid-ridge; panoramic views"
-        ],
-        [
-          "10:30",
-          "Final steep terrain"
-        ],
-        [
-          "11:30",
-          "Summit (1190m); 1 hour rest"
-        ],
-        [
-          "12:30",
-          "Begin descent"
-        ],
-        [
-          "14:00",
-          "Trailhead return; ~8 hours total"
+          "HH:MM",
+          "TODO: step description"
         ]
       ],
-      "footer_html": "Variant: continue the ridge west to <strong>Niederhorn</strong> (~3–4 h additional, T3 sustained) and descend by cable car. Decide at the summit based on weather and time. <strong>Bailouts north into the Lombach basin exist from every saddle.</strong>"
+      "footer_html": ""
     }
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "Interlaken, ~570 m",
-      "summit_above_ref_m": 1567,
-      "temp_drop_c": 10,
-      "example_html": "Example: Interlaken forecast 12–24 °C → summit ≈ <strong>+2 °C to +14 °C</strong>. Add wind chill — the Brienzergrat is fully exposed."
+      "valley_ref": "Kemmeriboden (976 m)",
+      "summit_above_ref_m": 1160,
+      "temp_drop_c": 7.5,
+      "example_html": "<strong>22 °C at Kemmeriboden</strong> → ~<strong>14 °C at summit</strong>"
     },
     "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\" target=\"_blank\">MeteoSwiss</a> — most accurate Swiss forecast (Interlaken or Habkern point).",
-      "<a href=\"https://www.meteoblue.com/en/weather/week/habkern_switzerland\" target=\"_blank\">Meteoblue Habkern</a> — forecast + nearby webcams.",
-      "<strong>Wet grass = no-go.</strong> The Brienzergrat is steep grass on both sides; once wet it becomes a slip hazard and the T3 grade is no longer realistic.",
-      "Thunderstorms: the ridge is fully exposed for ~10 km. Turn back early if convection is forecast."
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
     ],
-    "season_html": "<strong>Summer hike only.</strong> Best window: <strong>late June to mid-October</strong>, when the grass is dry and the snow is fully off the north flank. Spring snow lingers on the north side until mid-June."
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
   },
   "webcams": [
     {
-      "label": "Brunnen – Lake Lucerne",
-      "url": "https://www.foto-webcam.eu/webcam/brunnen/current/1200.jpg",
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
       "fallback": false
-    },
-    {
-      "label": "Glecksteinhütte – Grindelwald glacier",
-      "url": "https://www.foto-webcam.eu/webcam/glecksteinhuette/current/1200.jpg",
-      "fallback": false
-    },
-    {
-      "label": "Meteoblue Interlaken webcams",
-      "url": "https://www.meteoblue.com/en/weather/webcams/interlaken_switzerland",
-      "fallback": true
     }
   ],
-  "elev_chart_attrib_html": "Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from SwissTopo height API).",
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
   "trip_reports": {
-    "hikr_index_url": "https://www.hikr.org/dir/Augstmatthorn_8848/",
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
     "takeaways_html": [
-      "<strong>Crowding weekends:</strong> Route frequently crowded Saturdays/Sundays; weekday visits quieter.",
-      "<strong>Weather & clouds:</strong> Above 1000m, rapid cloud formation typical afternoons.",
-      "<strong>Alpine wildflowers:</strong> June–July peak: Gentian, Alpine rose, Arnica."
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
     ],
     "reports": [
       {
-        "url": "https://www.hikr.org/tour/post156234.html",
-        "title": "Augstmatthorn ab Habkern — der schöne Grasgrat",
-        "season": "summer",
-        "grade": "T3",
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
         "bullets_html": [
-          "Standard ascent from Habkern via Lombachalp; ~4 h to the summit.",
-          "Final ridge described as a narrow grass crest with dramatic Brienzersee views.",
-          "Resident ibex herd encountered on the south flank just below the summit."
-        ]
-      },
-      {
-        "url": "https://www.hikr.org/tour/post142119.html",
-        "title": "Augstmatthorn — Niederhorn Gratwanderung",
-        "season": "summer",
-        "grade": "T3",
-        "bullets_html": [
-          "Full Brienzergrat traverse east → west: Augstmatthorn → Suggiture → Gemmenalphorn → Niederhorn.",
-          "~10 km of sustained narrow grass ridge, T3 throughout with a few T3+ steps.",
-          "Cable car down from Niederhorn to Beatenberg makes the logistics easy."
-        ]
-      },
-      {
-        "url": "https://www.hikr.org/tour/post98875.html",
-        "title": "Hardergrat — Harder Kulm bis Augstmatthorn",
-        "season": "summer",
-        "grade": "T5",
-        "bullets_html": [
-          "The famous full Hardergrat — 22 km of knife-edge grass from Interlaken to the Augstmatthorn.",
-          "Sustained T5 exposure on grass; the author emphasises that a slip on the south side is not survivable.",
-          "Cited as context — most parties should ascend only the Augstmatthorn end from Habkern."
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
         ]
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Mandatory",
-      "items_html": [
-        "Sturdy hiking boots with grippy soles (B-grade, ankle support) — grass ridges punish smooth soles",
-        "2.5–3 L water (no refill on the ridge)",
-        "Food + emergency snack",
-        "Sun: hat, sunglasses, SPF 30+ — fully exposed ridge",
-        "Layers: base + insulating + windproof / rainproof shell",
-        "Hat + light gloves (summit wind)",
-        "Headlamp (long day if you continue to Niederhorn)",
-        "Phone with offline SwissTopo map + GPX",
-        "Small first-aid kit",
-        "Cash / card for the PostBus and cable car"
-      ]
-    },
-    {
-      "title": "Recommended",
-      "items_html": [
-        "Trekking poles (very useful on grass descent)",
-        "Power bank",
-        "Whistle",
-        "Zoom-capable camera or binoculars (ibex)"
-      ]
-    },
-    {
-      "title": "If continuing the full Hardergrat (T5)",
-      "items_html": [
-        "Helmet + via-ferrata-grade focus",
-        "Rope skills for confidence on grass — but realistically: don't, unless experienced",
-        "Pre-dawn start, escape plan to the Brienz side, no afternoon-thunderstorm tolerance"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
-    "<strong>Ridge exposure (wind):</strong> Gusts >40 km/h create footing risk; wind increases >1000m.",
-    "<strong>Thunderstorms:</strong> Tower clouds 14:00–16:00 typical; lightning risk elevated.",
-    "<strong>Steep terrain >35°:</strong> Loose scree near summit; careful descent required.",
-    "<strong>Visibility drops:</strong> Orographic clouds reduce visibility <20m in seconds.",
-    "<strong>Limited escape:</strong> Once committed, descent-only options.",
+    "<strong>SAC grade T4</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
   ],
   "resources_html": [
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/\">SAC Route Portal — Augstmatthorn</a>",
-    "<a href=\"https://map.geo.admin.ch/?zoom=11&X=754000&Y=263000&lang=en\">SwissTopo (1095 Säntis)</a>",
-    "<a href=\"https://www.appenzellland.ch/en/\">Appenzell Tourism</a>",
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss 3-day forecast</a>",
-    "<a href=\"https://www.hikr.org/\">Hikr.org Augstmatthorn reports</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/\">SAC Route Portal — Brienzergrat-Überschreitung zweiter Teil Schnierenhörnli - Harder Kulm</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/\">SAC Peak Page — Augstmatthorn</a>"
   ],
-  "disclaimer_html": "Compiled from German Wikipedia, hikr.org, SAC references, and MeteoSwiss. <strong>Not professional mountain-safety advice.</strong> The Brienzergrat is a steep, exposed grass ridge — the T3 grade assumes dry conditions, sure-footedness, and a head for heights. Conditions change rapidly; always re-check MeteoSwiss and any trail closures before setting out, and turn back if grass is wet. If in doubt about the exposure, go with someone experienced or hire a guide."
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/brienzergrat-ueberschreitung-zweiter-teil-schnierenhoernli-harder-kulm-6803/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Fabian Lippuner / SAC Route Portal"
 }

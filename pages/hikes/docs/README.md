@@ -23,8 +23,9 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | Script | Purpose |
 |---|---|
 | `extract_sac_route.py` | **Master pipeline** — SAC JSON → GPX → scaffold → photos → metadata → render (supports multiple hikes) |
-| `render_hike.py` | `data.json` + GPX → HTML (main workhorse) |
+| `render_hike.py` | `data.json` + GPX → HTML (main workhorse); also renders index, regions, and difficulty guide pages |
 | `new_hike.py` | Scaffold a new empty hike directory |
+| `config.py` | Shared constants imported by other scripts (physical, algorithmic, display, defaults) |
 | `validate_hike_files.py` | Check every hike has all required files |
 | `extract_sac_gpx.py` | SAC route JSON → GPX track (LV95→WGS84, segment stitching) |
 | `extract_sac_photos.py` | SAC route JSON + peak hero → photo URLs in `data.json` |
@@ -41,4 +42,5 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | Adding a hike, end-to-end workflow | [`docs/workflows/HIKING-WORKFLOW.md`](workflows/HIKING-WORKFLOW.md) |
 | Extracting data from SAC route portal | [`docs/workflows/SAC-EXTRACTION.md`](workflows/SAC-EXTRACTION.md) |
 | Common errors and fixes | [`docs/workflows/TROUBLESHOOTING.md`](workflows/TROUBLESHOOTING.md) |
+| Shared constants (physical, algorithmic, defaults) | [`scripts/config.py`](../scripts/config.py) |
 | Golden reference (fully populated example) | [`routes/augstmatthorn/augstmatthorn.data.json`](../routes/augstmatthorn/augstmatthorn.data.json) |

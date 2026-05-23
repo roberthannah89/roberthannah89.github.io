@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
+<title>Regions &amp; cantons — Swiss Alps hiking</title>
+<link rel="stylesheet" href="../../notes/_assets/notes.css">
+<link rel="stylesheet" href="../routes/_assets/map_shared.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+  .wide { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+  .source-note {
+    font-size: .78rem;
+    color: var(--fg-dim, #a0a4ad);
+    margin: .5rem 0 0;
+  }
+  .source-note a { color: var(--fg-dim, #a0a4ad); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumbs">
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Regions
+  </p>
+
+  <h1>Regions &amp; cantons</h1>
+  <p class="lede">
+    Switzerland's 26 cantons span six major landscape zones — from the Jura in the northwest
+    through the Mittelland to the Alps in the south. The SAC organizes routes into regional
+    guidebooks; those titles, combined with Swiss federal geographic data, give each hike its region.
+  </p>
+
+  <h2>Cantons</h2>
+  <p>
+    All 26 canton boundaries from the
+    <a href="https://api3.geo.admin.ch/" target="_blank" rel="noopener">Swiss federal geodata API</a>.
+    Click any canton for details.
+  </p>
+</div>
+
+<div class="wide">
+  <div id="canton-map" class="ms-map"></div>
+  <p class="source-note">Data: <a href="https://www.swisstopo.admin.ch" target="_blank" rel="noopener">swisstopo</a> swissBOUNDARIES3D</p>
+</div>
+
+<div class="wrap">
+  <h2>Biogeographical regions</h2>
+  <p>
+    The 12
+    <a href="https://www.bafu.admin.ch/bafu/en/home/topics/biodiversity/info-specialists/setting-and-instruments-for-biodiversity/ecological-infrastructure/biogeographical-regions-of-switzerland.html" target="_blank" rel="noopener">BAFU biogeographical sub-regions</a>
+    of Switzerland, grouped into six major zones. Click a region for its name.
+  </p>
+</div>
+
+<div class="wide">
+  <div id="region-map" class="ms-map"></div>
+  <p class="source-note">Data: <a href="https://www.bafu.admin.ch" target="_blank" rel="noopener">BAFU</a> biogeographical regions of Switzerland</p>
+</div>
+
+<footer>
+  Dr. Robert Hannah &middot; Quantitative Researcher, Citadel Securities &middot;
+  <a href="https://github.com/roberthannah89">GitHub</a>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="../routes/_assets/map_shared.js"></script>
+<script>
+(function() {
+  const MS = window.MapShared;
+  if (!MS) return;
+
+  const HIKES = {{ hikes | tojson }};
+  const CANTONS_GJ = {{ cantons_geojson | tojson }};
+  const REGIONS_GJ = {{ regions_geojson | tojson }};
+
+  const COLORS = [
+    '#ff5c5c','#5cb8ff','#ffd45c','#5cffb1','#c77dff','#ff8c42',
+    '#42d4f4','#f58cba','#bfff42','#ff42a1','#42ffd4','#a18cff','#ff6b6b',
+    '#e6194b','#3cb44b','#ffe119','#4363d8','#f58231','#911eb4','#42d4f4',
+    '#f032e6','#bfef45','#fabebe','#469990','#e6beff','#9A6324','#800000'
+  ];
+
+  // ── Canton map ──
+  const cantonEl = document.getElementById('canton-map');
+  const cantonMap = L.map('canton-map', { scrollWheelZoom: false });
+  MS.addLayerControl(cantonMap, { defaultLayer: 'Topo (greyscale)', includeTrails: false });
+  MS.addFullscreen(cantonMap, cantonEl);
+
+  const hikeCanton = {};
+  HIKES.forEach(h => {
+    (hikeCanton[h.canton] = hikeCanton[h.canton] || []).push(h);
+  });
+
+  const allCantonNames = CANTONS_GJ.features.map(f => f.properties.name).sort();
+  const cantonColor = {};
+  allCantonNames.forEach((c, i) => { cantonColor[c] = COLORS[i % COLORS.length]; });
+
+  L.geoJSON(CANTONS_GJ, {
+    style: f => {
+      const name = f.properties.name;
+      return {
+        fillColor: cantonColor[name],
+        fillOpacity: hikeCanton[name] ? 0.45 : 0.2,
+        color: cantonColor[name],
+        weight: hikeCanton[name] ? 2.5 : 1,
+      };
+    },
+    onEachFeature: (f, layer) => {
+      const name = f.properties.name;
+      const ak = f.properties.ak;
+      const hikes = hikeCanton[name];
+      if (hikes) {
+        const list = hikes.map(h =>
+          `<a href="../routes/${h.slug}/${h.slug}.html">${h.name}</a> (${h.elev} m, ${h.grade})`
+        ).join('<br>');
+        layer.bindPopup(`<strong>${name} (${ak})</strong><br>${list}`);
+      } else {
+        layer.bindPopup(`<strong>${name} (${ak})</strong>`);
+      }
+    }
+  }).addTo(cantonMap);
+  cantonMap.fitBounds([[45.818, 5.956], [47.808, 10.492]]);
+
+  CANTONS_GJ.features.forEach(f => {
+    const p = f.properties;
+    L.marker([p.label_lat, p.label_lon], {
+      icon: L.divIcon({
+        className: 'ms-region-label',
+        html: p.ak,
+        iconSize: [30, 16],
+        iconAnchor: [15, 8],
+      })
+    }).addTo(cantonMap);
+  });
+
+  // ── Region map ──
+  const regionEl = document.getElementById('region-map');
+  const regionMap = L.map('region-map', { scrollWheelZoom: false });
+  MS.addLayerControl(regionMap, { defaultLayer: 'Topo (greyscale)', includeTrails: false });
+  MS.addFullscreen(regionMap, regionEl);
+
+  const REGION_COLORS = COLORS.slice(0, 12);
+  const regionColor = {};
+  REGIONS_GJ.features.forEach((f, i) => { regionColor[f.properties.name] = REGION_COLORS[i % REGION_COLORS.length]; });
+
+  L.geoJSON(REGIONS_GJ, {
+    style: f => ({
+      fillColor: regionColor[f.properties.name],
+      fillOpacity: 0.4,
+      color: regionColor[f.properties.name],
+      weight: 2,
+    }),
+    onEachFeature: (f, layer) => {
+      const p = f.properties;
+      layer.bindPopup(`<strong>${p.name}</strong><br>${p.group}`);
+    }
+  }).addTo(regionMap);
+  regionMap.fitBounds([[45.818, 5.956], [47.808, 10.492]]);
+
+  REGIONS_GJ.features.forEach(f => {
+    const p = f.properties;
+    L.marker([p.label_lat, p.label_lon], {
+      icon: L.divIcon({
+        className: 'ms-region-label',
+        html: p.name,
+        iconSize: [100, 16],
+        iconAnchor: [50, 8],
+      })
+    }).addTo(regionMap);
+  });
+
+
+})();
+</script>
+</body>
+</html>

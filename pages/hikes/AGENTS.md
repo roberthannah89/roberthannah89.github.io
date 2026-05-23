@@ -9,6 +9,33 @@
 - **Never pass inline Python to Bash for data processing.** If a script doesn't exist for what you need, create one in `scripts/` first, then call it. All data transformations should be maintainable, reusable scripts.
 - **Keep files organized.** Route-specific files (SAC JSON, GPX, data.json, HTML) go in `routes/<slug>/`. Scripts go in `scripts/`. Docs go in `docs/`. Never dump files in the repo root. If you see misplaced files, move them proactively.
 - Never hand-edit generated `.html` or `.track.js` — re-run `make render`.
+- **Never hardcode shared constants in individual scripts.** Physical constants (earth radius, lapse rate), algorithm parameters (Naismith's rule, elevation smoothing), default text (disclaimer, weather sources), and lookup tables (source URLs, difficulty blurbs) all live in `scripts/config.py`. Import from there — do not duplicate values across files.
+
+## Generated pages
+
+`make render` produces all of these from templates + hike data. Never hand-edit them:
+
+| Output | Template | What it contains |
+|---|---|---|
+| `routes/<slug>/<slug>.html` | `hike_page.j2.html` | Individual hike page |
+| `routes/<slug>/<slug>.track.js` | *(generated from GPX)* | Leaflet track data |
+| `index.html` | `index.j2.html` | Gallery landing page with filters and map |
+| `guides/regions.html` | `regions.j2.html` | Hikes grouped by region/canton |
+| `guides/difficulty.html` | `difficulty.j2.html` | SAC grade guide with auto-populated hike examples |
+
+The remaining guide pages (`guides/planning.html`, `guides/weather.html`, `guides/gear.html`, `guides/index.html`) are static HTML — edit them directly.
+
+## Shared constants — `scripts/config.py`
+
+All pipeline constants live here. Scripts import from `config.py` instead of defining their own values:
+
+- **Physical:** `EARTH_RADIUS_M`, `LAPSE_RATE_C_PER_KM`
+- **GPX processing:** `ELEV_SMOOTH_M`, `LOOP_THRESHOLD_M`
+- **Time estimation:** `NAISMITH_SPEED_KMH`, `NAISMITH_ASCENT_MH`
+- **Display:** `INDEX_PHOTO_WIDTH`, `DIFFICULTY_BLURBS`, `SOURCE_URL_MAP`
+- **Scaffold defaults:** `DEFAULT_WEATHER_SOURCES`, `DEFAULT_DISCLAIMER`
+
+When adding a new constant or lookup table, put it in `config.py` rather than inline in a script.
 
 ## SAC Route Portal Structure
 

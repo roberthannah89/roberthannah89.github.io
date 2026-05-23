@@ -47,6 +47,16 @@ from typing import Iterable
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from config import (
+    DIFFICULTY_BLURBS,
+    EARTH_RADIUS_M,
+    ELEV_SMOOTH_M,
+    INDEX_PHOTO_WIDTH,
+    NAISMITH_ASCENT_MH,
+    NAISMITH_SPEED_KMH,
+    SOURCE_URL_MAP,
+)
+
 try:
     from jsonschema import Draft7Validator
     SCHEMA_PATH = Path(__file__).resolve().parent.parent / "templates" / "hike_data.schema.json"
@@ -64,6 +74,8 @@ TEMPLATE_DIR = REPO_ROOT / "templates"
 ASSETS_DIR = TEMPLATE_DIR / "_assets"
 TEMPLATE_NAME = "hike_page.j2.html"
 INDEX_TEMPLATE_NAME = "index.j2.html"
+REGIONS_TEMPLATE_NAME = "regions.j2.html"
+DIFFICULTY_TEMPLATE_NAME = "difficulty.j2.html"
 DEFAULT_ROOT = REPO_ROOT / "routes"
 
 GPX_NS = {"g": "http://www.topografix.com/GPX/1/1"}
@@ -120,7 +132,7 @@ class StageTimer:
 
 def _haversine_m(a: tuple[float, float], b: tuple[float, float]) -> float:
     """Great-circle distance between two (lat, lon) points in metres."""
-    r = 6371000.0
+    r = EARTH_RADIUS_M
     lat1, lat2 = math.radians(a[0]), math.radians(b[0])
     dlat = math.radians(b[0] - a[0])
     dlon = math.radians(b[1] - a[1])
@@ -157,7 +169,7 @@ def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
     last = pts[0][2]
     for p in pts[1:]:
         d = p[2] - last
-        if abs(d) >= 3:
+        if abs(d) >= ELEV_SMOOTH_M:
             if d > 0:
                 asc += d
             else:
@@ -214,7 +226,7 @@ def _grade_pill_class(grade: str) -> str:
 
 def naismith_hours(distance_km: float, ascent_m: float) -> float:
     """Naismith's rule: 1 h per 5 km flat + 1 h per 600 m of ascent."""
-    return distance_km / 5.0 + ascent_m / 600.0
+    return distance_km / NAISMITH_SPEED_KMH + ascent_m / NAISMITH_ASCENT_MH
 
 
 def auto_subtitle(grade: str, gpx: dict, round_trip: bool = True) -> str:
@@ -244,31 +256,12 @@ def auto_subtitle(grade: str, gpx: dict, round_trip: bool = True) -> str:
 
 def difficulty_blurb(grade: str) -> str:
     """Return a concise description for an SAC grade."""
-    blurbs = {
-        "T1": "Hiking on well-marked paths with no technical difficulty.",
-        "T2": "Mountain hiking on marked trails with uneven terrain and some sustained ascent.",
-        "T3": "Demanding mountain hiking with possible exposure and a real need for sure-footedness.",
-        "T4": "Alpine hiking with exposure, rougher terrain, and sections that are not suitable for beginners.",
-        "T5": "Demanding alpine hiking with exposure, scrambling, and route-finding.",
-        "T6": "Difficult alpine hiking close to mountaineering terrain.",
-    }
-    return blurbs.get(grade, "Check the route notes below for terrain and commitment level.")
+    return DIFFICULTY_BLURBS.get(grade, "Check the route notes below for terrain and commitment level.")
 
 
 def _source_to_link(source: str) -> str:
     """Convert a source string to HTML hyperlinks, handling multiple sources."""
     import re
-    # Map of source keywords to URLs
-    url_map = {
-        "hikr.org": "https://www.hikr.org/",
-        "SAC Route Portal": "https://www.sac-cas.ch/",
-        "SAC": "https://www.sac-cas.ch/",
-        "Switzerland Mobility": "https://www.schweizmobil.ch/",
-        "Wikimedia Commons": "https://commons.wikimedia.org/",
-        "Pizolbahnen": "https://pizol.com/",
-        "Jungfrau Region": "https://www.jungfrau.ch/",
-    }
-    
     # If source contains a URL in parentheses (e.g., "hikr.org (https://...)"), use that
     url_match = re.search(r'\((https?://[^)]+)\)', source)
     if url_match:
@@ -289,7 +282,7 @@ def _source_to_link(source: str) -> str:
         
         # Try to find a matching URL from the map
         url = None
-        for keyword, base_url in url_map.items():
+        for keyword, base_url in SOURCE_URL_MAP.items():
             if keyword.lower() in part.lower():
                 url = base_url
                 break
@@ -583,6 +576,15 @@ def sync_assets(root: Path) -> tuple[int, int]:
 ####################################################################################################################################
 
 
+def _resize_photo_url(url: str, width: int = INDEX_PHOTO_WIDTH) -> str:
+    """Set or replace the 'width' query parameter in a photo URL."""
+    from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+    parsed = urlparse(url)
+    params = parse_qs(parsed.query)
+    params["width"] = [str(width)]
+    return urlunparse(parsed._replace(query=urlencode(params, doseq=True)))
+
+
 def _index_photo_url(data: dict) -> str:
     """Pick the index-card photo URL, defaulting to first photo at width=400."""
     override = (data.get("index_card") or {}).get("photo_url")
@@ -592,7 +594,9 @@ def _index_photo_url(data: dict) -> str:
     if not photos:
         return ""
     url = photos[0].get("url", "")
-    return url.replace("width=600", "width=400")
+    if "width=" in url:
+        return _resize_photo_url(url, INDEX_PHOTO_WIDTH)
+    return url
 
 
 def build_index_hikes(data_files: list[Path],
@@ -659,6 +663,113 @@ def render_index(root: Path, hikes: list[dict]) -> tuple[Path, float]:
         generated=time.strftime("%Y-%m-%d"),
     )
     out_path = root.parent / "index.html"
+    out_path.write_text(html, encoding="utf-8")
+    return out_path, time.perf_counter() - t0
+
+
+def build_regions_hikes(data_files: list[Path]) -> list[dict]:
+    """Build a minimal hike list for the regions guide page."""
+    hikes: list[dict] = []
+    for f in data_files:
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        slug = d.get("slug") or f.stem.replace(".data", "")
+        peak = d.get("peak") or {}
+        hero = d.get("hero") or {}
+        ic = d.get("index_card") or {}
+        hikes.append({
+            "slug": slug,
+            "name": peak.get("name", slug),
+            "elev": peak.get("elev", 0),
+            "lat": round(peak.get("lat", 0), 4),
+            "lon": round(peak.get("lon", 0), 4),
+            "grade": hero.get("grade", ""),
+            "region": ic.get("region", ""),
+            "canton": ic.get("canton", ""),
+        })
+    return hikes
+
+
+def render_regions(root: Path, hikes: list[dict]) -> tuple[Path, float]:
+    """Render the regions guide page and fetch geodata if needed."""
+    t0 = time.perf_counter()
+    guides_dir = root.parent / "guides"
+    guides_dir.mkdir(exist_ok=True)
+
+    canton_path = guides_dir / "cantons.geojson"
+    region_path = guides_dir / "regions.geojson"
+    if not canton_path.exists() or not region_path.exists():
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from fetch_geodata import fetch_cantons, fetch_regions
+        if not canton_path.exists():
+            fc = fetch_cantons()
+            canton_path.write_text(json.dumps(fc, separators=(",", ":")), encoding="utf-8")
+        if not region_path.exists():
+            fc = fetch_regions()
+            region_path.write_text(json.dumps(fc, separators=(",", ":")), encoding="utf-8")
+
+    cantons_geojson = json.loads(canton_path.read_text(encoding="utf-8"))
+    regions_geojson = json.loads(region_path.read_text(encoding="utf-8"))
+
+    env = _make_env()
+    template = env.get_template(REGIONS_TEMPLATE_NAME)
+    html = template.render(
+        hikes=hikes,
+        cantons_geojson=cantons_geojson,
+        regions_geojson=regions_geojson,
+    )
+    out_path = guides_dir / "regions.html"
+    out_path.write_text(html, encoding="utf-8")
+    return out_path, time.perf_counter() - t0
+
+
+def build_difficulty_examples(data_files: list[Path], max_per_grade: int = 2) -> dict[str, list[str]]:
+    """Pick up to *max_per_grade* hike names per base grade (T1–T6) for the difficulty guide.
+
+    Returns e.g. {"T2": ["Rigi Kulm"], "T3": ["Augstmatthorn", "Zindlenspitz"], ...}.
+    Each name is wrapped as a link: '<a href="...">Name</a>'.
+    """
+    from collections import defaultdict
+    by_grade: dict[str, list[tuple[str, str]]] = defaultdict(list)
+    for f in data_files:
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        slug = d.get("slug") or f.stem.replace(".data", "")
+        peak = d.get("peak") or {}
+        hero = d.get("hero") or {}
+        grade = hero.get("grade", "")
+        base = re.match(r'[Tt]\d', grade)
+        if not base:
+            continue
+        name = peak.get("name", slug)
+        by_grade[base.group().upper()].append((name, slug))
+
+    examples: dict[str, list[str]] = {}
+    for g in ("T1", "T2", "T3", "T4", "T5", "T6"):
+        hikes = by_grade.get(g, [])
+        selected = sorted(hikes, key=lambda x: x[0])[:max_per_grade]
+        if selected:
+            examples[g] = [
+                f'<a href="../routes/{slug}/{slug}.html">{name}</a>'
+                for name, slug in selected
+            ]
+    return examples
+
+
+def render_difficulty(root: Path, data_files: list[Path]) -> tuple[Path, float]:
+    """Render the difficulty guide page; returns (out_path, elapsed_seconds)."""
+    t0 = time.perf_counter()
+    env = _make_env()
+    template = env.get_template(DIFFICULTY_TEMPLATE_NAME)
+    examples = build_difficulty_examples(data_files)
+    html = template.render(examples=examples)
+    guides_dir = root.parent / "guides"
+    guides_dir.mkdir(exist_ok=True)
+    out_path = guides_dir / "difficulty.html"
     out_path.write_text(html, encoding="utf-8")
     return out_path, time.perf_counter() - t0
 
@@ -804,6 +915,13 @@ def main(argv: list[str] | None = None) -> int:
         hikes = build_index_hikes(all_files, results)
         out_path, elapsed = render_index(args.root, hikes)
         print(f"\n[index] {out_path}  ({len(hikes)} hike(s), {elapsed*1000:.1f} ms)")
+
+        regions_hikes = build_regions_hikes(all_files)
+        out_path, elapsed = render_regions(args.root, regions_hikes)
+        print(f"[regions] {out_path}  ({len(regions_hikes)} hike(s), {elapsed*1000:.1f} ms)")
+
+        out_path, elapsed = render_difficulty(args.root, all_files)
+        print(f"[difficulty] {out_path}  ({elapsed*1000:.1f} ms)")
 
     if args.profile:
         slowest = max(results, key=lambda r: r.total)

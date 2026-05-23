@@ -53,7 +53,7 @@
     <li>Hiking shoes with ankle support recommended (trail runners work for experienced hikers).</li>
     <li>Good basic fitness — some sustained ascent.</li>
     <li>No exposure to drops. Suitable for beginners who are comfortable on uneven ground.</li>
-    <li><em>My view:</em> This is a pleasant, achievable challenge for most people. <a href="../routes/faulhorn/faulhorn.html">Berghotel Faulhorn</a> is a good T2 example.</li>
+    <li><em>My view:</em> This is a pleasant, achievable challenge for most people.{% if examples.T2 %} {{ examples.T2 | join(' and ') }} {{ 'is a' if examples.T2 | length == 1 else 'are' }} good T2 {{ 'example' if examples.T2 | length == 1 else 'examples' }}.{% endif %}</li>
   </ul>
 
   <hr>
@@ -66,7 +66,7 @@
     <li>Good fitness and surefootedness required.</li>
     <li>Short sections of exposure where a fall could have serious consequences — but fixed ropes or chains are usually present on the worst sections.</li>
     <li>Experience reading terrain and route-finding in mist is useful.</li>
-    <li><em>My view:</em> T3 is where it starts feeling like an alpine hike rather than a walk. <a href="../routes/lisengrat/lisengrat.html">Berggasthaus Rotsteinpass</a> and <a href="../routes/monte-tamaro/monte-tamaro.html">Monte Tamaro</a> are T3 routes with some brief exposed sections.</li>
+    <li><em>My view:</em> T3 is where it starts feeling like an alpine hike rather than a walk.{% if examples.T3 %} {{ examples.T3 | join(' and ') }} {{ 'is a' if examples.T3 | length == 1 else 'are' }} T3 {{ 'route' if examples.T3 | length == 1 else 'routes' }} with some brief exposed sections.{% endif %}</li>
   </ul>
 
   <hr>
@@ -80,7 +80,7 @@
     <li>Experience with exposed alpine terrain strongly recommended. If you're not comfortable with sustained exposure to drops, don't attempt T4.</li>
     <li>Poles are useful for descent on loose terrain.</li>
     <li>Early start recommended — afternoon thunderstorm risk and avoiding crowds on narrow ridges.</li>
-    <li><em>My view:</em> T4 feels committing. Route-finding errors are possible. <a href="../routes/augstmatthorn/augstmatthorn.html">Augstmatthorn</a> and <a href="../routes/cabane-de-tracuit/cabane-de-tracuit.html">Cabane de Tracuit CAS</a> are T4 routes that feel serious when conditions are less than perfect.</li>
+    <li><em>My view:</em> T4 feels committing. Route-finding errors are possible.{% if examples.T4 %} {{ examples.T4 | join(' and ') }} {{ 'is a' if examples.T4 | length == 1 else 'are' }} T4 {{ 'route' if examples.T4 | length == 1 else 'routes' }} that {{ 'feels' if examples.T4 | length == 1 else 'feel' }} serious when conditions are less than perfect.{% endif %}</li>
   </ul>
 
   <hr>
