@@ -29,6 +29,7 @@ import argparse
 import json
 import subprocess
 import sys
+import urllib.request
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
@@ -60,6 +61,83 @@ def _coords_from_gpx(gpx_path: Path) -> dict:
         "peak_lat": round(highest.latitude, 4),
         "peak_lon": round(highest.longitude, 4),
     }
+
+
+def _lookup_canton(lat: float, lon: float) -> str:
+    """Look up canton name from coordinates via Swiss federal geodata API."""
+    url = (
+        "https://api3.geo.admin.ch/rest/services/api/MapServer/identify"
+        f"?geometryType=esriGeometryPoint&geometry={lon},{lat}"
+        "&tolerance=0&layers=all:ch.swisstopo.swissboundaries3d-kanton-flaeche.fill"
+        "&sr=4326&returnGeometry=false"
+    )
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            data = json.loads(resp.read())
+        results = data.get("results", [])
+        if results:
+            return results[0]["attributes"]["name"]
+    except Exception as e:
+        print(f"  Warning: canton lookup failed: {e}", file=sys.stderr)
+    return "TODO"
+
+
+def _lookup_bioregion(lat: float, lon: float) -> str:
+    """Look up biogeographical region via Swiss federal geodata API (BAFU)."""
+    url = (
+        "https://api3.geo.admin.ch/rest/services/api/MapServer/identify"
+        f"?geometryType=esriGeometryPoint&geometry={lon},{lat}"
+        "&tolerance=0&layers=all:ch.bafu.biogeographische_regionen"
+        "&sr=4326&returnGeometry=false"
+    )
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            data = json.loads(resp.read())
+        results = data.get("results", [])
+        if results:
+            attrs = results[0]["attributes"]
+            sub = attrs.get("unterregionname_de", "")
+            main = attrs.get("regionname_de", "")
+            return sub or main
+    except Exception as e:
+        print(f"  Warning: bioregion lookup failed: {e}", file=sys.stderr)
+    return "TODO"
+
+
+_REGION_DE_TO_EN = {
+    "Engadin": "Engadin",
+    "Jura und Randen": "Jura",
+    "Matterhorn / Dent Blanche / Weisshorn": "Matterhorn / Dent Blanche / Weisshorn",
+    "Nordalpen": "Northern Alps",
+    "Ostschweiz": "Eastern Switzerland",
+    "Südliches Tessin": "Southern Ticino",
+    "Vierwaldstättersee / Zentralschweiz": "Central Switzerland",
+    "Walliser Alpen 4/5": "Valais Alps",
+    "Westliche Zentralalpen": "Western Central Alps",
+    "Zentralschweizer Alpen": "Central Swiss Alps",
+    "Östliche Zentralalpen": "Eastern Central Alps",
+    "Nördliches Tessin": "Northern Ticino",
+    "Alpensüdflanke": "Southern Alps",
+    "Alpennordflanke": "Northern Alpine Flank",
+    "Berner Alpen": "Bernese Alps",
+    "Berner Oberland": "Bernese Oberland",
+    "Jura": "Jura",
+}
+
+
+def _translate_region(de_name: str) -> str:
+    """Translate a German region name to English using a known mapping."""
+    return _REGION_DE_TO_EN.get(de_name, de_name)
+
+
+def _lookup_region(sac: dict, lat: float, lon: float) -> str:
+    """Derive region from SAC book title (primary) or biogeographical API (fallback)."""
+    book = sac.get("book")
+    if book and book.get("title"):
+        title = book["title"]
+        if not any(kw in title.lower() for kw in ["hütte", "gipfel", "wandern"]):
+            return _translate_region(title)
+    return _translate_region(_lookup_bioregion(lat, lon))
 
 
 def _derive_peak_url(route_url: str) -> str:
@@ -216,6 +294,14 @@ def process_hike(
     coords = _coords_from_gpx(gpx_path)
     print(f"[{slug}] Coords from GPX: start={coords['trailhead_lat']},{coords['trailhead_lon']} peak={coords['peak_lat']},{coords['peak_lon']}")
 
+    # Auto-derive canton and region from peak coordinates / SAC data
+    if canton == "TODO":
+        canton = _lookup_canton(coords["peak_lat"], coords["peak_lon"])
+        print(f"[{slug}] Canton (auto): {canton}")
+    if region == "TODO":
+        region = _lookup_region(sac, coords["peak_lat"], coords["peak_lon"])
+        print(f"[{slug}] Region (auto): {region}")
+
     # Step 2: Scaffold
     if not no_scaffold and not data_path.exists():
         print(f"\n[{slug}] Step 2: Scaffolding data.json")
@@ -238,7 +324,7 @@ def process_hike(
     else:
         print(f"\n[{slug}] Step 2: Skipped scaffold ({'exists' if data_path.exists() else '--no-scaffold'})")
 
-    # Backfill 0,0 coordinates from GPX
+    # Backfill computed fields from GPX / geodata
     if data_path.exists():
         data = _read_data(data_path)
         if data.get("peak", {}).get("lat") == 0.0:
@@ -254,6 +340,11 @@ def process_hike(
                 {"lat": coords["trailhead_lat"], "lon": coords["trailhead_lon"], "label": data["trailhead"]["name"], "kind": "start"},
                 {"lat": coords["peak_lat"], "lon": coords["peak_lon"], "label": data["peak"]["name"], "kind": "summit"},
             ]
+        ic = data.get("index_card", {})
+        if ic.get("region") == "TODO":
+            ic["region"] = region
+        if ic.get("canton") == "TODO":
+            ic["canton"] = canton
         _write_data(data_path, data)
 
     # Always update sources when --route-url is provided

@@ -640,6 +640,7 @@ def build_index_hikes(data_files: list[Path],
             "route_type": ic.get("route_type", ""),
             "lat": peak.get("lat"),
             "lon": peak.get("lon"),
+            "summitElev": peak.get("elev", ""),
             "photo": _index_photo_url(d),
         })
     return hikes
