@@ -79,8 +79,8 @@
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -100,7 +100,7 @@
 <section>
   <h2>Routes{% if routes_subtitle is defined %} {{ routes_subtitle | safe }}{% endif %}</h2>
 {%- for r in routes %}
-  <h3>{{ r.title_html | safe }}{% if r.grade %} <span class="pill {{ r.get('pill_class') or (r.grade | lower) }}">{{ r.get('grade_label') or r.grade }}</span>{% endif %}</h3>
+  <h3>{{ r.title_html | safe }}{% if r.grade %} <span class="pill {{ r.get('pill_class') or (r.grade | grade_class) }}">{{ r.get('grade_label') or r.grade }}</span>{% endif %}</h3>
   <ul>
 {%- for b in r.bullets_html %}
     <li>{{ b | safe }}</li>
@@ -182,7 +182,17 @@
 
 <section>
   <h2>Elevation Profile</h2>
+{%- if gpx_stats and gpx_stats.distance_km %}
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>{{ "%.1f"|format(gpx_stats.distance_km) }} km</strong> total</span>
+    <span>&uarr; <strong>{{ gpx_stats.ascent_m|round|int }} m</strong> ascent</span>
+    <span>&darr; <strong>{{ gpx_stats.descent_m|round|int }} m</strong> descent</span>
+    <span>max <strong>{{ gpx_stats.max_ele|int }} m</strong></span>
+    <span>steepest <strong>{{ gpx_stats.steepest_grade_pct|round|int }}%</strong></span>
+  </div>
+{%- else %}
   <div class="elev-stats" id="elev-stats"></div>
+{%- endif %}
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">{{ elev_chart_attrib_html | default('Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).', true) | safe }}</p>
 </section>
@@ -203,7 +213,7 @@
     <article class="trip-report">
       <header>
         <a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.title }}</a>
-        · <time>{{ r.season }}</time> · <span class="pill {{ r.get('pill_class') or (r.grade | lower) }}">{{ r.get('grade_label') or r.grade }}</span>
+        · <time>{{ r.season }}</time> · <span class="pill {{ r.get('pill_class') or (r.grade | grade_class) }}">{{ r.get('grade_label') or r.grade }}</span>
       </header>
       <ul>
 {%- for b in r.bullets_html %}
@@ -290,6 +300,7 @@ window.HIKE = {
 {%- endfor %}
   ]
 };
+{% if gpx_stats %}window.TRACK_STATS = {{ gpx_stats | tojson }};{% endif %}
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>

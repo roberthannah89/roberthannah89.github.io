@@ -35,7 +35,7 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
   <h2>Quick Facts</h2>
   <table>
     <tr><th>Summit elevation</th><td><strong>1797 m</strong></td></tr>
-    <tr><th>Difficulty</th><td><span class="pill t5-">SAC T5-</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t5">SAC T5-</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
     <tr><th>Trailhead</th><td>Seebodenalp, Bergstation</td></tr>
     <tr><th>Distance</th><td>11.9 km (out-and-back)</td></tr>
     <tr><th>Total ascent</th><td>~980 m</td></tr>
@@ -96,8 +96,8 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -131,7 +131,7 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
   <section>
     <h2>Getting There</h2>
     <h3>By car</h3>
-    TODO: Driving directions.
+    <p>Drive to <strong>Küssnacht am Rigi</strong> (A4 motorway, exit Küssnacht). Parking at the Seebodenalp cable-car valley station. Take the Luftseilbahn to Seebodenalp (1020 m).</p>
     <h3>By public transport</h3>
     <p><strong>Kabinenbahn</strong> to <strong>Küssnacht am Rigi (Talstation)</strong>.</p>
 <p>Informationen zur Seilbahn Küssnacht am Rigi - Seebodenalp: http://www.rigi.ch/Media/Attraktionen/Luftseilbahn-Kuessnacht-Seebodenalp</p>
@@ -141,7 +141,13 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
     <h2>Day 1</h2>
     <table>
       <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>HH:MM</td><td>TODO: step description</td></tr>
+      <tr><td>08:00</td><td>Depart Seebodenalp Bergstation (1020 m)</td></tr>
+      <tr><td>08:45</td><td>Ronenboden — enter exposed Arschbaggen section</td></tr>
+      <tr><td>09:30</td><td>Tristenboden — crux of the T5- scramble</td></tr>
+      <tr><td>10:30</td><td>Summit Rigi Kulm (1797 m); panorama and rest</td></tr>
+      <tr><td>11:00</td><td>Descend via Buechzingelflue / Leiterliweg</td></tr>
+      <tr><td>12:00</td><td>Grasselen — Ober Stockbann</td></tr>
+      <tr><td>12:30</td><td>Return to Seebodenalp</td></tr>
     </table>
   </section>
 </div>
@@ -161,9 +167,9 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
   <h3>Lapse-rate temperature estimate</h3>
   <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
   <ul>
-    <li><strong>Valley reference:</strong> TODO: nearest valley station, e.g. Interlaken (570 m).</li>
+    <li><strong>Valley reference:</strong> Küssnacht am Rigi, ~440 m.</li>
     <li><strong>Summit:</strong> 1797 m → ~1197 m above the reference → subtract ~<strong>7.2 °C</strong>.</li>
-    <li>TODO: e.g. <strong>22 C valley -> ~X C summit</strong></li>
+    <li>Example: Küssnacht forecast 18–28 °C → summit ≈ <strong>+11 °C to +21 °C</strong>. Rigi is exposed to west winds from the lakes.</li>
     <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
   </ul>
   <h3>Sources to check</h3>
@@ -172,7 +178,7 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
     <li><a href="https://www.meteoblue.com/">Meteoblue</a> -- hourly wind/precip</li>
   </ul>
   <h3>Snow / season</h3>
-  <p>TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.</p>
+  <p><strong>May–November</strong> for the standard route. The T5- Arschbaggen variant requires dry conditions — Nagelfluh rock is extremely slippery when wet. Avoid after rain or in fog.</p>
 </section>
 
 <section>
@@ -188,7 +194,13 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
 
 <section>
   <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats"></div>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>11.9 km</strong> total</span>
+    <span>&uarr; <strong>980 m</strong> ascent</span>
+    <span>&darr; <strong>1304 m</strong> descent</span>
+    <span>max <strong>1791 m</strong></span>
+    <span>steepest <strong>173%</strong></span>
+  </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
@@ -198,20 +210,44 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
   <h3>Key takeaways</h3>
   <div class="trip-takeaways">
     <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
+      <li><strong>Nagelfluh slipperiness:</strong> Nearly every report warns that the Nagelfluh conglomerate rock becomes extremely slippery when wet; mud on boots compounds the problem, reducing footholds to near-zero.</li>
+      <li><strong>Exposure on Arschbaggen:</strong> The Arschbaggen section involves ~15 m of fixed-cable climbing on steep conglomerate; considerable arm strength is required as natural footholds are scarce.</li>
+      <li><strong>Contrast with tourist Rigi:</strong> The north and west flanks are remote and serious, a world apart from the crowded railway summit — but expect crowds at Rigi Kulm itself.</li>
     </ul>
   </div>
   <h3>Recent reports</h3>
   <div class="trip-reports">
     <article class="trip-report">
       <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t5-">T5-</span>
+        <a href="https://www.hikr.org/tour/post179841.html" target="_blank" rel="noopener">Abenteuer Rigi Nord</a>
+        · <time>June 2023</time> · <span class="pill t5">T5-</span>
       </header>
       <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
+        <li>Ascent via Arschbaggen, descent via Leiterliweg with many ladders and secured passages on the NE flank.</li>
+        <li>Rated T5-II for the climbing sections; the Leiterliweg descent is somewhat easier (T4) but overgrown in places.</li>
+        <li>Steep, rooted path from Ronenboden leads into short conglomerate climbing sections before the main Arschbaggen crux.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post172870.html" target="_blank" rel="noopener">Rigi Kulm über Füdlibaggen</a>
+        · <time>July 2022</time> · <span class="pill t5">T5-</span>
+      </header>
+      <ul>
+        <li>Ascent from Seebodenalp (07:55 start) via the Füdlibaggen/Arschbaggen variant to the summit.</li>
+        <li>Emphasises the fixed steel-cable sections on Nagelfluh rock and the need for dry conditions.</li>
+        <li>Route finding on the upper sections requires attention; faint paths through conglomerate bands.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post156464.html" target="_blank" rel="noopener">Rigi: Aufstieg über den Tristenboden</a>
+        · <time>September 2020</time> · <span class="pill t5">T5-</span>
+      </header>
+      <ul>
+        <li>Ascent from Seebodenalp via Ronenboden, Arschbagge, and Tristenboden to Rigi Kulm.</li>
+        <li>Clay on boots made the Nagelfluh extremely difficult; significant arm strength needed on the fixed ropes.</li>
+        <li>Done during COVID railway closures — Seebodenalp was a popular alternative start, but the north side remained quiet.</li>
       </ul>
     </article>
   </div>
@@ -266,16 +302,17 @@ window.HIKE = {
   summit: { lat: 47.05671814585849, lon: 8.486108164807938, elev: 1797, name: "Rigi Kulm" },
   trailhead: { lat: 47.061249425851344, lon: 8.481022861056221, name: "Seebodenalp, Bergstation" },
   transit_dest: "Seebodenalp, Bergstation, Switzerland",
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
+  hikr_index_url: "https://www.hikr.org/dir/Rigi_Kulm_Kulm_4131/tour/",
   gpx_filename: "rigi-kulm.gpx",
   reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
+  webcams: [{"fallback": false, "label": "Rigi Kulm 360\u00b0 panorama (Swisscom/Roundshot)", "url": "https://rigi.roundshot.com/"}, {"fallback": false, "label": "Rigi official webcams (Kulm, Rotstock, Kaltbad, Scheidegg)", "url": "https://www.rigi.ch/en/inform/webcams"}, {"fallback": true, "label": "Meteoblue Rigi Kulm webcams", "url": "https://www.meteoblue.com/en/weather/webcams/rigi-kulm_switzerland_2659054"}],
   waypoints: [
     [47.06937133922137, 8.465973442083783, "Seebodenalp, Bergstation (1020 m)", "start"],
     [47.056747152196095, 8.48532950427666, "Rigi Kulm (1797 m)", "summit"]
   ]
 };
+window.TRACK_STATS = {"ascent_m": 979.6000000000001, "descent_m": 1304.5, "distance_km": 11.896895710945813, "max_ele": 1791.9, "min_ele": 1014.8, "n_points": 1840.0, "steepest_grade_pct": 172.899007800434};
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>

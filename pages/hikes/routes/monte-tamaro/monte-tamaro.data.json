@@ -1,0 +1,217 @@
+{
+  "slug": "monte-tamaro",
+  "page": {
+    "title": "Monte Tamaro (1961 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Monte Tamaro",
+    "elev": 1961,
+    "lat": 46.1038,
+    "lon": 8.866
+  },
+  "index_card": {
+    "region": "Ticino",
+    "canton": "TI",
+    "distance": "16.9 km",
+    "gain": "1388 m",
+    "time": "~5h30",
+    "route_type": "out-and-back",
+    "pill_class": "t3"
+  },
+  "trailhead": {
+    "name": "Alpe Foppa (top station)",
+    "elev": 1394,
+    "lat": 46.1107,
+    "lon": 8.8455,
+    "transit_dest": "Alpe Foppa (top station), Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/8/csm_1589965550_2037617558master_1df0f0806a.jpg",
+    "subtitle_html": "Alpe Foppa (top station) -> Monte Tamaro -- <span class=\"pill t3\">SAC T3</span> | ~1388 m gain | ~16.9 km | ~5h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Until 2002 Monte Tamaro was a destination for skiers. 6 ski-lifts, a chair lift and a gondola were in operation, if there was snow. As most winters lacked snow all too often, the means of transportation were rarely operating. That was not profitable: no revenues, but expenses nevertheless. The lifts needed investment, and obtaining a concession costs a lot of money. Therefore, the Tamaro transportation company said goodbye to the unreliable winter weather and turned to summer activities. A fun park with a high-wire garden, toboggan run, playground with a frog pond, 400 m long flying fox, mountain bike infrastructure, launch pad for paragliders etc. was built. And even those interested in high culture were considered. Egidio Cattaneo, a Ticino entrepreneur who made money in the oil business and the former owner of the Tamaro transportation company, had a chapel built on Monte Tamaro in honour of his late wife. He assigned the project to his friend, the architect Mario Botta. The chapel Santa Maria degli Angeli is very special and deserves a visit. Even if you are not into sacral buildings, the form and location of this chapel will leave a lasting impression on you.\nAlso, the second part of the tour and the endpoint are worthwhile. Monte Gambarogno is a first-class vantage point, and Indemini is one of the best-preserved mountain villages of Sottoceneri.</p>\n<p>Monte Tamaro to the south of the Magadino plain, the highest peak of the range, is known for its view. The starting points Alpe di Neggia and Alpe Foppa are easily accessible, thus the summit is often ascended.\nOn Monte Tamaro four ridges meet. Viewed from above, they form a cross which encloses four valleys: Valle di Vira, Valle del Trodo, Valle Cusella and Val Giona / Valle Veddasca.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1961 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Alpe Foppa (top station)"
+    ],
+    [
+      "Distance",
+      "16.9 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1388 m"
+    ],
+    [
+      "Elevation range",
+      "980-1960 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/8/csm_1589965550_2037617558master_1df0f0806a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/8/csm_1589965550_2037617558master_1df0f0806a.jpg",
+      "alt": "Monte Tamaro — peak photo",
+      "caption_html": "<p>Monte Tamaro — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1515490379_361521516Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1515490379_361521516L.jpg",
+      "alt": "The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta",
+      "caption_html": "<p>The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.116831776178756,
+      "lon": 8.89362073690608,
+      "label": "Alpe Foppa (top station) (1532 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.11217113538021,
+      "lon": 8.830590356481313,
+      "label": "Monte Gambarogno (1734 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.10824835503662,
+      "lon": 8.88102900119778,
+      "label": "Capanna Tamaro (1867 m)",
+      "kind": "hut"
+    },
+    {
+      "lat": 46.11069205900237,
+      "lon": 8.845288100617308,
+      "label": "Alpe di Neggia (1394 m)",
+      "kind": "departure_arrival"
+    },
+    {
+      "lat": 46.10521495350976,
+      "lon": 8.814624909843921,
+      "label": "Oratorio di Sant'Anna (1342 m)",
+      "kind": "traverse"
+    },
+    {
+      "lat": 46.103910954281396,
+      "lon": 8.866004453333074,
+      "label": "Monte Tamaro (1961 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>Monte Tamaro and Monte Gambarogno</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "Alpe Foppa - Monte Tamaro - Alpe di Neggia",
+        "Alpe di Neggia - Monte Gambarogno - Indemini"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Kabinenbahn</strong> to <strong>Alpe Foppa</strong>.</p>\n<p>Information about the lifts: https://www.montetamaro.ch/de/</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 1361,
+      "temp_drop_c": 8.2,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T3",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T3</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/\">SAC Route Portal — Monte Tamaro and Monte Gambarogno</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/\">SAC Peak Page — Monte Tamaro</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/monte-tamaro-and-monte-gambarogno-1014/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Remo Kundert / SAC Route Portal"
+}

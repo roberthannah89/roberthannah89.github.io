@@ -41,6 +41,27 @@ from new_hike import scaffold_hike, parse_gpx
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
+def _coords_from_gpx(gpx_path: Path) -> dict:
+    """Derive trailhead and peak coordinates from GPX track."""
+    import gpxpy
+    with open(gpx_path) as f:
+        gpx = gpxpy.parse(f)
+    first = gpx.tracks[0].segments[0].points[0]
+    highest = first
+    for trk in gpx.tracks:
+        for seg in trk.segments:
+            for pt in seg.points:
+                if pt.elevation and (not highest.elevation or pt.elevation > highest.elevation):
+                    highest = pt
+    return {
+        "trailhead_lat": round(first.latitude, 4),
+        "trailhead_lon": round(first.longitude, 4),
+        "trailhead_elev": round(first.elevation) if first.elevation else 0,
+        "peak_lat": round(highest.latitude, 4),
+        "peak_lon": round(highest.longitude, 4),
+    }
+
+
 def _derive_peak_url(route_url: str) -> str:
     """Derive the SAC peak page URL from a route page URL.
 
@@ -191,6 +212,10 @@ def process_hike(
     print(f"\n[{slug}] Step 1: Extracting GPX")
     gpx_path = sac_json_to_gpx(json_path, slug, add_elevation=not no_elevation)
 
+    # Derive coordinates from GPX
+    coords = _coords_from_gpx(gpx_path)
+    print(f"[{slug}] Coords from GPX: start={coords['trailhead_lat']},{coords['trailhead_lon']} peak={coords['peak_lat']},{coords['peak_lon']}")
+
     # Step 2: Scaffold
     if not no_scaffold and not data_path.exists():
         print(f"\n[{slug}] Step 2: Scaffolding data.json")
@@ -203,8 +228,8 @@ def process_hike(
             grade=grade,
             elev=meta["destination_altitude"] or 0,
             trailhead=meta["departure_name"] or "TODO",
-            peak_lat=0.0, peak_lon=0.0,
-            trailhead_lat=0.0, trailhead_lon=0.0,
+            peak_lat=coords["peak_lat"], peak_lon=coords["peak_lon"],
+            trailhead_lat=coords["trailhead_lat"], trailhead_lon=coords["trailhead_lon"],
             gpx_path=gpx_path,
             no_gpx=True,
         )
@@ -212,6 +237,24 @@ def process_hike(
         _write_data(data_path, _read_data(data_path))
     else:
         print(f"\n[{slug}] Step 2: Skipped scaffold ({'exists' if data_path.exists() else '--no-scaffold'})")
+
+    # Backfill 0,0 coordinates from GPX
+    if data_path.exists():
+        data = _read_data(data_path)
+        if data.get("peak", {}).get("lat") == 0.0:
+            data["peak"]["lat"] = coords["peak_lat"]
+            data["peak"]["lon"] = coords["peak_lon"]
+        if data.get("trailhead", {}).get("lat") == 0.0:
+            data["trailhead"]["lat"] = coords["trailhead_lat"]
+            data["trailhead"]["lon"] = coords["trailhead_lon"]
+            if not data["trailhead"].get("elev"):
+                data["trailhead"]["elev"] = coords["trailhead_elev"]
+        if not data.get("waypoints"):
+            data["waypoints"] = [
+                {"lat": coords["trailhead_lat"], "lon": coords["trailhead_lon"], "label": data["trailhead"]["name"], "kind": "start"},
+                {"lat": coords["peak_lat"], "lon": coords["peak_lon"], "label": data["peak"]["name"], "kind": "summit"},
+            ]
+        _write_data(data_path, data)
 
     # Always update sources when --route-url is provided
     if route_url and data_path.exists():

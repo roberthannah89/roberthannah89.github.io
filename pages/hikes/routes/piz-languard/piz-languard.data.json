@@ -1,0 +1,217 @@
+{
+  "slug": "piz-languard",
+  "page": {
+    "title": "Piz Languard (3263 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Piz Languard",
+    "elev": 3263,
+    "lat": 46.4885,
+    "lon": 9.9565
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "TODO",
+    "distance": "8.3 km",
+    "gain": "549 m",
+    "time": "~2h30",
+    "route_type": "out-and-back",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Alp Languard (Pontresina)",
+    "elev": 3261,
+    "lat": 46.4885,
+    "lon": 9.9565,
+    "transit_dest": "Alp Languard (Pontresina), Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1677142244_733758612master_0c86b0a49a.jpg",
+    "subtitle_html": "Alp Languard (Pontresina) -> Piz Languard -- <span class=\"pill t4\">SAC T4-</span> | ~549 m gain | ~8.3 km | ~2h30",
+    "grade": "T4-",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The easy accessibility of the summit and the cabin high up cannot hide the fact that the trail is steep, stony and at times exposed. Thanks to Georgys Hütte it is uncomplicated to experience sunrise and sunset surrounded by majestic mountains. Observing ibex is almost guaranteed.</p>\n<p>Piz Languard, a popular viewpoint, is well accessible on a path from Pontresina. Until high up, the southern and western faces consist of pastures, while the summit structure does not begin before an altitude of ca. 2900 m. Its eastern face falls steeply down to Val Prüna. Three ridges merge on the summit. The eastern ridge is the wildest. Piz Languard is most impressive when viewed from the east. \nW. Rey in 1846</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3263 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4-</span>"
+    ],
+    [
+      "Trailhead",
+      "Alp Languard (Pontresina)"
+    ],
+    [
+      "Distance",
+      "8.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~549 m"
+    ],
+    [
+      "Elevation range",
+      "2351-3261 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1677142244_733758612master_0c86b0a49a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1677142244_733758612master_0c86b0a49a.jpg",
+      "alt": "Piz Languard — peak photo",
+      "caption_html": "<p>Piz Languard — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1556711056_874820674Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1556711056_874820674L.jpg",
+      "alt": "Ascending to Piz Languard: view towards Moritz",
+      "caption_html": "<p>Ascending to Piz Languard: view towards Moritz</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1556708271_18769266Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1556708271_18769266L.jpg",
+      "alt": "Piz Languard",
+      "caption_html": "<p>Piz Languard</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1556708271_216317717Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1556708271_216317717L.jpg",
+      "alt": "Shortly before the summit, below is Georgys Hütte and behind the Bernina range.",
+      "caption_html": "<p>Shortly before the summit, below is Georgys Hütte and behind the Bernina range.</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.48789690945794,
+      "lon": 9.922737677804108,
+      "label": "Alp Languard (Pontresina) (2327 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.52190049037129,
+      "lon": 9.90214530768808,
+      "label": "Muottas Muragl, summit station (2454 m)",
+      "kind": "departure_arrival"
+    },
+    {
+      "lat": 46.48714145189824,
+      "lon": 9.955849955578504,
+      "label": "Chamanna Georgy (3175 m)",
+      "kind": "hut"
+    },
+    {
+      "lat": 46.48843902364576,
+      "lon": 9.956504004874203,
+      "label": "Piz Languard (3263 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>South-west face</strong>",
+      "grade": "T4-",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Alp Languard – Piz Languard",
+        "Piz Languard – Chamanna Paradis – Alp Languard"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Sesselbahn</strong> to <strong>Alp Languard</strong>.</p>\n<p>Please check the opening hours of the cable-car: https://www.engadin.ch/en/mountain-railways-summer/mountain-railways/</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 2663,
+      "temp_drop_c": 16.0,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4-",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T4-</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/\">SAC Route Portal — South-west face</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/\">SAC Peak Page — Piz Languard</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/south-west-face-4058/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Fredy Joss / SAC Route Portal"
+}

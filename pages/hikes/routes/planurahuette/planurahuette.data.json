@@ -182,56 +182,87 @@
   ],
   "getting_there": {
     "by_pt_html": "<p><strong>Zug</strong> to <strong>Linthal</strong>.</p>\n<p>You can get from Linthal to Tierfehd with Alpentaxi Vollenweider 079 /770 34 86  alpentaxi@taxivollenweider.ch http://www.alpentaxi.ch</p>",
-    "by_car_html": "TODO: Driving directions."
+    "by_car_html": "<p>Drive to <strong>Linthal / Tierfehd</strong> via the A3 motorway (exit Niederurnen) through the Linth valley. Parking at Tierfehd (end of road, ~806 m). The Linth valley road ends here.</p>"
   },
   "day_plans": [
     {
       "title": "Day 1",
       "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
+        ["05:30", "Depart Tierfehd (806 m); follow valley trail south"],
+        ["07:00", "Hinter Sand (~1300 m) — valley narrows, steeper terrain"],
+        ["08:30", "Ober Sand (~1800 m) — alpine zone, views open up"],
+        ["10:00", "Above 2400 m — rocky terrain, possible snow patches"],
+        ["11:00", "Arrive Planurahütte SAC (2947 m); check in, lunch, rest"],
+        ["14:00", "Explore area or begin descent (if day trip)"],
+        ["17:00", "Return to Tierfehd (if descending same day)"]
       ],
       "footer_html": ""
     }
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "valley_ref": "Linthal, ~650 m",
       "summit_above_ref_m": 2347,
       "temp_drop_c": 14.1,
-      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+      "example_html": "Example: Linthal forecast 15–25 °C → hut ≈ <strong>+1 °C to +11 °C</strong>. At 2947 m expect glacier wind and rapid temperature drops."
     },
     "sources_html": [
       "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
       "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
     ],
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+    "season_html": "<strong>Late June–September</strong> when the hut is staffed and the trail is snow-free. The upper section above Ober Sand holds snow into July. Check hut website for current conditions."
   },
   "webcams": [
     {
-      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-      "label": "TODO: camera name",
+      "url": "https://planurahuette.ch/webcam/planurahuette.jpg",
+      "label": "Planurahütte SAC (2947 m) — live webcam from the hut",
       "fallback": false
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/linthal_switzerland",
+      "label": "Meteoblue Linthal webcams",
+      "fallback": true
     }
   ],
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
   "trip_reports": {
-    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "hikr_index_url": "https://www.hikr.org/dir/Planurah%C3%BCtte_SAC_6500/ped/",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "The long approach from Tierfehd (2100+ m gain) is physically very demanding and requires good fitness; many hikers use bikes or the alpine taxi to Hinter Sand to shorten the lower valley section.",
+      "The upper route above Ober Sand enters exposed rocky terrain with fixed chains around 2800 m; snow patches persist well into July.",
+      "The Planurahütte (renovated 2012, highest SAC hut in eastern Switzerland) offers a dramatic glacier setting and serves as the base for Tödi, Clariden, and glacier traverses."
     ],
     "reports": [
       {
-        "url": "TODO: hikr report URL",
-        "title": "TODO: report title",
-        "season": "TODO: e.g. August 2025",
+        "url": "https://www.hikr.org/tour/post103982.html",
+        "title": "Von Tierfehd zur Planurahütte 2947müM und zurück",
+        "season": "January 2016",
+        "grade": "T4",
+        "bullets_html": [
+          "Full out-and-back from Tierfehd; describes the approach as conditioning-demanding but beautiful and worthwhile.",
+          "Encountered a heavy thunderstorm at the hut during dinner, followed by an atmospheric sunset — underscores rapid weather changes at this altitude.",
+          "35 photos documenting the entire route from valley floor to glacier world."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post16208.html",
+        "title": "bike and hike planurahütte",
+        "season": "August 2009",
         "grade": "T3+",
         "bullets_html": [
-          "TODO: Key observation 1.",
-          "TODO: Key observation 2."
+          "Used a bike from Schwändi via Tierfehd to Hinter Sand — steep but rideable — then hiked to the hut.",
+          "Describes the Planurahütte at 2947 m as beautifully situated in the glacier landscape."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post10234.html",
+        "title": "Hüfihütte - Planurahütte - Claridenhütte",
+        "season": "2008",
+        "grade": "T4",
+        "bullets_html": [
+          "Multi-day hut-to-hut traverse connecting Hüfihütte, Planurahütte, and Claridenhütte.",
+          "Notes a large wind shelter (Windkolk) northeast of the hut before the final steep section.",
+          "Roped glacier crossing of the Claridenfirn required; warns of hidden crevasses as snow softens."
         ]
       }
     ]

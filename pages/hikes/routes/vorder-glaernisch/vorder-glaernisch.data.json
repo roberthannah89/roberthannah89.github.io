@@ -124,56 +124,85 @@
   ],
   "getting_there": {
     "by_pt_html": "<p><strong>Bus</strong> to <strong>Schwändi b. Schwanden GL, Post</strong>.</p>",
-    "by_car_html": "TODO: Driving directions."
+    "by_car_html": "<p>Drive to <strong>Schwändi</strong> near Schwanden in Canton Glarus via the A3 motorway (exit Niederurnen). Parking in Schwändi. For the traverse variant, arrange a second car at Klöntalersee or use public transport for the return.</p>"
   },
   "day_plans": [
     {
       "title": "Day 1",
       "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
+        ["06:00", "Depart Schwändi (701 m); ascend through forest"],
+        ["07:30", "Above treeline (~1400 m); alpine terrain begins"],
+        ["08:30", "Approach steep T5+ section; scrambling with exposure"],
+        ["09:30", "Upper ridge — exposed terrain, require sure-footedness"],
+        ["10:30", "Summit Vorder Glärnisch (2328 m); rest and panorama"],
+        ["11:00", "Begin descent toward Klöntalersee"],
+        ["13:00", "Arrive Klöntalersee; bus or second car to return"]
       ],
       "footer_html": ""
     }
   ],
   "weather": {
     "lapse_rate": {
-      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "valley_ref": "Glarus, ~472 m",
       "summit_above_ref_m": 1728,
       "temp_drop_c": 10.4,
-      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+      "example_html": "Example: Glarus forecast 15–25 °C → summit ≈ <strong>+3 °C to +13 °C</strong>. The Vorder Glärnisch is exposed to westerly winds."
     },
     "sources_html": [
       "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
       "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
     ],
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+    "season_html": "<strong>July–September</strong> is best. The T5+ terrain requires completely dry conditions. Snow lingers on north aspects into July. Thunderstorm risk high in summer afternoons — start early."
   },
   "webcams": [
     {
-      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-      "label": "TODO: camera name",
+      "url": "https://webcam.rhodannenberg.ch/uploads/current.jpg",
+      "label": "Rhodannenberg — Blick auf den Klöntalersee (rhodannenberg.ch)",
       "fallback": false
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/glarus_switzerland",
+      "label": "Meteoblue Glarus webcams",
+      "fallback": true
     }
   ],
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
   "trip_reports": {
-    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "hikr_index_url": "https://www.hikr.org/dir/Vorder_Gl%C3%A4rnisch_2123/",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "The south-side ascent via Schwändisienen is steep and exposed, with passages up to T5+; very exposed or craggy sections are secured with chains.",
+      "Descent to Klöntalersee via Hintersackberg is steep but manageable thanks to a well-designed alpine hiking trail (T4).",
+      "Route-finding skills and sure-footedness are essential; conditions vary greatly and the grassy slopes can reach 60° steepness."
     ],
     "reports": [
       {
-        "url": "TODO: hikr report URL",
-        "title": "TODO: report title",
-        "season": "TODO: e.g. August 2025",
+        "url": "https://www.hikr.org/tour/post25698.html",
+        "title": "Vorder Glärnisch (2328m) Südaufstieg via Schwändisienen",
+        "season": "July 2010",
+        "grade": "T5",
+        "bullets_html": [
+          "South-side ascent via Schwändisienen; steep grassy slopes and rocky bands.",
+          "Impressive panorama from the summit — Glarus city layout visible as a scale model below."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post35357.html",
+        "title": "Vorder Glärnisch (2328 m) - Überschreitung S-N",
+        "season": "May 2011",
         "grade": "T5+",
         "bullets_html": [
-          "TODO: Key observation 1.",
-          "TODO: Key observation 2."
+          "South-to-north traverse; direct ascent through couloir to Furggle with somewhat brittle rock.",
+          "Rockfall is a latent hazard in the couloir passage; stable holds found throughout."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post146767.html",
+        "title": "Vorder Glärnisch (2328 m) - hike from Hinter Sackberg",
+        "season": "September 2019",
+        "grade": "T4",
+        "bullets_html": [
+          "Ascent from Hinter Sackberg following white-blue-white trail markings.",
+          "Perfect weather conditions; summit reached in about 3 hours from trailhead."
         ]
       }
     ]

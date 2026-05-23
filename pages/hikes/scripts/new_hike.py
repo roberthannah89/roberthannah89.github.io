@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import shutil
 import subprocess
 import sys
@@ -328,14 +329,15 @@ def build_template(
     today_str = today.isoformat()
     year = today.year
 
-    grade_lower = grade.lower()
-    pill_class = grade_lower.rstrip("+-")
-
-    valley_elev = 600
-    temp_drop = round((elev - valley_elev) * 6 / 1000, 1)
+    m = re.match(r'[Tt](\d)', grade)
+    pill_class = f"t{m.group(1)}" if m else grade.lower()
 
     g = gpx_data or {}
     has_ele = g.get("has_elevation", False)
+
+    # Valley reference: use trailhead elevation from GPX start point
+    trailhead_elev = int(g["start"]["ele"]) if g.get("start", {}).get("ele") else 0
+    temp_drop = round((elev - trailhead_elev) * 6.5 / 1000, 1) if trailhead_elev else 0
 
     # --- Index card: use GPX stats when available, else TODO ---
     if has_ele:
@@ -493,10 +495,13 @@ def build_template(
         ],
         "weather": {
             "lapse_rate": {
-                "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
-                "summit_above_ref_m": elev - valley_elev,
+                "valley_ref": f"{trailhead} ({trailhead_elev} m)" if trailhead_elev else "TODO: nearest valley station, e.g. Interlaken (570 m)",
+                "summit_above_ref_m": elev - trailhead_elev if trailhead_elev else 0,
                 "temp_drop_c": temp_drop,
-                "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>",
+                "example_html": (
+                    f"<strong>22 °C at {trailhead}</strong> → ~<strong>{22 - temp_drop:.0f} °C at summit</strong>"
+                    if temp_drop else "TODO: e.g. <strong>22 °C valley → ~X °C summit</strong>"
+                ),
             },
             "sources_html": [
                 '<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a> -- official Swiss forecast',
@@ -531,17 +536,7 @@ def build_template(
                 }
             ],
         },
-        "gear": [
-            {
-                "title": "Essential",
-                "items_html": [
-                    "Hiking poles",
-                    "Sun protection (cream + glasses + hat)",
-                    "2 L water",
-                    "Emergency snacks",
-                ],
-            }
-        ],
+        "gear": [],
         "safety_html": [
             "TODO: main hazard",
             "Turn back if thunderstorms develop -- lightning risk above treeline is extreme.",

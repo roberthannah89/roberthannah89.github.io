@@ -1,0 +1,254 @@
+{
+  "slug": "uessers-barrhorn",
+  "page": {
+    "title": "Üssers Barrhorn (3610 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Üssers Barrhorn",
+    "elev": 3610,
+    "lat": 46.1561,
+    "lon": 7.7342
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "TODO",
+    "distance": "17.2 km",
+    "gain": "1008 m",
+    "time": "~5h",
+    "route_type": "out-and-back",
+    "pill_class": "t5"
+  },
+  "trailhead": {
+    "name": "Topalihütte SAC",
+    "elev": 2674,
+    "lat": 46.1569,
+    "lon": 7.7618,
+    "transit_dest": "Topalihütte SAC, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1529416593_944776125master_86dc01a107.jpg",
+    "subtitle_html": "Topalihütte SAC -> Üssers Barrhorn -- <span class=\"pill t5\">SAC T5</span> | ~1008 m gain | ~17.2 km | ~5h",
+    "grade": "T5",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Auf der Westseite ausgedehnte Schutthänge, gegen den Sonnenaufgang jedoch senkrechte bis überhängende Abstürze über mehrere Hundert Höhenmeter. Nicht nur der erstaunliche Bau der Barrhörner fasziniert, sondern auch der spannende Aufstieg zur Topalihütte über die Wasulicke sowie die unmittelbare Nähe zu den formschönen Gipfeln des Brunegghorns und Weisshorns.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3610 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5</span>"
+    ],
+    [
+      "Trailhead",
+      "Topalihütte SAC"
+    ],
+    [
+      "Distance",
+      "17.2 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1008 m"
+    ],
+    [
+      "Elevation range",
+      "1819-3600 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1529416593_944776125master_86dc01a107.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1529416593_944776125master_86dc01a107.jpg",
+      "alt": "Üssers Barrhorn — peak photo",
+      "caption_html": "<p>Üssers Barrhorn — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1519397789_720092536Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397789_720092536L.jpg",
+      "alt": "Sicht vom Üssere Barrhorn zu Brunegghorn (links) und Weisshorn.",
+      "caption_html": "<p>Sicht vom Üssere Barrhorn zu Brunegghorn (links) und Weisshorn.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1519397776_285380014Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397776_285380014L.jpg",
+      "alt": "Topalihütte mit Dirruhorn, Hobärghorn und Dom am Abend.",
+      "caption_html": "<p>Topalihütte mit Dirruhorn, Hobärghorn und Dom am Abend.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1519397788_422982042Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397788_422982042L.jpg",
+      "alt": "Das Brunegghorn beim morgendlichen Aufbruch noch in der Nähe der Topalihütte. Hinten die Spitze des Weisshorns.",
+      "caption_html": "<p>Das Brunegghorn beim morgendlichen Aufbruch noch in der Nähe der Topalihütte. Hinten die Spitze des Weisshorns.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1557754264_1344026954Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1557754264_1344026954L.jpg",
+      "alt": "Markierungen leiten über den Schölligletscher zum Schöllijoch.",
+      "caption_html": "<p>Markierungen leiten über den Schölligletscher zum Schöllijoch.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1660749862_1681221504Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660749862_1681221504L.jpg",
+      "alt": "Die Passage unter dem Schölljoch bei anspruchsvollen Verhältnissen.",
+      "caption_html": "<p>Die Passage unter dem Schölljoch bei anspruchsvollen Verhältnissen.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1519397788_1976986786Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397788_1976986786L.jpg",
+      "alt": "Die Barrhörner ragen als bizarre Klippen in den Himmel.",
+      "caption_html": "<p>Die Barrhörner ragen als bizarre Klippen in den Himmel.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1519397791_1018760085Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397791_1018760085L.jpg",
+      "alt": "Steiniger Abstieg in Richtung Turtmanntal.",
+      "caption_html": "<p>Steiniger Abstieg in Richtung Turtmanntal.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1519397795_1132218241Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397795_1132218241L.jpg",
+      "alt": "Auf dem Abstieg liegt die Turtmannhütte SAC.",
+      "caption_html": "<p>Auf dem Abstieg liegt die Turtmannhütte SAC.</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.156853846450346,
+      "lon": 7.761998543818084,
+      "label": "Topalihütte SAC (2674 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.144241123017906,
+      "lon": 7.733413662813534,
+      "label": "Schöllijoch (3342 m)",
+      "kind": "traverse"
+    },
+    {
+      "lat": 46.14971113065155,
+      "lon": 7.737274007837943,
+      "label": "Inners Barrhorn (3583 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.160136876204454,
+      "lon": 7.699529411844239,
+      "label": "Turtmannhütte SAC (2519 m)",
+      "kind": "hut"
+    },
+    {
+      "lat": 46.155920431585805,
+      "lon": 7.734081123563909,
+      "label": "Üssers Barrhorn (3610 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung Topali – Turtmann</strong>",
+      "grade": "T5",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Topalihütte – Schölligletscher",
+        "Schölligletscher – Schöllijoch– Üssers Barrhorn",
+        "Üssers Barrhorn – Turtmannhütte – Gruben"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 3010,
+      "temp_drop_c": 18.1,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T5",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T5</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/\">SAC Route Portal — Überschreitung Topali – Turtmann</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/\">SAC Peak Page — Üssers Barrhorn</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/ueberschreitung-topali-turtmann-1303/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Dominic Meierhans, Fredy Joss / SAC Route Portal"
+}

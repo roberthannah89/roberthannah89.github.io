@@ -95,8 +95,8 @@
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -127,7 +127,7 @@
   <section>
     <h2>Getting There</h2>
     <h3>By car</h3>
-    TODO: Driving directions.
+    <p>Drive to <strong>Obersee</strong> near Näfels via the A3 motorway (exit Näfels). Parking at Obersee. Alternatively, start from Netstal for a one-way traverse.</p>
     <h3>By public transport</h3>
     <p><strong>Bus</strong> to <strong>Näfels-Mollis, Bahnhof</strong>.</p>
 <p>Rufbus von Näfels-Mollis: http://www.fischli-aeschen.ch/rufbus.html</p>
@@ -137,7 +137,14 @@
     <h2>Day 1</h2>
     <table>
       <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>HH:MM</td><td>TODO: step description</td></tr>
+      <tr><td>06:00</td><td>Depart Obersee (991 m); ascend through forest toward Geisschappel</td></tr>
+      <tr><td>07:30</td><td>Geisschappel — alpine meadows, steeper terrain begins</td></tr>
+      <tr><td>09:00</td><td>Rautispitz summit (2283 m); short rest and panorama</td></tr>
+      <tr><td>09:30</td><td>Traverse exposed ridge to P. 2168 — T4, requires sure-footedness</td></tr>
+      <tr><td>10:15</td><td>Wiggis summit (2282 m); lunch break</td></tr>
+      <tr><td>10:45</td><td>Return via P. 2168 to Rautialp</td></tr>
+      <tr><td>12:00</td><td>Rautialp — descend through forest</td></tr>
+      <tr><td>13:00</td><td>Return to Obersee</td></tr>
     </table>
   </section>
 </div>
@@ -157,9 +164,9 @@
   <h3>Lapse-rate temperature estimate</h3>
   <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
   <ul>
-    <li><strong>Valley reference:</strong> TODO: nearest valley station, e.g. Interlaken (570 m).</li>
+    <li><strong>Valley reference:</strong> Näfels, ~430 m.</li>
     <li><strong>Summit:</strong> 2282 m → ~1682 m above the reference → subtract ~<strong>10.1 °C</strong>.</li>
-    <li>TODO: e.g. <strong>22 C valley -> ~X C summit</strong></li>
+    <li>Example: Näfels forecast 15–25 °C → summit ≈ <strong>+5 °C to +15 °C</strong>. The Rautispitz–Wiggis ridge is fully exposed.</li>
     <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
   </ul>
   <h3>Sources to check</h3>
@@ -168,7 +175,7 @@
     <li><a href="https://www.meteoblue.com/">Meteoblue</a> -- hourly wind/precip</li>
   </ul>
   <h3>Snow / season</h3>
-  <p>TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.</p>
+  <p><strong>June–October</strong> is best. The exposed traverse between Rautispitz and Wiggis demands dry conditions — wet grass on T4 terrain is dangerous. Thunderstorm risk high July–August afternoons.</p>
 </section>
 
 <section>
@@ -184,7 +191,13 @@
 
 <section>
   <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats"></div>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>18.7 km</strong> total</span>
+    <span>&uarr; <strong>1528 m</strong> ascent</span>
+    <span>&darr; <strong>2335 m</strong> descent</span>
+    <span>max <strong>2279 m</strong></span>
+    <span>steepest <strong>73%</strong></span>
+  </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
@@ -194,20 +207,43 @@
   <h3>Key takeaways</h3>
   <div class="trip-takeaways">
     <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
+      <li><strong>Exposed ridge traverse:</strong> The Rautispitz–Wiggis connection via P. 2168 is consistently described as T4 with steep grass and a wire-secured passage near Wiggisnase. Dry conditions are essential.</li>
+      <li><strong>Route from Obersee:</strong> The first 400 m of elevation gain follow forest roads before the mountain trail begins; below Geisschappel (1727 m) a rope-secured passage requires attention.</li>
+      <li><strong>Wildlife:</strong> Multiple reports mention ibex (Steinböcke) sightings on the upper ridges between Rautispitz and Wiggis.</li>
     </ul>
   </div>
   <h3>Recent reports</h3>
   <div class="trip-reports">
     <article class="trip-report">
       <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t4">T4</span>
+        <a href="https://www.hikr.org/tour/post169030.html" target="_blank" rel="noopener">Rautispitz und Wiggis</a>
+        · <time>January 2022</time> · <span class="pill t4">T4</span>
       </header>
       <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
+        <li>Full traverse from Obersee over Rautispitz to Wiggis and back.</li>
+        <li>Encountered a herd of 19 ibex on the final ascent to Rautispitz.</li>
+        <li>Ridge traverse marked blue-white, graded T4 with exposed sections.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post57468.html" target="_blank" rel="noopener">Wiggis und Rautispitz</a>
+        · <time>October 2012</time> · <span class="pill t4">T4</span>
+      </header>
+      <ul>
+        <li>Started from Netstal via Auerenalp to Wiggis, then traversed to Rautispitz.</li>
+        <li>Wire-secured passage between Wiggisnase and Rautispitz; snow present on shaded side.</li>
+        <li>Descended to Obersee and walked to Näfels (no bus service at the time).</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post136980.html" target="_blank" rel="noopener">Rautispitz - Wiggis</a>
+        · <time>October 2018</time> · <span class="pill t4">T4</span>
+      </header>
+      <ul>
+        <li>Combined traverse of both summits from Obersee.</li>
+        <li>Exposed ridge demands sure-footedness and a head for heights.</li>
       </ul>
     </article>
   </div>
@@ -262,11 +298,11 @@ window.HIKE = {
   summit: { lat: 47.07110893310496, lon: 9.028310315280578, elev: 2282, name: "Wiggis" },
   trailhead: { lat: 47.06720371080207, lon: 9.027237710792846, name: "Obersee" },
   transit_dest: "Obersee, Switzerland",
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
+  hikr_index_url: "https://www.hikr.org/dir/Wiggis_5943/",
   gpx_filename: "wiggis.gpx",
   reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
+  webcams: [{"fallback": false, "label": "Obersee \u2014 Blick auf See und Br\u00fcnnelistock (TBGN)", "url": "https://kameraserver.tbgn.ch/obersee.jpg"}, {"fallback": true, "label": "Meteoblue N\u00e4fels/Glarus webcams", "url": "https://www.meteoblue.com/en/weather/webcams/naefels_switzerland"}],
   waypoints: [
     [47.08807343475956, 9.020764963089086, "Obersee (991 m)", "start"],
     [47.07125488305488, 9.028386202659581, "Rautispitz (2283 m)", "summit"],
@@ -275,6 +311,7 @@ window.HIKE = {
     [47.06532687293182, 9.025453588367554, "Wiggis (2282 m)", "summit"]
   ]
 };
+window.TRACK_STATS = {"ascent_m": 1528.4, "descent_m": 2334.7, "distance_km": 18.736705117808675, "max_ele": 2279.6, "min_ele": 986.9, "n_points": 3781.0, "steepest_grade_pct": 73.21478504425633};
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>

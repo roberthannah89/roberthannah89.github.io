@@ -134,8 +134,8 @@
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -230,7 +230,13 @@
 
 <section>
   <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats"></div>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>11.3 km</strong> total</span>
+    <span>&uarr; <strong>1432 m</strong> ascent</span>
+    <span>&darr; <strong>1278 m</strong> descent</span>
+    <span>max <strong>2119 m</strong></span>
+    <span>steepest <strong>101%</strong></span>
+  </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
@@ -240,20 +246,41 @@
   <h3>Key takeaways</h3>
   <div class="trip-takeaways">
     <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
+      <li><strong>Exposed ridge to Brünnelistock:</strong> Multiple reports emphasise the exposed, unprotected ridge between P. 1989 and Brünnelistock as the crux (T5−). No fixed ropes or chains — sure-footedness and a head for heights are essential.</li>
+      <li><strong>Fixed aids on Rossälplispitz and Zindlenspitz:</strong> Long iron chain/fixed rope on the steep ascent to Rossälplispitz; additional chain after the saddle at P. 1901. Reporters note these help significantly but should not be relied upon blindly.</li>
+      <li><strong>Outstanding panorama:</strong> Across reports, the 360° views from all three summits — Wägitalersee, Glärnisch, Sihlsee, and into Glarus — are consistently described as the highlight of the tour.</li>
     </ul>
   </div>
   <h3>Recent reports</h3>
   <div class="trip-reports">
     <article class="trip-report">
       <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t5">T5</span>
+        <a href="https://www.hikr.org/tour/post24644.html" target="_blank" rel="noopener">Zindlenspitz, Rossalpelispitz und Brünnelistock — eine lohnende Trilogie</a>
+        · <time>June 2010</time> · <span class="pill t5">T5</span>
       </header>
       <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
+        <li>Classic three-summit traverse from Wägitalersee; ridge becomes increasingly exposed approaching Brünnelistock with light scrambling moves.</li>
+        <li>Magnificent summit views; descent via Hohfläschenmatt takes ~2 h back to the car.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post70301.html" target="_blank" rel="noopener">Brünnelistock, Rossalpelispitz & Zindlenspitz</a>
+        · <time>September 2013</time> · <span class="pill t5">T5</span>
+      </header>
+      <ul>
+        <li>Rocky step to the saddle overcome in zigzag with occasional hand use; damp-slippery conditions noted on shoe soles.</li>
+        <li>Full Wägitaler Trilogie completed in good weather; described as one of the great classics of the region.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post172295.html" target="_blank" rel="noopener">Grattour Zindlenspitz bis Brünnelistock</a>
+        · <time>June 2022</time> · <span class="pill t5">T5</span>
+      </header>
+      <ul>
+        <li>Dry ridge conditions; forecast thunderstorms did not materialise. Hot for the season.</li>
+        <li>Zindlenspitz approach rated T3; difficulty increases significantly on the Brünnelistock ridge traverse.</li>
       </ul>
     </article>
   </div>
@@ -310,11 +337,11 @@ window.HIKE = {
   summit: { lat: 47.07627100365741, lon: 8.959870457641225, elev: 2097, name: "Zindlenspitz" },
   trailhead: { lat: 47.08511841428294, lon: 8.930364887431494, name: "W\u00e4gitalersee, P. 932" },
   transit_dest: "Innerthal, Gemeindeplatz",
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
+  hikr_index_url: "https://www.hikr.org/dir/Zindlenspitz_6039/",
   gpx_filename: "zindlenspitz.gpx",
   reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
+  webcams: [{"fallback": false, "label": "W\u00e4gitalersee \u2013 Fischerei \u0026 Bootsvermietung webcam", "url": "https://www.waegitalersee.ch/webcam.htm"}, {"fallback": true, "label": "Meteoblue Innerthal webcams", "url": "https://www.meteoblue.com/en/weather/webcams/innerthal_switzerland_2660256"}],
   waypoints: [
     [47.08511841428294, 8.930364887431494, "W\u00e4gitalersee, P. 932 (932 m)", "start"],
     [47.084235519453074, 8.972538173922251, "Br\u00fcnnelistock (SZ) (2132 m)", "summit"],
@@ -322,6 +349,7 @@ window.HIKE = {
     [47.07627100365741, 8.959870457641225, "Zindlenspitz (2097 m)", "summit"]
   ]
 };
+window.TRACK_STATS = {"ascent_m": 1431.5000000000002, "descent_m": 1278.1000000000001, "distance_km": 11.304766502631102, "max_ele": 2119.5, "min_ele": 931.9, "n_points": 2831.0, "steepest_grade_pct": 101.13375084068579};
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>

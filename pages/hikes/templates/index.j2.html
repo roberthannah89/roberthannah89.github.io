@@ -100,6 +100,7 @@
     font-family: inherit;
   }
   .filter-btn:hover { color: var(--fg); border-color: #34384450; }
+  .filter-btn:focus-visible, .map-day-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .filter-btn.active {
     background: var(--accent);
     color: #fff;
@@ -122,11 +123,12 @@
     color: inherit;
     transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
   }
-  .card:hover {
+  .card:hover, .card:focus-visible {
     transform: translateY(-3px);
     border-color: var(--accent);
     box-shadow: 0 8px 24px rgba(0,0,0,.35);
   }
+  .card:focus-visible { outline: none; }
   .card .photo-wrap {
     position: relative;
     width: 100%;
@@ -340,79 +342,79 @@
 <div id="map" aria-label="Map of all hikes"></div>
 
   <div class="filters" id="filters">
-    <div class="filter-group" data-filter="grade">
+    <div class="filter-group" data-filter="grade" role="group" aria-label="Filter by difficulty">
       <span class="filter-label">Difficulty</span>
       <button class="filter-btn active" data-value="all">All</button>
       <button class="filter-btn" data-value="easy">T1–T2 · Easy</button>
       <button class="filter-btn" data-value="demanding">T3 · Demanding</button>
       <button class="filter-btn" data-value="alpine">T4+ · Alpine</button>
     </div>
-    <div class="filter-group" data-filter="duration">
+    <div class="filter-group" data-filter="duration" role="group" aria-label="Filter by duration">
       <span class="filter-label">Duration</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="day">Day hike</button>
       <button class="filter-btn" data-value="multi">Multi-day</button>
     </div>
-    <div class="filter-group" data-filter="region">
+    <div class="filter-group" data-filter="region" role="group" aria-label="Filter by region">
       <span class="filter-label">Region</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <!-- region buttons injected by JS -->
     </div>
-    <div class="filter-group" data-filter="canton">
+    <div class="filter-group" data-filter="canton" role="group" aria-label="Filter by canton">
       <span class="filter-label">Canton</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <!-- canton buttons injected by JS -->
     </div>
-    <div class="filter-group" data-filter="weather">
+    <div class="filter-group" data-filter="weather" role="group" aria-label="Filter by weather">
       <span class="filter-label">Weather</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="good">☀️ Clear</button>
       <button class="filter-btn" data-value="ok">⛅ OK</button>
       <button class="filter-btn" data-value="bad">🌧️ Poor</button>
     </div>
-    <div class="filter-group" data-filter="dist">
+    <div class="filter-group" data-filter="dist" role="group" aria-label="Filter by distance">
       <span class="filter-label">Distance</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="short">≤ 10 km</button>
       <button class="filter-btn" data-value="medium">11–15 km</button>
       <button class="filter-btn" data-value="long">&gt; 15 km</button>
     </div>
-    <div class="filter-group" data-filter="gain">
+    <div class="filter-group" data-filter="gain" role="group" aria-label="Filter by elevation gain">
       <span class="filter-label">Elev. gain</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="gentle">≤ 700 m</button>
       <button class="filter-btn" data-value="moderate">701–1300 m</button>
       <button class="filter-btn" data-value="strenuous">&gt; 1300 m</button>
     </div>
-    <div class="filter-group" data-filter="temp">
+    <div class="filter-group" data-filter="temp" role="group" aria-label="Filter by temperature">
       <span class="filter-label">Temperature</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="cold">&lt; 5°</button>
       <button class="filter-btn" data-value="cool">5–15°</button>
       <button class="filter-btn" data-value="warm">&gt; 15°</button>
     </div>
-    <div class="filter-group" data-filter="elev">
+    <div class="filter-group" data-filter="elev" role="group" aria-label="Filter by summit elevation">
       <span class="filter-label">Summit</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="low">≤ 2000 m</button>
       <button class="filter-btn" data-value="mid">2001–2500 m</button>
       <button class="filter-btn" data-value="high">&gt; 2500 m</button>
     </div>
-    <div class="filter-group" data-filter="time">
+    <div class="filter-group" data-filter="time" role="group" aria-label="Filter by hike time">
       <span class="filter-label">Hike time</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="short">≤ 4 h</button>
       <button class="filter-btn" data-value="medium">4–7 h</button>
       <button class="filter-btn" data-value="long">&gt; 7 h</button>
     </div>
-    <div class="filter-group" data-filter="route">
+    <div class="filter-group" data-filter="route" role="group" aria-label="Filter by route type">
       <span class="filter-label">Route type</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="loop">Loop</button>
       <button class="filter-btn" data-value="out-and-back">Out &amp; back</button>
       <button class="filter-btn" data-value="point-to-point">Point-to-point</button>
     </div>
-    <div class="filter-group" data-filter="transit">
+    <div class="filter-group" data-filter="transit" role="group" aria-label="Filter by transit access">
       <span class="filter-label">Transit</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="excellent">🚂 Excellent</button>
@@ -758,10 +760,10 @@ function wxCacheLoad() {
     const { ts, data } = JSON.parse(raw);
     if (Date.now() - ts > WX_CACHE_TTL) return null;
     return data;
-  } catch { return null; }
+  } catch(e) { return null; }
 }
 function wxCacheSave(data) {
-  try { sessionStorage.setItem(WX_CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch {}
+  try { sessionStorage.setItem(WX_CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch(e) {}
 }
 
 function applyWeatherData(allDays) {

@@ -35,6 +35,7 @@ import cProfile
 import json
 import math
 import pstats
+import re
 import sys
 import time
 import urllib.request
@@ -144,8 +145,14 @@ def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
     if len(pts) < 2:
         return {}
     dist = 0.0
+    max_grade = 0.0
     for a, b in zip(pts, pts[1:]):
-        dist += _haversine_m((a[0], a[1]), (b[0], b[1]))
+        seg = _haversine_m((a[0], a[1]), (b[0], b[1]))
+        dist += seg
+        if seg > 5:
+            grade = abs(b[2] - a[2]) / seg
+            if grade > max_grade:
+                max_grade = grade
     asc = desc = 0.0
     last = pts[0][2]
     for p in pts[1:]:
@@ -164,6 +171,7 @@ def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
         "descent_m": desc,
         "min_ele": min(elev),
         "max_ele": max(elev),
+        "steepest_grade_pct": max_grade * 100.0,
     }
 
 
@@ -196,6 +204,12 @@ def parse_gpx_waypoints(gpx_path: Path,
             "kind": kind,
         })
     return out
+
+
+def _grade_pill_class(grade: str) -> str:
+    """Convert 'T4+' → 't4', 'T5-' → 't5', etc. for CSS pill class."""
+    m = re.match(r'[Tt](\d)', str(grade))
+    return f"t{m.group(1)}" if m else grade.lower()
 
 
 def naismith_hours(distance_km: float, ascent_m: float) -> float:
@@ -298,7 +312,7 @@ def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: 
     # Add difficulty if grade is available
     if grade:
         difficulty_value = (
-            f'<span class="pill {grade.lower()}">SAC {grade}</span> '
+            f'<span class="pill {_grade_pill_class(grade)}">SAC {grade}</span> '
             f'{difficulty_blurb(grade)} '
             f'<a href="../../guides/difficulty.html">Guide</a>'
         )
@@ -354,7 +368,7 @@ def filter_specific_gear(gear: list[dict]) -> list[dict]:
 
 def _make_env() -> Environment:
     """Jinja env with strict undefined so missing fields fail loudly."""
-    return Environment(
+    env = Environment(
         loader=FileSystemLoader(str(TEMPLATE_DIR)),
         undefined=StrictUndefined,
         autoescape=False,  # template explicitly marks html-bearing fields with `| safe`
@@ -362,6 +376,8 @@ def _make_env() -> Environment:
         lstrip_blocks=False,
         keep_trailing_newline=True,
     )
+    env.filters["grade_class"] = _grade_pill_class
+    return env
 
 
 def _write_track_js(gpx_path: Path, out_path: Path) -> None:
@@ -410,6 +426,7 @@ def render_one(data_path: Path) -> RenderResult:
             gpx_stats = compute_gpx_stats(gpx_path)
 
         with StageTimer(stages, "augment"):
+            data["gpx_stats"] = gpx_stats
             # Auto-derive waypoints from GPX <wpt>s when data has none.
             if not data.get("waypoints"):
                 data["waypoints"] = parse_gpx_waypoints(
@@ -601,7 +618,7 @@ def build_index_hikes(data_files: list[Path],
         gpx = gpx_by_slug.get(slug, {})
 
         grade = hero.get("grade", "")
-        grade_class = ic.get("pill_class") or grade.lower()
+        grade_class = ic.get("pill_class") or _grade_pill_class(grade)
 
         distance = ic.get("distance") or (
             f"{gpx['distance_km']:.1f} km" if gpx.get("distance_km") else "—")

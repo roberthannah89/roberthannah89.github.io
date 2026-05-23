@@ -125,8 +125,8 @@
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -157,16 +157,21 @@
   <section>
     <h2>Getting There</h2>
     <h3>By car</h3>
-    TODO: Driving directions.
+    <p>Drive to <strong>Engelberg</strong> (OW) via the A2 motorway (exit Stans-Süd). Parking in Engelberg or at the Fürenalp cable-car valley station. The Rugghubelhütte requires a multi-hour approach on foot.</p>
     <h3>By public transport</h3>
-    TODO: SBB / PostBus connection description.
+    <p><strong>Train</strong> to <strong>Engelberg</strong> (Zentralbahn from Luzern, ~1h). From Engelberg, hike to Rugghubelhütte SAC via Surenenpass trail (~4-5h approach). Alternatively, take the Fürenalp cable car to shorten the approach.</p>
   </section>
 
   <section>
     <h2>Day 1</h2>
     <table>
       <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>HH:MM</td><td>TODO: step description</td></tr>
+      <tr><td>06:00</td><td>Depart Rugghubelhütte SAC (2290 m); ascend Nordgrat</td></tr>
+      <tr><td>07:00</td><td>Rocky ridge section; scrambling on good holds</td></tr>
+      <tr><td>08:00</td><td>Summit Wissigstock (2887 m); panorama over Uri Alps</td></tr>
+      <tr><td>08:30</td><td>Begin descent via same route</td></tr>
+      <tr><td>09:30</td><td>Return to Rugghubelhütte; breakfast and pack up</td></tr>
+      <tr><td>12:00</td><td>Descend to Engelberg valley</td></tr>
     </table>
   </section>
 </div>
@@ -186,9 +191,9 @@
   <h3>Lapse-rate temperature estimate</h3>
   <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
   <ul>
-    <li><strong>Valley reference:</strong> TODO: nearest valley station, e.g. Interlaken (570 m).</li>
+    <li><strong>Valley reference:</strong> Engelberg, ~1000 m.</li>
     <li><strong>Summit:</strong> 2887 m → ~2287 m above the reference → subtract ~<strong>13.7 °C</strong>.</li>
-    <li>TODO: e.g. <strong>22 C valley -> ~X C summit</strong></li>
+    <li>Example: Engelberg forecast 10–20 °C → summit ≈ <strong>-2 °C to +8 °C</strong>. At 2887 m, temperatures drop sharply; glacier winds add chill.</li>
     <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
   </ul>
   <h3>Sources to check</h3>
@@ -197,7 +202,7 @@
     <li><a href="https://www.meteoblue.com/">Meteoblue</a> -- hourly wind/precip</li>
   </ul>
   <h3>Snow / season</h3>
-  <p>TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.</p>
+  <p><strong>July–September</strong> is best. Snow on the Nordgrat often lingers into July. Check hut website for opening dates and current conditions. Early starts essential for stable weather.</p>
 </section>
 
 <section>
@@ -213,7 +218,13 @@
 
 <section>
   <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats"></div>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>4.2 km</strong> total</span>
+    <span>&uarr; <strong>604 m</strong> ascent</span>
+    <span>&darr; <strong>10 m</strong> descent</span>
+    <span>max <strong>2886 m</strong></span>
+    <span>steepest <strong>40%</strong></span>
+  </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
@@ -223,20 +234,44 @@
   <h3>Key takeaways</h3>
   <div class="trip-takeaways">
     <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
+      <li>Wissigstock is often combined with Engelberger Rotstock; the Rotstock approach over loose red scree is the crux (T4), while the Wissigstock path is less steep.</li>
+      <li>Snow above 2400 m can linger well into August; fresh snowfall significantly increases difficulty on the ridge.</li>
+      <li>Most hikers approach via Brunni cable car (Engelberg) to Ristis, then hike to Rugghubelhütte (~1h45) and Engelberger Lücke (~1h) before the final summit push.</li>
     </ul>
   </div>
   <h3>Recent reports</h3>
   <div class="trip-reports">
     <article class="trip-report">
       <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t4">T4</span>
+        <a href="https://www.hikr.org/tour/post52342.html" target="_blank" rel="noopener">Engelberger Rotstock und Wissigstock via Rugghubelhütte</a>
+        · <time>July 2012</time> · <span class="pill t4">T4</span>
       </header>
       <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
+        <li>Route via Brunni cable car to Ristis, then Rugghubelhütte and Engelberger Lücke.</li>
+        <li>Last 150 m to Rotstock steep over loose red scree; Wissigstock ascent significantly easier.</li>
+        <li>Descent from Engelberger Lücke to hut is long but gentle.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post88076.html" target="_blank" rel="noopener">Wissigstock (2887 m) and Engelberger Rotstock (2818 m) with fresh snow in August</a>
+        · <time>August 2014</time> · <span class="pill t4">T4</span>
+      </header>
+      <ul>
+        <li>Snow cover above 2400 m with up to 20 cm fresh snow on Wissigstock summit.</li>
+        <li>Rotstock descent was the most challenging section due to steepness and snow cover.</li>
+        <li>Full day: 21 km, ~9h15 including breaks at both summits.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post111601.html" target="_blank" rel="noopener">Rugghubelhütte bis Bannalp — mit Wissig- und Engelberger Rotstock</a>
+        · <time>August 2016</time> · <span class="pill t4">T4</span>
+      </header>
+      <ul>
+        <li>SAC club tour from Rugghubelhütte over both peaks to Bannalp.</li>
+        <li>Terrain transitions from alpine meadows to karst landscape with steeper rocky ascent.</li>
+        <li>Summit plateau of Wissigstock reached via comfortable scree; clear views of surrounding peaks.</li>
       </ul>
     </article>
   </div>
@@ -291,17 +326,18 @@ window.HIKE = {
   summit: { lat: 46.845461712446095, lon: 8.506900588249856, elev: 2887, name: "Wissigstock" },
   trailhead: { lat: 46.845967100501575, lon: 8.46289094617412, name: "Rugghubelh\u00fctte SAC" },
   transit_dest: "Rugghubelh\u00fctte SAC, Switzerland",
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
+  hikr_index_url: "https://www.hikr.org/dir/Wissigstock_5986/",
   gpx_filename: "wissigstock.gpx",
   reports_updated: "2026-05-17",
   page_generated: "2026-05-17",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
+  webcams: [{"fallback": false, "label": "Rugghubelh\u00fctte SAC (2296 m) \u2014 engelberg.ch webcam", "url": "https://www.engelberg.ch/uploads/tx_fmdwebcams/cam_95.jpg"}, {"fallback": true, "label": "Meteoblue Engelberg webcams", "url": "https://www.meteoblue.com/en/weather/webcams/engelberg_switzerland"}],
   waypoints: [
     [46.84620809520984, 8.462804798855215, "Rugghubelh\u00fctte SAC (2296 m)", "start"],
     [46.85182690199624, 8.498949566439212, "Engelberger L\u00fccke (2684 m)", "traverse"],
     [46.845482230433895, 8.50702914274779, "Wissigstock (2887 m)", "summit"]
   ]
 };
+window.TRACK_STATS = {"ascent_m": 604.5, "descent_m": 9.5, "distance_km": 4.202717262324655, "max_ele": 2886.3, "min_ele": 2282.9, "n_points": 918.0, "steepest_grade_pct": 39.78423061334223};
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>

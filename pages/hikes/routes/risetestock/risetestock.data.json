@@ -205,27 +205,53 @@
   },
   "webcams": [
     {
-      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-      "label": "TODO: camera name",
+      "url": "https://www.foto-webcam.eu/webcam/brunnen/current/1200.jpg",
+      "label": "Brunnen / Vierwaldstättersee — Blick nach Süden (438 m)",
       "fallback": false
+    },
+    {
+      "url": "https://www.meteoblue.com/en/weather/webcams/entlebuch_switzerland",
+      "label": "Meteoblue Entlebuch webcams",
+      "fallback": true
     }
   ],
   "elev_chart_attrib_html": "",
   "trip_reports": {
-    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "hikr_index_url": "https://www.hikr.org/dir/Risetestock_7512/",
     "takeaways_html": [
-      "TODO: cross-report pattern 1.",
-      "TODO: cross-report pattern 2."
+      "Exposed ridge sections with iron rungs and fixed ropes; sure-footedness and a head for heights essential. Loose rung reported at rock-band transition.",
+      "Partly pathless terrain between Risetestock and Blaue Tosse — cairns and faint trail traces above ~1500 m; good route-finding skills needed.",
+      "Isolated summit with panoramic views across the Pilatus chain and Entlebuch; alpine-rose fields just below the summit in early summer."
     ],
     "reports": [
       {
-        "url": "TODO: hikr report URL",
-        "title": "TODO: report title",
-        "season": "TODO: e.g. August 2025",
+        "url": "https://www.hikr.org/tour/post80607.html",
+        "title": "Risetestock über die \"SW-Route\" und Blaue Tosse",
+        "season": "May 2014",
         "grade": "T4",
         "bullets_html": [
-          "TODO: Key observation 1.",
-          "TODO: Key observation 2."
+          "Ascent from Gfellen via partly pathless terrain and iron rungs to the summit.",
+          "Steep bands under rock faces alternate with flatter sections; some passages through damp forest require detours."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post36702.html",
+        "title": "via Kanapee zur Stäfeliflue und weiter zum Blaue Tosse und Risetestock",
+        "season": "June 2011",
+        "grade": "T4",
+        "bullets_html": [
+          "Traverse from Stäfeliflue via Blaue Tosse to Risetestock; narrow trails with rope-assisted passages through rock bands.",
+          "Trail between Blaue Tosse and Risetestock unmarked but usually recognisable; flat saddle at Kanapee before Stäfeliflue north faces."
+        ]
+      },
+      {
+        "url": "https://www.hikr.org/tour/post3577.html",
+        "title": "Risetestock (1759)",
+        "season": "June 2007",
+        "grade": "T4",
+        "bullets_html": [
+          "Early start from Gfellen; summit reached by 8 AM on a comfortable pace. Isolated area with fantastic panoramic views.",
+          "Magnificent alpine-rose fields just before the summit; a family was found camping on the Risetestock."
         ]
       }
     ]

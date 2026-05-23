@@ -1,0 +1,198 @@
+{
+  "slug": "gross-mythen",
+  "page": {
+    "title": "Grosser Mythen (1898 m) -- Hike Plan",
+    "generated": "2026-05-21",
+    "reports_updated": "2026-05-21",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Grosser Mythen",
+    "elev": 1898,
+    "lat": 47.0298,
+    "lon": 8.6893
+  },
+  "index_card": {
+    "region": "Schwyzer Alps",
+    "canton": "Schwyz",
+    "distance": "2.7 km",
+    "gain": "517 m",
+    "time": "~2.5 h",
+    "route_type": "out-and-back",
+    "pill_class": "t5"
+  },
+  "trailhead": {
+    "name": "Holzegg",
+    "elev": 1405,
+    "lat": 47.0288,
+    "lon": 8.6981,
+    "transit_dest": "Holzegg, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_32767a9009.jpg",
+    "subtitle_html": "Holzegg → Grosser Mythen via Schafweg &amp; Rot Grätli — <span class=\"pill t5\">SAC T5</span> | 517 m gain | 2.7 km | ~2.5 h",
+    "grade": "T5",
+    "auto_subtitle": false
+  },
+  "intro_html": "<p>Gross Mythen, this mighty spire above Schwyz, is a landmark of Central Switzerland. Consequently, it is a very popular target for hikers. Most of them ascend it on the fairly easy normal route. Moreover, the cabin on the summit draws the crowds to the mountain. However, there are also more quiet itineraries to the top. One of the most rewarding is the route via Schafweg, Mythenmatt and Rot Grätli: entertaining, pleasurable, very sunny with great views – and wonderfully deserted.</p>\n<p>Gross Mythen is a marvellous truncated pyramid, which, viewed from the N, E, and S, is impressive by its size and the steep summit structure dominated by compact rock walls and pillars. From the W the mountain is characterised by its colour, the fascinating structure of the pointed summit, which make it the unmistakable landmark of Schwyz.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1898 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5</span>"
+    ],
+    [
+      "Trailhead",
+      "Holzegg"
+    ],
+    [
+      "Distance",
+      "2.7 km"
+    ],
+    [
+      "Total ascent",
+      "517 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_32767a9009.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_32767a9009.jpg",
+      "alt": "Gross Mythen — peak photo",
+      "caption_html": "<p>Gross Mythen — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1560507656_1239560384Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560507656_1239560384L.jpg",
+      "alt": "The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.",
+      "caption_html": "<p>The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1555336019_2020425297Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555336019_2020425297L.jpg",
+      "alt": "Exposed passages, but equipped with safety features, descend the south-west face.",
+      "caption_html": "<p>Exposed passages, but equipped with safety features, descend the south-west face.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1555336036_466914493Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555336036_466914493L.jpg",
+      "alt": "Nollenbrünneli",
+      "caption_html": "<p>Nollenbrünneli</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1555336544_431294073Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555336544_431294073L.jpg",
+      "alt": "Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.",
+      "caption_html": "<p>Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.</p>"
+    }
+  ],
+  "waypoints": [
+    {"lat": 47.0288, "lon": 8.6981, "label": "Holzegg", "kind": "start"},
+    {"lat": 47.0298, "lon": 8.6893, "label": "Grosser Mythen", "kind": "summit"}
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>Schafweg, Mythenmatt and Rot Grätli</strong>",
+      "grade": "T5",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Holzegg – bend 22",
+        "Bend 22 – Mythenmatt – Gross Mythen",
+        "Gross Mythen – Holzegg"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 1298,
+      "temp_drop_c": 7.8,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T5</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/\">SAC Route Portal — Schafweg, Mythenmatt and Rot Grätli</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/\">SAC Peak Page — Gross Mythen</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/schafweg-mythenmatt-and-rot-graetli-4136/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Marco Volken / SAC Route Portal"
+}

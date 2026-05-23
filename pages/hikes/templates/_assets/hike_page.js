@@ -184,24 +184,28 @@
   }
   setupTransit();
 
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
   function renderWebcams() {
     const grid = document.getElementById("webcams");
     if (!grid) return;
     if (!WEBCAMS.length) { grid.parentElement.style.display = "none"; return; }
     grid.innerHTML = WEBCAMS.map((cam, i) => {
+      const url = escHtml(cam.url);
+      const label = escHtml(cam.label);
       if (cam.fallback) {
         return `<figure>
-          <a href="${cam.url}" target="_blank" rel="noopener"
+          <a href="${url}" target="_blank" rel="noopener"
              style="display:flex;align-items:center;justify-content:center;height:200px;background:#f0ede4;color:var(--fg);text-decoration:none;font-weight:600;">
             View webcams →
           </a>
-          <figcaption>${cam.label}</figcaption>
+          <figcaption>${label}</figcaption>
         </figure>`;
       }
       return `<figure>
-        <img class="webcam-img" data-idx="${i}" src="${cam.url}" alt="${cam.label}" loading="lazy"
-             onerror="this.parentElement.querySelector('figcaption').insertAdjacentHTML('beforeend',' <em>(image unavailable)</em>');this.style.display='none';">
-        <figcaption>${cam.label}</figcaption>
+        <img class="webcam-img" data-idx="${i}" src="${url}" alt="${label}" loading="lazy"
+             onerror="this.nextElementSibling.textContent+=' (image unavailable)';this.style.display='none';">
+        <figcaption>${label}</figcaption>
       </figure>`;
     }).join("");
   }
@@ -217,39 +221,39 @@
     return 2 * R * Math.asin(Math.sqrt(h));
   }
   function renderElevation() {
-    const stats = document.getElementById("elev-stats");
-    const svg   = document.getElementById("elev-chart");
-    if (!stats || !svg || !TRACK.length || TRACK[0].length < 3) {
-      if (stats) stats.parentElement.style.display = "none";
+    const statsEl = document.getElementById("elev-stats");
+    const svg     = document.getElementById("elev-chart");
+    if (!svg || !TRACK.length || TRACK[0].length < 3) {
+      if (statsEl) statsEl.parentElement.style.display = "none";
       return;
     }
-    let dist = 0, ascent = 0, descent = 0, maxEle = -Infinity, minEle = Infinity;
-    let maxGrade = 0;
+    const S = window.TRACK_STATS;
+    let dist = 0, maxEle = -Infinity, minEle = Infinity;
     const points = [];
     for (let i = 0; i < TRACK.length; i++) {
       const [lat, lon, ele] = TRACK[i];
-      if (i > 0) {
-        const seg = haversineMeters(TRACK[i - 1], TRACK[i]);
-        dist += seg;
-        const dEle = ele - TRACK[i - 1][2];
-        if (dEle > 0) ascent += dEle; else descent -= dEle;
-        if (seg > 5) {
-          const grade = Math.abs(dEle) / seg;
-          if (grade > maxGrade) maxGrade = grade;
-        }
-      }
+      if (i > 0) dist += haversineMeters(TRACK[i - 1], TRACK[i]);
       points.push([dist, ele]);
       if (ele > maxEle) maxEle = ele;
       if (ele < minEle) minEle = ele;
     }
+    if (!S && statsEl) {
+      let ascent = 0, descent = 0, maxGrade = 0;
+      for (let i = 1; i < TRACK.length; i++) {
+        const seg = haversineMeters(TRACK[i - 1], TRACK[i]);
+        const dEle = TRACK[i][2] - TRACK[i - 1][2];
+        if (dEle > 0) ascent += dEle; else descent -= dEle;
+        if (seg > 5) { const g = Math.abs(dEle) / seg; if (g > maxGrade) maxGrade = g; }
+      }
+      statsEl.innerHTML = `
+        <span><strong>${(dist/1000).toFixed(1)} km</strong> total</span>
+        <span>↑ <strong>${Math.round(ascent)} m</strong> ascent</span>
+        <span>↓ <strong>${Math.round(descent)} m</strong> descent</span>
+        <span>max <strong>${maxEle} m</strong></span>
+        <span>steepest <strong>${(maxGrade * 100).toFixed(0)}%</strong></span>
+      `;
+    }
     const totalKm = dist / 1000;
-    stats.innerHTML = `
-      <span><strong>${totalKm.toFixed(1)} km</strong> total</span>
-      <span>↑ <strong>${Math.round(ascent)} m</strong> ascent</span>
-      <span>↓ <strong>${Math.round(descent)} m</strong> descent</span>
-      <span>max <strong>${maxEle} m</strong></span>
-      <span>steepest <strong>${(maxGrade * 100).toFixed(0)}%</strong></span>
-    `;
     const W = 800, H = 220, padL = 38, padR = 8, padT = 12, padB = 24;
     const x0 = padL, x1 = W - padR, y0 = H - padB, y1 = padT;
     const xScale = m => x0 + (m / dist) * (x1 - x0);
@@ -303,7 +307,8 @@
   window.addEventListener("focus", () => {
     document.querySelectorAll(".webcam-img").forEach(img => {
       const idx = +img.dataset.idx;
-      const base = WEBCAMS[idx]?.url;
+      const cam = WEBCAMS[idx];
+      const base = cam && cam.url;
       if (base) img.src = base + (base.includes("?") ? "&" : "?") + "t=" + Date.now();
     });
   });

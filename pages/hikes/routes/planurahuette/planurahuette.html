@@ -33,7 +33,7 @@
   <h2>Quick Facts</h2>
   <table>
     <tr><th>Summit elevation</th><td><strong>2947 m</strong></td></tr>
-    <tr><th>Difficulty</th><td><span class="pill t3+">SAC T3+</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t3">SAC T3+</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
     <tr><th>Trailhead</th><td>Tierfehd</td></tr>
     <tr><th>Distance</th><td>15.0 km (out-and-back)</td></tr>
     <tr><th>Total ascent</th><td>~2164 m</td></tr>
@@ -139,8 +139,8 @@
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -170,7 +170,7 @@
   <section>
     <h2>Getting There</h2>
     <h3>By car</h3>
-    TODO: Driving directions.
+    <p>Drive to <strong>Linthal / Tierfehd</strong> via the A3 motorway (exit Niederurnen) through the Linth valley. Parking at Tierfehd (end of road, ~806 m). The Linth valley road ends here.</p>
     <h3>By public transport</h3>
     <p><strong>Zug</strong> to <strong>Linthal</strong>.</p>
 <p>You can get from Linthal to Tierfehd with Alpentaxi Vollenweider 079 /770 34 86  alpentaxi@taxivollenweider.ch http://www.alpentaxi.ch</p>
@@ -180,7 +180,13 @@
     <h2>Day 1</h2>
     <table>
       <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>HH:MM</td><td>TODO: step description</td></tr>
+      <tr><td>05:30</td><td>Depart Tierfehd (806 m); follow valley trail south</td></tr>
+      <tr><td>07:00</td><td>Hinter Sand (~1300 m) — valley narrows, steeper terrain</td></tr>
+      <tr><td>08:30</td><td>Ober Sand (~1800 m) — alpine zone, views open up</td></tr>
+      <tr><td>10:00</td><td>Above 2400 m — rocky terrain, possible snow patches</td></tr>
+      <tr><td>11:00</td><td>Arrive Planurahütte SAC (2947 m); check in, lunch, rest</td></tr>
+      <tr><td>14:00</td><td>Explore area or begin descent (if day trip)</td></tr>
+      <tr><td>17:00</td><td>Return to Tierfehd (if descending same day)</td></tr>
     </table>
   </section>
 </div>
@@ -200,9 +206,9 @@
   <h3>Lapse-rate temperature estimate</h3>
   <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
   <ul>
-    <li><strong>Valley reference:</strong> TODO: nearest valley station, e.g. Interlaken (570 m).</li>
+    <li><strong>Valley reference:</strong> Linthal, ~650 m.</li>
     <li><strong>Summit:</strong> 2947 m → ~2347 m above the reference → subtract ~<strong>14.1 °C</strong>.</li>
-    <li>TODO: e.g. <strong>22 C valley -> ~X C summit</strong></li>
+    <li>Example: Linthal forecast 15–25 °C → hut ≈ <strong>+1 °C to +11 °C</strong>. At 2947 m expect glacier wind and rapid temperature drops.</li>
     <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
   </ul>
   <h3>Sources to check</h3>
@@ -211,7 +217,7 @@
     <li><a href="https://www.meteoblue.com/">Meteoblue</a> -- hourly wind/precip</li>
   </ul>
   <h3>Snow / season</h3>
-  <p>TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.</p>
+  <p><strong>Late June–September</strong> when the hut is staffed and the trail is snow-free. The upper section above Ober Sand holds snow into July. Check hut website for current conditions.</p>
 </section>
 
 <section>
@@ -227,7 +233,13 @@
 
 <section>
   <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats"></div>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>15.0 km</strong> total</span>
+    <span>&uarr; <strong>2164 m</strong> ascent</span>
+    <span>&darr; <strong>30 m</strong> descent</span>
+    <span>max <strong>2942 m</strong></span>
+    <span>steepest <strong>46%</strong></span>
+  </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
@@ -237,20 +249,43 @@
   <h3>Key takeaways</h3>
   <div class="trip-takeaways">
     <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
+      <li>The long approach from Tierfehd (2100+ m gain) is physically very demanding and requires good fitness; many hikers use bikes or the alpine taxi to Hinter Sand to shorten the lower valley section.</li>
+      <li>The upper route above Ober Sand enters exposed rocky terrain with fixed chains around 2800 m; snow patches persist well into July.</li>
+      <li>The Planurahütte (renovated 2012, highest SAC hut in eastern Switzerland) offers a dramatic glacier setting and serves as the base for Tödi, Clariden, and glacier traverses.</li>
     </ul>
   </div>
   <h3>Recent reports</h3>
   <div class="trip-reports">
     <article class="trip-report">
       <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t3+">T3+</span>
+        <a href="https://www.hikr.org/tour/post103982.html" target="_blank" rel="noopener">Von Tierfehd zur Planurahütte 2947müM und zurück</a>
+        · <time>January 2016</time> · <span class="pill t4">T4</span>
       </header>
       <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
+        <li>Full out-and-back from Tierfehd; describes the approach as conditioning-demanding but beautiful and worthwhile.</li>
+        <li>Encountered a heavy thunderstorm at the hut during dinner, followed by an atmospheric sunset — underscores rapid weather changes at this altitude.</li>
+        <li>35 photos documenting the entire route from valley floor to glacier world.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post16208.html" target="_blank" rel="noopener">bike and hike planurahütte</a>
+        · <time>August 2009</time> · <span class="pill t3">T3+</span>
+      </header>
+      <ul>
+        <li>Used a bike from Schwändi via Tierfehd to Hinter Sand — steep but rideable — then hiked to the hut.</li>
+        <li>Describes the Planurahütte at 2947 m as beautifully situated in the glacier landscape.</li>
+      </ul>
+    </article>
+    <article class="trip-report">
+      <header>
+        <a href="https://www.hikr.org/tour/post10234.html" target="_blank" rel="noopener">Hüfihütte - Planurahütte - Claridenhütte</a>
+        · <time>2008</time> · <span class="pill t4">T4</span>
+      </header>
+      <ul>
+        <li>Multi-day hut-to-hut traverse connecting Hüfihütte, Planurahütte, and Claridenhütte.</li>
+        <li>Notes a large wind shelter (Windkolk) northeast of the hut before the final steep section.</li>
+        <li>Roped glacier crossing of the Claridenfirn required; warns of hidden crevasses as snow softens.</li>
       </ul>
     </article>
   </div>
@@ -305,11 +340,11 @@ window.HIKE = {
   summit: { lat: 46.820086747884865, lon: 8.88028470577188, elev: 2947, name: "Planurah\u00fctte SAC" },
   trailhead: { lat: 46.87905283242049, lon: 8.979755427052122, name: "Tierfehd" },
   transit_dest: "Tierfehd, Switzerland",
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
+  hikr_index_url: "https://www.hikr.org/dir/Planurah%C3%BCtte_SAC_6500/ped/",
   gpx_filename: "planurahuette.gpx",
   reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
+  webcams: [{"fallback": false, "label": "Planurah\u00fctte SAC (2947 m) \u2014 live webcam from the hut", "url": "https://planurahuette.ch/webcam/planurahuette.jpg"}, {"fallback": true, "label": "Meteoblue Linthal webcams", "url": "https://www.meteoblue.com/en/weather/webcams/linthal_switzerland"}],
   waypoints: [
     [46.87892185948197, 8.980208229292083, "Tierfehd (806 m)", "start"],
     [46.838476457103205, 8.954332202162083, "Hintersand (1305 m)", "departure_arrival"],
@@ -317,6 +352,7 @@ window.HIKE = {
     [46.82001420113037, 8.880432739456106, "Planurah\u00fctte SAC (2947 m)", "hut"]
   ]
 };
+window.TRACK_STATS = {"ascent_m": 2164.2000000000003, "descent_m": 29.700000000000045, "distance_km": 14.966103974169433, "max_ele": 2942.7, "min_ele": 806.0, "n_points": 2546.0, "steepest_grade_pct": 45.96943049182512};
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>

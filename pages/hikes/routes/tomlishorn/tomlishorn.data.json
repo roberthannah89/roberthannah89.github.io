@@ -1,0 +1,236 @@
+{
+  "slug": "tomlishorn",
+  "page": {
+    "title": "Tomlishorn (2128 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Tomlishorn",
+    "elev": 2128,
+    "lat": 46.9736,
+    "lon": 8.2408
+  },
+  "index_card": {
+    "region": "Pilatus",
+    "canton": "Lucerne",
+    "distance": "9.8 km",
+    "gain": "1192 m",
+    "time": "~4h",
+    "route_type": "out-and-back",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Eigenthal, Eigenthalerhof",
+    "elev": 1017,
+    "lat": 47.0099,
+    "lon": 8.2101,
+    "transit_dest": "Eigenthal, Eigenthalerhof, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1555420319_253957608master_753c142953.jpg",
+    "subtitle_html": "Eigenthal, Eigenthalerhof -> Tomlishorn -- <span class=\"pill t4\">SAC T4</span> | ~1192 m gain | ~9.8 km | ~4h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Pilatus is one of the best known and most interesting mountains of the foothills of the Alps. A railway and an aerial cableway go up to the summit on Lake Lucerne, the former from the north (Kriens) and the latter from the south (Alpnachstad). However, despite the infrastructure for a large number of tourists Pilatus has a whole range of lone, secluded, surprising, multifaceted and sometimes challenging routes in store for you. The route presented here – the «Alte Tomliweg» – is a spectacular, but not too difficult route to the highest point of the massif, called Tomlishorn. From there you hike to the summit station of the railway and the cableway, which allows for an exciting ascent and a knee-friendly descent. Around Tomlishorn very often alpine ibex can be observed at close range.</p>\n<p>It is the highest point of the Pilatus range, accessible in a short, easy hike from Pilatus Kulm.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2128 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Eigenthal, Eigenthalerhof"
+    ],
+    [
+      "Distance",
+      "9.8 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1192 m"
+    ],
+    [
+      "Elevation range",
+      "1017-2117 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1555420319_253957608master_753c142953.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1555420319_253957608master_753c142953.jpg",
+      "alt": "Tomlishorn — peak photo",
+      "caption_html": "<p>Tomlishorn — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1658912198_1111779650Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1658912198_1111779650L.jpg",
+      "alt": "In the lower part of the route, on the \"Heitertannliweg\".",
+      "caption_html": "<p>In the lower part of the route, on the \"Heitertannliweg\".</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1658912198_1547087315Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1658912198_1547087315L.jpg",
+      "alt": "In the lower part of the route, on the \"Heitertannliweg\".",
+      "caption_html": "<p>In the lower part of the route, on the \"Heitertannliweg\".</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1658397495_453093587Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1658397495_453093587L.jpg",
+      "alt": "View towards Klimsenhorn and Klimsenchapel.",
+      "caption_html": "<p>View towards Klimsenhorn and Klimsenchapel.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1658397495_456187378Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1658397495_456187378L.jpg",
+      "alt": "The spectacular ledges of the alte Tomliweg.",
+      "caption_html": "<p>The spectacular ledges of the alte Tomliweg.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1658397496_1425506033Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1658397496_1425506033L.jpg",
+      "alt": "Fixed ropes in the exposed sections of the route.",
+      "caption_html": "<p>Fixed ropes in the exposed sections of the route.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1513341274_1941308109Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1513341274_1941308109L.jpg",
+      "alt": "In the upper part of the Alter Tomliweg. In early summer the fixed ropes are buried under old snow, which makes the tour more precarious.",
+      "caption_html": "<p>In the upper part of the Alter Tomliweg. In early summer the fixed ropes are buried under old snow, which makes the tour more precarious.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1658397494_1461788689Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1658397494_1461788689L.jpg",
+      "alt": "View towards Widderfeld.",
+      "caption_html": "<p>View towards Widderfeld.</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1601641996_1561270344Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1601641996_1561270344L.jpg",
+      "alt": "Tomlishorn, the highest peak of the Pilatus range.",
+      "caption_html": "<p>Tomlishorn, the highest peak of the Pilatus range.</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.00984359130062,
+      "lon": 8.209958832726379,
+      "label": "Eigenthal, Eigenthalerhof (1017 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.9739278935732,
+      "lon": 8.241230915047305,
+      "label": "Tomlishorn (2128 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes_subtitle": "",
+  "routes": [
+    {
+      "title_html": "<strong>Alter Tomliweg</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Eigenthal – Chastelen",
+        "Chastelen – Tomlishorn",
+        "Tomlishorn – Pilatus"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Eigenthal, Eigenthalerhof</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ],
+      "footer_html": ""
+    }
+  ],
+  "weather": {
+    "lapse_rate": {
+      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
+      "summit_above_ref_m": 1528,
+      "temp_drop_c": 9.2,
+      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
+    },
+    "sources_html": [
+      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
+      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
+    ],
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [
+    {
+      "title": "Essential",
+      "items_html": [
+        "Hiking poles",
+        "Sun protection (cream + glasses + hat)",
+        "2 L water",
+        "Emergency snacks"
+      ]
+    }
+  ],
+  "safety_html": [
+    "<strong>SAC grade T4</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/\">SAC Route Portal — Alter Tomliweg</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/\">SAC Peak Page — Tomlishorn</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/alter-tomliweg-807/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Marco Volken, Yves-Laurent Grize / SAC Route Portal"
+}

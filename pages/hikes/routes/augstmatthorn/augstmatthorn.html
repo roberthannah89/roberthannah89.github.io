@@ -90,8 +90,8 @@
     <button data-layer="hike" class="active">Topo + Hiking trails</button>
     <button data-layer="aerial">Aerial photo</button>
     <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download>↓ GPX</a>
+    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -207,7 +207,13 @@
 
 <section>
   <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats"></div>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>7.8 km</strong> total</span>
+    <span>&uarr; <strong>1093 m</strong> ascent</span>
+    <span>&darr; <strong>90 m</strong> descent</span>
+    <span>max <strong>2131 m</strong></span>
+    <span>steepest <strong>65%</strong></span>
+  </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from SwissTopo height API).</p>
 </section>
@@ -336,6 +342,7 @@ window.HIKE = {
     [46.7423, 7.9286, "Augstmatthorn (2137 m)", "summit"]
   ]
 };
+window.TRACK_STATS = {"ascent_m": 1093.1, "descent_m": 90.10000000000014, "distance_km": 7.811410106018688, "max_ele": 2131.7, "min_ele": 1041.6, "n_points": 400.0, "steepest_grade_pct": 65.47975381203251};
 </script>
 <script src="../_assets/hike_page.js"></script>
 </body>
