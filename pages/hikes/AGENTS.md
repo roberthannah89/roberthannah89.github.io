@@ -12,6 +12,7 @@
 - **Never hardcode shared constants in individual scripts.** Physical constants (earth radius, lapse rate), algorithm parameters (Naismith's rule, elevation smoothing), default text (disclaimer, weather sources), and lookup tables (source URLs, difficulty blurbs) all live in `scripts/config.py`. Import from there — do not duplicate values across files.
 - **Pages are opened via `file://` protocol** — `fetch()` and `XMLHttpRequest` will silently fail. Data files that JS needs at runtime must be loaded via `<script>` tags setting globals (e.g. `swiss_border.js` sets `window.SWISS_BORDER`), never fetched. Keep data in separate `.js` files — don't inline large blobs into code files.
 - **Maps share construction via `map_shared.js`.** All map features (layers, fullscreen, Swiss border) belong in `addLayerControl` so every map gets them automatically. Never add map features in individual page scripts — put them in the shared code so improvements propagate to all maps. Every template with a map must include `swiss_border.js` before `map_shared.js`.
+- **No filler content.** Don't add generic, AI-sounding information that clutters pages and distracts from what hikers actually care about. Every sentence on a hike page should earn its place — if it doesn't add specific, useful detail, cut it. Be short and to the point.
 
 ## Generated pages
 
@@ -24,9 +25,9 @@
 | `index.html` | `index.j2.html` | Gallery landing page with filters and map |
 | `guides/index.html` | `guide_index.j2.html` | Guide landing page with card grid (auto-discovered) |
 | `guides/regions.html` | `regions.j2.html` | Hikes grouped by region/canton |
-| `guides/difficulty.html` | `difficulty.j2.html` | SAC grade guide with auto-populated hike examples |
+| `guides/difficulty.html` | `difficulty.j2.html` | Trail system, grades, markings, organisations, and national routes |
 
-The remaining guide pages (e.g. `guides/planning.html`, `guides/weather.html`, `guides/gear.html`, `guides/trails.html`) are static HTML — edit them directly. To add a new guide page to the index, include these `<meta>` tags in its `<head>`:
+The remaining guide pages (e.g. `guides/planning.html`, `guides/weather.html`, `guides/gear.html`) are static HTML — edit them directly. To add a new guide page to the index, include these `<meta>` tags in its `<head>`:
 
 ```html
 <meta name="guide-label" content="Short nav label">

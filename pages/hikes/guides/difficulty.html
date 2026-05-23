@@ -6,10 +6,10 @@
 <link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
-<title>Trail grades &amp; markings — Swiss hiking</title>
-<meta name="guide-label" content="Trail grades">
-<meta name="guide-card-title" content="Trail grades &amp; markings">
-<meta name="guide-card-desc" content="The three trail categories, their colour markings, and what each SAC grade (T1–T6) actually means in practice.">
+<title>The Swiss trail system — grades, markings &amp; routes</title>
+<meta name="guide-label" content="Trails &amp; grades">
+<meta name="guide-card-title" content="The Swiss trail system">
+<meta name="guide-card-desc" content="How 65,000 km of trails are organised — constitutional protection, the organisations behind them, trail markings, the T1–T6 grading scale, and the 7 national routes.">
 <meta name="guide-order" content="20">
 <link rel="stylesheet" href="../../notes/_assets/notes.css">
 <style>
@@ -18,25 +18,98 @@
 .guide-nav a:hover{color:#333;}
 .guide-nav a.active{color:#333;font-weight:600;}
 .guide-nav .dot{color:#ccc;user-select:none;}
+
 .blaze{display:inline-block;width:2rem;height:1.2rem;border-radius:3px;vertical-align:middle;margin-right:.4rem;border:1px solid #ddd;}
 .blaze.yellow{background:#f0c816;}
 .blaze.wrw{background:linear-gradient(to bottom,#fff 0%,#fff 30%,#d42e12 30%,#d42e12 70%,#fff 70%,#fff 100%);}
 .blaze.wbw{background:linear-gradient(to bottom,#fff 0%,#fff 30%,#2463a8 30%,#2463a8 70%,#fff 70%,#fff 100%);}
 .blaze-cell{white-space:nowrap;}
+
+/* Organisation icons */
+.org-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.2rem; height: 2.2rem; border-radius: 50%; font-weight: 700;
+  font-size: .7rem; color: #fff; flex-shrink: 0; letter-spacing: .02em;
+  vertical-align: middle; margin-right: .5rem;
+}
+.org-icon.sr  { background: #d42e12; }
+.org-icon.kt  { background: #6b7280; }
+.org-icon.sm  { background: #4a8c3f; }
+.org-icon.sac { background: #1a5276; }
+.org-icon.st  { background: #b8860b; }
+.org-row td:first-child { white-space: nowrap; }
+.org-row td { vertical-align: top; padding-top: .65rem; padding-bottom: .65rem; }
+
+/* Route number shields */
+.route-shield {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.8rem; height: 1.8rem; border-radius: 50%;
+  background: #4a8c3f; color: #fff; font-weight: 700; font-size: .85rem;
+  vertical-align: middle; flex-shrink: 0;
+}
+.route-shield.regional { background: #4a8c3f; font-size: .7rem; }
+.route-shield.local { background: #4a8c3f; font-size: .6rem; }
+
+/* National routes table */
+.natl-table td:first-child { text-align: center; width: 3rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <p class="crumbs">
-    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Trail Grades
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Trail System
   </p>
 
-  <h1>Trail grades &amp; markings</h1>
+  <h1>The Swiss trail system</h1>
   <p class="lede">
-    Swiss law defines three trail categories with standardised colour markings. The SAC hiking scale
-    (T1–T6) maps onto these categories. Here's how the system works and what each grade actually
-    feels like.
+    Switzerland's 65,000&nbsp;km hiking network is constitutionally protected, federally funded, and
+    systematically organised. This page covers who maintains the trails, how they are classified and
+    marked, what the T1–T6 grading scale means in practice, and what the 7 national long-distance
+    routes are.
   </p>
+
+  <h2>Constitutional protection</h2>
+  <p>
+    Switzerland is one of the few countries where hiking trails are protected by the national
+    constitution. In February 1979, voters approved a popular initiative with <strong>77.6% support</strong>.
+    The provision now appears as <strong>Article 88</strong> of the Federal Constitution, implemented
+    through the <strong>Federal Act on Footpaths and Hiking Trails</strong> (1985). If a trail is
+    removed for development, the canton must provide an adequate replacement.
+  </p>
+
+  <hr>
+
+  <h2>Who maintains the trails</h2>
+
+  <table>
+    <thead>
+      <tr><th>Organisation</th><th>Role</th></tr>
+    </thead>
+    <tbody>
+      <tr class="org-row">
+        <td><span class="org-icon sr">SR</span> <strong><a href="https://www.suisse-rando.ch" target="_blank" rel="noopener">Suisse Rando</a></strong></td>
+        <td>National hiking federation (est. 1934). Coordinates trail standards and signposting across 26 cantonal organisations. ~2,000 volunteers maintain the network.</td>
+      </tr>
+      <tr class="org-row">
+        <td><span class="org-icon kt">KT</span> <strong>Cantonal organisations</strong></td>
+        <td>Each canton plans, finances, and signposts its trails. Most delegate construction and upkeep to municipalities.</td>
+      </tr>
+      <tr class="org-row">
+        <td><span class="org-icon sm">SM</span> <strong><a href="https://www.schweizmobil.ch/en/hiking-in-switzerland.html" target="_blank" rel="noopener">SchweizMobil</a></strong></td>
+        <td>Federal foundation operating the <a href="https://map.wanderland.ch" target="_blank" rel="noopener">Wanderland</a> platform — the official trail map, route database, and GPS tracks.</td>
+      </tr>
+      <tr class="org-row">
+        <td><span class="org-icon sac">SAC</span> <strong><a href="https://www.sac-cas.ch/en/" target="_blank" rel="noopener">Swiss Alpine Club</a></strong></td>
+        <td>6,000+ curated alpine routes, 153 mountain huts, and the T1–T6 difficulty scale. See <a href="planning.html">Planning</a>.</td>
+      </tr>
+      <tr class="org-row">
+        <td><span class="org-icon st">ST</span> <strong><a href="https://www.swisstopo.admin.ch" target="_blank" rel="noopener">swisstopo</a></strong></td>
+        <td>Federal Office of Topography — official 1:25,000 maps and the SwissTopo app.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
 
   <h2>Trail classifications</h2>
   <p>
@@ -171,6 +244,104 @@
     See the official
     <a href="https://www.sac-cas.ch/en/training-and-safety/alpinism/sac-hiking-scale/" target="_blank" rel="noopener">SAC hiking scale description</a>
     for the authoritative definitions and further details.
+  </p>
+
+  <hr>
+
+  <h2>Route hierarchy</h2>
+  <p>
+    SchweizMobil organises signposted routes into three tiers, identified by their route number
+    on green stickers at trailheads and junctions.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Sign</th><th>Tier</th><th>Scope</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="route-shield">1</span></td>
+        <td><strong>National</strong> (single digit)</td>
+        <td>Long-distance trails crossing the country. 7 routes, typically 15–39 stages.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield regional">55</span></td>
+        <td><strong>Regional</strong> (two digits)</td>
+        <td>Multi-stage routes crossing cantonal boundaries. Often 3–10 stages.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield local">305</span></td>
+        <td><strong>Local</strong> (three digits)</td>
+        <td>Day hikes within a single region. The bulk of the network.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The 7 national routes</h3>
+
+  <table class="natl-table">
+    <thead>
+      <tr><th></th><th>Route</th><th>From &rarr; To</th><th>Stages</th><th>Character</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="route-shield">1</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-1" target="_blank" rel="noopener">Via Alpina</a></strong></td>
+        <td>Vaduz &rarr; Montreux</td>
+        <td>20</td>
+        <td>The classic alpine pass route. 14 passes, hut-to-hut.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield">2</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-2" target="_blank" rel="noopener">Trans Swiss Trail</a></strong></td>
+        <td>Porrentruy &rarr; Mendrisio</td>
+        <td>32</td>
+        <td>North-to-south traverse (488 km). Every landscape and language.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield">3</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-3" target="_blank" rel="noopener">Alpine Panorama Trail</a></strong></td>
+        <td>Bodensee &rarr; Lac L&eacute;man</td>
+        <td>~28</td>
+        <td>East-to-west along the Alpine foothills. Constant panorama.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield">4</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-4" target="_blank" rel="noopener">ViaJacobi</a></strong></td>
+        <td>Bodensee &rarr; Gen&egrave;ve</td>
+        <td>~19</td>
+        <td>Way of St. James. Churches, monasteries, cultural heritage.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield">5</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-5" target="_blank" rel="noopener">Jura Crest Trail</a></strong></td>
+        <td>Z&uuml;rich &rarr; Gen&egrave;ve</td>
+        <td>~15</td>
+        <td>The gentle long-distance hike. Rolling Jura ridgelines.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield">6</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-6" target="_blank" rel="noopener">Alpine Passes Trail</a></strong></td>
+        <td>Chur &rarr; Lac L&eacute;man</td>
+        <td>39</td>
+        <td>Most demanding national route. 30 passes, full alpine commitment.</td>
+      </tr>
+      <tr>
+        <td><span class="route-shield">7</span></td>
+        <td><strong><a href="https://schweizmobil.ch/en/hiking-in-switzerland/route-7" target="_blank" rel="noopener">ViaGottardo</a></strong></td>
+        <td>Basel &rarr; Chiasso</td>
+        <td>~20</td>
+        <td>Historic approaches to the Gotthard — the crossing that shaped Switzerland.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    All national routes have downloadable GPX tracks on
+    <a href="https://schweizmobil.ch/en/hiking-in-switzerland/national-routes" target="_blank" rel="noopener">SchweizMobil</a>.
+    Individual stages can be hiked as standalone day hikes. For curated day-hike selections, see the
+    <a href="https://www.schweizmobil.ch/en/hiking-in-switzerland/routes/selected-hikes/top32-walks.html" target="_blank" rel="noopener">SchweizMobil Top 32 Walks</a>
+    or this site's <a href="classics.html">50 Golden Classics</a>.
   </p>
 </div>
 
