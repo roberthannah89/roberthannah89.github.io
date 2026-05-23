@@ -130,13 +130,34 @@
     {
       "title": "Day 1",
       "rows": [
-        ["06:30", "Depart Schwägalp cable-car station (1346 m)"],
-        ["07:30", "Through alpine meadows; approach Nasenlöcher section"],
-        ["08:30", "Nasenlöcher — fixed chains, exposed T4+ scrambling"],
-        ["09:30", "Arrive Hintere Öhrligrueb (~2120 m); views open up"],
-        ["10:30", "Summit Säntis (2502 m); rest and panorama"],
-        ["11:00", "Begin descent via same route"],
-        ["13:00", "Return to Schwägalp"]
+        [
+          "06:30",
+          "Depart Schwägalp cable-car station (1346 m)"
+        ],
+        [
+          "07:30",
+          "Through alpine meadows; approach Nasenlöcher section"
+        ],
+        [
+          "08:30",
+          "Nasenlöcher — fixed chains, exposed T4+ scrambling"
+        ],
+        [
+          "09:30",
+          "Arrive Hintere Öhrligrueb (~2120 m); views open up"
+        ],
+        [
+          "10:30",
+          "Summit Säntis (2502 m); rest and panorama"
+        ],
+        [
+          "11:00",
+          "Begin descent via same route"
+        ],
+        [
+          "13:00",
+          "Return to Schwägalp"
+        ]
       ],
       "footer_html": ""
     }
@@ -210,17 +231,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4+</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

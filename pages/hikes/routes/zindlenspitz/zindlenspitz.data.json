@@ -286,17 +286,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>Exposure:</strong> The ridge from P. 1989 to Brünnelistock has exposed passages without belaying possibilities (T5−). Not suitable for those uncomfortable with exposure.",
     "<strong>Wet conditions:</strong> SAC explicitly warns against undertaking this tour in wet conditions — exposed rock and ledges become very dangerous.",

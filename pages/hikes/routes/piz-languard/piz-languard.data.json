@@ -13,8 +13,8 @@
     "lon": 9.9565
   },
   "index_card": {
-    "region": "TODO",
-    "canton": "TODO",
+    "region": "Engadin",
+    "canton": "Graubünden",
     "distance": "8.3 km",
     "gain": "549 m",
     "time": "~2h30",
@@ -182,17 +182,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4-</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

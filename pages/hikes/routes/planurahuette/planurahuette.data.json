@@ -188,13 +188,34 @@
     {
       "title": "Day 1",
       "rows": [
-        ["05:30", "Depart Tierfehd (806 m); follow valley trail south"],
-        ["07:00", "Hinter Sand (~1300 m) — valley narrows, steeper terrain"],
-        ["08:30", "Ober Sand (~1800 m) — alpine zone, views open up"],
-        ["10:00", "Above 2400 m — rocky terrain, possible snow patches"],
-        ["11:00", "Arrive Planurahütte SAC (2947 m); check in, lunch, rest"],
-        ["14:00", "Explore area or begin descent (if day trip)"],
-        ["17:00", "Return to Tierfehd (if descending same day)"]
+        [
+          "05:30",
+          "Depart Tierfehd (806 m); follow valley trail south"
+        ],
+        [
+          "07:00",
+          "Hinter Sand (~1300 m) — valley narrows, steeper terrain"
+        ],
+        [
+          "08:30",
+          "Ober Sand (~1800 m) — alpine zone, views open up"
+        ],
+        [
+          "10:00",
+          "Above 2400 m — rocky terrain, possible snow patches"
+        ],
+        [
+          "11:00",
+          "Arrive Planurahütte SAC (2947 m); check in, lunch, rest"
+        ],
+        [
+          "14:00",
+          "Explore area or begin descent (if day trip)"
+        ],
+        [
+          "17:00",
+          "Return to Tierfehd (if descending same day)"
+        ]
       ],
       "footer_html": ""
     }
@@ -267,17 +288,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T3+</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

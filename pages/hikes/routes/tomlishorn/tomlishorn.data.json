@@ -201,17 +201,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

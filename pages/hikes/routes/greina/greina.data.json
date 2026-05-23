@@ -13,8 +13,8 @@
     "lon": 8.951
   },
   "index_card": {
-    "region": "TODO",
-    "canton": "TODO",
+    "region": "Adula Alps",
+    "canton": "Graubünden / Ticino",
     "distance": "16.4 km",
     "gain": "857 m",
     "time": "~4h30",
@@ -232,17 +232,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4+</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

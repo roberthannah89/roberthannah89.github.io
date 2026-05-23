@@ -13,8 +13,8 @@
     "lon": 7.7342
   },
   "index_card": {
-    "region": "TODO",
-    "canton": "TODO",
+    "region": "Pennine Alps",
+    "canton": "Valais",
     "distance": "17.2 km",
     "gain": "1008 m",
     "time": "~5h",
@@ -219,17 +219,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T5</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

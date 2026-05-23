@@ -126,13 +126,34 @@
     {
       "title": "Day 1",
       "rows": [
-        ["08:00", "Depart Seebodenalp Bergstation (1020 m)"],
-        ["08:45", "Ronenboden — enter exposed Arschbaggen section"],
-        ["09:30", "Tristenboden — crux of the T5- scramble"],
-        ["10:30", "Summit Rigi Kulm (1797 m); panorama and rest"],
-        ["11:00", "Descend via Buechzingelflue / Leiterliweg"],
-        ["12:00", "Grasselen — Ober Stockbann"],
-        ["12:30", "Return to Seebodenalp"]
+        [
+          "08:00",
+          "Depart Seebodenalp Bergstation (1020 m)"
+        ],
+        [
+          "08:45",
+          "Ronenboden — enter exposed Arschbaggen section"
+        ],
+        [
+          "09:30",
+          "Tristenboden — crux of the T5- scramble"
+        ],
+        [
+          "10:30",
+          "Summit Rigi Kulm (1797 m); panorama and rest"
+        ],
+        [
+          "11:00",
+          "Descend via Buechzingelflue / Leiterliweg"
+        ],
+        [
+          "12:00",
+          "Grasselen — Ober Stockbann"
+        ],
+        [
+          "12:30",
+          "Return to Seebodenalp"
+        ]
       ],
       "footer_html": ""
     }
@@ -211,17 +232,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T5-</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

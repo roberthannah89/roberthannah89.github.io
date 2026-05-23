@@ -256,17 +256,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>T4 terrain:</strong> Exposed sections require sure-footedness and a head for heights. Hands may be needed in places.",
     "<strong>Wet conditions:</strong> Steep grass and rock become dangerous when wet — postpone if rain is forecast.",

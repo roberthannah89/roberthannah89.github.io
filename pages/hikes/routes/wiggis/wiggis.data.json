@@ -141,14 +141,38 @@
     {
       "title": "Day 1",
       "rows": [
-        ["06:00", "Depart Obersee (991 m); ascend through forest toward Geisschappel"],
-        ["07:30", "Geisschappel — alpine meadows, steeper terrain begins"],
-        ["09:00", "Rautispitz summit (2283 m); short rest and panorama"],
-        ["09:30", "Traverse exposed ridge to P. 2168 — T4, requires sure-footedness"],
-        ["10:15", "Wiggis summit (2282 m); lunch break"],
-        ["10:45", "Return via P. 2168 to Rautialp"],
-        ["12:00", "Rautialp — descend through forest"],
-        ["13:00", "Return to Obersee"]
+        [
+          "06:00",
+          "Depart Obersee (991 m); ascend through forest toward Geisschappel"
+        ],
+        [
+          "07:30",
+          "Geisschappel — alpine meadows, steeper terrain begins"
+        ],
+        [
+          "09:00",
+          "Rautispitz summit (2283 m); short rest and panorama"
+        ],
+        [
+          "09:30",
+          "Traverse exposed ridge to P. 2168 — T4, requires sure-footedness"
+        ],
+        [
+          "10:15",
+          "Wiggis summit (2282 m); lunch break"
+        ],
+        [
+          "10:45",
+          "Return via P. 2168 to Rautialp"
+        ],
+        [
+          "12:00",
+          "Rautialp — descend through forest"
+        ],
+        [
+          "13:00",
+          "Return to Obersee"
+        ]
       ],
       "footer_html": ""
     }
@@ -221,17 +245,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

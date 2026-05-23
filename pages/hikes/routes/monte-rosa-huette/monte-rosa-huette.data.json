@@ -176,12 +176,30 @@
     {
       "title": "Day 1",
       "rows": [
-        ["09:00", "Arrive Rotenboden (2815 m) via Gornergrat Bahn"],
-        ["09:15", "Descend to glacier edge; follow marked route across Gornergletscher"],
-        ["10:00", "Cross glacier moraine; begin ascent to hut"],
-        ["10:45", "Arrive Monte-Rosa-Hütte SAC (2883 m); check in and explore"],
-        ["14:00", "Depart hut for return via same route"],
-        ["15:30", "Return to Rotenboden; take train down to Zermatt"]
+        [
+          "09:00",
+          "Arrive Rotenboden (2815 m) via Gornergrat Bahn"
+        ],
+        [
+          "09:15",
+          "Descend to glacier edge; follow marked route across Gornergletscher"
+        ],
+        [
+          "10:00",
+          "Cross glacier moraine; begin ascent to hut"
+        ],
+        [
+          "10:45",
+          "Arrive Monte-Rosa-Hütte SAC (2883 m); check in and explore"
+        ],
+        [
+          "14:00",
+          "Depart hut for return via same route"
+        ],
+        [
+          "15:30",
+          "Return to Rotenboden; take train down to Zermatt"
+        ]
       ],
       "footer_html": ""
     }
@@ -252,17 +270,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

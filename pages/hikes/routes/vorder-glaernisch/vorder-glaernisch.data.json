@@ -130,13 +130,34 @@
     {
       "title": "Day 1",
       "rows": [
-        ["06:00", "Depart Schwändi (701 m); ascend through forest"],
-        ["07:30", "Above treeline (~1400 m); alpine terrain begins"],
-        ["08:30", "Approach steep T5+ section; scrambling with exposure"],
-        ["09:30", "Upper ridge — exposed terrain, require sure-footedness"],
-        ["10:30", "Summit Vorder Glärnisch (2328 m); rest and panorama"],
-        ["11:00", "Begin descent toward Klöntalersee"],
-        ["13:00", "Arrive Klöntalersee; bus or second car to return"]
+        [
+          "06:00",
+          "Depart Schwändi (701 m); ascend through forest"
+        ],
+        [
+          "07:30",
+          "Above treeline (~1400 m); alpine terrain begins"
+        ],
+        [
+          "08:30",
+          "Approach steep T5+ section; scrambling with exposure"
+        ],
+        [
+          "09:30",
+          "Upper ridge — exposed terrain, require sure-footedness"
+        ],
+        [
+          "10:30",
+          "Summit Vorder Glärnisch (2328 m); rest and panorama"
+        ],
+        [
+          "11:00",
+          "Begin descent toward Klöntalersee"
+        ],
+        [
+          "13:00",
+          "Arrive Klöntalersee; bus or second car to return"
+        ]
       ],
       "footer_html": ""
     }
@@ -207,17 +228,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T5+</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

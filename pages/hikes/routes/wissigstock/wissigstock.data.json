@@ -165,12 +165,30 @@
     {
       "title": "Day 1",
       "rows": [
-        ["06:00", "Depart Rugghubelhütte SAC (2290 m); ascend Nordgrat"],
-        ["07:00", "Rocky ridge section; scrambling on good holds"],
-        ["08:00", "Summit Wissigstock (2887 m); panorama over Uri Alps"],
-        ["08:30", "Begin descent via same route"],
-        ["09:30", "Return to Rugghubelhütte; breakfast and pack up"],
-        ["12:00", "Descend to Engelberg valley"]
+        [
+          "06:00",
+          "Depart Rugghubelhütte SAC (2290 m); ascend Nordgrat"
+        ],
+        [
+          "07:00",
+          "Rocky ridge section; scrambling on good holds"
+        ],
+        [
+          "08:00",
+          "Summit Wissigstock (2887 m); panorama over Uri Alps"
+        ],
+        [
+          "08:30",
+          "Begin descent via same route"
+        ],
+        [
+          "09:30",
+          "Return to Rugghubelhütte; breakfast and pack up"
+        ],
+        [
+          "12:00",
+          "Descend to Engelberg valley"
+        ]
       ],
       "footer_html": ""
     }
@@ -244,17 +262,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."

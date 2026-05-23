@@ -13,8 +13,8 @@
     "lon": 8.5352
   },
   "index_card": {
-    "region": "TODO",
-    "canton": "TODO",
+    "region": "Uri Alps",
+    "canton": "Uri",
     "distance": "20.3 km",
     "gain": "1967 m",
     "time": "~7h30",
@@ -238,17 +238,7 @@
       }
     ]
   },
-  "gear": [
-    {
-      "title": "Essential",
-      "items_html": [
-        "Hiking poles",
-        "Sun protection (cream + glasses + hat)",
-        "2 L water",
-        "Emergency snacks"
-      ]
-    }
-  ],
+  "gear": [],
   "safety_html": [
     "<strong>SAC grade T4</strong> — check conditions before departure.",
     "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
