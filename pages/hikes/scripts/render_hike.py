@@ -452,6 +452,41 @@ def _write_track_js(gpx_path: Path, out_path: Path) -> None:
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
 
+_TRANSPORT_KEYWORDS = (
+    "kabinenbahn", "zahnradbahn", "sesselbahn", "seilbahn", "luftseilbahn",
+    "gondola", "cable car", "cog railway", "funicular", "standseilbahn",
+    "car-free", "car free", "autofrei",
+    "alpentaxi", "rufbus",
+    "timetable", "fahrplan", "opening hours",
+    "season", "saison", "winter",
+    "parking", "parkplatz", "parkhaus",
+    "shuttle", "ferry",
+)
+
+
+def _is_useful_transport(html: str) -> bool:
+    lower = html.lower()
+    if any(kw in lower for kw in _TRANSPORT_KEYWORDS):
+        return True
+    return lower.count("<p>") > 1 or "<li>" in lower
+
+
+def _build_transport_notes(data: dict) -> None:
+    """Merge by_car_html / by_pt_html into transport_notes_html.
+
+    Drops TODO placeholders and simple 'Bus/Train to X' lines that are
+    redundant with the SBB deep-link button. Keeps cable cars, seasonal
+    restrictions, parking info, and other genuinely useful details.
+    """
+    gt = data.get("getting_there") or {}
+    parts: list[str] = []
+    for key in ("by_car_html", "by_pt_html"):
+        val = (gt.get(key) or "").strip()
+        if val and "TODO" not in val and _is_useful_transport(val):
+            parts.append(val)
+    gt["transport_notes_html"] = "\n".join(parts) if parts else ""
+
+
 def render_one(data_path: Path) -> RenderResult:
     """Render one hike. Pure function — safe for ProcessPoolExecutor."""
     stages: dict[str, float] = {}
@@ -511,6 +546,7 @@ def render_one(data_path: Path) -> RenderResult:
                 data.get("routes"),
             )
             data["specific_gear"] = filter_specific_gear(data.get("gear") or [])
+            _build_transport_notes(data)
             # Optional per-hike _config.js (e.g. Google Maps Embed API key).
             data["has_config_js"] = (data_path.parent / "_config.js").exists()
 
@@ -916,6 +952,33 @@ def render_classics(root: Path, data_files: list[Path]) -> tuple[Path, float]:
     return out_path, time.perf_counter() - t0
 
 
+def render_guide_nav_js(guides_dir: Path) -> tuple[Path, float]:
+    """Generate _nav.js that auto-injects a guide nav bar on each guide page."""
+    t0 = time.perf_counter()
+    pages = discover_guide_pages(guides_dir)
+    entries = json.dumps([{"href": p["href"], "label": p["label"]} for p in pages])
+    js = (
+        "(function(){\n"
+        f"var pages={entries};\n"
+        'var cur=location.pathname.split("/").pop()||"index.html";\n'
+        'var crumbs=document.querySelector(".crumbs");\n'
+        "if(!crumbs)return;\n"
+        'var nav=document.createElement("nav");\n'
+        'nav.className="guide-nav";\n'
+        "var parts=[];\n"
+        'parts.push(\'<a href="index.html"\'+(cur==="index.html"?\' class="active"\':"")+">Guide</a>");\n'
+        "pages.forEach(function(p){\n"
+        '  parts.push(\'<a href="\'+p.href+\'"\'+(cur===p.href?\' class="active"\':"")+">"+p.label+"</a>");\n'
+        "});\n"
+        'nav.innerHTML=parts.join(\'<span class="dot">\\u00b7</span>\');\n'
+        'crumbs.insertAdjacentElement("afterend",nav);\n'
+        "})();\n"
+    )
+    out_path = guides_dir / "_nav.js"
+    out_path.write_text(js, encoding="utf-8")
+    return out_path, time.perf_counter() - t0
+
+
 def render_guide_index(root: Path) -> tuple[Path, float]:
     """Render the guide index page; returns (out_path, elapsed_seconds)."""
     t0 = time.perf_counter()
@@ -1081,6 +1144,9 @@ def main(argv: list[str] | None = None) -> int:
 
         out_path, elapsed = render_classics(args.root, all_files)
         print(f"[classics] {out_path}  ({elapsed*1000:.1f} ms)")
+
+        out_path, elapsed = render_guide_nav_js(args.root.parent / "guides")
+        print(f"[guide-nav] {out_path}  ({elapsed*1000:.1f} ms)")
 
         out_path, elapsed = render_guide_index(args.root)
         print(f"[guide-index] {out_path}  ({elapsed*1000:.1f} ms)")

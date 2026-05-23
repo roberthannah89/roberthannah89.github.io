@@ -6,13 +6,19 @@
 <link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
-<title>The Swiss Trail System</title>
-<meta name="guide-label" content="Trail system">
-<meta name="guide-card-title" content="The Swiss trail system">
-<meta name="guide-card-desc" content="How 65,000 km of trails are classified, numbered, and maintained — constitutional protection, trail markings, and the 7 national routes.">
+<title>The hiking network — Swiss Alps</title>
+<meta name="guide-label" content="Hiking network">
+<meta name="guide-card-title" content="The hiking network">
+<meta name="guide-card-desc" content="How 65,000 km of trails are organised and maintained — constitutional protection, the organisations behind them, and the 7 national routes.">
 <meta name="guide-order" content="50">
 <link rel="stylesheet" href="../../notes/_assets/notes.css">
 <style>
+  .guide-nav{font-size:.85rem;display:flex;flex-wrap:wrap;gap:.3rem .6rem;margin:-.2rem 0 1.2rem;}
+  .guide-nav a{color:#888;text-decoration:none;}
+  .guide-nav a:hover{color:#333;}
+  .guide-nav a.active{color:#333;font-weight:600;}
+  .guide-nav .dot{color:#ccc;user-select:none;}
+
   /* Organisation icons */
   .org-icon {
     display: inline-flex; align-items: center; justify-content: center;
@@ -27,22 +33,6 @@
   .org-icon.st  { background: #b8860b; }
   .org-row td:first-child { white-space: nowrap; }
   .org-row td { vertical-align: top; padding-top: .65rem; padding-bottom: .65rem; }
-
-  /* Trail blaze symbols */
-  .blaze {
-    display: inline-block; width: 2rem; height: 1.2rem; border-radius: 3px;
-    vertical-align: middle; margin-right: .4rem; border: 1px solid #ddd;
-    overflow: hidden; position: relative;
-  }
-  .blaze.yellow { background: #f0c816; }
-  .blaze.wrw {
-    background: linear-gradient(to bottom, #fff 0%, #fff 30%, #d42e12 30%, #d42e12 70%, #fff 70%, #fff 100%);
-  }
-  .blaze.wbw {
-    background: linear-gradient(to bottom, #fff 0%, #fff 30%, #2463a8 30%, #2463a8 70%, #fff 70%, #fff 100%);
-  }
-  .blaze.pink { background: #e8a0c0; }
-  .blaze-cell { white-space: nowrap; }
 
   /* Route number shields */
   .route-shield {
@@ -64,10 +54,11 @@
     <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Trail System
   </p>
 
-  <h1>The Swiss Trail System</h1>
+  <h1>The hiking network</h1>
   <p class="lede">
     Switzerland's 65,000&nbsp;km hiking network is constitutionally protected, federally funded, and
-    systematically classified. This page explains how trails are categorised, numbered, and maintained.
+    systematically organised. This page explains who maintains the trails, how routes are numbered,
+    and what the 7 national long-distance routes are.
   </p>
 
   <h2>Constitutional protection</h2>
@@ -110,45 +101,6 @@
       </tr>
     </tbody>
   </table>
-
-  <hr>
-
-  <h2>Trail classifications</h2>
-  <p>
-    Swiss law defines three trail categories with standardised markings, consistent across the
-    entire country. The SAC hiking scale (T1–T6) maps onto these categories.
-  </p>
-
-  <table>
-    <thead>
-      <tr><th>Marking</th><th>Category</th><th>SAC grades</th><th>Share</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="blaze-cell"><span class="blaze yellow"></span></td>
-        <td><strong>Wanderweg</strong> — Hiking trail</td>
-        <td>T1</td>
-        <td>62%</td>
-      </tr>
-      <tr>
-        <td class="blaze-cell"><span class="blaze wrw"></span></td>
-        <td><strong>Bergweg</strong> — Mountain hiking trail</td>
-        <td>T2–T3</td>
-        <td>36.5%</td>
-      </tr>
-      <tr>
-        <td class="blaze-cell"><span class="blaze wbw"></span></td>
-        <td><strong>Alpinweg</strong> — Alpine hiking trail</td>
-        <td>T4–T6</td>
-        <td>1.5%</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p>
-    For what each T-grade means in practice — terrain, footwear, and experience required — see
-    <a href="difficulty.html">Trail grades: T1–T6</a>.
-  </p>
 
   <hr>
 
@@ -253,5 +205,6 @@
   Dr. Robert Hannah &middot; Quantitative Researcher, Citadel Securities &middot;
   <a href="https://github.com/roberthannah89">GitHub</a>
 </footer>
+<script src="_nav.js"></script>
 </body>
 </html>

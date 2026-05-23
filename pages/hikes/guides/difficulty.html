@@ -6,30 +6,69 @@
 <link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
-<title>Trail grades T1–T6 — SAC hiking scale</title>
+<title>Trail grades &amp; markings — Swiss hiking</title>
 <meta name="guide-label" content="Trail grades">
-<meta name="guide-card-title" content="Trail grades (T1–T6)">
-<meta name="guide-card-desc" content="What the SAC mountain hiking scale actually means in practice — terrain, exposure, and equipment for each grade.">
+<meta name="guide-card-title" content="Trail grades &amp; markings">
+<meta name="guide-card-desc" content="The three trail categories, their colour markings, and what each SAC grade (T1–T6) actually means in practice.">
 <meta name="guide-order" content="20">
 <link rel="stylesheet" href="../../notes/_assets/notes.css">
+<style>
+.guide-nav{font-size:.85rem;display:flex;flex-wrap:wrap;gap:.3rem .6rem;margin:-.2rem 0 1.2rem;}
+.guide-nav a{color:#888;text-decoration:none;}
+.guide-nav a:hover{color:#333;}
+.guide-nav a.active{color:#333;font-weight:600;}
+.guide-nav .dot{color:#ccc;user-select:none;}
+.blaze{display:inline-block;width:2rem;height:1.2rem;border-radius:3px;vertical-align:middle;margin-right:.4rem;border:1px solid #ddd;}
+.blaze.yellow{background:#f0c816;}
+.blaze.wrw{background:linear-gradient(to bottom,#fff 0%,#fff 30%,#d42e12 30%,#d42e12 70%,#fff 70%,#fff 100%);}
+.blaze.wbw{background:linear-gradient(to bottom,#fff 0%,#fff 30%,#2463a8 30%,#2463a8 70%,#fff 70%,#fff 100%);}
+.blaze-cell{white-space:nowrap;}
+</style>
 </head>
 <body>
 <div class="wrap">
   <p class="crumbs">
-    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Difficulty
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Trail Grades
   </p>
 
-  <h1>Trail grades: T1–T6</h1>
+  <h1>Trail grades &amp; markings</h1>
   <p class="lede">
-    The SAC (Swiss Alpine Club) mountain hiking scale is the standard for Swiss trails. Here's what
-    each grade actually feels like, and what you need to be prepared for.
+    Swiss law defines three trail categories with standardised colour markings. The SAC hiking scale
+    (T1–T6) maps onto these categories. Here's how the system works and what each grade actually
+    feels like.
   </p>
 
+  <h2>Trail classifications</h2>
   <p>
-    In Switzerland, the trail markings usually give you the first hint: <strong>yellow</strong> signs are ordinary hiking,
-    <strong>white-red-white</strong> markings indicate mountain hiking, and <strong>white-blue-white</strong> markings indicate
-    alpine hiking. The SAC grade and the sign colour usually line up.
+    Every marked trail in Switzerland falls into one of three legally defined categories, each with
+    consistent signposting across the entire country.
   </p>
+
+  <table>
+    <thead>
+      <tr><th>Marking</th><th>Category</th><th>SAC grades</th><th>Share</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="blaze-cell"><span class="blaze yellow"></span></td>
+        <td><strong>Wanderweg</strong> — Hiking trail</td>
+        <td>T1</td>
+        <td>62%</td>
+      </tr>
+      <tr>
+        <td class="blaze-cell"><span class="blaze wrw"></span></td>
+        <td><strong>Bergweg</strong> — Mountain hiking trail</td>
+        <td>T2–T3</td>
+        <td>36.5%</td>
+      </tr>
+      <tr>
+        <td class="blaze-cell"><span class="blaze wbw"></span></td>
+        <td><strong>Alpinweg</strong> — Alpine hiking trail</td>
+        <td>T4–T6</td>
+        <td>1.5%</td>
+      </tr>
+    </tbody>
+  </table>
 
   <blockquote>
     <strong>My take:</strong> T1–T3 is accessible to any reasonably fit person with decent footwear.
@@ -139,5 +178,6 @@
   Dr. Robert Hannah &middot; Quantitative Researcher, Citadel Securities &middot;
   <a href="https://github.com/roberthannah89">GitHub</a>
 </footer>
+<script src="_nav.js"></script>
 </body>
 </html>
