@@ -67,24 +67,6 @@ The first cabin to house visitors was built in 1846 and since then has been cont
 </section>
 
 <section>
-  <h2>Getting there (live transit)</h2>
-  <div id="transit-embed" class="transit-embed empty">
-    <iframe id="transit-iframe" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Public transport directions"></iframe>
-  </div>
-  <div class="transit-actions">
-    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
-    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
-  </div>
-  <p class="attrib">
-    Live transit from <span id="transit-origin"></span> to
-    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
-    in <code>_config.js</code>; the deep-link buttons work without one.
-  </p>
-</section>
-
-<section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
@@ -116,29 +98,42 @@ The first cabin to house visitors was built in 1846 and since then has been cont
   </ul>
 </section>
 
-<div class="grid-2">
-  <section>
-    <h2>Getting There</h2>
-    <h3>By car</h3>
-    <p>Drive to <strong>Schwägalp</strong> via the Schwägalp pass road from Urnäsch (AR) or Nesslau (SG). Large paid parking at the Schwägalp cable-car station.</p>
-    <h3>By public transport</h3>
-    <p><strong>Bus</strong> to <strong>Schwägalp, Säntis-Schwebebahn</strong>.</p>
-  </section>
+<section class="getting-there">
+  <h2>Getting There</h2>
+  <div class="transit-actions">
+    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  </div>
+  <p class="attrib">
+    Directions from <span id="transit-origin"></span> to
+    <strong>Schwägalp, Säntis aerial cableway</strong>
+  </p>
+  <div class="grid-2">
+    <div>
+      <h3>By car</h3>
+      <p>Drive to <strong>Schwägalp</strong> via the Schwägalp pass road from Urnäsch (AR) or Nesslau (SG). Large paid parking at the Schwägalp cable-car station.</p>
+    </div>
+    <div>
+      <h3>By public transport</h3>
+      <p><strong>Bus</strong> to <strong>Schwägalp, Säntis-Schwebebahn</strong>.</p>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>Day 1</h2>
-    <table>
-      <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>06:30</td><td>Depart Schwägalp cable-car station (1346 m)</td></tr>
-      <tr><td>07:30</td><td>Through alpine meadows; approach Nasenlöcher section</td></tr>
-      <tr><td>08:30</td><td>Nasenlöcher — fixed chains, exposed T4+ scrambling</td></tr>
-      <tr><td>09:30</td><td>Arrive Hintere Öhrligrueb (~2120 m); views open up</td></tr>
-      <tr><td>10:30</td><td>Summit Säntis (2502 m); rest and panorama</td></tr>
-      <tr><td>11:00</td><td>Begin descent via same route</td></tr>
-      <tr><td>13:00</td><td>Return to Schwägalp</td></tr>
-    </table>
-  </section>
-</div>
+<section>
+  <h2>Day 1</h2>
+  <table>
+    <tr><th>Time</th><th>Step</th></tr>
+    <tr><td>06:30</td><td>Depart Schwägalp cable-car station (1346 m)</td></tr>
+    <tr><td>07:30</td><td>Through alpine meadows; approach Nasenlöcher section</td></tr>
+    <tr><td>08:30</td><td>Nasenlöcher — fixed chains, exposed T4+ scrambling</td></tr>
+    <tr><td>09:30</td><td>Arrive Hintere Öhrligrueb (~2120 m); views open up</td></tr>
+    <tr><td>10:30</td><td>Summit Säntis (2502 m); rest and panorama</td></tr>
+    <tr><td>11:00</td><td>Begin descent via same route</td></tr>
+    <tr><td>13:00</td><td>Return to Schwägalp</td></tr>
+  </table>
+</section>
 
 <section>
   <h2>Weather Planning</h2>

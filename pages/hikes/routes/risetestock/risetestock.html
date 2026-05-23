@@ -99,24 +99,6 @@
 </section>
 
 <section>
-  <h2>Getting there (live transit)</h2>
-  <div id="transit-embed" class="transit-embed empty">
-    <iframe id="transit-iframe" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Public transport directions"></iframe>
-  </div>
-  <div class="transit-actions">
-    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
-    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
-  </div>
-  <p class="attrib">
-    Live transit from <span id="transit-origin"></span> to
-    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
-    in <code>_config.js</code>; the deep-link buttons work without one.
-  </p>
-</section>
-
-<section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
@@ -148,28 +130,41 @@
   </ul>
 </section>
 
-<div class="grid-2">
-  <section>
-    <h2>Getting There</h2>
-    <h3>By car</h3>
-    <p>Drive to <strong>Gfellen</strong> (6162 Finsterwald b. Entlebuch) via Schüpfheim or Entlebuch. Limited parking at the hamlet.</p>
-    <h3>By public transport</h3>
-    <ul><li>Train to <strong>Schüpfheim</strong> (BLS Entlebuch line from Bern or Luzern).</li><li>PostBus to <strong>Gfellen</strong> (Finsterwald b. Entlebuch).</li><li>Plan via <a href="https://www.sbb.ch/en" target="_blank">sbb.ch</a>.</li></ul>
-  </section>
+<section class="getting-there">
+  <h2>Getting There</h2>
+  <div class="transit-actions">
+    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  </div>
+  <p class="attrib">
+    Directions from <span id="transit-origin"></span> to
+    <strong>Gfellen</strong>
+  </p>
+  <div class="grid-2">
+    <div>
+      <h3>By car</h3>
+      <p>Drive to <strong>Gfellen</strong> (6162 Finsterwald b. Entlebuch) via Schüpfheim or Entlebuch. Limited parking at the hamlet.</p>
+    </div>
+    <div>
+      <h3>By public transport</h3>
+      <ul><li>Train to <strong>Schüpfheim</strong> (BLS Entlebuch line from Bern or Luzern).</li><li>PostBus to <strong>Gfellen</strong> (Finsterwald b. Entlebuch).</li><li>Plan via <a href="https://www.sbb.ch/en" target="_blank">sbb.ch</a>.</li></ul>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>Day Plan (T4 traverse)</h2>
-    <table>
-      <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>07:00</td><td>Depart Gfellen (~938 m)</td></tr>
-      <tr><td>08:15</td><td>Treeline; steeper terrain begins</td></tr>
-      <tr><td>09:30</td><td>Risetestock summit (1758 m); break</td></tr>
-      <tr><td>10:00</td><td>Begin traverse descent toward Blaue Tosse</td></tr>
-      <tr><td>11:30</td><td>Arrive Blaue Tosse; end of route</td></tr>
-    </table>
-    <p>SAC reference times: 2h30 ascent, 1h30 descent. Adjust for conditions and fitness.</p>
-  </section>
-</div>
+<section>
+  <h2>Day Plan (T4 traverse)</h2>
+  <table>
+    <tr><th>Time</th><th>Step</th></tr>
+    <tr><td>07:00</td><td>Depart Gfellen (~938 m)</td></tr>
+    <tr><td>08:15</td><td>Treeline; steeper terrain begins</td></tr>
+    <tr><td>09:30</td><td>Risetestock summit (1758 m); break</td></tr>
+    <tr><td>10:00</td><td>Begin traverse descent toward Blaue Tosse</td></tr>
+    <tr><td>11:30</td><td>Arrive Blaue Tosse; end of route</td></tr>
+  </table>
+  <p>SAC reference times: 2h30 ascent, 1h30 descent. Adjust for conditions and fitness.</p>
+</section>
 
 <section>
   <h2>Weather Planning</h2>

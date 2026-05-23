@@ -72,24 +72,6 @@ Stöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary 
 </section>
 
 <section>
-  <h2>Getting there (live transit)</h2>
-  <div id="transit-embed" class="transit-embed empty">
-    <iframe id="transit-iframe" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Public transport directions"></iframe>
-  </div>
-  <div class="transit-actions">
-    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
-    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
-  </div>
-  <p class="attrib">
-    Live transit from <span id="transit-origin"></span> to
-    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
-    in <code>_config.js</code>; the deep-link buttons work without one.
-  </p>
-</section>
-
-<section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
@@ -121,29 +103,42 @@ Stöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary 
   </ul>
 </section>
 
-<div class="grid-2">
-  <section>
-    <h2>Getting There</h2>
-    <h3>By car</h3>
-    <p>Drive to <strong>Schwändi</strong> near Schwanden in Canton Glarus via the A3 motorway (exit Niederurnen). Parking in Schwändi. For the traverse variant, arrange a second car at Klöntalersee or use public transport for the return.</p>
-    <h3>By public transport</h3>
-    <p><strong>Bus</strong> to <strong>Schwändi b. Schwanden GL, Post</strong>.</p>
-  </section>
+<section class="getting-there">
+  <h2>Getting There</h2>
+  <div class="transit-actions">
+    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  </div>
+  <p class="attrib">
+    Directions from <span id="transit-origin"></span> to
+    <strong>Schwändi b. Schwanden GL, Post</strong>
+  </p>
+  <div class="grid-2">
+    <div>
+      <h3>By car</h3>
+      <p>Drive to <strong>Schwändi</strong> near Schwanden in Canton Glarus via the A3 motorway (exit Niederurnen). Parking in Schwändi. For the traverse variant, arrange a second car at Klöntalersee or use public transport for the return.</p>
+    </div>
+    <div>
+      <h3>By public transport</h3>
+      <p><strong>Bus</strong> to <strong>Schwändi b. Schwanden GL, Post</strong>.</p>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>Day 1</h2>
-    <table>
-      <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>06:00</td><td>Depart Schwändi (701 m); ascend through forest</td></tr>
-      <tr><td>07:30</td><td>Above treeline (~1400 m); alpine terrain begins</td></tr>
-      <tr><td>08:30</td><td>Approach steep T5+ section; scrambling with exposure</td></tr>
-      <tr><td>09:30</td><td>Upper ridge — exposed terrain, require sure-footedness</td></tr>
-      <tr><td>10:30</td><td>Summit Vorder Glärnisch (2328 m); rest and panorama</td></tr>
-      <tr><td>11:00</td><td>Begin descent toward Klöntalersee</td></tr>
-      <tr><td>13:00</td><td>Arrive Klöntalersee; bus or second car to return</td></tr>
-    </table>
-  </section>
-</div>
+<section>
+  <h2>Day 1</h2>
+  <table>
+    <tr><th>Time</th><th>Step</th></tr>
+    <tr><td>06:00</td><td>Depart Schwändi (701 m); ascend through forest</td></tr>
+    <tr><td>07:30</td><td>Above treeline (~1400 m); alpine terrain begins</td></tr>
+    <tr><td>08:30</td><td>Approach steep T5+ section; scrambling with exposure</td></tr>
+    <tr><td>09:30</td><td>Upper ridge — exposed terrain, require sure-footedness</td></tr>
+    <tr><td>10:30</td><td>Summit Vorder Glärnisch (2328 m); rest and panorama</td></tr>
+    <tr><td>11:00</td><td>Begin descent toward Klöntalersee</td></tr>
+    <tr><td>13:00</td><td>Arrive Klöntalersee; bus or second car to return</td></tr>
+  </table>
+</section>
 
 <section>
   <h2>Weather Planning</h2>

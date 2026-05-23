@@ -71,24 +71,6 @@
 </section>
 
 <section>
-  <h2>Getting there (live transit)</h2>
-  <div id="transit-embed" class="transit-embed empty">
-    <iframe id="transit-iframe" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Public transport directions"></iframe>
-  </div>
-  <div class="transit-actions">
-    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
-    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
-  </div>
-  <p class="attrib">
-    Live transit from <span id="transit-origin"></span> to
-    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
-    in <code>_config.js</code>; the deep-link buttons work without one.
-  </p>
-</section>
-
-<section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
@@ -120,24 +102,37 @@
   </ul>
 </section>
 
-<div class="grid-2">
-  <section>
-    <h2>Getting There</h2>
-    <h3>By car</h3>
-    TODO: Driving directions.
-    <h3>By public transport</h3>
-    <p><strong>Kabinenbahn</strong> to <strong>Eggishorn</strong>.</p>
+<section class="getting-there">
+  <h2>Getting There</h2>
+  <div class="transit-actions">
+    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  </div>
+  <p class="attrib">
+    Directions from <span id="transit-origin"></span> to
+    <strong>Eggishorn, summit station</strong>
+  </p>
+  <div class="grid-2">
+    <div>
+      <h3>By car</h3>
+      TODO: Driving directions.
+    </div>
+    <div>
+      <h3>By public transport</h3>
+      <p><strong>Kabinenbahn</strong> to <strong>Eggishorn</strong>.</p>
 <p>https://www.aletscharena.ch/cableways/timetable/</p>
-  </section>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>Day 1</h2>
-    <table>
-      <tr><th>Time</th><th>Step</th></tr>
-      <tr><td>HH:MM</td><td>TODO: step description</td></tr>
-    </table>
-  </section>
-</div>
+<section>
+  <h2>Day 1</h2>
+  <table>
+    <tr><th>Time</th><th>Step</th></tr>
+    <tr><td>HH:MM</td><td>TODO: step description</td></tr>
+  </table>
+</section>
 
 <section>
   <h2>Weather Planning</h2>

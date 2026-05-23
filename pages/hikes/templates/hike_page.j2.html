@@ -55,24 +55,6 @@
 </section>
 
 <section>
-  <h2>Getting there (live transit)</h2>
-  <div id="transit-embed" class="transit-embed empty">
-    <iframe id="transit-iframe" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Public transport directions"></iframe>
-  </div>
-  <div class="transit-actions">
-    <a class="btn btn-primary" id="gmaps-link" target="_blank" rel="noopener">Plan on Google Maps</a>
-    <a class="btn" id="sbb-link" target="_blank" rel="noopener">Plan on SBB</a>
-  </div>
-  <p class="attrib">
-    Live transit from <span id="transit-origin"></span> to
-    <strong id="transit-dest"></strong>. Iframe requires a Google Maps Embed API key
-    in <code>_config.js</code>; the deep-link buttons work without one.
-  </p>
-</section>
-
-<section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
@@ -105,35 +87,48 @@
 {%- endfor %}
 </section>
 
-<div class="grid-2">
-  <section>
-    <h2>Getting There</h2>
-    <h3>By car</h3>
-    {{ getting_there.by_car_html | safe }}
-    <h3>{{ getting_there.get('by_pt_heading') or 'By public transport' }}</h3>
-    {{ getting_there.by_pt_html | safe }}
-  </section>
+<section class="getting-there">
+  <h2>Getting There</h2>
+  <div class="transit-actions">
+    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  </div>
+  <p class="attrib">
+    Directions from <span id="transit-origin"></span> to
+    <strong>{{ trailhead.name }}</strong>
+  </p>
+  <div class="grid-2">
+    <div>
+      <h3>By car</h3>
+      {{ getting_there.by_car_html | safe }}
+    </div>
+    <div>
+      <h3>{{ getting_there.get('by_pt_heading') or 'By public transport' }}</h3>
+      {{ getting_there.by_pt_html | safe }}
+    </div>
+  </div>
+</section>
 
-  <section>
+<section>
 {%- for plan in day_plans %}
 {%- if plan.title %}
-    <h2>{{ plan.title }}</h2>
+  <h2>{{ plan.title }}</h2>
 {%- endif %}
 {%- if plan.get('subheading') %}
-    <h3>{{ plan.subheading }}</h3>
+  <h3>{{ plan.subheading }}</h3>
 {%- endif %}
-    <table>
-      <tr><th>Time</th><th>Step</th></tr>
+  <table>
+    <tr><th>Time</th><th>Step</th></tr>
 {%- for time, step in plan.rows %}
-      <tr><td>{{ time }}</td><td>{{ step | safe }}</td></tr>
+    <tr><td>{{ time }}</td><td>{{ step | safe }}</td></tr>
 {%- endfor %}
-    </table>
+  </table>
 {%- if plan.get('footer_html') %}
-    <p>{{ plan.footer_html | safe }}</p>
+  <p>{{ plan.footer_html | safe }}</p>
 {%- endif %}
 {%- endfor %}
-  </section>
-</div>
+</section>
 
 <section>
   <h2>Weather Planning</h2>
