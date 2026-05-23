@@ -1,0 +1,194 @@
+{
+  "slug": "schynige-platte-first",
+  "page": {
+    "title": "Schynige Platte – First (2681 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Faulhorn",
+    "elev": 2681,
+    "lat": 46.6571,
+    "lon": 7.9481
+  },
+  "index_card": {
+    "region": "Berner Oberland",
+    "canton": "Bern",
+    "distance": "7.4 km",
+    "gain": "490 m",
+    "time": "~2h30",
+    "route_type": "point-to-point",
+    "pill_class": "t2"
+  },
+  "trailhead": {
+    "name": "Schynige Platte",
+    "elev": 1970,
+    "lat": 46.6519,
+    "lon": 7.9107,
+    "transit_dest": "Schynige Platte, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_a87fc1adc7.jpg",
+    "subtitle_html": "Schynige Platte -> Berghaus Männdlenen -- <span class=\"pill t2\">SAC T2</span> | ~490 m gain | ~7.4 km | ~2h30",
+    "grade": "T2",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The definitive Berner Oberland ridge traverse: from Schynige Platte to First via Berghaus Männdlenen, Faulhorn, and Bachalpsee. The Eiger, Mönch, and Jungfrau are in view almost the entire way. The high point is the Faulhorn (2681 m) with its historic mountain hotel — the oldest in the Alps.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2681 m</strong> (Faulhorn)"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Schynige Platte"
+    ],
+    [
+      "Distance",
+      "7.4 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~490 m"
+    ],
+    [
+      "Elevation range",
+      "1910-2344 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_a87fc1adc7.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_a87fc1adc7.jpg",
+      "alt": "View from the Schynige Platte – First traverse",
+      "caption_html": "<p>View from the Schynige Platte – First traverse</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1534266885_1864266862Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1534266885_1864266862L.jpg",
+      "alt": "Am Ziel: das Berghaus Männdlenen auf 2344 Meter.",
+      "caption_html": "<p>Am Ziel: das Berghaus Männdlenen auf 2344 Meter.</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.65224480861517,
+      "lon": 7.911173065975709,
+      "label": "Schynige Platte (1967 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.66892281810453,
+      "lon": 7.968787902451804,
+      "label": "Berghaus Männdlenen (2344 m)",
+      "kind": "hut"
+    },
+    {
+      "lat": 46.6571,
+      "lon": 7.9481,
+      "label": "Faulhorn (2681 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.6605,
+      "lon": 8.0253,
+      "label": "Bachalpsee (2265 m)",
+      "kind": "poi"
+    },
+    {
+      "lat": 46.6590,
+      "lon": 8.0576,
+      "label": "First (2165 m)",
+      "kind": "end"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Schynige Platte – First traverse</strong>",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [
+        "Schynige Platte (1967 m) — Berghaus Männdlenen (2344 m)",
+        "Berghaus Männdlenen — Faulhorn (2681 m)",
+        "Faulhorn — Bachalpsee (2265 m) — First (2165 m)"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Start:</strong> Cog railway from Wilderswil to <strong>Schynige Platte</strong>.</p>\n<p><strong>End:</strong> Gondola from <strong>First</strong> down to Grindelwald, then bus/train.</p>\n<p>Timetables: <a href=\"https://www.jungfrau.ch\">jungfrau.ch</a></p>",
+    "by_car_html": "<p>Park at Wilderswil or Grindelwald. One-way traverse requires public transport between endpoints.</p>"
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T2",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [],
+  "safety_html": [
+    "<strong>SAC grade T2</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Route Portal — Von Schynige Platte</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Peak Page — Berghaus Männdlenen</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (Schynige Platte leg)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/von-schynige-platte-1467/"
+    },
+    {
+      "name": "SAC Route Portal (First leg)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/von-first-1469/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Barbara Reichen / SAC Route Portal"
+}

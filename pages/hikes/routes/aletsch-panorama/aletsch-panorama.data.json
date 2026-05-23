@@ -1,0 +1,227 @@
+{
+  "slug": "aletsch-panorama",
+  "page": {
+    "title": "Bettmerhorn (2857 m) -- Hike Plan",
+    "generated": "2026-05-22",
+    "reports_updated": "2026-05-22",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Bettmerhorn",
+    "elev": 2857,
+    "lat": 46.4312,
+    "lon": 8.0942
+  },
+  "index_card": {
+    "region": "Wallis",
+    "canton": "Wallis",
+    "distance": "10.1 km",
+    "gain": "248 m",
+    "time": "~2h30",
+    "route_type": "out-and-back",
+    "pill_class": "t4"
+  },
+  "trailhead": {
+    "name": "Eggishorn, summit station",
+    "elev": 2866,
+    "lat": 46.4272,
+    "lon": 8.0931,
+    "transit_dest": "Eggishorn, summit station, Switzerland"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1559329506_633827028master_22ccda896e.jpg",
+    "subtitle_html": "Eggishorn, summit station -> Bettmerhorn -- <span class=\"pill t4\">SAC T4</span> | ~248 m gain | ~10.1 km | ~2h30",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The tour is mountain hiking at its best. On Bettmergrat you can feel the cool breeze coming off Aletschgletscher, the centrepiece of the Unesco World Heritage Site whose border we walk on.</p>\n<p>Bettmerhorn is part of a long ridge between Laxeralp and Grosser Aletschgletscher. The eastern summit has a big metal cross, while the highest point is crowned by a simple cairn. Bettmerhorn offers a rewarding traverse on the ridge between the Bettmergrat station and Eggishorn.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2857 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Eggishorn, summit station"
+    ],
+    [
+      "Distance",
+      "10.1 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~248 m"
+    ],
+    [
+      "Elevation range",
+      "1922-2911 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1559329506_633827028master_22ccda896e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1559329506_633827028master_22ccda896e.jpg",
+      "alt": "Bettmerhorn — peak photo",
+      "caption_html": "<p>Bettmerhorn — peak photo</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1559329510_496326394Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1559329510_496326394L.jpg",
+      "alt": "Slightly above Elselicka",
+      "caption_html": "<p>Slightly above Elselicka</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1559329506_633827028Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1559329506_633827028L.jpg",
+      "alt": "Exposed passage on Bettmerhorn",
+      "caption_html": "<p>Exposed passage on Bettmerhorn</p>"
+    },
+    {
+      "url": "https://static.www.suissealpine.sac-cas.ch/1561388303_897927224Ma.jpg",
+      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1561388303_897927224L.jpg",
+      "alt": "On the ridge of Bettmerhorn",
+      "caption_html": "<p>On the ridge of Bettmerhorn</p>"
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.427325792095196,
+      "lon": 8.093320365569092,
+      "label": "Eggishorn, summit station (2866 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.43130897849336,
+      "lon": 8.094253474528381,
+      "label": "Eggishorn (2926 m)",
+      "kind": "summit"
+    },
+    {
+      "lat": 46.422689940650386,
+      "lon": 8.086108905993111,
+      "label": "Elselicka (2722 m)",
+      "kind": "traverse"
+    },
+    {
+      "lat": 46.41032163989532,
+      "lon": 8.076459146334571,
+      "label": "Bettmerhorn, Bergstation (2647 m)",
+      "kind": "departure_arrival"
+    },
+    {
+      "lat": 46.37787361093153,
+      "lon": 8.017731750970727,
+      "label": "Riederfurka (2065 m)",
+      "kind": "traverse"
+    },
+    {
+      "lat": 46.37617196024575,
+      "lon": 8.02593281739911,
+      "label": "Riederalp, Bergstation West (1925 m)",
+      "kind": "departure_arrival"
+    },
+    {
+      "lat": 46.44044909556591,
+      "lon": 8.102018424757285,
+      "label": "Gletscherstube Märjelen (2360 m)",
+      "kind": "hut"
+    },
+    {
+      "lat": 46.41314802106448,
+      "lon": 8.102682198828964,
+      "label": "Fiescheralp (2214 m)",
+      "kind": "departure_arrival"
+    },
+    {
+      "lat": 46.41424110864388,
+      "lon": 8.080089323157784,
+      "label": "Bettmerhorn (2857 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Traverse Eggishorn – Bettmerhorn</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Eggishorn station – Eggishorn",
+        "Eggishorn – Elselicka",
+        "Elselicka – Bettmerhorn –Bettmerhorn station",
+        "Bettmerhorn station – Bettmeralp"
+      ],
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/)"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Kabinenbahn</strong> to <strong>Eggishorn</strong>.</p>\n<p>https://www.aletscharena.ch/cableways/timetable/</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "webcams": [
+    {
+      "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
+      "label": "TODO: camera name",
+      "fallback": false
+    }
+  ],
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "trip_reports": {
+    "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
+    "takeaways_html": [
+      "TODO: cross-report pattern 1.",
+      "TODO: cross-report pattern 2."
+    ],
+    "reports": [
+      {
+        "url": "TODO: hikr report URL",
+        "title": "TODO: report title",
+        "season": "TODO: e.g. August 2025",
+        "grade": "T4",
+        "bullets_html": [
+          "TODO: Key observation 1.",
+          "TODO: Key observation 2."
+        ]
+      }
+    ]
+  },
+  "gear": [],
+  "safety_html": [
+    "<strong>SAC grade T4</strong> — check conditions before departure.",
+    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
+  ],
+  "resources_html": [
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/\">SAC Route Portal — Traverse Eggishorn – Bettmerhorn</a>",
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/\">SAC Peak Page — Bettmerhorn</a>"
+  ],
+  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/traverse-eggishorn-bettmerhorn-4255/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: Sabine Joss / SAC Route Portal"
+}
