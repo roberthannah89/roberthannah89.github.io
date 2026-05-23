@@ -202,24 +202,12 @@ function applyFilters() {
 
 /* ------------- map ------------- */
 var map = L.map("map");
-var swisstopo = L.tileLayer(
-  "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
-  {
-    maxZoom: 18,
-    attribution: '&copy; <a href="https://www.swisstopo.admin.ch">swisstopo</a>',
-  }
-);
-var osm = L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }
-);
-swisstopo.addTo(map);
-swisstopo.on("tileerror", function () {
-  if (!map.hasLayer(osm)) {
-    map.removeLayer(swisstopo);
-    osm.addTo(map);
-  }
-});
+var MS = window.MapShared;
+if (MS) {
+  MS.addLayerControl(map, { defaultLayer: "color" });
+  MS.addFullscreen(map, document.getElementById("map"));
+  MS.addSwissBorder(map);
+}
 
 /* canton colour palette */
 var CANTON_COLORS = {

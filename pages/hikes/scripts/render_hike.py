@@ -51,6 +51,8 @@ from config import (
     DIFFICULTY_BLURBS,
     EARTH_RADIUS_M,
     ELEV_SMOOTH_M,
+    GOLDEN_CLASSICS,
+    GUIDE_PAGES,
     INDEX_PHOTO_WIDTH,
     NAISMITH_ASCENT_MH,
     NAISMITH_SPEED_KMH,
@@ -76,6 +78,8 @@ TEMPLATE_NAME = "hike_page.j2.html"
 INDEX_TEMPLATE_NAME = "index.j2.html"
 REGIONS_TEMPLATE_NAME = "regions.j2.html"
 DIFFICULTY_TEMPLATE_NAME = "difficulty.j2.html"
+CLASSICS_TEMPLATE_NAME = "classics.j2.html"
+GUIDE_INDEX_TEMPLATE_NAME = "guide_index.j2.html"
 DEFAULT_ROOT = REPO_ROOT / "routes"
 
 GPX_NS = {"g": "http://www.topografix.com/GPX/1/1"}
@@ -660,6 +664,7 @@ def render_index(root: Path, hikes: list[dict]) -> tuple[Path, float]:
     template = env.get_template(INDEX_TEMPLATE_NAME)
     html = template.render(
         hikes=hikes,
+        guide_pages=GUIDE_PAGES,
         generated=time.strftime("%Y-%m-%d"),
     )
     out_path = root.parent / "index.html"
@@ -770,6 +775,87 @@ def render_difficulty(root: Path, data_files: list[Path]) -> tuple[Path, float]:
     guides_dir = root.parent / "guides"
     guides_dir.mkdir(exist_ok=True)
     out_path = guides_dir / "difficulty.html"
+    out_path.write_text(html, encoding="utf-8")
+    return out_path, time.perf_counter() - t0
+
+
+def _match_classic_to_slug(name: str, slug_to_peak: dict[str, str]) -> str | None:
+    """Try to match a golden classic name to an existing hike slug."""
+    name_lower = name.lower().strip()
+    for slug, peak_name in slug_to_peak.items():
+        if peak_name.lower() == name_lower:
+            return slug
+        if slug.replace("-", " ") == name_lower.replace("-", " "):
+            return slug
+    return None
+
+
+def render_classics(root: Path, data_files: list[Path]) -> tuple[Path, float]:
+    """Render the golden classics guide page; returns (out_path, elapsed_seconds)."""
+    t0 = time.perf_counter()
+
+    slug_to_peak: dict[str, str] = {}
+    for f in data_files:
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        slug = d.get("slug") or f.stem.replace(".data", "")
+        peak = d.get("peak") or {}
+        slug_to_peak[slug] = peak.get("name", slug)
+
+    # Manual overrides for names that don't match slug/peak exactly
+    name_to_slug: dict[str, str] = {
+        "Pilatus (Tomlishorn)": "tomlishorn",
+        "Geltenhütte": "geltenhuette",
+        "Monte Tamaro – Monte Lema": "monte-tamaro",
+        "Monte Rosa Hütte": "monte-rosa-huette",
+        "Greina Hochebene": "greina",
+        "Grosser Mythen": "gross-mythen",
+        "Planurahuette": "planurahuette",
+        "Üssers Barrhorn": "uessers-barrhorn",
+    }
+
+    classics = []
+    for rank, c in enumerate(GOLDEN_CLASSICS, 1):
+        slug = name_to_slug.get(c["name"]) or _match_classic_to_slug(c["name"], slug_to_peak)
+        on_site = slug is not None
+        href = f"../routes/{slug}/{slug}.html" if slug else None
+        grade = c["grade"]
+        base = re.match(r'[Tt]\d', grade)
+        pill_class = _grade_pill_class(grade) if base else ""
+        classics.append({
+            "rank": rank,
+            "name": c["name"],
+            "region": c["region"],
+            "grade": grade,
+            "pill_class": pill_class,
+            "desc": c["desc"],
+            "on_site": on_site,
+            "href": href,
+        })
+
+    on_site = sum(1 for c in classics if c["on_site"])
+
+    env = _make_env()
+    template = env.get_template(CLASSICS_TEMPLATE_NAME)
+    html = template.render(classics=classics, on_site=on_site)
+    guides_dir = root.parent / "guides"
+    guides_dir.mkdir(exist_ok=True)
+    out_path = guides_dir / "classics.html"
+    out_path.write_text(html, encoding="utf-8")
+    return out_path, time.perf_counter() - t0
+
+
+def render_guide_index(root: Path) -> tuple[Path, float]:
+    """Render the guide index page; returns (out_path, elapsed_seconds)."""
+    t0 = time.perf_counter()
+    env = _make_env()
+    template = env.get_template(GUIDE_INDEX_TEMPLATE_NAME)
+    html = template.render(guide_pages=GUIDE_PAGES)
+    guides_dir = root.parent / "guides"
+    guides_dir.mkdir(exist_ok=True)
+    out_path = guides_dir / "index.html"
     out_path.write_text(html, encoding="utf-8")
     return out_path, time.perf_counter() - t0
 
@@ -922,6 +1008,12 @@ def main(argv: list[str] | None = None) -> int:
 
         out_path, elapsed = render_difficulty(args.root, all_files)
         print(f"[difficulty] {out_path}  ({elapsed*1000:.1f} ms)")
+
+        out_path, elapsed = render_classics(args.root, all_files)
+        print(f"[classics] {out_path}  ({elapsed*1000:.1f} ms)")
+
+        out_path, elapsed = render_guide_index(args.root)
+        print(f"[guide-index] {out_path}  ({elapsed*1000:.1f} ms)")
 
     if args.profile:
         slowest = max(results, key=lambda r: r.total)

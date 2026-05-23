@@ -401,32 +401,14 @@ Itinerary or timing breakdown.
 
 ### `weather` (object)
 
-Weather patterns and seasonal information.
+Seasonal information for the hike.
 
 **Required fields:**
-- `lapse_rate` (object): Temperature gradient information
-- `sources_html` (array): HTML list of weather forecast sources
 - `season_html` (string): Recommended season
-
-**Lapse Rate fields:**
-- `valley_ref` (string): Reference valley (e.g., "Luzern")
-- `summit_above_ref_m` (number): Elevation difference
-- `temp_drop_c` (number): Expected temperature drop
-- `example_html` (string): Example calculation
 
 **Example:**
 ```json
 {
-  "lapse_rate": {
-    "valley_ref": "Luzern valley (435 m)",
-    "summit_above_ref_m": 1302,
-    "temp_drop_c": 8,
-    "example_html": "If it's 20°C in Luzern, expect ~12°C on the summit."
-  },
-  "sources_html": [
-    "<a href=\"https://meteoswiss.ch\">MeteoSwiss</a>",
-    "<a href=\"https://meteotest.ch\">Meteotest</a>"
-  ],
   "season_html": "June–September (summer); year-round possible in dry winters"
 }
 ```

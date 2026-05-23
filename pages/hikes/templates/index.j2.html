@@ -9,6 +9,7 @@
 <link rel="apple-touch-icon" sizes="512x512" href="routes/_assets/favicon-512.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="routes/_assets/map_shared.css">
 <style>
   :root {
     --bg: #0b0c10;
@@ -329,16 +330,10 @@
   <p>Swiss Alps route notes · transit · weather · trip reports</p>
   <nav style="margin-top:.8rem;font-size:.88rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem .8rem;">
     <a href="guides/index.html" style="color:var(--accent);text-decoration:none;font-weight:600;">Guide overview</a>
+    {% for gp in guide_pages %}
     <span style="color:var(--fg-dim);opacity:.4;">·</span>
-    <a href="guides/planning.html" style="color:var(--fg-dim);text-decoration:none;">Planning</a>
-    <span style="color:var(--fg-dim);opacity:.4;">·</span>
-    <a href="guides/difficulty.html" style="color:var(--fg-dim);text-decoration:none;">Trail grades</a>
-    <span style="color:var(--fg-dim);opacity:.4;">·</span>
-    <a href="guides/weather.html" style="color:var(--fg-dim);text-decoration:none;">Weather</a>
-    <span style="color:var(--fg-dim);opacity:.4;">·</span>
-    <a href="guides/gear.html" style="color:var(--fg-dim);text-decoration:none;">Gear &amp; safety</a>
-    <span style="color:var(--fg-dim);opacity:.4;">·</span>
-    <a href="guides/regions.html" style="color:var(--fg-dim);text-decoration:none;">Regions &amp; cantons</a>
+    <a href="guides/{{ gp.href }}" style="color:var(--fg-dim);text-decoration:none;">{{ gp.label }}</a>
+    {% endfor %}
   </nav>
 </header>
 
@@ -447,6 +442,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="routes/_assets/map_shared.js"></script>
 <script>window.HIKES = {{ hikes | tojson }};</script>
 <script src="routes/_assets/index_page.js"></script>
 </body>

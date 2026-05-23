@@ -143,7 +143,6 @@
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "1. Gfellen → Risetestock → Blaue Tosse (traverse)",
@@ -191,16 +190,6 @@
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Schüpfheim, ~723 m",
-      "summit_above_ref_m": 1035,
-      "temp_drop_c": 6.2,
-      "example_html": "Example: Schüpfheim forecast 22 °C → summit ≈ <strong>~16 °C</strong>. Add wind chill on exposed sections."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/en/weather/week/entlebuch_switzerland\">Meteoblue Entlebuch</a> — hourly wind/precip"
-    ],
     "season_html": "<strong>June to October</strong> is best. T4 terrain requires dry conditions; avoid after fresh snow or rain."
   },
   "webcams": [

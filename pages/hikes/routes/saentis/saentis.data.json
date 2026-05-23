@@ -107,7 +107,6 @@
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>From Schwägalp via Nasenlöcher</strong>",
@@ -158,21 +157,10 @@
           "13:00",
           "Return to Schwägalp"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Appenzell, ~780 m",
-      "summit_above_ref_m": 1902,
-      "temp_drop_c": 11.4,
-      "example_html": "Example: Appenzell forecast 15–25 °C → summit ≈ <strong>+8 °C to +18 °C</strong>. Säntis is fully exposed to wind — add wind chill."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "<strong>June–October</strong> is best. Snow lingers on Nasenlöcher into June; fixed chains may be iced. Avoid after fresh snowfall. Afternoon thunderstorms frequent July–August."
   },
   "webcams": [

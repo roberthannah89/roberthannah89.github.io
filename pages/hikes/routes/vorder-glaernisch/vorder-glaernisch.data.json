@@ -107,7 +107,6 @@
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>Traverse from Schwändi to Klöntalersee</strong>",
@@ -158,21 +157,10 @@
           "13:00",
           "Arrive Klöntalersee; bus or second car to return"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Glarus, ~472 m",
-      "summit_above_ref_m": 1728,
-      "temp_drop_c": 10.4,
-      "example_html": "Example: Glarus forecast 15–25 °C → summit ≈ <strong>+3 °C to +13 °C</strong>. The Vorder Glärnisch is exposed to westerly winds."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "<strong>July–September</strong> is best. The T5+ terrain requires completely dry conditions. Snow lingers on north aspects into July. Thunderstorm risk high in summer afternoons — start early."
   },
   "webcams": [

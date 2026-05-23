@@ -221,16 +221,6 @@
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Siebnen (440 m)",
-      "summit_above_ref_m": 1692,
-      "temp_drop_c": 10.2,
-      "example_html": "If it's <strong>22 °C in Siebnen</strong>, expect ~<strong>12 °C on the ridge</strong>."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> — official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> — hourly wind/precip"
-    ],
     "season_html": "<strong>June–October</strong> when snow-free. Do not undertake in wet conditions — exposed rock becomes dangerous."
   },
   "webcams": [

@@ -4,65 +4,90 @@
   "use strict";
   if (typeof L === "undefined") return;
 
-  var swissColor = L.tileLayer(
-    "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
-    { attribution: "&copy; swisstopo", maxZoom: 18 }
-  );
-  var swissGrey = L.tileLayer(
-    "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-grau/default/current/3857/{z}/{x}/{y}.jpeg",
-    { attribution: "&copy; swisstopo", maxZoom: 18 }
-  );
-  var swissTrails = L.tileLayer(
-    "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-wanderwege/default/current/3857/{z}/{x}/{y}.png",
-    { attribution: "&copy; swisstopo (Wanderwege)", maxZoom: 18 }
-  );
-  var swissAerial = L.tileLayer(
-    "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg",
-    { attribution: "&copy; swisstopo (SWISSIMAGE)", maxZoom: 19 }
-  );
-  var osm = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }
-  );
+  var TILE_URLS = {
+    color:  "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
+    grey:   "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-grau/default/current/3857/{z}/{x}/{y}.jpeg",
+    trails: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-wanderwege/default/current/3857/{z}/{x}/{y}.png",
+    aerial: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg",
+    osm:    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  };
 
   function makeLayers() {
     return {
-      color: L.tileLayer("https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
-        { attribution: "&copy; swisstopo", maxZoom: 18 }),
-      grey: L.tileLayer("https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-grau/default/current/3857/{z}/{x}/{y}.jpeg",
-        { attribution: "&copy; swisstopo", maxZoom: 18 }),
-      trails: L.tileLayer("https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-wanderwege/default/current/3857/{z}/{x}/{y}.png",
-        { attribution: "&copy; swisstopo (Wanderwege)", maxZoom: 18 }),
-      aerial: L.tileLayer("https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg",
-        { attribution: "&copy; swisstopo (SWISSIMAGE)", maxZoom: 19 }),
-      osm: L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }),
+      color:  L.tileLayer(TILE_URLS.color,  { attribution: "&copy; swisstopo", maxZoom: 18 }),
+      grey:   L.tileLayer(TILE_URLS.grey,   { attribution: "&copy; swisstopo", maxZoom: 18 }),
+      trails: L.tileLayer(TILE_URLS.trails, { attribution: "&copy; swisstopo (Wanderwege)", maxZoom: 18 }),
+      aerial: L.tileLayer(TILE_URLS.aerial, { attribution: "&copy; swisstopo (SWISSIMAGE)", maxZoom: 19 }),
+      osm:    L.tileLayer(TILE_URLS.osm,    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }),
     };
   }
 
-  function hikeBase() {
-    var l = makeLayers();
-    return L.layerGroup([l.color, l.trails]);
-  }
+  // Layer definitions: key → label, factory fn
+  var LAYER_DEFS = [
+    { key: "hike",   label: "Topo + Trails",    trails: true, make: function (l) { return L.layerGroup([l.color, l.trails]); } },
+    { key: "color",  label: "Topo",              trails: false, make: function (l) { return l.color; } },
+    { key: "aerial", label: "Aerial",            trails: false, make: function (l) { return l.aerial; } },
+    { key: "osm",    label: "OpenStreetMap",     trails: false, make: function (l) { return l.osm; } },
+  ];
 
   function addLayerControl(map, opts) {
     opts = opts || {};
     var l = makeLayers();
-    var bases = {};
-    if (opts.includeTrails !== false) {
-      bases["Topo + Trails"] = L.layerGroup([l.color, l.trails]);
+    var defs = LAYER_DEFS.filter(function (d) {
+      if (d.trails && opts.includeTrails === false) return false;
+      return true;
+    });
+
+    var layers = {};
+    defs.forEach(function (d) { layers[d.key] = d.make(l); });
+
+    var defaultKey = opts.defaultLayer || defs[0].key;
+    var current = layers[defaultKey];
+    if (current) current.addTo(map);
+
+    // Build button bar and insert before the map element
+    var bar = document.createElement("div");
+    bar.className = "ms-layer-bar";
+    var mapEl = map.getContainer();
+    mapEl.parentNode.insertBefore(bar, mapEl);
+
+    defs.forEach(function (d) {
+      var btn = document.createElement("button");
+      btn.textContent = d.label;
+      btn.className = "ms-layer-btn" + (d.key === defaultKey ? " active" : "");
+      btn.addEventListener("click", function () {
+        if (layers[d.key] === current) return;
+        map.removeLayer(current);
+        current = layers[d.key];
+        current.addTo(map);
+        bar.querySelectorAll(".ms-layer-btn").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        map.fire("baselayerchange");
+      });
+      bar.appendChild(btn);
+    });
+
+    return layers;
+  }
+
+  var BORDER_URL = (function () {
+    var scripts = document.getElementsByTagName("script");
+    for (var i = 0; i < scripts.length; i++) {
+      var m = scripts[i].src && scripts[i].src.match(/(.*\/)map_shared\.js/);
+      if (m) return m[1] + "switzerland.geojson";
     }
-    bases["Topo (colour)"] = l.color;
-    bases["Topo (greyscale)"] = l.grey;
-    bases["Aerial"] = l.aerial;
-    bases["OpenStreetMap"] = l.osm;
+    return "routes/_assets/switzerland.geojson";
+  })();
 
-    var defaultKey = opts.defaultLayer || Object.keys(bases)[0];
-    var defaultBase = bases[defaultKey];
-    if (defaultBase) defaultBase.addTo(map);
-
-    L.control.layers(bases, null, { position: "topright", collapsed: true }).addTo(map);
-    return bases;
+  function addSwissBorder(map) {
+    fetch(BORDER_URL)
+      .then(function (r) { return r.json(); })
+      .then(function (geojson) {
+        L.geoJSON(geojson, {
+          style: { color: "#000", weight: 4, fillOpacity: 0, interactive: false },
+        }).addTo(map);
+      })
+      .catch(function () {});
   }
 
   function addFullscreen(map, el) {
@@ -89,8 +114,8 @@
 
   window.MapShared = {
     makeLayers: makeLayers,
-    hikeBase: hikeBase,
     addLayerControl: addLayerControl,
     addFullscreen: addFullscreen,
+    addSwissBorder: addSwissBorder,
   };
 })();

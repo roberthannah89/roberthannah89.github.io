@@ -21,27 +21,17 @@
     return;
   }
 
-  const swissHike = L.layerGroup([
-    L.tileLayer(
-      "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
-      { attribution: "© swisstopo", maxZoom: 18 }),
-    L.tileLayer(
-      "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-wanderwege/default/current/3857/{z}/{x}/{y}.png",
-      { attribution: "© swisstopo (Wanderwege)", maxZoom: 18 }),
-  ]);
-  const swissAerial = L.tileLayer(
-    "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg",
-    { attribution: "© swisstopo (SWISSIMAGE)", maxZoom: 19 });
-  const osm = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    { attribution: "© OpenStreetMap contributors", maxZoom: 19 });
-  const layers = { hike: swissHike, aerial: swissAerial, osm: osm };
-
-  const map = L.map("map", { layers: [swissHike], zoomControl: true, fullscreenControl: true });
-  const line = L.polyline([], { color: "#2e7d32", weight: 3, opacity: 0.85, dashArray: "8 6" }).addTo(map);
+  const MS = window.MapShared;
+  const map = L.map("map", { zoomControl: true });
+  if (MS) {
+    MS.addLayerControl(map, { defaultLayer: "hike" });
+    MS.addFullscreen(map, document.getElementById("map"));
+    MS.addSwissBorder(map);
+  }
+  const line = L.polyline([], { color: "#9b59b6", weight: 3, opacity: 0.85, dashArray: "8 6" }).addTo(map);
 
   WAYPOINTS.forEach(([lat, lon, label, kind]) => {
-    const color = kind === "start" ? "#2e7d32" : "#ff5c5c";
+    const color = kind === "start" ? "#9b59b6" : "#ff5c5c";
     L.circleMarker([lat, lon], {
       radius: 9, fillColor: color, color: "#222", weight: 2, fillOpacity: 1
     }).addTo(map).bindPopup(`<strong>${label}</strong>`).bindTooltip(label, {
@@ -58,7 +48,7 @@
   // Direction arrows along the track
   const arrowLayer = L.layerGroup().addTo(map);
   const arrowSvg = '<svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">' +
-    '<path d="M2 1 L10 6 L2 11 Z" fill="#2e7d32" stroke="#fff" stroke-width="1"/></svg>';
+    '<path d="M2 1 L10 6 L2 11 Z" fill="#9b59b6" stroke="#fff" stroke-width="1"/></svg>';
   function placeArrows() {
     arrowLayer.clearLayers();
     if (TRACK.length < 20) return;
@@ -83,20 +73,6 @@
   if (fitBtn) fitBtn.onclick = fitRoute;
   const gpxBtn = document.getElementById("gpxBtn");
   if (gpxBtn) gpxBtn.href = GPX_FILENAME;
-
-  let current = swissHike;
-  document.querySelectorAll(".map-controls button[data-layer]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const next = layers[btn.dataset.layer];
-      if (!next || next === current) return;
-      map.removeLayer(current);
-      next.addTo(map);
-      line.bringToFront();
-      current = next;
-      document.querySelectorAll(".map-controls button[data-layer]").forEach(b =>
-        b.classList.toggle("active", b === btn));
-    });
-  });
 
   // ---- 7-day summit forecast (Open-Meteo) ----
   function fmtSunTime(iso) {

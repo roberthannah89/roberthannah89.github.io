@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
+<title>50 Golden Classics — Swiss hiking</title>
+<link rel="stylesheet" href="../../notes/_assets/notes.css">
+<style>
+  .wide-wrap { max-width: 960px; margin: 0 auto; padding: 0 1rem; }
+  .classics-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .95rem; }
+  .classics-table th {
+    text-align: left; padding: .55rem .6rem; border-bottom: 2px solid #ccc;
+    font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; color: #666;
+  }
+  .classics-table td { padding: .55rem .6rem; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+  .classics-table tbody tr:hover { background: #f8f8fa; }
+  .classics-table tr:last-child td { border-bottom: none; }
+  .classics-table .num { color: #bbb; font-size: .82rem; text-align: right; padding-right: .3rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .classics-table .hike-name { font-weight: 600; }
+  .classics-table .hike-name a { color: inherit; text-decoration: none; border-bottom: 1.5px solid #ff5c5c; }
+  .classics-table .hike-name a:hover { color: #ff5c5c; }
+  .classics-table .star { color: #f0c040; font-size: 1.05rem; margin-right: .2rem; vertical-align: -1px; }
+  .classics-table .region-tag { color: #888; font-size: .8rem; margin-left: .4rem; }
+  .classics-table .desc { color: #555; font-size: .86rem; line-height: 1.4; }
+  .pill { display: inline-block; padding: .1rem .45rem; border-radius: 999px; font-size: .72rem; font-weight: 600; white-space: nowrap; }
+  .pill.t1, .pill.t2 { background: #e0f4e0; color: #2a7a2a; }
+  .pill.t3 { background: #fef3d8; color: #8a6d1b; }
+  .pill.t4 { background: #fde8d8; color: #9a4a1a; }
+  .pill.t5, .pill.t6 { background: #fde0e0; color: #a03030; }
+  .legend { font-size: .85rem; color: #666; margin: 1rem 0; }
+  .legend .star { color: #f0c040; }
+  .count-on-site { font-size: .88rem; color: #666; margin: .5rem 0 1.5rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumbs">
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>Golden Classics
+  </p>
+
+  <h1>50 Golden Classics</h1>
+  <p class="lede">
+    A curated list of the 50 essential Swiss hikes — the routes that define hiking in Switzerland,
+    ranked roughly by fame. These span every major region and difficulty level, from gentle lakeside
+    walks to committing alpine ridges.
+  </p>
+
+  <p class="legend">
+    <span class="star">&#9733;</span> = route page on this site
+  </p>
+
+  <p class="count-on-site">{{ on_site }} of 50 classics have route pages on this site.</p>
+</div>
+
+<div class="wide-wrap">
+  <table class="classics-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Hike</th>
+        <th>Grade</th>
+        <th>Region</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h in classics %}
+      <tr>
+        <td class="num">{{ h.rank }}</td>
+        <td>
+          {% if h.on_site %}<span class="star" title="Route page on this site">&#9733;</span>{% endif %}<span class="hike-name">{% if h.href %}<a href="{{ h.href }}">{{ h.name }}</a>{% else %}{{ h.name }}{% endif %}</span>
+        </td>
+        <td><span class="pill {{ h.pill_class }}">{{ h.grade }}</span></td>
+        <td class="region-tag">{{ h.region }}</td>
+        <td class="desc">{{ h.desc }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="wrap">
+  <hr>
+
+  <h2>Selection criteria</h2>
+  <p>
+    These 50 routes were chosen for their combination of scenic quality, cultural significance,
+    variety of terrain, and accessibility by public transport. The list balances regions
+    (Oberland, Wallis, Zentralschweiz, Ostschweiz, Graubünden, Ticino, Jura, Romandie)
+    and difficulty levels (T1–T5) so that every hiker finds something.
+  </p>
+  <p>
+    This is a personal selection, not an official ranking. If you think a classic is missing,
+    you're probably right — Switzerland has too many great hikes for any list of 50.
+  </p>
+</div>
+
+<footer>
+  Dr. Robert Hannah &middot; Quantitative Researcher, Citadel Securities &middot;
+  <a href="https://github.com/roberthannah89">GitHub</a>
+</footer>
+</body>
+</html>

@@ -150,26 +150,15 @@
               "minItems": 2, "maxItems": 2,
               "items": { "type": "string" }
             }
-          },
-          "footer_html": { "type": "string" }
+          }
+
         }
       }
     },
     "weather": {
       "type": "object",
-      "required": ["lapse_rate", "sources_html", "season_html"],
+      "required": ["season_html"],
       "properties": {
-        "lapse_rate": {
-          "type": "object",
-          "required": ["valley_ref", "summit_above_ref_m", "temp_drop_c", "example_html"],
-          "properties": {
-            "valley_ref":         { "type": "string" },
-            "summit_above_ref_m": { "type": "number" },
-            "temp_drop_c":        { "type": "number" },
-            "example_html":       { "type": "string" }
-          }
-        },
-        "sources_html": { "type": "array", "items": { "type": "string" } },
         "season_html":  { "type": "string" }
       }
     },
@@ -224,7 +213,7 @@
     "resources_html":  { "type": "array", "items": { "type": "string" } },
     "disclaimer_html": { "type": "string" },
     "intro_html":      { "type": "string" },
-    "routes_subtitle": { "type": "string" },
+
     "elev_chart_attrib_html": { "type": "string" },
     "photos_attrib_html":     { "type": "string" }
   }

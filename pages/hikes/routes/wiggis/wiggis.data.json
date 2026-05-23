@@ -119,7 +119,6 @@
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>Vom Obersee über Geisskappel und den Rautispitz</strong>",
@@ -173,21 +172,10 @@
           "13:00",
           "Return to Obersee"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Näfels, ~430 m",
-      "summit_above_ref_m": 1682,
-      "temp_drop_c": 10.1,
-      "example_html": "Example: Näfels forecast 15–25 °C → summit ≈ <strong>+5 °C to +15 °C</strong>. The Rautispitz–Wiggis ridge is fully exposed."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "<strong>June–October</strong> is best. The exposed traverse between Rautispitz and Wiggis demands dry conditions — wet grass on T4 terrain is dangerous. Thunderstorm risk high July–August afternoons."
   },
   "webcams": [

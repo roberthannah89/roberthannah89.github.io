@@ -155,7 +155,6 @@
       "kind": "hut"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>From Rotenboden via the Gornergletscher</strong>",
@@ -200,21 +199,10 @@
           "15:30",
           "Return to Rotenboden; take train down to Zermatt"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Zermatt, ~1608 m",
-      "summit_above_ref_m": 2283,
-      "temp_drop_c": 13.7,
-      "example_html": "Example: Zermatt forecast 10–20 °C → hut ≈ <strong>+2 °C to +12 °C</strong>. Glacier wind adds significant chill; temperatures at 2883 m can drop below freezing even in summer."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "<strong>Late June–September</strong> when the glacier route is marked and the hut is staffed. Crevasse danger requires the marked route. Check hut website for opening dates; conditions change rapidly at this altitude."
   },
   "webcams": [

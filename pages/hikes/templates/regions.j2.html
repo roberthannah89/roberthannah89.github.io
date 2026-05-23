@@ -88,7 +88,7 @@
   // ── Canton map ──
   const cantonEl = document.getElementById('canton-map');
   const cantonMap = L.map('canton-map', { scrollWheelZoom: false });
-  MS.addLayerControl(cantonMap, { defaultLayer: 'Topo (greyscale)', includeTrails: false });
+  MS.addLayerControl(cantonMap, { defaultLayer: 'color', includeTrails: false });
   MS.addFullscreen(cantonMap, cantonEl);
 
   const hikeCanton = {};
@@ -141,7 +141,7 @@
   // ── Region map ──
   const regionEl = document.getElementById('region-map');
   const regionMap = L.map('region-map', { scrollWheelZoom: false });
-  MS.addLayerControl(regionMap, { defaultLayer: 'Topo (greyscale)', includeTrails: false });
+  MS.addLayerControl(regionMap, { defaultLayer: 'color', includeTrails: false });
   MS.addFullscreen(regionMap, regionEl);
 
   const REGION_COLORS = COLORS.slice(0, 12);

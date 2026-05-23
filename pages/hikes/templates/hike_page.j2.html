@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>{{ page.title }}</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
 <link rel="stylesheet" href="../_assets/hike_page.css"/>
 <style>header.hero { background-image: url('{{ hero.image_url }}'); }</style>
 </head>
@@ -75,11 +75,7 @@
 <section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
-    <strong style="align-self:center;">Layer:</strong>
-    <button data-layer="hike" class="active">Topo + Hiking trails</button>
-    <button data-layer="aerial">Aerial photo</button>
-    <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
@@ -148,23 +144,9 @@
   <p class="attrib">
     Forecast modeled at {{ peak.elev }} m (summit coordinates) via
     <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.
-    Temps are summit-level; valley will be ~{{ weather.lapse_rate.temp_drop_c }} °C warmer. Always cross-check
+    Temperatures are summit-level; valleys will be warmer. Always cross-check
     <a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> before going.
   </p>
-  <h3>Lapse-rate temperature estimate</h3>
-  <p>Mountain temperature drops about <strong>6.5 °C per 1000 m</strong>.</p>
-  <ul>
-    <li><strong>Valley reference:</strong> {{ weather.lapse_rate.valley_ref }}.</li>
-    <li><strong>Summit:</strong> {{ peak.elev }} m → ~{{ weather.lapse_rate.summit_above_ref_m }} m above the reference → subtract ~<strong>{{ weather.lapse_rate.temp_drop_c }} °C</strong>.</li>
-    <li>{{ weather.lapse_rate.example_html | safe }}</li>
-    <li>Pack for the cold end: hat, gloves, windproof, insulating layer.</li>
-  </ul>
-  <h3>Sources to check</h3>
-  <ul>
-{%- for s in weather.sources_html %}
-    <li>{{ s | safe }}</li>
-{%- endfor %}
-  </ul>
   <h3>Snow / season</h3>
   <p>{{ weather.season_html | safe }}</p>
 </section>
@@ -282,7 +264,7 @@
 
 {% if has_config_js %}<script src="_config.js"></script>{% endif %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
+<script src="../_assets/map_shared.js"></script>
 <script src="{{ slug }}.track.js"></script>
 <script>
 window.HIKE = {

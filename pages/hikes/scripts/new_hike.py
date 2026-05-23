@@ -51,10 +51,8 @@ from urllib.request import Request, urlopen
 
 from config import (
     DEFAULT_DISCLAIMER,
-    DEFAULT_WEATHER_SOURCES,
     EARTH_RADIUS_M,
     ELEV_SMOOTH_M,
-    LAPSE_RATE_C_PER_KM,
     LOOP_THRESHOLD_M,
     NAISMITH_ASCENT_MH,
     NAISMITH_SPEED_KMH,
@@ -346,10 +344,6 @@ def build_template(
     g = gpx_data or {}
     has_ele = g.get("has_elevation", False)
 
-    # Valley reference: use trailhead elevation from GPX start point
-    trailhead_elev = int(g["start"]["ele"]) if g.get("start", {}).get("ele") else 0
-    temp_drop = round((elev - trailhead_elev) * LAPSE_RATE_C_PER_KM / 1000, 1) if trailhead_elev else 0
-
     # --- Index card: use GPX stats when available, else TODO ---
     if has_ele:
         ic_distance = f"{g['distance_km']:.1f} km"
@@ -478,7 +472,7 @@ def build_template(
         "quick_facts": qf,
         "photos": [],
         "waypoints": waypoints,
-        "routes_subtitle": "",
+
         "routes": [
             {
                 "title_html": "TODO: route name",
@@ -501,20 +495,10 @@ def build_template(
                 "rows": [
                     ["HH:MM", "TODO: step description"],
                 ],
-                "footer_html": "",
+
             }
         ],
         "weather": {
-            "lapse_rate": {
-                "valley_ref": f"{trailhead} ({trailhead_elev} m)" if trailhead_elev else "TODO: nearest valley station, e.g. Interlaken (570 m)",
-                "summit_above_ref_m": elev - trailhead_elev if trailhead_elev else 0,
-                "temp_drop_c": temp_drop,
-                "example_html": (
-                    f"<strong>22 °C at {trailhead}</strong> → ~<strong>{22 - temp_drop:.0f} °C at summit</strong>"
-                    if temp_drop else "TODO: e.g. <strong>22 °C valley → ~X °C summit</strong>"
-                ),
-            },
-            "sources_html": list(DEFAULT_WEATHER_SOURCES),
             "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.",
         },
         "webcams": [

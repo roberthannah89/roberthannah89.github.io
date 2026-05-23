@@ -48,20 +48,31 @@
 .leaflet-popup-content a { color: #ff5c5c; }
 .leaflet-container a.leaflet-popup-close-button { color: #a0a4ad; }
 
-/* Dark-theme layer control */
-.leaflet-control-layers {
-  background: rgba(11,12,16,0.92) !important;
-  border: 1px solid #23262e !important;
-  border-radius: 8px !important;
-  color: #e8e8ea !important;
+/* Layer toggle bar (above map) */
+.ms-layer-bar {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin: .6rem 0;
+  font-size: .9rem;
 }
-.leaflet-control-layers label { color: #e8e8ea; }
-.leaflet-control-layers-toggle {
-  background-color: rgba(11,12,16,0.88) !important;
-  border: 1px solid #23262e !important;
-  border-radius: 4px !important;
-  width: 30px !important;
-  height: 30px !important;
+.ms-layer-btn {
+  padding: .35rem .8rem;
+  background: var(--card, #14161c);
+  border: 1px solid var(--border, #23262e);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: .9rem;
+  color: var(--fg, #e8e8ea);
+}
+.ms-layer-btn.active {
+  background: var(--accent, #ff5c5c);
+  color: #fff;
+  border-color: var(--accent, #ff5c5c);
+}
+.ms-layer-btn:focus-visible {
+  outline: 2px solid var(--accent, #ff5c5c);
+  outline-offset: 2px;
 }
 
 /* Region-specific: legend overlays, labels */

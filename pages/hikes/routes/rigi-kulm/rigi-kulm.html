@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Rigi Kulm (1797 m) -- Hike Plan</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
 <link rel="stylesheet" href="../_assets/hike_page.css"/>
 <style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1600180283_276495212master_79d93f72c0.jpg'); }</style>
 </head>
@@ -92,11 +92,7 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
 <section>
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
-    <strong style="align-self:center;">Layer:</strong>
-    <button data-layer="hike" class="active">Topo + Hiking trails</button>
-    <button data-layer="aerial">Aerial photo</button>
-    <button data-layer="osm">OpenStreetMap</button>
-    <button id="fitBtn" style="margin-left:auto;" aria-label="Fit route to view">↻ Fit route</button>
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
@@ -115,7 +111,7 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
 </section>
 
 <section>
-  <h2>Routes </h2>
+  <h2>Routes</h2>
   <h3><strong>Seebodenalp - "Arschbaggen" - Rigi Kulm - Leiterliweg – Seebodenalp</strong> <span class="pill t5">T5-</span></h3>
   <ul>
     <li>Seebodenalp – Ronenboden</li>
@@ -295,7 +291,7 @@ Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the asc
 
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
+<script src="../_assets/map_shared.js"></script>
 <script src="rigi-kulm.track.js"></script>
 <script>
 window.HIKE = {

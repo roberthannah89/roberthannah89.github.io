@@ -125,7 +125,6 @@
       "kind": "hut"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>From Zinal</strong>",
@@ -150,21 +149,10 @@
           "HH:MM",
           "TODO: step description"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "TODO: nearest valley station, e.g. Interlaken (570 m)",
-      "summit_above_ref_m": 2656,
-      "temp_drop_c": 15.9,
-      "example_html": "TODO: e.g. <strong>22 C valley -> ~X C summit</strong>"
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
   },
   "webcams": [

@@ -101,7 +101,6 @@
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>Seebodenalp - \"Arschbaggen\" - Rigi Kulm - Leiterliweg – Seebodenalp</strong>",
@@ -154,21 +153,10 @@
           "12:30",
           "Return to Seebodenalp"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Küssnacht am Rigi, ~440 m",
-      "summit_above_ref_m": 1197,
-      "temp_drop_c": 7.2,
-      "example_html": "Example: Küssnacht forecast 18–28 °C → summit ≈ <strong>+11 °C to +21 °C</strong>. Rigi is exposed to west winds from the lakes."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "<strong>May–November</strong> for the standard route. The T5- Arschbaggen variant requires dry conditions — Nagelfluh rock is extremely slippery when wet. Avoid after rain or in fog."
   },
   "webcams": [

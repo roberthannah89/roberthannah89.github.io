@@ -167,7 +167,6 @@
       "kind": "hut"
     }
   ],
-  "routes_subtitle": "",
   "routes": [
     {
       "title_html": "<strong>From Tierfehd via Ober Sand</strong>",
@@ -216,21 +215,10 @@
           "17:00",
           "Return to Tierfehd (if descending same day)"
         ]
-      ],
-      "footer_html": ""
+      ]
     }
   ],
   "weather": {
-    "lapse_rate": {
-      "valley_ref": "Linthal, ~650 m",
-      "summit_above_ref_m": 2347,
-      "temp_drop_c": 14.1,
-      "example_html": "Example: Linthal forecast 15–25 °C → hut ≈ <strong>+1 °C to +11 °C</strong>. At 2947 m expect glacier wind and rapid temperature drops."
-    },
-    "sources_html": [
-      "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a> -- official Swiss forecast",
-      "<a href=\"https://www.meteoblue.com/\">Meteoblue</a> -- hourly wind/precip"
-    ],
     "season_html": "<strong>Late June–September</strong> when the hut is staffed and the trail is snow-free. The upper section above Ober Sand holds snow into July. Check hut website for current conditions."
   },
   "webcams": [
