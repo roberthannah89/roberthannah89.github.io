@@ -98,18 +98,14 @@
     Directions from <span id="transit-origin"></span> to
     <strong>{{ trailhead.name }}</strong>
   </p>
-  <div class="grid-2">
-    <div>
-      <h3>By car</h3>
-      {{ getting_there.by_car_html | safe }}
-    </div>
-    <div>
-      <h3>{{ getting_there.get('by_pt_heading') or 'By public transport' }}</h3>
-      {{ getting_there.by_pt_html | safe }}
-    </div>
+{%- if getting_there.transport_notes_html %}
+  <div class="transport-notes">
+    {{ getting_there.transport_notes_html | safe }}
   </div>
+{%- endif %}
 </section>
 
+{%- if day_plans %}
 <section>
 {%- for plan in day_plans %}
 {%- if plan.title %}
@@ -129,6 +125,7 @@
 {%- endif %}
 {%- endfor %}
 </section>
+{%- endif %}
 
 <section>
   <h2>Weather Planning</h2>
@@ -142,8 +139,10 @@
     Temperatures are summit-level; valleys will be warmer. Always cross-check
     <a href="https://www.meteoswiss.admin.ch/" target="_blank">MeteoSwiss</a> before going.
   </p>
+{%- if weather.season_html %}
   <h3>Snow / season</h3>
   <p>{{ weather.season_html | safe }}</p>
+{%- endif %}
 </section>
 
 <section>
@@ -224,14 +223,6 @@
   </section>
 {%- endif %}
 
-  <section>
-    <h2>Safety &amp; Hazards</h2>
-    <ul>
-{%- for s in safety_html %}
-      <li>{{ s | safe }}</li>
-{%- endfor %}
-    </ul>
-  </section>
 </div>
 
 <section>
@@ -243,10 +234,6 @@
   </ul>
 </section>
 
-<section>
-  <h2>Disclaimer</h2>
-  <p>{{ disclaimer_html | safe }}</p>
-</section>
 
 </main>
 

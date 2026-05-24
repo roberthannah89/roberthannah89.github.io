@@ -101,7 +101,7 @@
       "kind": "poi"
     },
     {
-      "lat": 46.6590,
+      "lat": 46.659,
       "lon": 8.0576,
       "label": "First (2165 m)",
       "kind": "end"
@@ -166,16 +166,11 @@
     ]
   },
   "gear": [],
-  "safety_html": [
-    "<strong>SAC grade T2</strong> — check conditions before departure.",
-    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
-  ],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Route Portal — Von Schynige Platte</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Peak Page — Berghaus Männdlenen</a>"
   ],
-  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
   "sources": [
     {
       "name": "SAC Route Portal (Schynige Platte leg)",

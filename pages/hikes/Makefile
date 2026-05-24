@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx extract-sac-gpx render validate serve
+.PHONY: help new new-gpx extract-sac-gpx render validate serve inspect-sac check-gaps combine-gpx swiss-border
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -30,6 +30,12 @@ help:
 	@echo "  render         Render all hike HTML pages"
 	@echo "  validate       Validate hike data without writing output"
 	@echo "  serve          Render then serve the site on localhost"
+	@echo ""
+	@echo "Utilities:"
+	@echo "  inspect-sac    Print SAC JSON structure (json=<path>)"
+	@echo "  check-gaps     Check GPX track connectivity (gpx=<path>)"
+	@echo "  combine-gpx    Stitch two GPX tracks (gpx1=... gpx2=... output=...)"
+	@echo "  swiss-border   Regenerate swiss_border.js from GADM"
 	@echo ""
 	@echo "Variables for 'new':"
 	@echo "  slug            (required) URL-safe hike slug, e.g. lisengrat"
@@ -96,4 +102,27 @@ validate:
 serve: render
 	python3 -m http.server $(port)
 
+# -----------------------------------------------------------------------------
+## inspect-sac : Print SAC JSON structure (photos, segments, waypoints, metadata)
+inspect-sac:
+	$(PYTHON) $(SCRIPTS)/inspect_sac_json.py $(json)
 
+# -----------------------------------------------------------------------------
+## check-gaps : Check GPX track connectivity (threshold in metres, default 100)
+check-gaps:
+	$(PYTHON) $(SCRIPTS)/check_gpx_gaps.py $(gpx) $(if $(threshold),$(threshold))
+
+# -----------------------------------------------------------------------------
+## combine-gpx : Stitch two GPX tracks end-to-end
+combine-gpx:
+	$(PYTHON) $(SCRIPTS)/combine_gpx.py \
+	  $(if $(gpx1),--gpx1 $(gpx1)) \
+	  $(if $(gpx2),--gpx2 $(gpx2)) \
+	  $(if $(output),--output $(output)) \
+	  $(if $(reverse2),--reverse2) \
+	  $(if $(name),--name "$(name)")
+
+# -----------------------------------------------------------------------------
+## swiss-border : Regenerate swiss_border.js from GADM boundary data
+swiss-border:
+	$(PYTHON) $(SCRIPTS)/make_swiss_boundary.py

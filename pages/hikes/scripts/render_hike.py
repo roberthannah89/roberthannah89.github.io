@@ -487,6 +487,22 @@ def _build_transport_notes(data: dict) -> None:
     gt["transport_notes_html"] = "\n".join(parts) if parts else ""
 
 
+def _filter_todo_sections(data: dict) -> None:
+    """Strip sections that are pure TODO placeholders so the template skips them."""
+    # Day plans: drop if every row is a TODO placeholder
+    plans = data.get("day_plans") or []
+    if plans and all(
+        all("TODO" in row[1] or "HH:MM" in row[0] for row in p.get("rows", []))
+        for p in plans
+    ):
+        data["day_plans"] = []
+
+    # Snow / season: clear if TODO
+    weather = data.get("weather") or {}
+    if "TODO" in (weather.get("season_html") or ""):
+        weather["season_html"] = ""
+
+
 def render_one(data_path: Path) -> RenderResult:
     """Render one hike. Pure function — safe for ProcessPoolExecutor."""
     stages: dict[str, float] = {}
@@ -547,6 +563,7 @@ def render_one(data_path: Path) -> RenderResult:
             )
             data["specific_gear"] = filter_specific_gear(data.get("gear") or [])
             _build_transport_notes(data)
+            _filter_todo_sections(data)
             # Optional per-hike _config.js (e.g. Google Maps Embed API key).
             data["has_config_js"] = (data_path.parent / "_config.js").exists()
 

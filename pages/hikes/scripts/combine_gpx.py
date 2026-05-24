@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Combine two GPX tracks end-to-end, optionally reversing the second."""
+"""Combine two GPX tracks end-to-end, optionally reversing the second.
+
+Used for multi-route traverses (e.g. Schynige Platte–First = two SAC routes stitched).
+
+Usage:
+    python scripts/combine_gpx.py --gpx1 part1.gpx --gpx2 part2.gpx --reverse2 --output combined.gpx
+"""
 
 import argparse
 import gpxpy

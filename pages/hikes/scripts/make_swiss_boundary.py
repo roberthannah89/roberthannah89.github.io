@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Download Switzerland boundary from GADM, simplify, and save as GeoJSON asset."""
+"""Download Switzerland boundary from GADM, simplify, and save as swiss_border.js.
+
+One-shot generator — run again only if the boundary data needs regenerating.
+Outputs to both routes/_assets/ and templates/_assets/ so render syncs it.
+
+Usage:
+    python scripts/make_swiss_boundary.py
+"""
 
 import json
 import math

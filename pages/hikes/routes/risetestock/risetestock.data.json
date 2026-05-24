@@ -246,16 +246,10 @@
     ]
   },
   "gear": [],
-  "safety_html": [
-    "<strong>T4 terrain:</strong> Exposed sections require sure-footedness and a head for heights. Hands may be needed in places.",
-    "<strong>Wet conditions:</strong> Steep grass and rock become dangerous when wet — postpone if rain is forecast.",
-    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
-  ],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/\">SAC Route Portal — Risetestock</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"https://map.geo.admin.ch/?zoom=14&E=8.15&N=46.958&lang=en&bgLayer=ch.swisstopo.pixelkarte-farbe\">SwissTopo map</a>"
   ],
-  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
   "photos_attrib_html": "All photos: Marco Volken / SAC Route Portal"
 }

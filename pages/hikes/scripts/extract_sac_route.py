@@ -35,8 +35,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from check_gpx_gaps import find_gaps
 from extract_sac_gpx import sac_json_to_gpx
 from extract_sac_photos import extract_photos
+from inspect_sac_json import inspect_data
 from new_hike import scaffold_hike, parse_gpx
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -236,17 +238,7 @@ def _populate_sac_metadata(data: dict, meta: dict, sac: dict) -> None:
             new_res.append(f'<a href="{peak_url}">SAC Peak Page — {meta["destination_name"]}</a>')
         data["resources_html"] = new_res if new_res else res
 
-    safety = data.get("safety_html", [])
-    if safety and "TODO" in safety[0]:
-        difficulty = meta.get("difficulty", "")
-        seriousness = meta.get("seriousness")
-        new_safety = []
-        if difficulty:
-            new_safety.append(f"<strong>SAC grade {difficulty}</strong> — check conditions before departure.")
-        if seriousness and seriousness >= 2:
-            new_safety.append("<strong>Serious terrain:</strong> route-finding ability and alpine experience required.")
-        new_safety.append("Turn back if thunderstorms develop — lightning risk above treeline is extreme.")
-        data["safety_html"] = new_safety
+    data.pop("safety_html", None)
 
 
 def _write_data(data_path: Path, data: dict) -> None:
@@ -271,6 +263,7 @@ def process_hike(
     no_scaffold: bool = False,
     no_photos: bool = False,
     no_metadata: bool = False,
+    inspect: bool = False,
 ) -> bool:
     """Process a single hike end-to-end. Returns True on success."""
     data_path = REPO_ROOT / "routes" / slug / f"{slug}.data.json"
@@ -286,9 +279,22 @@ def process_hike(
     print(f"[{slug}] Route: {meta['title']}")
     print(f"[{slug}] {meta['difficulty']} | {meta['destination_name']} ({meta['destination_altitude']} m) | from {meta['departure_name']} ({meta['departure_altitude']} m)")
 
+    if inspect:
+        print(f"\n[{slug}] --- SAC JSON inspection ---")
+        inspect_data(sac)
+        print(f"[{slug}] --- end inspection ---\n")
+
     # Step 1: GPX
     print(f"\n[{slug}] Step 1: Extracting GPX")
     gpx_path = sac_json_to_gpx(json_path, slug, add_elevation=not no_elevation)
+
+    gaps = find_gaps(gpx_path)
+    if gaps:
+        print(f"[{slug}] WARNING: {len(gaps)} gap(s) in GPX track:")
+        for g in gaps:
+            print(f"[{slug}]   Seg {g['seg_from']}→{g['seg_to']}: {g['distance_m']:.0f} m")
+    else:
+        print(f"[{slug}] GPX track connectivity: OK")
 
     # Derive coordinates from GPX
     coords = _coords_from_gpx(gpx_path)
@@ -421,6 +427,8 @@ def main() -> None:
     parser.add_argument("--no-photos", action="store_true")
     parser.add_argument("--no-elevation", action="store_true")
     parser.add_argument("--no-metadata", action="store_true")
+    parser.add_argument("--inspect", action="store_true",
+                        help="Print full SAC JSON structure before extraction")
     parser.add_argument("--render", action="store_true", help="Run make render after extraction")
     parser.add_argument("--parallel", action="store_true",
                         help="Process multiple hikes in parallel (experimental)")
@@ -476,6 +484,7 @@ def main() -> None:
                     no_scaffold=args.no_scaffold,
                     no_photos=args.no_photos,
                     no_metadata=args.no_metadata,
+                    inspect=args.inspect,
                 ): slug
                 for slug, jp in hikes
             }
@@ -498,6 +507,7 @@ def main() -> None:
                 no_scaffold=args.no_scaffold,
                 no_photos=args.no_photos,
                 no_metadata=args.no_metadata,
+                inspect=args.inspect,
             )
 
     if args.render:

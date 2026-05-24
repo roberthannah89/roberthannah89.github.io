@@ -171,16 +171,11 @@
     ]
   },
   "gear": [],
-  "safety_html": [
-    "<strong>SAC grade T3</strong> — check conditions before departure.",
-    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
-  ],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/\">SAC Route Portal — Monte Tamaro and Monte Gambarogno</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/\">SAC Peak Page — Monte Tamaro</a>"
   ],
-  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
   "sources": [
     {
       "name": "SAC Route Portal (route)",

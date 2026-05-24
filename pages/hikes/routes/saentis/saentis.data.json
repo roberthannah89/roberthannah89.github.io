@@ -220,16 +220,11 @@
     ]
   },
   "gear": [],
-  "safety_html": [
-    "<strong>SAC grade T4+</strong> — check conditions before departure.",
-    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
-  ],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Route Portal — From Schwägalp via Nasenlöcher</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Peak Page — Säntis</a>"
   ],
-  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
   "sources": [
     {
       "name": "SAC Route Portal (route)",

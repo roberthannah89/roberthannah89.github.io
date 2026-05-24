@@ -137,22 +137,16 @@
   }
 
   function setupTransit() {
-    const embed       = document.getElementById("transit-embed");
-    const iframe      = document.getElementById("transit-iframe");
-    const gmapsLink   = document.getElementById("gmaps-link");
-    const sbbLink     = document.getElementById("sbb-link");
-    const originLabel = document.getElementById("transit-origin");
-    const destLabel   = document.getElementById("transit-dest");
-    if (!embed || !TRANSIT_DEST) return;
+    const gmapsDrive   = document.getElementById("gmaps-drive-link");
+    const gmapsTransit = document.getElementById("gmaps-transit-link");
+    const sbbLink      = document.getElementById("sbb-link");
+    const originLabel  = document.getElementById("transit-origin");
+    if (!TRANSIT_DEST) return;
     if (originLabel) originLabel.textContent = transitOrigin;
-    if (destLabel)   destLabel.textContent   = TRANSIT_DEST;
     const enc = encodeURIComponent;
-    if (gmapsLink) gmapsLink.href = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${enc(TRANSIT_DEST)}&travelmode=transit`;
-    if (sbbLink)   sbbLink.href   = `https://www.sbb.ch/en?stops=${enc(transitOrigin)}%20%E2%86%92%20${enc(TRANSIT_DEST)}`;
-    if (mapsKey && iframe) {
-      iframe.src = `https://www.google.com/maps/embed/v1/directions?key=${enc(mapsKey)}&origin=${enc(transitOrigin)}&destination=${enc(TRANSIT_DEST)}&mode=transit`;
-      embed.classList.remove("empty");
-    }
+    if (gmapsDrive)   gmapsDrive.href   = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${enc(TRANSIT_DEST)}&travelmode=driving`;
+    if (gmapsTransit) gmapsTransit.href = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${enc(TRANSIT_DEST)}&travelmode=transit`;
+    if (sbbLink)      sbbLink.href      = `https://www.sbb.ch/en?stops=${enc(transitOrigin)}%20%E2%86%92%20${enc(TRANSIT_DEST)}`;
   }
   setupTransit();
 

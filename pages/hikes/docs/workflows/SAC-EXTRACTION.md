@@ -162,8 +162,9 @@ Runs `make render` to generate HTML pages.
 | `extract_sac_route.py` | **Master pipeline** — chains all steps below |
 | `extract_sac_gpx.py` | SAC JSON → GPX (LV95→WGS84, segment stitching) |
 | `extract_sac_photos.py` | SAC JSON + peak hero → photo URLs in data.json |
-| `inspect_sac_json.py` | Print SAC JSON structure (photos, segments, waypoints, metadata) |
-| `check_gpx_gaps.py` | Verify GPX track connectivity after extraction |
+| `inspect_sac_json.py` | Standalone diagnostic — print SAC JSON structure for debugging captures |
+| `check_gpx_gaps.py` | Standalone diagnostic — verify GPX track connectivity, flag gaps exceeding a threshold |
+| `combine_gpx.py` | Standalone utility — stitch two GPX tracks for multi-route traverses |
 
 ---
 
@@ -175,17 +176,7 @@ Runs `make render` to generate HTML pages.
 | `<slug>.gpx` | Permanent — extracted from SAC JSON |
 | `<slug>.html` | Generated — regenerated on `make render` |
 | `<slug>.track.js` | Generated — regenerated on `make render` |
-| `sac-route-<ID>.json` | Temporary — delete after data.json is fully populated |
+| `sac-route-<ID>.json` | Permanent — raw source data, kept for reproducibility (re-run extraction if scripts change) |
 
 > [!NOTE]
 > All route-specific files live in `routes/<slug>/` — never in the repo root.
-
----
-
-## Cleanup
-
-Delete the intermediate JSON after all data is extracted:
-
-```bash
-rm routes/<slug>/sac-route-<ID>.json
-```

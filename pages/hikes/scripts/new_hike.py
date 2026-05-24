@@ -50,7 +50,6 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 from config import (
-    DEFAULT_DISCLAIMER,
     EARTH_RADIUS_M,
     ELEV_SMOOTH_M,
     LOOP_THRESHOLD_M,
@@ -529,16 +528,11 @@ def build_template(
             ],
         },
         "gear": [],
-        "safety_html": [
-            "TODO: main hazard",
-            "Turn back if thunderstorms develop -- lightning risk above treeline is extreme.",
-        ],
         "resources_html": [
             f'<a href="TODO: SAC route URL">SAC Route Portal -- {name}</a>',
             '<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a>',
             '<a href="TODO: SwissTopo map URL">SwissTopo map</a>',
         ],
-        "disclaimer_html": DEFAULT_DISCLAIMER,
     }
 
 

@@ -16,7 +16,11 @@ from pathlib import Path
 def inspect(json_path: Path) -> None:
     with open(json_path, encoding="utf-8") as f:
         data = json.load(f)
+    inspect_data(data)
 
+
+def inspect_data(data: dict) -> None:
+    """Print a structured summary of an SAC route JSON dict."""
     print(f"Route: {data.get('title', '?')}")
     print(f"ID: {data.get('id', '?')}")
     print()

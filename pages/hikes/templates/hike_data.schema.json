@@ -5,8 +5,8 @@
   "type": "object",
   "required": ["page", "peak", "trailhead", "hero", "quick_facts", "photos",
                "waypoints", "routes", "getting_there", "day_plans", "weather",
-               "webcams", "trip_reports", "gear", "safety_html", "resources_html",
-               "disclaimer_html", "index_card"],
+               "webcams", "trip_reports", "gear", "resources_html",
+               "index_card"],
   "additionalProperties": true,
   "properties": {
     "slug": { "type": "string" },
@@ -209,9 +209,7 @@
         }
       }
     },
-    "safety_html":     { "type": "array", "items": { "type": "string" } },
     "resources_html":  { "type": "array", "items": { "type": "string" } },
-    "disclaimer_html": { "type": "string" },
     "intro_html":      { "type": "string" },
 
     "elev_chart_attrib_html": { "type": "string" },

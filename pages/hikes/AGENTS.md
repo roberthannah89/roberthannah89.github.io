@@ -13,6 +13,7 @@
 - **Pages are opened via `file://` protocol** — `fetch()` and `XMLHttpRequest` will silently fail. Data files that JS needs at runtime must be loaded via `<script>` tags setting globals (e.g. `swiss_border.js` sets `window.SWISS_BORDER`), never fetched. Keep data in separate `.js` files — don't inline large blobs into code files.
 - **Maps share construction via `map_shared.js`.** All map features (layers, fullscreen, Swiss border) belong in `addLayerControl` so every map gets them automatically. Never add map features in individual page scripts — put them in the shared code so improvements propagate to all maps. Every template with a map must include `swiss_border.js` before `map_shared.js`.
 - **No filler content.** Don't add generic, AI-sounding information that clutters pages and distracts from what hikers actually care about. Every sentence on a hike page should earn its place — if it doesn't add specific, useful detail, cut it. Be short and to the point.
+- **Before committing, delete any files made obsolete by your changes.** Temporary outputs, superseded scripts, orphan screenshots, etc. A file is **not** obsolete if it's needed for reproducibility — e.g. SAC route JSONs are raw source data and must be kept even after extraction.
 
 ## Generated pages
 
@@ -90,4 +91,4 @@ python scripts/extract_sac_route.py \
 
 This single command runs: GPX extraction → scaffold data.json → photo extraction → SAC metadata population → render. For multiple hikes use `--route slug:json` (repeat).
 
-**Do not delete the intermediate JSON until `data.json` is fully populated.** Re-authenticating to SAC is manual and costly.
+**Never delete SAC route JSONs** — they are raw source data needed for reproducibility. If extraction scripts change, these files allow re-running the pipeline without re-authenticating to SAC.

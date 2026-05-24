@@ -20,6 +20,8 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 
 ## Scripts
 
+### Pipeline scripts (called by Makefile or imported by other scripts)
+
 | Script | Purpose |
 |---|---|
 | `extract_sac_route.py` | **Master pipeline** — SAC JSON → GPX → scaffold → photos → metadata → render (supports multiple hikes) |
@@ -27,10 +29,18 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | `new_hike.py` | Scaffold a new empty hike directory |
 | `config.py` | Shared constants imported by other scripts (physical, algorithmic, display, defaults) |
 | `validate_hike_files.py` | Check every hike has all required files |
-| `extract_sac_gpx.py` | SAC route JSON → GPX track (LV95→WGS84, segment stitching) |
-| `extract_sac_photos.py` | SAC route JSON + peak hero → photo URLs in `data.json` |
-| `inspect_sac_json.py` | Print SAC JSON structure (photos, segments, waypoints, metadata) |
-| `check_gpx_gaps.py` | Verify GPX track connectivity after extraction |
+| `extract_sac_gpx.py` | SAC route JSON → GPX track (LV95→WGS84, segment stitching); imported by `extract_sac_route.py` |
+| `extract_sac_photos.py` | SAC route JSON + peak hero → photo URLs in `data.json`; imported by `extract_sac_route.py` |
+| `fetch_geodata.py` | Fetch canton/region GeoJSON from SwissTopo; imported by `render_hike.py` for the regions guide |
+
+### Standalone utilities (run directly, not in Makefile)
+
+| Script | Purpose |
+|---|---|
+| `inspect_sac_json.py` | Print SAC JSON structure (photos, segments, waypoints, metadata) for debugging captures |
+| `check_gpx_gaps.py` | Verify GPX track connectivity after extraction — flags gaps exceeding a threshold |
+| `combine_gpx.py` | Stitch two GPX tracks end-to-end for multi-route traverses (e.g. Schynige Platte–First) |
+| `make_swiss_boundary.py` | One-shot generator: download GADM boundary → simplify → write `swiss_border.js`. Re-run only if boundary data needs regenerating |
 
 ---
 

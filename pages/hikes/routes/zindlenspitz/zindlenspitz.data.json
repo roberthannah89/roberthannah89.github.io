@@ -277,17 +277,10 @@
     ]
   },
   "gear": [],
-  "safety_html": [
-    "<strong>Exposure:</strong> The ridge from P. 1989 to Brünnelistock has exposed passages without belaying possibilities (T5−). Not suitable for those uncomfortable with exposure.",
-    "<strong>Wet conditions:</strong> SAC explicitly warns against undertaking this tour in wet conditions — exposed rock and ledges become very dangerous.",
-    "<strong>Fixed ropes/chains:</strong> Fixed ropes on Rossälplispitz and a chain after P. 1901 — check condition before relying on them.",
-    "Turn back if thunderstorms develop — lightning risk on the exposed ridge is extreme."
-  ],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/zindlenspitz-2260/mountain-hiking/bruennelistock-rossaelplispitz-and-zindlenspitz-4567/\">SAC Route Portal — Brünnelistock, Rossälplispitz and Zindlenspitz</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
     "<a href=\"https://map.geo.admin.ch/?lang=en&center=8.97,47.08&z=14\">SwissTopo map</a>"
   ],
-  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
   "photos_attrib_html": "All photos: Marco Volken / SAC Route Portal"
 }

@@ -201,13 +201,8 @@
     ]
   },
   "gear": [],
-  "safety_html": [
-    "<strong>SAC grade T2</strong> — check conditions before departure.",
-    "Turn back if thunderstorms develop — lightning risk above treeline is extreme."
-  ],
   "resources_html": [
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>"
   ],
-  "disclaimer_html": "This page is an informal hike plan, not professional mountain-safety advice. Conditions change rapidly. Always check MeteoSwiss and SAC before setting out.",
   "photos_attrib_html": "All photos: Ueli Stalder, davidschweizer.ch / SAC Route Portal"
 }
