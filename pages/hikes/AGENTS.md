@@ -27,7 +27,6 @@
 | `routes/<slug>/<slug>.track.js` | *(generated from GPX)* | Leaflet track data |
 | `index.html` | `index.j2.html` | Gallery landing page with filters and map |
 | `guides/index.html` | `guide_index.j2.html` | Guide landing page with card grid (auto-discovered) |
-| `guides/regions.html` | `regions.j2.html` | Hikes grouped by region/canton |
 | `guides/difficulty.html` | `difficulty.j2.html` | Trail system, grades, markings, organisations, and national routes |
 
 The remaining guide pages (e.g. `guides/planning.html`, `guides/weather.html`, `guides/gear.html`) are static HTML — edit them directly. To add a new guide page to the index, include these `<meta>` tags in its `<head>`:

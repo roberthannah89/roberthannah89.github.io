@@ -436,7 +436,6 @@ def build_template(
         "page": {
             "title": f"{name} ({elev} m) -- Hike Plan",
             "generated": today_str,
-            "reports_updated": today_str,
             "year": year,
         },
         "peak": {
@@ -498,33 +497,7 @@ def build_template(
         "weather": {
             "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow.",
         },
-        "webcams": [
-            {
-                "url": "TODO: https://www.foto-webcam.eu/webcam/<nearest-cam>/current/1200.jpg",
-                "label": "TODO: camera name",
-                "fallback": False,
-            }
-        ],
         "elev_chart_attrib_html": elev_attrib,
-        "trip_reports": {
-            "hikr_index_url": "TODO: https://www.hikr.org/region/?gid=...",
-            "takeaways_html": [
-                "TODO: cross-report pattern 1.",
-                "TODO: cross-report pattern 2.",
-            ],
-            "reports": [
-                {
-                    "url": "TODO: hikr report URL",
-                    "title": "TODO: report title",
-                    "season": "TODO: e.g. August 2025",
-                    "grade": grade,
-                    "bullets_html": [
-                        "TODO: Key observation 1.",
-                        "TODO: Key observation 2.",
-                    ],
-                }
-            ],
-        },
         "resources_html": [
             f'<a href="TODO: SAC route URL">SAC Route Portal -- {name}</a>',
             '<a href="TODO: SwissTopo map URL">SwissTopo map</a>',

@@ -3,7 +3,6 @@
   "page": {
     "title": "Wiggis (2282 m) -- Hike Plan",
     "generated": "2026-05-15",
-    "reports_updated": "2026-05-15",
     "year": 2026
   },
   "peak": {
@@ -181,61 +180,7 @@
   "weather": {
     "season_html": "<strong>June–October</strong> is best. The exposed traverse between Rautispitz and Wiggis demands dry conditions — wet grass on T4 terrain is dangerous. Thunderstorm risk high July–August afternoons."
   },
-  "webcams": [
-    {
-      "url": "https://kameraserver.tbgn.ch/obersee.jpg",
-      "label": "Obersee — Blick auf See und Brünnelistock (TBGN)",
-      "fallback": false
-    },
-    {
-      "url": "https://www.meteoblue.com/en/weather/webcams/naefels_switzerland",
-      "label": "Meteoblue Näfels/Glarus webcams",
-      "fallback": true
-    }
-  ],
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "trip_reports": {
-    "hikr_index_url": "https://www.hikr.org/dir/Wiggis_5943/",
-    "takeaways_html": [
-      "<strong>Exposed ridge traverse:</strong> The Rautispitz–Wiggis connection via P. 2168 is consistently described as T4 with steep grass and a wire-secured passage near Wiggisnase. Dry conditions are essential.",
-      "<strong>Route from Obersee:</strong> The first 400 m of elevation gain follow forest roads before the mountain trail begins; below Geisschappel (1727 m) a rope-secured passage requires attention.",
-      "<strong>Wildlife:</strong> Multiple reports mention ibex (Steinböcke) sightings on the upper ridges between Rautispitz and Wiggis."
-    ],
-    "reports": [
-      {
-        "url": "https://www.hikr.org/tour/post169030.html",
-        "title": "Rautispitz und Wiggis",
-        "season": "January 2022",
-        "grade": "T4",
-        "bullets_html": [
-          "Full traverse from Obersee over Rautispitz to Wiggis and back.",
-          "Encountered a herd of 19 ibex on the final ascent to Rautispitz.",
-          "Ridge traverse marked blue-white, graded T4 with exposed sections."
-        ]
-      },
-      {
-        "url": "https://www.hikr.org/tour/post57468.html",
-        "title": "Wiggis und Rautispitz",
-        "season": "October 2012",
-        "grade": "T4",
-        "bullets_html": [
-          "Started from Netstal via Auerenalp to Wiggis, then traversed to Rautispitz.",
-          "Wire-secured passage between Wiggisnase and Rautispitz; snow present on shaded side.",
-          "Descended to Obersee and walked to Näfels (no bus service at the time)."
-        ]
-      },
-      {
-        "url": "https://www.hikr.org/tour/post136980.html",
-        "title": "Rautispitz - Wiggis",
-        "season": "October 2018",
-        "grade": "T4",
-        "bullets_html": [
-          "Combined traverse of both summits from Obersee.",
-          "Exposed ridge demands sure-footedness and a head for heights."
-        ]
-      }
-    ]
-  },
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/\">SAC Route Portal — Vom Obersee über Geisskappel und den Rautispitz</a>",
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/\">SAC Peak Page — Wiggis</a>",

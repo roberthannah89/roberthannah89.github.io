@@ -11,7 +11,7 @@ Features
   stats, write file). A summary table is printed at the end.
 - Optional `--profile` mode: runs the slowest hike under `cProfile` and dumps
   the top 30 cumulative-time entries.
-- Optional `--probe` mode: parallel HEAD probes of webcam + photo URLs,
+- Optional `--probe` mode: parallel HEAD probes of photo URLs,
   warning on 4xx/5xx so dead links are caught at build time.
 
 Usage
@@ -77,7 +77,6 @@ TEMPLATE_DIR = REPO_ROOT / "templates"
 ASSETS_DIR = TEMPLATE_DIR / "_assets"
 TEMPLATE_NAME = "hike_page.j2.html"
 INDEX_TEMPLATE_NAME = "index.j2.html"
-REGIONS_TEMPLATE_NAME = "regions.j2.html"
 DIFFICULTY_TEMPLATE_NAME = "difficulty.j2.html"
 CLASSICS_TEMPLATE_NAME = "classics.j2.html"
 GUIDE_INDEX_TEMPLATE_NAME = "guide_index.j2.html"
@@ -593,7 +592,7 @@ def _head(url: str, timeout: float = 5.0) -> tuple[str, int | None, str]:
 
 
 def probe_urls(data_files: Iterable[Path], max_workers: int = 16) -> None:
-    """HEAD-check every webcam + photo URL across all hikes; warn on failure."""
+    """HEAD-check every photo URL across all hikes; warn on failure."""
     targets: list[tuple[str, str]] = []  # (slug, url)
     for f in data_files:
         try:
@@ -601,9 +600,6 @@ def probe_urls(data_files: Iterable[Path], max_workers: int = 16) -> None:
         except Exception:  # noqa: BLE001
             continue
         slug = d.get("slug") or f.stem.replace(".data", "")
-        for cam in d.get("webcams") or []:
-            if not cam.get("fallback") and cam.get("url"):
-                targets.append((slug, cam["url"]))
         for p in d.get("photos") or []:
             if p.get("url"):
                 targets.append((slug, p["url"]))
@@ -761,54 +757,16 @@ def build_index_hikes(data_files: list[Path],
 
 def render_index(root: Path, hikes: list[dict]) -> tuple[Path, float]:
     """Render the index page; returns (out_path, elapsed_seconds).
-    
+
     Writes to parent directory so index.html lives at ./ not routes/
     """
     t0 = time.perf_counter()
     env = _make_env()
     template = env.get_template(INDEX_TEMPLATE_NAME)
     guide_pages = discover_guide_pages(root.parent / "guides")
-    html = template.render(
-        hikes=hikes,
-        guide_pages=guide_pages,
-        generated=time.strftime("%Y-%m-%d"),
-    )
-    out_path = root.parent / "index.html"
-    out_path.write_text(html, encoding="utf-8")
-    return out_path, time.perf_counter() - t0
 
-
-def build_regions_hikes(data_files: list[Path]) -> list[dict]:
-    """Build a minimal hike list for the regions guide page."""
-    hikes: list[dict] = []
-    for f in data_files:
-        try:
-            d = json.loads(f.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        slug = d.get("slug") or f.stem.replace(".data", "")
-        peak = d.get("peak") or {}
-        hero = d.get("hero") or {}
-        ic = d.get("index_card") or {}
-        hikes.append({
-            "slug": slug,
-            "name": peak.get("name", slug),
-            "elev": peak.get("elev", 0),
-            "lat": round(peak.get("lat", 0), 4),
-            "lon": round(peak.get("lon", 0), 4),
-            "grade": hero.get("grade", ""),
-            "region": ic.get("region", ""),
-            "canton": ic.get("canton", ""),
-        })
-    return hikes
-
-
-def render_regions(root: Path, hikes: list[dict]) -> tuple[Path, float]:
-    """Render the regions guide page and fetch geodata if needed."""
-    t0 = time.perf_counter()
     guides_dir = root.parent / "guides"
     guides_dir.mkdir(exist_ok=True)
-
     canton_path = guides_dir / "cantons.geojson"
     region_path = guides_dir / "regions.geojson"
     if not canton_path.exists() or not region_path.exists():
@@ -820,20 +778,21 @@ def render_regions(root: Path, hikes: list[dict]) -> tuple[Path, float]:
         if not region_path.exists():
             fc = fetch_regions()
             region_path.write_text(json.dumps(fc, separators=(",", ":")), encoding="utf-8")
+    cantons_geojson = json.loads(canton_path.read_text(encoding="utf-8")) if canton_path.exists() else {}
+    regions_geojson = json.loads(region_path.read_text(encoding="utf-8")) if region_path.exists() else {}
 
-    cantons_geojson = json.loads(canton_path.read_text(encoding="utf-8"))
-    regions_geojson = json.loads(region_path.read_text(encoding="utf-8"))
-
-    env = _make_env()
-    template = env.get_template(REGIONS_TEMPLATE_NAME)
     html = template.render(
         hikes=hikes,
+        guide_pages=guide_pages,
+        generated=time.strftime("%Y-%m-%d"),
         cantons_geojson=cantons_geojson,
         regions_geojson=regions_geojson,
     )
-    out_path = guides_dir / "regions.html"
+    out_path = root.parent / "index.html"
     out_path.write_text(html, encoding="utf-8")
     return out_path, time.perf_counter() - t0
+
+
 
 
 def build_difficulty_examples(data_files: list[Path], max_per_grade: int = 2) -> dict[str, list[str]]:
@@ -1044,7 +1003,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--profile", action="store_true",
                    help="cProfile the slowest hike and dump top-30 cumulative time.")
     p.add_argument("--probe", action="store_true",
-                   help="HEAD-check webcam + photo URLs in parallel before rendering.")
+                   help="HEAD-check photo URLs in parallel before rendering.")
     p.add_argument("--no-index", action="store_true",
                    help="Skip rendering the index.html landing page.")
     p.add_argument("--validate-only", action="store_true",
@@ -1123,10 +1082,6 @@ def main(argv: list[str] | None = None) -> int:
         hikes = build_index_hikes(all_files, results)
         out_path, elapsed = render_index(args.root, hikes)
         print(f"\n[index] {out_path}  ({len(hikes)} hike(s), {elapsed*1000:.1f} ms)")
-
-        regions_hikes = build_regions_hikes(all_files)
-        out_path, elapsed = render_regions(args.root, regions_hikes)
-        print(f"[regions] {out_path}  ({len(regions_hikes)} hike(s), {elapsed*1000:.1f} ms)")
 
         out_path, elapsed = render_difficulty(args.root, all_files)
         print(f"[difficulty] {out_path}  ({elapsed*1000:.1f} ms)")

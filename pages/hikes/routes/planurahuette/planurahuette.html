@@ -135,15 +135,6 @@
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>From Tierfehd via Ober Sand</strong> <span class="pill t3">T3+</span></h3>
-  <ul>
-    <li>Tierfed - Vorder Sand - Hinter Sand - Ober Sand</li>
-    <li>Ober Sand - Sandpassweidli - Planurahütte</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -192,17 +183,6 @@
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>15.0 km</strong> total</span>
@@ -214,63 +194,6 @@
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li>The long approach from Tierfehd (2100+ m gain) is physically very demanding and requires good fitness; many hikers use bikes or the alpine taxi to Hinter Sand to shorten the lower valley section.</li>
-      <li>The upper route above Ober Sand enters exposed rocky terrain with fixed chains around 2800 m; snow patches persist well into July.</li>
-      <li>The Planurahütte (renovated 2012, highest SAC hut in eastern Switzerland) offers a dramatic glacier setting and serves as the base for Tödi, Clariden, and glacier traverses.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post103982.html" target="_blank" rel="noopener">Von Tierfehd zur Planurahütte 2947müM und zurück</a>
-        · <time>January 2016</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Full out-and-back from Tierfehd; describes the approach as conditioning-demanding but beautiful and worthwhile.</li>
-        <li>Encountered a heavy thunderstorm at the hut during dinner, followed by an atmospheric sunset — underscores rapid weather changes at this altitude.</li>
-        <li>35 photos documenting the entire route from valley floor to glacier world.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post16208.html" target="_blank" rel="noopener">bike and hike planurahütte</a>
-        · <time>August 2009</time> · <span class="pill t3">T3+</span>
-      </header>
-      <ul>
-        <li>Used a bike from Schwändi via Tierfehd to Hinter Sand — steep but rideable — then hiked to the hut.</li>
-        <li>Describes the Planurahütte at 2947 m as beautifully situated in the glacier landscape.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post10234.html" target="_blank" rel="noopener">Hüfihütte - Planurahütte - Claridenhütte</a>
-        · <time>2008</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Multi-day hut-to-hut traverse connecting Hüfihütte, Planurahütte, and Claridenhütte.</li>
-        <li>Notes a large wind shelter (Windkolk) northeast of the hut before the final steep section.</li>
-        <li>Roped glacier crossing of the Claridenfirn required; warns of hidden crevasses as snow softens.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -287,7 +210,7 @@
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -301,11 +224,8 @@ window.HIKE = {
   summit: { lat: 46.820086747884865, lon: 8.88028470577188, elev: 2947, name: "Planurah\u00fctte SAC" },
   trailhead: { lat: 46.87905283242049, lon: 8.979755427052122, name: "Tierfehd",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Linthal" },
-  hikr_index_url: "https://www.hikr.org/dir/Planurah%C3%BCtte_SAC_6500/ped/",
   gpx_filename: "planurahuette.gpx",
-  reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "Planurah\u00fctte SAC (2947 m) \u2014 live webcam from the hut", "url": "https://planurahuette.ch/webcam/planurahuette.jpg"}, {"fallback": true, "label": "Meteoblue Linthal webcams", "url": "https://www.meteoblue.com/en/weather/webcams/linthal_switzerland"}],
   waypoints: [
     [46.87892185948197, 8.980208229292083, "Tierfehd (806 m)", "start"],
     [46.838476457103205, 8.954332202162083, "Hintersand (1305 m)", "departure_arrival"],

@@ -3,7 +3,6 @@
   "page": {
     "title": "Planurahütte SAC (2947 m) -- Hike Plan",
     "generated": "2026-05-15",
-    "reports_updated": "2026-05-15",
     "year": 2026
   },
   "peak": {
@@ -232,61 +231,7 @@
   "weather": {
     "season_html": "<strong>Late June–September</strong> when the hut is staffed and the trail is snow-free. The upper section above Ober Sand holds snow into July. Check hut website for current conditions."
   },
-  "webcams": [
-    {
-      "url": "https://planurahuette.ch/webcam/planurahuette.jpg",
-      "label": "Planurahütte SAC (2947 m) — live webcam from the hut",
-      "fallback": false
-    },
-    {
-      "url": "https://www.meteoblue.com/en/weather/webcams/linthal_switzerland",
-      "label": "Meteoblue Linthal webcams",
-      "fallback": true
-    }
-  ],
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "trip_reports": {
-    "hikr_index_url": "https://www.hikr.org/dir/Planurah%C3%BCtte_SAC_6500/ped/",
-    "takeaways_html": [
-      "The long approach from Tierfehd (2100+ m gain) is physically very demanding and requires good fitness; many hikers use bikes or the alpine taxi to Hinter Sand to shorten the lower valley section.",
-      "The upper route above Ober Sand enters exposed rocky terrain with fixed chains around 2800 m; snow patches persist well into July.",
-      "The Planurahütte (renovated 2012, highest SAC hut in eastern Switzerland) offers a dramatic glacier setting and serves as the base for Tödi, Clariden, and glacier traverses."
-    ],
-    "reports": [
-      {
-        "url": "https://www.hikr.org/tour/post103982.html",
-        "title": "Von Tierfehd zur Planurahütte 2947müM und zurück",
-        "season": "January 2016",
-        "grade": "T4",
-        "bullets_html": [
-          "Full out-and-back from Tierfehd; describes the approach as conditioning-demanding but beautiful and worthwhile.",
-          "Encountered a heavy thunderstorm at the hut during dinner, followed by an atmospheric sunset — underscores rapid weather changes at this altitude.",
-          "35 photos documenting the entire route from valley floor to glacier world."
-        ]
-      },
-      {
-        "url": "https://www.hikr.org/tour/post16208.html",
-        "title": "bike and hike planurahütte",
-        "season": "August 2009",
-        "grade": "T3+",
-        "bullets_html": [
-          "Used a bike from Schwändi via Tierfehd to Hinter Sand — steep but rideable — then hiked to the hut.",
-          "Describes the Planurahütte at 2947 m as beautifully situated in the glacier landscape."
-        ]
-      },
-      {
-        "url": "https://www.hikr.org/tour/post10234.html",
-        "title": "Hüfihütte - Planurahütte - Claridenhütte",
-        "season": "2008",
-        "grade": "T4",
-        "bullets_html": [
-          "Multi-day hut-to-hut traverse connecting Hüfihütte, Planurahütte, and Claridenhütte.",
-          "Notes a large wind shelter (Windkolk) northeast of the hut before the final steep section.",
-          "Roped glacier crossing of the Claridenfirn required; warns of hidden crevasses as snow softens."
-        ]
-      }
-    ]
-  },
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/\">SAC Route Portal — From Tierfehd via Ober Sand</a>",
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/\">SAC Peak Page — Planurahütte SAC</a>",

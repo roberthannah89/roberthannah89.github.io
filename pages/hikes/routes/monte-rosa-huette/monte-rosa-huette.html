@@ -136,15 +136,6 @@ In summer 2019 a new route, the "Panoramaweg Monte Rosa Hütte", was added, whic
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>From Rotenboden via the Gornergletscher</strong> <span class="pill t4">T4</span></h3>
-  <ul>
-    <li>Rotenboden - Viewpoint Gornerglescher P. 2649</li>
-    <li>Gornerglescher P. 2649 - «Panoramaweg Monte-Rosa-Hütte»"-  Monte-Rosa-Hütte</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -192,17 +183,6 @@ In summer 2019 a new route, the "Panoramaweg Monte Rosa Hütte", was added, whic
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>8.7 km</strong> total</span>
@@ -214,61 +194,6 @@ In summer 2019 a new route, the "Panoramaweg Monte Rosa Hütte", was added, whic
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li>The glacier crossing is the crux: the route over the Gornergletscher is marked with poles but crevasse danger is real, and conditions change year to year as the glacier retreats. Crampons and rope are strongly recommended.</li>
-      <li>The transition from glacier to polished rock below the hut and the moraine sections with loose scree are frequently cited hazards; several reports note the T4 rating understates the exposure.</li>
-      <li>Weather windows are critical at 2883 m — afternoon thunderstorms develop quickly and temperatures can drop below freezing even in summer. Early starts are advised.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post155727.html" target="_blank" rel="noopener">Monte Rosa Hütte</a>
-        · <time>September 2020</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Day trip from Rotenboden to hut and back; warm late-summer conditions.</li>
-        <li>Glacier crossing well-marked with poles; crevasse zones visible but route navigable.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post28294.html" target="_blank" rel="noopener">Besuch der neuen Monte Rosa Hütte</a>
-        · <time>September 2010</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Visit shortly after the new hut opened; describes the modern architecture and energy-self-sufficient design.</li>
-        <li>Warm midday sun on the glacier; hiked in t-shirts across the Gornergletscher.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post16280.html" target="_blank" rel="noopener">Riffelhorn, Gornergletscher und Monte Rosa Hütte</a>
-        · <time>September 2009</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Detailed photo report of the well-traveled Rotenboden–Gornergletscher–Monte Rosa Hütte route.</li>
-        <li>Notes the moraine is slippery, the crevassed zone demands care, and the glacier-to-rock transition below the hut is the most delicate section.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -285,7 +210,7 @@ In summer 2019 a new route, the "Panoramaweg Monte Rosa Hütte", was added, whic
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -299,11 +224,8 @@ window.HIKE = {
   summit: { lat: 45.957916307332574, lon: 7.823234670421523, elev: 2883, name: "Monte-Rosa-H\u00fctte SAC" },
   trailhead: { lat: 45.98438585619631, lon: 7.765301137315145, name: "Rotenboden",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Rotenboden" },
-  hikr_index_url: "https://www.hikr.org/dir/Monte_Rosa_H%C3%BCtte_SAC_24334/ped/",
   gpx_filename: "monte-rosa-huette.gpx",
-  reports_updated: "2026-05-21",
   page_generated: "2026-05-21",
-  webcams: [{"fallback": false, "label": "Gornergrat 360\u00b0 panorama (roundshot / Zermatt Tourismus)", "url": "https://zermatt.roundshot.com/gornergrat/"}, {"fallback": false, "label": "Gornergrat Bahn official webcams", "url": "https://www.gornergrat.ch/en/stories/webcam"}],
   waypoints: [
     [45.98475668982105, 7.764816705873433, "Rotenboden (2815 m)", "start"],
     [45.9568732011247, 7.8145619889964655, "Monte-Rosa-H\u00fctte SAC (2883 m)", "hut"]

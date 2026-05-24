@@ -87,17 +87,6 @@ The first cabin to house visitors was built in 1846 and since then has been cont
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>From Schwägalp via Nasenlöcher</strong> <span class="pill t4">T4+</span></h3>
-  <ul>
-    <li>Schwägalp – Potersalp</li>
-    <li>Potersalp - Hintere Öhrligrueb</li>
-    <li>Detour to Öhrlikopf</li>
-    <li>Hintere Öhrligrueb – Säntis</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -144,17 +133,6 @@ The first cabin to house visitors was built in 1846 and since then has been cont
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>10.1 km</strong> total</span>
@@ -166,64 +144,6 @@ The first cabin to house visitors was built in 1846 and since then has been cont
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li><strong>Exposure:</strong> The Nasenlöcher section has fixed chains and steel pegs on exposed rock steps. Reports consistently note this is significantly harder than the normal Säntis route and rarely crowded.</li>
-      <li><strong>Snow &amp; conditions:</strong> Snow can linger in the Nasenlöcher well into June. Several reporters note that early-season attempts require caution around iced chains and residual snowfields.</li>
-      <li><strong>Solitude:</strong> Unlike the busy normal route, the Nasenlöcher approach sees very few hikers — multiple reports mention encountering no one on the alpine path section.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post81839.html" target="_blank" rel="noopener">Säntis - via Nasenlöchersteig und Öhrli</a>
-        · <time>June 2014</time> · <span class="pill t4">T4+</span>
-      </header>
-      <ul>
-        <li>Ascent from Schwägalp via the Nasenlöcher with detour to Öhrlikopf.</li>
-        <li>Demanding route with steel cables and pegs on exposed rock steps.</li>
-        <li>Described as significantly harder than the normal Säntis route.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post96322.html" target="_blank" rel="noopener">Über Nasenlöcher aufs Öhrli (2193m) + Säntis (2502m) + Tierwies - Runde</a>
-        · <time>July 2015</time> · <span class="pill t4">T4+</span>
-      </header>
-      <ul>
-        <li>Full round trip: Nasenlöcher, Öhrli, Säntis summit, descent via Tierwies.</li>
-        <li>Encountered no other hikers on the Nasenlöcher section — total solitude.</li>
-        <li>Steepest sections at the snowfield now bypassed via a secured rocky path.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post9173.html" target="_blank" rel="noopener">Säntis über Nasenlöcher</a>
-        · <time>October 2008</time> · <span class="pill t4">T4+</span>
-      </header>
-      <ul>
-        <li>Autumn ascent via the Nasenlöcher — a rarely walked alternative to the normal route.</li>
-        <li>Trail through steep meadows leads to increasingly rocky terrain with secured rock steps.</li>
-        <li>Late-season conditions were good; route well-marked throughout.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -240,7 +160,7 @@ The first cabin to house visitors was built in 1846 and since then has been cont
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -254,11 +174,8 @@ window.HIKE = {
   summit: { lat: 47.24936961249966, lon: 9.343336068527574, elev: 2502, name: "S\u00e4ntis" },
   trailhead: { lat: 47.256259395387104, lon: 9.3184713977177, name: "Schw\u00e4galp, S\u00e4ntis aerial cableway",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Schw%C3%A4galp%2C+S%C3%A4ntis-Schwebebahn" },
-  hikr_index_url: "https://www.hikr.org/dir/S%C3%A4ntis_5304/",
   gpx_filename: "saentis.gpx",
-  reports_updated: "2026-05-17",
   page_generated: "2026-05-17",
-  webcams: [{"fallback": false, "label": "Hochhamm \u2014 Blick zum S\u00e4ntis (foto-webcam.eu)", "url": "https://www.foto-webcam.eu/webcam/hochhamm/current/720.jpg"}, {"fallback": false, "label": "Wildhaus-Gamserrugg \u2014 Blick zum S\u00e4ntis (foto-webcam.eu)", "url": "https://www.foto-webcam.eu/webcam/wildhaus/current/720.jpg"}],
   waypoints: [
     [47.256226029234966, 9.318781159171294, "Schw\u00e4galp, S\u00e4ntis aerial cableway (1352 m)", "start"],
     [47.259074451506685, 9.348499754384077, "H\u00fcenerberg (2311 m)", "summit"],

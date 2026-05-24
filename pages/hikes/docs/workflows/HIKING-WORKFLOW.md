@@ -154,9 +154,8 @@ status of each field. The key sections are:
 - Location: `trailhead`, `waypoints`
 - Visuals: `hero`, `photos`
 - Content: `intro_html`, `quick_facts`, `routes`, `getting_there`, `day_plans`
-- Conditions: `weather`, `webcams`
-- Reports & gear: `trip_reports`, `gear`
-- Boilerplate: `safety_html`, `resources_html`, `disclaimer_html`
+- Conditions: `weather`
+- Boilerplate: `resources_html`
 
 ### 4. Photos
 

@@ -132,17 +132,6 @@ Erste Begehung durch H. Zeller-Horner mit H. Imfanger, 1834.</p>
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>Von St. Jakob über die Gitschenhörelihütte mit Abstieg zur Musenalp</strong> <span class="pill t4">T4</span></h3>
-  <ul>
-    <li>St. Jakob - Gitschenhörelihütte</li>
-    <li>Gitschenhörelihütte - Uri Rotstock</li>
-    <li>Uri Rotstock - Musenalp</li>
-    <li>Musenalp - Isenthal</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -175,17 +164,6 @@ Erste Begehung durch H. Zeller-Horner mit H. Imfanger, 1834.</p>
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>20.3 km</strong> total</span>
@@ -197,40 +175,6 @@ Erste Begehung durch H. Zeller-Horner mit H. Imfanger, 1834.</p>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -247,7 +191,7 @@ Erste Begehung durch H. Zeller-Horner mit H. Imfanger, 1834.</p>
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -261,11 +205,8 @@ window.HIKE = {
   summit: { lat: 46.8617, lon: 8.5352, elev: 2929, name: "Uri Rotstock" },
   trailhead: { lat: 46.9017, lon: 8.5228, name: "St. Jakob (Isenthal)",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=St.+Jakob+%28Isenthal%29" },
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
   gpx_filename: "uri-rotstock.gpx",
-  reports_updated: "2026-05-22",
   page_generated: "2026-05-22",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
   waypoints: [
     [46.901773727872566, 8.522719494825363, "St. Jakob (Isenthal) (979 m)", "start"],
     [46.85776912638406, 8.525108814649185, "Gitschenh\u00f6relih\u00fctte (2325 m)", "hut"],

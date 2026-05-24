@@ -92,17 +92,6 @@ Stöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary 
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>Traverse from Schwändi to Klöntalersee</strong> <span class="pill t5">T5+</span></h3>
-  <ul>
-    <li>Schwändi – Schwändisienen</li>
-    <li>Schwändisienen - Vorder Glärnisch</li>
-    <li>Vorder Glärnisch - Hintersackberg</li>
-    <li>Hintersackberg - Rhodannenberg</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -149,17 +138,6 @@ Stöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary 
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>11.9 km</strong> total</span>
@@ -171,61 +149,6 @@ Stöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary 
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li>The south-side ascent via Schwändisienen is steep and exposed, with passages up to T5+; very exposed or craggy sections are secured with chains.</li>
-      <li>Descent to Klöntalersee via Hintersackberg is steep but manageable thanks to a well-designed alpine hiking trail (T4).</li>
-      <li>Route-finding skills and sure-footedness are essential; conditions vary greatly and the grassy slopes can reach 60° steepness.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post25698.html" target="_blank" rel="noopener">Vorder Glärnisch (2328m) Südaufstieg via Schwändisienen</a>
-        · <time>July 2010</time> · <span class="pill t5">T5</span>
-      </header>
-      <ul>
-        <li>South-side ascent via Schwändisienen; steep grassy slopes and rocky bands.</li>
-        <li>Impressive panorama from the summit — Glarus city layout visible as a scale model below.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post35357.html" target="_blank" rel="noopener">Vorder Glärnisch (2328 m) - Überschreitung S-N</a>
-        · <time>May 2011</time> · <span class="pill t5">T5+</span>
-      </header>
-      <ul>
-        <li>South-to-north traverse; direct ascent through couloir to Furggle with somewhat brittle rock.</li>
-        <li>Rockfall is a latent hazard in the couloir passage; stable holds found throughout.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post146767.html" target="_blank" rel="noopener">Vorder Glärnisch (2328 m) - hike from Hinter Sackberg</a>
-        · <time>September 2019</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Ascent from Hinter Sackberg following white-blue-white trail markings.</li>
-        <li>Perfect weather conditions; summit reached in about 3 hours from trailhead.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -242,7 +165,7 @@ Stöckli (P. 986), Forenstogg (P. 1484) and Gleiterhorn (P. 1623) are secondary 
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -256,11 +179,8 @@ window.HIKE = {
   summit: { lat: 47.02185607508844, lon: 9.040805691562825, elev: 2328, name: "Vorder Gl\u00e4rnisch" },
   trailhead: { lat: 47.00565468345417, lon: 9.066721142777304, name: "Schw\u00e4ndi b. Schwanden GL, Post",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Schw%C3%A4ndi+b.+Schwanden+GL%2C+Post" },
-  hikr_index_url: "https://www.hikr.org/dir/Vorder_Gl%C3%A4rnisch_2123/",
   gpx_filename: "vorder-glaernisch.gpx",
-  reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "Rhodannenberg \u2014 Blick auf den Kl\u00f6ntalersee (rhodannenberg.ch)", "url": "https://webcam.rhodannenberg.ch/uploads/current.jpg"}, {"fallback": true, "label": "Meteoblue Glarus webcams", "url": "https://www.meteoblue.com/en/weather/webcams/glarus_switzerland"}],
   waypoints: [
     [47.00560003436884, 9.066653282446573, "Schw\u00e4ndi b. Schwanden GL, Post (700 m)", "start"],
     [47.017088174405835, 9.03602528346597, "Furggle (GL) (2057 m)", "traverse"],

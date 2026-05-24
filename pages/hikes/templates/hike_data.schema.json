@@ -5,8 +5,7 @@
   "type": "object",
   "required": ["page", "peak", "trailhead", "hero", "quick_facts", "photos",
                "waypoints", "routes", "getting_there", "day_plans", "weather",
-               "webcams", "trip_reports", "resources_html",
-               "index_card"],
+               "resources_html", "index_card"],
   "additionalProperties": true,
   "properties": {
     "slug": { "type": "string" },
@@ -24,7 +23,7 @@
     },
     "page": {
       "type": "object",
-      "required": ["title", "generated", "reports_updated"],
+      "required": ["title", "generated"],
       "properties": {
         "title": { "type": "string" },
         "generated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
@@ -158,42 +157,6 @@
       "required": ["season_html"],
       "properties": {
         "season_html":  { "type": "string" }
-      }
-    },
-    "webcams": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["url", "label"],
-        "properties": {
-          "url":      { "type": "string" },
-          "label":    { "type": "string" },
-          "fallback": { "type": "boolean" }
-        }
-      }
-    },
-    "trip_reports": {
-      "type": "object",
-      "required": ["hikr_index_url", "takeaways_html", "reports"],
-      "properties": {
-        "hikr_index_url": { "type": "string" },
-        "takeaways_html": { "type": "array", "items": { "type": "string" } },
-        "reports": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": ["url", "title", "season", "grade", "bullets_html"],
-            "properties": {
-              "url":          { "type": "string" },
-              "title":        { "type": "string" },
-              "season":       { "type": "string" },
-              "grade":        { "type": "string", "pattern": "^T[1-6]" },
-              "grade_label":  { "type": "string" },
-              "pill_class":   { "type": "string" },
-              "bullets_html": { "type": "array", "items": { "type": "string" } }
-            }
-          }
-        }
       }
     },
     "resources_html":  { "type": "array", "items": { "type": "string" } },

@@ -32,8 +32,6 @@ The file is validated against `templates/hike_data.schema.json` (JSON Schema Dra
   "getting_there": { ... },
   "day_plans": [ ... ],
   "weather": { ... },
-  "webcams": [ ... ],
-  "trip_reports": { ... },
   "resources_html": [ "..." ],
   "elev_chart_attrib_html": "...",
   "photos_attrib_html": "..."
@@ -84,8 +82,6 @@ Golden sources: the authoritative websites this hike page is based on. Each entr
 **Required fields:**
 - `title` (string): Display title on the page
 - `generated` (string, YYYY-MM-DD): Date the page was last rendered
-- `reports_updated` (string, YYYY-MM-DD): Date trip reports were last updated
-
 **Optional fields:**
 - `year` (integer): Publication year
 
@@ -392,77 +388,6 @@ Seasonal information for the hike.
 ```json
 {
   "season_html": "June–September (summer); year-round possible in dry winters"
-}
-```
-
----
-
-### `webcams` (array)
-
-Live webcams of or near the hike.
-
-**Required fields per webcam:**
-- `url` (string): Webcam URL
-- `label` (string): Display name
-
-**Optional fields:**
-- `fallback` (boolean): If true, show only when primary fails
-
-**Example:**
-```json
-[
-  {
-    "url": "https://www.jungfrauweb.com/",
-    "label": "Jungfrau webcam",
-    "fallback": false
-  }
-]
-```
-
----
-
-### `trip_reports` (object)
-
-Real trip reports from hikers.
-
-**Required fields:**
-- `hikr_index_url` (string): Link to Hikr.org page
-- `takeaways_html` (array): Key takeaways (array of HTML strings)
-- `reports` (array): Individual report entries
-
-**Report fields:**
-- `url` (string): Original report URL
-- `title` (string): Report title
-- `season` (string): Season hiked (e.g., "June 2023")
-- `grade` (string): Grade hiked (T1–T6)
-- `bullets_html` (array): Key points
-
-**Optional fields:**
-- `grade_label` (string): Custom grade description
-- `pill_class` (string): CSS class
-
-**Example:**
-```json
-{
-  "hikr_index_url": "https://hikr.org/tour/augstmatthorn",
-  "takeaways_html": [
-    "Best weather typically June–August",
-    "Ridge sections exposed but well-marked",
-    "Strong afternoon thunderstorm risk"
-  ],
-  "reports": [
-    {
-      "url": "https://hikr.org/tour/123456",
-      "title": "Clear weather, excellent visibility",
-      "season": "June 2024",
-      "grade": "T3",
-      "bullets_html": [
-        "Departed early to avoid afternoon storms",
-        "Ridge sections had some snow patches in June",
-        "No technical difficulty, just exposure"
-      ]
-    }
-  ]
 }
 ```
 

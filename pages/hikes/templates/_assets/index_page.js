@@ -15,11 +15,6 @@ function parseHours(s) {
   const m2 = String(s).match(/([\d.]+)/);
   return m2 ? parseFloat(m2[1]) : NaN;
 }
-function isMultiDay(t) {
-  const s = String(t).toLowerCase();
-  const m = s.match(/(\d+(?:\.\d+)?)\s*day/);
-  return !!(m && parseFloat(m[1]) > 1);
-}
 function wmoIcon(code) {
   if (code === 0) return ["☀️", "Clear"];
   if (code === 1) return ["🌤️", "Mostly clear"];
@@ -46,7 +41,6 @@ HIKES.forEach(function (h, i) {
   card.dataset.idx = i;
   card.dataset.grade = gradeNum(h.grade);
   card.dataset.region = (h.region || "").toLowerCase();
-  card.dataset.multi = isMultiDay(h.time) ? "1" : "0";
   card.dataset.canton = (h.canton || "").toLowerCase();
   card.dataset.dist = parseNum(h.distance);
   card.dataset.gain = parseNum(h.gain);
@@ -108,7 +102,7 @@ cantons.forEach(function (c) {
 });
 
 /* ------------- filtering ------------- */
-var activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
+var activeFilters = { grade: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
   group.addEventListener("click", function (e) {
@@ -148,10 +142,7 @@ function applyFilters() {
   document.querySelectorAll(".card").forEach(function (card) {
     var g = parseInt(card.dataset.grade, 10) || 0;
     var region = card.dataset.region;
-    var multi = card.dataset.multi === "1";
     var ok = gradeMatch(g, activeFilters.grade);
-    if (ok && activeFilters.duration === "day") ok = !multi;
-    if (ok && activeFilters.duration === "multi") ok = multi;
     if (ok && activeFilters.region !== "all") ok = region === activeFilters.region;
     if (ok && activeFilters.canton !== "all") ok = card.dataset.canton === activeFilters.canton;
     if (ok && activeFilters.weather !== "all") ok = card.dataset.wx === activeFilters.weather;

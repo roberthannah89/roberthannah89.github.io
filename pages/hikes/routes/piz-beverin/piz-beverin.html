@@ -177,17 +177,6 @@ Der Name geht auf bovarinum zurück, das vom lateinischen bos, «Rind», «Ochse
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>Vom Glaspass durch die Westflanke</strong> <span class="pill t4">T4</span></h3>
-  <ul>
-    <li>Glaspass - Hoch Büel</li>
-    <li>Hoch Büel - Chräjenchöpf - Farcletta digl Bavregn</li>
-    <li>Farcletta digl Bavregn - Piz Beverin</li>
-    <li>Abstieg</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -220,17 +209,6 @@ Der Name geht auf bovarinum zurück, das vom lateinischen bos, «Rind», «Ochse
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>5.1 km</strong> total</span>
@@ -242,40 +220,6 @@ Der Name geht auf bovarinum zurück, das vom lateinischen bos, «Rind», «Ochse
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li>TODO: cross-report pattern 1.</li>
-      <li>TODO: cross-report pattern 2.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="TODO: hikr report URL" target="_blank" rel="noopener">TODO: report title</a>
-        · <time>TODO: e.g. August 2025</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>TODO: Key observation 1.</li>
-        <li>TODO: Key observation 2.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -290,7 +234,7 @@ Der Name geht auf bovarinum zurück, das vom lateinischen bos, «Rind», «Ochse
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -304,11 +248,8 @@ window.HIKE = {
   summit: { lat: 46.6526, lon: 9.3579, elev: 2998, name: "Piz Beverin" },
   trailhead: { lat: 46.6778, lon: 9.3505, name: "Glaspass, Haltestelle",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Tschappina%2C+Glaspass" },
-  hikr_index_url: "TODO: https://www.hikr.org/region/?gid=...",
   gpx_filename: "piz-beverin.gpx",
-  reports_updated: "2026-05-22",
   page_generated: "2026-05-22",
-  webcams: [{"fallback": false, "label": "TODO: camera name", "url": "TODO: https://www.foto-webcam.eu/webcam/\u003cnearest-cam\u003e/current/1200.jpg"}],
   waypoints: [
     [46.6777262539742, 9.350526947754732, "Glaspass, Haltestelle (1831 m)", "start"],
     [46.67647483086659, 9.34718434260007, "Glaspass (1843 m)", "traverse"],

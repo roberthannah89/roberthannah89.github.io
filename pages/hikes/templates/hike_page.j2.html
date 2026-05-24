@@ -75,18 +75,6 @@
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-{%- for r in routes %}
-  <h3>{{ r.title_html | safe }}{% if r.grade %} <span class="pill {{ r.get('pill_class') or (r.grade | grade_class) }}">{{ r.get('grade_label') or r.grade }}</span>{% endif %}</h3>
-  <ul>
-{%- for b in r.bullets_html %}
-    <li>{{ b | safe }}</li>
-{%- endfor %}
-  </ul>
-{%- endfor %}
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -146,17 +134,6 @@
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
 {%- if gpx_stats and gpx_stats.distance_km %}
   <div class="elev-stats" id="elev-stats">
@@ -174,44 +151,6 @@
 </section>
 
 <section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-{%- for t in trip_reports.takeaways_html %}
-      <li>{{ t | safe }}</li>
-{%- endfor %}
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-{%- for r in trip_reports.reports %}
-    <article class="trip-report">
-      <header>
-        <a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.title }}</a>
-        · <time>{{ r.season }}</time> · <span class="pill {{ r.get('pill_class') or (r.grade | grade_class) }}">{{ r.get('grade_label') or r.grade }}</span>
-      </header>
-      <ul>
-{%- for b in r.bullets_html %}
-        <li>{{ b | safe }}</li>
-{%- endfor %}
-      </ul>
-    </article>
-{%- endfor %}
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
-
-<section>
   <h2>Resources &amp; Links</h2>
   <ul>
 {%- for r in resources_html %}
@@ -226,7 +165,7 @@
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© {{ page.get('year') or 2026 }} — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -240,11 +179,8 @@ window.HIKE = {
   summit: { lat: {{ peak.lat }}, lon: {{ peak.lon }}, elev: {{ peak.elev }}, name: {{ peak.name | tojson }} },
   trailhead: { lat: {{ trailhead.lat }}, lon: {{ trailhead.lon }}, name: {{ trailhead.name | tojson }},
                sbb_url: {{ trailhead.get('sbb_url', '') | tojson }} },
-  hikr_index_url: {{ trip_reports.hikr_index_url | tojson }},
   gpx_filename: {{ (slug ~ '.gpx') | tojson }},
-  reports_updated: {{ page.reports_updated | tojson }},
   page_generated: {{ page.generated | tojson }},
-  webcams: {{ webcams | tojson }},
   waypoints: [
 {%- for w in waypoints %}
     [{{ w.lat }}, {{ w.lon }}, {{ w.label | tojson }}, {{ w.kind | tojson }}]{% if not loop.last %},{% endif %}

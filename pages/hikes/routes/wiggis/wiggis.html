@@ -91,16 +91,6 @@
   </p>
 </section>
 
-<section>
-  <h2>Routes</h2>
-  <h3><strong>Vom Obersee über Geisskappel und den Rautispitz</strong> <span class="pill t4">T4</span></h3>
-  <ul>
-    <li>Obersee - Geisschappel - Rautispitz - P. 2168</li>
-    <li>P. 2168 - Wiggis - P. 2168</li>
-    <li>P. 2168 - Rautialp - Obersee</li>
-  </ul>
-</section>
-
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -150,17 +140,6 @@
 </section>
 
 <section>
-  <h2>Webcams</h2>
-  <div class="webcam-grid" id="webcams"></div>
-  <p class="attrib">
-    Webcam images © their respective operators
-    (<a href="https://www.foto-webcam.eu/" target="_blank">FOTO-WEBCAM</a>,
-    <a href="https://www.meteoblue.com/en/weather/webcams/" target="_blank">Meteoblue</a>).
-    Images may be ~10 minutes stale. Reload or focus the tab to refresh.
-  </p>
-</section>
-
-<section>
   <h2>Elevation Profile</h2>
   <div class="elev-stats" id="elev-stats">
     <span><strong>18.7 km</strong> total</span>
@@ -172,63 +151,6 @@
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
-
-<section>
-  <h2>Trip Reports (hikr.org)</h2>
-  <h3>Key takeaways</h3>
-  <div class="trip-takeaways">
-    <ul>
-      <li><strong>Exposed ridge traverse:</strong> The Rautispitz–Wiggis connection via P. 2168 is consistently described as T4 with steep grass and a wire-secured passage near Wiggisnase. Dry conditions are essential.</li>
-      <li><strong>Route from Obersee:</strong> The first 400 m of elevation gain follow forest roads before the mountain trail begins; below Geisschappel (1727 m) a rope-secured passage requires attention.</li>
-      <li><strong>Wildlife:</strong> Multiple reports mention ibex (Steinböcke) sightings on the upper ridges between Rautispitz and Wiggis.</li>
-    </ul>
-  </div>
-  <h3>Recent reports</h3>
-  <div class="trip-reports">
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post169030.html" target="_blank" rel="noopener">Rautispitz und Wiggis</a>
-        · <time>January 2022</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Full traverse from Obersee over Rautispitz to Wiggis and back.</li>
-        <li>Encountered a herd of 19 ibex on the final ascent to Rautispitz.</li>
-        <li>Ridge traverse marked blue-white, graded T4 with exposed sections.</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post57468.html" target="_blank" rel="noopener">Wiggis und Rautispitz</a>
-        · <time>October 2012</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Started from Netstal via Auerenalp to Wiggis, then traversed to Rautispitz.</li>
-        <li>Wire-secured passage between Wiggisnase and Rautispitz; snow present on shaded side.</li>
-        <li>Descended to Obersee and walked to Näfels (no bus service at the time).</li>
-      </ul>
-    </article>
-    <article class="trip-report">
-      <header>
-        <a href="https://www.hikr.org/tour/post136980.html" target="_blank" rel="noopener">Rautispitz - Wiggis</a>
-        · <time>October 2018</time> · <span class="pill t4">T4</span>
-      </header>
-      <ul>
-        <li>Combined traverse of both summits from Obersee.</li>
-        <li>Exposed ridge demands sure-footedness and a head for heights.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="attrib">
-    Trip reports © their respective authors on
-    <a href="https://www.hikr.org/" target="_blank" rel="noopener">hikr.org</a>
-    (search index: <a id="hikr-link" href="" target="_blank" rel="noopener">peak page</a>).
-    Summaries condensed from web-search snippets — hikr.org is behind a Cloudflare challenge that blocks scripted fetchers, so verify against the linked reports before relying on conditions notes. Last updated <time id="reports-updated"></time>.
-  </p>
-</section>
-
-<div class="grid-2">
-
-</div>
 
 <section>
   <h2>Resources &amp; Links</h2>
@@ -245,7 +167,7 @@
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
     <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit, webcams) fetched on load.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
   </div>
 </footer>
 
@@ -259,11 +181,8 @@ window.HIKE = {
   summit: { lat: 47.07110893310496, lon: 9.028310315280578, elev: 2282, name: "Wiggis" },
   trailhead: { lat: 47.06720371080207, lon: 9.027237710792846, name: "Obersee",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=N%C3%A4fels-Mollis%2C+Bahnhof" },
-  hikr_index_url: "https://www.hikr.org/dir/Wiggis_5943/",
   gpx_filename: "wiggis.gpx",
-  reports_updated: "2026-05-15",
   page_generated: "2026-05-15",
-  webcams: [{"fallback": false, "label": "Obersee \u2014 Blick auf See und Br\u00fcnnelistock (TBGN)", "url": "https://kameraserver.tbgn.ch/obersee.jpg"}, {"fallback": true, "label": "Meteoblue N\u00e4fels/Glarus webcams", "url": "https://www.meteoblue.com/en/weather/webcams/naefels_switzerland"}],
   waypoints: [
     [47.08807343475956, 9.020764963089086, "Obersee (991 m)", "start"],
     [47.07125488305488, 9.028386202659581, "Rautispitz (2283 m)", "summit"],
