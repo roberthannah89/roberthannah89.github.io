@@ -248,7 +248,6 @@ def _populate_sac_metadata(data: dict, meta: dict, sac: dict) -> None:
         new_res = []
         if route_url:
             new_res.append(f'<a href="{route_url}">SAC Route Portal — {meta["title"]}</a>')
-        new_res.append('<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a>')
         if peak_url:
             new_res.append(f'<a href="{peak_url}">SAC Peak Page — {meta["destination_name"]}</a>')
         book = meta.get("book")

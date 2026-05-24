@@ -527,7 +527,6 @@ def build_template(
         },
         "resources_html": [
             f'<a href="TODO: SAC route URL">SAC Route Portal -- {name}</a>',
-            '<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a>',
             '<a href="TODO: SwissTopo map URL">SwissTopo map</a>',
         ],
     }
