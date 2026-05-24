@@ -28,17 +28,13 @@ The file is validated against `templates/hike_data.schema.json` (JSON Schema Dra
   "quick_facts": [ ... ],
   "photos": [ ... ],
   "waypoints": [ ... ],
-  "routes_subtitle": "...",
   "routes": [ ... ],
   "getting_there": { ... },
   "day_plans": [ ... ],
   "weather": { ... },
   "webcams": [ ... ],
   "trip_reports": { ... },
-  "gear": [ ... ],
-  "safety_html": [ "..." ],
   "resources_html": [ "..." ],
-  "disclaimer_html": "<p>...</p>",
   "elev_chart_attrib_html": "...",
   "photos_attrib_html": "..."
 }
@@ -135,19 +131,21 @@ Starting point for the hike.
 - `name` (string): Location name
 - `lat` (number): Latitude
 - `lon` (number): Longitude
-- `transit_dest` (string): SBB/transit destination (e.g., "Habkern")
 
 **Optional fields:**
 - `elev` (number): Elevation in metres
+- `sbb_url` (string): SBB timetable link (extracted from SAC route JSON by `extract_sac_route.py`). If absent, the page falls back to constructing a link from the trailhead name.
+
+Google Maps directions are derived automatically from the trailhead coordinates.
 
 **Example:**
 ```json
 {
-  "name": "Habkern",
-  "elev": 950,
-  "lat": 46.7320,
-  "lon": 7.8640,
-  "transit_dest": "Habkern"
+  "name": "Randa, Bahnhof",
+  "elev": 1439,
+  "lat": 46.1013,
+  "lon": 7.784,
+  "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Randa"
 }
 ```
 
@@ -189,9 +187,6 @@ Summary information shown on the hike gallery page.
 - `canton` (string): Swiss canton (e.g., "Bern")
 - `distance` (string): Distance (e.g., "14 km")
 - `gain` (string): Elevation gain (e.g., "1200 m")
-- `pill_class` (string): CSS class for grade pill (e.g., "t3")
-- `photo_url` (string): Thumbnail for gallery
-- `transit` (string): Transit quality (e.g., "good")
 - `route_type` (string): Route shape (e.g., "out-and-back", "loop")
 
 **Example:**
@@ -202,8 +197,6 @@ Summary information shown on the hike gallery page.
   "time": "~6 h",
   "distance": "14 km",
   "gain": "1200 m",
-  "pill_class": "t3",
-  "transit": "good",
   "route_type": "out-and-back"
 }
 ```
@@ -296,14 +289,6 @@ Map waypoints (start, summit, intermediate points).
 
 ---
 
-### `routes_subtitle` (string, optional)
-
-Subtitle displayed below the routes heading (e.g., the ridge or approach context).
-
-**Example:** `"(Brienzergrat — north-side ascent from Habkern)"`
-
----
-
 ### `routes` (array)
 
 Route options (different variations or difficulty levels).
@@ -353,9 +338,6 @@ Transportation information.
 **Required fields:**
 - `by_car_html` (string): Driving directions
 - `by_pt_html` (string): Public transit directions
-
-**Optional fields:**
-- `by_pt_heading` (string): Custom heading (defaults to "By Train")
 
 **Example:**
 ```json
@@ -486,51 +468,6 @@ Real trip reports from hikers.
 
 ---
 
-### `gear` (array)
-
-Gear recommendations.
-
-**Structure:** Array of objects with categories
-
-**Example:**
-```json
-[
-  {
-    "title": "Essential",
-    "items_html": [
-      "Hiking boots with good ankle support",
-      "Weatherproof jacket",
-      "Sun protection (hat, sunscreen)"
-    ]
-  },
-  {
-    "title": "Recommended",
-    "items_html": [
-      "Trekking poles (useful on descent)",
-      "Headlamp (if starting early)",
-      "Snacks and water (2 litres minimum)"
-    ]
-  }
-]
-```
-
----
-
-### `safety_html` (array of strings, required)
-
-Safety considerations and hazards. Each string is one bullet point (rendered as a list item).
-
-**Example:**
-```json
-[
-  "<strong>Exposure:</strong> Ridge sections have significant exposure; not suitable for those afraid of heights",
-  "<strong>Weather:</strong> Afternoon thunderstorms common; start early and descend by 14:00",
-  "<strong>Scrambling:</strong> T3 grade requires some hand use; not a simple walking trail"
-]
-```
-
----
-
 ### `resources_html` (array of strings, required)
 
 Useful references and links. Each string is one list item (typically an `<a>` tag with description).
@@ -542,17 +479,6 @@ Useful references and links. Each string is one list item (typically an `<a>` ta
   "<a href=\"https://www.hikr.org\">Hikr.org</a> — community trip reports",
   "<a href=\"https://www.sac-cas.ch\">SAC (Swiss Alpine Club)</a> — trail standards and hut info"
 ]
-```
-
----
-
-### `disclaimer_html` (string, required)
-
-Legal disclaimer.
-
-**Example:**
-```html
-<p><strong>Disclaimer:</strong> This guide is provided as-is without warranty. Always verify current trail conditions, obtain updated weather forecasts, and assess your own skills and fitness before attempting any hike. The author assumes no responsibility for injuries or damages.</p>
 ```
 
 ---

@@ -18,15 +18,14 @@
     "distance": "15.0 km",
     "gain": "2164 m",
     "time": "~6h30",
-    "route_type": "out-and-back",
-    "pill_class": "t3"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Tierfehd",
     "elev": 806,
     "lat": 46.87905283242049,
     "lon": 8.979755427052122,
-    "transit_dest": "Tierfehd, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Linthal"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/0/csm_1540887540_1788614208master_6f25de5157.jpg",
@@ -72,73 +71,85 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1685528705_906551968Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1685528705_906551968L.jpg",
       "alt": "View back shortly after the start in Tierfehd.",
-      "caption_html": "<p>View back shortly after the start in Tierfehd.</p>"
+      "caption_html": "<p>View back shortly after the start in Tierfehd.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1685528705_1499140078Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1685528705_1499140078L.jpg",
       "alt": "The impressive and historically remarkable Pantenbrücke.",
-      "caption_html": "<p>The impressive and historically remarkable Pantenbrücke.</p>"
+      "caption_html": "<p>The impressive and historically remarkable Pantenbrücke.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531449_845903733Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531449_845903733L.jpg",
       "alt": "View of the steep section up to Obersand.",
-      "caption_html": "<p>View of the steep section up to Obersand.</p>"
+      "caption_html": "<p>View of the steep section up to Obersand.</p>",
+      "copyright": "Stephan Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531337_954831472Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531337_954831472L.jpg",
       "alt": "At Obersand",
-      "caption_html": "<p>At Obersand</p>"
+      "caption_html": "<p>At Obersand</p>",
+      "copyright": "Stephan Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531337_865968185Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531337_865968185L.jpg",
       "alt": "Sandpassweidli, view towards Chli Tödi.",
-      "caption_html": "<p>Sandpassweidli, view towards Chli Tödi.</p>"
+      "caption_html": "<p>Sandpassweidli, view towards Chli Tödi.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531051_2098059639Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531051_2098059639L.jpg",
       "alt": "Exposed section with fixed chains ca. 2800 m.",
-      "caption_html": "<p>Exposed section with fixed chains ca. 2800 m.</p>"
+      "caption_html": "<p>Exposed section with fixed chains ca. 2800 m.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531051_50121710Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531051_50121710L.jpg",
       "alt": "Exposed section with fixed chains ca. 2800 m.",
-      "caption_html": "<p>Exposed section with fixed chains ca. 2800 m.</p>"
+      "caption_html": "<p>Exposed section with fixed chains ca. 2800 m.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531051_210060166Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531051_210060166L.jpg",
       "alt": "Exposed section with fixed chains ca. 2800 m.",
-      "caption_html": "<p>Exposed section with fixed chains ca. 2800 m.</p>"
+      "caption_html": "<p>Exposed section with fixed chains ca. 2800 m.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531051_1208665088Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531051_1208665088L.jpg",
       "alt": "Shortly before the hut, Sandpass to the right.",
-      "caption_html": "<p>Shortly before the hut, Sandpass to the right.</p>"
+      "caption_html": "<p>Shortly before the hut, Sandpass to the right.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531051_1306867657Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531051_1306867657L.jpg",
       "alt": "Shortly before the hut.",
-      "caption_html": "<p>Shortly before the hut.</p>"
+      "caption_html": "<p>Shortly before the hut.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1540887540_1788614208Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1540887540_1788614208L.jpg",
       "alt": "Last meters to the SAC's Planurahütte.",
-      "caption_html": "<p>Last meters to the SAC's Planurahütte.</p>"
+      "caption_html": "<p>Last meters to the SAC's Planurahütte.</p>",
+      "copyright": "Silvia Blatter"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1593531337_1498478240Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1593531337_1498478240L.jpg",
       "alt": "View back from Piz Cazzarauls at the long approach.",
-      "caption_html": "<p>View back from Piz Cazzarauls at the long approach.</p>"
+      "caption_html": "<p>View back from Piz Cazzarauls at the long approach.</p>",
+      "copyright": "Silvia Blatter"
     }
   ],
   "waypoints": [
@@ -276,11 +287,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/\">SAC Route Portal — From Tierfehd via Ober Sand</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/\">SAC Peak Page — Planurahütte SAC</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/\">SAC Peak Page — Planurahütte SAC</a>",
+    "<em>Müller, Zentralschweizer Alpen</em> (SAC, 2010). ISBN 978-3-85902-314-7"
   ],
   "sources": [
     {

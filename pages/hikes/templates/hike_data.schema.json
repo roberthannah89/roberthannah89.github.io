@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["page", "peak", "trailhead", "hero", "quick_facts", "photos",
                "waypoints", "routes", "getting_there", "day_plans", "weather",
-               "webcams", "trip_reports", "gear", "resources_html",
+               "webcams", "trip_reports", "resources_html",
                "index_card"],
   "additionalProperties": true,
   "properties": {
@@ -44,13 +44,13 @@
     },
     "trailhead": {
       "type": "object",
-      "required": ["name", "lat", "lon", "transit_dest"],
+      "required": ["name", "lat", "lon"],
       "properties": {
-        "name": { "type": "string" },
-        "elev": { "type": "number" },
-        "lat":  { "type": "number" },
-        "lon":  { "type": "number" },
-        "transit_dest": { "type": "string" }
+        "name":    { "type": "string" },
+        "elev":    { "type": "number" },
+        "lat":     { "type": "number" },
+        "lon":     { "type": "number" },
+        "sbb_url": { "type": "string" }
       }
     },
     "hero": {
@@ -70,9 +70,7 @@
         "region":     { "type": "string" },
         "time":       { "type": "string" },
         "distance":   { "type": "string" },
-        "gain":       { "type": "string" },
-        "pill_class": { "type": "string" },
-        "photo_url":  { "type": "string" }
+        "gain":       { "type": "string" }
       }
     },
     "quick_facts": {
@@ -93,7 +91,8 @@
           "url":          { "type": "string" },
           "alt":          { "type": "string" },
           "caption_html": { "type": "string" },
-          "lightbox_url": { "type": "string" }
+          "lightbox_url": { "type": "string" },
+          "copyright":    { "type": "string" }
         }
       }
     },
@@ -130,8 +129,7 @@
       "required": ["by_car_html", "by_pt_html"],
       "properties": {
         "by_car_html":     { "type": "string" },
-        "by_pt_html":      { "type": "string" },
-        "by_pt_heading":   { "type": "string" }
+        "by_pt_html":      { "type": "string" }
       }
     },
     "day_plans": {
@@ -195,17 +193,6 @@
               "bullets_html": { "type": "array", "items": { "type": "string" } }
             }
           }
-        }
-      }
-    },
-    "gear": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["title", "items_html"],
-        "properties": {
-          "title":      { "type": "string" },
-          "items_html": { "type": "array", "items": { "type": "string" } }
         }
       }
     },

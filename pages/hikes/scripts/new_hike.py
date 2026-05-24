@@ -452,14 +452,12 @@ def build_template(
             "gain": ic_gain,
             "time": ic_time,
             "route_type": ic_route_type,
-            "pill_class": pill_class,
         },
         "trailhead": {
             "name": trailhead,
             "elev": int(g["start"]["ele"]) if g.get("start", {}).get("ele") else 0,
             "lat": trailhead_lat,
             "lon": trailhead_lon,
-            "transit_dest": f"{trailhead}, Switzerland",
         },
         "hero": {
             "image_url": "TODO",
@@ -527,7 +525,6 @@ def build_template(
                 }
             ],
         },
-        "gear": [],
         "resources_html": [
             f'<a href="TODO: SAC route URL">SAC Route Portal -- {name}</a>',
             '<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a>',

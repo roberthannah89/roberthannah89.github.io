@@ -18,15 +18,14 @@
     "distance": "5.1 km",
     "gain": "1176 m",
     "time": "~3h",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Glaspass, Haltestelle",
     "elev": 1834,
     "lat": 46.6778,
     "lon": 9.3505,
-    "transit_dest": "Glaspass, Haltestelle, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Tschappina%2C+Glaspass"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/f/csm_1598344899_1606619744master_e3abca5d07.jpg",
@@ -72,121 +71,141 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1594933823_1627064907Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594933823_1627064907L.jpg",
       "alt": "Blick von den Chräjenchöpf zum Hoch Büel mit dem vorgelagerten Moor.",
-      "caption_html": "<p>Blick von den Chräjenchöpf zum Hoch Büel mit dem vorgelagerten Moor.</p>"
+      "caption_html": "<p>Blick von den Chräjenchöpf zum Hoch Büel mit dem vorgelagerten Moor.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1598351356_996681714Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1598351356_996681714L.jpg",
       "alt": "Chräjenchöpf, exponierte Stellen sind oft mit Ketten abgesichert. Rechts Carnusa mit Bruschghorn",
-      "caption_html": "<p>Chräjenchöpf, exponierte Stellen sind oft mit Ketten abgesichert. Rechts Carnusa mit Bruschghorn</p>"
+      "caption_html": "<p>Chräjenchöpf, exponierte Stellen sind oft mit Ketten abgesichert. Rechts Carnusa mit Bruschghorn</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1598351356_1282726165Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1598351356_1282726165L.jpg",
       "alt": "Exponierte Stelle bei den Chräjenchöpf.",
-      "caption_html": "<p>Exponierte Stelle bei den Chräjenchöpf.</p>"
+      "caption_html": "<p>Exponierte Stelle bei den Chräjenchöpf.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935050_1504963314Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935050_1504963314L.jpg",
       "alt": "Schön angelegter Weg, nahe dem Grat der Chräjenchöpf.",
-      "caption_html": "<p>Schön angelegter Weg, nahe dem Grat der Chräjenchöpf.</p>"
+      "caption_html": "<p>Schön angelegter Weg, nahe dem Grat der Chräjenchöpf.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595102016_794573371Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595102016_794573371L.jpg",
       "alt": "Bei den Chräjenchöpf.",
-      "caption_html": "<p>Bei den Chräjenchöpf.</p>"
+      "caption_html": "<p>Bei den Chräjenchöpf.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935150_1962157806Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935150_1962157806L.jpg",
       "alt": "Am Grat bei den Chräjenchöpf.",
-      "caption_html": "<p>Am Grat bei den Chräjenchöpf.</p>"
+      "caption_html": "<p>Am Grat bei den Chräjenchöpf.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594934983_1577340087Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594934983_1577340087L.jpg",
       "alt": "Nebelschwaden aus dem Nollagebiet, östlich der Chräjenchöpf",
-      "caption_html": "<p>Nebelschwaden aus dem Nollagebiet, östlich der Chräjenchöpf</p>"
+      "caption_html": "<p>Nebelschwaden aus dem Nollagebiet, östlich der Chräjenchöpf</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935248_1282504877Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935248_1282504877L.jpg",
       "alt": "In der Westflanke des Piz Beverins. Im HIntergrund die Farclatta digl Bavregn.",
-      "caption_html": "<p>In der Westflanke des Piz Beverins. Im HIntergrund die Farclatta digl Bavregn.</p>"
+      "caption_html": "<p>In der Westflanke des Piz Beverins. Im HIntergrund die Farclatta digl Bavregn.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935499_2119334334Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935499_2119334334L.jpg",
       "alt": "In der teils abschüssigen Westflanke sind heikle Stellen mit Ketten gesichert, im Abstieg.",
-      "caption_html": "<p>In der teils abschüssigen Westflanke sind heikle Stellen mit Ketten gesichert, im Abstieg.</p>"
+      "caption_html": "<p>In der teils abschüssigen Westflanke sind heikle Stellen mit Ketten gesichert, im Abstieg.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935304_119700783Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935304_119700783L.jpg",
       "alt": "In der Westflanke des Piz Beverins. Steinschlag ist keine Seltenheit.",
-      "caption_html": "<p>In der Westflanke des Piz Beverins. Steinschlag ist keine Seltenheit.</p>"
+      "caption_html": "<p>In der Westflanke des Piz Beverins. Steinschlag ist keine Seltenheit.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935257_1311861358Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935257_1311861358L.jpg",
       "alt": "Je nach Winter sind auch im Sommer noch einige Schneefelder zu queren.",
-      "caption_html": "<p>Je nach Winter sind auch im Sommer noch einige Schneefelder zu queren.</p>"
+      "caption_html": "<p>Je nach Winter sind auch im Sommer noch einige Schneefelder zu queren.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935318_867704609Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935318_867704609L.jpg",
       "alt": "Kurz vor der Farcletta digl Bavregn.",
-      "caption_html": "<p>Kurz vor der Farcletta digl Bavregn.</p>"
+      "caption_html": "<p>Kurz vor der Farcletta digl Bavregn.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1594935422_1368653836Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1594935422_1368653836L.jpg",
       "alt": "Blick von der Farcletta digl Bavregn nach Norden, im Abstieg.",
-      "caption_html": "<p>Blick von der Farcletta digl Bavregn nach Norden, im Abstieg.</p>"
+      "caption_html": "<p>Blick von der Farcletta digl Bavregn nach Norden, im Abstieg.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595102714_484745421Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595102714_484745421L.jpg",
       "alt": "Im Aufstieg respektive Abstieg zur Farcletta digl Bavregn",
-      "caption_html": "<p>Im Aufstieg respektive Abstieg zur Farcletta digl Bavregn</p>"
+      "caption_html": "<p>Im Aufstieg respektive Abstieg zur Farcletta digl Bavregn</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1598351357_1579513625Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1598351357_1579513625L.jpg",
       "alt": "Rückblick gegen Südwesten zur Farcletta digl Bavregn",
-      "caption_html": "<p>Rückblick gegen Südwesten zur Farcletta digl Bavregn</p>"
+      "caption_html": "<p>Rückblick gegen Südwesten zur Farcletta digl Bavregn</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1598356147_2126938081Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1598356147_2126938081L.jpg",
       "alt": "Kurz vor der letzten Steilstufe zum Schuttplateau des Gipfels",
-      "caption_html": "<p>Kurz vor der letzten Steilstufe zum Schuttplateau des Gipfels</p>"
+      "caption_html": "<p>Kurz vor der letzten Steilstufe zum Schuttplateau des Gipfels</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595102713_832114091Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595102713_832114091L.jpg",
       "alt": "Die letzten Meter zum Gipfel.",
-      "caption_html": "<p>Die letzten Meter zum Gipfel.</p>"
+      "caption_html": "<p>Die letzten Meter zum Gipfel.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595102714_681687813Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595102714_681687813L.jpg",
       "alt": "Gipfel Piz Beverin.",
-      "caption_html": "<p>Gipfel Piz Beverin.</p>"
+      "caption_html": "<p>Gipfel Piz Beverin.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595102714_223526908Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595102714_223526908L.jpg",
       "alt": "Blick gegen Norden. Unten sind die Chräjenchöpfe zu erkennen.",
-      "caption_html": "<p>Blick gegen Norden. Unten sind die Chräjenchöpfe zu erkennen.</p>"
+      "caption_html": "<p>Blick gegen Norden. Unten sind die Chräjenchöpfe zu erkennen.</p>",
+      "copyright": "Gian Andrea Hartmann"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595102715_2049319103Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595102715_2049319103L.jpg",
       "alt": "Blick nach Nordosten über den Heinzenberg ins Domleschg",
-      "caption_html": "<p>Blick nach Nordosten über den Heinzenberg ins Domleschg</p>"
+      "caption_html": "<p>Blick nach Nordosten über den Heinzenberg ins Domleschg</p>",
+      "copyright": "Gian Andrea Hartmann"
     }
   ],
   "waypoints": [
@@ -298,9 +317,9 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>"
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<em>Hunziker, Bündner Alpen 2</em> (SAC, 1996). ISBN 978-3-85902-154-9"
   ],
   "photos_attrib_html": "All photos: Gian Andrea Hartmann / SAC Route Portal"
 }

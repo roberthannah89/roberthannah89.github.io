@@ -18,15 +18,14 @@
     "distance": "7.9 km",
     "gain": "1581 m",
     "time": "~4h",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Zinal",
     "elev": 1669,
     "lat": 46.1352,
     "lon": 7.6259,
-    "transit_dest": "Zinal, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Zinal%2C+centre"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1528984187_74644388master_df503c1b91.jpg",
@@ -72,31 +71,36 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1530193569_1344479428Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530193569_1344479428L.jpg",
       "alt": "Roc de la Vache in shadow in the foreground.",
-      "caption_html": "<p>Roc de la Vache in shadow in the foreground.</p>"
+      "caption_html": "<p>Roc de la Vache in shadow in the foreground.</p>",
+      "copyright": "Zettel/Schulthess"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569587161_177673898Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569587161_177673898L.jpg",
       "alt": "At Combautanna, Cabane de Tracuit left on the horizon.",
-      "caption_html": "<p>At Combautanna, Cabane de Tracuit left on the horizon.</p>"
+      "caption_html": "<p>At Combautanna, Cabane de Tracuit left on the horizon.</p>",
+      "copyright": "Zettel/Schulthess"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569587161_1185026067Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569587161_1185026067L.jpg",
       "alt": "Just below the Cabane de Tracuit",
-      "caption_html": "<p>Just below the Cabane de Tracuit</p>"
+      "caption_html": "<p>Just below the Cabane de Tracuit</p>",
+      "copyright": "Zettel/Schulthess"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1625036306_519120098Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1625036306_519120098L.jpg",
       "alt": "Col de Tracuit with the die Diablons des Dames behind.",
-      "caption_html": "<p>Col de Tracuit with the die Diablons des Dames behind.</p>"
+      "caption_html": "<p>Col de Tracuit with the die Diablons des Dames behind.</p>",
+      "copyright": "Thomas Jantscher"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1530191451_1115146398Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530191451_1115146398L.jpg",
       "alt": "The ultra-modern Cabane de Tracuit - SAC section Chaussy.",
-      "caption_html": "<p>The ultra-modern Cabane de Tracuit - SAC section Chaussy.</p>"
+      "caption_html": "<p>The ultra-modern Cabane de Tracuit - SAC section Chaussy.</p>",
+      "copyright": "Zettel/Schulthess"
     }
   ],
   "waypoints": [
@@ -182,11 +186,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-tracuit-cas-2147000273/mountain-hiking/\">SAC Route Portal — From Zinal</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-tracuit-cas-2147000273/mountain-hiking/\">SAC Peak Page — Cabane de Tracuit CAS</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-tracuit-cas-2147000273/mountain-hiking/\">SAC Peak Page — Cabane de Tracuit CAS</a>",
+    "<em>Banzhaf / Biner / Theler, Matterhorn / Dent Blanche / Weisshorn</em> (SAC, 2010). ISBN 978-3-85902-297-3"
   ],
   "sources": [
     {

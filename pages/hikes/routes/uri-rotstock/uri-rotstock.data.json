@@ -18,15 +18,14 @@
     "distance": "20.3 km",
     "gain": "1967 m",
     "time": "~7h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "St. Jakob (Isenthal)",
     "elev": 978,
     "lat": 46.9017,
     "lon": 8.5228,
-    "transit_dest": "St. Jakob (Isenthal), Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=St.+Jakob+%28Isenthal%29"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1731486968_1185661602master_c24694a4df.jpg",
@@ -72,67 +71,78 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1595577397_963890579Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595577397_963890579L.jpg",
       "alt": "Erste Station: Die Biwaldalp.",
-      "caption_html": "<p>Erste Station: Die Biwaldalp.</p>"
+      "caption_html": "<p>Erste Station: Die Biwaldalp.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582298_610985058Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582298_610985058L.jpg",
       "alt": "Der Weg steigt oberhalb der Biwaldalp langsam und stetig an.",
-      "caption_html": "<p>Der Weg steigt oberhalb der Biwaldalp langsam und stetig an.</p>"
+      "caption_html": "<p>Der Weg steigt oberhalb der Biwaldalp langsam und stetig an.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582302_578087240Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582302_578087240L.jpg",
       "alt": "Von der Wegkreuzung sind es nur wenige Minuten hinüber zur Gitschenhörelihütte.",
-      "caption_html": "<p>Von der Wegkreuzung sind es nur wenige Minuten hinüber zur Gitschenhörelihütte.</p>"
+      "caption_html": "<p>Von der Wegkreuzung sind es nur wenige Minuten hinüber zur Gitschenhörelihütte.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582300_410304481Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582300_410304481L.jpg",
       "alt": "Uri Rotstock — on the ascent route",
-      "caption_html": "<p>Uri Rotstock — on the ascent route</p>"
+      "caption_html": "<p>Uri Rotstock — on the ascent route</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582302_1973698515Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582302_1973698515L.jpg",
       "alt": "Steilpassage durch griffigen, variantenreichen Fels hinauf zu P. 2659.",
-      "caption_html": "<p>Steilpassage durch griffigen, variantenreichen Fels hinauf zu P. 2659.</p>"
+      "caption_html": "<p>Steilpassage durch griffigen, variantenreichen Fels hinauf zu P. 2659.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595580897_1605247429Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595580897_1605247429L.jpg",
       "alt": "Blick vom Aufstieg Uri Rotstock zum Rotstocksattel und zum Aussichtspunkt P. 2753.",
-      "caption_html": "<p>Blick vom Aufstieg Uri Rotstock zum Rotstocksattel und zum Aussichtspunkt P. 2753.</p>"
+      "caption_html": "<p>Blick vom Aufstieg Uri Rotstock zum Rotstocksattel und zum Aussichtspunkt P. 2753.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582302_231029789Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582302_231029789L.jpg",
       "alt": "Oberhalb von P. 2659 einfacher Wegverlauf zum Gipfel.",
-      "caption_html": "<p>Oberhalb von P. 2659 einfacher Wegverlauf zum Gipfel.</p>"
+      "caption_html": "<p>Oberhalb von P. 2659 einfacher Wegverlauf zum Gipfel.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596114746_1080905689Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596114746_1080905689L.jpg",
       "alt": "Blick vom Gipfel auf das Urner Becken.",
-      "caption_html": "<p>Blick vom Gipfel auf das Urner Becken.</p>"
+      "caption_html": "<p>Blick vom Gipfel auf das Urner Becken.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596114746_1036785061Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596114746_1036785061L.jpg",
       "alt": "Kalkterrassen im Abstieg vor P. 2574.",
-      "caption_html": "<p>Kalkterrassen im Abstieg vor P. 2574.</p>"
+      "caption_html": "<p>Kalkterrassen im Abstieg vor P. 2574.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582302_880054675Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582302_880054675L.jpg",
       "alt": "Plattige Stelle im Abstieg bei 2180 m. Die andere Wegvariante verläuft höher.",
-      "caption_html": "<p>Plattige Stelle im Abstieg bei 2180 m. Die andere Wegvariante verläuft höher.</p>"
+      "caption_html": "<p>Plattige Stelle im Abstieg bei 2180 m. Die andere Wegvariante verläuft höher.</p>",
+      "copyright": "Remo Kundert"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1595582303_386181716Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1595582303_386181716L.jpg",
       "alt": "Die Überquerung des Firnbaches kann bei Hochwasser trotz Kettensicherung Probleme bescheren.",
-      "caption_html": "<p>Die Überquerung des Firnbaches kann bei Hochwasser trotz Kettensicherung Probleme bescheren.</p>"
+      "caption_html": "<p>Die Überquerung des Firnbaches kann bei Hochwasser trotz Kettensicherung Probleme bescheren.</p>",
+      "copyright": "Remo Kundert"
     }
   ],
   "waypoints": [
@@ -226,11 +236,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uri-rotstock-2092/mountain-hiking/\">SAC Route Portal — Von St. Jakob über die Gitschenhörelihütte mit Abstieg zur Musenalp</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uri-rotstock-2092/mountain-hiking/\">SAC Peak Page — Uri Rotstock</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uri-rotstock-2092/mountain-hiking/\">SAC Peak Page — Uri Rotstock</a>",
+    "<em>Kundert / Volken, Vierwaldstättersee / Zentralschweiz</em> (SAC, 2016). ISBN 978-3-85902-416-8"
   ],
   "sources": [
     {

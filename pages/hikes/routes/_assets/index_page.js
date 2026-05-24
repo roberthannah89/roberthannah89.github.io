@@ -53,7 +53,6 @@ HIKES.forEach(function (h, i) {
   card.dataset.elev = parseNum(h.elev);
   card.dataset.timeH = parseHours(h.time);
   card.dataset.route = (h.route_type || "").toLowerCase();
-  card.dataset.transit = (h.transit || "").toLowerCase();
   card.innerHTML =
     '<div class="photo-wrap">' +
       (h.photo ? '<img src="' + escAttr(h.photo) + '" alt="' + escAttr(h.name) + '" loading="lazy">' : '') +
@@ -109,7 +108,7 @@ cantons.forEach(function (c) {
 });
 
 /* ------------- filtering ------------- */
-var activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all", transit: "all" };
+var activeFilters = { grade: "all", duration: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
   group.addEventListener("click", function (e) {
@@ -187,7 +186,6 @@ function applyFilters() {
       else if (activeFilters.time === "long")   ok = !isNaN(h2) && h2 > 7;
     }
     if (ok && activeFilters.route !== "all") ok = card.dataset.route === activeFilters.route;
-    if (ok && activeFilters.transit !== "all") ok = card.dataset.transit === activeFilters.transit;
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
     var idx = parseInt(card.dataset.idx, 10);

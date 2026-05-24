@@ -28,15 +28,14 @@
     "distance": "~8 km",
     "gain": "820 m",
     "time": "~4 h",
-    "route_type": "traverse",
-    "pill_class": "t4"
+    "route_type": "traverse"
   },
   "trailhead": {
     "name": "Gfellen",
     "elev": 938,
     "lat": 46.956,
     "lon": 8.1291,
-    "transit_dest": "Gfellen, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gfellen"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/7/csm_1560072236_1842610991master_23e409c196.jpg",
@@ -78,55 +77,64 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077115_20792563Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077115_20792563L.jpg",
       "alt": "The meadow leading up to the edge of the forest at ca. 1420 m",
-      "caption_html": "<p>The meadow leading up to the edge of the forest at ca. 1420 m</p>"
+      "caption_html": "<p>The meadow leading up to the edge of the forest at ca. 1420 m</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077114_2117296704Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077114_2117296704L.jpg",
       "alt": "In the forest, at ca. 1450 m",
-      "caption_html": "<p>In the forest, at ca. 1450 m</p>"
+      "caption_html": "<p>In the forest, at ca. 1450 m</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077114_1255694444Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077114_1255694444L.jpg",
       "alt": "On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.",
-      "caption_html": "<p>On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.</p>"
+      "caption_html": "<p>On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1596360012Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1596360012L.jpg",
       "alt": "The passage from the boulder to the rocky ledge",
-      "caption_html": "<p>The passage from the boulder to the rocky ledge</p>"
+      "caption_html": "<p>The passage from the boulder to the rocky ledge</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_295237288Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_295237288L.jpg",
       "alt": "The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.",
-      "caption_html": "<p>The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.</p>"
+      "caption_html": "<p>The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1339036483Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_1339036483L.jpg",
       "alt": "The summit of Blaue Tosse",
-      "caption_html": "<p>The summit of Blaue Tosse</p>"
+      "caption_html": "<p>The summit of Blaue Tosse</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077102_228587591Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077102_228587591L.jpg",
       "alt": "Descending below the rocks of Blaue Tosse",
-      "caption_html": "<p>Descending below the rocks of Blaue Tosse</p>"
+      "caption_html": "<p>Descending below the rocks of Blaue Tosse</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077103_2024635569Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077103_2024635569L.jpg",
       "alt": "Descending the steepest passage equipped with fixed ropes",
-      "caption_html": "<p>Descending the steepest passage equipped with fixed ropes</p>"
+      "caption_html": "<p>Descending the steepest passage equipped with fixed ropes</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1560077103_1709541666Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560077103_1709541666L.jpg",
       "alt": "This is the face of the descent, above to the left is Blaue Tosse.",
-      "caption_html": "<p>This is the face of the descent, above to the left is Blaue Tosse.</p>"
+      "caption_html": "<p>This is the face of the descent, above to the left is Blaue Tosse.</p>",
+      "copyright": "Marco Volken"
     }
   ],
   "waypoints": [
@@ -245,7 +253,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/\">SAC Route Portal — Risetestock</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

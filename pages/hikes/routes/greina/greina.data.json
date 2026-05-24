@@ -18,15 +18,13 @@
     "distance": "16.4 km",
     "gain": "857 m",
     "time": "~4h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Medelserhütte SAC",
     "elev": 2525,
     "lat": 46.6405,
-    "lon": 8.9139,
-    "transit_dest": "Medelserhütte SAC, Switzerland"
+    "lon": 8.9139
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1589959241_228584128master_a1f514579a.jpg",
@@ -72,55 +70,64 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1596618905_1426861231Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596618905_1426861231L.jpg",
       "alt": "Überbleibsel der Vergletscherung unter dem Piz Valdraus.",
-      "caption_html": "<p>Überbleibsel der Vergletscherung unter dem Piz Valdraus.</p>"
+      "caption_html": "<p>Überbleibsel der Vergletscherung unter dem Piz Valdraus.</p>",
+      "copyright": "Christoph Giger"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596619777_726257300Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596619777_726257300L.jpg",
       "alt": "Rückblick zur Fuorcla Sura da Lavaz.",
-      "caption_html": "<p>Rückblick zur Fuorcla Sura da Lavaz.</p>"
+      "caption_html": "<p>Rückblick zur Fuorcla Sura da Lavaz.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596618350_2055060384Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596618350_2055060384L.jpg",
       "alt": "Im Aufstieg: Blick zum Piz Terri",
-      "caption_html": "<p>Im Aufstieg: Blick zum Piz Terri</p>"
+      "caption_html": "<p>Im Aufstieg: Blick zum Piz Terri</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596618350_1180118042Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596618350_1180118042L.jpg",
       "alt": "Typisches Gelände im Aufstieg, Blick zum Piz Gaglianera.",
-      "caption_html": "<p>Typisches Gelände im Aufstieg, Blick zum Piz Gaglianera.</p>"
+      "caption_html": "<p>Typisches Gelände im Aufstieg, Blick zum Piz Gaglianera.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596619040_1419923283Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596619040_1419923283L.jpg",
       "alt": "Piz Valdraus Gipfelflanke.",
-      "caption_html": "<p>Piz Valdraus Gipfelflanke.</p>"
+      "caption_html": "<p>Piz Valdraus Gipfelflanke.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596618350_306332057Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596618350_306332057L.jpg",
       "alt": "Blick vom Gipfel nach Osten zum Piz Gaglianera und Piz Vial.",
-      "caption_html": "<p>Blick vom Gipfel nach Osten zum Piz Gaglianera und Piz Vial.</p>"
+      "caption_html": "<p>Blick vom Gipfel nach Osten zum Piz Gaglianera und Piz Vial.</p>",
+      "copyright": "Christoph Giger"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1585169633_1627987619Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1585169633_1627987619L.jpg",
       "alt": "Im Abstieg von der Fuorcla Sura da Lavaz zur Greinaebene.",
-      "caption_html": "<p>Im Abstieg von der Fuorcla Sura da Lavaz zur Greinaebene.</p>"
+      "caption_html": "<p>Im Abstieg von der Fuorcla Sura da Lavaz zur Greinaebene.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596619101_1238634801Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596619101_1238634801L.jpg",
       "alt": "Blick über die Greinaebene zum Piz Terri",
-      "caption_html": "<p>Blick über die Greinaebene zum Piz Terri</p>"
+      "caption_html": "<p>Blick über die Greinaebene zum Piz Terri</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1596618350_1678086981Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1596618350_1678086981L.jpg",
       "alt": "In der Greinaebene, Blick zurück zum Greinapass.",
-      "caption_html": "<p>In der Greinaebene, Blick zurück zum Greinapass.</p>"
+      "caption_html": "<p>In der Greinaebene, Blick zurück zum Greinapass.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -220,7 +227,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-valdraus-2108/mountain-hiking/\">SAC Route Portal — Von der Medelserhütte zur Terrihütte</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

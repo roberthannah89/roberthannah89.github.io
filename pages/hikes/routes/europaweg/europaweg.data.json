@@ -18,15 +18,14 @@
     "distance": "3.2 km",
     "gain": "827 m",
     "time": "~2h",
-    "route_type": "out-and-back",
-    "pill_class": "t2"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Randa, Bahnhof",
     "elev": 1439,
     "lat": 46.1013,
     "lon": 7.784,
-    "transit_dest": "Randa, Bahnhof, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Randa"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1548682643_787303642master_0f1f197e58.jpg",
@@ -72,25 +71,29 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1528885288_1933265931Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1528885288_1933265931L.jpg",
       "alt": "Auf der Hängebrücke, eine beliebte und nur wenig längere Zustiegsvariante zur Europahütte.",
-      "caption_html": "<p>Auf der Hängebrücke, eine beliebte und nur wenig längere Zustiegsvariante zur Europahütte.</p>"
+      "caption_html": "<p>Auf der Hängebrücke, eine beliebte und nur wenig längere Zustiegsvariante zur Europahütte.</p>",
+      "copyright": "SAC-CAS"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1666012215_897873155Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1666012215_897873155L.jpg",
       "alt": "Trail to Europahütte above Randa",
-      "caption_html": "<p>Trail to Europahütte above Randa</p>"
+      "caption_html": "<p>Trail to Europahütte above Randa</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1666012215_2019612618Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1666012215_2019612618L.jpg",
       "alt": "Abzweigung Europahütte - Domhütte SAC.",
-      "caption_html": "<p>Abzweigung Europahütte - Domhütte SAC.</p>"
+      "caption_html": "<p>Abzweigung Europahütte - Domhütte SAC.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1666012214_622374372Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1666012214_622374372L.jpg",
       "alt": "Die Europahütte im Lärchengold.",
-      "caption_html": "<p>Die Europahütte im Lärchengold.</p>"
+      "caption_html": "<p>Die Europahütte im Lärchengold.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -163,11 +166,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/europahuette-2147000092/mountain-hiking/\">SAC Route Portal — Von Randa</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/europahuette-2147000092/mountain-hiking/\">SAC Peak Page — Europahütte</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/europahuette-2147000092/mountain-hiking/\">SAC Peak Page — Europahütte</a>",
+    "<em>Banzhaf / Biner / Burgener, Walliser Alpen 4/5</em> (SAC, 2009). ISBN 978-3-85902-290-4"
   ],
   "sources": [
     {

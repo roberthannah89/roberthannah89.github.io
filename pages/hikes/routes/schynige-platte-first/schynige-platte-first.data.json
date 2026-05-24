@@ -18,15 +18,14 @@
     "distance": "7.4 km",
     "gain": "490 m",
     "time": "~2h30",
-    "route_type": "point-to-point",
-    "pill_class": "t2"
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Schynige Platte",
     "elev": 1970,
     "lat": 46.6519,
     "lon": 7.9107,
-    "transit_dest": "Schynige Platte, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Schynige+Platte"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_a87fc1adc7.jpg",
@@ -72,7 +71,8 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1534266885_1864266862Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1534266885_1864266862L.jpg",
       "alt": "Am Ziel: das Berghaus Männdlenen auf 2344 Meter.",
-      "caption_html": "<p>Am Ziel: das Berghaus Männdlenen auf 2344 Meter.</p>"
+      "caption_html": "<p>Am Ziel: das Berghaus Männdlenen auf 2344 Meter.</p>",
+      "copyright": "Barbara Reichen"
     }
   ],
   "waypoints": [
@@ -165,7 +165,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Route Portal — Von Schynige Platte</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

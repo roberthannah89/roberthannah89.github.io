@@ -18,15 +18,14 @@
     "distance": "11.9 km",
     "gain": "980 m",
     "time": "~4h",
-    "route_type": "out-and-back",
-    "pill_class": "t5"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Seebodenalp, Bergstation",
     "elev": 1344,
     "lat": 47.061249425851344,
     "lon": 8.481022861056221,
-    "transit_dest": "Seebodenalp, Bergstation, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=K%C3%BCssnacht+am+Rigi+%28Talstation%29"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1600180283_276495212master_79d93f72c0.jpg",
@@ -72,19 +71,22 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1513783829_370894793Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1513783829_370894793L.jpg",
       "alt": "The lesser known side of Rigi, facing Zugersee",
-      "caption_html": "<p>The lesser known side of Rigi, facing Zugersee</p>"
+      "caption_html": "<p>The lesser known side of Rigi, facing Zugersee</p>",
+      "copyright": "Kundert Remo"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1513784085_1889780430Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1513784085_1889780430L.jpg",
       "alt": "Crossing many gullies, the trail leads to Buechzingelflue.",
-      "caption_html": "<p>Crossing many gullies, the trail leads to Buechzingelflue.</p>"
+      "caption_html": "<p>Crossing many gullies, the trail leads to Buechzingelflue.</p>",
+      "copyright": "Kundert Remo"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1513783983_242412495Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1513783983_242412495L.jpg",
       "alt": "The rope with the thick knots is a welcome help on the slippery Nagelfluh ledge.",
-      "caption_html": "<p>The rope with the thick knots is a welcome help on the slippery Nagelfluh ledge.</p>"
+      "caption_html": "<p>The rope with the thick knots is a welcome help on the slippery Nagelfluh ledge.</p>",
+      "copyright": "Remo Kundert"
     }
   ],
   "waypoints": [
@@ -220,11 +222,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rigi-kulm-1497/mountain-hiking/\">SAC Route Portal — Seebodenalp - \"Arschbaggen\" - Rigi Kulm - Leiterliweg – Seebodenalp</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rigi-kulm-1497/mountain-hiking/\">SAC Peak Page — Rigi Kulm</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rigi-kulm-1497/mountain-hiking/\">SAC Peak Page — Rigi Kulm</a>",
+    "<em>Kundert / Volken, Vierwaldstättersee / Zentralschweiz</em> (SAC, 2016). ISBN 978-3-85902-416-8"
   ],
   "sources": [
     {

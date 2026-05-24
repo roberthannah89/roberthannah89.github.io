@@ -18,15 +18,14 @@
     "distance": "8.3 km",
     "gain": "549 m",
     "time": "~2h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Alp Languard (Pontresina)",
     "elev": 3261,
     "lat": 46.4885,
     "lon": 9.9565,
-    "transit_dest": "Alp Languard (Pontresina), Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Alp+Languard"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1677142244_733758612master_0c86b0a49a.jpg",
@@ -72,19 +71,22 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1556711056_874820674Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1556711056_874820674L.jpg",
       "alt": "Ascending to Piz Languard: view towards Moritz",
-      "caption_html": "<p>Ascending to Piz Languard: view towards Moritz</p>"
+      "caption_html": "<p>Ascending to Piz Languard: view towards Moritz</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1556708271_18769266Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1556708271_18769266L.jpg",
       "alt": "Piz Languard",
-      "caption_html": "<p>Piz Languard</p>"
+      "caption_html": "<p>Piz Languard</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1556708271_216317717Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1556708271_216317717L.jpg",
       "alt": "Shortly before the summit, below is Georgys Hütte and behind the Bernina range.",
-      "caption_html": "<p>Shortly before the summit, below is Georgys Hütte and behind the Bernina range.</p>"
+      "caption_html": "<p>Shortly before the summit, below is Georgys Hütte and behind the Bernina range.</p>",
+      "copyright": "Fredy Joss"
     }
   ],
   "waypoints": [
@@ -170,11 +172,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/\">SAC Route Portal — South-west face</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/\">SAC Peak Page — Piz Languard</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/\">SAC Peak Page — Piz Languard</a>",
+    "<em>Joss / Joss, Engadin</em> (SAC, 2010). ISBN 978-3-85902-327-7"
   ],
   "sources": [
     {

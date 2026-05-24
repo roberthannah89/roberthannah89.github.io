@@ -28,15 +28,14 @@
     "distance": "11.3 km",
     "gain": "1500 m",
     "time": "~7h",
-    "route_type": "loop",
-    "pill_class": "t5"
+    "route_type": "loop"
   },
   "trailhead": {
     "name": "Wägitalersee, P. 932",
     "elev": 932,
     "lat": 47.08511841428294,
     "lon": 8.930364887431494,
-    "transit_dest": "Innerthal, Gemeindeplatz"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Innerthal%2C+Gemeindeplatz"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/1/csm_1568644551_509960798master_dd43c2402a.jpg",
@@ -82,67 +81,78 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1384925870Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1384925870L.jpg",
       "alt": "At Hohfläschen, the three summits of the day in sight",
-      "caption_html": "<p>At Hohfläschen, the three summits of the day in sight</p>"
+      "caption_html": "<p>At Hohfläschen, the three summits of the day in sight</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561893_716986988Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561893_716986988L.jpg",
       "alt": "The ledge that gives access to the saddle at P. 1989",
-      "caption_html": "<p>The ledge that gives access to the saddle at P. 1989</p>"
+      "caption_html": "<p>The ledge that gives access to the saddle at P. 1989</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561893_469655509Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561893_469655509L.jpg",
       "alt": "Ascending to Brünnelistock, the other two summits (and many more) behind",
-      "caption_html": "<p>Ascending to Brünnelistock, the other two summits (and many more) behind</p>"
+      "caption_html": "<p>Ascending to Brünnelistock, the other two summits (and many more) behind</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1368068899Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1368068899L.jpg",
       "alt": "The characteristic terrain on Brünnelistock",
-      "caption_html": "<p>The characteristic terrain on Brünnelistock</p>"
+      "caption_html": "<p>The characteristic terrain on Brünnelistock</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1438235059Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1438235059L.jpg",
       "alt": "Some rocky sectors can be climbed over or bypassed.",
-      "caption_html": "<p>Some rocky sectors can be climbed over or bypassed.</p>"
+      "caption_html": "<p>Some rocky sectors can be climbed over or bypassed.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1568649610_731247078Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1568649610_731247078L.jpg",
       "alt": "More rocks, this time on the descent",
-      "caption_html": "<p>More rocks, this time on the descent</p>"
+      "caption_html": "<p>More rocks, this time on the descent</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1568649595_504414442Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1568649595_504414442L.jpg",
       "alt": "The long fixed rope on the ascent to Rossälplispitz",
-      "caption_html": "<p>The long fixed rope on the ascent to Rossälplispitz</p>"
+      "caption_html": "<p>The long fixed rope on the ascent to Rossälplispitz</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1568649595_1621079272Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1568649595_1621079272L.jpg",
       "alt": "View from Rossälplispitz to Brünnelistock: from this perspective the mountain is very impressive, but it looks much steeper than it really is.",
-      "caption_html": "<p>View from Rossälplispitz to Brünnelistock: from this perspective the mountain is very impressive, but it looks much steeper than it really is.</p>"
+      "caption_html": "<p>View from Rossälplispitz to Brünnelistock: from this perspective the mountain is very impressive, but it looks much steeper than it really is.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1219264965Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561893_1219264965L.jpg",
       "alt": "The chain right after the saddle of P. 1901",
-      "caption_html": "<p>The chain right after the saddle of P. 1901</p>"
+      "caption_html": "<p>The chain right after the saddle of P. 1901</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561903_869103574Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561903_869103574L.jpg",
       "alt": "At Zindlen: view back to Zindlenspitz",
-      "caption_html": "<p>At Zindlen: view back to Zindlenspitz</p>"
+      "caption_html": "<p>At Zindlen: view back to Zindlenspitz</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1569561904_21251532Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1569561904_21251532L.jpg",
       "alt": "At Aberliboden the three summits appear once more.",
-      "caption_html": "<p>At Aberliboden the three summits appear once more.</p>"
+      "caption_html": "<p>At Aberliboden the three summits appear once more.</p>",
+      "copyright": "Marco Volken"
     }
   ],
   "waypoints": [
@@ -171,7 +181,6 @@
       "kind": "summit"
     }
   ],
-  "routes_subtitle": "(Three-summit ridge traverse from Wägitalersee)",
   "routes": [
     {
       "title_html": "<strong>Brünnelistock, Rossälplispitz and Zindlenspitz</strong> — ridge traverse",
@@ -276,11 +285,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/zindlenspitz-2260/mountain-hiking/bruennelistock-rossaelplispitz-and-zindlenspitz-4567/\">SAC Route Portal — Brünnelistock, Rossälplispitz and Zindlenspitz</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://map.geo.admin.ch/?lang=en&center=8.97,47.08&z=14\">SwissTopo map</a>"
+    "<a href=\"https://map.geo.admin.ch/?lang=en&center=8.97,47.08&z=14\">SwissTopo map</a>",
+    "<em>Kundert / Volken, Vierwaldstättersee / Zentralschweiz</em> (SAC, 2016). ISBN 978-3-85902-416-8"
   ],
   "photos_attrib_html": "All photos: Marco Volken / SAC Route Portal"
 }

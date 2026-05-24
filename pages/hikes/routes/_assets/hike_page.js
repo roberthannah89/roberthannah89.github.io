@@ -3,7 +3,7 @@
   "use strict";
   const H = window.HIKE || {};
   const SUMMIT = H.summit, TRAILHEAD = H.trailhead, WAYPOINTS = H.waypoints || [];
-  const TRANSIT_DEST = H.transit_dest, HIKR_INDEX_URL = H.hikr_index_url;
+  const HIKR_INDEX_URL = H.hikr_index_url;
   const GPX_FILENAME = H.gpx_filename, REPORTS_UPDATED = H.reports_updated;
   const PAGE_GENERATED = H.page_generated, WEBCAMS = H.webcams || [];
 
@@ -141,12 +141,13 @@
     const gmapsTransit = document.getElementById("gmaps-transit-link");
     const sbbLink      = document.getElementById("sbb-link");
     const originLabel  = document.getElementById("transit-origin");
-    if (!TRANSIT_DEST) return;
+    if (!TRAILHEAD) return;
     if (originLabel) originLabel.textContent = transitOrigin;
     const enc = encodeURIComponent;
-    if (gmapsDrive)   gmapsDrive.href   = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${enc(TRANSIT_DEST)}&travelmode=driving`;
-    if (gmapsTransit) gmapsTransit.href = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${enc(TRANSIT_DEST)}&travelmode=transit`;
-    if (sbbLink)      sbbLink.href      = `https://www.sbb.ch/en?stops=${enc(transitOrigin)}%20%E2%86%92%20${enc(TRANSIT_DEST)}`;
+    const dest = `${TRAILHEAD.lat},${TRAILHEAD.lon}`;
+    if (gmapsDrive)   gmapsDrive.href   = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${dest}&travelmode=driving`;
+    if (gmapsTransit) gmapsTransit.href = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${dest}&travelmode=transit`;
+    if (sbbLink)      sbbLink.href      = TRAILHEAD.sbb_url   || `https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?von=${enc(transitOrigin)}&nach=${enc(TRAILHEAD.name)}`;
   }
   setupTransit();
 

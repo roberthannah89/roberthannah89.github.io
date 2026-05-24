@@ -156,6 +156,14 @@ def _load_sac_json(json_path: Path) -> dict:
         return json.load(f)
 
 
+def _extract_sbb_url(sac: dict) -> str:
+    infos = sac.get("all_additional_informations", [])
+    if infos:
+        pt = infos[0].get("publicTransport", {})
+        return pt.get("timetableLink", "")
+    return ""
+
+
 def _extract_metadata(sac: dict) -> dict:
     dest = sac.get("destination_poi", {})
     dep = sac.get("departure_point", {})
@@ -183,6 +191,9 @@ def _extract_metadata(sac: dict) -> dict:
         "departure_altitude": dep.get("altitude"),
         "transit_stop": dep.get("public_transport_stop", {}),
         "transit_comment": dep.get("public_transport_stop_comment", ""),
+        "sbb_url": _extract_sbb_url(sac),
+        "book": sac.get("book"),
+        "parking_lot": dep.get("parking_lot"),
     }
 
 
@@ -218,6 +229,10 @@ def _populate_sac_metadata(data: dict, meta: dict, sac: dict) -> None:
         if parts:
             gt["by_pt_html"] = "\n".join(parts)
 
+    th = data.get("trailhead", {})
+    if meta.get("sbb_url"):
+        th["sbb_url"] = meta["sbb_url"]
+
     segments = sac.get("segments", [])
     if routes and segments and routes[0].get("bullets_html", [""])[0].startswith("TODO"):
         bullets = [seg.get("title", "?") for seg in segments if not seg.get("alternative", False)]
@@ -236,9 +251,23 @@ def _populate_sac_metadata(data: dict, meta: dict, sac: dict) -> None:
         new_res.append('<a href="https://www.meteoswiss.admin.ch/">MeteoSwiss</a>')
         if peak_url:
             new_res.append(f'<a href="{peak_url}">SAC Peak Page — {meta["destination_name"]}</a>')
+        book = meta.get("book")
+        if book and book.get("title"):
+            cite = f'<em>{book.get("author", "")}, {book["title"]}</em>'
+            if book.get("year"):
+                cite += f' (SAC, {book["year"]})'
+            if book.get("isbn"):
+                cite += f'. ISBN {book["isbn"]}'
+            new_res.append(cite)
         data["resources_html"] = new_res if new_res else res
 
+    gt = data.get("getting_there", {})
+    parking = meta.get("parking_lot")
+    if parking and "TODO" in gt.get("by_car_html", ""):
+        gt["by_car_html"] = f"<p>{parking}</p>"
+
     data.pop("safety_html", None)
+    data.pop("gear", None)
 
 
 def _write_data(data_path: Path, data: dict) -> None:

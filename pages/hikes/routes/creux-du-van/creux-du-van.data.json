@@ -18,15 +18,14 @@
     "distance": "9.1 km",
     "gain": "736 m",
     "time": "~3h",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Noiraigue",
     "elev": 729,
     "lat": 46.955,
     "lon": 6.722,
-    "transit_dest": "Noiraigue, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Noiraigue"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/7/csm_1593777227_1853386618master_b557e6b31f.jpg",
@@ -72,67 +71,78 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1639570198_2060907047Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1639570198_2060907047L.jpg",
       "alt": "Dos d'Âne in profile, behind are the high plain of Vallée des Ponts, Mont Racine and Les Tablettes.",
-      "caption_html": "<p>Dos d'Âne in profile, behind are the high plain of Vallée des Ponts, Mont Racine and Les Tablettes.</p>"
+      "caption_html": "<p>Dos d'Âne in profile, behind are the high plain of Vallée des Ponts, Mont Racine and Les Tablettes.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747763_826821932Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747763_826821932L.jpg",
       "alt": "Depending on your choice of itinerary, you sometimes have to deal with trees.",
-      "caption_html": "<p>Depending on your choice of itinerary, you sometimes have to deal with trees.</p>"
+      "caption_html": "<p>Depending on your choice of itinerary, you sometimes have to deal with trees.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1570104233Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1570104233L.jpg",
       "alt": "On the way pleasurable bouldering exercises can be included.",
-      "caption_html": "<p>On the way pleasurable bouldering exercises can be included.</p>"
+      "caption_html": "<p>On the way pleasurable bouldering exercises can be included.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1687395711Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1687395711L.jpg",
       "alt": "On the upper, horizontal stretch of the ridge",
-      "caption_html": "<p>On the upper, horizontal stretch of the ridge</p>"
+      "caption_html": "<p>On the upper, horizontal stretch of the ridge</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1074243444Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1074243444L.jpg",
       "alt": "The standard route merges from the left (red markings). However, the hiker prefers to scramble up the ridge.",
-      "caption_html": "<p>The standard route merges from the left (red markings). However, the hiker prefers to scramble up the ridge.</p>"
+      "caption_html": "<p>The standard route merges from the left (red markings). However, the hiker prefers to scramble up the ridge.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1467817729Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747763_1467817729L.jpg",
       "alt": "If you like being exposed, choose to climb the pinnacles. However, descending sometimes is not that easy.",
-      "caption_html": "<p>If you like being exposed, choose to climb the pinnacles. However, descending sometimes is not that easy.</p>"
+      "caption_html": "<p>If you like being exposed, choose to climb the pinnacles. However, descending sometimes is not that easy.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747763_2014992882Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747763_2014992882L.jpg",
       "alt": "Sometimes the ridge is structured like stairs.",
-      "caption_html": "<p>Sometimes the ridge is structured like stairs.</p>"
+      "caption_html": "<p>Sometimes the ridge is structured like stairs.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1639570198_1753798216Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1639570198_1753798216L.jpg",
       "alt": "On Dos d'Âne",
-      "caption_html": "<p>On Dos d'Âne</p>"
+      "caption_html": "<p>On Dos d'Âne</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573748358_554194083Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573748358_554194083L.jpg",
       "alt": "On the way to Le Soliat; to the left of the dry stone wall is the abyss. Attention: partly protection zone left of the beautiful stone wall!",
-      "caption_html": "<p>On the way to Le Soliat; to the left of the dry stone wall is the abyss. Attention: partly protection zone left of the beautiful stone wall!</p>"
+      "caption_html": "<p>On the way to Le Soliat; to the left of the dry stone wall is the abyss. Attention: partly protection zone left of the beautiful stone wall!</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1639570198_1693313308Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1639570198_1693313308L.jpg",
       "alt": "View from Le Soliat to the Bernese Alps",
-      "caption_html": "<p>View from Le Soliat to the Bernese Alps</p>"
+      "caption_html": "<p>View from Le Soliat to the Bernese Alps</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1573747772_950293242Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1573747772_950293242L.jpg",
       "alt": "On nice weekends Creux du Van is rather crowded.",
-      "caption_html": "<p>On nice weekends Creux du Van is rather crowded.</p>"
+      "caption_html": "<p>On nice weekends Creux du Van is rather crowded.</p>",
+      "copyright": "Marco Volken"
     }
   ],
   "waypoints": [
@@ -214,7 +224,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-soliat-creux-du-van-4041/mountain-hiking/\">SAC Route Portal — On the Dos d'Âne</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

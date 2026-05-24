@@ -18,15 +18,13 @@
     "distance": "2.7 km",
     "gain": "517 m",
     "time": "~2.5 h",
-    "route_type": "out-and-back",
-    "pill_class": "t5"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Holzegg",
     "elev": 1405,
     "lat": 47.0288,
-    "lon": 8.6981,
-    "transit_dest": "Holzegg, Switzerland"
+    "lon": 8.6981
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_32767a9009.jpg",
@@ -68,25 +66,29 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1560507656_1239560384Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1560507656_1239560384L.jpg",
       "alt": "The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.",
-      "caption_html": "<p>The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.</p>"
+      "caption_html": "<p>The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1555336019_2020425297Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555336019_2020425297L.jpg",
       "alt": "Exposed passages, but equipped with safety features, descend the south-west face.",
-      "caption_html": "<p>Exposed passages, but equipped with safety features, descend the south-west face.</p>"
+      "caption_html": "<p>Exposed passages, but equipped with safety features, descend the south-west face.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1555336036_466914493Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555336036_466914493L.jpg",
       "alt": "Nollenbrünneli",
-      "caption_html": "<p>Nollenbrünneli</p>"
+      "caption_html": "<p>Nollenbrünneli</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1555336544_431294073Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555336544_431294073L.jpg",
       "alt": "Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.",
-      "caption_html": "<p>Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.</p>"
+      "caption_html": "<p>Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.</p>",
+      "copyright": "Marco Volken"
     }
   ],
   "waypoints": [
@@ -161,11 +163,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/\">SAC Route Portal — Schafweg, Mythenmatt and Rot Grätli</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/\">SAC Peak Page — Gross Mythen</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/\">SAC Peak Page — Gross Mythen</a>",
+    "<em>Kundert / Volken, Vierwaldstättersee / Zentralschweiz</em> (SAC, 2016). ISBN 978-3-85902-416-8"
   ],
   "sources": [
     {

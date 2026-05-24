@@ -18,15 +18,14 @@
     "distance": "11.9 km",
     "gain": "1608 m",
     "time": "~5h",
-    "route_type": "out-and-back",
-    "pill_class": "t5"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Schwändi b. Schwanden GL, Post",
     "elev": 701,
     "lat": 47.00565468345417,
     "lon": 9.066721142777304,
-    "transit_dest": "Schwändi b. Schwanden GL, Post, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Schw%C3%A4ndi+b.+Schwanden+GL%2C+Post"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1534163073_935098032master_156d76cf67.jpg",
@@ -72,19 +71,22 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1555341147_1526623915Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555341147_1526623915L.jpg",
       "alt": "Traversing Hanslirus: difficulties depending on the condition / presence of the trail.",
-      "caption_html": "<p>Traversing Hanslirus: difficulties depending on the condition / presence of the trail.</p>"
+      "caption_html": "<p>Traversing Hanslirus: difficulties depending on the condition / presence of the trail.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1534163323_2029062832Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1534163323_2029062832L.jpg",
       "alt": "Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.",
-      "caption_html": "<p>Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.</p>"
+      "caption_html": "<p>Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1555402905_160773831Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1555402905_160773831L.jpg",
       "alt": "The bifurcation on the descent via Schlattalpli",
-      "caption_html": "<p>The bifurcation on the descent via Schlattalpli</p>"
+      "caption_html": "<p>The bifurcation on the descent via Schlattalpli</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -216,11 +218,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glärnisch-794/mountain-hiking/\">SAC Route Portal — Traverse from Schwändi to Klöntalersee</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glärnisch-794/mountain-hiking/\">SAC Peak Page — Vorder Glärnisch</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glärnisch-794/mountain-hiking/\">SAC Peak Page — Vorder Glärnisch</a>",
+    "<em>Coulin / Lippuner, Ostschweiz</em> (SAC, 2012). ISBN 978-3-85902-337-6"
   ],
   "sources": [
     {

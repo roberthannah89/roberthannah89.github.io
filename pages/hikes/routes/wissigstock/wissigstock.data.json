@@ -18,15 +18,13 @@
     "distance": "4.2 km",
     "gain": "604 m",
     "time": "~2h",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Rugghubelhütte SAC",
     "elev": 2290,
     "lat": 46.845967100501575,
-    "lon": 8.46289094617412,
-    "transit_dest": "Rugghubelhütte SAC, Switzerland"
+    "lon": 8.46289094617412
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/5/csm_1591792575_2134402460master_0eb9618cad.jpg",
@@ -72,55 +70,64 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1551182132_1697919894Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1551182132_1697919894L.jpg",
       "alt": "Die Aufstiegsroute zum Wissigstock via Engelberger Lücke.",
-      "caption_html": "<p>Die Aufstiegsroute zum Wissigstock via Engelberger Lücke.</p>"
+      "caption_html": "<p>Die Aufstiegsroute zum Wissigstock via Engelberger Lücke.</p>",
+      "copyright": "Fabian Duss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1551197945_703447046Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1551197945_703447046L.jpg",
       "alt": "Blick vom Engelberger Rotstock auf die Aufstiegsroute zum Wissigstock.",
-      "caption_html": "<p>Blick vom Engelberger Rotstock auf die Aufstiegsroute zum Wissigstock.</p>"
+      "caption_html": "<p>Blick vom Engelberger Rotstock auf die Aufstiegsroute zum Wissigstock.</p>",
+      "copyright": "Fabian Duss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1656412623_1022936598Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1656412623_1022936598L.jpg",
       "alt": "Blick auf den Wegabschnitt zur Engelberger Lücke, gesehen von der Rugghubelhütte.",
-      "caption_html": "<p>Blick auf den Wegabschnitt zur Engelberger Lücke, gesehen von der Rugghubelhütte.</p>"
+      "caption_html": "<p>Blick auf den Wegabschnitt zur Engelberger Lücke, gesehen von der Rugghubelhütte.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1554998621_452757973Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554998621_452757973L.jpg",
       "alt": "Das Wegtrassee oberhalb der Rugghubelhütte ist nicht immer ausgeprägt. Hinten der Rotstock.",
-      "caption_html": "<p>Das Wegtrassee oberhalb der Rugghubelhütte ist nicht immer ausgeprägt. Hinten der Rotstock.</p>"
+      "caption_html": "<p>Das Wegtrassee oberhalb der Rugghubelhütte ist nicht immer ausgeprägt. Hinten der Rotstock.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1656412623_1854440374Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1656412623_1854440374L.jpg",
       "alt": "Querung unter dem Engelberger Rotstock zur Rotstocklücke.",
-      "caption_html": "<p>Querung unter dem Engelberger Rotstock zur Rotstocklücke.</p>"
+      "caption_html": "<p>Querung unter dem Engelberger Rotstock zur Rotstocklücke.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1551181851_1340773069Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1551181851_1340773069L.jpg",
       "alt": "In der Engelberger Lücke öffnet sich der Blick auf die Urner Gipfel.",
-      "caption_html": "<p>In der Engelberger Lücke öffnet sich der Blick auf die Urner Gipfel.</p>"
+      "caption_html": "<p>In der Engelberger Lücke öffnet sich der Blick auf die Urner Gipfel.</p>",
+      "copyright": "Fabian Duss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1551181995_1616649697Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1551181995_1616649697L.jpg",
       "alt": "Der Blick zurück zur Engelberger Lücke und zum Engelberger Rotstock.",
-      "caption_html": "<p>Der Blick zurück zur Engelberger Lücke und zum Engelberger Rotstock.</p>"
+      "caption_html": "<p>Der Blick zurück zur Engelberger Lücke und zum Engelberger Rotstock.</p>",
+      "copyright": "Fabian Duss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1590738384_364874896Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1590738384_364874896L.jpg",
       "alt": "Am Gipfel des Wissigstocks.",
-      "caption_html": "<p>Am Gipfel des Wissigstocks.</p>"
+      "caption_html": "<p>Am Gipfel des Wissigstocks.</p>",
+      "copyright": "Fabian Duss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1656412623_1584720865Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1656412623_1584720865L.jpg",
       "alt": "Abendstimmung auf dem Wissigstock",
-      "caption_html": "<p>Abendstimmung auf dem Wissigstock</p>"
+      "caption_html": "<p>Abendstimmung auf dem Wissigstock</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -250,7 +257,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wissigstock-2238/mountain-hiking/\">SAC Route Portal — Nordgrat von der Rugghubelhütte SAC</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

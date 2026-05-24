@@ -18,15 +18,14 @@
     "distance": "10.1 km",
     "gain": "248 m",
     "time": "~2h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Eggishorn, summit station",
     "elev": 2866,
     "lat": 46.4272,
     "lon": 8.0931,
-    "transit_dest": "Eggishorn, summit station, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Eggishorn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1559329506_633827028master_22ccda896e.jpg",
@@ -72,19 +71,22 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1559329510_496326394Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1559329510_496326394L.jpg",
       "alt": "Slightly above Elselicka",
-      "caption_html": "<p>Slightly above Elselicka</p>"
+      "caption_html": "<p>Slightly above Elselicka</p>",
+      "copyright": "Sabine Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1559329506_633827028Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1559329506_633827028L.jpg",
       "alt": "Exposed passage on Bettmerhorn",
-      "caption_html": "<p>Exposed passage on Bettmerhorn</p>"
+      "caption_html": "<p>Exposed passage on Bettmerhorn</p>",
+      "copyright": "Sabine Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1561388303_897927224Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1561388303_897927224L.jpg",
       "alt": "On the ridge of Bettmerhorn",
-      "caption_html": "<p>On the ridge of Bettmerhorn</p>"
+      "caption_html": "<p>On the ridge of Bettmerhorn</p>",
+      "copyright": "Sabine Joss"
     }
   ],
   "waypoints": [
@@ -202,11 +204,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/\">SAC Route Portal — Traverse Eggishorn – Bettmerhorn</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/\">SAC Peak Page — Bettmerhorn</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/\">SAC Peak Page — Bettmerhorn</a>",
+    "<em>Joss / Joss, Wanderziel Gipfel Oberwallis</em> (SAC, 2008). ISBN 978-3-85902-275-1"
   ],
   "sources": [
     {

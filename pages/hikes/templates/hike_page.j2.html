@@ -43,13 +43,13 @@
   <div class="photo-grid">
 {%- for p in photos %}
     <figure>
-      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}"></a>
+      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}"{% if p.get('copyright') %} title="© {{ p.copyright }}"{% endif %}></a>
       <figcaption>{{ p.caption_html | safe }}</figcaption>
     </figure>
 {%- endfor %}
   </div>
 {%- for p in photos %}
-      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt=""></a>
+      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt=""{% if p.get('copyright') %} title="© {{ p.copyright }}"{% endif %}></a>
 {%- endfor %}
       <p class="attrib">{{ photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true) | safe }}</p>
 </section>
@@ -76,7 +76,7 @@
 </section>
 
 <section>
-  <h2>Routes{% if routes_subtitle is defined %} {{ routes_subtitle | safe }}{% endif %}</h2>
+  <h2>Routes</h2>
 {%- for r in routes %}
   <h3>{{ r.title_html | safe }}{% if r.grade %} <span class="pill {{ r.get('pill_class') or (r.grade | grade_class) }}">{{ r.get('grade_label') or r.grade }}</span>{% endif %}</h3>
   <ul>
@@ -208,20 +208,6 @@
 </section>
 
 <div class="grid-2">
-{%- if specific_gear %}
-  <section>
-    <h2>Additional Gear For This Hike</h2>
-    <p>For the standard summer hiking kit, see the <a href="../../guides/gear.html">gear guide</a>.</p>
-{%- for g in specific_gear %}
-    <h3>{{ g.title }}</h3>
-    <ul>
-{%- for item in g.items_html %}
-      <li>{{ item | safe }}</li>
-{%- endfor %}
-    </ul>
-{%- endfor %}
-  </section>
-{%- endif %}
 
 </div>
 
@@ -252,8 +238,8 @@
 <script>
 window.HIKE = {
   summit: { lat: {{ peak.lat }}, lon: {{ peak.lon }}, elev: {{ peak.elev }}, name: {{ peak.name | tojson }} },
-  trailhead: { lat: {{ trailhead.lat }}, lon: {{ trailhead.lon }}, name: {{ trailhead.name | tojson }} },
-  transit_dest: {{ trailhead.transit_dest | tojson }},
+  trailhead: { lat: {{ trailhead.lat }}, lon: {{ trailhead.lon }}, name: {{ trailhead.name | tojson }},
+               sbb_url: {{ trailhead.get('sbb_url', '') | tojson }} },
   hikr_index_url: {{ trip_reports.hikr_index_url | tojson }},
   gpx_filename: {{ (slug ~ '.gpx') | tojson }},
   reports_updated: {{ page.reports_updated | tojson }},

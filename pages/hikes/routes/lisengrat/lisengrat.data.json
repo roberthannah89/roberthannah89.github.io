@@ -18,15 +18,14 @@
     "distance": "2.3 km",
     "gain": "19 m",
     "time": "~0h30",
-    "route_type": "out-and-back",
-    "pill_class": "t3"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Säntis, Bergstation",
     "elev": 2472,
     "lat": 47.249,
     "lon": 9.3428,
-    "transit_dest": "Säntis, Bergstation, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=S%C3%A4ntis"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/b/csm_1709126527_1572792083master_4fabe99aa0.jpg",
@@ -72,7 +71,8 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1534347031_862208122Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1534347031_862208122L.jpg",
       "alt": "Am Ziel: Der Rotsteinpass mit dem Gasthaus, der Lisengratweg kommt von links.",
-      "caption_html": "<p>Am Ziel: Der Rotsteinpass mit dem Gasthaus, der Lisengratweg kommt von links.</p>"
+      "caption_html": "<p>Am Ziel: Der Rotsteinpass mit dem Gasthaus, der Lisengratweg kommt von links.</p>",
+      "copyright": "SAC-CAS"
     }
   ],
   "waypoints": [
@@ -151,7 +151,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berggasthaus-rotsteinpass-2147000224/mountain-hiking/\">SAC Route Portal — Vom Säntis</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

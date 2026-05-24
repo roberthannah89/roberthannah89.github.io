@@ -139,15 +139,6 @@ def discover_guide_pages(guides_dir: Path) -> list[dict[str, str]]:
         })
     pages.sort(key=lambda p: p["_order"])
     return pages
-GENERIC_GEAR_TITLES = {
-    "mandatory",
-    "recommended",
-    "essential",
-    "optional",
-    "leave behind",
-}
-GENERIC_GEAR_PREFIXES = ("mandatory", "recommended", "essential", "optional")
-SPECIFIC_GEAR_MARKERS = (" only", "only ", "for ", "if ", "variant", "traverse", "summit", "ridge")
 
 ####################################################################################################################################
 # Stage timing helpers
@@ -398,20 +389,6 @@ def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: 
     return facts
 
 
-def filter_specific_gear(gear: list[dict]) -> list[dict]:
-    """Keep only hike-specific gear groups, dropping generic packing lists."""
-    specific: list[dict] = []
-    for group in gear or []:
-        title = (group.get("title") or "").strip()
-        title_lower = title.lower()
-        if title_lower in GENERIC_GEAR_TITLES:
-            continue
-        if title_lower.startswith(GENERIC_GEAR_PREFIXES) and not any(
-            marker in title_lower for marker in SPECIFIC_GEAR_MARKERS
-        ):
-            continue
-        specific.append(group)
-    return specific
 
 
 ####################################################################################################################################
@@ -561,7 +538,6 @@ def render_one(data_path: Path) -> RenderResult:
                 hero.get("grade", ""),
                 data.get("routes"),
             )
-            data["specific_gear"] = filter_specific_gear(data.get("gear") or [])
             _build_transport_notes(data)
             _filter_todo_sections(data)
             # Optional per-hike _config.js (e.g. Google Maps Embed API key).
@@ -699,10 +675,7 @@ def _resize_photo_url(url: str, width: int = INDEX_PHOTO_WIDTH) -> str:
 
 
 def _index_photo_url(data: dict) -> str:
-    """Pick the index-card photo URL, defaulting to first photo at width=400."""
-    override = (data.get("index_card") or {}).get("photo_url")
-    if override:
-        return override
+    """Pick the index-card photo URL from first photo at width=400."""
     photos = data.get("photos") or []
     if not photos:
         return ""
@@ -756,7 +729,7 @@ def build_index_hikes(data_files: list[Path],
         gpx = gpx_by_slug.get(slug, {})
 
         grade = hero.get("grade", "")
-        grade_class = ic.get("pill_class") or _grade_pill_class(grade)
+        grade_class = _grade_pill_class(grade)
 
         distance = ic.get("distance") or (
             f"{gpx['distance_km']:.1f} km" if gpx.get("distance_km") else "—")
@@ -774,7 +747,6 @@ def build_index_hikes(data_files: list[Path],
             "distance": distance,
             "gain": gain,
             "time": ic.get("time", ""),
-            "transit": ic.get("transit", ""),
             "route_type": ic.get("route_type", ""),
             "lat": peak.get("lat"),
             "lon": peak.get("lon"),

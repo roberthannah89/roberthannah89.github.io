@@ -18,15 +18,14 @@
     "distance": "18.7 km",
     "gain": "1528 m",
     "time": "~6h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Obersee",
     "elev": 2165,
     "lat": 47.06720371080207,
     "lon": 9.027237710792846,
-    "transit_dest": "Obersee, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=N%C3%A4fels-Mollis%2C+Bahnhof"
   },
   "hero": {
     "image_url": "TODO",
@@ -66,25 +65,29 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1578062140_1357492339Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1578062140_1357492339L.jpg",
       "alt": "Tiefblick vom Rautispitz nach Näfels-Mollis am Glarner Talausgang.",
-      "caption_html": "<p>Tiefblick vom Rautispitz nach Näfels-Mollis am Glarner Talausgang.</p>"
+      "caption_html": "<p>Tiefblick vom Rautispitz nach Näfels-Mollis am Glarner Talausgang.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1578062264_860485313Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1578062264_860485313L.jpg",
       "alt": "Am Kanzelartigen Gipfel der Wiggis.",
-      "caption_html": "<p>Am Kanzelartigen Gipfel der Wiggis.</p>"
+      "caption_html": "<p>Am Kanzelartigen Gipfel der Wiggis.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1578062140_18442979Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1578062140_18442979L.jpg",
       "alt": "Der exponierte Verbindungspfad zwischen Rautispitz und Wiggis.",
-      "caption_html": "<p>Der exponierte Verbindungspfad zwischen Rautispitz und Wiggis.</p>"
+      "caption_html": "<p>Der exponierte Verbindungspfad zwischen Rautispitz und Wiggis.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1578061198_1275649207Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1578061198_1275649207L.jpg",
       "alt": "Die \"Zwei auf einen Streich\": links Rautispitz, rechts Wiggis.",
-      "caption_html": "<p>Die \"Zwei auf einen Streich\": links Rautispitz, rechts Wiggis.</p>"
+      "caption_html": "<p>Die \"Zwei auf einen Streich\": links Rautispitz, rechts Wiggis.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -233,11 +236,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/\">SAC Route Portal — Vom Obersee über Geisskappel und den Rautispitz</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/\">SAC Peak Page — Wiggis</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/\">SAC Peak Page — Wiggis</a>",
+    "<em>Coulin / Lippuner, Ostschweiz</em> (SAC, 2012). ISBN 978-3-85902-337-6"
   ],
   "sources": [
     {

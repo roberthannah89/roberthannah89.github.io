@@ -18,15 +18,14 @@
     "distance": "10.6 km",
     "gain": "818 m",
     "time": "~3h30",
-    "route_type": "out-and-back",
-    "pill_class": "t2"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Schynige Platte",
     "elev": 1970,
     "lat": 46.6519,
     "lon": 7.9107,
-    "transit_dest": "Schynige Platte, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Schynige+Platte"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_0113348ddd.jpg",
@@ -72,25 +71,29 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1590414128_173921675Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1590414128_173921675L.jpg",
       "alt": "Das Ambiente der Tour ist recht alpin.",
-      "caption_html": "<p>Das Ambiente der Tour ist recht alpin.</p>"
+      "caption_html": "<p>Das Ambiente der Tour ist recht alpin.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1590414128_413465949Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1590414128_413465949L.jpg",
       "alt": "In der Bahn zur Schynige Platte.",
-      "caption_html": "<p>In der Bahn zur Schynige Platte.</p>"
+      "caption_html": "<p>In der Bahn zur Schynige Platte.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1589052869_637543125Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1589052869_637543125L.jpg",
       "alt": "Berghaus Männdlenen.",
-      "caption_html": "<p>Berghaus Männdlenen.</p>"
+      "caption_html": "<p>Berghaus Männdlenen.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1590414128_247105714Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1590414128_247105714L.jpg",
       "alt": "Am Ziel: das Berghotel Faulhorn.",
-      "caption_html": "<p>Am Ziel: das Berghotel Faulhorn.</p>"
+      "caption_html": "<p>Am Ziel: das Berghotel Faulhorn.</p>",
+      "copyright": "David Coulin"
     }
   ],
   "waypoints": [
@@ -169,11 +172,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghotel-faulhorn-2147436041/mountain-hiking/\">SAC Route Portal — Von der Schynige Platte</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghotel-faulhorn-2147436041/mountain-hiking/\">SAC Peak Page — Berghotel Faulhorn</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghotel-faulhorn-2147436041/mountain-hiking/\">SAC Peak Page — Berghotel Faulhorn</a>",
+    "<em>Coulin, Bergwandern von Hütte zu Hütte</em> (SAC, 2018). ISBN 978-3-85902-434-2"
   ],
   "sources": [
     {

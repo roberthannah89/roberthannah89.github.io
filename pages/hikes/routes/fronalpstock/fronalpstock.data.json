@@ -18,15 +18,14 @@
     "distance": "7.2 km",
     "gain": "1122 m",
     "time": "~3h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Morschach Talstation",
     "elev": 1309,
     "lat": 46.9787,
     "lon": 8.6374,
-    "transit_dest": "Morschach Talstation, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Morschach%2C+Luftseilbahn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/f/csm_1734604788_2110882109master_ee065f5793.jpg",
@@ -72,37 +71,43 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1554823064_441906616Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554823064_441906616L.jpg",
       "alt": "Already from the start, the route ahead impresses and dissuades. You can't imagine theres an easy way up through those cliffs... but there is.",
-      "caption_html": "<p>Already from the start, the route ahead impresses and dissuades. You can't imagine theres an easy way up through those cliffs... but there is.</p>"
+      "caption_html": "<p>Already from the start, the route ahead impresses and dissuades. You can't imagine theres an easy way up through those cliffs... but there is.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1554823064_1218265832Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554823064_1218265832L.jpg",
       "alt": "At Alp Eu, with a view towards the shapely Mythen.",
-      "caption_html": "<p>At Alp Eu, with a view towards the shapely Mythen.</p>"
+      "caption_html": "<p>At Alp Eu, with a view towards the shapely Mythen.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1532967387_300351340Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1532967387_300351340L.jpg",
       "alt": "One of the continuation gullies leading up through the rock band.",
-      "caption_html": "<p>One of the continuation gullies leading up through the rock band.</p>"
+      "caption_html": "<p>One of the continuation gullies leading up through the rock band.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1554823064_1057866140Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554823064_1057866140L.jpg",
       "alt": "The Crux!",
-      "caption_html": "<p>The Crux!</p>"
+      "caption_html": "<p>The Crux!</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1554823064_1127956517Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554823064_1127956517L.jpg",
       "alt": "You can just make out the path through the steep grass flank. This can be dangerous with snow.",
-      "caption_html": "<p>You can just make out the path through the steep grass flank. This can be dangerous with snow.</p>"
+      "caption_html": "<p>You can just make out the path through the steep grass flank. This can be dangerous with snow.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1554823064_748960265Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554823064_748960265L.jpg",
       "alt": "From the base of the Charenstöckli you can join the hiking \"highway\" to the top.",
-      "caption_html": "<p>From the base of the Charenstöckli you can join the hiking \"highway\" to the top.</p>"
+      "caption_html": "<p>From the base of the Charenstöckli you can join the hiking \"highway\" to the top.</p>",
+      "copyright": "Marco Volken"
     }
   ],
   "waypoints": [
@@ -189,11 +194,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-sz-684/mountain-hiking/\">SAC Route Portal — From Morschach via Chälen</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-sz-684/mountain-hiking/\">SAC Peak Page — Fronalpstock (SZ)</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-sz-684/mountain-hiking/\">SAC Peak Page — Fronalpstock (SZ)</a>",
+    "<em>Kundert / Volken, Vierwaldstättersee / Zentralschweiz</em> (SAC, 2016). ISBN 978-3-85902-416-8"
   ],
   "sources": [
     {

@@ -18,15 +18,14 @@
     "distance": "10.1 km",
     "gain": "1351 m",
     "time": "~4h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Schwägalp, Säntis aerial cableway",
     "elev": 1346,
     "lat": 47.256259395387104,
     "lon": 9.3184713977177,
-    "transit_dest": "Schwägalp, Säntis aerial cableway, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Schw%C3%A4galp%2C+S%C3%A4ntis-Schwebebahn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1533557725_705491663master_e13216823f.jpg",
@@ -72,13 +71,15 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1533555866_787592781Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1533555866_787592781L.jpg",
       "alt": "Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route",
-      "caption_html": "<p>Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route</p>"
+      "caption_html": "<p>Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1660206042_120038184Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660206042_120038184L.jpg",
       "alt": "The nostrils - the trail to the actual \"holes\" is a dead end",
-      "caption_html": "<p>The nostrils - the trail to the actual \"holes\" is a dead end</p>"
+      "caption_html": "<p>The nostrils - the trail to the actual \"holes\" is a dead end</p>",
+      "copyright": "Pascal Keller"
     }
   ],
   "waypoints": [
@@ -219,11 +220,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Route Portal — From Schwägalp via Nasenlöcher</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Peak Page — Säntis</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Peak Page — Säntis</a>",
+    "<em>Coulin / Lippuner, Ostschweiz</em> (SAC, 2012). ISBN 978-3-85902-337-6"
   ],
   "sources": [
     {

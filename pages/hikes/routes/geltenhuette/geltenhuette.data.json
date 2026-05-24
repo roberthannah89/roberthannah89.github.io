@@ -18,15 +18,14 @@
     "distance": "8.3 km",
     "gain": "771 m",
     "time": "~3h",
-    "route_type": "out-and-back",
-    "pill_class": "t2"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Lauenen, Geltenhorn",
     "elev": 1241,
     "lat": 46.4245,
     "lon": 7.3219,
-    "transit_dest": "Lauenen, Geltenhorn, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Lauenen+b.+Gstaad%2C+Geltenhorn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/f/csm_1554297904_1062110525master_b571a3a95e.jpg",
@@ -72,55 +71,64 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1530711976_285904067Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530711976_285904067L.jpg",
       "alt": "Nearing the Lauenensee",
-      "caption_html": "<p>Nearing the Lauenensee</p>"
+      "caption_html": "<p>Nearing the Lauenensee</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1530711976_1328737834Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530711976_1328737834L.jpg",
       "alt": "Near Walki in the beautiful pine forest.",
-      "caption_html": "<p>Near Walki in the beautiful pine forest.</p>"
+      "caption_html": "<p>Near Walki in the beautiful pine forest.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1530711976_1272307955Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530711976_1272307955L.jpg",
       "alt": "The Geltenschutz (waterfall)",
-      "caption_html": "<p>The Geltenschutz (waterfall)</p>"
+      "caption_html": "<p>The Geltenschutz (waterfall)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1557246050_1384217909Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1557246050_1384217909L.jpg",
       "alt": "Der Geltenschuss.",
-      "caption_html": "<p>Der Geltenschuss.</p>"
+      "caption_html": "<p>Der Geltenschuss.</p>",
+      "copyright": "Ueli Stalder"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1557246050_1092547403Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1557246050_1092547403L.jpg",
       "alt": "Water pushes out through the rocks.",
-      "caption_html": "<p>Water pushes out through the rocks.</p>"
+      "caption_html": "<p>Water pushes out through the rocks.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1519027391_1182978134Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519027391_1182978134L.jpg",
       "alt": "Refreshing passage shortly before the hut!",
-      "caption_html": "<p>Refreshing passage shortly before the hut!</p>"
+      "caption_html": "<p>Refreshing passage shortly before the hut!</p>",
+      "copyright": "Ueli Stalder"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1530711976_565383826Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530711976_565383826L.jpg",
       "alt": "Last bridge before the Geltenhütte.",
-      "caption_html": "<p>Last bridge before the Geltenhütte.</p>"
+      "caption_html": "<p>Last bridge before the Geltenhütte.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1530711976_545422403Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1530711976_545422403L.jpg",
       "alt": "View back, shortly before arrival at the hut.",
-      "caption_html": "<p>View back, shortly before arrival at the hut.</p>"
+      "caption_html": "<p>View back, shortly before arrival at the hut.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1554297905_234262829Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1554297905_234262829L.jpg",
       "alt": "The expanded Geltenhütte -SAC section Oldenhorn",
-      "caption_html": "<p>The expanded Geltenhütte -SAC section Oldenhorn</p>"
+      "caption_html": "<p>The expanded Geltenhütte -SAC section Oldenhorn</p>",
+      "copyright": "davidschweizer.ch"
     }
   ],
   "waypoints": [
@@ -200,9 +208,9 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
-    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>"
+    "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
+    "<em>Mosimann, Berner Alpen</em> (SAC, 2013). ISBN 978-3-85902-385-7"
   ],
   "photos_attrib_html": "All photos: Ueli Stalder, davidschweizer.ch / SAC Route Portal"
 }

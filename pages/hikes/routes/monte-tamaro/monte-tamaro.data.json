@@ -18,15 +18,14 @@
     "distance": "16.9 km",
     "gain": "1388 m",
     "time": "~5h30",
-    "route_type": "out-and-back",
-    "pill_class": "t3"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Alpe Foppa (top station)",
     "elev": 1394,
     "lat": 46.1107,
     "lon": 8.8455,
-    "transit_dest": "Alpe Foppa (top station), Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Alpe+Foppa"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/8/csm_1589965550_2037617558master_1df0f0806a.jpg",
@@ -72,7 +71,8 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1515490379_361521516Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1515490379_361521516L.jpg",
       "alt": "The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta",
-      "caption_html": "<p>The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta</p>"
+      "caption_html": "<p>The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta</p>",
+      "copyright": "Remo Kundert"
     }
   ],
   "waypoints": [
@@ -170,7 +170,6 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/\">SAC Route Portal — Monte Tamaro and Monte Gambarogno</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",

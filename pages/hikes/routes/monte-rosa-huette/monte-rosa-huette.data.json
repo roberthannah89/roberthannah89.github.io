@@ -18,15 +18,14 @@
     "distance": "8.7 km",
     "gain": "361 m",
     "time": "~2h30",
-    "route_type": "out-and-back",
-    "pill_class": "t4"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Rotenboden",
     "elev": 2816,
     "lat": 45.98438585619631,
     "lon": 7.765301137315145,
-    "transit_dest": "Rotenboden, Switzerland"
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Rotenboden"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/e/csm_1707226427_490611027master_8a9c331cfd.jpg",
@@ -72,73 +71,85 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1802346846Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1802346846L.jpg",
       "alt": "At the start of the hut path by Rotenboden",
-      "caption_html": "<p>At the start of the hut path by Rotenboden</p>"
+      "caption_html": "<p>At the start of the hut path by Rotenboden</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1529498271_116724229Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529498271_116724229L.jpg",
       "alt": "Eastward traverse beneath the Gornergrat",
-      "caption_html": "<p>Eastward traverse beneath the Gornergrat</p>"
+      "caption_html": "<p>Eastward traverse beneath the Gornergrat</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1529499157_846903134Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529499157_846903134L.jpg",
       "alt": "Eastward traverse, hut in the background.",
-      "caption_html": "<p>Eastward traverse, hut in the background.</p>"
+      "caption_html": "<p>Eastward traverse, hut in the background.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1529498270_1858934420Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529498270_1858934420L.jpg",
       "alt": "View back to the unmistakable form of the Matterhorn",
-      "caption_html": "<p>View back to the unmistakable form of the Matterhorn</p>"
+      "caption_html": "<p>View back to the unmistakable form of the Matterhorn</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1660228164_1396593547Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660228164_1396593547L.jpg",
       "alt": "Viewpoint, where the old and the new route branche off.",
-      "caption_html": "<p>Viewpoint, where the old and the new route branche off.</p>"
+      "caption_html": "<p>Viewpoint, where the old and the new route branche off.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1660229718_400254306Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660229718_400254306L.jpg",
       "alt": "On the \"Panorama Trail Monte Rosa Hut",
-      "caption_html": "<p>On the \"Panorama Trail Monte Rosa Hut</p>"
+      "caption_html": "<p>On the \"Panorama Trail Monte Rosa Hut</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1617665102Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1617665102L.jpg",
       "alt": "On the Gornergletscher \"old route\"",
-      "caption_html": "<p>On the Gornergletscher \"old route\"</p>"
+      "caption_html": "<p>On the Gornergletscher \"old route\"</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1529499157_1914867076Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529499157_1914867076L.jpg",
       "alt": "On the Gornergletscher \"old route\"",
-      "caption_html": "<p>On the Gornergletscher \"old route\"</p>"
+      "caption_html": "<p>On the Gornergletscher \"old route\"</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1529499839_1526523142Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1529499839_1526523142L.jpg",
       "alt": "Start of the glacier. \"old route\"",
-      "caption_html": "<p>Start of the glacier. \"old route\"</p>"
+      "caption_html": "<p>Start of the glacier. \"old route\"</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1686485385Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156561_1686485385L.jpg",
       "alt": "Soon there! The Monte-Rosa-Hütte, and the Liskamm Nordwand behind it.",
-      "caption_html": "<p>Soon there! The Monte-Rosa-Hütte, and the Liskamm Nordwand behind it.</p>"
+      "caption_html": "<p>Soon there! The Monte-Rosa-Hütte, and the Liskamm Nordwand behind it.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1660228239_1037527005Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660228239_1037527005L.jpg",
       "alt": "The Monte-Rosa-Hütte, SAC.",
-      "caption_html": "<p>The Monte-Rosa-Hütte, SAC.</p>"
+      "caption_html": "<p>The Monte-Rosa-Hütte, SAC.</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1562156562_1072933279Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1562156562_1072933279L.jpg",
       "alt": "The Monte-Rosa-Hütte, SAC.",
-      "caption_html": "<p>The Monte-Rosa-Hütte, SAC.</p>"
+      "caption_html": "<p>The Monte-Rosa-Hütte, SAC.</p>",
+      "copyright": "Weh Ludwig"
     }
   ],
   "waypoints": [
@@ -258,11 +269,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/\">SAC Route Portal — From Rotenboden via the Gornergletscher</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/\">SAC Peak Page — Monte-Rosa-Hütte SAC</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-rosa-huette-sac-2147000182/mountain-hiking/\">SAC Peak Page — Monte-Rosa-Hütte SAC</a>",
+    "<em>Banzhaf / Biner / Burgener, Walliser Alpen 4/5</em> (SAC, 2009). ISBN 978-3-85902-290-4"
   ],
   "sources": [
     {

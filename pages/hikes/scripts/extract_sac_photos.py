@@ -40,6 +40,7 @@ def extract_photos(data: dict, peak_hero_url: str | None = None) -> list[dict]:
             "lightbox_url": thumbs.get("1800x1125") or photo.get("url", ""),
             "alt": p.get("caption", ""),
             "caption_html": f"<p>{p.get('caption', '')}</p>",
+            "copyright": photo.get("copyright", ""),
         })
     return photos
 

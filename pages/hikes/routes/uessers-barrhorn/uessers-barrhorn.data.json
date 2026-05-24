@@ -18,15 +18,13 @@
     "distance": "17.2 km",
     "gain": "1008 m",
     "time": "~5h",
-    "route_type": "out-and-back",
-    "pill_class": "t5"
+    "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Topalihütte SAC",
     "elev": 2674,
     "lat": 46.1569,
-    "lon": 7.7618,
-    "transit_dest": "Topalihütte SAC, Switzerland"
+    "lon": 7.7618
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1529416593_944776125master_86dc01a107.jpg",
@@ -72,49 +70,57 @@
       "url": "https://static.www.suissealpine.sac-cas.ch/1519397789_720092536Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397789_720092536L.jpg",
       "alt": "Sicht vom Üssere Barrhorn zu Brunegghorn (links) und Weisshorn.",
-      "caption_html": "<p>Sicht vom Üssere Barrhorn zu Brunegghorn (links) und Weisshorn.</p>"
+      "caption_html": "<p>Sicht vom Üssere Barrhorn zu Brunegghorn (links) und Weisshorn.</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1519397776_285380014Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397776_285380014L.jpg",
       "alt": "Topalihütte mit Dirruhorn, Hobärghorn und Dom am Abend.",
-      "caption_html": "<p>Topalihütte mit Dirruhorn, Hobärghorn und Dom am Abend.</p>"
+      "caption_html": "<p>Topalihütte mit Dirruhorn, Hobärghorn und Dom am Abend.</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1519397788_422982042Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397788_422982042L.jpg",
       "alt": "Das Brunegghorn beim morgendlichen Aufbruch noch in der Nähe der Topalihütte. Hinten die Spitze des Weisshorns.",
-      "caption_html": "<p>Das Brunegghorn beim morgendlichen Aufbruch noch in der Nähe der Topalihütte. Hinten die Spitze des Weisshorns.</p>"
+      "caption_html": "<p>Das Brunegghorn beim morgendlichen Aufbruch noch in der Nähe der Topalihütte. Hinten die Spitze des Weisshorns.</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1557754264_1344026954Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1557754264_1344026954L.jpg",
       "alt": "Markierungen leiten über den Schölligletscher zum Schöllijoch.",
-      "caption_html": "<p>Markierungen leiten über den Schölligletscher zum Schöllijoch.</p>"
+      "caption_html": "<p>Markierungen leiten über den Schölligletscher zum Schöllijoch.</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1660749862_1681221504Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660749862_1681221504L.jpg",
       "alt": "Die Passage unter dem Schölljoch bei anspruchsvollen Verhältnissen.",
-      "caption_html": "<p>Die Passage unter dem Schölljoch bei anspruchsvollen Verhältnissen.</p>"
+      "caption_html": "<p>Die Passage unter dem Schölljoch bei anspruchsvollen Verhältnissen.</p>",
+      "copyright": "Dominic Meierhans"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1519397788_1976986786Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397788_1976986786L.jpg",
       "alt": "Die Barrhörner ragen als bizarre Klippen in den Himmel.",
-      "caption_html": "<p>Die Barrhörner ragen als bizarre Klippen in den Himmel.</p>"
+      "caption_html": "<p>Die Barrhörner ragen als bizarre Klippen in den Himmel.</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1519397791_1018760085Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397791_1018760085L.jpg",
       "alt": "Steiniger Abstieg in Richtung Turtmanntal.",
-      "caption_html": "<p>Steiniger Abstieg in Richtung Turtmanntal.</p>"
+      "caption_html": "<p>Steiniger Abstieg in Richtung Turtmanntal.</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://static.www.suissealpine.sac-cas.ch/1519397795_1132218241Ma.jpg",
       "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1519397795_1132218241L.jpg",
       "alt": "Auf dem Abstieg liegt die Turtmannhütte SAC.",
-      "caption_html": "<p>Auf dem Abstieg liegt die Turtmannhütte SAC.</p>"
+      "caption_html": "<p>Auf dem Abstieg liegt die Turtmannhütte SAC.</p>",
+      "copyright": "Fredy Joss"
     }
   ],
   "waypoints": [
@@ -207,11 +213,11 @@
       }
     ]
   },
-  "gear": [],
   "resources_html": [
     "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/\">SAC Route Portal — Überschreitung Topali – Turtmann</a>",
     "<a href=\"https://www.meteoswiss.admin.ch/\">MeteoSwiss</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/\">SAC Peak Page — Üssers Barrhorn</a>"
+    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/uessers-barrhorn-145/mountain-hiking/\">SAC Peak Page — Üssers Barrhorn</a>",
+    "<em>Joss / Joss, Wanderziel Gipfel Oberwallis</em> (SAC, 2008). ISBN 978-3-85902-275-1"
   ],
   "sources": [
     {
