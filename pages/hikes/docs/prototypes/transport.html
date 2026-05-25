@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiss Transit Widget Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --board-bg: #1a1810;
+    --board-surface: #242118;
+    --flap-bg: #2c2820;
+    --flap-border: #3a3428;
+    --amber: #e8a832;
+    --amber-dim: #b8862a;
+    --amber-glow: #e8a83240;
+    --red: #e63228;
+    --red-dim: #c42a22;
+    --green: #48b848;
+    --text-primary: #f0e8d8;
+    --text-secondary: #a89878;
+    --text-muted: #786848;
+    --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--board-bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* — Noise overlay — */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .widget {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  /* — Header — */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--flap-border);
+  }
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--red);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    font-family: var(--font-mono);
+    letter-spacing: -1px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px #e6322840;
+  }
+
+  .header-text h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .header-text p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .header-clock {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--amber);
+    text-shadow: 0 0 20px var(--amber-glow);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+
+  /* — Route selector — */
+  .route-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    align-items: stretch;
+  }
+
+  .station-input {
+    flex: 1;
+    position: relative;
+  }
+
+  .station-input label {
+    position: absolute;
+    top: 8px;
+    left: 14px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .station-input input {
+    width: 100%;
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    padding: 26px 14px 10px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .station-input input:focus {
+    border-color: var(--amber-dim);
+  }
+
+  .route-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 20px;
+    padding-top: 8px;
+  }
+
+  .btn-search {
+    align-self: stretch;
+    background: var(--amber);
+    color: var(--board-bg);
+    border: none;
+    border-radius: 6px;
+    padding: 0 22px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background 0.15s, transform 0.1s;
+    margin-top: 0;
+  }
+
+  .btn-search:hover { background: #f0b840; }
+  .btn-search:active { transform: scale(0.97); }
+
+  /* — Connections list — */
+  .connections {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .conn {
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 90px 1fr 90px;
+    align-items: center;
+    gap: 16px;
+    animation: flap-in 0.35s cubic-bezier(0.22, 0.68, 0.36, 1) both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--green);
+    opacity: 0.7;
+  }
+
+  .conn.delayed::before { background: var(--red); }
+
+  .conn:nth-child(1) { animation-delay: 0s; }
+  .conn:nth-child(2) { animation-delay: 0.06s; }
+  .conn:nth-child(3) { animation-delay: 0.12s; }
+  .conn:nth-child(4) { animation-delay: 0.18s; }
+  .conn:nth-child(5) { animation-delay: 0.24s; }
+  .conn:nth-child(6) { animation-delay: 0.30s; }
+
+  @keyframes flap-in {
+    from {
+      opacity: 0;
+      transform: rotateX(-40deg) translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: rotateX(0) translateY(0);
+    }
+  }
+
+  .conn-depart {
+    text-align: center;
+  }
+
+  .conn-time {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--amber);
+    text-shadow: 0 0 16px var(--amber-glow);
+    line-height: 1;
+  }
+
+  .conn-platform {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .conn-delay {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    margin-top: 2px;
+  }
+
+  .conn-middle {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .conn-route {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .conn-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .conn-badge.train { color: var(--red); border-color: var(--red-dim); }
+  .conn-badge.bus { color: #58a8e8; border-color: #386888; }
+  .conn-badge.ship { color: #68c8a8; border-color: #388868; }
+  .conn-badge.tram { color: #c888e8; border-color: #886898; }
+  .conn-badge.cable { color: #e8c858; border-color: #a89838; }
+  .conn-badge.walk { color: var(--text-secondary); font-style: italic; }
+
+  .conn-arrow {
+    color: var(--text-muted);
+    font-size: 10px;
+  }
+
+  .conn-transfers {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .conn-transfers span { color: var(--text-secondary); }
+
+  .conn-arrive {
+    text-align: center;
+  }
+
+  .conn-arrive .conn-time {
+    color: var(--text-primary);
+    text-shadow: none;
+    font-size: 20px;
+  }
+
+  .conn-duration {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* — States — */
+  .state-msg {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .state-msg.loading::after {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: 16px auto 0;
+    border: 2px solid var(--flap-border);
+    border-top-color: var(--amber);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .state-msg.error { color: var(--red); }
+
+  /* — Footer — */
+  .footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--flap-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .footer a:hover { color: var(--amber); }
+
+  .refresh-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* — Responsive — */
+  @media (max-width: 560px) {
+    .header-clock { display: none; }
+    .route-bar { flex-wrap: wrap; }
+    .route-arrow { display: none; }
+    .station-input { min-width: 100%; }
+    .btn-search { width: 100%; padding: 14px; }
+    .conn { grid-template-columns: 72px 1fr 72px; padding: 12px 14px; gap: 10px; }
+    .conn-time { font-size: 18px; }
+    .conn-arrive .conn-time { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="widget">
+  <div class="header">
+    <div class="header-icon">SBB</div>
+    <div class="header-text">
+      <h1>Trailhead Departures</h1>
+      <p>Live connections via transport.opendata.ch</p>
+    </div>
+    <div class="header-clock" id="clock">--:--</div>
+  </div>
+
+  <div class="route-bar">
+    <div class="station-input">
+      <label>From</label>
+      <input type="text" id="from" value="Zürich HB">
+    </div>
+    <div class="route-arrow">→</div>
+    <div class="station-input">
+      <label>To</label>
+      <input type="text" id="to" value="Glarus">
+    </div>
+    <button class="btn-search" id="search">Search</button>
+  </div>
+
+  <div class="connections" id="connections">
+    <div class="state-msg">Enter a destination and press Search</div>
+  </div>
+
+  <div class="footer">
+    <span><span class="refresh-dot"></span>Auto-refreshes every 60 s</span>
+    <a href="https://transport.opendata.ch" target="_blank">transport.opendata.ch</a>
+  </div>
+</div>
+
+<script>
+const API = 'https://transport.opendata.ch/v1';
+const $from = document.getElementById('from');
+const $to = document.getElementById('to');
+const $btn = document.getElementById('search');
+const $conn = document.getElementById('connections');
+const $clock = document.getElementById('clock');
+let refreshTimer = null;
+
+function updateClock() {
+  const now = new Date();
+  $clock.textContent = now.toLocaleTimeString('de-CH', {
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Zurich'
+  });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function fmtTime(iso) {
+  if (!iso) return '--:--';
+  const d = new Date(iso);
+  return d.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
+}
+
+function fmtDuration(dur) {
+  if (!dur) return '';
+  const m = dur.match(/(\d+)d(\d+):(\d+):/);
+  if (!m) return dur;
+  const days = parseInt(m[1]);
+  const hrs = parseInt(m[2]) + days * 24;
+  const mins = parseInt(m[3]);
+  if (hrs > 0) return hrs + 'h ' + mins + 'm';
+  return mins + ' min';
+}
+
+var TRANSPORT = {
+  train: { icon: '🚆', match: ['IC', 'IR', 'ICE', 'EC', 'RE', 'S', 'TGV', 'RJ', 'PE', 'EXT'] },
+  bus:   { icon: '🚌', match: ['B', 'BUS', 'NFB', 'KB'] },
+  ship:  { icon: '⛴',  match: ['BAT', 'FAE'] },
+  tram:  { icon: '🚊', match: ['T', 'TRAM', 'NFT'] },
+  cable: { icon: '🚡', match: ['GB', 'PB', 'FUN', 'SL', 'LB'] },
+};
+
+function classifyCategory(cat) {
+  if (!cat) return { type: '', icon: '' };
+  var c = cat.toUpperCase();
+  for (var key in TRANSPORT) {
+    if (TRANSPORT[key].match.some(function(t) { return c === t || c.startsWith(t); })) {
+      return { type: key, icon: TRANSPORT[key].icon };
+    }
+  }
+  return { type: '', icon: '' };
+}
+
+function legLabel(journey) {
+  var cat = (journey.category || '').trim();
+  var num = (journey.number || '').trim();
+  if (cat && num) return cat + ' ' + num;
+  if (cat) return cat;
+  if (journey.name) {
+    var clean = journey.name.trim();
+    if (!/^\d{5,}$/.test(clean)) return clean;
+  }
+  return 'Train';
+}
+
+function renderConnections(data) {
+  if (!data.connections || data.connections.length === 0) {
+    $conn.innerHTML = '<div class="state-msg">No connections found</div>';
+    return;
+  }
+
+  $conn.innerHTML = data.connections.map(function(c) {
+    const depTime = fmtTime(c.from.departure);
+    const arrTime = fmtTime(c.to.arrival);
+    const platform = c.from.platform ? 'Pl. ' + c.from.platform : '';
+    const delay = c.from.delay && c.from.delay > 0 ? '+' + c.from.delay + "'" : '';
+    const isDelayed = c.from.delay && c.from.delay > 0;
+    const duration = fmtDuration(c.duration);
+
+    var sections = c.sections || [];
+    var legs = [];
+    for (var i = 0; i < sections.length; i++) {
+      var s = sections[i];
+      if (s.journey) {
+        var info = classifyCategory(s.journey.category);
+        var label = legLabel(s.journey);
+        var icon = info.icon ? info.icon + ' ' : '';
+        legs.push('<span class="conn-badge ' + info.type + '">' + icon + label + '</span>');
+      } else if (s.walk) {
+        legs.push('<span class="conn-badge walk">🚶 Walk</span>');
+      }
+    }
+    var transfers = sections.filter(function(s) { return s.journey; }).length;
+    var transferText = transfers <= 1 ? 'Direct' : (transfers - 1) + ' transfer' + (transfers > 2 ? 's' : '');
+
+    return '<div class="conn' + (isDelayed ? ' delayed' : '') + '">' +
+      '<div class="conn-depart">' +
+        '<div class="conn-time">' + depTime + '</div>' +
+        (platform ? '<div class="conn-platform">' + platform + '</div>' : '') +
+        (delay ? '<div class="conn-delay">' + delay + '</div>' : '') +
+      '</div>' +
+      '<div class="conn-middle">' +
+        '<div class="conn-route">' + legs.join('<span class="conn-arrow">▸</span>') + '</div>' +
+        '<div class="conn-transfers"><span>' + transferText + '</span></div>' +
+      '</div>' +
+      '<div class="conn-arrive">' +
+        '<div class="conn-time">' + arrTime + '</div>' +
+        '<div class="conn-duration">' + duration + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function fetchConnections() {
+  var from = $from.value.trim();
+  var to = $to.value.trim();
+  if (!from || !to) return;
+
+  $conn.innerHTML = '<div class="state-msg loading">Loading connections…</div>';
+
+  var url = API + '/connections?from=' + encodeURIComponent(from) +
+    '&to=' + encodeURIComponent(to) + '&limit=6';
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      renderConnections(JSON.parse(xhr.responseText));
+    } else {
+      $conn.innerHTML = '<div class="state-msg error">API returned ' + xhr.status + '</div>';
+    }
+  };
+  xhr.onerror = function() {
+    $conn.innerHTML = '<div class="state-msg error">Network error — check your connection</div>';
+  };
+  xhr.send();
+
+  clearInterval(refreshTimer);
+  refreshTimer = setInterval(fetchConnections, 60000);
+}
+
+$btn.addEventListener('click', fetchConnections);
+$from.addEventListener('keydown', function(e) { if (e.key === 'Enter') fetchConnections(); });
+$to.addEventListener('keydown', function(e) { if (e.key === 'Enter') fetchConnections(); });
+
+fetchConnections();
+</script>
+
+</body>
+</html>

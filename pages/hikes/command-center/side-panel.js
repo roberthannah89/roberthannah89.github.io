@@ -1,0 +1,131 @@
+/* Side panel — expandable route detail view */
+(function () {
+  'use strict';
+
+  var panelEl = null;
+  var currentPoi = null;
+
+  function init(el) {
+    panelEl = el;
+  }
+
+  function open(poi) {
+    currentPoi = poi;
+    render(poi);
+    panelEl.classList.add('open');
+  }
+
+  function close() {
+    panelEl.classList.remove('open');
+    currentPoi = null;
+  }
+
+  function formatTime(minutes) {
+    if (!minutes) return '—';
+    var h = Math.floor(minutes / 60);
+    var m = minutes % 60;
+    if (h === 0) return m + 'min';
+    if (m === 0) return h + 'h';
+    return h + 'h ' + m + 'min';
+  }
+
+  function gradeClass(grade) {
+    var n = parseInt((grade || 'T1').replace('T', ''), 10) || 1;
+    if (n <= 2) return 't1';
+    return 't' + n;
+  }
+
+  function render(poi) {
+    var grade = Filters.bestGrade(poi);
+    var html = '';
+
+    // Route info
+    html += '<div class="panel-section">';
+    html += '<div class="panel-label">Route</div>';
+    html += '<div class="panel-route-name">' + esc(poi.name) + '</div>';
+    html += '<div class="panel-route-meta">';
+    html += '<span class="grade-badge ' + gradeClass(grade) + '">' + grade + '</span> ';
+    html += (poi.alt || '—') + ' m';
+    html += '</div>';
+
+    if (poi.routes && poi.routes.length > 0) {
+      poi.routes.forEach(function (r) {
+        html += '<div class="panel-route-meta" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--flap-border)">';
+        html += '<strong>' + esc(r.title) + '</strong><br>';
+        html += '<span class="grade-badge ' + gradeClass(r.grade) + '" style="font-size:10px">' + (r.grade || '?') + '</span> ';
+        if (r.gain) html += r.gain + ' m gain · ';
+        html += '↑ ' + formatTime(r.time_up);
+        if (r.time_down) html += ' · ↓ ' + formatTime(r.time_down);
+        html += '</div>';
+      });
+    }
+    html += '</div>';
+
+    // Weather forecast
+    var days = WeatherService.getDayChoices();
+    if (days.length > 0) {
+      html += '<div class="panel-section">';
+      html += '<div class="panel-label">Forecast at peak</div>';
+      html += '<div class="forecast-row">';
+      days.forEach(function (day) {
+        var wx = WeatherService.getForPeak(poi.lat, poi.lon, day.index);
+        html += '<div class="forecast-day">';
+        html += '<div class="day-label">' + day.label + '</div>';
+        if (wx) {
+          html += '<div class="day-icon">' + WeatherService.weatherIcon(wx.code) + '</div>';
+          html += '<div class="day-temp">' + Math.round(wx.tempMax) + '° / ' + Math.round(wx.tempMin) + '°</div>';
+          if (wx.precip > 0) {
+            html += '<div class="day-precip">' + wx.precip.toFixed(1) + ' mm</div>';
+          }
+        } else {
+          html += '<div class="day-icon">—</div>';
+          html += '<div class="day-temp">No data</div>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+
+      // Wind + sunrise/sunset for selected day
+      var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, Filters.getState().weatherDay);
+      if (wxToday) {
+        html += '<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
+        html += '💨 Max wind: ' + Math.round(wxToday.windMax) + ' km/h';
+        if (wxToday.sunrise) {
+          var rise = wxToday.sunrise.split('T')[1];
+          var set = wxToday.sunset.split('T')[1];
+          html += ' · 🌅 ' + rise + ' – ' + set;
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    // Links
+    html += '<div class="panel-section">';
+    html += '<div class="panel-label">Links</div>';
+    html += '<div class="panel-links">';
+    html += '<a class="panel-link" href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/' + poi.id + '/mountain_hiking" target="_blank" rel="noopener">';
+    html += '<span class="link-icon">🏔️</span> View on SAC Portal</a>';
+    html += '<a class="panel-link" href="https://www.windy.com/' + poi.lat.toFixed(3) + '/' + poi.lon.toFixed(3) + '?rain,' + poi.lat.toFixed(3) + ',' + poi.lon.toFixed(3) + ',12" target="_blank" rel="noopener">';
+    html += '<span class="link-icon">🌊</span> Open in Windy</a>';
+    html += '<a class="panel-link" href="https://www.google.com/maps/dir/?api=1&destination=' + poi.lat + ',' + poi.lon + '&travelmode=transit" target="_blank" rel="noopener">';
+    html += '<span class="link-icon">🚂</span> Directions (Google Maps)</a>';
+    html += '</div>';
+    html += '</div>';
+
+    panelEl.innerHTML = '<button class="panel-close" onclick="SidePanel.close()" title="Close">&times;</button>' + html;
+  }
+
+  function esc(s) {
+    if (!s) return '';
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  window.SidePanel = {
+    init: init,
+    open: open,
+    close: close
+  };
+})();

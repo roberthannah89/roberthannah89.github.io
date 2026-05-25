@@ -52,6 +52,8 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | Adding a hike, end-to-end workflow | [`docs/workflows/HIKING-WORKFLOW.md`](workflows/HIKING-WORKFLOW.md) |
 | Extracting data from SAC route portal | [`docs/workflows/SAC-EXTRACTION.md`](workflows/SAC-EXTRACTION.md) |
 | SAC suissealpine API reference | [`docs/SAC-API.md`](SAC-API.md) |
+| Swiss APIs & data layers (all external services + prototypes) | [`docs/APIS.md`](APIS.md) |
 | Common errors and fixes | [`docs/workflows/TROUBLESHOOTING.md`](workflows/TROUBLESHOOTING.md) |
 | Shared constants (physical, algorithmic, defaults) | [`scripts/config.py`](../scripts/config.py) |
 | Golden reference (fully populated example) | [`routes/augstmatthorn/augstmatthorn.data.json`](../routes/augstmatthorn/augstmatthorn.data.json) |
+| Command Center design spec | [`command-center/DESIGN.md`](../command-center/DESIGN.md) |

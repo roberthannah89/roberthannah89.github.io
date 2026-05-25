@@ -22,20 +22,6 @@ Hikes from the published site that have SAC mountain-hiking routes available for
 | Europaweg | `europahuette-2147000092/mountain-hiking/von-randa-4088/` | Randa–Europahütte approach only (full Grächen–Zermatt traverse not available as single SAC route) |
 | Schynige Platte–First | `berghaus-maenndlenen-2147000162/mountain-hiking/von-schynige-platte-1467/` + `von-first-1469/` | Two SAC routes combined via `combine_gpx.py`; full traverse via Faulhorn & Bachalpsee |
 
-## Golden classics — need non-SAC GPX
-
-Top-10 classics from `guides/classics.html` that have no SAC mountain-hiking routes.
-These are leisure/panorama trails below the SAC portal's scope. GPX must come from
-SwitzerlandMobility, Komoot, or a GPS device.
-
-| Hike | Classics rank | Grade | Why no SAC route |
-|------|:---:|:---:|--------|
-| Höhenweg Hohbalm | #1 | T2 | Panorama traverse, no summit/hut endpoint |
-| Oeschinensee | #4 | T2 | Lake destination; only route through it (Fründenhütte, route 474) is closed |
-| Lauterbrunnen–Mürren | #7 | T1 | Valley-to-village path, below SAC threshold |
-| Bachalpsee | #8 | T1 | Waypoint on route 1469 (First→Männdlenen), no standalone route |
-| 5-Seenweg Pizol | #10 | T2 | Cable-car-to-cable-car circuit; SAC has Pizol summit (T4+) but not the 5-lakes trail |
-
 ## Could not scrape
 
 | Hike | Reason |

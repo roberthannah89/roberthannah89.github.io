@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx extract-sac-gpx render validate serve inspect-sac check-gaps combine-gpx swiss-border
+.PHONY: help new new-gpx extract-sac-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -101,6 +101,11 @@ validate:
 ## serve : Render then serve the site locally (open http://localhost:$(port)/)
 serve: render
 	python3 -m http.server $(port)
+
+# -----------------------------------------------------------------------------
+## weather : Fetch weather forecasts for all SAC peaks (run before using command center)
+weather:
+	$(PYTHON) $(SCRIPTS)/fetch_weather.py
 
 # -----------------------------------------------------------------------------
 ## inspect-sac : Print SAC JSON structure (photos, segments, waypoints, metadata)

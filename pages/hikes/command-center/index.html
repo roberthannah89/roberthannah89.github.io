@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hike Command Center</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- MarkerCluster -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- App styles -->
+<link rel="stylesheet" href="command-center.css">
+</head>
+<body>
+
+<div id="app">
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Filter bar (top left) -->
+  <div id="filter-bar"></div>
+
+  <!-- Weather layer toggles (top right) -->
+  <div id="weather-toggles"></div>
+
+  <!-- Route counter -->
+  <div id="route-counter">
+    <span id="route-count">Loading...</span>
+  </div>
+
+  <!-- Forecast time slider (bottom) -->
+  <div id="time-slider">
+    <div class="slider-header">
+      <div class="slider-controls">
+        <button id="play-btn" title="Play/Pause">▶</button>
+        <span class="slider-title">Rain Radar</span>
+      </div>
+      <span class="slider-value" id="slider-value">—</span>
+    </div>
+    <input type="range" id="forecast-slider" min="0" max="0" value="0">
+  </div>
+
+  <!-- Side panel (slides in from right) -->
+  <div id="side-panel"></div>
+
+  <!-- Loading overlay -->
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div id="loading-text">Loading...</div>
+  </div>
+</div>
+
+<!-- Data -->
+<script src="../routes/_assets/swiss_border.js"></script>
+<script src="../routes/_assets/map_shared.js"></script>
+<script src="../guides/sac-routes.js"></script>
+<script src="weather-cache.js"></script>
+<script src="cantons.js"></script>
+
+<!-- App modules -->
+<script src="weather.js"></script>
+<script src="filters.js"></script>
+<script src="side-panel.js"></script>
+<script src="command-center.js"></script>
+
+</body>
+</html>
