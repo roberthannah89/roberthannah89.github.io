@@ -822,6 +822,7 @@ def render_guide_nav_js(guides_dir: Path) -> tuple[Path, float]:
         'var nav=document.createElement("nav");\n'
         'nav.className="guide-nav";\n'
         "var parts=[];\n"
+        'parts.push(\'<a href="../index.html">Hikes</a>\');\n'
         "pages.forEach(function(p){\n"
         '  parts.push(\'<a href="\'+p.href+\'"\'+(cur===p.href?\' class="active"\':"")+">"+p.label+"</a>");\n'
         "});\n"

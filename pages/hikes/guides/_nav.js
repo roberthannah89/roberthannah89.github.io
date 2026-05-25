@@ -6,6 +6,7 @@ if(!crumbs)return;
 var nav=document.createElement("nav");
 nav.className="guide-nav";
 var parts=[];
+parts.push('<a href="../index.html">Hikes</a>');
 pages.forEach(function(p){
   parts.push('<a href="'+p.href+'"'+(cur===p.href?' class="active"':"")+">"+p.label+"</a>");
 });
