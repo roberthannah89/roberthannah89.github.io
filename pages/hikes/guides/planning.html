@@ -9,15 +9,18 @@
 <title>Planning a Swiss Alps hike</title>
 <meta name="guide-label" content="Planning">
 <meta name="guide-card-title" content="Planning a hike">
-<meta name="guide-card-desc" content="How to find a route on the SAC portal, read the map, and get to the trailhead.">
-<meta name="guide-order" content="10">
+<meta name="guide-card-desc" content="Signpost timing formula, public transport strategy, early starts, bail-out planning, and fitness benchmarks.">
+<meta name="guide-order" content="30">
 <link rel="stylesheet" href="../../notes/_assets/notes.css">
 <style>
 .guide-nav{font-size:.85rem;display:flex;flex-wrap:wrap;gap:.3rem .6rem;margin:-.2rem 0 1.2rem;}
-.guide-nav a{color:#888;text-decoration:none;}
-.guide-nav a:hover{color:#333;}
-.guide-nav a.active{color:#333;font-weight:600;}
-.guide-nav .dot{color:#ccc;user-select:none;}
+.guide-nav a{color:var(--fg-dim);text-decoration:none;}
+.guide-nav a:hover{color:var(--accent);}
+.guide-nav a.active{color:var(--fg);font-weight:600;}
+.guide-nav .dot{color:var(--border);user-select:none;}
+.stat-box{background:var(--bg-soft);border-left:3px solid var(--accent);padding:.75rem 1.25rem;margin:1.25rem 0;font-size:.93rem;border-radius:0 8px 8px 0;color:var(--fg-dim);}
+.stat-box strong{color:var(--accent);}
+.formula{background:var(--bg-soft);padding:.75rem 1.25rem;border-radius:8px;font-family:monospace;font-size:.95rem;margin:1rem 0;color:var(--fg);}
 </style>
 </head>
 <body>
@@ -28,54 +31,296 @@
 
   <h1>Planning a hike</h1>
   <p class="lede">
-    Find a route on the SAC portal, download the GPX, load it into
-    <a href="https://www.swisstopo.admin.ch/en/maps-data-online/maps-geodata-online/swisstopo-app.html" target="_blank" rel="noopener">SwissTopo</a>
-    or <a href="https://www.komoot.com" target="_blank" rel="noopener">Komoot</a>,
-    and take the train to the trailhead. See <a href="resources.html">Apps &amp; resources</a> for the full tool list.
+    How to estimate time, get to the trailhead, plan bail-outs, and avoid the afternoon thunderstorm
+    window. Swiss-specific logistics that determine whether a day goes well or badly.
   </p>
 
-  <h2>Using the SAC Route Portal</h2>
+  <hr>
+
+  <h2>Signpost times (Wanderzeit)</h2>
   <p>
-    The <a href="https://www.sac-cas.ch/en/activities/mountain-hiking/" target="_blank" rel="noopener">SAC Route Portal</a>
-    has 6,000+ curated routes. Filter by activity, difficulty (<a href="difficulty.html">T1–T6</a>), duration, and region.
+    The times on yellow Swiss signposts are calculated using a standard formula maintained by
+    <a href="https://www.swisstopo.admin.ch/en/time-management" target="_blank" rel="noopener">swisstopo</a>.
+    They assume no breaks and good conditions.
   </p>
 
-  <h3>Reading the map</h3>
+  <div class="formula">
+    Time = (distance_km &times; 15 min) + (ascent_m / 100 &times; 15 min) + (descent_m / 200 &times; 15 min)
+  </div>
+
+  <p>Which implies:</p>
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Pace</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Horizontal</td><td>4.2 km/h</td></tr>
+      <tr><td>Ascent</td><td>400 m/h</td></tr>
+      <tr><td>Descent</td><td>800 m/h</td></tr>
+    </tbody>
+  </table>
+
+  <h3>How much buffer to add</h3>
+  <table>
+    <thead>
+      <tr><th>Fitness level</th><th>Buffer</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Fit, experienced hiker</td><td>+10–20%</td><td>Covers rest stops, photos, navigation. Signpost times are achievable but leave no margin.</td></tr>
+      <tr><td>Average fitness</td><td>+30–40%</td><td>Standard for occasional hikers. A 5h signpost route becomes 6.5–7h.</td></tr>
+      <tr><td>Beginner or group</td><td>+50%</td><td>Groups move at the slowest member's pace. Beginners underestimate descent time.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="stat-box">
+    <strong>Common mistake:</strong> signpost times don't include breaks. A "6-hour" hike with a lunch stop,
+    two water breaks, and some photography is realistically 7.5–8 hours door-to-door.
+  </div>
+
+  <hr>
+
+  <h2>The early start</h2>
+  <p>
+    Experienced Swiss mountain hikers start at 05:00–06:00. This isn't machismo — it's thunderstorm
+    risk management.
+  </p>
+
+  <h3>Why it matters</h3>
   <ul>
-    <li><strong>Red trails</strong> = T1–T3 (mountain hiking). <strong>Blue trails</strong> = T4–T6 (alpine hiking).</li>
-    <li><strong>Red houses</strong> = SAC huts. <strong>Green peaks</strong> = hiking peaks. <strong>Purple peaks</strong> = alpine peaks.</li>
+    <li>Summer thunderstorms build from late morning, with cells developing <strong>13:00–16:00</strong>.</li>
+    <li>Lightning above treeline is the second deadliest natural hazard in Switzerland.</li>
+    <li>Snow/ice crossings are firmer in the morning (less rockfall, safer glacier surfaces).</li>
+    <li>Visibility deteriorates through the day as haze builds.</li>
   </ul>
 
-  <h3>Peak &rarr; route workflow</h3>
-  <ol>
-    <li>Click a peak icon on the map.</li>
-    <li>Choose a route from the list. "Archived routes" are from historical texts — treat with extra care.</li>
-    <li>Route page has description (usually German — use browser translate), waypoints, time estimates (accurate for a fit person), and a public transport link to the trailhead.</li>
-    <li>Download the GPX. Import into SwissTopo or Komoot for offline navigation — cell reception is unreliable in the mountains.</li>
-  </ol>
+  <h3>Target timeline (6–8 hour summer hike)</h3>
+  <table>
+    <thead>
+      <tr><th>Time</th><th>Milestone</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>05:00–06:00</td><td>Depart trailhead</td></tr>
+      <tr><td>09:00–11:00</td><td>Reach summit or highest exposed point</td></tr>
+      <tr><td>11:00–13:00</td><td>Begin descent</td></tr>
+      <tr><td>13:00–15:00</td><td>Below exposed terrain before storm window</td></tr>
+    </tbody>
+  </table>
 
-  <h3>SAC huts</h3>
   <p>
-    153 huts bookable through the SAC website. For multi-day hikes, string huts together and book in advance.
+    If public transport doesn't reach the trailhead before 07:00, consider staying at a valley hotel
+    or SAC hut the night before. First mountain PostBuses typically depart 06:30–08:00.
   </p>
 
   <hr>
 
-  <h2>Transport</h2>
+  <h2>Day length by season</h2>
+
+  <table>
+    <thead>
+      <tr><th>Month</th><th>Daylight</th><th>Practical hiking hours</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>May</td><td>15h</td><td>12–13h</td><td>Long days offset unstable weather. Many high trails still snow-covered.</td></tr>
+      <tr><td>June</td><td>16h</td><td>13–14h</td><td>Maximum light. Peak thunderstorm risk cuts effective afternoon hours.</td></tr>
+      <tr><td>July–Aug</td><td>14–15.5h</td><td>12–13h</td><td>All trails open. Early starts essential for storm avoidance.</td></tr>
+      <tr><td>September</td><td>12.5h</td><td>10–11h</td><td>Most stable month. Sunset ~19:30 — plan accordingly.</td></tr>
+      <tr><td>October</td><td>11h</td><td>9–10h</td><td>Headtorch needed for any hike finishing after 17:30.</td></tr>
+    </tbody>
+  </table>
+
   <p>
-    Almost every trailhead is reachable by public transport.
-    Use <a href="https://www.sbb.ch/en" target="_blank" rel="noopener">SBB</a> — it covers trains, PostBus, and many gondolas in one ticket.
-    The <a href="https://www.ga.ch/en/" target="_blank" rel="noopener">GA / Swiss Travel Pass</a> is worth it if you hike regularly.
+    Valley floors lose direct sun 30–60 minutes before official sunset due to mountain shadow.
+    North-facing descents lose light significantly earlier.
   </p>
 
   <hr>
 
-  <h2>See also</h2>
+  <h2>Public transport</h2>
+  <p>
+    Almost every trailhead in Switzerland is reachable by public transport.
+    Use the <a href="https://www.sbb.ch/en" target="_blank" rel="noopener">SBB app</a> — it covers trains,
+    PostBus, boats, and many cable cars in one ticket.
+  </p>
+
+  <h3>Ticket economics</h3>
+  <table>
+    <thead>
+      <tr><th>Option</th><th>Cost</th><th>Best for</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="https://www.sbb.ch/en/tickets-offers/travelcards/half-fare-travelcard.html" target="_blank" rel="noopener">Halbtax</a></td>
+        <td>CHF 190/year</td>
+        <td>Anyone hiking 4+ times/year. 50% off everything including cable cars.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.sbb.ch/en/tickets-offers/travelcards/ga-travelcard.html" target="_blank" rel="noopener">GA Travelcard</a></td>
+        <td>CHF 3,995/year (2nd class)</td>
+        <td>Weekly hikers. Unlimited travel including most mountain railways.</td>
+      </tr>
+      <tr>
+        <td>Saver Day Pass + Halbtax</td>
+        <td>from CHF 29/day</td>
+        <td>One-off full-day trips. Can sell out — book ahead.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.sbb.ch/en/tickets-offers/tickets/point-to-point-tickets-switzerland/supersaver-tickets.html" target="_blank" rel="noopener">Supersaver (Sparbillett)</a></td>
+        <td>up to 50% off</td>
+        <td>Fixed to one specific connection. Non-refundable. Good for known early trains.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>PostBus specifics</h3>
   <ul>
-    <li><a href="weather.html">Weather</a> — forecasts, thunderstorm timing, and webcams to check conditions before you go.</li>
-    <li><a href="difficulty.html">Trails &amp; grades</a> — the T1–T6 scale, trail markings, and what each grade demands.</li>
-    <li><a href="gear.html">Gear &amp; safety</a> — what to carry and emergency procedures.</li>
-    <li><a href="resources.html">Apps &amp; resources</a> — full list of tools for planning, navigation, and weather.</li>
+    <li><strong>Seasonal routes:</strong> many Alpine PostBus lines run June–October only.</li>
+    <li><strong>Last departures:</strong> mountain PostBus routes often have last buses at 16:30–18:30. Always check the specific route — missing the last bus means a taxi or a long walk.</li>
+    <li><strong>Seat reservations:</strong> recommended for popular pass routes (Furka, Grimsel, Susten). Reserve by 16:00 the day before via <a href="https://www.postauto.ch" target="_blank" rel="noopener">postauto.ch</a> or 0848 100 222.</li>
+    <li><strong>Groups of 10+:</strong> reservation mandatory.</li>
+  </ul>
+
+  <h3>Cable cars</h3>
+  <ul>
+    <li>Most accept Halbtax (50% discount) and GA (free or discounted).</li>
+    <li>Typical first ascent: 08:00–08:30. Last descent: 16:30–17:30.</li>
+    <li>Operating seasons vary — some close mid-October, others run year-round. Always verify.</li>
+  </ul>
+
+  <hr>
+
+  <h2>Planning tools</h2>
+
+  <table>
+    <thead>
+      <tr><th>App</th><th>Cost</th><th>Best for</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="https://www.swisstopo.admin.ch/en/swisstopo-application" target="_blank" rel="noopener">swisstopo</a></td>
+        <td>Free (including offline)</td>
+        <td>Primary app. Official Swiss maps at 1:25,000. Route planning, elevation profiles, GPX import/export. Highest accuracy.</td>
+      </tr>
+      <tr>
+        <td><a href="https://schweizmobil.ch/en/switzerlandmobility-plus" target="_blank" rel="noopener">SchweizMobil Plus</a></td>
+        <td>CHF 35/year</td>
+        <td>Official trail network with difficulty grades, closures, and public transport links. 1,500+ curated routes.</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.komoot.com" target="_blank" rel="noopener">Komoot</a></td>
+        <td>Free basic / CHF 30 world</td>
+        <td>Route discovery, turn-by-turn voice navigation, multi-day planning. Less accurate for Swiss-specific trail data.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>Recommendation:</strong> swisstopo as your primary (free, most accurate, offline) +
+    SchweizMobil for official route info and difficulty grades. Komoot for route discovery and voice nav.
+  </p>
+
+  <hr>
+
+  <h2>Reading Swiss maps</h2>
+  <p>
+    Understanding swisstopo map symbols prevents nasty surprises. The 1:25,000 scale shows individual
+    buildings and all path types — it's the standard for route planning.
+  </p>
+
+  <h3>Path markings on the hiking overlay</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Meaning</th><th>Grade</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Solid red line</td><td>Hiking trail / mountain trail</td><td>T1–T3</td></tr>
+      <tr><td>Dashed red line</td><td>Exposed mountain trail</td><td>T3 (difficult sections)</td></tr>
+      <tr><td>Blue dashed line</td><td>Alpine route, partially pathless</td><td>T4–T6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Terrain to watch for</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>What it means</th><th>Implication</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Black parallel strokes (hatching)</td><td>Cliff / vertical rock face</td><td>Impassable without climbing equipment.</td></tr>
+      <tr><td>Grey dots/stippling</td><td>Scree field</td><td>Loose rock. Slow going, ankle-twisting terrain.</td></tr>
+      <tr><td>Blue-tinted area with blue contours</td><td>Glacier</td><td>Requires crampons, rope, and glacier travel skills.</td></tr>
+      <tr><td>Closely spaced contours</td><td>Very steep terrain</td><td>20m contour interval in the Alps — 5 lines in 100m vertical = very steep.</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2>Bail-out planning</h2>
+  <p>
+    Switzerland's trail network is 65,000+&nbsp;km with 50,000 signposts — one of the densest in the
+    world. This means bail-out options almost always exist. Identify them <em>before</em> you start.
+  </p>
+
+  <h3>Before leaving, identify:</h3>
+  <ul>
+    <li><strong>Trail junctions</strong> with paths descending to valleys — these are your decision points.</li>
+    <li><strong>Cable car or gondola stations</strong> that could shorten your return.</li>
+    <li><strong>PostBus stops</strong> on valley roads below your route (and their last departure times).</li>
+    <li><strong>SAC huts</strong> as emergency shelter, even if you don't plan to stay.</li>
+    <li><strong>Time to each bail-out</strong> using the signpost formula — know how long retreat takes from each point.</li>
+  </ul>
+
+  <h3>When to bail</h3>
+  <ul>
+    <li>Weather deteriorating (see <a href="weather.html">weather guide</a> for go/no-go criteria).</li>
+    <li>Significantly behind schedule (&gt;50% slower than signpost times).</li>
+    <li>Any member of the group showing signs of exhaustion, vertigo, or distress.</li>
+    <li>Trail conditions worse than expected (snow, ice, wet rock making the grade effectively higher).</li>
+    <li>Visibility dropping below ~50&nbsp;m in unfamiliar terrain.</li>
+  </ul>
+
+  <hr>
+
+  <h2>Fitness and grade progression</h2>
+
+  <h3>Elevation benchmarks by fitness level</h3>
+  <table>
+    <thead>
+      <tr><th>Level</th><th>Ascent rate</th><th>Max daily elevation</th><th>Suitable grade</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Beginner</td><td>200–300 m/h</td><td>400–600 m</td><td>T1</td></tr>
+      <tr><td>Average fitness</td><td>350–400 m/h</td><td>600–1,000 m</td><td>T1–T2</td></tr>
+      <tr><td>Good fitness</td><td>400–500 m/h</td><td>1,000–1,500 m</td><td>T2–T3</td></tr>
+      <tr><td>Very fit / experienced</td><td>500–700 m/h</td><td>1,500–2,000+ m</td><td>T3–T4</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Grade progression rules</h3>
+  <ul>
+    <li><strong>Never jump from T2 to T4.</strong> T3 is where you learn whether exposure and scrambling suit you.</li>
+    <li>Grades assume dry conditions and good visibility. Rain effectively raises difficulty by 1–2 grades.</li>
+    <li>Start a new grade on a short route (3–4h) before committing to a full day.</li>
+    <li>Comfort on descent matters more than on ascent — most accidents happen going down.</li>
+  </ul>
+
+  <h3>Warning signs you're in over your head</h3>
+  <ul>
+    <li>Needing both hands constantly on a trail rated below T4.</li>
+    <li>Feeling dizzy or anxious at exposed sections.</li>
+    <li>Consistently 50%+ slower than signpost pace.</li>
+    <li>Exhaustion before reaching the halfway point.</li>
+    <li>Unable to identify the trail markings or route ahead.</li>
+  </ul>
+
+  <hr>
+
+  <h2>Before you leave</h2>
+  <ul>
+    <li><strong>Tell someone:</strong> route, expected return time, and the time at which they should worry. Always for solo T3+, always for routes over 6 hours.</li>
+    <li><strong>Rega app:</strong> <a href="https://www.rega.ch/en/our-missions/this-is-how-we-help-you/rega-app" target="_blank" rel="noopener">install it</a> and enable activity monitoring — if you fail to check in, it alerts your emergency contacts.</li>
+    <li><strong>Offline maps:</strong> download the region in swisstopo. Cell coverage above 1,500&nbsp;m is unreliable.</li>
+    <li><strong>Check weather:</strong> <a href="https://www.meteoswiss.admin.ch/services-and-publications/service/weather-and-climate-products/meteoswiss-app.html" target="_blank" rel="noopener">MeteoSwiss app</a> the evening before and again at 06:00. See the <a href="weather.html">weather guide</a>.</li>
+    <li><strong>Check trail status:</strong> <a href="https://schweizmobil.ch" target="_blank" rel="noopener">SchweizMobil</a> shows current closures and detours.</li>
+    <li><strong>Charge your phone:</strong> GPS navigation drains battery fast. Consider a power bank for hikes over 6 hours.</li>
   </ul>
 </div>
 
