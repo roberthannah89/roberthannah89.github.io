@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
+<title>SAC Route Map — Swiss Alps hiking</title>
+<meta name="guide-label" content="SAC Map">
+<meta name="guide-card-title" content="SAC route map">
+<meta name="guide-card-desc" content="Interactive map of all SAC mountain hiking routes in Switzerland — filter by grade, region, elevation, and duration.">
+<meta name="guide-order" content="15">
+<link rel="stylesheet" href="../../notes/_assets/notes.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="../routes/_assets/map_shared.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<style>
+.guide-nav{font-size:.85rem;display:flex;flex-wrap:wrap;gap:.3rem .6rem;margin:-.2rem 0 1.2rem;}
+.guide-nav a{color:#888;text-decoration:none;}
+.guide-nav a:hover{color:#333;}
+.guide-nav a.active{color:#333;font-weight:600;}
+.guide-nav .dot{color:#ccc;user-select:none;}
+
+#map {
+  height: calc(100vh - 260px);
+  min-height: 400px;
+  max-height: 900px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border, #23262e);
+  background: var(--card, #14161c);
+}
+#map:fullscreen,
+#map:-webkit-full-screen {
+  height: 100vh !important;
+  width: 100vw !important;
+  border-radius: 0;
+  max-height: none;
+}
+
+.filters {
+  margin-bottom: .6rem;
+}
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+.filter-label {
+  font-size: .78rem;
+  color: #a0a4ad;
+  min-width: 5.5rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.filter-btn {
+  background: var(--bg-soft, #14161c);
+  border: 1px solid var(--border, #23262e);
+  border-radius: 999px;
+  padding: .3rem .8rem;
+  font-size: .82rem;
+  color: var(--fg, #e8e8ea);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.filter-btn:hover { border-color: #555; }
+.filter-btn.active {
+  background: var(--accent, #ff5c5c);
+  color: #fff;
+  border-color: var(--accent, #ff5c5c);
+}
+
+.counter {
+  font-size: .82rem;
+  color: #a0a4ad;
+  margin-bottom: .4rem;
+}
+.counter strong { color: var(--fg, #e8e8ea); }
+
+.pill {
+  display: inline-block;
+  padding: .1rem .45rem;
+  border-radius: 4px;
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.pill.t1, .pill.t2 { background: #1a5c2a; color: #8fdf8f; }
+.pill.t3 { background: #5c4a1a; color: #e8c84a; }
+.pill.t4 { background: #5c2e1a; color: #e89050; }
+.pill.t5 { background: #5c1a1a; color: #e85050; }
+.pill.t6 { background: #3a1a5c; color: #c080e8; }
+
+.popup-name { font-weight: 600; font-size: .9rem; margin-bottom: .2rem; }
+.popup-meta { color: #a0a4ad; font-size: .8rem; margin-bottom: .3rem; }
+.popup-route { margin-bottom: .25rem; }
+.popup-link { margin-top: .3rem; }
+.popup-link a { color: var(--accent, #ff5c5c); text-decoration: none; font-size: .8rem; }
+.popup-link a:hover { text-decoration: underline; }
+
+/* Override markercluster defaults for dark theme */
+.marker-cluster {
+  background: rgba(20, 22, 28, 0.7) !important;
+}
+.marker-cluster div {
+  background: rgba(255, 92, 92, 0.8) !important;
+  color: #fff !important;
+  font-size: .8rem;
+  font-weight: 600;
+}
+.marker-cluster-small { background: rgba(20, 22, 28, 0.6) !important; }
+.marker-cluster-small div { background: rgba(100, 180, 100, 0.8) !important; }
+.marker-cluster-medium { background: rgba(20, 22, 28, 0.6) !important; }
+.marker-cluster-medium div { background: rgba(220, 160, 50, 0.8) !important; }
+.marker-cluster-large { background: rgba(20, 22, 28, 0.6) !important; }
+.marker-cluster-large div { background: rgba(255, 92, 92, 0.8) !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumbs">
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span><a href="index.html">Guide</a><span class="sep">/</span>SAC Map
+  </p>
+
+  <h1>SAC route map</h1>
+
+  <div class="filters" id="filters">
+    <div class="filter-group" data-filter="grade" role="group" aria-label="Filter by grade">
+      <span class="filter-label">Grade</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="t1t2">T1–T2</button>
+      <button class="filter-btn" data-value="t3">T3</button>
+      <button class="filter-btn" data-value="t4">T4</button>
+      <button class="filter-btn" data-value="t5">T5</button>
+      <button class="filter-btn" data-value="t6">T6</button>
+    </div>
+    <div class="filter-group" data-filter="elev" role="group" aria-label="Filter by elevation">
+      <span class="filter-label">Elevation</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="low">≤ 2000 m</button>
+      <button class="filter-btn" data-value="mid">2001–2500 m</button>
+      <button class="filter-btn" data-value="high">2501–3000 m</button>
+      <button class="filter-btn" data-value="vhigh">> 3000 m</button>
+    </div>
+    <div class="filter-group" data-filter="time" role="group" aria-label="Filter by duration">
+      <span class="filter-label">Ascent</span>
+      <button class="filter-btn active" data-value="all">Any</button>
+      <button class="filter-btn" data-value="short">≤ 3 h</button>
+      <button class="filter-btn" data-value="med">3–5 h</button>
+      <button class="filter-btn" data-value="long">> 5 h</button>
+    </div>
+  </div>
+
+  <p class="counter" id="counter"></p>
+</div>
+
+<div style="padding: 0 1rem; max-width: 1600px; margin: 0 auto;">
+  <div id="map" aria-label="Map of SAC mountain hiking routes"></div>
+</div>
+
+<div class="wrap" style="margin-top: .5rem;">
+  <p style="font-size: .78rem; color: #a0a4ad;">
+    Data from the <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener" style="color: #ff5c5c;">SAC Route Portal</a>.
+    Click a marker for route details and a link to the SAC page.
+  </p>
+</div>
+
+<footer>
+  Dr. Robert Hannah &middot; Quantitative Researcher, Citadel Securities &middot;
+  <a href="https://github.com/roberthannah89">GitHub</a>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="../routes/_assets/swiss_border.js"></script>
+<script src="../routes/_assets/map_shared.js"></script>
+<script src="sac-routes.js"></script>
+<script src="sac-map.js"></script>
+<script src="_nav.js"></script>
+</body>
+</html>

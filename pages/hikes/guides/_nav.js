@@ -1,5 +1,5 @@
 (function(){
-var pages=[{"href": "planning.html", "label": "Planning"}, {"href": "difficulty.html", "label": "Trails & grades"}, {"href": "weather.html", "label": "Weather"}, {"href": "gear.html", "label": "Gear & safety"}, {"href": "classics.html", "label": "50 Golden Classics"}, {"href": "resources.html", "label": "Resources"}];
+var pages=[{"href": "planning.html", "label": "Planning"}, {"href": "sac-map.html", "label": "SAC Map"}, {"href": "difficulty.html", "label": "Trails & grades"}, {"href": "weather.html", "label": "Weather"}, {"href": "gear.html", "label": "Gear & safety"}, {"href": "classics.html", "label": "50 Golden Classics"}, {"href": "resources.html", "label": "Resources"}];
 var cur=location.pathname.split("/").pop()||"index.html";
 var crumbs=document.querySelector(".crumbs");
 if(!crumbs)return;
