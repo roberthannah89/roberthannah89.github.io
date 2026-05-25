@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Prototypes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --board-bg: #1a1810;
+    --board-surface: #242118;
+    --flap-bg: #2c2820;
+    --flap-border: #3a3428;
+    --amber: #e8a832;
+    --amber-dim: #b8862a;
+    --amber-glow: #e8a83240;
+    --text-primary: #f0e8d8;
+    --text-secondary: #a89878;
+    --text-muted: #786848;
+    --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    min-height: 100%;
+    background: var(--board-bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 10000;
+  }
+
+  /* Title bar */
+  .title-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--board-surface);
+    border-bottom: 2px solid var(--flap-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .title-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--amber);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px var(--amber-glow);
+  }
+
+  .title-text h1 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+  }
+
+  .title-text p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  /* Card grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 580px) {
+    .grid { grid-template-columns: 1fr; padding: 16px; }
+  }
+
+  /* Card */
+  .card {
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    border-color: var(--amber-dim);
+    box-shadow: 0 4px 24px rgba(232, 168, 50, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .card-desc {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .card-source {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--amber);
+    background: rgba(232, 168, 50, 0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+    align-self: flex-start;
+    letter-spacing: 0.3px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--flap-border);
+    max-width: 1200px;
+    margin: 16px auto 0;
+  }
+
+  .footer a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<!-- Title bar -->
+<div class="title-bar">
+  <div class="title-icon">&#x1F9EA;</div>
+  <div class="title-text">
+    <h1>API Prototypes</h1>
+    <p>Swiss hiking data &amp; weather layers</p>
+  </div>
+</div>
+
+<!-- Card grid -->
+<div class="grid">
+
+  <a class="card" href="geo-layers.html">
+    <div class="card-header">
+      <span class="card-icon">&#x1F5FA;&#xFE0F;</span>
+      <span class="card-title">Swiss Geo Layers</span>
+    </div>
+    <div class="card-desc">Toggle Swiss geodata overlays: hiking trails, nature reserves, cable cars, avalanche zones</div>
+    <span class="card-source">geo.admin.ch WMS</span>
+  </a>
+
+  <a class="card" href="weather-layers.html">
+    <div class="card-header">
+      <span class="card-icon">&#x1F326;&#xFE0F;</span>
+      <span class="card-title">Weather Layers</span>
+    </div>
+    <div class="card-desc">MeteoSwiss station data + RainViewer radar on a Leaflet map</div>
+    <span class="card-source">MeteoSwiss WMS + RainViewer</span>
+  </a>
+
+  <a class="card" href="overpass-pois.html">
+    <div class="card-header">
+      <span class="card-icon">&#x1F4CD;</span>
+      <span class="card-title">OSM Points of Interest</span>
+    </div>
+    <div class="card-desc">Query OpenStreetMap for hiker POIs: water, huts, shelters, viewpoints, parking</div>
+    <span class="card-source">Overpass API</span>
+  </a>
+
+  <a class="card" href="transport.html">
+    <div class="card-header">
+      <span class="card-icon">&#x1F682;</span>
+      <span class="card-title">Swiss Transit</span>
+    </div>
+    <div class="card-desc">Live SBB/public transport connections and station search</div>
+    <span class="card-source">transport.opendata.ch</span>
+  </a>
+
+  <a class="card" href="webcams.html">
+    <div class="card-header">
+      <span class="card-icon">&#x1F4F8;</span>
+      <span class="card-title">Mountain Webcams</span>
+    </div>
+    <div class="card-desc">Live camera feeds from Roundshot and Windy for checking conditions</div>
+    <span class="card-source">Roundshot / Windy</span>
+  </a>
+
+  <a class="card" href="slf-avalanche.html">
+    <div class="card-header">
+      <span class="card-icon">&#x2744;&#xFE0F;</span>
+      <span class="card-title">Avalanche Safety</span>
+    </div>
+    <div class="card-desc">SLF avalanche bulletin data, danger scale, and WhiteRisk links</div>
+    <span class="card-source">SLF / WSL</span>
+  </a>
+
+  <a class="card" href="google-directions.html">
+    <div class="card-header">
+      <span class="card-icon">&#x1F9ED;</span>
+      <span class="card-title">Google Directions</span>
+    </div>
+    <div class="card-desc">Transit/driving directions to trailheads via Google Maps embed</div>
+    <span class="card-source">Google Maps</span>
+  </a>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  Full API documentation: <a href="../APIS.md">docs/APIS.md</a>
+</div>
+
+</body>
+</html>

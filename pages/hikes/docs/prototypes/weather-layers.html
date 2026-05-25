@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiss Weather Layers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/proj4@2.9.2/dist/proj4.js"></script>
+<style>
+  :root {
+    --board-bg: #1a1810;
+    --board-surface: #242118;
+    --flap-bg: #2c2820;
+    --flap-border: #3a3428;
+    --amber: #e8a832;
+    --amber-dim: #b8862a;
+    --amber-glow: #e8a83240;
+    --text-primary: #f0e8d8;
+    --text-secondary: #a89878;
+    --text-muted: #786848;
+    --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--board-bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 10000;
+  }
+
+  .app { display: flex; flex-direction: column; height: 100vh; }
+
+  .title-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--board-surface);
+    border-bottom: 2px solid var(--flap-border);
+    flex-shrink: 0;
+    z-index: 1000;
+  }
+
+  .title-icon {
+    width: 42px; height: 42px;
+    background: var(--amber);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+    box-shadow: 0 2px 12px var(--amber-glow);
+  }
+
+  .title-text h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+  .title-text p { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  .main { display: flex; flex: 1; min-height: 0; position: relative; }
+
+  #map { flex: 1; min-width: 0; }
+
+  .legend {
+    width: 320px; flex-shrink: 0;
+    background: var(--board-surface);
+    border-left: 2px solid var(--flap-border);
+    overflow-y: auto; padding: 20px; z-index: 500;
+  }
+
+  .legend h2 {
+    font-size: 15px; font-weight: 700; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 12px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--flap-border);
+  }
+
+  .legend h2:not(:first-child) { margin-top: 20px; }
+
+  .legend-note {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+    line-height: 1.5; margin-bottom: 12px; padding: 8px;
+    background: rgba(232,168,50,0.05); border-radius: 4px;
+  }
+
+  .legend-item {
+    display: flex; gap: 12px; padding: 12px; margin-bottom: 8px;
+    background: var(--flap-bg); border: 1px solid var(--flap-border);
+    border-radius: 6px; transition: border-color 0.2s;
+  }
+  .legend-item:hover { border-color: var(--text-muted); }
+  .legend-item.active { border-color: var(--amber); }
+
+  .legend-swatch {
+    width: 16px; height: 16px; border-radius: 3px;
+    flex-shrink: 0; margin-top: 2px; border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .legend-label { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .legend-desc { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+  .legend-layer-id { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); margin-top: 4px; word-break: break-all; }
+
+  .legend-type {
+    display: inline-block; font-family: var(--font-mono); font-size: 9px;
+    font-weight: 600; padding: 1px 5px; border-radius: 3px; margin-top: 4px;
+  }
+  .legend-type.geojson { background: rgba(100,200,100,0.15); color: #6cc86c; }
+  .legend-type.wmts { background: rgba(232,168,50,0.15); color: var(--amber); }
+  .legend-type.radar { background: rgba(100,180,255,0.15); color: #64b4ff; }
+
+  .legend-count {
+    font-family: var(--font-mono); font-size: 9px; color: var(--amber);
+    margin-left: 4px;
+  }
+
+  /* Radar slider */
+  .radar-slider {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(26,24,16,0.92); border: 1px solid var(--flap-border);
+    border-radius: 8px; padding: 10px 16px; z-index: 800;
+    display: none; align-items: center; gap: 12px; min-width: 360px;
+    backdrop-filter: blur(4px);
+  }
+  .radar-slider.visible { display: flex; }
+  .radar-slider button {
+    background: var(--flap-bg); border: 1px solid var(--flap-border);
+    color: var(--amber); width: 30px; height: 30px; border-radius: 4px;
+    cursor: pointer; font-size: 14px;
+  }
+  .radar-slider button:hover { background: var(--amber); color: var(--board-bg); }
+  .radar-slider input[type=range] { flex: 1; accent-color: var(--amber); }
+  .radar-slider .radar-time {
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-primary);
+    min-width: 130px; text-align: right;
+  }
+
+  /* Attribution */
+  .attribution-panel {
+    position: absolute; bottom: 8px; left: 8px;
+    background: rgba(26,24,16,0.92); border: 1px solid var(--flap-border);
+    border-radius: 6px; padding: 8px 12px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);
+    z-index: 800; max-width: 400px; line-height: 1.6; backdrop-filter: blur(4px);
+  }
+  .attribution-panel a { color: var(--amber); text-decoration: none; }
+  .attribution-panel a:hover { text-decoration: underline; }
+
+  /* Leaflet overrides */
+  .leaflet-control-layers { background: var(--board-surface) !important; border: 1px solid var(--flap-border) !important; border-radius: 6px !important; color: var(--text-primary) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; padding: 0 !important; }
+  .leaflet-control-layers-expanded { padding: 10px 14px 10px 8px !important; }
+  .leaflet-control-layers-toggle { background-color: var(--board-surface) !important; border: 1px solid var(--flap-border) !important; border-radius: 6px !important; width: 36px !important; height: 36px !important; }
+  .leaflet-control-layers-separator { border-top-color: var(--flap-border) !important; margin: 6px 4px !important; }
+  .leaflet-control-layers label { font-family: var(--font-display) !important; font-size: 12px !important; color: var(--text-primary) !important; padding: 3px 0 !important; }
+  .leaflet-control-layers label span { padding-left: 4px; }
+  .leaflet-control-layers-base label { font-weight: 600 !important; }
+  .leaflet-control-layers-overlays label { font-weight: 400 !important; }
+  .leaflet-control-zoom a { background: var(--board-surface) !important; color: var(--text-primary) !important; border-color: var(--flap-border) !important; }
+  .leaflet-control-zoom a:hover { background: var(--flap-bg) !important; color: var(--amber) !important; }
+  .leaflet-control-attribution { display: none !important; }
+  .leaflet-popup-content-wrapper { background: var(--flap-bg) !important; color: var(--text-primary) !important; border: 1px solid var(--flap-border) !important; border-radius: 6px !important; font-family: var(--font-mono) !important; font-size: 11px !important; }
+  .leaflet-popup-tip { background: var(--flap-bg) !important; }
+
+  .legend-toggle {
+    display: none; position: absolute; top: 12px; right: 12px; z-index: 900;
+    width: 40px; height: 40px; background: var(--board-surface);
+    border: 1px solid var(--flap-border); border-radius: 6px;
+    color: var(--amber); font-size: 18px; cursor: pointer;
+    align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .legend { position: absolute; top: 0; right: 0; height: 100%; transform: translateX(100%); transition: transform 0.3s ease; z-index: 900; width: 280px; }
+    .legend.open { transform: translateX(0); }
+    .legend-toggle { display: flex; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="title-bar">
+    <div class="title-icon">🌦️</div>
+    <div class="title-text">
+      <h1>Swiss Weather Layers</h1>
+      <p>MeteoSwiss live stations + RainViewer radar + climate normals</p>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="map"></div>
+
+    <button class="legend-toggle" onclick="document.querySelector('.legend').classList.toggle('open')" aria-label="Toggle legend">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <div class="legend">
+      <h2>Live Station Data</h2>
+      <div class="legend-note">
+        Real-time measurements from ~160 MeteoSwiss automatic weather stations, updated every 10 minutes. Fetched as GeoJSON and rendered as circle markers.
+      </div>
+
+      <div class="legend-item" id="leg-temp">
+        <div class="legend-swatch" style="background: #cc3333;"></div>
+        <div>
+          <div class="legend-label">Temperature <span class="legend-count" id="count-temp"></span></div>
+          <div class="legend-desc">Air temperature at 2m above ground. Color scale: blue (&lt;0°C) → green (10°C) → red (30°C+).</div>
+          <span class="legend-type geojson">GeoJSON</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-precip">
+        <div class="legend-swatch" style="background: #4488cc;"></div>
+        <div>
+          <div class="legend-label">Precipitation <span class="legend-count" id="count-precip"></span></div>
+          <div class="legend-desc">10-minute precipitation sum in mm. Sized by intensity — larger circles = more rain.</div>
+          <span class="legend-type geojson">GeoJSON</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-wind">
+        <div class="legend-swatch" style="background: #88aa44;"></div>
+        <div>
+          <div class="legend-label">Wind Gusts <span class="legend-count" id="count-wind"></span></div>
+          <div class="legend-desc">Maximum 1-second gust in last 10 minutes (km/h). Color scale: green (calm) → orange → red (storm).</div>
+          <span class="legend-type geojson">GeoJSON</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-humidity">
+        <div class="legend-swatch" style="background: #5599aa;"></div>
+        <div>
+          <div class="legend-label">Humidity <span class="legend-count" id="count-humidity"></span></div>
+          <div class="legend-desc">Relative humidity (%). Low values indicate dry air, high values suggest fog or precipitation risk.</div>
+          <span class="legend-type geojson">GeoJSON</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-snow">
+        <div class="legend-swatch" style="background: #aaccee;"></div>
+        <div>
+          <div class="legend-label">Fresh Snow (1 day) <span class="legend-count" id="count-snow"></span></div>
+          <div class="legend-desc">New snowfall in last 24 hours (cm). Only populated at high-altitude stations.</div>
+          <span class="legend-type geojson">GeoJSON</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-webcams">
+        <div class="legend-swatch" style="background: #e8a832;"></div>
+        <div>
+          <div class="legend-label">MeteoSwiss Webcams <span class="legend-count" id="count-webcams"></span></div>
+          <div class="legend-desc">35 official MeteoSwiss weather cameras. Click markers for links to live feeds.</div>
+          <span class="legend-type geojson">GeoJSON</span>
+        </div>
+      </div>
+
+      <h2>Radar</h2>
+      <div class="legend-note">
+        Global precipitation radar from RainViewer. Free API, no auth. Shows past observations + short-term nowcast. Use the slider to scrub through time.
+      </div>
+
+      <div class="legend-item" id="leg-radar">
+        <div class="legend-swatch" style="background: linear-gradient(135deg, #00cc00 25%, #ffff00 50%, #ff0000 75%, #cc00cc);"></div>
+        <div>
+          <div class="legend-label">Rain Radar</div>
+          <div class="legend-desc">Precipitation radar with time slider. Green = light, yellow = moderate, red = heavy, purple = extreme.</div>
+          <span class="legend-type radar">Radar tiles</span>
+        </div>
+      </div>
+
+      <h2>Climate Normals (WMTS)</h2>
+      <div class="legend-note">
+        30-year average maps (1991–2020). These are static reference layers — not live data. Useful for understanding typical conditions in an area.
+      </div>
+
+      <div class="legend-item" id="leg-climate-temp">
+        <div class="legend-swatch" style="background: linear-gradient(135deg, #3366cc 50%, #cc3333 50%);"></div>
+        <div>
+          <div class="legend-label">Avg Temperature (1991–2020)</div>
+          <div class="legend-desc">30-year mean temperature. Continuous coverage — not station-based.</div>
+          <div class="legend-layer-id">ch.meteoschweiz.klimanormwerte-temperatur_aktuelle_periode</div>
+          <span class="legend-type wmts">WMTS</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-climate-precip">
+        <div class="legend-swatch" style="background: linear-gradient(135deg, #ccddee 50%, #2244aa 50%);"></div>
+        <div>
+          <div class="legend-label">Avg Precipitation (1991–2020)</div>
+          <div class="legend-desc">30-year mean annual precipitation sum (mm).</div>
+          <div class="legend-layer-id">ch.meteoschweiz.klimanormwerte-niederschlag_aktuelle_periode</div>
+          <span class="legend-type wmts">WMTS</span>
+        </div>
+      </div>
+
+      <div class="legend-item" id="leg-climate-sun">
+        <div class="legend-swatch" style="background: linear-gradient(135deg, #887744 50%, #ffdd44 50%);"></div>
+        <div>
+          <div class="legend-label">Avg Sunshine (1991–2020)</div>
+          <div class="legend-desc">30-year mean sunshine duration (hours).</div>
+          <div class="legend-layer-id">ch.meteoschweiz.klimanormwerte-sonnenscheindauer_aktuelle_periode</div>
+          <span class="legend-type wmts">WMTS</span>
+        </div>
+      </div>
+
+      <h2>Base Maps</h2>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: linear-gradient(135deg, #d4c8a8 50%, #a8c0a0 50%);"></div>
+        <div>
+          <div class="legend-label">SwissTopo Color</div>
+          <div class="legend-desc">Official Swiss national map (Pixelkarte) in full color.</div>
+          <span class="legend-type wmts">WMTS</span>
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: linear-gradient(135deg, #5a7a5a 50%, #8aaa8a 50%);"></div>
+        <div>
+          <div class="legend-label">SwissTopo Satellite</div>
+          <div class="legend-desc">SWISSIMAGE aerial orthophotos.</div>
+          <span class="legend-type wmts">WMTS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Radar time slider -->
+    <div class="radar-slider" id="radar-slider">
+      <button id="radar-play" title="Play/Pause">▶</button>
+      <input type="range" id="radar-range" min="0" max="0" value="0">
+      <span class="radar-time" id="radar-time">—</span>
+    </div>
+
+    <div class="attribution-panel">
+      Live data: <a href="https://www.meteoswiss.admin.ch" target="_blank">MeteoSwiss</a>
+      &middot; Radar: <a href="https://www.rainviewer.com" target="_blank">RainViewer</a>
+      &middot; Tiles: <a href="https://www.geo.admin.ch" target="_blank">geo.admin.ch</a> / <a href="https://www.swisstopo.admin.ch" target="_blank">swisstopo</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // LV95 → WGS84 projection
+  proj4.defs('EPSG:2056', '+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
+
+  function lv95ToWgs84(e, n) {
+    var result = proj4('EPSG:2056', 'EPSG:4326', [e, n]);
+    return [result[1], result[0]]; // [lat, lon]
+  }
+
+  // ── Base layers ──
+  var swissTopoColor = L.tileLayer(
+    'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',
+    { maxZoom: 18, attribution: '&copy; swisstopo' }
+  );
+  var swissTopoSat = L.tileLayer(
+    'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg',
+    { maxZoom: 20, attribution: '&copy; swisstopo' }
+  );
+
+  // ── Climate normal WMTS layers ──
+  var climateTemp = L.tileLayer(
+    'https://wmts.geo.admin.ch/1.0.0/ch.meteoschweiz.klimanormwerte-temperatur_aktuelle_periode/default/current/3857/{z}/{x}/{y}.png',
+    { maxZoom: 18, opacity: 0.6, attribution: 'MeteoSwiss' }
+  );
+  var climatePrecip = L.tileLayer(
+    'https://wmts.geo.admin.ch/1.0.0/ch.meteoschweiz.klimanormwerte-niederschlag_aktuelle_periode/default/current/3857/{z}/{x}/{y}.png',
+    { maxZoom: 18, opacity: 0.6, attribution: 'MeteoSwiss' }
+  );
+  var climateSun = L.tileLayer(
+    'https://wmts.geo.admin.ch/1.0.0/ch.meteoschweiz.klimanormwerte-sonnenscheindauer_aktuelle_periode/default/current/3857/{z}/{x}/{y}.png',
+    { maxZoom: 18, opacity: 0.6, attribution: 'MeteoSwiss' }
+  );
+
+  // ── Map ──
+  var map = L.map('map', {
+    center: [46.8, 8.2],
+    zoom: 8,
+    layers: [swissTopoColor],
+    zoomControl: true
+  });
+
+  // ── Station data layers (GeoJSON fetched live) ──
+  var stationLayers = {};
+  var STATION_CONFIGS = {
+    temp: {
+      url: 'https://data.geo.admin.ch/ch.meteoschweiz.messwerte-lufttemperatur-10min/ch.meteoschweiz.messwerte-lufttemperatur-10min_en.json',
+      label: '🌡️ Temperature',
+      unit: '°C',
+      colorFn: function (v) {
+        if (v === null || v === undefined) return '#888';
+        if (v < -10) return '#1a3399';
+        if (v < 0) return '#3366cc';
+        if (v < 5) return '#5599dd';
+        if (v < 10) return '#66bb88';
+        if (v < 15) return '#88cc44';
+        if (v < 20) return '#bbdd22';
+        if (v < 25) return '#ddaa22';
+        if (v < 30) return '#dd6622';
+        return '#cc2222';
+      },
+      radius: 8
+    },
+    precip: {
+      url: 'https://data.geo.admin.ch/ch.meteoschweiz.messwerte-niederschlag-10min/ch.meteoschweiz.messwerte-niederschlag-10min_en.json',
+      label: '🌧️ Precipitation',
+      unit: 'mm',
+      colorFn: function (v) {
+        if (!v || v === 0) return '#447799';
+        if (v < 0.5) return '#4488cc';
+        if (v < 1) return '#3377dd';
+        if (v < 2) return '#2266ee';
+        return '#1144ff';
+      },
+      radiusFn: function (v) {
+        if (!v || v === 0) return 5;
+        if (v < 0.5) return 7;
+        if (v < 1) return 9;
+        if (v < 2) return 12;
+        return 15;
+      }
+    },
+    wind: {
+      url: 'https://data.geo.admin.ch/ch.meteoschweiz.messwerte-wind-boeenspitze-kmh-10min/ch.meteoschweiz.messwerte-wind-boeenspitze-kmh-10min_en.json',
+      label: '💨 Wind Gusts',
+      unit: 'km/h',
+      colorFn: function (v) {
+        if (v === null || v === undefined) return '#888';
+        if (v < 20) return '#66aa44';
+        if (v < 40) return '#aacc22';
+        if (v < 60) return '#ddaa22';
+        if (v < 80) return '#dd6622';
+        return '#cc2222';
+      },
+      radius: 7
+    },
+    humidity: {
+      url: 'https://data.geo.admin.ch/ch.meteoschweiz.messwerte-luftfeuchtigkeit-10min/ch.meteoschweiz.messwerte-luftfeuchtigkeit-10min_en.json',
+      label: '💧 Humidity',
+      unit: '%',
+      colorFn: function (v) {
+        if (v === null || v === undefined) return '#888';
+        if (v < 30) return '#cc8833';
+        if (v < 50) return '#88aa55';
+        if (v < 70) return '#559988';
+        if (v < 85) return '#4488aa';
+        return '#3366bb';
+      },
+      radius: 7
+    },
+    snow: {
+      url: 'https://data.geo.admin.ch/ch.meteoschweiz.messwerte-neuschnee-1d/ch.meteoschweiz.messwerte-neuschnee-1d_en.json',
+      label: '❄️ Fresh Snow',
+      unit: 'cm',
+      colorFn: function (v) {
+        if (!v || v === 0) return '#667788';
+        if (v < 5) return '#88aacc';
+        if (v < 15) return '#aaccee';
+        if (v < 30) return '#ccddff';
+        return '#ffffff';
+      },
+      radiusFn: function (v) {
+        if (!v || v === 0) return 5;
+        if (v < 5) return 7;
+        if (v < 15) return 10;
+        return 14;
+      }
+    }
+  };
+
+  function loadStationLayer(key) {
+    var cfg = STATION_CONFIGS[key];
+    if (stationLayers[key]) return;
+
+    fetch(cfg.url)
+      .then(function (r) { return r.json(); })
+      .then(function (geojson) {
+        var group = L.layerGroup();
+        var count = 0;
+
+        geojson.features.forEach(function (f) {
+          var coords = f.geometry.coordinates;
+          var latlon = lv95ToWgs84(coords[0], coords[1]);
+          var props = f.properties;
+          var val = props.value;
+          var radius = cfg.radiusFn ? cfg.radiusFn(val) : (cfg.radius || 7);
+
+          var marker = L.circleMarker(latlon, {
+            radius: radius,
+            fillColor: cfg.colorFn(val),
+            fillOpacity: 0.85,
+            color: '#000',
+            weight: 1,
+            opacity: 0.4
+          });
+
+          var displayVal = (val !== null && val !== undefined) ? val + ' ' + cfg.unit : 'No data';
+          var time = props.reference_ts ? new Date(props.reference_ts).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
+          marker.bindPopup(
+            '<strong>' + (props.station_name || f.id) + '</strong><br>' +
+            displayVal + (time ? ' <span style="color:#a89878">(' + time + ')</span>' : '') + '<br>' +
+            '<span style="color:#786848">' + (props.altitude || '') + '</span>'
+          );
+
+          group.addLayer(marker);
+          count++;
+        });
+
+        stationLayers[key] = group;
+        map.addLayer(group);
+
+        var countEl = document.getElementById('count-' + key);
+        if (countEl) countEl.textContent = '(' + count + ')';
+      })
+      .catch(function (err) {
+        console.warn('Failed to load ' + key + ':', err);
+      });
+  }
+
+  function removeStationLayer(key) {
+    if (stationLayers[key]) {
+      map.removeLayer(stationLayers[key]);
+      delete stationLayers[key];
+    }
+  }
+
+  // ── Webcams ──
+  var webcamLayer = null;
+
+  function loadWebcams() {
+    if (webcamLayer) return;
+    fetch('https://data.geo.admin.ch/ch.meteoschweiz.messnetz-webcams/ch.meteoschweiz.messnetz-webcams_en.json')
+      .then(function (r) { return r.json(); })
+      .then(function (geojson) {
+        var group = L.layerGroup();
+        var count = 0;
+
+        geojson.features.forEach(function (f) {
+          var coords = f.geometry.coordinates;
+          var latlon = lv95ToWgs84(coords[0], coords[1]);
+          var props = f.properties;
+
+          var icon = L.divIcon({
+            className: '',
+            html: '<div style="background:#e8a832;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid #1a1810;box-shadow:0 2px 6px rgba(0,0,0,0.4)">📷</div>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
+          });
+
+          var marker = L.marker(latlon, { icon: icon });
+          marker.bindPopup(
+            '<strong>' + (props.station_name || f.id) + '</strong><br>' +
+            '<span style="color:#a89878">' + (props.altitude || '') + '</span>'
+          );
+
+          group.addLayer(marker);
+          count++;
+        });
+
+        webcamLayer = group;
+        map.addLayer(group);
+
+        var countEl = document.getElementById('count-webcams');
+        if (countEl) countEl.textContent = '(' + count + ')';
+      });
+  }
+
+  function removeWebcams() {
+    if (webcamLayer) {
+      map.removeLayer(webcamLayer);
+      webcamLayer = null;
+    }
+  }
+
+  // ── RainViewer Radar ──
+  var rainTimestamps = [];
+  var rainLayer = null;
+  var currentRainIdx = 0;
+  var playing = false;
+  var playInterval = null;
+
+  fetch('https://api.rainviewer.com/public/weather-maps.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      rainTimestamps = (data.radar && data.radar.past) ? data.radar.past.slice() : [];
+      if (data.radar && data.radar.nowcast) {
+        rainTimestamps = rainTimestamps.concat(data.radar.nowcast);
+      }
+      currentRainIdx = rainTimestamps.length > 0 ? rainTimestamps.length - 1 : 0;
+
+      var slider = document.getElementById('radar-range');
+      slider.max = rainTimestamps.length - 1;
+      slider.value = currentRainIdx;
+    })
+    .catch(function () { console.warn('RainViewer unavailable'); });
+
+  function showRadar() {
+    if (rainTimestamps.length === 0) return;
+    document.getElementById('radar-slider').classList.add('visible');
+    updateRadarTile();
+    updateRadarTime();
+  }
+
+  function hideRadar() {
+    document.getElementById('radar-slider').classList.remove('visible');
+    if (rainLayer) { map.removeLayer(rainLayer); rainLayer = null; }
+    if (playing) { clearInterval(playInterval); playing = false; }
+  }
+
+  function updateRadarTile() {
+    if (rainLayer) map.removeLayer(rainLayer);
+    if (rainTimestamps.length === 0) return;
+    rainLayer = L.tileLayer(
+      'https://tilecache.rainviewer.com' + rainTimestamps[currentRainIdx].path + '/256/{z}/{x}/{y}/2/1_1.png',
+      { opacity: 0.55, zIndex: 400 }
+    );
+    map.addLayer(rainLayer);
+  }
+
+  function updateRadarTime() {
+    if (rainTimestamps.length === 0) return;
+    var ts = rainTimestamps[currentRainIdx].time * 1000;
+    var d = new Date(ts);
+    document.getElementById('radar-time').textContent =
+      d.toLocaleDateString('en', { weekday: 'short', day: 'numeric', month: 'short' }) +
+      ' ' + d.toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  document.getElementById('radar-range').addEventListener('input', function () {
+    currentRainIdx = parseInt(this.value, 10);
+    updateRadarTile();
+    updateRadarTime();
+  });
+
+  document.getElementById('radar-play').addEventListener('click', function () {
+    playing = !playing;
+    this.textContent = playing ? '⏸' : '▶';
+    if (playing) {
+      playInterval = setInterval(function () {
+        currentRainIdx = (currentRainIdx + 1) % rainTimestamps.length;
+        document.getElementById('radar-range').value = currentRainIdx;
+        updateRadarTile();
+        updateRadarTime();
+      }, 700);
+    } else {
+      clearInterval(playInterval);
+    }
+  });
+
+  // ── Layer control ──
+  var baseMaps = {
+    'SwissTopo Color': swissTopoColor,
+    'SwissTopo Satellite': swissTopoSat
+  };
+
+  var overlays = {
+    '🌡️ Temperature': L.layerGroup(),
+    '🌧️ Precipitation': L.layerGroup(),
+    '💨 Wind Gusts': L.layerGroup(),
+    '💧 Humidity': L.layerGroup(),
+    '❄️ Fresh Snow': L.layerGroup(),
+    '📷 Webcams': L.layerGroup(),
+    '🌧️ Rain Radar': L.layerGroup(),
+    '🌡️ Climate: Avg Temp': climateTemp,
+    '🌧️ Climate: Avg Precip': climatePrecip,
+    '☀️ Climate: Avg Sunshine': climateSun
+  };
+
+  var layerControl = L.control.layers(baseMaps, overlays, {
+    collapsed: false,
+    position: 'topright'
+  }).addTo(map);
+
+  // Wire overlay toggles to actual data loading
+  var overlayKeyMap = {
+    '🌡️ Temperature': 'temp',
+    '🌧️ Precipitation': 'precip',
+    '💨 Wind Gusts': 'wind',
+    '💧 Humidity': 'humidity',
+    '❄️ Fresh Snow': 'snow'
+  };
+
+  map.on('overlayadd', function (e) {
+    var key = overlayKeyMap[e.name];
+    if (key) loadStationLayer(key);
+    if (e.name === '📷 Webcams') loadWebcams();
+    if (e.name === '🌧️ Rain Radar') showRadar();
+  });
+
+  map.on('overlayremove', function (e) {
+    var key = overlayKeyMap[e.name];
+    if (key) removeStationLayer(key);
+    if (e.name === '📷 Webcams') removeWebcams();
+    if (e.name === '🌧️ Rain Radar') hideRadar();
+  });
+
+  // Load temperature by default
+  loadStationLayer('temp');
+  // Check the temperature checkbox
+  var labels = document.querySelectorAll('.leaflet-control-layers-overlays label');
+  labels.forEach(function (l) {
+    if (l.textContent.trim().startsWith('🌡️ Temperature') && !l.textContent.includes('Climate')) {
+      var input = l.querySelector('input');
+      if (input && !input.checked) input.click();
+    }
+  });
+})();
+</script>
+</body>
+</html>
