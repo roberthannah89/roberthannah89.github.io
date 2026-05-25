@@ -26,19 +26,18 @@
 | `routes/<slug>/<slug>.html` | `hike_page.j2.html` | Individual hike page |
 | `routes/<slug>/<slug>.track.js` | *(generated from GPX)* | Leaflet track data |
 | `index.html` | `index.j2.html` | Gallery landing page with filters and map |
-| `guides/index.html` | `guide_index.j2.html` | Guide landing page with card grid (auto-discovered) |
 | `guides/difficulty.html` | `difficulty.j2.html` | Trail system, grades, markings, organisations, and national routes |
 
-The remaining guide pages (e.g. `guides/planning.html`, `guides/weather.html`, `guides/gear.html`) are static HTML — edit them directly. To add a new guide page to the index, include these `<meta>` tags in its `<head>`:
+The remaining guide pages (e.g. `guides/planning.html`, `guides/weather.html`, `guides/gear.html`) are static HTML — edit them directly. To add a new guide page to the nav bar, include these `<meta>` tags in its `<head>`:
 
 ```html
 <meta name="guide-label" content="Short nav label">
-<meta name="guide-card-title" content="Card title on guide index">
-<meta name="guide-card-desc" content="One-line description for the card.">
+<meta name="guide-card-title" content="Card title on main-page nav">
+<meta name="guide-card-desc" content="One-line description (used in meta).">
 <meta name="guide-order" content="50">
 ```
 
-The render script auto-discovers all `guides/*.html` files with these tags and builds the guide index and main-page nav from them. Use `guide-order` to control sort position (10, 20, 30… — leave gaps for future pages).
+The render script auto-discovers all `guides/*.html` files with these tags and builds the guide nav bar and main-page links from them. Use `guide-order` to control sort position (10, 20, 30… — leave gaps for future pages).
 
 ## Shared constants — `scripts/config.py`
 

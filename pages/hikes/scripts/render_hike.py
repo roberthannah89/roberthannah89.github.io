@@ -53,7 +53,6 @@ from config import (
     DIFFICULTY_BLURBS,
     EARTH_RADIUS_M,
     ELEV_SMOOTH_M,
-    GOLDEN_CLASSICS,
     INDEX_PHOTO_WIDTH,
     NAISMITH_ASCENT_MH,
     NAISMITH_SPEED_KMH,
@@ -78,20 +77,8 @@ ASSETS_DIR = TEMPLATE_DIR / "_assets"
 TEMPLATE_NAME = "hike_page.j2.html"
 INDEX_TEMPLATE_NAME = "index.j2.html"
 DIFFICULTY_TEMPLATE_NAME = "difficulty.j2.html"
-CLASSICS_TEMPLATE_NAME = "classics.j2.html"
 GUIDE_INDEX_TEMPLATE_NAME = "guide_index.j2.html"
 DEFAULT_ROOT = REPO_ROOT / "routes"
-
-CLASSIC_NAME_TO_SLUG: dict[str, str] = {
-    "Pilatus (Tomlishorn)": "tomlishorn",
-    "Geltenhütte": "geltenhuette",
-    "Monte Tamaro – Monte Lema": "monte-tamaro",
-    "Monte Rosa Hütte": "monte-rosa-huette",
-    "Greina Hochebene": "greina",
-    "Grosser Mythen": "gross-mythen",
-    "Planurahuette": "planurahuette",
-    "Üssers Barrhorn": "uessers-barrhorn",
-}
 
 GPX_NS = {"g": "http://www.topografix.com/GPX/1/1"}
 
@@ -681,26 +668,6 @@ def _index_photo_url(data: dict) -> str:
     return url
 
 
-def _build_classic_slugs(data_files: list[Path]) -> set[str]:
-    """Return the set of slugs that match a golden classic."""
-    slug_to_peak: dict[str, str] = {}
-    for f in data_files:
-        try:
-            d = json.loads(f.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        slug = d.get("slug") or f.stem.replace(".data", "")
-        peak = d.get("peak") or {}
-        slug_to_peak[slug] = peak.get("name", slug)
-
-    classic_slugs: set[str] = set()
-    for c in GOLDEN_CLASSICS:
-        slug = CLASSIC_NAME_TO_SLUG.get(c["name"]) or _match_classic_to_slug(c["name"], slug_to_peak)
-        if slug:
-            classic_slugs.add(slug)
-    return classic_slugs
-
-
 def build_index_hikes(data_files: list[Path],
                       results: list[RenderResult]) -> list[dict]:
     """Build the HIKES list for the index page from per-hike data + GPX stats.
@@ -710,7 +677,6 @@ def build_index_hikes(data_files: list[Path],
     (everything else falls back to peak/hero/photos[0] + GPX).
     """
     gpx_by_slug = {r.slug: r.gpx_stats for r in results}
-    classic_slugs = _build_classic_slugs(data_files)
     hikes: list[dict] = []
     for f in data_files:
         try:
@@ -749,8 +715,6 @@ def build_index_hikes(data_files: list[Path],
             "summitElev": peak.get("elev", ""),
             "photo": _index_photo_url(d),
         }
-        if slug in classic_slugs:
-            entry["classic"] = True
         hikes.append(entry)
     return hikes
 
@@ -844,62 +808,6 @@ def render_difficulty(root: Path, data_files: list[Path]) -> tuple[Path, float]:
     return out_path, time.perf_counter() - t0
 
 
-def _match_classic_to_slug(name: str, slug_to_peak: dict[str, str]) -> str | None:
-    """Try to match a golden classic name to an existing hike slug."""
-    name_lower = name.lower().strip()
-    for slug, peak_name in slug_to_peak.items():
-        if peak_name.lower() == name_lower:
-            return slug
-        if slug.replace("-", " ") == name_lower.replace("-", " "):
-            return slug
-    return None
-
-
-def render_classics(root: Path, data_files: list[Path]) -> tuple[Path, float]:
-    """Render the golden classics guide page; returns (out_path, elapsed_seconds)."""
-    t0 = time.perf_counter()
-
-    slug_to_peak: dict[str, str] = {}
-    for f in data_files:
-        try:
-            d = json.loads(f.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        slug = d.get("slug") or f.stem.replace(".data", "")
-        peak = d.get("peak") or {}
-        slug_to_peak[slug] = peak.get("name", slug)
-
-    classics = []
-    for rank, c in enumerate(GOLDEN_CLASSICS, 1):
-        slug = CLASSIC_NAME_TO_SLUG.get(c["name"]) or _match_classic_to_slug(c["name"], slug_to_peak)
-        on_site = slug is not None
-        href = f"../routes/{slug}/{slug}.html" if slug else None
-        grade = c["grade"]
-        base = re.match(r'[Tt]\d', grade)
-        pill_class = _grade_pill_class(grade) if base else ""
-        classics.append({
-            "rank": rank,
-            "name": c["name"],
-            "region": c["region"],
-            "grade": grade,
-            "pill_class": pill_class,
-            "desc": c["desc"],
-            "on_site": on_site,
-            "href": href,
-        })
-
-    on_site = sum(1 for c in classics if c["on_site"])
-
-    env = _make_env()
-    template = env.get_template(CLASSICS_TEMPLATE_NAME)
-    html = template.render(classics=classics, on_site=on_site)
-    guides_dir = root.parent / "guides"
-    guides_dir.mkdir(exist_ok=True)
-    out_path = guides_dir / "classics.html"
-    out_path.write_text(html, encoding="utf-8")
-    return out_path, time.perf_counter() - t0
-
-
 def render_guide_nav_js(guides_dir: Path) -> tuple[Path, float]:
     """Generate _nav.js that auto-injects a guide nav bar on each guide page."""
     t0 = time.perf_counter()
@@ -914,7 +822,6 @@ def render_guide_nav_js(guides_dir: Path) -> tuple[Path, float]:
         'var nav=document.createElement("nav");\n'
         'nav.className="guide-nav";\n'
         "var parts=[];\n"
-        'parts.push(\'<a href="index.html"\'+(cur==="index.html"?\' class="active"\':"")+">Guide</a>");\n'
         "pages.forEach(function(p){\n"
         '  parts.push(\'<a href="\'+p.href+\'"\'+(cur===p.href?\' class="active"\':"")+">"+p.label+"</a>");\n'
         "});\n"
@@ -1086,14 +993,10 @@ def main(argv: list[str] | None = None) -> int:
         out_path, elapsed = render_difficulty(args.root, all_files)
         print(f"[difficulty] {out_path}  ({elapsed*1000:.1f} ms)")
 
-        out_path, elapsed = render_classics(args.root, all_files)
-        print(f"[classics] {out_path}  ({elapsed*1000:.1f} ms)")
-
         out_path, elapsed = render_guide_nav_js(args.root.parent / "guides")
         print(f"[guide-nav] {out_path}  ({elapsed*1000:.1f} ms)")
 
-        out_path, elapsed = render_guide_index(args.root)
-        print(f"[guide-index] {out_path}  ({elapsed*1000:.1f} ms)")
+        # Guide index page removed — nav bar provides direct links to all guide pages
 
     if args.profile:
         slowest = max(results, key=lambda r: r.total)
