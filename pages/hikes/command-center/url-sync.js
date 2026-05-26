@@ -14,8 +14,13 @@
     showHuts:   'u',
     weatherDay: 'd',
     sky:        'sk',
-    tempMin:    't'
+    tempMin:    't',
+    display:    'dp'
   };
+
+  // State keys whose default value is a non-empty array. Encoded specially
+  // so users can clear an array (e.g. dp=) and have it round-trip back to [].
+  var DEFAULT_NONEMPTY_ARRAYS = { display: true };
   var REV_MAP = {};
   Object.keys(KEY_MAP).forEach(function (k) { REV_MAP[KEY_MAP[k]] = k; });
 
@@ -25,7 +30,13 @@
       var v = state[k];
       if (v === null || v === undefined || v === '') return;
       if (Array.isArray(v)) {
-        if (v.length === 0) return;
+        if (v.length === 0) {
+          // For keys with a non-empty default, encode empty as "k=" so the
+          // explicit empty selection survives a reload (otherwise the
+          // decoder would fall back to the default).
+          if (DEFAULT_NONEMPTY_ARRAYS[k]) parts.push(KEY_MAP[k] + '=');
+          return;
+        }
         parts.push(KEY_MAP[k] + '=' + v.join(','));
       } else if (typeof v === 'boolean') {
         // Only encode if not the default (true)
@@ -47,7 +58,7 @@
       var raw = decodeURIComponent(pair.slice(eq + 1));
       var key = REV_MAP[short];
       if (!key) return;
-      if (key === 'grades' || key === 'sky') {
+      if (key === 'grades' || key === 'sky' || key === 'display') {
         out[key] = raw.split(',').filter(Boolean);
       } else if (key === 'showHikes' || key === 'showHuts') {
         out[key] = raw !== '0';

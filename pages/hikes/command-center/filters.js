@@ -11,7 +11,11 @@
     showHuts: true,    // include SAC huts
     weatherDay: 0,     // day index for weather filters
     sky: [],           // [] = any; multi-select from SKY_CATEGORIES keys
-    tempMin: null      // null=any, or number (°C threshold)
+    tempMin: null,     // null=any, or number (°C threshold)
+    // Display state — which fields to render on each POI's marker/tooltip.
+    // 'weather' controls the marker pill (vs simple dot). All others are
+    // tooltip-only metadata lines. Empty array = nothing shown.
+    display: ['weather', 'name']
   };
 
   var markers = [];

@@ -675,7 +675,7 @@ html, body {
   line-height: 1;
 }
 
-/* Hover tooltip — peak/hut name */
+/* Hover tooltip — peak/hut name + optional metadata line */
 .leaflet-tooltip.hike-tooltip {
   background: rgba(26, 24, 16, 0.95);
   border: 1px solid var(--flap-border);
@@ -686,8 +686,21 @@ html, body {
   padding: 4px 8px;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  line-height: 1.3;
 }
 .leaflet-tooltip.hike-tooltip::before { display: none; }
+.leaflet-tooltip.hike-tooltip .hike-tt__name { display: block; }
+.leaflet-tooltip.hike-tooltip .hike-tt__meta {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+/* Hide tooltips that have no content (display filter cleared all fields) */
+.leaflet-tooltip.hike-tooltip:empty { display: none !important; }
 
 /* Sky filter — icon-only buttons */
 .filter-btn--sky {
@@ -708,6 +721,26 @@ html, body {
 }
 
 .sky-icon { display: inline-block; }
+
+/* Display filter — multi-select pills for what each POI shows */
+.filter-btn--display {
+  padding: 4px 7px;
+  min-width: 26px;
+  font-size: 11px;
+  text-align: center;
+  filter: grayscale(0.5) brightness(0.7);
+  transition: filter 0.15s, background 0.15s, color 0.15s;
+}
+.filter-btn--display:hover {
+  filter: grayscale(0) brightness(1);
+  background: var(--flap-bg);
+}
+.filter-btn--display.active {
+  filter: grayscale(0) brightness(1);
+  background: var(--amber);
+  color: var(--board-bg);
+  font-weight: 600;
+}
 
 /* Hike tooltips are permanent. Hidden at low zoom (markers cluster);
    visible once zoomed in past the cluster threshold (body.zoom-labels). */

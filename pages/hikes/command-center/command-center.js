@@ -97,9 +97,10 @@
       marker._color = color;
       marker._filtered = false;
 
-      // Permanent name tooltip. Hidden by CSS at low zooms (when markers
-      // cluster); always shown when zoomed in past the cluster threshold.
-      marker.bindTooltip(esc(poi.name || ''), {
+      // Tooltip content is rebuilt by refreshMarkerTooltips() based on the
+      // current Display filter. Bind a placeholder so Leaflet keeps the
+      // permanent label slot — actual content is set after creation.
+      marker.bindTooltip('', {
         permanent: true,
         direction: 'bottom',
         offset: [0, 18],
@@ -113,6 +114,7 @@
       allMarkers.push(marker);
     });
 
+    refreshMarkerTooltips();
     refreshCluster();
   }
 
@@ -138,13 +140,20 @@
     });
   }
 
-  // Re-render every marker's icon based on the currently selected weather day.
-  // Markers always show weather emoji + temperature when forecast data exists,
-  // falling back to a grade-colored dot when it doesn't.
+  // Re-render every marker's icon based on the currently selected weather day
+  // and the Display filter. When 'weather' is in display, markers show the
+  // weather pill (emoji + temp); when it isn't, every marker is a small
+  // grade-colored dot regardless of forecast data.
   function refreshMarkerIcons() {
-    var dayIdx = Filters.getState().weatherDay;
+    var s = Filters.getState();
+    var dayIdx = s.weatherDay;
+    var showWeather = (s.display || []).indexOf('weather') !== -1;
     allMarkers.forEach(function (m) {
       var poi = m._poi;
+      if (!showWeather) {
+        m.setIcon(makeHikeIcon(m._color, 'dot'));
+        return;
+      }
       var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
       if (!wx) {
         m.setIcon(makeHikeIcon(m._color, 'dot'));
@@ -154,6 +163,52 @@
       var tempStr = wx.tempMax !== null && wx.tempMax !== undefined
         ? Math.round(wx.tempMax) + '°' : '';
       m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr));
+    });
+  }
+
+  // Build the metadata line for a POI ("T3 · 800m · 3h ↑ · 2700m") based on
+  // which non-name fields are currently in the Display filter. Returns an
+  // empty string if no metadata fields are selected or no data is available.
+  function buildPoiMetaLine(poi, display) {
+    var r = (poi.routes && poi.routes[0]) || null;
+    var parts = [];
+    if (display.indexOf('grade') !== -1) {
+      var g = Filters.bestGrade(poi);
+      if (g) parts.push(g);
+    }
+    if (display.indexOf('gain') !== -1 && r && r.gain) {
+      parts.push(r.gain + 'm');
+    }
+    if (display.indexOf('time') !== -1 && r && r.time_up) {
+      var h = r.time_up / 60;
+      // Whole hours when clean, else one decimal place
+      var label = (h % 1 === 0) ? h + 'h' : h.toFixed(1) + 'h';
+      parts.push(label + ' ↑');
+    }
+    if (display.indexOf('alt') !== -1 && poi.alt) {
+      parts.push(Math.round(poi.alt) + 'm');
+    }
+    return parts.join(' · ');
+  }
+
+  // Rebuild every marker's tooltip content from the current Display filter.
+  // Tooltip = optional name line + optional metadata line. If neither is
+  // selected (or there's nothing to show), the tooltip is left empty.
+  function refreshMarkerTooltips() {
+    var display = Filters.getState().display || [];
+    var showName = display.indexOf('name') !== -1;
+    allMarkers.forEach(function (m) {
+      var poi = m._poi;
+      var lines = [];
+      if (showName && poi.name) {
+        lines.push('<span class="hike-tt__name">' + esc(poi.name) + '</span>');
+      }
+      var meta = buildPoiMetaLine(poi, display);
+      if (meta) {
+        lines.push('<span class="hike-tt__meta">' + esc(meta) + '</span>');
+      }
+      var tip = m.getTooltip();
+      if (tip) tip.setContent(lines.join(''));
     });
   }
 
@@ -269,6 +324,56 @@
       { label: '1-1.5k', key: 'gain', value: 'hard' },
       { label: '1.5k+', key: 'gain', value: 'epic' }
     ]));
+
+    // Display — multi-select pills controlling what shows on each POI.
+    // 'weather' = marker pill (vs simple dot); others = tooltip metadata.
+    bar.appendChild(displayFilterGroup());
+  }
+
+  // Multi-select pills controlling which fields each POI renders. Empty
+  // selection = nothing shown. Toggling 'weather' swaps marker style;
+  // toggling anything else rebuilds tooltips.
+  function displayFilterGroup() {
+    var group = document.createElement('div');
+    group.className = 'filter-group filter-group--display';
+
+    var lbl = document.createElement('span');
+    lbl.className = 'filter-label';
+    lbl.textContent = 'Show';
+    group.appendChild(lbl);
+
+    var options = [
+      { key: 'weather', label: '⛅' , title: 'Weather (marker)' },
+      { key: 'name',    label: 'Name', title: 'Name' },
+      { key: 'grade',   label: 'T', title: 'Grade (T1-T6)' },
+      { key: 'gain',    label: '↑m', title: 'Vertical gain' },
+      { key: 'time',    label: 'h',  title: 'Time up' },
+      { key: 'alt',     label: 'alt',title: 'Peak altitude' }
+    ];
+
+    var current = (Filters.getState().display || []).slice();
+
+    options.forEach(function (opt) {
+      var active = current.indexOf(opt.key) !== -1;
+      var btn = document.createElement('button');
+      btn.className = 'filter-btn filter-btn--display' + (active ? ' active' : '');
+      btn.title = opt.title;
+      btn.setAttribute('data-display', opt.key);
+      btn.innerHTML = opt.label;
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('active');
+        var selected = [];
+        group.querySelectorAll('.filter-btn--display.active').forEach(function (b) {
+          selected.push(b.getAttribute('data-display'));
+        });
+        Filters.setState('display', selected);
+        refreshMarkerIcons();
+        refreshMarkerTooltips();
+      });
+      group.appendChild(btn);
+    });
+
+    return group;
   }
 
   function buildWeatherFilters() {
