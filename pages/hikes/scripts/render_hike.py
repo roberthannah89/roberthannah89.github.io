@@ -105,19 +105,31 @@ class _GuideMetaParser(HTMLParser):
             self._in_head = False
 
 
-def discover_guide_pages(guides_dir: Path) -> list[dict[str, str]]:
-    """Scan guides/ for HTML files with guide-* meta tags, return sorted list."""
+def discover_guide_pages(hikes_root: Path) -> list[dict[str, str]]:
+    """Scan guides/ and command-center/ for HTML files with guide-* meta tags.
+
+    ``hikes_root`` is the ``pages/hikes/`` directory (the parent of ``routes/``).
+    Each entry's ``path`` is dir-qualified (e.g. ``guides/planning.html``,
+    ``command-center/index.html``) so callers don't have to know which directory
+    a nav entry lives in.
+    """
+    candidates: list[Path] = []
+    guides_dir = hikes_root / "guides"
+    if guides_dir.is_dir():
+        candidates.extend(f for f in sorted(guides_dir.glob("*.html")) if f.name != "index.html")
+    cc_index = hikes_root / "command-center" / "index.html"
+    if cc_index.is_file():
+        candidates.append(cc_index)
+
     pages: list[dict[str, str]] = []
-    for html_file in sorted(guides_dir.glob("*.html")):
-        if html_file.name == "index.html":
-            continue
+    for html_file in candidates:
         parser = _GuideMetaParser()
         parser.feed(html_file.read_text(encoding="utf-8"))
         m = parser.meta
         if "guide-card-title" not in m:
             continue
         pages.append({
-            "href": html_file.name,
+            "path": f"{html_file.parent.name}/{html_file.name}",
             "label": m.get("guide-label", m["guide-card-title"]),
             "card_title": m["guide-card-title"],
             "card_desc": m.get("guide-card-desc", ""),
@@ -727,7 +739,7 @@ def render_index(root: Path, hikes: list[dict]) -> tuple[Path, float]:
     t0 = time.perf_counter()
     env = _make_env()
     template = env.get_template(INDEX_TEMPLATE_NAME)
-    guide_pages = discover_guide_pages(root.parent / "guides")
+    guide_pages = discover_guide_pages(root.parent)
 
     guides_dir = root.parent / "guides"
     guides_dir.mkdir(exist_ok=True)
@@ -808,15 +820,21 @@ def render_difficulty(root: Path, data_files: list[Path]) -> tuple[Path, float]:
     return out_path, time.perf_counter() - t0
 
 
-def render_guide_nav_js(guides_dir: Path) -> tuple[Path, float]:
-    """Generate _nav.js that auto-injects a guide nav bar on each guide page."""
+def render_guide_nav_js(hikes_root: Path) -> list[tuple[Path, float]]:
+    """Generate _nav.js in every nav-consuming directory.
+
+    The script auto-injects a horizontal guide nav after the ``.crumbs`` element.
+    Hrefs are stored with a ``../`` prefix so they resolve correctly from any page
+    that lives exactly one directory below ``pages/hikes/`` (guides/, command-center/).
+    Active match is by suffix of ``location.pathname``.
+    """
     t0 = time.perf_counter()
-    pages = discover_guide_pages(guides_dir)
-    entries = json.dumps([{"href": p["href"], "label": p["label"]} for p in pages])
+    pages = discover_guide_pages(hikes_root)
+    entries = json.dumps([{"path": p["path"], "label": p["label"]} for p in pages])
     js = (
         "(function(){\n"
         f"var pages={entries};\n"
-        'var cur=location.pathname.split("/").pop()||"index.html";\n'
+        "var cur=location.pathname;\n"
         'var crumbs=document.querySelector(".crumbs");\n'
         "if(!crumbs)return;\n"
         'var nav=document.createElement("nav");\n'
@@ -824,15 +842,17 @@ def render_guide_nav_js(guides_dir: Path) -> tuple[Path, float]:
         "var parts=[];\n"
         'parts.push(\'<a href="../index.html">Hikes</a>\');\n'
         "pages.forEach(function(p){\n"
-        '  parts.push(\'<a href="\'+p.href+\'"\'+(cur===p.href?\' class="active"\':"")+">"+p.label+"</a>");\n'
+        '  var active=cur.indexOf("/"+p.path)>=0||cur.endsWith(p.path);\n'
+        '  parts.push(\'<a href="../\'+p.path+\'"\'+(active?\' class="active"\':"")+">"+p.label+"</a>");\n'
         "});\n"
         'nav.innerHTML=parts.join(\'<span class="dot">\\u00b7</span>\');\n'
         'crumbs.insertAdjacentElement("afterend",nav);\n'
         "})();\n"
     )
-    out_path = guides_dir / "_nav.js"
+    elapsed = time.perf_counter() - t0
+    out_path = hikes_root / "guides" / "_nav.js"
     out_path.write_text(js, encoding="utf-8")
-    return out_path, time.perf_counter() - t0
+    return [(out_path, elapsed)]
 
 
 def render_guide_index(root: Path) -> tuple[Path, float]:
@@ -840,7 +860,7 @@ def render_guide_index(root: Path) -> tuple[Path, float]:
     t0 = time.perf_counter()
     guides_dir = root.parent / "guides"
     guides_dir.mkdir(exist_ok=True)
-    guide_pages = discover_guide_pages(guides_dir)
+    guide_pages = discover_guide_pages(root.parent)
     env = _make_env()
     template = env.get_template(GUIDE_INDEX_TEMPLATE_NAME)
     html = template.render(guide_pages=guide_pages)
@@ -994,8 +1014,8 @@ def main(argv: list[str] | None = None) -> int:
         out_path, elapsed = render_difficulty(args.root, all_files)
         print(f"[difficulty] {out_path}  ({elapsed*1000:.1f} ms)")
 
-        out_path, elapsed = render_guide_nav_js(args.root.parent / "guides")
-        print(f"[guide-nav] {out_path}  ({elapsed*1000:.1f} ms)")
+        for out_path, elapsed in render_guide_nav_js(args.root.parent):
+            print(f"[guide-nav] {out_path}  ({elapsed*1000:.1f} ms)")
 
         # Guide index page removed — nav bar provides direct links to all guide pages
 

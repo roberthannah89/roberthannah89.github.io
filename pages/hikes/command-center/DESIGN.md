@@ -46,8 +46,8 @@ Full-screen map with four UI zones:
 ```
 ┌─────────────────────────────────────────────────────────┐
 │ Filter bar (top)                                        │
-│ [Grade: Any T1-2 T3 T4 T5 T6] [Time: Any 3-5h 5h+]   │
-│ [Elev: Any ≤2000 2000-2500 2500+] [Weather filters...] │
+│ [Grade: T1-2 T3 T4 T5 T6] [Time: ≤3h 3-5h 5h+]        │
+│ [Elev: ≤2000 2000-2500 2500+] [Weather filters...]     │
 ├─────────────────────────────────────────┬───────────────┤
 │                                         │  Side panel   │
 │              MAP                        │  (slides in   │
@@ -81,20 +81,22 @@ Full-screen map with four UI zones:
 
 Existing filters from sac-map.html, extended:
 
+No "Any" buttons — empty/no selection means any. Multi-select buttons toggle on/off; single-select buttons clear the filter when clicked while active.
+
 | Filter | Type | Values |
 |---|---|---|
-| Grade | multi-select | Any, T1-2, T3, T4, T5, T6 |
-| Duration | single-select | Any, ≤3h, 3-5h, 5h+ |
-| Elevation | single-select | Any, ≤2000m, 2000-2500m, 2500m+ |
+| Grade | multi-select | T1-2, T3, T4, T5, T6 |
+| Duration | single-select | ≤3h, 3-5h, 5h+ |
+| Elevation | single-select | ≤2000m, 2000-2500m, 2500m+ |
 
 ### Weather Filters (new, in filter bar)
 
 | Filter | Type | Values |
 |---|---|---|
 | Day | single-select | Today, Tomorrow, Day+2 (with dates from cache) |
-| Conditions | single-select | Any, Dry only, Clear only |
-| Summit temp | single-select | Any, >0°C, >5°C, >10°C, >15°C |
-| Wind | single-select | Any, Calm (<20 km/h), Moderate (<40 km/h) |
+| Conditions | single-select | Dry only, Clear only |
+| Summit temp | single-select | >0°C, >5°C, >10°C, >15°C |
+| Wind | single-select | Calm (<20 km/h), Moderate (<40 km/h) |
 
 **How weather filtering works:**
 1. `weather-cache.js` loads per-peak 3-day forecasts (pre-baked by GitHub Action / `make weather`)

@@ -357,7 +357,7 @@
   <nav style="margin-top:.8rem;font-size:.88rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem .8rem;">
     {% for gp in guide_pages %}
     {% if not loop.first %}<span style="color:var(--fg-dim);opacity:.4;">·</span>{% endif %}
-    <a href="guides/{{ gp.href }}" style="color:var(--fg-dim);text-decoration:none;">{{ gp.label }}</a>
+    <a href="{{ gp.path }}" style="color:var(--fg-dim);text-decoration:none;">{{ gp.label }}</a>
     {% endfor %}
   </nav>
 </header>

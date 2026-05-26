@@ -4,11 +4,6 @@
 
   var map, clusterGroup;
   var allMarkers = [];
-  var weatherLayers = {};
-  var rainTimestamps = [];
-  var currentRainIdx = 0;
-  var playing = false;
-  var playInterval = null;
 
   // Grade colors
   var GRADE_COLORS = {
@@ -29,17 +24,20 @@
   function initMap() {
     map = L.map('map', {
       center: [46.8, 8.2],
-      zoom: 8,
+      zoom: 9,
       zoomControl: false
     });
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // Base layers
-    var layers = window.MapShared ? MapShared.makeLayers() : null;
-    if (layers) {
-      L.layerGroup([layers.color, layers.trails]).addTo(map);
-      if (MapShared.addSwissBorder) MapShared.addSwissBorder(map);
+    // Base layer switcher (Topo+Trails / Topo / Aerial / OSM) + Swiss border + fullscreen
+    if (window.MapShared && MapShared.addLayerControl) {
+      MapShared.addLayerControl(map, { defaultLayer: 'hike' });
+      // Relocate the layer bar into the bottom-bar so it sits in a horizontal
+      // strip alongside the route counter and forecast meta.
+      var lbar = document.querySelector('.ms-layer-bar');
+      var bbar = document.getElementById('bottom-bar');
+      if (lbar && bbar) bbar.insertBefore(lbar, bbar.firstChild);
     } else {
       L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg', {
         maxZoom: 18,
@@ -47,7 +45,7 @@
       }).addTo(map);
     }
 
-    // Cluster group
+    // Cluster group — tinted by dominant weather of contained markers
     clusterGroup = L.markerClusterGroup({
       maxClusterRadius: 45,
       disableClusteringAtZoom: 13,
@@ -55,14 +53,31 @@
       showCoverageOnHover: false,
       iconCreateFunction: function (cluster) {
         var count = cluster.getChildCount();
+        var info = dominantClusterWeather(cluster);
+        var style = info && info.tint
+          ? 'background:' + info.tint.bg + ';border-color:' + info.tint.border + ';color:' + info.tint.color
+          : '';
+        var emoji = info && info.emoji ? info.emoji : '';
+        var tempStr = info && info.temp !== null ? Math.round(info.temp) + '°' : '';
         return L.divIcon({
-          html: '<div>' + count + '</div>',
+          html: '<div style="' + style + '">'
+            + '<span class="cl-n">' + count + '</span>'
+            + (emoji ? '<span class="cl-wx">' + emoji + '</span>' : '')
+            + (tempStr ? '<span class="cl-t">' + tempStr + '</span>' : '')
+            + '</div>',
           className: 'marker-cluster',
-          iconSize: L.point(36, 36)
+          iconSize: L.point(64, 28)
         });
       }
     });
     map.addLayer(clusterGroup);
+
+    // Show always-on name labels at zoom 11+
+    map.on('zoomend', function () {
+      document.body.classList.toggle('zoom-labels', map.getZoom() >= 11);
+    });
+    // Set initial state in case current zoom already qualifies
+    document.body.classList.toggle('zoom-labels', map.getZoom() >= 11);
   }
 
   /* ── Route markers ─────────────────────────────────── */
@@ -74,17 +89,22 @@
       var grade = Filters.bestGrade(poi);
       var color = gradeColor(grade);
 
-      var marker = L.circleMarker([poi.lat, poi.lon], {
-        radius: 6,
-        fillColor: color,
-        fillOpacity: 0.9,
-        color: '#000',
-        weight: 1,
-        opacity: 0.5
+      var marker = L.marker([poi.lat, poi.lon], {
+        icon: makeHikeIcon(color, 'dot')
       });
 
       marker._poi = poi;
+      marker._color = color;
       marker._filtered = false;
+
+      // Permanent name tooltip. Hidden by CSS at low zooms (when markers
+      // cluster); always shown when zoomed in past the cluster threshold.
+      marker.bindTooltip(esc(poi.name || ''), {
+        permanent: true,
+        direction: 'bottom',
+        offset: [0, 18],
+        className: 'hike-tooltip'
+      });
 
       marker.on('click', function () {
         openPopup(poi, marker);
@@ -96,11 +116,89 @@
     refreshCluster();
   }
 
+  // Three marker modes:
+  //   'dot'     — small grade-colored dot (default, clean view)
+  //   'weather' — larger ring with weather emoji + temp (when user opts in)
+  function makeHikeIcon(color, mode, wxIcon, tempStr) {
+    if (mode === 'weather' && wxIcon) {
+      var temp = tempStr ? '<span class="hike-marker__temp">' + tempStr + '</span>' : '';
+      return L.divIcon({
+        className: '',
+        html: '<div class="hike-marker hike-marker--wx" style="border-color:' + color + ';background:' + color + '22">'
+          + '<span class="hike-marker__wx">' + wxIcon + '</span>' + temp + '</div>',
+        iconSize: [40, 28],
+        iconAnchor: [20, 14]
+      });
+    }
+    return L.divIcon({
+      className: '',
+      html: '<div class="hike-marker hike-marker--dot" style="background:' + color + '"></div>',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+  }
+
+  // Re-render every marker's icon based on the currently selected weather day.
+  // Markers always show weather emoji + temperature when forecast data exists,
+  // falling back to a grade-colored dot when it doesn't.
+  function refreshMarkerIcons() {
+    var dayIdx = Filters.getState().weatherDay;
+    allMarkers.forEach(function (m) {
+      var poi = m._poi;
+      var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
+      if (!wx) {
+        m.setIcon(makeHikeIcon(m._color, 'dot'));
+        return;
+      }
+      var emoji = WeatherService.weatherIcon(wx.code);
+      var tempStr = wx.tempMax !== null && wx.tempMax !== undefined
+        ? Math.round(wx.tempMax) + '°' : '';
+      m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr));
+    });
+  }
+
   function refreshCluster() {
     clusterGroup.clearLayers();
     allMarkers.forEach(function (m) {
       if (!m._filtered) clusterGroup.addLayer(m);
     });
+  }
+
+  // Mapping from sky category to cluster fill/border/text colors.
+  var SKY_TINTS = {
+    'clear':         { bg: 'rgba(232, 168, 50, 0.85)',  border: '#e8a832', color: '#1a1810' },
+    'partly-cloudy': { bg: 'rgba(168, 152, 120, 0.85)', border: '#a89878', color: '#1a1810' },
+    'cloudy':        { bg: 'rgba(60, 60, 70, 0.85)',    border: '#6a6a78', color: '#f0e8d8' },
+    'rain':          { bg: 'rgba(80, 130, 200, 0.85)',  border: '#5082c8', color: '#f0e8d8' },
+    'snow':          { bg: 'rgba(220, 230, 240, 0.85)', border: '#dce6f0', color: '#1a1810' },
+    'storm':         { bg: 'rgba(180, 60, 60, 0.85)',   border: '#b43c3c', color: '#f0e8d8' }
+  };
+
+  function dominantClusterWeather(cluster) {
+    if (!WeatherService || !WeatherService.skyCategory) return null;
+    var dayIdx = Filters.getState().weatherDay;
+    var counts = {};
+    var tempSum = 0, tempN = 0;
+    cluster.getAllChildMarkers().forEach(function (m) {
+      var poi = m._poi;
+      if (!poi) return;
+      var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
+      if (!wx) return;
+      var cat = WeatherService.skyCategory(wx.code);
+      if (cat) counts[cat] = (counts[cat] || 0) + 1;
+      if (typeof wx.tempMax === 'number') { tempSum += wx.tempMax; tempN++; }
+    });
+    var best = null, max = 0;
+    Object.keys(counts).forEach(function (k) {
+      if (counts[k] > max) { best = k; max = counts[k]; }
+    });
+    if (!best) return null;
+    var defn = WeatherService.SKY_CATEGORIES.find(function (c) { return c.key === best; });
+    return {
+      tint: SKY_TINTS[best],
+      emoji: defn ? defn.icon : '',
+      temp: tempN > 0 ? (tempSum / tempN) : null
+    };
   }
 
   function openPopup(poi, marker) {
@@ -141,9 +239,8 @@
   function buildFilterBar() {
     var bar = document.getElementById('filter-bar');
 
-    // Grade
+    // Grade — multi-select. No "Any" button: empty selection means any.
     bar.appendChild(filterGroup('Grade', [
-      { label: 'Any', key: 'grade', value: [] },
       { label: 'T1-2', key: 'grade', value: ['T1-2'] },
       { label: 'T3', key: 'grade', value: ['T3'] },
       { label: 'T4', key: 'grade', value: ['T4'] },
@@ -151,57 +248,114 @@
       { label: 'T6', key: 'grade', value: ['T6'] }
     ], true));
 
-    // Duration
+    // Duration — single-select; click an active button again to clear (means any).
     bar.appendChild(filterGroup('Time', [
-      { label: 'Any', key: 'duration', value: null },
       { label: '≤3h', key: 'duration', value: 'short' },
       { label: '3-5h', key: 'duration', value: 'medium' },
       { label: '5h+', key: 'duration', value: 'long' }
     ]));
 
-    // Elevation
+    // Peak elevation
     bar.appendChild(filterGroup('Elev', [
-      { label: 'Any', key: 'elevation', value: null },
       { label: '≤2000', key: 'elevation', value: 'low' },
       { label: '2-2.5k', key: 'elevation', value: 'mid' },
       { label: '2.5k+', key: 'elevation', value: 'high' }
+    ]));
+
+    // Vertical gain
+    bar.appendChild(filterGroup('Gain', [
+      { label: '≤500', key: 'gain', value: 'easy' },
+      { label: '500-1k', key: 'gain', value: 'mod' },
+      { label: '1-1.5k', key: 'gain', value: 'hard' },
+      { label: '1.5k+', key: 'gain', value: 'epic' }
     ]));
   }
 
   function buildWeatherFilters() {
     var bar = document.getElementById('filter-bar');
 
-    // Day picker
+    // Day picker with summary subtitle
     var days = WeatherService.getDayChoices();
     if (days.length === 0) return;
 
-    var dayOpts = days.map(function (d) {
-      return { label: d.label, key: 'weatherDay', value: d.index };
-    });
-    bar.appendChild(filterGroup('Day', dayOpts, false, 'weather'));
+    bar.appendChild(buildDayPicker(days));
 
-    // Conditions
-    bar.appendChild(filterGroup('Sky', [
-      { label: 'Any', key: 'conditions', value: null },
-      { label: 'Dry', key: 'conditions', value: 'dry' },
-      { label: 'Clear', key: 'conditions', value: 'cloudy' }
-    ], false, 'weather'));
+    // Sky condition — multi-select icon buttons
+    bar.appendChild(skyFilterGroup());
 
-    // Temperature
+    // Temperature — single-select; click active button again to clear (means any).
     bar.appendChild(filterGroup('Temp', [
-      { label: 'Any', key: 'tempMin', value: null },
       { label: '>0°', key: 'tempMin', value: 0 },
       { label: '>5°', key: 'tempMin', value: 5 },
       { label: '>10°', key: 'tempMin', value: 10 },
       { label: '>15°', key: 'tempMin', value: 15 }
     ], false, 'weather'));
+  }
 
-    // Wind
-    bar.appendChild(filterGroup('Wind', [
-      { label: 'Any', key: 'wind', value: null },
-      { label: 'Calm', key: 'wind', value: 'calm' },
-      { label: 'Mod', key: 'wind', value: 'moderate' }
-    ], false, 'weather'));
+  // Day picker — horizontal row of buttons selecting which forecast day
+  // drives the weather filter / marker icons.
+  function buildDayPicker(days) {
+    var group = document.createElement('div');
+    group.className = 'filter-group filter-group--day';
+
+    var lbl = document.createElement('span');
+    lbl.className = 'filter-label';
+    lbl.textContent = 'Day';
+    group.appendChild(lbl);
+
+    var currentDay = Filters.getState().weatherDay;
+    days.forEach(function (d, idx) {
+      // Mark active if this day's index matches the restored state.
+      var active = d.index === currentDay;
+      var btn = document.createElement('button');
+      btn.className = 'filter-btn' + (active ? ' weather-active' : '');
+      btn.textContent = d.label;
+      btn.addEventListener('click', function () {
+        group.querySelectorAll('.filter-btn').forEach(function (b) {
+          b.classList.remove('weather-active');
+        });
+        btn.classList.add('weather-active');
+        Filters.setState('weatherDay', d.index);
+        refreshMarkerIcons();
+      });
+      group.appendChild(btn);
+    });
+
+    return group;
+  }
+
+  // Multi-select icon buttons for sky conditions. No "Any" button —
+  // empty selection means any. Clicking toggles each category.
+  function skyFilterGroup() {
+    var group = document.createElement('div');
+    group.className = 'filter-group filter-group--sky';
+
+    var lbl = document.createElement('span');
+    lbl.className = 'filter-label';
+    lbl.textContent = 'Sky';
+    group.appendChild(lbl);
+
+    var selectedSky = Filters.getState().sky || [];
+    WeatherService.SKY_CATEGORIES.forEach(function (cat) {
+      var btn = document.createElement('button');
+      // Multi-select: each category active iff present in restored state.sky.
+      var active = selectedSky.indexOf(cat.key) !== -1;
+      btn.className = 'filter-btn filter-btn--sky' + (active ? ' weather-active' : '');
+      btn.title = cat.label;
+      btn.setAttribute('data-sky', cat.key);
+      btn.innerHTML = '<span class="sky-icon">' + cat.icon + '</span>';
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('weather-active');
+        var selected = [];
+        group.querySelectorAll('.filter-btn--sky.weather-active').forEach(function (b) {
+          selected.push(b.getAttribute('data-sky'));
+        });
+        Filters.setState('sky', selected);
+      });
+      group.appendChild(btn);
+    });
+
+    return group;
   }
 
   function filterGroup(label, options, multiSelect, style) {
@@ -214,37 +368,51 @@
     group.appendChild(lbl);
 
     var activeClass = style === 'weather' ? 'weather-active' : 'active';
+    var s = Filters.getState();
 
-    options.forEach(function (opt, idx) {
+    // Decide whether a given option should start active based on restored state.
+    // - Multi-select (grades): button active iff its value is in state.grades.
+    // - Single-select: button active iff state[opt.key] equals opt.value.
+    function isActive(opt) {
+      if (multiSelect) {
+        return s.grades && opt.value && s.grades.indexOf(opt.value[0]) !== -1;
+      }
+      return s[opt.key] === opt.value;
+    }
+
+    options.forEach(function (opt) {
       var btn = document.createElement('button');
       btn.className = 'filter-btn';
       btn.textContent = opt.label;
-      if (idx === 0) btn.classList.add(activeClass);
+      if (isActive(opt)) btn.classList.add(activeClass);
 
       btn.addEventListener('click', function () {
-        if (multiSelect && opt.value && opt.value.length > 0) {
-          // Toggle multi-select for grades
+        if (multiSelect) {
+          // Multi-select: toggle this button, then collect all active values.
+          // Empty selection = any (no Any button needed).
           btn.classList.toggle(activeClass);
-          var anyBtn = group.querySelectorAll('.filter-btn')[0];
-          if (btn.classList.contains(activeClass)) {
-            anyBtn.classList.remove(activeClass);
-          }
-          // Collect active grades
           var active = [];
           group.querySelectorAll('.filter-btn').forEach(function (b, i) {
-            if (i > 0 && b.classList.contains(activeClass)) {
+            if (b.classList.contains(activeClass)) {
               active.push(options[i].value[0]);
             }
           });
-          if (active.length === 0) anyBtn.classList.add(activeClass);
           Filters.setState('grades', active);
         } else {
-          // Single select
+          // Single select: clicking the already-active button clears the
+          // filter (state = null = any). Otherwise select just this one.
+          var wasActive = btn.classList.contains(activeClass);
           group.querySelectorAll('.filter-btn').forEach(function (b) {
             b.classList.remove(activeClass);
           });
-          btn.classList.add(activeClass);
-          Filters.setState(opt.key, opt.value);
+          if (wasActive) {
+            Filters.setState(opt.key, null);
+          } else {
+            btn.classList.add(activeClass);
+            Filters.setState(opt.key, opt.value);
+          }
+          // Re-render marker icons when the weather day changes
+          if (opt.key === 'weatherDay') refreshMarkerIcons();
         }
       });
 
@@ -254,54 +422,29 @@
     return group;
   }
 
-  /* ── Weather tile layers ───────────────────────────── */
-
-  function initWeatherLayers() {
-    // RainViewer radar
-    fetchRainViewerTimestamps();
-
-    // MeteoSwiss cloud cover (geo.admin.ch WMS)
-    weatherLayers.clouds = L.tileLayer.wms('https://wms.geo.admin.ch/', {
-      layers: 'ch.meteoschweiz.messwerte-niederschlag-10min',
-      format: 'image/png',
-      transparent: true,
-      opacity: 0.5,
-      attribution: 'MeteoSwiss'
-    });
-  }
-
-  function fetchRainViewerTimestamps() {
-    fetch('https://api.rainviewer.com/public/weather-maps.json')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        rainTimestamps = (data.radar && data.radar.past) ? data.radar.past : [];
-        if (data.radar && data.radar.nowcast) {
-          rainTimestamps = rainTimestamps.concat(data.radar.nowcast);
-        }
-        currentRainIdx = rainTimestamps.length > 0 ? rainTimestamps.length - 1 : 0;
-        if (rainTimestamps.length > 0) {
-          weatherLayers.rain = L.tileLayer(
-            'https://tilecache.rainviewer.com' + rainTimestamps[currentRainIdx].path + '/256/{z}/{x}/{y}/2/1_1.png',
-            { opacity: 0.5, zIndex: 400 }
-          );
-        }
-      })
-      .catch(function () {
-        console.warn('RainViewer unavailable');
-      });
-  }
+  /* ── Map overlay toggles ───────────────────────────── */
 
   function buildWeatherToggles() {
     var panel = document.getElementById('weather-toggles');
+    var s = Filters.getState();
+    // `stateKey` ties the toggle to a Filters state field so we can reflect
+    // restored URL state. `webcams` and `names` aren't filter state — they
+    // use defaultOn instead.
     var toggles = [
-      { id: 'rain', icon: '🌧️', label: 'Rain radar' },
-      { id: 'clouds', icon: '☁️', label: 'Precipitation' },
-      { id: 'regions', icon: '🌡️', label: 'Region temp' }
+      { id: 'hikes',   icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
+      { id: 'huts',    icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
+      { id: 'webcams', icon: '📷', label: 'Webcams' },
+      // Permanent name labels (hidden via body class when off — avoids
+      // re-binding tooltips on every marker which would be slow)
+      { id: 'names',   icon: '🏷️', label: 'Names',   defaultOn: true }
     ];
 
     toggles.forEach(function (t) {
+      // Prefer current Filters state when the toggle maps to a state field;
+      // otherwise fall back to defaultOn.
+      var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
       var btn = document.createElement('button');
-      btn.className = 'wx-toggle';
+      btn.className = 'wx-toggle' + (on ? ' active' : '');
       btn.innerHTML = '<span class="icon">' + t.icon + '</span> ' + t.label;
       btn.addEventListener('click', function () {
         btn.classList.toggle('active');
@@ -311,145 +454,73 @@
     });
   }
 
-  var regionLayer = null;
+  // Reset button — clears the URL hash and reloads. Reloading is the cheapest
+  // way to also reset the non-Filters toggles (webcams, names) and re-render
+  // every button in its default-active state.
+  function wireResetButton() {
+    var btn = document.getElementById('filter-reset');
+    if (!btn) return;
+    // Show the button whenever a hash is present (i.e. at least one non-default
+    // filter is active). Updated on every Filters.apply via the route-count
+    // observer below.
+    function refreshVisibility() {
+      btn.hidden = !window.location.hash || window.location.hash === '#';
+    }
+    refreshVisibility();
+    // Re-check after any filter change — UrlSync writes to the hash inside
+    // Filters.setState, so by the next animation frame the hash is current.
+    var countEl = document.getElementById('route-count');
+    if (countEl && window.MutationObserver) {
+      new MutationObserver(refreshVisibility).observe(countEl, { childList: true });
+    }
+    btn.addEventListener('click', function () {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+      location.reload();
+    });
+  }
+
+  var webcamLayer = null;
 
   function toggleWeatherLayer(id, show) {
-    if (id === 'rain' && weatherLayers.rain) {
-      if (show) map.addLayer(weatherLayers.rain);
-      else map.removeLayer(weatherLayers.rain);
-    }
-    if (id === 'clouds' && weatherLayers.clouds) {
-      if (show) map.addLayer(weatherLayers.clouds);
-      else map.removeLayer(weatherLayers.clouds);
-    }
-    if (id === 'regions') {
-      if (show) loadRegionOverlay();
-      else if (regionLayer) { map.removeLayer(regionLayer); regionLayer = null; }
-    }
-  }
-
-  function loadRegionOverlay() {
-    if (regionLayer) { map.removeLayer(regionLayer); regionLayer = null; }
-
-    var geojson = window.CANTONS_GEOJSON;
-    if (!geojson) { console.warn('No CANTONS_GEOJSON loaded'); return; }
-
-    var dayIdx = Filters.getState().weatherDay;
-
-    regionLayer = L.geoJSON(geojson, {
-      style: function (feature) {
-        var temp = regionAvgTemp(feature, dayIdx);
-        return {
-          fillColor: tempColor(temp),
-          fillOpacity: 0.35,
-          color: '#3a3428',
-          weight: 1,
-          opacity: 0.6
-        };
-      },
-      onEachFeature: function (feature, layer) {
-        var temp = regionAvgTemp(feature, dayIdx);
-        if (temp !== null) {
-          layer.bindTooltip(
-            (feature.properties.name || feature.properties.NAME || '?') + ': ' + Math.round(temp) + '°C',
-            { sticky: true, className: 'region-tooltip' }
-          );
-        }
-      }
-    });
-
-    regionLayer.addTo(map);
-  }
-
-  function regionAvgTemp(feature, dayIdx) {
-    // Find SAC peaks within this region polygon and average their temps
-    var temps = [];
-    var bounds = null;
-    try {
-      var layer = L.geoJSON(feature);
-      bounds = layer.getBounds();
-    } catch (e) { return null; }
-
-    allMarkers.forEach(function (m) {
-      var ll = m.getLatLng();
-      if (bounds.contains(ll)) {
-        var wx = WeatherService.getForPeak(m._poi.lat, m._poi.lon, dayIdx);
-        if (wx && wx.tempMax !== null) temps.push(wx.tempMax);
-      }
-    });
-
-    if (temps.length === 0) return null;
-    var sum = temps.reduce(function (a, b) { return a + b; }, 0);
-    return sum / temps.length;
-  }
-
-  function tempColor(temp) {
-    if (temp === null) return '#3a3428';
-    if (temp < 0) return '#3366cc';
-    if (temp < 5) return '#5599dd';
-    if (temp < 10) return '#77bbee';
-    if (temp < 15) return '#88cc88';
-    if (temp < 20) return '#bbdd55';
-    if (temp < 25) return '#ddaa33';
-    return '#cc4422';
-  }
-
-  /* ── Time slider (RainViewer) ──────────────────────── */
-
-  function initTimeSlider() {
-    var slider = document.getElementById('forecast-slider');
-    var valueEl = document.getElementById('slider-value');
-    var playBtn = document.getElementById('play-btn');
-
-    if (rainTimestamps.length === 0) {
-      document.getElementById('time-slider').classList.add('hidden');
+    if (id === 'hikes') {
+      Filters.setState('showHikes', show);
       return;
     }
-
-    slider.min = 0;
-    slider.max = rainTimestamps.length - 1;
-    slider.value = currentRainIdx;
-    updateSliderLabel(valueEl);
-
-    slider.addEventListener('input', function () {
-      currentRainIdx = parseInt(slider.value, 10);
-      updateRainLayer();
-      updateSliderLabel(valueEl);
-    });
-
-    playBtn.addEventListener('click', function () {
-      playing = !playing;
-      playBtn.textContent = playing ? '⏸' : '▶';
-      if (playing) {
-        playInterval = setInterval(function () {
-          currentRainIdx = (currentRainIdx + 1) % rainTimestamps.length;
-          slider.value = currentRainIdx;
-          updateRainLayer();
-          updateSliderLabel(valueEl);
-        }, 800);
-      } else {
-        clearInterval(playInterval);
+    if (id === 'huts') {
+      Filters.setState('showHuts', show);
+      return;
+    }
+    if (id === 'names') {
+      document.body.classList.toggle('names-off', !show);
+      return;
+    }
+    if (id === 'webcams') {
+      if (show) {
+        if (!webcamLayer && window.WebcamLayer) webcamLayer = window.WebcamLayer.create();
+        if (webcamLayer) map.addLayer(webcamLayer);
+      } else if (webcamLayer) {
+        map.removeLayer(webcamLayer);
       }
-    });
+      return;
+    }
   }
 
-  function updateRainLayer() {
-    if (!weatherLayers.rain || rainTimestamps.length === 0) return;
-    var isOnMap = map.hasLayer(weatherLayers.rain);
-    if (isOnMap) map.removeLayer(weatherLayers.rain);
-    weatherLayers.rain = L.tileLayer(
-      'https://tilecache.rainviewer.com' + rainTimestamps[currentRainIdx].path + '/256/{z}/{x}/{y}/2/1_1.png',
-      { opacity: 0.5, zIndex: 400 }
-    );
-    if (isOnMap) map.addLayer(weatherLayers.rain);
-  }
+  /* ── Forecast meta (last-updated) ──────────────────── */
 
-  function updateSliderLabel(el) {
-    if (rainTimestamps.length === 0) return;
-    var ts = rainTimestamps[currentRainIdx].time * 1000;
-    var d = new Date(ts);
-    el.textContent = d.toLocaleDateString('en', { weekday: 'short', day: 'numeric', month: 'short' })
-      + ' · ' + d.toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false });
+  var MODEL_LABELS = {
+    'meteoswiss_icon_ch1': 'MeteoSwiss ICON-CH1',
+    'meteoswiss_icon_ch2': 'MeteoSwiss ICON-CH2',
+    'ecmwf_ifs025':        'ECMWF IFS',
+    'icon_eu':             'ICON-EU'
+  };
+
+  function renderForecastMeta() {
+    var el = document.getElementById('forecast-meta');
+    if (!el) return;
+    var meta = WeatherService.getMeta();
+    if (!meta) { el.textContent = ''; return; }
+    var modelLabel = MODEL_LABELS[meta.model] || meta.model;
+    el.innerHTML = '<strong>' + modelLabel + '</strong> · updated ' + WeatherService.relativeTime(meta.updated);
   }
 
   /* ── Utilities ─────────────────────────────────────── */
@@ -486,19 +557,25 @@
 
     status('Creating ' + routes.length + ' route markers...');
     Filters.init(allMarkers, document.getElementById('route-count'), refreshCluster);
+    // Restore filter state from URL hash BEFORE building the filter UI so the
+    // buttons reflect the restored state instead of all showing "Any" active.
+    if (window.UrlSync && Filters.loadState) {
+      Filters.loadState(window.UrlSync.readFromUrl());
+    }
     createMarkers(routes);
 
     buildFilterBar();
     buildWeatherToggles();
-    initWeatherLayers();
+    wireResetButton();
 
     SidePanel.init(document.getElementById('side-panel'));
 
     status('Fetching weather forecasts...');
     WeatherService.init(routes, status).then(function () {
       buildWeatherFilters();
+      refreshMarkerIcons();
+      renderForecastMeta();
       Filters.apply();
-      initTimeSlider();
 
       setTimeout(function () {
         loadingOverlay.classList.add('hidden');

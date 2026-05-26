@@ -110,36 +110,33 @@ html, body {
   font-weight: 600;
 }
 
-/* --- Weather Toggles --- */
+/* --- Weather / POI Toggles (lives in #bottom-bar) --- */
 #weather-toggles {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 800;
+  position: static;
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  flex-direction: row;
+  gap: 2px;
   background: rgba(26, 24, 16, 0.92);
   border: 1px solid var(--flap-border);
   border-radius: 6px;
-  padding: 6px;
+  padding: 3px 4px;
   backdrop-filter: blur(8px);
 }
 
 .wx-toggle {
   font-family: var(--font-mono);
   font-size: 11px;
-  padding: 6px 10px;
+  padding: 5px 9px;
   border-radius: 4px;
   color: var(--text-secondary);
   cursor: pointer;
   border: none;
   background: transparent;
-  text-align: left;
   transition: all 0.15s;
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .wx-toggle:hover {
@@ -154,133 +151,138 @@ html, body {
 
 .wx-toggle .icon { font-size: 14px; }
 
-/* --- Time Slider --- */
-#time-slider {
+/* --- Bottom-left horizontal strip --- */
+#bottom-bar {
   position: absolute;
   bottom: 20px;
   left: 12px;
-  right: 12px;
   z-index: 800;
-  background: rgba(26, 24, 16, 0.94);
-  border: 1px solid var(--flap-border);
-  border-radius: 8px;
-  padding: 12px 16px;
-  backdrop-filter: blur(8px);
-  max-width: 700px;
-}
-
-#time-slider.hidden { display: none; }
-
-.slider-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+  gap: 8px;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 
-.slider-title {
+/* --- Base layer switcher (from MapShared.addLayerControl) --- */
+.ms-layer-bar {
+  position: static !important;
+  display: flex;
+  gap: 2px;
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  padding: 3px 4px;
+  backdrop-filter: blur(8px);
+}
+
+.ms-layer-bar::before {
+  content: 'Map';
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   color: var(--text-muted);
-}
-
-.slider-value {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--amber);
+  align-self: center;
+  padding: 0 6px;
   font-weight: 600;
 }
 
-#forecast-slider {
-  width: 100%;
-  height: 6px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: var(--flap-bg);
-  border-radius: 3px;
-  outline: none;
-  cursor: pointer;
-}
-
-#forecast-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  background: var(--amber);
-  border: 2px solid var(--board-bg);
-  border-radius: 50%;
-  cursor: grab;
-}
-
-#forecast-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: var(--amber);
-  border: 2px solid var(--board-bg);
-  border-radius: 50%;
-  cursor: grab;
-}
-
-.slider-ticks {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
-}
-
-.slider-ticks span {
+.ms-layer-btn {
   font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--text-muted);
-}
-
-.slider-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-#play-btn {
-  background: var(--flap-bg);
-  border: 1px solid var(--flap-border);
-  color: var(--text-secondary);
-  width: 28px;
-  height: 28px;
+  font-size: 11px;
+  padding: 5px 10px;
   border-radius: 4px;
+  color: var(--text-secondary);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+  border: none;
+  background: transparent;
   transition: all 0.15s;
+  white-space: nowrap;
+}
+.ms-layer-btn:hover {
+  background: var(--flap-bg);
+  color: var(--text-primary);
+}
+.ms-layer-btn.active {
+  background: var(--amber);
+  color: var(--board-bg);
+  font-weight: 600;
 }
 
-#play-btn:hover {
+.ms-fullscreen-btn {
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.ms-fullscreen-btn:hover {
   border-color: var(--amber);
   color: var(--amber);
 }
 
-/* --- Route Counter --- */
-#route-counter {
-  position: absolute;
-  bottom: 90px;
-  left: 12px;
-  z-index: 800;
+/* --- Forecast meta (in bottom-bar) --- */
+#forecast-meta {
   background: rgba(26, 24, 16, 0.92);
   border: 1px solid var(--flap-border);
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 6px 12px;
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+#forecast-meta strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* --- Route Counter (in bottom-bar) --- */
+#route-counter {
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  padding: 6px 12px;
   backdrop-filter: blur(8px);
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-secondary);
+  display: flex;
+  align-items: center;
 }
 
 #route-counter strong {
   color: var(--amber);
   font-weight: 600;
 }
+
+/* Reset button — only shown when a non-default filter is active (see
+   wireResetButton in command-center.js). Sits inside the #route-counter pill. */
+#filter-reset {
+  margin-left: 10px;
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--flap-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+#filter-reset:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+#filter-reset[hidden] { display: none; }
 
 /* --- Side Panel --- */
 #side-panel {
@@ -592,23 +594,243 @@ html, body {
   color: var(--amber) !important;
 }
 
-/* Marker cluster overrides */
+/* Marker cluster — horizontal pill: count · emoji · avg temp */
 .marker-cluster {
-  background: rgba(26, 24, 16, 0.8) !important;
-  border: 2px solid var(--amber) !important;
+  background: transparent !important;
+  border: none !important;
 }
 
-.marker-cluster div {
-  background: var(--board-surface) !important;
+.marker-cluster > div {
+  width: 64px !important;
+  height: 28px !important;
+  border-radius: 14px !important;
+  border: 2px solid var(--amber) !important;
+  background: rgba(26, 24, 16, 0.92) !important;
   color: var(--amber) !important;
   font-family: var(--font-mono) !important;
-  font-weight: 600 !important;
-  font-size: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  padding: 0 6px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+  line-height: 1 !important;
+}
+
+.marker-cluster .cl-n {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.marker-cluster .cl-wx {
+  font-size: 13px;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.6));
+}
+
+.marker-cluster .cl-t {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* Hike markers — two visual modes */
+.hike-marker {
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Default: small grade-colored dot */
+.hike-marker--dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.6);
+}
+
+/* Weather mode: pill with emoji + temperature */
+.hike-marker--wx {
+  width: 40px;
+  height: 28px;
+  border-radius: 14px;
+  border: 2px solid #000;
+  background: rgba(26, 24, 16, 0.92) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.hike-marker__wx {
+  font-size: 13px;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.6));
+}
+
+.hike-marker__temp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+/* Hover tooltip — peak/hut name */
+.leaflet-tooltip.hike-tooltip {
+  background: rgba(26, 24, 16, 0.95);
+  border: 1px solid var(--flap-border);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.leaflet-tooltip.hike-tooltip::before { display: none; }
+
+/* Sky filter — icon-only buttons */
+.filter-btn--sky {
+  padding: 3px 6px;
+  font-size: 14px;
+  filter: grayscale(0.5) brightness(0.7);
+  transition: filter 0.15s, background 0.15s;
+}
+
+.filter-btn--sky:hover {
+  filter: grayscale(0) brightness(1);
+  background: var(--flap-bg);
+}
+
+.filter-btn--sky.weather-active {
+  filter: grayscale(0) brightness(1);
+  background: rgba(51, 136, 255, 0.2);
+}
+
+.sky-icon { display: inline-block; }
+
+/* Hike tooltips are permanent. Hidden at low zoom (markers cluster);
+   visible once zoomed in past the cluster threshold (body.zoom-labels). */
+.leaflet-tooltip.hike-tooltip {
+  display: none;
+  pointer-events: none;
+}
+body.zoom-labels .leaflet-tooltip.hike-tooltip {
+  display: block;
+}
+body.names-off .leaflet-tooltip.hike-tooltip {
+  display: none !important;
 }
 
 /* --- Mobile --- */
 @media (max-width: 768px) {
   #filter-bar { max-width: calc(100% - 60px); }
   #side-panel { width: 100%; }
-  #time-slider { max-width: none; }
+}
+
+/* --- Webcam markers --- */
+.webcam-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(26, 24, 16, 0.9);
+  border: 2px solid var(--amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.webcam-marker:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px var(--amber-glow);
+}
+
+/* --- Webcam popup --- */
+.webcam-popup-wrapper .leaflet-popup-content {
+  margin: 10px 12px !important;
+  min-width: 0 !important;
+}
+
+.webcam-popup {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  max-width: 260px;
+}
+
+.webcam-popup__name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.webcam-popup__loc {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.webcam-popup__thumb-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--flap-bg);
+  border: 1px solid var(--flap-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.webcam-popup__thumb-wrap--err::after {
+  content: 'Image unavailable';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.webcam-popup__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.webcam-popup__updated {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.webcam-popup__link {
+  display: block;
+  padding: 6px 10px;
+  background: var(--amber);
+  color: var(--board-bg);
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.15s;
+}
+
+.webcam-popup__link:hover {
+  background: #f0b840;
 }

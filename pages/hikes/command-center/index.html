@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hike Command Center</title>
 
+<!-- Guide nav metadata (auto-discovered by render_hike.py) -->
+<meta name="guide-label" content="Command center">
+<meta name="guide-card-title" content="Command center">
+<meta name="guide-card-desc" content="Full-map dashboard with all hikes, weather layers, and canton/grade filters.">
+<meta name="guide-order" content="5">
+
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -30,24 +36,17 @@
   <!-- Filter bar (top left) -->
   <div id="filter-bar"></div>
 
-  <!-- Weather layer toggles (top right) -->
-  <div id="weather-toggles"></div>
-
-  <!-- Route counter -->
-  <div id="route-counter">
-    <span id="route-count">Loading...</span>
-  </div>
-
-  <!-- Forecast time slider (bottom) -->
-  <div id="time-slider">
-    <div class="slider-header">
-      <div class="slider-controls">
-        <button id="play-btn" title="Play/Pause">▶</button>
-        <span class="slider-title">Rain Radar</span>
-      </div>
-      <span class="slider-value" id="slider-value">—</span>
+  <!-- Bottom-left horizontal strip: POI toggles · map switcher · destinations · forecast meta -->
+  <div id="bottom-bar">
+    <!-- POI / layer toggles (Hikes, SAC huts, Webcams, Names) -->
+    <div id="weather-toggles"></div>
+    <div id="route-counter">
+      <span id="route-count">Loading...</span>
+      <!-- Clears all filters + URL hash; visible whenever a filter is active -->
+      <button id="filter-reset" type="button" title="Reset all filters" hidden>Reset</button>
     </div>
-    <input type="range" id="forecast-slider" min="0" max="0" value="0">
+    <!-- .ms-layer-bar moves in here via JS after MapShared adds it -->
+    <div id="forecast-meta"></div>
   </div>
 
   <!-- Side panel (slides in from right) -->
@@ -66,11 +65,14 @@
 <script src="../guides/sac-routes.js"></script>
 <script src="weather-cache.js"></script>
 <script src="cantons.js"></script>
+<script src="webcams_windy_data.js"></script>
 
 <!-- App modules -->
 <script src="weather.js"></script>
+<script src="url-sync.js"></script>
 <script src="filters.js"></script>
 <script src="side-panel.js"></script>
+<script src="webcams.js"></script>
 <script src="command-center.js"></script>
 
 </body>

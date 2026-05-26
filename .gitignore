@@ -17,6 +17,9 @@ node_modules/
 package.json
 package-lock.json
 
+# Superpowers brainstorm/plan session artifacts (local)
+.superpowers/
+
 # OS / editor
 .DS_Store
 Thumbs.db

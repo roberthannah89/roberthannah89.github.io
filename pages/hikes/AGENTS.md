@@ -4,6 +4,7 @@
 
 ## Key rules
 
+- **Prefer repo docs over memory.** Project context (design specs, architecture decisions, feature status) belongs in `docs/` or feature-level `DESIGN.md` files — not in Claude memory. If information is already documented in the repo, don't duplicate it in memory.
 - **Never make up or approximate data.** All coordinates, elevations, times, and other factual values must come from an authoritative source (SAC JSON, GPX, SwissTopo, the route page). If the data isn't available, leave the field as `"TODO"` rather than guessing.
 - **Derive from primary data, don't guess.** Whenever possible, values should be reproducibly computed from objective source data rather than manually entered or approximated. For example, distance and elevation gain are computed from the GPX track, SBB timetable links are extracted from the SAC route JSON, and Google Maps directions use the trailhead coordinates. If a value can be derived from data already in the pipeline, add that derivation rather than hardcoding the result.
 - **Validate derived data when practical.** After constructing a new hike, spot-check that key derived values are correct — e.g. verify the SBB timetable link resolves to the right station, confirm Google Maps directions point to the trailhead, and sanity-check distances/elevations against the source. Not every render needs full validation, but new hike creation should include a quick check of external links.
@@ -15,6 +16,7 @@
 - **Pages are opened via `file://` protocol** — `fetch()` and `XMLHttpRequest` will silently fail. Data files that JS needs at runtime must be loaded via `<script>` tags setting globals (e.g. `swiss_border.js` sets `window.SWISS_BORDER`), never fetched. Keep data in separate `.js` files — don't inline large blobs into code files.
 - **Maps share construction via `map_shared.js`.** All map features (layers, fullscreen, Swiss border) belong in `addLayerControl` so every map gets them automatically. Never add map features in individual page scripts — put them in the shared code so improvements propagate to all maps. Every template with a map must include `swiss_border.js` before `map_shared.js`.
 - **No filler content.** Don't add generic, AI-sounding information that clutters pages and distracts from what hikers actually care about. Every sentence on a hike page should earn its place — if it doesn't add specific, useful detail, cut it. Be short and to the point.
+- **Link to authoritative sources inline.** When creating content pages, every tool, app, or organization mentioned should be a clickable link to its most relevant page (MeteoSwiss, SAC, Rega, swisstopo, etc.). Don't collect links in a separate "resources" section — put them where they're useful. Use `target="_blank" rel="noopener"` for external links.
 - **Before committing, delete any files made obsolete by your changes.** Temporary outputs, superseded scripts, orphan screenshots, etc. A file is **not** obsolete if it's needed for reproducibility — e.g. SAC route JSONs are raw source data and must be kept even after extraction.
 
 ## Generated pages

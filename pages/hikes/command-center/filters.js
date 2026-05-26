@@ -5,11 +5,13 @@
   var state = {
     grades: [],        // [] = any, or ['T3','T4'] etc
     duration: null,    // null=any, 'short', 'medium', 'long'
-    elevation: null,   // null=any, 'low', 'mid', 'high'
+    elevation: null,   // null=any, 'low', 'mid', 'high'  (peak altitude)
+    gain: null,        // null=any, 'easy', 'mod', 'hard', 'epic'  (vertical ascent)
+    showHikes: true,   // include peaks/summits/traverses
+    showHuts: true,    // include SAC huts
     weatherDay: 0,     // day index for weather filters
-    conditions: null,  // null=any, 'dry', 'cloudy'
-    tempMin: null,     // null=any, or number (°C threshold)
-    wind: null         // null=any, 'calm', 'moderate'
+    sky: [],           // [] = any; multi-select from SKY_CATEGORIES keys
+    tempMin: null      // null=any, or number (°C threshold)
   };
 
   var markers = [];
@@ -25,6 +27,15 @@
   function setState(key, value) {
     state[key] = value;
     apply();
+    if (window.UrlSync) window.UrlSync.syncToUrl(state);
+  }
+
+  // Bulk-apply state from URL on boot. Skips unknown keys.
+  function loadState(obj) {
+    if (!obj) return;
+    Object.keys(obj).forEach(function (k) {
+      if (k in state) state[k] = obj[k];
+    });
   }
 
   function getState() { return state; }
@@ -75,23 +86,48 @@
     return true;
   }
 
+  function maxGain(poi) {
+    var g = 0;
+    (poi.routes || []).forEach(function (r) {
+      if (r.gain && r.gain > g) g = r.gain;
+    });
+    return g;
+  }
+
+  function matchesGain(poi) {
+    if (!state.gain) return true;
+    var g = maxGain(poi);
+    if (g === 0) return true; // no gain data = don't filter out
+    if (state.gain === 'easy') return g <= 500;
+    if (state.gain === 'mod')  return g > 500 && g <= 1000;
+    if (state.gain === 'hard') return g > 1000 && g <= 1500;
+    if (state.gain === 'epic') return g > 1500;
+    return true;
+  }
+
   function matchesWeather(poi) {
     var wx = WeatherService.getForPeak(poi.lat, poi.lon, state.weatherDay);
     if (!wx) return true; // no data = don't filter out
 
-    if (state.conditions === 'dry' && !WeatherService.isDry(wx.code)) return false;
-    if (state.conditions === 'cloudy' && wx.code > 3) return false;
+    if (state.sky.length > 0) {
+      var cat = WeatherService.skyCategory(wx.code);
+      if (state.sky.indexOf(cat) === -1) return false;
+    }
 
     if (state.tempMin !== null && wx.tempMax < state.tempMin) return false;
-
-    if (state.wind === 'calm' && wx.windMax > 20) return false;
-    if (state.wind === 'moderate' && wx.windMax > 40) return false;
 
     return true;
   }
 
+  function matchesType(poi) {
+    var isHut = poi.type === 'hut';
+    if (isHut) return state.showHuts;
+    return state.showHikes;
+  }
+
   function matchesPoi(poi) {
-    return matchesGrade(poi) && matchesDuration(poi) && matchesElevation(poi) && matchesWeather(poi);
+    return matchesType(poi) && matchesGrade(poi) && matchesDuration(poi)
+        && matchesElevation(poi) && matchesGain(poi) && matchesWeather(poi);
   }
 
   function apply() {
@@ -117,6 +153,7 @@
   window.Filters = {
     init: init,
     setState: setState,
+    loadState: loadState,
     getState: getState,
     apply: apply,
     bestGrade: bestGrade,
