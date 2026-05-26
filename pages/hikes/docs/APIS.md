@@ -30,7 +30,7 @@ https://wmts.geo.admin.ch/1.0.0/{layer}/default/current/3857/{z}/{x}/{y}.{ext}
 
 ### Open-Meteo — Weather Forecast
 
-7-day weather forecast for hike pages and index weather strips.
+7-day weather forecast for hike pages and index weather strips, plus the pre-baked per-peak forecast cache used by the command center.
 
 ```
 GET https://api.open-meteo.com/v1/forecast
@@ -38,12 +38,13 @@ GET https://api.open-meteo.com/v1/forecast
     &daily=temperature_2m_max,temperature_2m_min,precipitation_sum,
            wind_gusts_10m_max,weather_code,sunrise,sunset
     &timezone=Europe/Zurich
+    &models=meteoswiss_icon_ch2     # command-center only
 ```
 
 - **Auth:** None
 - **CORS:** Yes
 - **Rate limit:** Generous (10,000 req/day free tier)
-- **Used in:** `hike_page.js`, `index_page.js`
+- **Used in:** `hike_page.js`, `index_page.js`, `scripts/fetch_weather.py` (command-center cache, uses MeteoSwiss ICON-CH2)
 
 ### Swiss Transport (SBB) — Timetable Links
 

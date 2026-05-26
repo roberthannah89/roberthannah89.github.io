@@ -32,6 +32,7 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | `extract_sac_gpx.py` | SAC route JSON → GPX track (LV95→WGS84, segment stitching); imported by `extract_sac_route.py` |
 | `extract_sac_photos.py` | SAC route JSON + peak hero → photo URLs in `data.json`; imported by `extract_sac_route.py` |
 | `fetch_geodata.py` | Fetch canton/region GeoJSON from SwissTopo; imported by `render_hike.py` for the regions guide |
+| `fetch_weather.py` | Open-Meteo (MeteoSwiss ICON-CH2) → `command-center/weather-cache.js`. Run via `make weather` before opening the command center |
 
 ### Standalone utilities (run directly, not in Makefile)
 
@@ -41,6 +42,8 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | `check_gpx_gaps.py` | Verify GPX track connectivity after extraction — flags gaps exceeding a threshold |
 | `combine_gpx.py` | Stitch two GPX tracks end-to-end for multi-route traverses (e.g. Schynige Platte–First) |
 | `make_swiss_boundary.py` | One-shot generator: download GADM boundary → simplify → write `swiss_border.js`. Re-run only if boundary data needs regenerating |
+| `fetch_windy_webcams.py` | Windy Webcams API → `command-center/webcams_windy_data.js`. Re-run when refreshing the webcam list |
+| `render_proto_index.py` | Auto-generate `docs/prototypes/index.html` from `proto-*` meta tags in each prototype HTML |
 
 ---
 
