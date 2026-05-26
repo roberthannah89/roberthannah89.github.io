@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mountain Webcams — Live Swiss Summit Conditions</title>
+<meta name="proto-title" content="Mountain Webcams">
+<meta name="proto-icon" content="&#x1F4F8;">
+<meta name="proto-desc" content="Live camera feeds from Windy.com for checking Swiss alpine conditions">
+<meta name="proto-source" content="Windy Webcams API">
+<meta name="proto-order" content="50">
+<title>Mountain Webcams — Live Swiss Alpine Conditions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -513,7 +518,7 @@
     </div>
     <div class="header-text">
       <h1>Mountain Webcams</h1>
-      <p>Live conditions from Swiss summits</p>
+      <p>Live conditions from Swiss alpine cams &mdash; powered by <a href="https://www.windy.com/webcams" target="_blank" rel="noopener" style="color:var(--amber);text-decoration:none;">Windy.com</a></p>
     </div>
     <div class="header-live">
       <span class="live-dot"></span>
@@ -528,25 +533,23 @@
   </div>
 
   <!-- Camera grid -->
-  <div class="grid-label">Live cameras &mdash; <span id="cam-count"></span> feeds</div>
+  <div class="grid-label">Live cameras &mdash; showing top <span id="cam-count"></span> of <span id="cam-total"></span> by view count</div>
   <div class="cam-grid" id="cam-grid"></div>
 
   <!-- Provider info -->
   <div class="providers">
-    <h2>Webcam providers</h2>
+    <h2>About the data</h2>
     <div class="provider-list">
       <div class="provider-item">
-        <span class="provider-tag">Roundshot</span>
+        <span class="provider-tag">Windy API</span>
         <span class="provider-desc">
-          High-resolution 360-degree panorama cameras installed at Swiss summits and mountain stations. Updated every few minutes.
-          <a href="https://www.roundshot.com/en/" target="_blank" rel="noopener">roundshot.com</a>
+          Cameras and images are sourced from the <a href="https://api.windy.com/" target="_blank" rel="noopener">Windy Webcams API v3</a>, which aggregates feeds from operators across the Alps (ski resorts, mountain huts, panorama cams, observatories). Filtered to active Swiss mountain cams above a 1,000-view threshold and sorted by viewer count.
         </span>
       </div>
       <div class="provider-item">
-        <span class="provider-tag">Windy</span>
+        <span class="provider-tag">Refresh</span>
         <span class="provider-desc">
-          Aggregates thousands of webcams worldwide with weather overlays. Useful for finding cameras at lesser-known locations.
-          <a href="https://www.windy.com/webcams" target="_blank" rel="noopener">windy.com/webcams</a>
+          Thumbnails point to Windy&rsquo;s &ldquo;current&rdquo; image proxy &mdash; updated on the cam operator&rsquo;s schedule (typically every few minutes). Click <strong>View Live</strong> to open the full webcam page on <a href="https://www.windy.com/webcams" target="_blank" rel="noopener">windy.com</a> with controls, timelapse, and weather overlays.
         </span>
       </div>
     </div>
@@ -555,24 +558,27 @@
   <!-- Footer -->
   <div class="footer">
     <div class="footer-links">
-      <a href="https://www.roundshot.com/en/" target="_blank" rel="noopener">roundshot.com</a>
       <a href="https://www.windy.com/webcams" target="_blank" rel="noopener">windy.com/webcams</a>
+      <a href="https://api.windy.com/" target="_blank" rel="noopener">api.windy.com</a>
       <a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">meteoswiss.ch</a>
     </div>
-    <span class="footer-note">Prototype &mdash; images subject to provider availability</span>
+    <span class="footer-note">Prototype &mdash; images &copy; respective cam operators via Windy.com</span>
   </div>
 
 </div>
 
+<script src="webcams_windy_data.js"></script>
 <script>
-var WEBCAMS = [
-  { name: "Pilatus", lat: 46.9787, lon: 8.2543, elev: 2132, provider: "roundshot", thumb: "https://backend.roundshot.com/cams/241/thumbnail", url: "https://www.roundshot.com/en/livecam/pilatus" },
-  { name: "Titlis", lat: 46.7710, lon: 8.4311, elev: 3238, provider: "roundshot", thumb: "https://backend.roundshot.com/cams/71/thumbnail", url: "https://www.roundshot.com/en/livecam/titlis" },
-  { name: "Jungfraujoch", lat: 46.5474, lon: 7.9853, elev: 3454, provider: "roundshot", thumb: "https://backend.roundshot.com/cams/68/thumbnail", url: "https://www.roundshot.com/en/livecam/jungfraujoch" },
-  { name: "Säntis", lat: 47.2494, lon: 9.3432, elev: 2502, provider: "roundshot", thumb: "https://backend.roundshot.com/cams/54/thumbnail", url: "https://www.roundshot.com/en/livecam/saentis" },
-  { name: "Rigi Kulm", lat: 47.0567, lon: 8.4853, elev: 1798, provider: "roundshot", thumb: "https://backend.roundshot.com/cams/101/thumbnail", url: "https://www.roundshot.com/en/livecam/rigi" },
-  { name: "Männlichen", lat: 46.6125, lon: 7.9417, elev: 2343, provider: "roundshot", thumb: "https://backend.roundshot.com/cams/170/thumbnail", url: "https://www.roundshot.com/en/livecam/maennlichen" }
-];
+// Show top N cams from the Windy catalog (already sorted by view count).
+var DISPLAY_LIMIT = 40;
+var ALL_CAMS = window.WINDY_WEBCAMS || [];
+var WEBCAMS = ALL_CAMS.slice(0, DISPLAY_LIMIT);
+
+function formatViews(n) {
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(0) + 'k';
+  return String(n);
+}
 
 // Clock
 function updateClock() {
@@ -585,25 +591,37 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// Count
+// Counts
 document.getElementById('cam-count').textContent = WEBCAMS.length;
+document.getElementById('cam-total').textContent = ALL_CAMS.length;
 
 // Mountain placeholder SVG
 var mountainSVG = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 2 4"/><path d="M4.14 15.08c-.14.26-.14.58 0 .84L6.86 20h10.28l2.72-4.08c.14-.26.14-.58 0-.84L17 10l-5 5-4-8z"/></svg>';
+
+// Escape user-supplied strings before injecting into HTML.
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
 // Build camera cards
 var grid = document.getElementById('cam-grid');
 WEBCAMS.forEach(function(cam) {
   var card = document.createElement('div');
   card.className = 'cam-card';
-  card.id = 'card-' + cam.name.toLowerCase().replace(/[^a-z]/g, '');
+  card.id = 'card-' + cam.id;
 
   var latStr = cam.lat.toFixed(4) + '°N';
   var lonStr = cam.lon.toFixed(4) + '°E';
+  var nameEsc = esc(cam.name);
+  var regionEsc = esc(cam.region);
+  var thumbEsc = esc(cam.thumb);
+  var urlEsc = esc(cam.url);
 
   card.innerHTML =
     '<div class="cam-image-wrap">' +
-      '<img src="' + cam.thumb + '?t=' + Date.now() + '" alt="' + cam.name + ' webcam" ' +
+      '<img src="' + thumbEsc + '" alt="' + nameEsc + ' webcam" loading="lazy" ' +
         'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';" />' +
       '<div class="cam-placeholder" style="display:none;">' +
         mountainSVG +
@@ -611,20 +629,20 @@ WEBCAMS.forEach(function(cam) {
       '</div>' +
       '<div class="cam-overlay-badge">' +
         '<span class="live-indicator"></span>' +
-        '<span>' + cam.provider + '</span>' +
+        '<span>windy</span>' +
       '</div>' +
     '</div>' +
     '<div class="cam-info">' +
       '<div class="cam-info-top">' +
-        '<span class="cam-name">' + cam.name + '</span>' +
-        '<span class="cam-elev">' + cam.elev.toLocaleString() + ' m</span>' +
+        '<span class="cam-name">' + nameEsc + '</span>' +
+        '<span class="cam-elev">' + regionEsc + '</span>' +
       '</div>' +
       '<div class="cam-meta">' +
-        '<span class="cam-provider">' + cam.provider + '</span>' +
+        '<span class="cam-provider">' + formatViews(cam.views) + ' views</span>' +
         '<span class="cam-coords">' + latStr + ', ' + lonStr + '</span>' +
       '</div>' +
       '<div class="cam-actions">' +
-        '<a class="btn-live" href="' + cam.url + '" target="_blank" rel="noopener">' +
+        '<a class="btn-live" href="' + urlEsc + '" target="_blank" rel="noopener">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
           'View Live' +
         '</a>' +
@@ -662,9 +680,9 @@ var markers = {};
 WEBCAMS.forEach(function(cam) {
   var marker = L.marker([cam.lat, cam.lon], { icon: camIcon }).addTo(map);
   marker.bindPopup(
-    '<div class="popup-name">' + cam.name + '</div>' +
-    '<div class="popup-elev">' + cam.elev.toLocaleString() + ' m</div>' +
-    '<a class="popup-link" href="' + cam.url + '" target="_blank" rel="noopener">View Live &rarr;</a>'
+    '<div class="popup-name">' + esc(cam.name) + '</div>' +
+    '<div class="popup-elev">' + esc(cam.region) + ' &middot; ' + formatViews(cam.views) + ' views</div>' +
+    '<a class="popup-link" href="' + esc(cam.url) + '" target="_blank" rel="noopener">View Live &rarr;</a>'
   );
   markers[cam.lat + ',' + cam.lon] = marker;
 });
