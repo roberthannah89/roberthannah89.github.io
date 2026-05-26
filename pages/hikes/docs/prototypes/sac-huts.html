@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="proto-title" content="SAC Alpine Huts">
+<meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
+<meta name="proto-desc" content="Swiss Alpine Club huts with capacity, wardened season, and booking links">
+<meta name="proto-source" content="SAC-CAS">
+<meta name="proto-order" content="80">
+<title>SAC Alpine Huts — Swiss Mountain Shelters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --board-bg: #1a1810;
+    --board-surface: #242118;
+    --flap-bg: #2c2820;
+    --flap-border: #3a3428;
+    --amber: #e8a832;
+    --amber-dim: #b8862a;
+    --amber-glow: #e8a83240;
+    --text-primary: #f0e8d8;
+    --text-secondary: #a89878;
+    --text-muted: #786848;
+    --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--board-bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--flap-border);
+  }
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--amber);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px var(--amber-glow);
+  }
+
+  .header-text h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .header-text p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .header-count {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .header-count .count-num {
+    font-weight: 600;
+    color: var(--amber);
+  }
+
+  /* --- Filter bar --- */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .filter-btn {
+    background: var(--flap-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--flap-border);
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    letter-spacing: 0.3px;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  .filter-btn.active {
+    background: var(--amber);
+    color: var(--board-bg);
+    border-color: var(--amber);
+    font-weight: 600;
+  }
+
+  .filter-separator {
+    width: 1px;
+    background: var(--flap-border);
+    align-self: stretch;
+    margin: 0 4px;
+  }
+
+  /* --- Map --- */
+  .map-container {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .map-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--flap-border);
+  }
+
+  #hut-map {
+    height: 360px;
+    width: 100%;
+  }
+
+  /* Leaflet popup styling */
+  .leaflet-popup-content-wrapper {
+    background: var(--board-surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--flap-border) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--board-surface) !important;
+    border: 1px solid var(--flap-border) !important;
+    border-top: none !important;
+    border-left: none !important;
+  }
+
+  .leaflet-popup-content {
+    margin: 10px 14px !important;
+    font-family: var(--font-display) !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  .popup-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .popup-elev {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  .popup-detail {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+
+  .popup-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--amber);
+    text-decoration: none;
+    font-family: var(--font-mono);
+  }
+
+  .popup-link:hover { text-decoration: underline; }
+
+  /* --- Hut grid --- */
+  .grid-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .hut-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  /* --- Hut card --- */
+  .hut-card {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .hut-card:hover {
+    border-color: var(--amber-dim);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .hut-card.hidden {
+    display: none;
+  }
+
+  .hut-card-header {
+    position: relative;
+    background: linear-gradient(135deg, var(--flap-bg) 0%, #1e1a12 100%);
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid var(--flap-border);
+  }
+
+  .hut-region-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+
+  .hut-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    padding-right: 80px;
+  }
+
+  .hut-elev {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--amber);
+  }
+
+  .hut-card-body {
+    padding: 14px 16px;
+  }
+
+  .hut-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .hut-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hut-stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+  }
+
+  .hut-stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .hut-type-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--flap-border);
+    margin-bottom: 14px;
+  }
+
+  .hut-type-badge.wardened {
+    color: #48b848;
+    background: rgba(72,184,72,0.1);
+    border-color: rgba(72,184,72,0.25);
+  }
+
+  .hut-type-badge.self-service {
+    color: var(--amber);
+    background: rgba(232,168,50,0.1);
+    border-color: rgba(232,168,50,0.25);
+  }
+
+  .hut-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-sac {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 14px;
+    background: var(--amber);
+    color: var(--board-bg);
+    border: none;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-sac:hover {
+    background: #f0b840;
+    transform: translateY(-1px);
+  }
+
+  .btn-sac:active {
+    transform: translateY(0);
+  }
+
+  .btn-sac svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .btn-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 12px;
+    background: var(--flap-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--flap-border);
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-map:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  /* --- Info section --- */
+  .info-section {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .info-section h2 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--text-primary);
+  }
+
+  .info-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .info-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--board-bg);
+    background: var(--amber);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .step-text a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  .step-text a:hover {
+    text-decoration: underline;
+  }
+
+  .step-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .info-note {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .info-note a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  .info-note a:hover {
+    text-decoration: underline;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    border-top: 1px solid var(--flap-border);
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover {
+    color: var(--amber);
+  }
+
+  .footer-note {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 640px) {
+    body { padding: 20px 12px; }
+    .header { flex-wrap: wrap; gap: 12px; }
+    .header-count { margin-left: 0; width: 100%; }
+    .hut-grid { grid-template-columns: 1fr; }
+    .info-section { padding: 16px; }
+    .filter-bar { gap: 6px; }
+    .filter-btn { padding: 6px 10px; font-size: 11px; }
+  }
+
+  /* --- Leaflet tile filter for dark theme --- */
+  .leaflet-tile-pane {
+    filter: brightness(0.85) contrast(1.05) saturate(0.9);
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a1810" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 20h18"/>
+        <path d="M5 20V8l7-5 7 5v12"/>
+        <path d="M9 20v-6h6v6"/>
+        <path d="M10 8h4"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>SAC Alpine Huts</h1>
+      <p>Swiss Alpine Club mountain shelters</p>
+    </div>
+    <div class="header-count">
+      <span id="hut-count-display"><span class="count-num" id="visible-count">12</span> huts</span>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="wardened">Wardened</button>
+    <button class="filter-btn" data-filter="self-service">Self-service</button>
+    <div class="filter-separator"></div>
+    <button class="filter-btn" data-filter="region-valais">Valais</button>
+    <button class="filter-btn" data-filter="region-bernese">Bernese Oberland</button>
+    <button class="filter-btn" data-filter="region-central">Central</button>
+    <button class="filter-btn" data-filter="region-graubuenden">Graubuenden</button>
+    <button class="filter-btn" data-filter="region-glarus">Glarus</button>
+  </div>
+
+  <!-- Map -->
+  <div class="map-container">
+    <div class="map-label">Hut locations</div>
+    <div id="hut-map"></div>
+  </div>
+
+  <!-- Hut grid -->
+  <div class="grid-label">Alpine huts &mdash; <span id="hut-count"></span> shelters</div>
+  <div class="hut-grid" id="hut-grid"></div>
+
+  <!-- How to book -->
+  <div class="info-section">
+    <h2>How to book an SAC hut</h2>
+    <div class="info-steps">
+      <div class="info-step">
+        <span class="step-num">1</span>
+        <span class="step-text"><strong>Create an SAC account.</strong> Register at <a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">sac-cas.ch</a>. SAC members receive a discount on overnight stays (roughly half price).</span>
+      </div>
+      <div class="info-step">
+        <span class="step-num">2</span>
+        <span class="step-text"><strong>Find and reserve online.</strong> Use the <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener">SAC Route Portal</a> to find a hut page, then click the reservation link. Most wardened huts use the <a href="https://www.alpsonline.org/" target="_blank" rel="noopener">Alps Online</a> booking system.</span>
+      </div>
+      <div class="info-step">
+        <span class="step-num">3</span>
+        <span class="step-text"><strong>Pack a sleeping bag liner.</strong> Huts provide blankets and pillows but no sheets. Bring a lightweight liner (silk or cotton). Half-board (dinner + breakfast) is standard at wardened huts.</span>
+      </div>
+      <div class="info-step">
+        <span class="step-num">4</span>
+        <span class="step-text"><strong>Know the hut etiquette.</strong> Arrive before dinner (usually 18:00&ndash;19:00), switch to hut shoes at the entrance, respect quiet hours from 22:00, and settle your bill before departure.</span>
+      </div>
+    </div>
+    <div class="info-note">
+      <strong>Self-service huts</strong> are unstaffed. You need your own food, a sleeping bag, and cash to leave the overnight fee in the honesty box. Some have a winter room that stays open year-round. Check the SAC hut page for current conditions before heading out. SAC membership card or Swiss Alpine Club reciprocal membership is required for the reduced rate.
+    </div>
+  </div>
+
+  <!-- SAC membership info -->
+  <div class="info-section">
+    <h2>SAC membership benefits</h2>
+    <div class="info-steps">
+      <div class="info-step">
+        <span class="step-num">&#9830;</span>
+        <span class="step-text"><strong>Reduced hut rates.</strong> Members pay approximately CHF 30&ndash;40 per night; non-members pay CHF 60&ndash;80. The savings add up quickly over a season.</span>
+      </div>
+      <div class="info-step">
+        <span class="step-num">&#9830;</span>
+        <span class="step-text"><strong>Reciprocal rights.</strong> SAC membership is recognised by alpine clubs across Europe (DAV, OeAV, CAI, CAF, etc.) for reduced rates at their huts.</span>
+      </div>
+      <div class="info-step">
+        <span class="step-num">&#9830;</span>
+        <span class="step-text"><strong>Rescue insurance.</strong> Membership includes CHF 25,000 of rescue cost coverage in Switzerland through <a href="https://www.rega.ch/" target="_blank" rel="noopener">Rega</a> and ground-based rescue services.</span>
+      </div>
+    </div>
+    <div class="info-note">
+      Join online at <a href="https://www.sac-cas.ch/en/the-sac/become-a-member/" target="_blank" rel="noopener">sac-cas.ch &mdash; Become a Member</a>. You join through a local SAC section (e.g. SAC Zurich, SAC Bern). Annual fee is around CHF 120&ndash;150 for individuals depending on the section.
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-links">
+      <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener">SAC Route Portal</a>
+      <a href="https://www.alpsonline.org/" target="_blank" rel="noopener">Alps Online Booking</a>
+      <a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">sac-cas.ch</a>
+    </div>
+    <span class="footer-note">Prototype &mdash; verify availability on SAC website</span>
+  </div>
+
+</div>
+
+<script>
+var HUTS = [
+  {
+    name: "Britanniahütte SAC",
+    lat: 46.0600, lon: 7.9350,
+    elev: 3030,
+    beds: 110,
+    type: "wardened",
+    season: "Mar–Sep",
+    region: "valais",
+    regionLabel: "Valais",
+    description: "Popular base for Allalinhorn, Strahlhorn, and Rimpfischhorn. Accessible via cable car to Felskinn.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/britannia-huette-sac-2117/detail/"
+  },
+  {
+    name: "Konkordiahütte SAC",
+    lat: 46.5005, lon: 8.0533,
+    elev: 2850,
+    beds: 106,
+    type: "wardened",
+    season: "Mar–Sep",
+    region: "bernese",
+    regionLabel: "Bernese Oberland",
+    description: "Perched above the Konkordiaplatz, where the Great Aletsch Glacier forms. 714 metal steps up from the glacier.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/konkordia-huette-sac-2110/detail/"
+  },
+  {
+    name: "Cabane de Moiry CAS",
+    lat: 46.0772, lon: 7.5856,
+    elev: 2825,
+    beds: 100,
+    type: "wardened",
+    season: "Jun–Sep",
+    region: "valais",
+    regionLabel: "Valais",
+    description: "Above the Moiry Glacier in Val d'Anniviers. Starting point for Grand Cornier and Pointe de Mourti.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-moiry-cas-2111/detail/"
+  },
+  {
+    name: "Tierberglihütte SAC",
+    lat: 46.7342, lon: 8.4175,
+    elev: 2795,
+    beds: 60,
+    type: "wardened",
+    season: "Jun–Oct",
+    region: "central",
+    regionLabel: "Central",
+    description: "Above the Stein Glacier near Sustenpass. Access via the glacier or the route from Steingletscher.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tierberglihuette-sac-2126/detail/"
+  },
+  {
+    name: "Albert-Heim-Hütte SAC",
+    lat: 46.6425, lon: 8.5564,
+    elev: 2543,
+    beds: 54,
+    type: "wardened",
+    season: "Jun–Oct",
+    region: "central",
+    regionLabel: "Central",
+    description: "Above the Furka Pass in Uri. Named after geologist Albert Heim. Base for Galenstock and Winterstock.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/albert-heim-huette-sac-2100/detail/"
+  },
+  {
+    name: "Trifthütte SAC",
+    lat: 46.7172, lon: 8.3478,
+    elev: 2520,
+    beds: 80,
+    type: "wardened",
+    season: "Jun–Oct",
+    region: "bernese",
+    regionLabel: "Bernese Oberland",
+    description: "Reached via the spectacular Trift suspension bridge. Views over the Trift Glacier basin.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/trifthuette-sac-2127/detail/"
+  },
+  {
+    name: "Dossenhütte SAC",
+    lat: 46.6550, lon: 8.1694,
+    elev: 2663,
+    beds: 60,
+    type: "wardened",
+    season: "Jun–Oct",
+    region: "bernese",
+    regionLabel: "Bernese Oberland",
+    description: "South of Meiringen with views of the Rosenlaui Glacier. Base for the Dossen and Rosenlauistock.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/dossenhuette-sac-2106/detail/"
+  },
+  {
+    name: "Cabane du Mountet CAS",
+    lat: 46.0601, lon: 7.6535,
+    elev: 2886,
+    beds: 115,
+    type: "wardened",
+    season: "Jun–Sep",
+    region: "valais",
+    regionLabel: "Valais",
+    description: "At the head of Val de Zinal beneath Dent Blanche and Obergabelhorn. A classic Haute Route stop.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-du-mountet-cas-2115/detail/"
+  },
+  {
+    name: "Chamanna Coaz CAS",
+    lat: 46.4311, lon: 9.8167,
+    elev: 2610,
+    beds: 70,
+    type: "wardened",
+    season: "Jun–Oct",
+    region: "graubuenden",
+    regionLabel: "Graubünden",
+    description: "Above the Roseg Valley near Pontresina. Overlooks the Roseg and Tschierva glaciers. Base for Piz Bernina approaches.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/chamanna-coaz-cas-2103/detail/"
+  },
+  {
+    name: "Hollandiahütte SAC",
+    lat: 46.4753, lon: 7.9603,
+    elev: 3240,
+    beds: 60,
+    type: "wardened",
+    season: "Mar–May",
+    region: "valais",
+    regionLabel: "Valais",
+    description: "High on the Lötschental side of the Bernese Alps. Starting point for Bietschhorn and Breithorn ski tours.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hollandia-huette-sac-2108/detail/"
+  },
+  {
+    name: "Grünhornhütte SAC",
+    lat: 46.9308, lon: 8.9892,
+    elev: 2448,
+    beds: 26,
+    type: "self-service",
+    season: "Year-round (unstaffed)",
+    region: "glarus",
+    regionLabel: "Glarus",
+    description: "Small self-service hut in the Glarus Alps above the Linth valley. Quiet and rarely crowded.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gruenhornhuette-sac-2107/detail/"
+  },
+  {
+    name: "Spannorthütte SAC",
+    lat: 46.7853, lon: 8.5317,
+    elev: 2061,
+    beds: 40,
+    type: "wardened",
+    season: "Jun–Oct",
+    region: "central",
+    regionLabel: "Central",
+    description: "Below the Spannort peaks near Engelberg. Access from Erstfeld or Engelberg side. Alpine climbing base.",
+    url: "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/spannorthuette-sac-2124/detail/"
+  }
+];
+
+// --- Filtering ---
+var activeFilter = 'all';
+var filterBar = document.getElementById('filter-bar');
+
+filterBar.addEventListener('click', function(e) {
+  var btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+
+  var filter = btn.getAttribute('data-filter');
+  if (filter === activeFilter) return;
+
+  // Update active button
+  filterBar.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  activeFilter = filter;
+
+  applyFilter();
+});
+
+function applyFilter() {
+  var visibleCount = 0;
+  var visibleBounds = [];
+
+  HUTS.forEach(function(hut, i) {
+    var card = document.getElementById('card-' + i);
+    var show = false;
+
+    if (activeFilter === 'all') {
+      show = true;
+    } else if (activeFilter === 'wardened') {
+      show = hut.type === 'wardened';
+    } else if (activeFilter === 'self-service') {
+      show = hut.type === 'self-service';
+    } else if (activeFilter.indexOf('region-') === 0) {
+      show = hut.region === activeFilter.replace('region-', '');
+    }
+
+    if (show) {
+      card.classList.remove('hidden');
+      visibleCount++;
+      visibleBounds.push([hut.lat, hut.lon]);
+      if (markerObjects[i]) markerObjects[i].setOpacity(1);
+    } else {
+      card.classList.add('hidden');
+      if (markerObjects[i]) markerObjects[i].setOpacity(0.2);
+    }
+  });
+
+  document.getElementById('visible-count').textContent = visibleCount;
+  document.getElementById('hut-count').textContent = visibleCount;
+
+  // Fit map to visible markers
+  if (visibleBounds.length > 0) {
+    map.fitBounds(L.latLngBounds(visibleBounds), { padding: [30, 30], maxZoom: 10 });
+  }
+}
+
+// --- Build cards ---
+document.getElementById('hut-count').textContent = HUTS.length;
+
+var grid = document.getElementById('hut-grid');
+HUTS.forEach(function(hut, i) {
+  var card = document.createElement('div');
+  card.className = 'hut-card';
+  card.id = 'card-' + i;
+
+  var typeClass = hut.type === 'wardened' ? 'wardened' : 'self-service';
+  var typeLabel = hut.type === 'wardened' ? 'Wardened' : 'Self-service';
+
+  card.innerHTML =
+    '<div class="hut-card-header">' +
+      '<span class="hut-region-badge">' + hut.regionLabel + '</span>' +
+      '<div class="hut-name">' + hut.name + '</div>' +
+      '<div class="hut-elev">' + hut.elev.toLocaleString() + ' m</div>' +
+    '</div>' +
+    '<div class="hut-card-body">' +
+      '<span class="hut-type-badge ' + typeClass + '">' + typeLabel + '</span>' +
+      '<div class="hut-stats">' +
+        '<div class="hut-stat">' +
+          '<span class="hut-stat-label">Beds</span>' +
+          '<span class="hut-stat-value">' + hut.beds + '</span>' +
+        '</div>' +
+        '<div class="hut-stat">' +
+          '<span class="hut-stat-label">Season</span>' +
+          '<span class="hut-stat-value">' + hut.season + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.45;">' + hut.description + '</div>' +
+      '<div class="hut-actions">' +
+        '<a class="btn-sac" href="' + hut.url + '" target="_blank" rel="noopener">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
+          'SAC Page' +
+        '</a>' +
+        '<button class="btn-map" title="Show on map" onclick="flyTo(' + i + ')">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+
+  grid.appendChild(card);
+});
+
+// --- Map ---
+var map = L.map('hut-map', {
+  zoomControl: true,
+  attributionControl: true
+}).setView([46.8, 8.2], 8);
+
+L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg', {
+  maxZoom: 18,
+  attribution: '&copy; <a href="https://www.swisstopo.admin.ch/">swisstopo</a>'
+}).addTo(map);
+
+// Custom hut marker icon
+var hutIcon = L.divIcon({
+  className: '',
+  html: '<div style="width:30px;height:30px;background:var(--amber);border:2px solid #1a1810;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.4);">' +
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1810" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M3 20h18"/><path d="M5 20V8l7-5 7 5v12"/><path d="M10 8h4"/>' +
+    '</svg></div>',
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  popupAnchor: [0, -17]
+});
+
+var selfServiceIcon = L.divIcon({
+  className: '',
+  html: '<div style="width:30px;height:30px;background:var(--flap-bg);border:2px solid var(--amber-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.4);">' +
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M3 20h18"/><path d="M5 20V8l7-5 7 5v12"/><path d="M10 8h4"/>' +
+    '</svg></div>',
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  popupAnchor: [0, -17]
+});
+
+// Add markers
+var markerObjects = [];
+HUTS.forEach(function(hut, i) {
+  var icon = hut.type === 'wardened' ? hutIcon : selfServiceIcon;
+  var marker = L.marker([hut.lat, hut.lon], { icon: icon }).addTo(map);
+  marker.bindPopup(
+    '<div class="popup-name">' + hut.name + '</div>' +
+    '<div class="popup-elev">' + hut.elev.toLocaleString() + ' m</div>' +
+    '<div class="popup-detail">' + hut.beds + ' beds &middot; ' + hut.season + '</div>' +
+    '<a class="popup-link" href="' + hut.url + '" target="_blank" rel="noopener">SAC Page &rarr;</a>'
+  );
+  markerObjects.push(marker);
+});
+
+// Fit to all markers
+var bounds = L.latLngBounds(HUTS.map(function(h) { return [h.lat, h.lon]; }));
+map.fitBounds(bounds, { padding: [30, 30] });
+
+// Fly-to from card button
+function flyTo(idx) {
+  var hut = HUTS[idx];
+  map.flyTo([hut.lat, hut.lon], 12, { duration: 1.2 });
+  setTimeout(function() { markerObjects[idx].openPopup(); }, 1300);
+  document.getElementById('hut-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+</body>
+</html>

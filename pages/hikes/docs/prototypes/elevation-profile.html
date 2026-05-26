@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="proto-title" content="Elevation Profile">
+<meta name="proto-icon" content="&#x1F4C8;">
+<meta name="proto-desc" content="Draw a route on the map and fetch the elevation profile from SwissTopo">
+<meta name="proto-source" content="geo.admin.ch REST">
+<meta name="proto-order" content="90">
+<title>SwissTopo Elevation Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --board-bg: #1a1810;
+    --board-surface: #242118;
+    --flap-bg: #2c2820;
+    --flap-border: #3a3428;
+    --amber: #e8a832;
+    --amber-dim: #b8862a;
+    --amber-glow: #e8a83240;
+    --text-primary: #f0e8d8;
+    --text-secondary: #a89878;
+    --text-muted: #786848;
+    --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--board-bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Layout */
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* Title bar */
+  .title-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--board-surface);
+    border-bottom: 2px solid var(--flap-border);
+    flex-shrink: 0;
+    z-index: 1000;
+  }
+
+  .title-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--amber);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px var(--amber-glow);
+  }
+
+  .title-text h1 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+  }
+
+  .title-text p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  /* Main content area */
+  .main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    position: relative;
+  }
+
+  /* Map */
+  #map {
+    flex: 1;
+    min-height: 200px;
+  }
+
+  /* Controls overlay on map */
+  .map-controls {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    z-index: 800;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .ctrl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(36, 33, 24, 0.92);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  .ctrl-btn:hover {
+    border-color: var(--amber-dim);
+    background: rgba(44, 40, 32, 0.95);
+  }
+
+  .ctrl-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .ctrl-btn.amber {
+    background: var(--amber);
+    color: var(--board-bg);
+    border-color: var(--amber);
+  }
+
+  .ctrl-btn.amber:hover {
+    background: #f0b840;
+  }
+
+  .ctrl-btn.danger {
+    color: #e86050;
+  }
+
+  .ctrl-btn.danger:hover {
+    border-color: #e86050;
+  }
+
+  .ctrl-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Preset routes */
+  .presets {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 800;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .preset-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba(36, 33, 24, 0.92);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: border-color 0.2s, color 0.2s;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .preset-btn:hover {
+    border-color: var(--amber-dim);
+    color: var(--text-primary);
+  }
+
+  .preset-btn .preset-icon {
+    color: var(--amber);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Status message */
+  .status-bar {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 800;
+    padding: 8px 16px;
+    background: rgba(26, 24, 16, 0.92);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .status-bar.hidden { opacity: 0; }
+
+  /* Profile panel */
+  .profile-panel {
+    flex-shrink: 0;
+    background: var(--board-surface);
+    border-top: 2px solid var(--flap-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+
+  .profile-panel.collapsed {
+    height: 0 !important;
+    border-top: none;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--flap-border);
+    flex-shrink: 0;
+  }
+
+  .profile-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .profile-stats {
+    display: flex;
+    gap: 20px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .stat-value.ascent { color: #6cc86c; }
+  .stat-value.descent { color: #e86050; }
+
+  .profile-chart {
+    flex: 1;
+    min-height: 0;
+    padding: 8px 20px 12px 20px;
+    position: relative;
+    cursor: crosshair;
+  }
+
+  .profile-chart svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Hover tooltip on chart */
+  .chart-tooltip {
+    position: absolute;
+    background: rgba(26, 24, 16, 0.95);
+    border: 1px solid var(--flap-border);
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-primary);
+    pointer-events: none;
+    z-index: 900;
+    white-space: nowrap;
+    display: none;
+  }
+
+  .chart-tooltip .tt-elev {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .chart-tooltip .tt-dist {
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+
+  /* Loading spinner */
+  .loading-indicator {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 800;
+    padding: 8px 16px;
+    background: rgba(26, 24, 16, 0.92);
+    border: 1px solid var(--amber-dim);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--amber);
+    backdrop-filter: blur(4px);
+    display: none;
+  }
+
+  .loading-indicator.visible { display: flex; align-items: center; gap: 8px; }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--flap-border);
+    border-top-color: var(--amber);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Leaflet overrides */
+  .leaflet-tile-pane {
+    filter: brightness(0.85) contrast(1.05) saturate(0.9);
+  }
+
+  .leaflet-control-zoom a {
+    background: var(--board-surface) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--flap-border) !important;
+  }
+  .leaflet-control-zoom a:hover {
+    background: var(--flap-bg) !important;
+    color: var(--amber) !important;
+  }
+
+  .leaflet-control-attribution { display: none !important; }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--board-surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--flap-border) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+  }
+  .leaflet-popup-tip {
+    background: var(--board-surface) !important;
+    border: 1px solid var(--flap-border) !important;
+    border-top: none !important;
+    border-left: none !important;
+  }
+
+  /* Attribution */
+  .attribution-panel {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(26, 24, 16, 0.92);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-secondary);
+    z-index: 800;
+    max-width: 400px;
+    line-height: 1.6;
+    backdrop-filter: blur(4px);
+  }
+  .attribution-panel a { color: var(--amber); text-decoration: none; }
+  .attribution-panel a:hover { text-decoration: underline; }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-align: center;
+    height: 100%;
+    gap: 8px;
+  }
+
+  .empty-state .empty-icon {
+    font-size: 28px;
+    margin-bottom: 4px;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    .presets { display: none; }
+    .profile-stats { gap: 12px; flex-wrap: wrap; }
+    .stat-label { font-size: 9px; }
+    .stat-value { font-size: 11px; }
+    .map-controls { left: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="title-bar">
+    <div class="title-icon">📐</div>
+    <div class="title-text">
+      <h1>SwissTopo Elevation Profile</h1>
+      <p>Draw a route on the map, get the elevation profile from geo.admin.ch</p>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="map"></div>
+
+    <div class="map-controls">
+      <button class="ctrl-btn" id="btn-undo" disabled onclick="undoLastPoint()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+        Undo
+      </button>
+      <button class="ctrl-btn danger" id="btn-clear" disabled onclick="clearRoute()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Clear
+      </button>
+    </div>
+
+    <div class="presets">
+      <button class="preset-btn" onclick="loadPreset('schynige')">
+        <span class="preset-icon">&#9650;</span>
+        Schynige Platte &rarr; First
+      </button>
+      <button class="preset-btn" onclick="loadPreset('rigi')">
+        <span class="preset-icon">&#9650;</span>
+        Rigi Kulm &rarr; Rigi Scheidegg
+      </button>
+      <button class="preset-btn" onclick="loadPreset('muottas')">
+        <span class="preset-icon">&#9650;</span>
+        Muottas Muragl &rarr; Alp Languard
+      </button>
+    </div>
+
+    <div class="status-bar" id="status">Click on the map to add waypoints</div>
+    <div class="loading-indicator" id="loading"><div class="spinner"></div>Fetching elevation data...</div>
+
+    <div class="attribution-panel">
+      Tiles &amp; elevation data: <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+      &middot; <a href="https://api3.geo.admin.ch" target="_blank">geo.admin.ch REST API</a>
+    </div>
+  </div>
+
+  <div class="profile-panel collapsed" id="profile-panel" style="height: 260px;">
+    <div class="profile-header">
+      <h2>Elevation Profile</h2>
+      <div class="profile-stats" id="profile-stats"></div>
+    </div>
+    <div class="profile-chart" id="profile-chart">
+      <div class="empty-state" id="chart-empty">
+        <div class="empty-icon">&#x2F2F;</div>
+        <div>Add at least 2 points to see the elevation profile</div>
+      </div>
+      <svg id="chart-svg" style="display:none;" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="chart-tooltip" id="chart-tooltip">
+      <span class="tt-elev"></span>
+      <span class="tt-dist"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // ── State ──
+  let waypoints = [];       // [{lat, lng, marker}]
+  let polyline = null;
+  let profileData = null;   // array from API
+  let hoverMarker = null;
+  let fetchController = null;
+
+  // ── Map setup ──
+  const map = L.map('map', {
+    center: [46.8, 8.2],
+    zoom: 8,
+    zoomControl: true
+  });
+
+  L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg', {
+    maxZoom: 18,
+    attribution: '&copy; swisstopo'
+  }).addTo(map);
+
+  // ── Marker icon ──
+  function makeIcon(index, total) {
+    const isFirst = index === 0;
+    const isLast = index === total - 1 && total > 1;
+    let color = '#a89878';
+    if (isFirst) color = '#6cc86c';
+    else if (isLast) color = '#e86050';
+
+    return L.divIcon({
+      className: '',
+      html: `<div style="
+        width: 14px; height: 14px;
+        background: ${color};
+        border: 2px solid ${color === '#a89878' ? '#786848' : color};
+        border-radius: 50%;
+        box-shadow: 0 0 6px ${color}80;
+      "></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7]
+    });
+  }
+
+  function updateMarkerIcons() {
+    waypoints.forEach((wp, i) => {
+      wp.marker.setIcon(makeIcon(i, waypoints.length));
+    });
+  }
+
+  // ── Map click handler ──
+  map.on('click', function(e) {
+    addWaypoint(e.latlng.lat, e.latlng.lng);
+  });
+
+  function addWaypoint(lat, lng) {
+    const marker = L.marker([lat, lng], {
+      icon: makeIcon(waypoints.length, waypoints.length + 1),
+      draggable: true
+    }).addTo(map);
+
+    marker.on('drag', function() {
+      const pos = marker.getLatLng();
+      const idx = waypoints.findIndex(w => w.marker === marker);
+      if (idx >= 0) {
+        waypoints[idx].lat = pos.lat;
+        waypoints[idx].lng = pos.lng;
+        updatePolyline();
+        debouncedFetchProfile();
+      }
+    });
+
+    waypoints.push({ lat, lng, marker });
+    updateMarkerIcons();
+    updatePolyline();
+    updateButtons();
+    updateStatus();
+    debouncedFetchProfile();
+  }
+
+  function updatePolyline() {
+    if (polyline) map.removeLayer(polyline);
+    if (waypoints.length >= 2) {
+      polyline = L.polyline(
+        waypoints.map(w => [w.lat, w.lng]),
+        { color: '#e8a832', weight: 3, opacity: 0.8, dashArray: '8 4' }
+      ).addTo(map);
+    }
+  }
+
+  function updateButtons() {
+    document.getElementById('btn-undo').disabled = waypoints.length === 0;
+    document.getElementById('btn-clear').disabled = waypoints.length === 0;
+  }
+
+  function updateStatus() {
+    const el = document.getElementById('status');
+    if (waypoints.length === 0) {
+      el.textContent = 'Click on the map to add waypoints';
+      el.classList.remove('hidden');
+    } else if (waypoints.length === 1) {
+      el.textContent = 'Add at least one more point to see elevation profile';
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  }
+
+  // ── Undo / Clear ──
+  window.undoLastPoint = function() {
+    if (waypoints.length === 0) return;
+    const wp = waypoints.pop();
+    map.removeLayer(wp.marker);
+    updateMarkerIcons();
+    updatePolyline();
+    updateButtons();
+    updateStatus();
+    if (waypoints.length >= 2) {
+      debouncedFetchProfile();
+    } else {
+      hideProfile();
+    }
+  };
+
+  window.clearRoute = function() {
+    waypoints.forEach(wp => map.removeLayer(wp.marker));
+    waypoints = [];
+    if (polyline) { map.removeLayer(polyline); polyline = null; }
+    updateButtons();
+    updateStatus();
+    hideProfile();
+    if (hoverMarker) { map.removeLayer(hoverMarker); hoverMarker = null; }
+  };
+
+  // ── Preset routes ──
+  const PRESETS = {
+    schynige: [
+      [46.6545, 7.9083],
+      [46.6572, 7.9251],
+      [46.6608, 7.9483],
+      [46.6570, 7.9700],
+      [46.6540, 7.9870],
+      [46.6548, 8.0032],
+      [46.6555, 8.0230],
+      [46.6572, 8.0458],
+      [46.6592, 8.0612],
+      [46.6592, 8.0772]
+    ],
+    rigi: [
+      [47.0566, 8.4853],
+      [47.0530, 8.4930],
+      [47.0480, 8.5040],
+      [47.0445, 8.5160],
+      [47.0410, 8.5280],
+      [47.0370, 8.5398],
+      [47.0340, 8.5510],
+      [47.0320, 8.5630]
+    ],
+    muottas: [
+      [46.4952, 9.9435],
+      [46.4920, 9.9520],
+      [46.4900, 9.9650],
+      [46.4880, 9.9780],
+      [46.4870, 9.9900],
+      [46.4905, 10.0020],
+      [46.4935, 10.0130],
+      [46.4960, 10.0230]
+    ]
+  };
+
+  window.loadPreset = function(name) {
+    clearRoute();
+    const coords = PRESETS[name];
+    coords.forEach(c => addWaypoint(c[0], c[1]));
+    const bounds = L.latLngBounds(coords.map(c => L.latLng(c[0], c[1])));
+    map.fitBounds(bounds, { padding: [60, 60] });
+  };
+
+  // ── Fetch elevation profile ──
+  let fetchTimer = null;
+  function debouncedFetchProfile() {
+    if (fetchTimer) clearTimeout(fetchTimer);
+    if (waypoints.length < 2) return;
+    fetchTimer = setTimeout(fetchProfile, 400);
+  }
+
+  async function fetchProfile() {
+    if (waypoints.length < 2) return;
+
+    // Cancel previous request
+    if (fetchController) fetchController.abort();
+    fetchController = new AbortController();
+
+    const loadingEl = document.getElementById('loading');
+    loadingEl.classList.add('visible');
+
+    const coords = waypoints.map(w => [w.lng, w.lat]);
+    const geom = JSON.stringify({ type: 'LineString', coordinates: coords });
+    const url = `https://api3.geo.admin.ch/rest/services/profile.json?geom=${encodeURIComponent(geom)}&sr=4326&nb_points=200`;
+
+    try {
+      const resp = await fetch(url, { signal: fetchController.signal });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      profileData = await resp.json();
+      renderProfile();
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        console.error('Profile fetch failed:', err);
+        loadingEl.classList.remove('visible');
+      }
+    }
+  }
+
+  // ── Profile rendering ──
+  function hideProfile() {
+    profileData = null;
+    const panel = document.getElementById('profile-panel');
+    panel.classList.add('collapsed');
+    document.getElementById('chart-svg').style.display = 'none';
+    document.getElementById('chart-empty').style.display = 'flex';
+    document.getElementById('profile-stats').innerHTML = '';
+    document.getElementById('loading').classList.remove('visible');
+  }
+
+  function renderProfile() {
+    if (!profileData || profileData.length === 0) { hideProfile(); return; }
+
+    document.getElementById('loading').classList.remove('visible');
+    const panel = document.getElementById('profile-panel');
+    panel.classList.remove('collapsed');
+    document.getElementById('chart-empty').style.display = 'none';
+    const svg = document.getElementById('chart-svg');
+    svg.style.display = 'block';
+
+    // Compute stats
+    const dists = profileData.map(p => p.dist);
+    const alts = profileData.map(p => p.alts.COMB);
+    const totalDist = dists[dists.length - 1];
+    let totalAscent = 0, totalDescent = 0;
+    for (let i = 1; i < alts.length; i++) {
+      const diff = alts[i] - alts[i - 1];
+      if (diff > 0) totalAscent += diff;
+      else totalDescent += Math.abs(diff);
+    }
+    const minElev = Math.min(...alts);
+    const maxElev = Math.max(...alts);
+
+    // Render stats
+    document.getElementById('profile-stats').innerHTML = `
+      <div class="stat"><span class="stat-label">Dist</span><span class="stat-value">${(totalDist / 1000).toFixed(1)} km</span></div>
+      <div class="stat"><span class="stat-label">Ascent</span><span class="stat-value ascent">+${Math.round(totalAscent)} m</span></div>
+      <div class="stat"><span class="stat-label">Descent</span><span class="stat-value descent">-${Math.round(totalDescent)} m</span></div>
+      <div class="stat"><span class="stat-label">Min</span><span class="stat-value">${Math.round(minElev)} m</span></div>
+      <div class="stat"><span class="stat-label">Max</span><span class="stat-value">${Math.round(maxElev)} m</span></div>
+    `;
+
+    // Draw SVG chart
+    drawChart(svg, dists, alts, totalDist, minElev, maxElev);
+  }
+
+  function drawChart(svg, dists, alts, totalDist, minElev, maxElev) {
+    const container = document.getElementById('profile-chart');
+    const rect = container.getBoundingClientRect();
+    const W = rect.width - 40; // padding
+    const H = rect.height - 20;
+
+    // Chart margins
+    const ml = 55, mr = 15, mt = 10, mb = 28;
+    const cw = W - ml - mr;
+    const ch = H - mt - mb;
+
+    // Round elevation range for nicer gridlines
+    const elevPad = (maxElev - minElev) * 0.08 || 50;
+    const eMin = Math.floor((minElev - elevPad) / 50) * 50;
+    const eMax = Math.ceil((maxElev + elevPad) / 50) * 50;
+    const eRange = eMax - eMin || 100;
+
+    function xPos(d) { return ml + (d / totalDist) * cw; }
+    function yPos(e) { return mt + ch - ((e - eMin) / eRange) * ch; }
+
+    // Build SVG content
+    let svgContent = '';
+
+    // Background
+    svgContent += `<rect x="0" y="0" width="${W}" height="${H}" fill="var(--board-surface)" rx="4"/>`;
+
+    // Define gradient for fill
+    svgContent += `
+      <defs>
+        <linearGradient id="profile-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8a832" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#e8a832" stop-opacity="0.02"/>
+        </linearGradient>
+        <clipPath id="chart-clip">
+          <rect x="${ml}" y="${mt}" width="${cw}" height="${ch}"/>
+        </clipPath>
+      </defs>
+    `;
+
+    // Elevation gridlines
+    const elevStep = niceStep(eRange, 5);
+    for (let e = Math.ceil(eMin / elevStep) * elevStep; e <= eMax; e += elevStep) {
+      const y = yPos(e);
+      if (y < mt || y > mt + ch) continue;
+      svgContent += `<line x1="${ml}" y1="${y}" x2="${ml + cw}" y2="${y}" stroke="var(--flap-border)" stroke-width="1"/>`;
+      svgContent += `<text x="${ml - 8}" y="${y + 3.5}" text-anchor="end" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">${Math.round(e)}</text>`;
+    }
+
+    // Distance gridlines
+    const distStep = niceStep(totalDist / 1000, 5);
+    for (let d = 0; d <= totalDist / 1000; d += distStep) {
+      const x = xPos(d * 1000);
+      if (x < ml || x > ml + cw) continue;
+      svgContent += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${mt + ch}" stroke="var(--flap-border)" stroke-width="1"/>`;
+      svgContent += `<text x="${x}" y="${mt + ch + 16}" text-anchor="middle" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">${d.toFixed(d >= 10 ? 0 : 1)} km</text>`;
+    }
+
+    // Axis lines
+    svgContent += `<line x1="${ml}" y1="${mt}" x2="${ml}" y2="${mt + ch}" stroke="var(--flap-border)" stroke-width="1.5"/>`;
+    svgContent += `<line x1="${ml}" y1="${mt + ch}" x2="${ml + cw}" y2="${mt + ch}" stroke="var(--flap-border)" stroke-width="1.5"/>`;
+
+    // Build profile path
+    let pathD = '';
+    let fillD = '';
+    for (let i = 0; i < dists.length; i++) {
+      const x = xPos(dists[i]);
+      const y = yPos(alts[i]);
+      if (i === 0) {
+        pathD += `M${x},${y}`;
+        fillD += `M${x},${mt + ch} L${x},${y}`;
+      } else {
+        pathD += ` L${x},${y}`;
+        fillD += ` L${x},${y}`;
+      }
+    }
+    fillD += ` L${xPos(dists[dists.length - 1])},${mt + ch} Z`;
+
+    // Fill area
+    svgContent += `<path d="${fillD}" fill="url(#profile-grad)" clip-path="url(#chart-clip)"/>`;
+    // Profile line
+    svgContent += `<path d="${pathD}" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linejoin="round" clip-path="url(#chart-clip)"/>`;
+
+    // Crosshair elements (hidden by default)
+    svgContent += `<line id="xhair-v" x1="0" y1="${mt}" x2="0" y2="${mt + ch}" stroke="var(--amber-dim)" stroke-width="1" stroke-dasharray="4 3" opacity="0"/>`;
+    svgContent += `<line id="xhair-h" x1="${ml}" y1="0" x2="${ml + cw}" y2="0" stroke="var(--amber-dim)" stroke-width="1" stroke-dasharray="4 3" opacity="0"/>`;
+    svgContent += `<circle id="xhair-dot" cx="0" cy="0" r="4" fill="var(--amber)" stroke="var(--board-bg)" stroke-width="2" opacity="0"/>`;
+
+    // Interaction overlay (transparent rect)
+    svgContent += `<rect id="chart-overlay" x="${ml}" y="${mt}" width="${cw}" height="${ch}" fill="transparent" cursor="crosshair"/>`;
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.innerHTML = svgContent;
+
+    // Store chart params for hover
+    svg._chartParams = { ml, mr, mt, mb, cw, ch, eMin, eMax, eRange, totalDist, dists, alts, xPos, yPos };
+
+    // Hover handler
+    const overlay = document.getElementById('chart-overlay');
+    overlay.addEventListener('mousemove', onChartHover);
+    overlay.addEventListener('mouseleave', onChartLeave);
+  }
+
+  function niceStep(range, maxTicks) {
+    const rough = range / maxTicks;
+    const mag = Math.pow(10, Math.floor(Math.log10(rough)));
+    const residual = rough / mag;
+    let nice;
+    if (residual <= 1.5) nice = 1;
+    else if (residual <= 3) nice = 2;
+    else if (residual <= 7) nice = 5;
+    else nice = 10;
+    return nice * mag;
+  }
+
+  function onChartHover(e) {
+    const svg = document.getElementById('chart-svg');
+    const p = svg._chartParams;
+    if (!p) return;
+
+    const svgRect = svg.getBoundingClientRect();
+    const mouseX = e.clientX - svgRect.left;
+    const svgW = svgRect.width;
+
+    // Convert pixel position to SVG coordinate
+    const viewBoxW = parseFloat(svg.getAttribute('viewBox').split(' ')[2]);
+    const svgX = (mouseX / svgW) * viewBoxW;
+
+    // Find distance along track
+    const frac = Math.max(0, Math.min(1, (svgX - p.ml) / p.cw));
+    const dist = frac * p.totalDist;
+
+    // Find closest data point
+    let idx = 0;
+    for (let i = 1; i < p.dists.length; i++) {
+      if (Math.abs(p.dists[i] - dist) < Math.abs(p.dists[idx] - dist)) idx = i;
+    }
+
+    const cx = p.xPos(p.dists[idx]);
+    const cy = p.yPos(p.alts[idx]);
+
+    // Update crosshairs
+    const vLine = document.getElementById('xhair-v');
+    const hLine = document.getElementById('xhair-h');
+    const dot = document.getElementById('xhair-dot');
+    vLine.setAttribute('x1', cx); vLine.setAttribute('x2', cx); vLine.setAttribute('opacity', '1');
+    hLine.setAttribute('y1', cy); hLine.setAttribute('y2', cy); hLine.setAttribute('opacity', '1');
+    dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('opacity', '1');
+
+    // Update tooltip
+    const tooltip = document.getElementById('chart-tooltip');
+    tooltip.style.display = 'block';
+    tooltip.querySelector('.tt-elev').textContent = `${Math.round(p.alts[idx])} m`;
+    tooltip.querySelector('.tt-dist').textContent = `${(p.dists[idx] / 1000).toFixed(2)} km`;
+
+    // Position tooltip
+    const chartRect = document.getElementById('profile-chart').getBoundingClientRect();
+    let tx = e.clientX - chartRect.left + 14;
+    let ty = e.clientY - chartRect.top - 30;
+    if (tx + 140 > chartRect.width) tx = e.clientX - chartRect.left - 150;
+    if (ty < 0) ty = 10;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = ty + 'px';
+
+    // Show hover marker on map
+    const dataPoint = profileData[idx];
+    if (dataPoint && dataPoint.easting !== undefined && dataPoint.northing !== undefined) {
+      // The API returns LV03 coordinates; convert to lat/lng
+      const latlng = lv03ToWgs84(dataPoint.easting, dataPoint.northing);
+      if (hoverMarker) {
+        hoverMarker.setLatLng(latlng);
+      } else {
+        hoverMarker = L.circleMarker(latlng, {
+          radius: 7,
+          color: '#e8a832',
+          fillColor: '#e8a832',
+          fillOpacity: 0.9,
+          weight: 2
+        }).addTo(map);
+      }
+    }
+  }
+
+  function onChartLeave() {
+    document.getElementById('xhair-v').setAttribute('opacity', '0');
+    document.getElementById('xhair-h').setAttribute('opacity', '0');
+    document.getElementById('xhair-dot').setAttribute('opacity', '0');
+    document.getElementById('chart-tooltip').style.display = 'none';
+    if (hoverMarker) { map.removeLayer(hoverMarker); hoverMarker = null; }
+  }
+
+  // ── LV03 to WGS84 conversion (approximate) ──
+  function lv03ToWgs84(y, x) {
+    // Swiss LV03 to WGS84 (approximate formula from swisstopo)
+    const y1 = (y - 600000) / 1000000;
+    const x1 = (x - 200000) / 1000000;
+
+    let lat = 16.9023892
+      + 3.238272 * x1
+      - 0.270978 * y1 * y1
+      - 0.002528 * x1 * x1
+      - 0.0447 * y1 * y1 * x1
+      - 0.0140 * x1 * x1 * x1;
+
+    let lng = 2.6779094
+      + 4.728982 * y1
+      + 0.791484 * y1 * x1
+      + 0.1306 * y1 * x1 * x1
+      - 0.0436 * y1 * y1 * y1;
+
+    lat = lat * 100 / 36;
+    lng = lng * 100 / 36;
+
+    return [lat, lng];
+  }
+
+  // ── Resize handling ──
+  window.addEventListener('resize', function() {
+    if (profileData && profileData.length > 0) {
+      // Small delay to let layout settle
+      setTimeout(() => renderProfile(), 100);
+    }
+  });
+})();
+</script>
+</body>
+</html>

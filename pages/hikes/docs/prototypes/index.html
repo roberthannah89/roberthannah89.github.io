@@ -83,21 +83,28 @@
     letter-spacing: 0.3px;
   }
 
+  .title-count {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
   /* Card grid */
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     padding: 24px;
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  @media (max-width: 960px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 580px) {
+  @media (max-width: 700px) {
     .grid { grid-template-columns: 1fr; padding: 16px; }
   }
 
@@ -106,10 +113,9 @@
     background: var(--flap-bg);
     border: 1px solid var(--flap-border);
     border-radius: 8px;
-    padding: 20px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
     text-decoration: none;
     color: inherit;
@@ -120,6 +126,36 @@
     border-color: var(--amber-dim);
     box-shadow: 0 4px 24px rgba(232, 168, 50, 0.1);
     transform: translateY(-2px);
+  }
+
+  .card-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--board-surface);
+    border-bottom: 1px solid var(--flap-border);
+  }
+
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    filter: brightness(0.92) contrast(1.02);
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover .card-thumb img {
+    transform: scale(1.03);
+  }
+
+  .card-body {
+    padding: 16px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
   }
 
   .card-header {
@@ -193,72 +229,220 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
+  <span class="title-count">15 demos</span>
 </div>
 
 <!-- Card grid -->
 <div class="grid">
 
   <a class="card" href="geo-layers.html">
-    <div class="card-header">
-      <span class="card-icon">&#x1F5FA;&#xFE0F;</span>
-      <span class="card-title">Swiss Geo Layers</span>
+    <div class="card-thumb">
+      <img src="screenshots/geo-layers.png" alt="Swiss Geo Layers" loading="lazy">
     </div>
-    <div class="card-desc">Toggle Swiss geodata overlays: hiking trails, nature reserves, cable cars, avalanche zones</div>
-    <span class="card-source">geo.admin.ch WMS</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🗺️</span>
+        <span class="card-title">Swiss Geo Layers</span>
+      </div>
+      <div class="card-desc">Toggle Swiss geodata overlays: hiking trails, nature reserves, cable cars, avalanche zones</div>
+      <span class="card-source">geo.admin.ch WMS</span>
+    </div>
   </a>
 
-  <a class="card" href="weather-layers.html">
-    <div class="card-header">
-      <span class="card-icon">&#x1F326;&#xFE0F;</span>
-      <span class="card-title">Weather Layers</span>
+  <a class="card" href="meteoswiss.html">
+    <div class="card-thumb">
+      <img src="screenshots/meteoswiss.png" alt="MeteoSwiss" loading="lazy">
     </div>
-    <div class="card-desc">MeteoSwiss station data + RainViewer radar on a Leaflet map</div>
-    <span class="card-source">MeteoSwiss WMS + RainViewer</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🇨🇭</span>
+        <span class="card-title">MeteoSwiss</span>
+      </div>
+      <div class="card-desc">Live Swiss weather stations, climate normals, and RainViewer radar overlays</div>
+      <span class="card-source">MeteoSwiss + RainViewer</span>
+    </div>
+  </a>
+
+  <a class="card" href="open-meteo.html">
+    <div class="card-thumb">
+      <img src="screenshots/open-meteo.png" alt="Open-Meteo" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🌍</span>
+        <span class="card-title">Open-Meteo</span>
+      </div>
+      <div class="card-desc">Multi-model weather forecasts with elevation correction — no API key needed</div>
+      <span class="card-source">Open-Meteo</span>
+    </div>
+  </a>
+
+  <a class="card" href="yr-no.html">
+    <div class="card-thumb">
+      <img src="screenshots/yr-no.png" alt="Yr.no (MET Norway)" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🇳🇴</span>
+        <span class="card-title">Yr.no (MET Norway)</span>
+      </div>
+      <div class="card-desc">MetCoOp HARMONIE forecast from Norwegian Met — strong alpine model, free, no key</div>
+      <span class="card-source">api.met.no</span>
+    </div>
+  </a>
+
+  <a class="card" href="7timer.html">
+    <div class="card-thumb">
+      <img src="screenshots/7timer.png" alt="7Timer! Astronomy" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🌙</span>
+        <span class="card-title">7Timer! Astronomy</span>
+      </div>
+      <div class="card-desc">Cloud cover, seeing, and transparency forecasts for sunrise hikes and stargazing</div>
+      <span class="card-source">7Timer! (NOAA/CMA)</span>
+    </div>
+  </a>
+
+  <a class="card" href="bright-sky.html">
+    <div class="card-thumb">
+      <img src="screenshots/bright-sky.png" alt="Bright Sky (DWD)" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🇩🇪</span>
+        <span class="card-title">Bright Sky (DWD)</span>
+      </div>
+      <div class="card-desc">German Weather Service forecasts via Bright Sky — great for northern Alpine cross-border hikes</div>
+      <span class="card-source">brightsky.dev (DWD)</span>
+    </div>
   </a>
 
   <a class="card" href="overpass-pois.html">
-    <div class="card-header">
-      <span class="card-icon">&#x1F4CD;</span>
-      <span class="card-title">OSM Points of Interest</span>
+    <div class="card-thumb">
+      <img src="screenshots/overpass-pois.png" alt="OSM Points of Interest" loading="lazy">
     </div>
-    <div class="card-desc">Query OpenStreetMap for hiker POIs: water, huts, shelters, viewpoints, parking</div>
-    <span class="card-source">Overpass API</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">📍</span>
+        <span class="card-title">OSM Points of Interest</span>
+      </div>
+      <div class="card-desc">Query OpenStreetMap for hiker POIs: water, huts, shelters, viewpoints, parking</div>
+      <span class="card-source">Overpass API</span>
+    </div>
   </a>
 
   <a class="card" href="transport.html">
-    <div class="card-header">
-      <span class="card-icon">&#x1F682;</span>
-      <span class="card-title">Swiss Transit</span>
+    <div class="card-thumb">
+      <img src="screenshots/transport.png" alt="Swiss Transit" loading="lazy">
     </div>
-    <div class="card-desc">Live SBB/public transport connections and station search</div>
-    <span class="card-source">transport.opendata.ch</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🚂</span>
+        <span class="card-title">Swiss Transit</span>
+      </div>
+      <div class="card-desc">Live SBB/public transport connections and station search</div>
+      <span class="card-source">transport.opendata.ch</span>
+    </div>
   </a>
 
   <a class="card" href="webcams.html">
-    <div class="card-header">
-      <span class="card-icon">&#x1F4F8;</span>
-      <span class="card-title">Mountain Webcams</span>
+    <div class="card-thumb">
+      <img src="screenshots/webcams.png" alt="Mountain Webcams" loading="lazy">
     </div>
-    <div class="card-desc">Live camera feeds from Roundshot and Windy for checking conditions</div>
-    <span class="card-source">Roundshot / Windy</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">📸</span>
+        <span class="card-title">Mountain Webcams</span>
+      </div>
+      <div class="card-desc">Live camera feeds from Windy.com for checking Swiss alpine conditions</div>
+      <span class="card-source">Windy Webcams API</span>
+    </div>
   </a>
 
   <a class="card" href="slf-avalanche.html">
-    <div class="card-header">
-      <span class="card-icon">&#x2744;&#xFE0F;</span>
-      <span class="card-title">Avalanche Safety</span>
+    <div class="card-thumb">
+      <img src="screenshots/slf-avalanche.png" alt="Avalanche Safety" loading="lazy">
     </div>
-    <div class="card-desc">SLF avalanche bulletin data, danger scale, and WhiteRisk links</div>
-    <span class="card-source">SLF / WSL</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">❄️</span>
+        <span class="card-title">Avalanche Safety</span>
+      </div>
+      <div class="card-desc">SLF avalanche bulletin data, danger scale, and WhiteRisk links</div>
+      <span class="card-source">SLF / WSL</span>
+    </div>
   </a>
 
   <a class="card" href="google-directions.html">
-    <div class="card-header">
-      <span class="card-icon">&#x1F9ED;</span>
-      <span class="card-title">Google Directions</span>
+    <div class="card-thumb">
+      <img src="screenshots/google-directions.png" alt="Google Directions" loading="lazy">
     </div>
-    <div class="card-desc">Transit/driving directions to trailheads via Google Maps embed</div>
-    <span class="card-source">Google Maps</span>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🧭</span>
+        <span class="card-title">Google Directions</span>
+      </div>
+      <div class="card-desc">Transit/driving directions to trailheads via Google Maps embed</div>
+      <span class="card-source">Google Maps</span>
+    </div>
+  </a>
+
+  <a class="card" href="sac-huts.html">
+    <div class="card-thumb">
+      <img src="screenshots/sac-huts.png" alt="SAC Alpine Huts" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🏔️</span>
+        <span class="card-title">SAC Alpine Huts</span>
+      </div>
+      <div class="card-desc">Swiss Alpine Club huts with capacity, wardened season, and booking links</div>
+      <span class="card-source">SAC-CAS</span>
+    </div>
+  </a>
+
+  <a class="card" href="elevation-profile.html">
+    <div class="card-thumb">
+      <img src="screenshots/elevation-profile.png" alt="Elevation Profile" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">📈</span>
+        <span class="card-title">Elevation Profile</span>
+      </div>
+      <div class="card-desc">Draw a route on the map and fetch the elevation profile from SwissTopo</div>
+      <span class="card-source">geo.admin.ch REST</span>
+    </div>
+  </a>
+
+  <a class="card" href="trail-conditions.html">
+    <div class="card-thumb">
+      <img src="screenshots/trail-conditions.png" alt="Trail Conditions" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">⚠️</span>
+        <span class="card-title">Trail Conditions</span>
+      </div>
+      <div class="card-desc">Trail status and closures across Swiss cantons with seasonal context</div>
+      <span class="card-source">SchweizMobil / Cantons</span>
+    </div>
+  </a>
+
+  <a class="card" href="sun-daylight.html">
+    <div class="card-thumb">
+      <img src="screenshots/sun-daylight.png" alt="Sun &amp; Daylight" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">☀️</span>
+        <span class="card-title">Sun &amp; Daylight</span>
+      </div>
+      <div class="card-desc">Sunrise, sunset, golden hour, and sun arc for any Swiss location and date</div>
+      <span class="card-source">SunCalc (client-side)</span>
+    </div>
   </a>
 
 </div>

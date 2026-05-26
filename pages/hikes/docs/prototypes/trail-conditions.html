@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="proto-title" content="Trail Conditions">
+<meta name="proto-icon" content="&#x26A0;&#xFE0F;">
+<meta name="proto-desc" content="Trail status and closures across Swiss cantons with seasonal context">
+<meta name="proto-source" content="SchweizMobil / Cantons">
+<meta name="proto-order" content="100">
+<title>Swiss Trail Conditions &amp; Closures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --board-bg: #1a1810;
+    --board-surface: #242118;
+    --flap-bg: #2c2820;
+    --flap-border: #3a3428;
+    --amber: #e8a832;
+    --amber-dim: #b8862a;
+    --amber-glow: #e8a83240;
+    --red: #e63228;
+    --green: #48b848;
+    --text-primary: #f0e8d8;
+    --text-secondary: #a89878;
+    --text-muted: #786848;
+    --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--board-bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .page-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--flap-border);
+  }
+
+  .header-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 16px var(--amber-glow);
+  }
+
+  .header-icon svg {
+    width: 28px;
+    height: 28px;
+    fill: #1a1810;
+  }
+
+  .header-text h1 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .header-text .subtitle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* --- Season banner --- */
+  .season-banner {
+    padding: 14px 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    border: 1px solid;
+    background: #e8a83212;
+    border-color: #e8a83240;
+    color: var(--amber);
+  }
+
+  .season-banner .banner-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .season-banner a {
+    color: inherit;
+    font-weight: 600;
+  }
+
+  /* --- Map panel --- */
+  .map-panel {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--flap-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-header h2 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .panel-header .badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    background: var(--flap-bg);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--flap-border);
+  }
+
+  #map {
+    height: 540px;
+    width: 100%;
+    background: var(--flap-bg);
+  }
+
+  .map-legend {
+    padding: 12px 20px;
+    border-top: 1px solid var(--flap-border);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .map-legend-swatch {
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .map-legend-swatch.dashed {
+    background: repeating-linear-gradient(
+      90deg,
+      currentColor 0px,
+      currentColor 6px,
+      transparent 6px,
+      transparent 10px
+    );
+    height: 4px;
+  }
+
+  /* --- Filter bar --- */
+  .filter-bar {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-bar label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+  }
+
+  .filter-bar select {
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .filter-bar select:focus {
+    border-color: var(--amber);
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .filter-summary {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .filter-summary span {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  /* --- Trail list --- */
+  .trail-list-panel {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .trail-list {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .trail-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .trail-list::-webkit-scrollbar-track {
+    background: var(--board-surface);
+  }
+  .trail-list::-webkit-scrollbar-thumb {
+    background: var(--flap-border);
+    border-radius: 3px;
+  }
+
+  .trail-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 140px 180px 120px;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--flap-border);
+    align-items: center;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .trail-row:hover {
+    background: var(--flap-bg);
+  }
+
+  .trail-row:last-child {
+    border-bottom: none;
+  }
+
+  .trail-row-header {
+    display: grid;
+    grid-template-columns: 120px 1fr 140px 180px 120px;
+    gap: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--flap-border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    background: var(--flap-bg);
+  }
+
+  .trail-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .trail-status-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-open { background: #48b84815; color: var(--green); }
+  .status-open .dot { background: var(--green); }
+  .status-partial { background: #e8a83215; color: var(--amber); }
+  .status-partial .dot { background: var(--amber); }
+  .status-closed { background: #e6322815; color: var(--red); }
+  .status-closed .dot { background: var(--red); }
+  .status-unknown { background: #88888815; color: #888; }
+  .status-unknown .dot { background: #888; }
+
+  .trail-name {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .trail-section {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .trail-reason {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .trail-canton {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .trail-date {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* --- Info section --- */
+  .info-section {
+    margin-top: 8px;
+  }
+
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .info-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .trail-row,
+    .trail-row-header {
+      grid-template-columns: 100px 1fr 120px;
+    }
+    .trail-row > :nth-child(4),
+    .trail-row > :nth-child(5),
+    .trail-row-header > :nth-child(4),
+    .trail-row-header > :nth-child(5) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 20px 12px;
+    }
+
+    .header-text h1 {
+      font-size: 22px;
+    }
+
+    #map {
+      height: 360px;
+    }
+
+    .filter-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-summary {
+      margin-left: 0;
+      text-align: center;
+    }
+
+    .trail-row,
+    .trail-row-header {
+      grid-template-columns: 80px 1fr;
+    }
+    .trail-row > :nth-child(3),
+    .trail-row-header > :nth-child(3) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .info-card {
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 10px;
+    padding: 20px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: border-color 0.2s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .info-card:hover {
+    border-color: var(--amber);
+    transform: translateY(-2px);
+  }
+
+  .info-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .info-card-icon.schweizmobil { background: #e8a83220; color: var(--amber); }
+  .info-card-icon.wanderland { background: #48b84820; color: var(--green); }
+  .info-card-icon.canton { background: #5898e820; color: #5898e8; }
+  .info-card-icon.sac { background: #e6322820; color: var(--red); }
+
+  .info-card-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .info-card-desc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .info-card-domain {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: auto;
+  }
+
+  /* --- Footer --- */
+  .page-footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--flap-border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* --- Leaflet overrides for dark theme --- */
+  .leaflet-tile-pane {
+    filter: brightness(0.85) contrast(1.05) saturate(0.9);
+  }
+
+  .leaflet-control-zoom a {
+    background: var(--board-surface) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--flap-border) !important;
+  }
+  .leaflet-control-zoom a:hover {
+    background: var(--flap-bg) !important;
+  }
+  .leaflet-control-layers {
+    background: var(--board-surface) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--flap-border) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 12px !important;
+  }
+  .leaflet-control-layers-separator {
+    border-color: var(--flap-border) !important;
+  }
+  .leaflet-control-attribution {
+    background: var(--board-surface) !important;
+    color: var(--text-muted) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+  }
+  .leaflet-control-attribution a {
+    color: var(--text-secondary) !important;
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--board-surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--flap-border) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--board-surface) !important;
+    border: 1px solid var(--flap-border) !important;
+    border-top: none !important;
+    border-left: none !important;
+  }
+
+  .leaflet-popup-content {
+    margin: 10px 14px !important;
+    font-family: var(--font-display) !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  .leaflet-popup-close-button {
+    color: var(--text-muted) !important;
+  }
+  .leaflet-popup-close-button:hover {
+    color: var(--text-primary) !important;
+  }
+
+  /* Popup content styles */
+  .popup-trail-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .popup-detail {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .popup-detail strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .popup-status {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+  }
+
+  .popup-status.open { background: #48b84825; color: var(--green); }
+  .popup-status.partial { background: #e8a83225; color: var(--amber); }
+  .popup-status.closed { background: #e6322825; color: var(--red); }
+  .popup-status.unknown { background: #88888825; color: #888; }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.5 14 1-4.5 2 2v6h2v-7.5l-2-2 .5-2.5c1.1 1.3 2.8 2 4.5 2v-2c-1.3 0-2.5-.7-3.2-1.8l-1-1.6c-.4-.6-1-1-1.8-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.3-1-.4 2 5.5 1.5z"/></svg>
+    </div>
+    <div class="header-text">
+      <h1>Trail Conditions &amp; Closures</h1>
+      <div class="subtitle">Swiss hiking trail status &mdash; sample data for late May 2026</div>
+    </div>
+  </div>
+
+  <!-- Season banner -->
+  <div class="season-banner">
+    <div class="banner-icon">&#9888;</div>
+    <div>Late May &mdash; high-altitude trails above 2000m may still have significant snow cover. Always check conditions with the local canton or
+      <a href="https://www.schweizmobil.ch/en/hiking-in-switzerland" target="_blank" rel="noopener">SchweizMobil</a>
+      before setting out.</div>
+  </div>
+
+  <!-- Map panel -->
+  <div class="map-panel">
+    <div class="panel-header">
+      <h2>Trail Status Map</h2>
+      <span class="badge">sample data</span>
+    </div>
+    <div id="map"></div>
+    <div class="map-legend">
+      <div class="map-legend-item">
+        <div class="map-legend-swatch" style="background: #48b848;"></div>
+        Open
+      </div>
+      <div class="map-legend-item">
+        <div class="map-legend-swatch dashed" style="color: #e8a832; background: none;"></div>
+        Partially open
+      </div>
+      <div class="map-legend-item">
+        <div class="map-legend-swatch" style="background: #e63228;"></div>
+        Closed
+      </div>
+      <div class="map-legend-item">
+        <div class="map-legend-swatch" style="background: #888;"></div>
+        Unknown
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label>Status</label>
+      <select id="filter-status">
+        <option value="all">All statuses</option>
+        <option value="open">Open</option>
+        <option value="partial">Partially open</option>
+        <option value="closed">Closed</option>
+        <option value="unknown">Unknown</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Canton</label>
+      <select id="filter-canton">
+        <option value="all">All cantons</option>
+        <option value="BE">Bern</option>
+        <option value="GR">Graubuenden</option>
+        <option value="VS">Valais</option>
+        <option value="UR">Uri</option>
+        <option value="SZ">Schwyz</option>
+        <option value="GL">Glarus</option>
+        <option value="OW">Obwalden</option>
+        <option value="NW">Nidwalden</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Reason</label>
+      <select id="filter-reason">
+        <option value="all">All reasons</option>
+        <option value="Snow">Snow</option>
+        <option value="Landslide">Landslide</option>
+        <option value="Bridge">Bridge repair</option>
+        <option value="Storm">Storm damage</option>
+        <option value="Rockfall">Rockfall</option>
+        <option value="Flooding">Flooding</option>
+      </select>
+    </div>
+    <div class="filter-summary">
+      Showing <span id="filter-count">0</span> of <span id="total-count">0</span> trails
+    </div>
+  </div>
+
+  <!-- Trail list -->
+  <div class="trail-list-panel">
+    <div class="panel-header">
+      <h2>Trail Conditions List</h2>
+    </div>
+    <div class="trail-row-header">
+      <div>Status</div>
+      <div>Trail</div>
+      <div>Reason</div>
+      <div>Canton</div>
+      <div>Updated</div>
+    </div>
+    <div class="trail-list" id="trail-list"></div>
+  </div>
+
+  <!-- Info section -->
+  <div class="info-section">
+    <div class="section-title">Official Trail Condition Sources</div>
+    <div class="info-grid">
+
+      <a href="https://www.schweizmobil.ch/en/hiking-in-switzerland" target="_blank" rel="noopener" class="info-card">
+        <div class="info-card-icon schweizmobil">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </div>
+        <div class="info-card-title">SchweizMobil</div>
+        <div class="info-card-desc">Official national platform for hiking routes with live closure information and re-routing suggestions.</div>
+        <div class="info-card-domain">schweizmobil.ch</div>
+      </a>
+
+      <a href="https://www.wanderland.ch/" target="_blank" rel="noopener" class="info-card">
+        <div class="info-card-icon wanderland">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.5 14 1-4.5 2 2v6h2v-7.5l-2-2 .5-2.5c1.1 1.3 2.8 2 4.5 2v-2c-1.3 0-2.5-.7-3.2-1.8l-1-1.6c-.4-.6-1-1-1.8-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.3-1-.4 2 5.5 1.5z"/></svg>
+        </div>
+        <div class="info-card-title">Wanderland.ch</div>
+        <div class="info-card-desc">Switzerland's hiking network with trail conditions, signposting updates, and national route information.</div>
+        <div class="info-card-domain">wanderland.ch</div>
+      </a>
+
+      <a href="https://www.be.ch/wanderwege" target="_blank" rel="noopener" class="info-card">
+        <div class="info-card-icon canton">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
+        <div class="info-card-title">Canton Trail Offices</div>
+        <div class="info-card-desc">Each canton maintains its own trail network. Contact local Wanderweg-Vereine for up-to-date closures and detours.</div>
+        <div class="info-card-domain">e.g. be.ch/wanderwege</div>
+      </a>
+
+      <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener" class="info-card">
+        <div class="info-card-icon sac">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22L14 6z"/></svg>
+        </div>
+        <div class="info-card-title">SAC Route Portal</div>
+        <div class="info-card-desc">Alpine Club route conditions, user reports, and hut warden updates for mountain trails and alpine routes.</div>
+        <div class="info-card-domain">sac-cas.ch</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    Prototype &mdash; Sample data only. Trail conditions shown are fictional and for demonstration purposes.<br>
+    Always verify current conditions with official sources before hiking.
+  </div>
+
+</div>
+
+<script>
+// --- Trail condition data (hardcoded sample data for late May) ---
+var TRAILS = [
+  {
+    id: 1,
+    name: "Grosse Scheidegg Trail",
+    section: "Grindelwald to Grosse Scheidegg",
+    status: "open",
+    reason: null,
+    reasonCategory: null,
+    canton: "BE",
+    cantonName: "Bern",
+    updated: "2026-05-23",
+    reopening: null,
+    coords: [[46.6244, 8.0413], [46.6552, 8.0965], [46.6621, 8.1127]]
+  },
+  {
+    id: 2,
+    name: "Hohturnen Ridge",
+    section: "Hohturnen summit approach (2700m+)",
+    status: "closed",
+    reason: "Snow above 2200m, cornices present",
+    reasonCategory: "Snow",
+    canton: "BE",
+    cantonName: "Bern",
+    updated: "2026-05-20",
+    reopening: "Mid-June 2026",
+    coords: [[46.5916, 7.9128], [46.5978, 7.9241], [46.6012, 7.9389]]
+  },
+  {
+    id: 3,
+    name: "Via Alpina Stage 1",
+    section: "Meiringen to Engstlenalp",
+    status: "partial",
+    reason: "Snow patches above 1800m, trail partly obscured",
+    reasonCategory: "Snow",
+    canton: "BE",
+    cantonName: "Bern",
+    updated: "2026-05-22",
+    reopening: null,
+    coords: [[46.7270, 8.1880], [46.7560, 8.2590], [46.7720, 8.3540]]
+  },
+  {
+    id: 4,
+    name: "Fuorcla Surlej",
+    section: "Silvaplana to Fuorcla Surlej (2755m)",
+    status: "closed",
+    reason: "Snow above 2200m, avalanche risk on north face",
+    reasonCategory: "Snow",
+    canton: "GR",
+    cantonName: "Graubuenden",
+    updated: "2026-05-21",
+    reopening: "Late June 2026",
+    coords: [[46.4980, 9.8121], [46.4829, 9.8008], [46.4712, 9.7898]]
+  },
+  {
+    id: 5,
+    name: "Wasserflue Path",
+    section: "Kuettigen to Wasserflue",
+    status: "open",
+    reason: null,
+    reasonCategory: null,
+    canton: "BE",
+    cantonName: "Bern",
+    updated: "2026-05-24",
+    reopening: null,
+    coords: [[47.4048, 8.0560], [47.4095, 8.0621], [47.4122, 8.0698]]
+  },
+  {
+    id: 6,
+    name: "Taminaschlucht",
+    section: "Bad Ragaz gorge trail",
+    status: "closed",
+    reason: "Rockfall, trail blocked near gorge entrance",
+    reasonCategory: "Rockfall",
+    canton: "GR",
+    cantonName: "Graubuenden",
+    updated: "2026-05-18",
+    reopening: "June 2026 (assessment pending)",
+    coords: [[46.9848, 9.5035], [46.9772, 9.4989], [46.9698, 9.4923]]
+  },
+  {
+    id: 7,
+    name: "Europaweg",
+    section: "Randa to Graechen (high route)",
+    status: "partial",
+    reason: "Storm damage to two suspension bridges, detour via valley",
+    reasonCategory: "Storm",
+    canton: "VS",
+    cantonName: "Valais",
+    updated: "2026-05-19",
+    reopening: null,
+    coords: [[46.0996, 7.7855], [46.1182, 7.7822], [46.1355, 7.8048], [46.1531, 7.8312]]
+  },
+  {
+    id: 8,
+    name: "Hoehbalmen Trail",
+    section: "Zermatt to Hoehbalmen (2670m)",
+    status: "closed",
+    reason: "Snow above 2200m, steep exposed sections unsafe",
+    reasonCategory: "Snow",
+    canton: "VS",
+    cantonName: "Valais",
+    updated: "2026-05-22",
+    reopening: "Mid-June 2026",
+    coords: [[46.0267, 7.7502], [46.0352, 7.7318], [46.0478, 7.7189]]
+  },
+  {
+    id: 9,
+    name: "Vier-Quellen-Weg",
+    section: "Oberalppass to Maighelshuette",
+    status: "closed",
+    reason: "Snow cover above 2000m, trail not visible",
+    reasonCategory: "Snow",
+    canton: "UR",
+    cantonName: "Uri",
+    updated: "2026-05-21",
+    reopening: "Late June 2026",
+    coords: [[46.6600, 8.6712], [46.6478, 8.6456], [46.6392, 8.6198]]
+  },
+  {
+    id: 10,
+    name: "Weg der Schweiz",
+    section: "Ruetli to Brunnen (lakeside)",
+    status: "open",
+    reason: null,
+    reasonCategory: null,
+    canton: "UR",
+    cantonName: "Uri",
+    updated: "2026-05-24",
+    reopening: null,
+    coords: [[46.9578, 8.5892], [46.9615, 8.6055], [46.9682, 8.6182], [46.9758, 8.6312]]
+  },
+  {
+    id: 11,
+    name: "Stoos Ridge Trail",
+    section: "Klingenstock to Fronalpstock",
+    status: "partial",
+    reason: "Snow patches on north-facing slopes, crampons recommended",
+    reasonCategory: "Snow",
+    canton: "SZ",
+    cantonName: "Schwyz",
+    updated: "2026-05-23",
+    reopening: null,
+    coords: [[46.9812, 8.6598], [46.9768, 8.6472], [46.9702, 8.6355]]
+  },
+  {
+    id: 12,
+    name: "Rigi Panoramaweg",
+    section: "Rigi Kulm to Rigi Scheidegg",
+    status: "open",
+    reason: null,
+    reasonCategory: null,
+    canton: "SZ",
+    cantonName: "Schwyz",
+    updated: "2026-05-24",
+    reopening: null,
+    coords: [[47.0568, 8.4855], [47.0502, 8.4998], [47.0425, 8.5125], [47.0378, 8.5272]]
+  },
+  {
+    id: 13,
+    name: "Kloentalersee Uferweg",
+    section: "Netstal to Kloentalersee (east shore)",
+    status: "closed",
+    reason: "Landslide blocking trail at km 2.3, debris clearance in progress",
+    reasonCategory: "Landslide",
+    canton: "GL",
+    cantonName: "Glarus",
+    updated: "2026-05-17",
+    reopening: "Early June 2026",
+    coords: [[47.0312, 8.9598], [47.0255, 8.9788], [47.0198, 8.9912]]
+  },
+  {
+    id: 14,
+    name: "Glaernisch Approach",
+    section: "Rhodannenberg to Glaernischhuette",
+    status: "closed",
+    reason: "Snow above 1900m, fixed ropes buried",
+    reasonCategory: "Snow",
+    canton: "GL",
+    cantonName: "Glarus",
+    updated: "2026-05-20",
+    reopening: "Mid-June 2026",
+    coords: [[46.9988, 8.9978], [46.9892, 9.0112], [46.9812, 9.0255]]
+  },
+  {
+    id: 15,
+    name: "Pilatus Tomlishorn",
+    section: "Pilatus Kulm to Tomlishorn summit",
+    status: "open",
+    reason: null,
+    reasonCategory: null,
+    canton: "OW",
+    cantonName: "Obwalden",
+    updated: "2026-05-24",
+    reopening: null,
+    coords: [[46.9788, 8.2533], [46.9762, 8.2478], [46.9738, 8.2401]]
+  },
+  {
+    id: 16,
+    name: "Arnisee Rundweg",
+    section: "Arnisee loop trail, bridge section",
+    status: "partial",
+    reason: "Bridge repair at south end, temporary detour signed",
+    reasonCategory: "Bridge",
+    canton: "UR",
+    cantonName: "Uri",
+    updated: "2026-05-22",
+    reopening: null,
+    coords: [[46.7788, 8.6572], [46.7732, 8.6512], [46.7685, 8.6598], [46.7748, 8.6655]]
+  },
+  {
+    id: 17,
+    name: "Stanserhorn Kammweg",
+    section: "Stanserhorn to Wirzweli",
+    status: "unknown",
+    reason: "No recent inspection data available",
+    reasonCategory: null,
+    canton: "NW",
+    cantonName: "Nidwalden",
+    updated: "2026-04-15",
+    reopening: null,
+    coords: [[46.9362, 8.3412], [46.9278, 8.3298], [46.9198, 8.3188]]
+  },
+  {
+    id: 18,
+    name: "Beverin Waldweg",
+    section: "Thusis to Viamala gorge approach",
+    status: "partial",
+    reason: "Flooding damage, temporary boardwalks installed",
+    reasonCategory: "Flooding",
+    canton: "GR",
+    cantonName: "Graubuenden",
+    updated: "2026-05-21",
+    reopening: null,
+    coords: [[46.6978, 9.4412], [46.6898, 9.4328], [46.6812, 9.4252]]
+  },
+  {
+    id: 19,
+    name: "Bietschhorn Approach",
+    section: "Blatten to Bietschhornhuette (2565m)",
+    status: "closed",
+    reason: "Snow above 2100m, steep couloir crossing unsafe",
+    reasonCategory: "Snow",
+    canton: "VS",
+    cantonName: "Valais",
+    updated: "2026-05-19",
+    reopening: "Late June 2026",
+    coords: [[46.4052, 7.8312], [46.4122, 7.8455], [46.4198, 7.8578]]
+  },
+  {
+    id: 20,
+    name: "Brienzer Rothorn",
+    section: "Brienz to Rothorn summit",
+    status: "open",
+    reason: null,
+    reasonCategory: null,
+    canton: "BE",
+    cantonName: "Bern",
+    updated: "2026-05-24",
+    reopening: null,
+    coords: [[46.7470, 8.0512], [46.7588, 8.0398], [46.7702, 8.0288]]
+  }
+];
+
+// --- Status colors ---
+var STATUS_COLORS = {
+  open:    '#48b848',
+  partial: '#e8a832',
+  closed:  '#e63228',
+  unknown: '#888888'
+};
+
+var STATUS_LABELS = {
+  open:    'Open',
+  partial: 'Partially open',
+  closed:  'Closed',
+  unknown: 'Unknown'
+};
+
+// --- Leaflet map ---
+var map = L.map('map', {
+  center: [46.82, 8.25],
+  zoom: 8,
+  zoomControl: true
+});
+
+var swisstopo = L.tileLayer(
+  'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',
+  {
+    attribution: '&copy; <a href="https://www.swisstopo.admin.ch">swisstopo</a>',
+    maxZoom: 18
+  }
+);
+swisstopo.addTo(map);
+
+// Store polyline layers keyed by trail id
+var trailLayers = {};
+var allTrailGroup = L.layerGroup().addTo(map);
+
+function buildPopupContent(trail) {
+  var html = '<div class="popup-status ' + trail.status + '">' + STATUS_LABELS[trail.status].toUpperCase() + '</div>';
+  html += '<div class="popup-trail-name">' + trail.name + '</div>';
+  html += '<div class="popup-detail">';
+  html += '<strong>Section:</strong> ' + trail.section + '<br>';
+  if (trail.reason) {
+    html += '<strong>Reason:</strong> ' + trail.reason + '<br>';
+  }
+  html += '<strong>Canton:</strong> ' + trail.cantonName + '<br>';
+  html += '<strong>Updated:</strong> ' + trail.updated;
+  if (trail.reopening) {
+    html += '<br><strong>Expected reopening:</strong> ' + trail.reopening;
+  }
+  html += '</div>';
+  return html;
+}
+
+// Draw all trails on the map
+TRAILS.forEach(function(trail) {
+  var color = STATUS_COLORS[trail.status];
+  var dashArray = trail.status === 'partial' ? '8, 6' : null;
+  var weight = 4;
+  var opacity = trail.status === 'unknown' ? 0.5 : 0.85;
+
+  var polyline = L.polyline(trail.coords, {
+    color: color,
+    weight: weight,
+    opacity: opacity,
+    dashArray: dashArray,
+    lineCap: 'round',
+    lineJoin: 'round'
+  });
+
+  polyline.bindPopup(buildPopupContent(trail), { maxWidth: 280 });
+
+  // Highlight on hover
+  polyline.on('mouseover', function() {
+    this.setStyle({ weight: 7, opacity: 1 });
+  });
+  polyline.on('mouseout', function() {
+    this.setStyle({ weight: weight, opacity: opacity });
+  });
+
+  polyline.trailId = trail.id;
+  trailLayers[trail.id] = polyline;
+  allTrailGroup.addLayer(polyline);
+});
+
+// --- Trail list rendering ---
+var listEl = document.getElementById('trail-list');
+var filterStatus = document.getElementById('filter-status');
+var filterCanton = document.getElementById('filter-canton');
+var filterReason = document.getElementById('filter-reason');
+var filterCountEl = document.getElementById('filter-count');
+var totalCountEl = document.getElementById('total-count');
+
+totalCountEl.textContent = TRAILS.length;
+
+function renderList() {
+  var statusVal = filterStatus.value;
+  var cantonVal = filterCanton.value;
+  var reasonVal = filterReason.value;
+
+  var filtered = TRAILS.filter(function(t) {
+    if (statusVal !== 'all' && t.status !== statusVal) return false;
+    if (cantonVal !== 'all' && t.canton !== cantonVal) return false;
+    if (reasonVal !== 'all') {
+      if (!t.reasonCategory) return false;
+      if (t.reasonCategory !== reasonVal) return false;
+    }
+    return true;
+  });
+
+  filterCountEl.textContent = filtered.length;
+
+  // Update map visibility
+  TRAILS.forEach(function(t) {
+    var layer = trailLayers[t.id];
+    var visible = filtered.some(function(f) { return f.id === t.id; });
+    if (visible) {
+      if (!allTrailGroup.hasLayer(layer)) allTrailGroup.addLayer(layer);
+    } else {
+      if (allTrailGroup.hasLayer(layer)) allTrailGroup.removeLayer(layer);
+    }
+  });
+
+  // Build list HTML
+  var html = '';
+  filtered.forEach(function(trail) {
+    var statusClass = 'status-' + trail.status;
+    html += '<div class="trail-row" data-id="' + trail.id + '">';
+    html += '<div><span class="trail-status-badge ' + statusClass + '"><span class="dot"></span>' + STATUS_LABELS[trail.status] + '</span></div>';
+    html += '<div><div class="trail-name">' + trail.name + '</div><div class="trail-section">' + trail.section + '</div></div>';
+    html += '<div class="trail-reason">' + (trail.reason || '&mdash;') + '</div>';
+    html += '<div class="trail-canton">' + trail.cantonName + ' (' + trail.canton + ')</div>';
+    html += '<div class="trail-date">' + trail.updated + (trail.reopening ? '<br>Reopens: ' + trail.reopening : '') + '</div>';
+    html += '</div>';
+  });
+
+  if (filtered.length === 0) {
+    html = '<div style="padding: 40px 20px; text-align: center; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">No trails match the selected filters.</div>';
+  }
+
+  listEl.innerHTML = html;
+
+  // Click handler for list rows
+  var rows = listEl.querySelectorAll('.trail-row');
+  rows.forEach(function(row) {
+    row.addEventListener('click', function() {
+      var id = parseInt(this.getAttribute('data-id'));
+      var layer = trailLayers[id];
+      if (layer) {
+        map.fitBounds(layer.getBounds(), { padding: [60, 60], maxZoom: 13 });
+        layer.openPopup();
+      }
+    });
+  });
+}
+
+filterStatus.addEventListener('change', renderList);
+filterCanton.addEventListener('change', renderList);
+filterReason.addEventListener('change', renderList);
+
+// Initial render
+renderList();
+</script>
+
+</body>
+</html>
