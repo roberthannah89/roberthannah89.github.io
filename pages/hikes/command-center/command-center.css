@@ -675,6 +675,9 @@ html, body {
   line-height: 1;
 }
 
+/* Tooltip pane never intercepts clicks — markers must always receive them */
+.leaflet-tooltip-pane { pointer-events: none; }
+
 /* Hover tooltip — peak/hut name + optional metadata line */
 .leaflet-tooltip.hike-tooltip {
   background: rgba(26, 24, 16, 0.95);

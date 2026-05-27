@@ -102,6 +102,7 @@
       // permanent label slot — actual content is set after creation.
       marker.bindTooltip('', {
         permanent: true,
+        interactive: false,
         direction: 'right',
         offset: [22, 0],
         className: 'hike-tooltip'
@@ -286,7 +287,12 @@
     html += '<button class="popup-expand" onclick="SidePanel.open(window._lastPoi)">Expand details ▸</button>';
 
     window._lastPoi = poi;
-    marker.bindPopup(html, { maxWidth: 300 }).openPopup();
+    if (marker.getPopup()) {
+      marker.setPopupContent(html);
+    } else {
+      marker.bindPopup(html, { maxWidth: 300 });
+    }
+    marker.openPopup();
   }
 
   /* ── Filter bar ────────────────────────────────────── */
