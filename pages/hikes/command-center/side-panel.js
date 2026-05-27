@@ -5,6 +5,34 @@
   var panelEl = null;
   var currentPoi = null;
 
+  // SAC URL slugify — matches sac-cas.ch route portal URL conventions.
+  // German umlauts transliterate (ä→ae, ö→oe, ü→ue, ß→ss); other diacritics
+  // strip via NFD; non-alphanumerics collapse to single hyphens.
+  function slugify(s) {
+    if (!s) return '';
+    var out = String(s)
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue')
+      .replace(/ß/g, 'ss')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return out.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function sacPeakUrl(poi) {
+    if (!poi || !poi.name || poi.id == null) return null;
+    return 'https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/'
+      + slugify(poi.name) + '-' + poi.id + '/';
+  }
+
+  function sacRouteUrl(poi, route) {
+    if (!poi || !poi.name || poi.id == null || !route || !route.title || route.id == null) return null;
+    return 'https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/'
+      + slugify(poi.name) + '-' + poi.id + '/mountain-hiking/'
+      + slugify(route.title) + '-' + route.id + '/';
+  }
+
   function init(el) {
     panelEl = el;
   }
@@ -50,8 +78,13 @@
 
     if (poi.routes && poi.routes.length > 0) {
       poi.routes.forEach(function (r) {
+        var url = sacRouteUrl(poi, r);
         html += '<div class="panel-route-meta" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--flap-border)">';
-        html += '<strong>' + esc(r.title) + '</strong><br>';
+        if (url) {
+          html += '<a href="' + url + '" target="_blank" rel="noopener" style="color:var(--text-primary);text-decoration:none;border-bottom:1px dotted var(--amber)"><strong>' + esc(r.title) + '</strong> <span style="font-size:11px;color:var(--amber);opacity:0.7;margin-left:2px">↗</span></a><br>';
+        } else {
+          html += '<strong>' + esc(r.title) + '</strong><br>';
+        }
         html += '<span class="grade-badge ' + gradeClass(r.grade) + '" style="font-size:10px">' + (r.grade || '?') + '</span> ';
         if (r.gain) html += r.gain + ' m gain · ';
         html += '↑ ' + formatTime(r.time_up);
@@ -104,8 +137,11 @@
     html += '<div class="panel-section">';
     html += '<div class="panel-label">Links</div>';
     html += '<div class="panel-links">';
-    html += '<a class="panel-link" href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/' + poi.id + '/mountain_hiking" target="_blank" rel="noopener">';
-    html += '<span class="link-icon">🏔️</span> View on SAC Portal</a>';
+    var peakUrl = sacPeakUrl(poi);
+    if (peakUrl) {
+      html += '<a class="panel-link" href="' + peakUrl + '" target="_blank" rel="noopener">';
+      html += '<span class="link-icon">🏔️</span> View on SAC Portal</a>';
+    }
     html += '<a class="panel-link" href="https://www.windy.com/' + poi.lat.toFixed(3) + '/' + poi.lon.toFixed(3) + '?rain,' + poi.lat.toFixed(3) + ',' + poi.lon.toFixed(3) + ',12" target="_blank" rel="noopener">';
     html += '<span class="link-icon">🌊</span> Open in Windy</a>';
     html += '<a class="panel-link" href="https://www.google.com/maps/dir/?api=1&destination=' + poi.lat + ',' + poi.lon + '&travelmode=transit" target="_blank" rel="noopener">';
