@@ -30,7 +30,9 @@
 
   function setState(key, value) {
     state[key] = value;
-    apply();
+    // `display` is presentation-only (marker style + tooltip lines) — it
+    // doesn't change which POIs match, so skip the filter pass.
+    if (key !== 'display') apply();
     if (window.UrlSync) window.UrlSync.syncToUrl(state);
   }
 

@@ -757,6 +757,15 @@ body.zoom-labels .leaflet-tooltip.hike-tooltip {
 body.names-off .leaflet-tooltip.hike-tooltip {
   display: none !important;
 }
+/* Display filter "Name" pill — hides just the name line. If the tooltip
+   has no metadata line either, hide the whole box so it doesn't render
+   as an empty bordered box. */
+body.display-name-off .leaflet-tooltip.hike-tooltip .hike-tt__name {
+  display: none;
+}
+body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
+  display: none !important;
+}
 
 /* --- Mobile --- */
 @media (max-width: 768px) {

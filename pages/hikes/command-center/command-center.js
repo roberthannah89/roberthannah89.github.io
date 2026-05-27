@@ -193,15 +193,17 @@
   }
 
   // Rebuild every marker's tooltip content from the current Display filter.
-  // Tooltip = optional name line + optional metadata line. If neither is
-  // selected (or there's nothing to show), the tooltip is left empty.
+  // The name span is always rendered (visibility is controlled by the
+  // `body.display-name-off` class — toggling it is O(1) CSS instead of an
+  // N-marker rebuild). The metadata line still requires a rebuild when
+  // grade/gain/time/alt change, since its text content depends on which
+  // fields are selected.
   function refreshMarkerTooltips() {
     var display = Filters.getState().display || [];
-    var showName = display.indexOf('name') !== -1;
     allMarkers.forEach(function (m) {
       var poi = m._poi;
       var lines = [];
-      if (showName && poi.name) {
+      if (poi.name) {
         lines.push('<span class="hike-tt__name">' + esc(poi.name) + '</span>');
       }
       var meta = buildPoiMetaLine(poi, display);
@@ -358,6 +360,9 @@
     ];
 
     var current = (Filters.getState().display || []).slice();
+    // Initialise the CSS-driven name visibility from restored state. The
+    // name span lives in every tooltip; this class hides it instantly.
+    document.body.classList.toggle('display-name-off', current.indexOf('name') === -1);
 
     options.forEach(function (opt) {
       var active = current.indexOf(opt.key) !== -1;
@@ -368,13 +373,22 @@
       btn.innerHTML = opt.label;
       btn.addEventListener('click', function () {
         btn.classList.toggle('active');
+        var nowActive = btn.classList.contains('active');
         var selected = [];
         group.querySelectorAll('.filter-btn--display.active').forEach(function (b) {
           selected.push(b.getAttribute('data-display'));
         });
         Filters.setState('display', selected);
-        refreshMarkerIcons();
-        refreshMarkerTooltips();
+        if (opt.key === 'name') {
+          // Pure CSS toggle — no per-marker work.
+          document.body.classList.toggle('display-name-off', !nowActive);
+        } else if (opt.key === 'weather') {
+          // Only the marker icon depends on this; tooltips unaffected.
+          refreshMarkerIcons();
+        } else {
+          // grade / gain / time / alt — changes the meta line text.
+          refreshMarkerTooltips();
+        }
       });
       group.appendChild(btn);
     });
