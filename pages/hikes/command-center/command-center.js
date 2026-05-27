@@ -435,8 +435,8 @@
     return group;
   }
 
-  // Multi-select icon buttons for sky conditions. No "Any" button —
-  // empty selection means any. Clicking toggles each category.
+  // Threshold icon buttons for sky conditions: clicking a category means
+  // "this weather or better". null = any. Clicking the current threshold clears.
   function skyFilterGroup() {
     var group = document.createElement('div');
     group.className = 'filter-group filter-group--sky';
@@ -446,26 +446,31 @@
     lbl.textContent = 'Sky';
     group.appendChild(lbl);
 
-    var selectedSky = Filters.getState().sky || [];
+    var keys = WeatherService.SKY_CATEGORIES.map(function (c) { return c.key; });
+
+    function refresh() {
+      var sel = Filters.getState().sky;
+      var threshold = sel ? keys.indexOf(sel) : -1;
+      group.querySelectorAll('.filter-btn--sky').forEach(function (b, idx) {
+        b.classList.toggle('weather-active', threshold !== -1 && idx <= threshold);
+      });
+    }
+
     WeatherService.SKY_CATEGORIES.forEach(function (cat) {
       var btn = document.createElement('button');
-      // Multi-select: each category active iff present in restored state.sky.
-      var active = selectedSky.indexOf(cat.key) !== -1;
-      btn.className = 'filter-btn filter-btn--sky' + (active ? ' weather-active' : '');
-      btn.title = cat.label;
+      btn.className = 'filter-btn filter-btn--sky';
+      btn.title = cat.label + ' or better';
       btn.setAttribute('data-sky', cat.key);
       btn.innerHTML = '<span class="sky-icon">' + cat.icon + '</span>';
       btn.addEventListener('click', function () {
-        btn.classList.toggle('weather-active');
-        var selected = [];
-        group.querySelectorAll('.filter-btn--sky.weather-active').forEach(function (b) {
-          selected.push(b.getAttribute('data-sky'));
-        });
-        Filters.setState('sky', selected);
+        var current = Filters.getState().sky;
+        Filters.setState('sky', current === cat.key ? null : cat.key);
+        refresh();
       });
       group.appendChild(btn);
     });
 
+    refresh();
     return group;
   }
 

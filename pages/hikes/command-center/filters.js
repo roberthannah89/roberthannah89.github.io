@@ -10,7 +10,7 @@
     showHikes: true,   // include peaks/summits/traverses
     showHuts: true,    // include SAC huts
     weatherDay: 0,     // day index for weather filters
-    sky: [],           // [] = any; multi-select from SKY_CATEGORIES keys
+    sky: null,         // null = any; or one of 'clear'|'partly-cloudy'|'cloudy'|'rain'|'snow'|'storm' (threshold — "this weather or better")
     tempMin: null,     // null=any, or number (°C threshold)
     // Display state — which fields to render on each POI's marker/tooltip.
     // 'weather' controls the marker pill (vs simple dot). All others are
@@ -113,9 +113,16 @@
     var wx = WeatherService.getForPeak(poi.lat, poi.lon, state.weatherDay);
     if (!wx) return true; // no data = don't filter out
 
-    if (state.sky.length > 0) {
+    // Threshold semantics: SKY_CATEGORIES is ordered best→worst, so a POI matches
+    // iff its category index is ≤ the selected threshold's index.
+    if (state.sky) {
       var cat = WeatherService.skyCategory(wx.code);
-      if (state.sky.indexOf(cat) === -1) return false;
+      if (cat) {
+        var keys = WeatherService.SKY_CATEGORIES.map(function (c) { return c.key; });
+        var threshold = keys.indexOf(state.sky);
+        var poiIdx = keys.indexOf(cat);
+        if (threshold !== -1 && poiIdx !== -1 && poiIdx > threshold) return false;
+      }
     }
 
     if (state.tempMin !== null && wx.tempMax < state.tempMin) return false;
