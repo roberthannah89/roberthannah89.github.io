@@ -757,8 +757,32 @@ body.names-off .leaflet-tooltip.hike-tooltip {
 
 /* --- Mobile --- */
 @media (max-width: 768px) {
-  #filter-bar { max-width: calc(100% - 60px); }
   #side-panel { width: 100%; }
+
+  /* Top + bottom bars: single horizontal scrolling strip instead of wrapping.
+     Without this the filter groups stack vertically and eat the whole screen. */
+  #filter-bar,
+  #bottom-bar {
+    left: 0;
+    right: 0;
+    max-width: none;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  #filter-bar::-webkit-scrollbar,
+  #bottom-bar::-webkit-scrollbar { display: none; }
+
+  /* Keep each pill group intact while the parent scrolls. */
+  #filter-bar > *,
+  #bottom-bar > * {
+    flex-shrink: 0;
+  }
+
+  #bottom-bar { bottom: 12px; }
 }
 
 /* --- Webcam markers --- */

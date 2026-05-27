@@ -70,7 +70,12 @@
     // Route info
     html += '<div class="panel-section">';
     html += '<div class="panel-label">Route</div>';
-    html += '<div class="panel-route-name">' + esc(poi.name) + '</div>';
+    var peakUrl = sacPeakUrl(poi);
+    if (peakUrl) {
+      html += '<div class="panel-route-name"><a href="' + peakUrl + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--amber)">' + esc(poi.name) + ' <span style="font-size:12px;color:var(--amber);opacity:0.7">↗</span></a></div>';
+    } else {
+      html += '<div class="panel-route-name">' + esc(poi.name) + '</div>';
+    }
     html += '<div class="panel-route-meta">';
     html += '<span class="grade-badge ' + gradeClass(grade) + '">' + grade + '</span> ';
     html += (poi.alt || '—') + ' m';
@@ -137,11 +142,6 @@
     html += '<div class="panel-section">';
     html += '<div class="panel-label">Links</div>';
     html += '<div class="panel-links">';
-    var peakUrl = sacPeakUrl(poi);
-    if (peakUrl) {
-      html += '<a class="panel-link" href="' + peakUrl + '" target="_blank" rel="noopener">';
-      html += '<span class="link-icon">🏔️</span> View on SAC Portal</a>';
-    }
     html += '<a class="panel-link" href="https://www.windy.com/' + poi.lat.toFixed(3) + '/' + poi.lon.toFixed(3) + '?rain,' + poi.lat.toFixed(3) + ',' + poi.lon.toFixed(3) + ',12" target="_blank" rel="noopener">';
     html += '<span class="link-icon">🌊</span> Open in Windy</a>';
     html += '<a class="panel-link" href="https://www.google.com/maps/dir/?api=1&destination=' + poi.lat + ',' + poi.lon + '&travelmode=transit" target="_blank" rel="noopener">';
