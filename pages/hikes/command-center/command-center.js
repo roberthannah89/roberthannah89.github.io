@@ -100,6 +100,19 @@
       // Tooltip content is rebuilt by refreshMarkerTooltips() based on the
       // current Display filter. Bind a placeholder so Leaflet keeps the
       // permanent label slot — actual content is set after creation.
+      //
+      // ⚠️ FIRST-CLICK REGRESSION GUARD (do not change without reading):
+      // Three things together prevent "popup needs Enter to open on first click":
+      //   1. `interactive: false` here so the permanent tooltip never eats the
+      //      marker click (it sits to the right of the marker and would
+      //      otherwise absorb the pointer event).
+      //   2. `.leaflet-tooltip-pane { pointer-events: none; }` in
+      //      command-center.css — belt-and-braces on the entire tooltip pane.
+      //   3. `openPopup()` uses `getPopup() / setPopupContent()` instead of
+      //      always calling `bindPopup()` (see openPopup below) so re-clicks
+      //      reuse the existing popup instead of binding a new one mid-event.
+      // Original fix: commit c61debf. If you remove any of the three, the
+      // popup will require a second click (or Enter) to open.
       marker.bindTooltip('', {
         permanent: true,
         interactive: false,
@@ -109,7 +122,33 @@
       });
 
       marker.on('click', function () {
-        openPopup(poi, marker);
+        if (window.SidePanel && SidePanel.isOpen()) {
+          SidePanel.open(poi);
+        } else {
+          openPopup(poi, marker);
+        }
+      });
+
+      marker.on('popupopen', function (e) {
+        // Once a popup has been bound, Leaflet auto-toggles it on every marker
+        // click. When the side panel is already open we want clicks to act as
+        // pure panel updates with no popup at all — so suppress the popup the
+        // moment it opens. Keep this *and* the click-handler branch above:
+        // the click handler also routes directly to SidePanel.open so the
+        // panel updates immediately without waiting for the popup-then-close.
+        if (window.SidePanel && SidePanel.isOpen()) {
+          marker.closePopup();
+          return;
+        }
+        var el = e.popup.getElement();
+        if (!el) return;
+        var btn = el.querySelector('.popup-expand');
+        if (btn) {
+          btn.onclick = function () {
+            marker.closePopup();
+            SidePanel.open(poi);
+          };
+        }
       });
 
       allMarkers.push(marker);
@@ -286,9 +325,8 @@
       html += '</div>';
     }
 
-    html += '<button class="popup-expand" onclick="SidePanel.open(window._lastPoi)">Expand details ▸</button>';
+    html += '<button class="popup-expand" type="button">Expand details ▸</button>';
 
-    window._lastPoi = poi;
     if (marker.getPopup()) {
       marker.setPopupContent(html);
     } else {
@@ -299,20 +337,46 @@
 
   /* ── Filter bar ────────────────────────────────────── */
 
+  // Swiss trail-marker icon for SAC grade buttons.
+  //   T1-2  → solid yellow (Wanderweg)
+  //   T3    → white-red-white horizontal stripe (Bergwanderweg)
+  //   T4-T6 → white-blue-white horizontal stripe (Alpinwanderweg)
+  // The TX grade label is overlaid centered in the colored band.
+  function sacGradeIcon(label) {
+    var w = 38, h = 18;
+    var bg, band, textFill;
+    if (label === 'T1-2') {
+      bg = '#f2c800'; band = null; textFill = '#1a1810';
+    } else if (label === 'T3') {
+      bg = '#ffffff'; band = '#d72030'; textFill = '#ffffff';
+    } else {
+      bg = '#ffffff'; band = '#3388ff'; textFill = '#ffffff';
+    }
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '" class="grade-icon">';
+    svg += '<rect width="' + w + '" height="' + h + '" fill="' + bg + '" rx="2"/>';
+    if (band) {
+      svg += '<rect y="3" width="' + w + '" height="12" fill="' + band + '"/>';
+    }
+    svg += '<text x="' + (w/2) + '" y="' + (h/2 + 3.2) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700" fill="' + textFill + '">' + label + '</text>';
+    svg += '</svg>';
+    return svg;
+  }
+
   function buildFilterBar() {
     var bar = document.getElementById('filter-bar');
 
-    // Grade — multi-select. No "Any" button: empty selection means any.
-    bar.appendChild(filterGroup('Grade', [
-      { label: 'T1-2', key: 'grade', value: ['T1-2'] },
-      { label: 'T3', key: 'grade', value: ['T3'] },
-      { label: 'T4', key: 'grade', value: ['T4'] },
-      { label: 'T5', key: 'grade', value: ['T5'] },
-      { label: 'T6', key: 'grade', value: ['T6'] }
+    // Grade — multi-select. Icon-only (SAC trail markers); no label needed.
+    // No "Any" button: empty selection means any.
+    bar.appendChild(filterGroup('', [
+      { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'grade', value: ['T1-2'] },
+      { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'grade', value: ['T3'] },
+      { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'grade', value: ['T4'] },
+      { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'grade', value: ['T5'] },
+      { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'grade', value: ['T6'] }
     ], true));
 
-    // Duration — single-select; click an active button again to clear (means any).
-    bar.appendChild(filterGroup('Time', [
+    // Duration — single-select; "h" suffix carries the meaning, no label.
+    bar.appendChild(filterGroup('', [
       { label: '≤3h', key: 'duration', value: 'short' },
       { label: '3-5h', key: 'duration', value: 'medium' },
       { label: '5h+', key: 'duration', value: 'long' }
@@ -408,8 +472,8 @@
     // Sky condition — multi-select icon buttons
     bar.appendChild(skyFilterGroup());
 
-    // Temperature — single-select; click active button again to clear (means any).
-    bar.appendChild(filterGroup('Temp', [
+    // Temperature — single-select; "°" suffix carries the meaning, no label.
+    bar.appendChild(filterGroup('', [
       { label: '>0°', key: 'tempMin', value: 0 },
       { label: '>5°', key: 'tempMin', value: 5 },
       { label: '>10°', key: 'tempMin', value: 10 },
@@ -423,11 +487,7 @@
     var group = document.createElement('div');
     group.className = 'filter-group filter-group--day';
 
-    var lbl = document.createElement('span');
-    lbl.className = 'filter-label';
-    lbl.textContent = 'Day';
-    group.appendChild(lbl);
-
+    // No "Day" label — day buttons say "Today / Tomorrow / Sun 31 May".
     var currentDay = Filters.getState().weatherDay;
     days.forEach(function (d, idx) {
       // Mark active if this day's index matches the restored state.
@@ -455,11 +515,7 @@
     var group = document.createElement('div');
     group.className = 'filter-group filter-group--sky';
 
-    var lbl = document.createElement('span');
-    lbl.className = 'filter-label';
-    lbl.textContent = 'Sky';
-    group.appendChild(lbl);
-
+    // No "Sky" label — weather emoji buttons are self-explanatory.
     var keys = WeatherService.SKY_CATEGORIES.map(function (c) { return c.key; });
 
     function refresh() {
@@ -471,6 +527,9 @@
     }
 
     WeatherService.SKY_CATEGORIES.forEach(function (cat) {
+      // Hidden categories (snow, storm) remain in SKY_CATEGORIES so the
+      // threshold filter still excludes them, but aren't shown as buttons.
+      if (cat.hidden) return;
       var btn = document.createElement('button');
       btn.className = 'filter-btn filter-btn--sky';
       btn.title = cat.label + ' or better';
@@ -492,10 +551,14 @@
     var group = document.createElement('div');
     group.className = 'filter-group';
 
-    var lbl = document.createElement('span');
-    lbl.className = 'filter-label';
-    lbl.textContent = label;
-    group.appendChild(lbl);
+    // Label is optional — pass '' (or null/undefined) to render an icon-only
+    // group where the buttons are self-evident (e.g. Grade, Time, Sky, Temp).
+    if (label) {
+      var lbl = document.createElement('span');
+      lbl.className = 'filter-label';
+      lbl.textContent = label;
+      group.appendChild(lbl);
+    }
 
     var activeClass = style === 'weather' ? 'weather-active' : 'active';
     var s = Filters.getState();
@@ -513,7 +576,13 @@
     options.forEach(function (opt) {
       var btn = document.createElement('button');
       btn.className = 'filter-btn';
-      btn.textContent = opt.label;
+      if (opt.icon) {
+        btn.innerHTML = opt.icon;
+        btn.title = opt.label;
+        btn.classList.add('filter-btn--icon');
+      } else {
+        btn.textContent = opt.label;
+      }
       if (isActive(opt)) btn.classList.add(activeClass);
 
       btn.addEventListener('click', function () {
@@ -558,15 +627,13 @@
     var panel = document.getElementById('weather-toggles');
     var s = Filters.getState();
     // `stateKey` ties the toggle to a Filters state field so we can reflect
-    // restored URL state. `webcams` and `names` aren't filter state — they
-    // use defaultOn instead.
+    // restored URL state. `webcams` isn't filter state — it uses defaultOn.
+    // Tooltip visibility is handled entirely by the filter-bar "Show" pills
+    // (display-name-off + meta presence collapse) — no separate Names toggle.
     var toggles = [
       { id: 'hikes',   icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
       { id: 'huts',    icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
-      { id: 'webcams', icon: '📷', label: 'Webcams' },
-      // Permanent name labels (hidden via body class when off — avoids
-      // re-binding tooltips on every marker which would be slow)
-      { id: 'names',   icon: '🏷️', label: 'Names',   defaultOn: true }
+      { id: 'webcams', icon: '📷', label: 'Webcams' }
     ];
 
     toggles.forEach(function (t) {
@@ -575,7 +642,8 @@
       var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
       var btn = document.createElement('button');
       btn.className = 'wx-toggle' + (on ? ' active' : '');
-      btn.innerHTML = '<span class="icon">' + t.icon + '</span> ' + t.label;
+      btn.innerHTML = '<span class="icon">' + t.icon + '</span>';
+      btn.title = t.label;
       btn.addEventListener('click', function () {
         btn.classList.toggle('active');
         toggleWeatherLayer(t.id, btn.classList.contains('active'));
@@ -585,28 +653,61 @@
   }
 
   // Reset button — clears the URL hash and reloads. Reloading is the cheapest
-  // way to also reset the non-Filters toggles (webcams, names) and re-render
-  // every button in its default-active state.
+  // way to also reset non-Filters toggles (webcams) and re-render every button
+  // in its default-active state.
   function wireResetButton() {
     var btn = document.getElementById('filter-reset');
     if (!btn) return;
-    // Show the button whenever a hash is present (i.e. at least one non-default
-    // filter is active). Updated on every Filters.apply via the route-count
-    // observer below.
+    // Show the button whenever the URL hash carries filter state. UrlSync
+    // writes to the hash inside Filters.setState, so by the time our
+    // subscriber fires the hash is already current.
     function refreshVisibility() {
       btn.hidden = !window.location.hash || window.location.hash === '#';
     }
     refreshVisibility();
-    // Re-check after any filter change — UrlSync writes to the hash inside
-    // Filters.setState, so by the next animation frame the hash is current.
-    var countEl = document.getElementById('route-count');
-    if (countEl && window.MutationObserver) {
-      new MutationObserver(refreshVisibility).observe(countEl, { childList: true });
+    if (window.Filters && Filters.subscribe) {
+      Filters.subscribe(refreshVisibility);
     }
     btn.addEventListener('click', function () {
       history.replaceState(null, '', window.location.pathname + window.location.search);
       location.reload();
     });
+  }
+
+  // Share button — copy current URL (including hash state) to clipboard.
+  // file:// pages don't get navigator.clipboard, so fall back to a textarea+execCommand.
+  function wireShareButton() {
+    var btn = document.getElementById('share-link');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var url = window.location.href;
+      var done = function () {
+        var prev = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = prev;
+          btn.classList.remove('copied');
+        }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { fallbackCopy(url); done(); });
+      } else {
+        fallbackCopy(url);
+        done();
+      }
+    });
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* swallow */ }
+    document.body.removeChild(ta);
   }
 
   var webcamLayer = null;
@@ -618,10 +719,6 @@
     }
     if (id === 'huts') {
       Filters.setState('showHuts', show);
-      return;
-    }
-    if (id === 'names') {
-      document.body.classList.toggle('names-off', !show);
       return;
     }
     if (id === 'webcams') {
@@ -697,6 +794,7 @@
     buildFilterBar();
     buildWeatherToggles();
     wireResetButton();
+    wireShareButton();
 
     SidePanel.init(document.getElementById('side-panel'));
 

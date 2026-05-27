@@ -18,6 +18,12 @@
 - **No filler content.** Don't add generic, AI-sounding information that clutters pages and distracts from what hikers actually care about. Every sentence on a hike page should earn its place — if it doesn't add specific, useful detail, cut it. Be short and to the point.
 - **Link to authoritative sources inline.** When creating content pages, every tool, app, or organization mentioned should be a clickable link to its most relevant page (MeteoSwiss, SAC, Rega, swisstopo, etc.). Don't collect links in a separate "resources" section — put them where they're useful. Use `target="_blank" rel="noopener"` for external links.
 - **Before committing, delete any files made obsolete by your changes.** Temporary outputs, superseded scripts, orphan screenshots, etc. A file is **not** obsolete if it's needed for reproducibility — e.g. SAC route JSONs are raw source data and must be kept even after extraction.
+- **Command center marker popups: do not regress the first-click fix.** When editing `command-center/command-center.js` or `command-center.css`, preserve all three pieces or the popup will need a second click (or Enter) to open:
+  1. `interactive: false` on the permanent tooltip (`marker.bindTooltip(..., { interactive: false })`)
+  2. `.leaflet-tooltip-pane { pointer-events: none; }` in CSS
+  3. `openPopup()` uses `getPopup()` + `setPopupContent()` for re-clicks, not a fresh `bindPopup()` each time
+
+  Look for the `FIRST-CLICK REGRESSION GUARD` comment in `createMarkers()` in command-center.js — read it before editing marker/popup/tooltip code.
 
 ## Generated pages
 

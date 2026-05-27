@@ -110,6 +110,19 @@ html, body {
   font-weight: 600;
 }
 
+/* Icon-mode filter button — tighter padding so the icon dominates instead
+   of floating in a wide text-sized pill. */
+.filter-btn--icon {
+  padding: 3px 4px;
+  line-height: 0;
+}
+.filter-btn--icon .grade-icon {
+  display: block;
+  vertical-align: middle;
+  border-radius: 2px;
+  outline: 1px solid rgba(0, 0, 0, 0.35);
+}
+
 /* --- Weather / POI Toggles (lives in #bottom-bar) --- */
 #weather-toggles {
   position: static;
@@ -283,6 +296,32 @@ html, body {
   color: var(--amber);
 }
 #filter-reset[hidden] { display: none; }
+
+/* Share button — copies window.location.href to clipboard. Sits as its own
+   pill in the bottom bar (not nested in #route-counter) so the counter stays
+   focused on counts + reset. Always visible: any view is shareable. */
+#share-link {
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.15s;
+}
+#share-link:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+#share-link.copied {
+  border-color: var(--amber);
+  color: var(--amber);
+}
 
 /* --- Side Panel --- */
 #side-panel {
@@ -675,7 +714,9 @@ html, body {
   line-height: 1;
 }
 
-/* Tooltip pane never intercepts clicks — markers must always receive them */
+/* Tooltip pane never intercepts clicks — markers must always receive them.
+   ⚠️ DO NOT REMOVE: half of the first-click-popup regression guard. See the
+   FIRST-CLICK REGRESSION GUARD comment in command-center.js (createMarkers). */
 .leaflet-tooltip-pane { pointer-events: none; }
 
 /* Hover tooltip — peak/hut name + optional metadata line */
@@ -754,9 +795,6 @@ html, body {
 body.zoom-labels .leaflet-tooltip.hike-tooltip {
   display: block;
 }
-body.names-off .leaflet-tooltip.hike-tooltip {
-  display: none !important;
-}
 /* Display filter "Name" pill — hides just the name line. If the tooltip
    has no metadata line either, hide the whole box so it doesn't render
    as an empty bordered box. */
@@ -765,6 +803,15 @@ body.display-name-off .leaflet-tooltip.hike-tooltip .hike-tt__name {
 }
 body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   display: none !important;
+}
+
+/* Bottom bar is icon-only on all viewports: each wx-toggle renders just
+   its emoji and the counter pairs each number with an inline .bb-icon
+   emoji. Word labels live as title attributes on the parent elements. */
+.bb-icon {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 13px;
 }
 
 /* --- Mobile --- */

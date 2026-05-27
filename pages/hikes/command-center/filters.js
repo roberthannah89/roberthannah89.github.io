@@ -14,13 +14,19 @@
     tempMin: null,     // null=any, or number (°C threshold)
     // Display state — which fields to render on each POI's marker/tooltip.
     // 'weather' controls the marker pill (vs simple dot). All others are
-    // tooltip-only metadata lines. Empty array = nothing shown.
-    display: ['weather', 'name']
+    // tooltip-only metadata lines. Empty array = nothing shown. Name labels
+    // are off by default to keep the map uncluttered; user can opt in.
+    display: ['weather']
   };
 
   var markers = [];
   var counterEl = null;
   var onFilterChange = null;
+  var subscribers = [];
+
+  function subscribe(cb) {
+    if (typeof cb === 'function') subscribers.push(cb);
+  }
 
   function init(markerList, counterElement, changeCb) {
     markers = markerList;
@@ -157,10 +163,16 @@
     });
 
     if (counterEl) {
-      counterEl.innerHTML = '<strong>' + visible + '</strong> destinations · <strong>' + totalRoutes + '</strong> routes';
+      counterEl.innerHTML =
+        '<span title="Destinations"><span class="bb-icon">📍</span><strong>' + visible + '</strong></span>'
+        + ' · '
+        + '<span title="Routes"><span class="bb-icon">🥾</span><strong>' + totalRoutes + '</strong></span>';
     }
 
     if (onFilterChange) onFilterChange();
+    subscribers.forEach(function (cb) {
+      try { cb(state); } catch (e) { console.error('Filters subscriber failed:', e); }
+    });
   }
 
   window.Filters = {
@@ -169,6 +181,7 @@
     loadState: loadState,
     getState: getState,
     apply: apply,
+    subscribe: subscribe,
     bestGrade: bestGrade,
     gradeNum: gradeNum,
     matchesPoi: matchesPoi

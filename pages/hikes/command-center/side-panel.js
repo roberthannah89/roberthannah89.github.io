@@ -23,7 +23,7 @@
   function sacPeakUrl(poi) {
     if (!poi || !poi.name || poi.id == null) return null;
     return 'https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/'
-      + slugify(poi.name) + '-' + poi.id + '/';
+      + slugify(poi.name) + '-' + poi.id + '/mountain-hiking/';
   }
 
   function sacRouteUrl(poi, route) {
@@ -35,6 +35,11 @@
 
   function init(el) {
     panelEl = el;
+    if (window.Filters && Filters.subscribe) {
+      Filters.subscribe(function () {
+        if (isOpen() && currentPoi) render(currentPoi);
+      });
+    }
   }
 
   function open(poi) {
@@ -159,9 +164,14 @@
     return d.innerHTML;
   }
 
+  function isOpen() {
+    return !!panelEl && panelEl.classList.contains('open');
+  }
+
   window.SidePanel = {
     init: init,
     open: open,
-    close: close
+    close: close,
+    isOpen: isOpen
   };
 })();

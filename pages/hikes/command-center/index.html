@@ -45,6 +45,8 @@
       <!-- Clears all filters + URL hash; visible whenever a filter is active -->
       <button id="filter-reset" type="button" title="Reset all filters" hidden>Reset</button>
     </div>
+    <!-- Copy the current URL (with hash state) to clipboard -->
+    <button id="share-link" type="button" title="Copy link to this view">Share</button>
     <!-- .ms-layer-bar moves in here via JS after MapShared adds it -->
     <div id="forecast-meta"></div>
   </div>
@@ -64,7 +66,6 @@
 <script src="../routes/_assets/map_shared.js"></script>
 <script src="../guides/sac-routes.js"></script>
 <script src="weather-cache.js"></script>
-<script src="cantons.js"></script>
 <script src="webcams_windy_data.js"></script>
 
 <!-- App modules -->

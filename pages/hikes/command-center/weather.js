@@ -98,13 +98,19 @@
     return 'rain';                            // 51-67 drizzle/rain, 80-82 showers
   }
 
+  // Ordering matters: threshold filter ("X or better") treats lower indices
+  // as better weather, so this list must stay best→worst. Snow and Storm are
+  // hidden from the filter UI (`hidden: true`) because nobody filters "snow
+  // or better" — but they remain in the ordering so the rain threshold
+  // correctly excludes snowy/stormy peaks, and the marker icons can still
+  // display ❄️ / ⛈️ for snow/storm weather codes.
   var SKY_CATEGORIES = [
     { key: 'clear',         icon: '☀️', label: 'Clear' },
     { key: 'partly-cloudy', icon: '⛅', label: 'Partly cloudy' },
     { key: 'cloudy',        icon: '☁️', label: 'Cloudy / fog' },
     { key: 'rain',          icon: '🌧️', label: 'Rain' },
-    { key: 'snow',          icon: '❄️', label: 'Snow' },
-    { key: 'storm',         icon: '⛈️', label: 'Storm' }
+    { key: 'snow',          icon: '❄️', label: 'Snow',  hidden: true },
+    { key: 'storm',         icon: '⛈️', label: 'Storm', hidden: true }
   ];
 
   function formatDayLabel(dateStr) {
