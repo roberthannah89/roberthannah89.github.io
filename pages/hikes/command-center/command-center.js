@@ -102,8 +102,8 @@
       // permanent label slot — actual content is set after creation.
       marker.bindTooltip('', {
         permanent: true,
-        direction: 'bottom',
-        offset: [0, 18],
+        direction: 'right',
+        offset: [22, 0],
         className: 'hike-tooltip'
       });
 
