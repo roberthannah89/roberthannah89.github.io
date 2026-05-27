@@ -14,7 +14,7 @@ OUTPUT = HIKES_ROOT / "command-center" / "weather-cache.js"
 BATCH_SIZE = 40
 DELAY_BETWEEN = 2.0
 MAX_RETRIES = 3
-FORECAST_DAYS = 3
+FORECAST_DAYS = 5
 
 BASE_URL = "https://api.open-meteo.com/v1/forecast"
 DAILY_PARAMS = "weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,sunrise,sunset"
@@ -59,6 +59,7 @@ def fetch_batch(peaks):
     })
     url = f"{BASE_URL}?{params}"
 
+    last_err = None
     for attempt in range(MAX_RETRIES):
         try:
             req = urllib.request.Request(url)
@@ -66,13 +67,19 @@ def fetch_batch(peaks):
                 data = json.loads(resp.read().decode())
                 return data if isinstance(data, list) else [data]
         except urllib.error.HTTPError as e:
+            last_err = e
             if e.code == 429:
                 wait = DELAY_BETWEEN * (2 ** (attempt + 1))
                 print(f"  Rate limited, waiting {wait:.0f}s...")
                 time.sleep(wait)
             else:
                 raise
-    print(f"  WARNING: batch failed after {MAX_RETRIES} retries")
+        except (urllib.error.URLError, TimeoutError) as e:
+            last_err = e
+            wait = DELAY_BETWEEN * (2 ** attempt)
+            print(f"  Network error ({e}), waiting {wait:.0f}s before retry {attempt + 2}/{MAX_RETRIES}...")
+            time.sleep(wait)
+    print(f"  WARNING: batch failed after {MAX_RETRIES} retries ({last_err})")
     return None
 
 
