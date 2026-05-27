@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Every 3 hours — matches MeteoSwiss ICON-CH2 run cadence
+    - cron: '15 */3 * * *'
 
 permissions:
   contents: read
@@ -27,6 +30,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r pages/hikes/requirements.txt
+
+      - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
+        run: cd pages/hikes && python scripts/fetch_weather.py
 
       - name: Validate hike file completeness
         run: cd pages/hikes && python scripts/validate_hike_files.py
