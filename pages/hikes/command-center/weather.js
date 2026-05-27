@@ -57,8 +57,8 @@
   function weatherIcon(code) {
     if (code === null || code === undefined) return '—';
     if (code <= 1) return '☀️';
-    if (code <= 3) return '⛅';
-    if (code <= 48) return '☁️';
+    if (code <= 2) return '⛅';      // only code 2 = partly cloudy
+    if (code <= 48) return '☁️';     // 3=overcast, 45/48=fog → cloudy
     if (code <= 57) return '🌧️';
     if (code <= 67) return '🌧️';
     if (code <= 77) return '❄️';
