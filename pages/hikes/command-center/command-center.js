@@ -5,6 +5,13 @@
   var map, clusterGroup;
   var allMarkers = [];
 
+  // Zoom at/above which permanent name labels show. Below it the tooltips are
+  // unbound entirely (not just CSS-hidden) so Leaflet does zero per-marker
+  // tooltip repositioning while panning/zooming the overview. See
+  // updateLabelVisibility().
+  var LABEL_ZOOM = 11;
+  var labelsBound = false;
+
   // Grade colors
   var GRADE_COLORS = {
     1: '#2d8a4e', 2: '#2d8a4e',
@@ -51,6 +58,9 @@
       disableClusteringAtZoom: 13,
       spiderfyOnMaxZoom: true,
       showCoverageOnHover: false,
+      // Time-slice marker add/remove so a pan that brings hundreds of markers
+      // into view doesn't block a single frame.
+      chunkedLoading: true,
       iconCreateFunction: function (cluster) {
         var count = cluster.getChildCount();
         var info = dominantClusterWeather(cluster);
@@ -72,12 +82,10 @@
     });
     map.addLayer(clusterGroup);
 
-    // Show always-on name labels at zoom 11+
-    map.on('zoomend', function () {
-      document.body.classList.toggle('zoom-labels', map.getZoom() >= 11);
-    });
-    // Set initial state in case current zoom already qualifies
-    document.body.classList.toggle('zoom-labels', map.getZoom() >= 11);
+    // Bind/unbind permanent name labels around LABEL_ZOOM. Markers are
+    // created after initMap, so the first real bind happens from
+    // createMarkers; this keeps labels in sync on every later zoom.
+    map.on('zoomend', updateLabelVisibility);
   }
 
   /* ── Route markers ─────────────────────────────────── */
@@ -97,29 +105,10 @@
       marker._color = color;
       marker._filtered = false;
 
-      // Tooltip content is rebuilt by refreshMarkerTooltips() based on the
-      // current Display filter. Bind a placeholder so Leaflet keeps the
-      // permanent label slot — actual content is set after creation.
-      //
-      // ⚠️ FIRST-CLICK REGRESSION GUARD (do not change without reading):
-      // Three things together prevent "popup needs Enter to open on first click":
-      //   1. `interactive: false` here so the permanent tooltip never eats the
-      //      marker click (it sits to the right of the marker and would
-      //      otherwise absorb the pointer event).
-      //   2. `.leaflet-tooltip-pane { pointer-events: none; }` in
-      //      command-center.css — belt-and-braces on the entire tooltip pane.
-      //   3. `openPopup()` uses `getPopup() / setPopupContent()` instead of
-      //      always calling `bindPopup()` (see openPopup below) so re-clicks
-      //      reuse the existing popup instead of binding a new one mid-event.
-      // Original fix: commit c61debf. If you remove any of the three, the
-      // popup will require a second click (or Enter) to open.
-      marker.bindTooltip('', {
-        permanent: true,
-        interactive: false,
-        direction: 'right',
-        offset: [22, 0],
-        className: 'hike-tooltip'
-      });
+      // Permanent name tooltips are bound lazily by updateLabelVisibility()
+      // once the user zooms past LABEL_ZOOM — not here — so the overview
+      // doesn't carry ~960 tooltip DOM nodes. The first-click regression
+      // guard lives with the bindTooltip call in bindMarkerTooltips().
 
       marker.on('click', function () {
         if (window.SidePanel && SidePanel.isOpen()) {
@@ -154,7 +143,7 @@
       allMarkers.push(marker);
     });
 
-    refreshMarkerTooltips();
+    updateLabelVisibility();
     refreshCluster();
   }
 
@@ -231,27 +220,81 @@
     return parts.join(' · ');
   }
 
-  // Rebuild every marker's tooltip content from the current Display filter.
-  // The name span is always rendered (visibility is controlled by the
-  // `body.display-name-off` class — toggling it is O(1) CSS instead of an
-  // N-marker rebuild). The metadata line still requires a rebuild when
-  // grade/gain/time/alt change, since its text content depends on which
-  // fields are selected.
+  // Build the tooltip HTML for a POI. The name span is always emitted (its
+  // visibility is the O(1) `body.display-name-off` CSS toggle, not a rebuild);
+  // the meta line depends on which grade/gain/time/alt fields are selected.
+  function tooltipContent(poi, display) {
+    var lines = [];
+    if (poi.name) {
+      lines.push('<span class="hike-tt__name">' + esc(poi.name) + '</span>');
+    }
+    var meta = buildPoiMetaLine(poi, display);
+    if (meta) {
+      lines.push('<span class="hike-tt__meta">' + esc(meta) + '</span>');
+    }
+    return lines.join('');
+  }
+
+  // Rebuild content for markers that currently HAVE a tooltip bound. Below
+  // LABEL_ZOOM nothing is bound, so this is a cheap no-op; the current Display
+  // state is applied when bindMarkerTooltips() runs on zoom-in.
   function refreshMarkerTooltips() {
     var display = Filters.getState().display || [];
     allMarkers.forEach(function (m) {
-      var poi = m._poi;
-      var lines = [];
-      if (poi.name) {
-        lines.push('<span class="hike-tt__name">' + esc(poi.name) + '</span>');
-      }
-      var meta = buildPoiMetaLine(poi, display);
-      if (meta) {
-        lines.push('<span class="hike-tt__meta">' + esc(meta) + '</span>');
-      }
       var tip = m.getTooltip();
-      if (tip) tip.setContent(lines.join(''));
+      if (tip) tip.setContent(tooltipContent(m._poi, display));
     });
+  }
+
+  /* ── Lazy permanent labels ─────────────────────────── */
+  // Permanent tooltips are costly: Leaflet repositions every on-map tooltip on
+  // each pan/zoom, and with ~960 markers that dominates overview interaction.
+  // So we only bind them at/above LABEL_ZOOM (where they're actually shown) and
+  // unbind below it, leaving the overview as plain markers with no tooltip DOM.
+
+  function bindMarkerTooltips() {
+    var display = Filters.getState().display || [];
+    allMarkers.forEach(function (m) {
+      if (m.getTooltip()) return;
+      // ⚠️ FIRST-CLICK REGRESSION GUARD (do not change without reading):
+      // Three things together prevent "popup needs Enter to open on first
+      // click":
+      //   1. `interactive: false` here so the permanent tooltip never eats the
+      //      marker click (it sits to the right of the marker and would
+      //      otherwise absorb the pointer event).
+      //   2. `.leaflet-tooltip-pane { pointer-events: none; }` in
+      //      command-center.css — belt-and-braces on the entire tooltip pane.
+      //   3. `openPopup()` uses `getPopup() / setPopupContent()` instead of
+      //      always calling `bindPopup()` (see openPopup) so re-clicks reuse
+      //      the existing popup instead of binding a new one mid-event.
+      // Original fix: commit c61debf. If you remove any of the three, the
+      // popup will require a second click (or Enter) to open.
+      m.bindTooltip(tooltipContent(m._poi, display), {
+        permanent: true,
+        interactive: false,
+        direction: 'right',
+        offset: [22, 0],
+        className: 'hike-tooltip'
+      });
+    });
+  }
+
+  function unbindMarkerTooltips() {
+    allMarkers.forEach(function (m) {
+      if (m.getTooltip()) m.unbindTooltip();
+    });
+  }
+
+  // Keep label binding in sync with zoom. body.zoom-labels still drives CSS
+  // visibility (and the display-name-off / empty-tooltip rules); the binding
+  // state mirrors it so we never pay for tooltip DOM below the threshold.
+  function updateLabelVisibility() {
+    var show = map.getZoom() >= LABEL_ZOOM;
+    document.body.classList.toggle('zoom-labels', show);
+    if (show === labelsBound) return;
+    if (show) bindMarkerTooltips();
+    else unbindMarkerTooltips();
+    labelsBound = show;
   }
 
   function refreshCluster() {

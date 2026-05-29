@@ -23,7 +23,7 @@
   2. `.leaflet-tooltip-pane { pointer-events: none; }` in CSS
   3. `openPopup()` uses `getPopup()` + `setPopupContent()` for re-clicks, not a fresh `bindPopup()` each time
 
-  Look for the `FIRST-CLICK REGRESSION GUARD` comment in `createMarkers()` in command-center.js — read it before editing marker/popup/tooltip code.
+  Look for the `FIRST-CLICK REGRESSION GUARD` comment in `bindMarkerTooltips()` in command-center.js — read it before editing marker/popup/tooltip code.
 
 ## Generated pages
 
