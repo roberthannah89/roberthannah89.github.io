@@ -127,8 +127,13 @@ def _fetch_layer(bbox: tuple[float, float, float, float]) -> dict:
         return json.loads(resp.read())
 
 
-def _features_for_route(layer: dict, route_id: int) -> list[dict]:
-    """Pick out the features tagged with this route_id."""
+def _features_for_route(layer: dict, route_id: int, include_dashed: bool = False) -> list[dict]:
+    """Pick out the features tagged with this route_id.
+
+    ``style: dashed`` is excluded by default — empirically these are short
+    connector/marker segments rather than real trail and stitching them in
+    creates phantom retraces. Set ``include_dashed=True`` to keep them.
+    """
     out = []
     for f in layer.get("features", []):
         props = f.get("properties") or {}
@@ -136,18 +141,29 @@ def _features_for_route(layer: dict, route_id: int) -> list[dict]:
             continue
         if props.get("alternative"):
             continue
+        if not include_dashed and props.get("style") == "dashed":
+            continue
         out.append(f)
     return out
 
 
-def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path) -> Path:
-    """Stitch features into a single GPX track and write it."""
+def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
+               stitch: bool = False) -> Path:
+    """Write a GPX with one track segment per feature.
+
+    The default mode (``stitch=False``) preserves each layer-API feature as a
+    separate ``<trkseg>``. This keeps elevation gain accurate (no double-counting
+    from retraces on figure-8 routes) and the Leaflet renderer in this repo
+    treats the multi-segment track as a single visual line. Pass ``stitch=True``
+    to invoke the legacy greedy stitcher in ``extract_sac_gpx`` — only useful
+    for routes you know are a strict point-to-point with no shared trail.
+    """
     raw: list[tuple[str, list]] = []
     for i, f in enumerate(features):
         coords = f.get("geometry", {}).get("coordinates", [])
         if not coords:
             continue
-        # Strip any Z components — _stitch_segments expects [E, N] pairs.
+        # Strip any Z components — coords list expects [E, N] pairs.
         clean = [[float(c[0]), float(c[1])] for c in coords]
         style = (f.get("properties") or {}).get("style", "?")
         raw.append((f"seg{i}({style})", clean))
@@ -155,14 +171,15 @@ def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path) -> Pa
     if not raw:
         sys.exit("ERROR: no usable LineString features matched this route_id.")
 
-    stitched = _stitch_segments(raw)
-    print(f"[gpx  ] {len(features)} features → {len(stitched)} stitched segments")
+    if stitch:
+        raw = _stitch_segments(raw)
+        print(f"[gpx  ] stitched into {len(raw)} segments")
 
     gpx = gpxpy.gpx.GPX()
     track = gpxpy.gpx.GPXTrack(name=title)
     gpx.tracks.append(track)
 
-    for seg_name, coords in stitched:
+    for seg_name, coords in raw:
         seg = gpxpy.gpx.GPXTrackSegment()
         seg.points = [
             gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in coords
@@ -186,6 +203,11 @@ def main(argv: list[str] | None = None) -> int:
                    help=f"Half-width of bbox in LV95 metres (default: {BBOX_PADDING_M}).")
     p.add_argument("--save-layer", action="store_true",
                    help="Save the raw GeoJSON layer response next to the GPX (for debugging).")
+    p.add_argument("--include-dashed", action="store_true",
+                   help="Include style=dashed segments (default: skip; they are usually short connectors).")
+    p.add_argument("--stitch", action="store_true",
+                   help="Run the legacy greedy stitcher (default: emit one trkseg per feature; "
+                        "more accurate elevation gain on figure-8 routes).")
     args = p.parse_args(argv)
 
     route_id = _route_id_from_url(args.url)
@@ -199,16 +221,17 @@ def main(argv: list[str] | None = None) -> int:
           f"→ LV95 ({cx:.0f},{cy:.0f}), bbox padding {args.bbox_padding} m")
 
     layer = _fetch_layer(bbox)
-    features = _features_for_route(layer, route_id)
+    features = _features_for_route(layer, route_id, include_dashed=args.include_dashed)
     print(f"[layer] {len(layer.get('features', []))} features in bbox, "
-          f"{len(features)} matched route_id={route_id} (non-alternative)")
+          f"{len(features)} matched route_id={route_id} (non-alternative"
+          f"{', incl. dashed' if args.include_dashed else ', excl. dashed'})")
 
     if not features:
         sys.exit("ERROR: no features matched; try a larger --bbox-padding.")
 
     out_dir = REPO_ROOT / "routes" / args.slug
     title = args.title or args.slug
-    _build_gpx(features, title, args.slug, out_dir)
+    _build_gpx(features, title, args.slug, out_dir, stitch=args.stitch)
 
     if args.save_layer:
         layer_path = out_dir / f"sac-layer-{route_id}.json"

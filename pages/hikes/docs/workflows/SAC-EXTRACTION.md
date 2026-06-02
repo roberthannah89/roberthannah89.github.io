@@ -55,17 +55,50 @@ The authenticated route page HTML contains all the rich data; it's just not in a
 
 ### v2 pipeline status
 
-- ✅ `scripts/fetch_sac_route_v2.py` — fetches the layer API by bbox (peak coords looked up in `guides/sac-routes.js`), filters by `route_id`, stitches via the existing `extract_sac_gpx._stitch_segments`, and writes `routes/<slug>/<slug>.gpx`. Verified on Federispitz (route 6819, peak 601): 23.75 km, 4180 points. Stitching has known issues for circuits — the spatially-queried features come in arbitrary order and the greedy stitcher makes wrong guesses (e.g. ends at the peak instead of the actual finish). **TODO:** implement a graph/loop-aware stitcher in this script or `extract_sac_gpx.py`.
-- ✅ Raw GeoJSON saved alongside (`sac-layer-<route-id>.json`) for reproducibility — same role as the old `sac-route-<id>.json`.
-- ❌ HTML metadata scraper — not built yet. Should land as a sibling function/script and feed `scaffold_hike` + the same patching `extract_sac_route.py::_populate_sac_metadata` does today.
-- ❌ Photos — extractable from the same authenticated HTML; the old `extract_sac_photos.py` reads `data["photos"]` from the now-defunct JSON and needs to be rewritten against scraped `<img>` tags or processed-image URLs.
-- ❌ Elevation enrichment — the existing SwissTopo path in the GPX module already handles 2D-to-3D, just wire it through `fetch_sac_route_v2.py`.
-- ❌ Index entry — Federispitz has a GPX but no `data.json`, so it doesn't appear in the gallery yet.
+- ✅ `scripts/fetch_sac_route_v2.py` — fetches the layer API by bbox (peak coords looked up in `guides/sac-routes.js`), filters features by `route_id`, and writes `routes/<slug>/<slug>.gpx`. By default emits **one `<trkseg>` per feature** (no stitching) — this is more accurate for routes whose features overlap or form figure-8 shapes. Pass `--stitch` to invoke the legacy greedy stitcher. Pass `--include-dashed` to keep `style=dashed` segments (default skips them; they're usually short markers/connectors). Raw GeoJSON saved as `sac-layer-<route-id>.json` for reproducibility.
+- ✅ `scripts/scrape_sac_route_page.py` — reads the authenticated route page HTML (from a local file or via `--url` with the saved cookie) and extracts: `og:title`, `og:image`, `og:description`, difficulty, ascent/descent time + gain/drop, departure point name + elevation + transport mode, segment list, photo gallery (`/processed/…` URLs). `--apply --slug <slug>` patches `routes/<slug>/<slug>.data.json` in place, only replacing fields whose value still starts with `"TODO"`. Pass `--replace-non-todo` to overwrite existing values too. Photos are written as `{"url", "lightbox_url", "alt", "caption_html"}` to match the existing schema.
+- ✅ Elevation enrichment via `new_hike.enrich_gpx_elevation` works against the v2 GPX — same SwissTopo API the old pipeline used. Sample call:
+  ```python
+  from pathlib import Path
+  from new_hike import enrich_gpx_elevation
+  enrich_gpx_elevation(Path("routes/federispitz/federispitz.gpx"))
+  ```
+- ⚠️ **Known issue: GPX elevation gain is inflated on figure-8 routes.** The 4 Federispitz features cover overlapping terrain; when each is emitted as a separate trkseg, the per-point elevation deltas sum to ~2900 m even though SAC's stated gain is 1490 m. The route page's `index_card.gain` shows the correct (scraped) value, but the auto-generated **Elevation Profile** section uses GPX-derived stats and is wrong. Fixing this needs either a route-aware stitcher (knows which segments form the ascent vs. descent halves of a circuit) or filtering the GPX so each piece of terrain only contributes once.
+- ✅ Index entry — Federispitz now appears in the gallery with hero image, T4- pill, and scraped description. Some `TODO` fields remain (driving directions, day plan rows, weather season note, resource links).
 
 ### Quick reference for future sessions
 
-1. **Re-rendering an existing hike that has `sac-route-<ID>.json` already**: use the OLD pipeline (`make render` or `python scripts/render_hike.py`). The JSON files are frozen captures and remain valid.
-2. **Adding a NEW hike**: the v2 pipeline isn't finished. For geometry only: `python scripts/fetch_sac_route_v2.py --url '<route-url>' --slug '<slug>' --title '<title>'`. Everything else (data.json, photos, metadata) currently has to be authored by hand — copy from a similar existing hike and edit.
+**Adding a new hike** (post-2026-06):
+
+```bash
+# 1. Geometry from the public layer API
+python scripts/fetch_sac_route_v2.py \
+    --url '<route-page-url>' --slug '<slug>' --title '<title>'
+
+# 2. Scaffold data.json (uses GPX for distance, peak coords for region/canton)
+python scripts/new_hike.py --slug '<slug>' --name '<Peak Name>' \
+    --region '<Region>' --canton '<Canton>' --grade T3 --elev <peak-elev> \
+    --trailhead '<Trailhead Name>' \
+    --peak-lat <lat> --peak-lon <lon> \
+    --trailhead-lat <lat> --trailhead-lon <lon> \
+    --gpx-path routes/<slug>/<slug>.gpx --no-gpx
+
+# 3. Scrape the authenticated HTML for rich metadata and patch the scaffold
+#    (needs ~/.config/sac-hikes/cookie populated; see "Easiest" section above)
+python scripts/scrape_sac_route_page.py \
+    --url '<route-page-url>' --slug '<slug>' --apply
+
+# 4. Enrich the GPX with SwissTopo elevation
+python -c "from pathlib import Path; \
+           import sys; sys.path.insert(0,'scripts'); \
+           from new_hike import enrich_gpx_elevation; \
+           enrich_gpx_elevation(Path('routes/<slug>/<slug>.gpx'))"
+
+# 5. Render
+make render
+```
+
+**Re-rendering an existing hike that has `sac-route-<ID>.json` already**: use the OLD pipeline (`make render`). The pre-cutover JSON files are frozen captures and remain valid for those hikes.
 
 ---
 

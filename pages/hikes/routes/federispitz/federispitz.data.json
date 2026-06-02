@@ -14,24 +14,24 @@
   "index_card": {
     "region": "Eastern Switzerland",
     "canton": "St. Gallen",
-    "distance": "23.8 km",
-    "gain": "TODO: e.g. 850 m",
-    "time": "TODO: e.g. 5-6 h",
+    "distance": "18.1 km",
+    "gain": "1490 m",
+    "time": "~7 h",
     "route_type": "out-and-back"
   },
   "trailhead": {
     "name": "Ziegelbrücke",
-    "elev": 0,
+    "elev": 425,
     "lat": 47.1352,
     "lon": 9.0984
   },
   "hero": {
-    "image_url": "TODO",
-    "subtitle_html": "TODO: e.g. Ziegelbrücke -> Federispitz -- <span class=\"pill t4\">SAC T4-</span> | ~850 m gain | ~8.4 km | ~5h round-trip",
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_7c674b3653.jpg",
+    "subtitle_html": "Ziegelbrücke, Bahnhof → Federispitz | <span class=\"pill t4\">SAC T4-</span> | 1490 m gain | 23.8 km | ~7 h",
     "grade": "T4-",
     "auto_subtitle": false
   },
-  "intro_html": "TODO: <p>2-3 sentences about the route character and highlights.</p>",
+  "intro_html": "<p>Schaut man vom Zürichsee ostwärts in die Berge, bleibt der Blick unweigerlich an der Federispitz-Krete hängen. Auf dieser Tour erlebt man für einmal die umgekehrte Sichtweise.</p>\n<p>Die Krete beim Vorder Federispitz ist unübersichtlich und wellig, bei Nässe heikel. Einmal muss ein Grataufbau in der Schattenseite umgangen werden.</p>",
   "quick_facts": [
     [
       "Summit elevation",
@@ -47,14 +47,87 @@
     ],
     [
       "Distance",
-      "TODO: km round-trip"
+      "<strong>18.1 km</strong>"
     ],
     [
       "Total ascent",
-      "TODO: m"
+      "<strong>1490 m</strong>"
     ]
   ],
-  "photos": [],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_de7412ad75.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_de7412ad75.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1600865435_408075397master_8e346f372f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1600865435_408075397master_8e346f372f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/c/csm_1598717239_159062111master_52073bc779.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/c/csm_1598717239_159062111master_52073bc779.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1598717239_500042618master_e12e9a24db.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1598717239_500042618master_e12e9a24db.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/1/csm_1598717237_1734107503master_1c6c0dd7ab.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/1/csm_1598717237_1734107503master_1c6c0dd7ab.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/5/csm_1598717239_1526367360master_41b85f461a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/5/csm_1598717239_1526367360master_41b85f461a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1600775099_596526532master_12c4c38bc7.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1600775099_596526532master_12c4c38bc7.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/3/csm_1598717239_1651463019master_4d4a91910b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/3/csm_1598717239_1651463019master_4d4a91910b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1598717236_207782398master_91c2a747be.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1598717236_207782398master_91c2a747be.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/f/csm_1600865436_955432907master_003ecda110.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/f/csm_1600865436_955432907master_003ecda110.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_79ecdf9e87.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_79ecdf9e87.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1600865435_408075397master_5c5c96c920.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1600865435_408075397master_5c5c96c920.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
   "waypoints": [
     {
       "lat": 47.1352,
@@ -71,18 +144,18 @@
   ],
   "routes": [
     {
-      "title_html": "TODO: route name",
+      "title_html": "<strong>Von Ziegelbrücke via Vorder Federispitz, Abstieg via Plättlispitz nach Weesen</strong>",
       "grade": "T4-",
       "pill_class": "t4",
       "bullets_html": [
-        "TODO: Step 1 description.",
-        "TODO: Step 2 description."
+        "Ziegelbrücke - Unternätenalp, T3, 2 Std. 45 Min.",
+        "Unternätenalp - Vorder Federispitz, T4-, 1 Std. 15 Min."
       ],
       "source": "SAC Route Portal"
     }
   ],
   "getting_there": {
-    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Ziegelbrücke, Bahnhof</strong>.</p>",
     "by_car_html": "TODO: Driving directions."
   },
   "day_plans": [
