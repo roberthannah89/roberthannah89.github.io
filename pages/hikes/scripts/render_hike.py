@@ -192,46 +192,69 @@ def _haversine_m(a: tuple[float, float], b: tuple[float, float]) -> float:
 def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
     """Return distance / ascent / descent stats from a GPX file.
 
-    Ascent uses a 3 m smoothing threshold to avoid GPS / SRTM noise.
-    Returns an empty dict if the file does not exist or has no points.
+    Walks each ``<trkseg>`` independently so phantom jumps between disconnected
+    segments (e.g. the v2 SAC pipeline emits one trkseg per layer feature)
+    don't get counted as real distance or elevation change. Ascent uses a 3 m
+    smoothing threshold to avoid GPS / SRTM noise. Returns an empty dict if
+    the file does not exist or has no points.
     """
     if not gpx_path.exists():
         return {}
     tree = ET.parse(gpx_path)
-    pts: list[tuple[float, float, float]] = []
-    for tp in tree.findall(".//g:trkpt", GPX_NS):
-        ele_el = tp.find("g:ele", GPX_NS)
-        ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
-        pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
-    if len(pts) < 2:
+    segments: list[list[tuple[float, float, float]]] = []
+    for trkseg in tree.findall(".//g:trkseg", GPX_NS):
+        seg_pts: list[tuple[float, float, float]] = []
+        for tp in trkseg.findall("g:trkpt", GPX_NS):
+            ele_el = tp.find("g:ele", GPX_NS)
+            ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
+            seg_pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+        if seg_pts:
+            segments.append(seg_pts)
+    # Fallback for GPX with bare <trkpt>s (shouldn't normally happen).
+    if not segments:
+        flat: list[tuple[float, float, float]] = []
+        for tp in tree.findall(".//g:trkpt", GPX_NS):
+            ele_el = tp.find("g:ele", GPX_NS)
+            ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
+            flat.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+        if flat:
+            segments = [flat]
+
+    n_total = sum(len(s) for s in segments)
+    if n_total < 2:
         return {}
+
     dist = 0.0
     max_grade = 0.0
-    for a, b in zip(pts, pts[1:]):
-        seg = _haversine_m((a[0], a[1]), (b[0], b[1]))
-        dist += seg
-        if seg > 5:
-            grade = abs(b[2] - a[2]) / seg
-            if grade > max_grade:
-                max_grade = grade
+    for seg in segments:
+        for a, b in zip(seg, seg[1:]):
+            d_m = _haversine_m((a[0], a[1]), (b[0], b[1]))
+            dist += d_m
+            if d_m > 5:
+                grade = abs(b[2] - a[2]) / d_m
+                if grade > max_grade:
+                    max_grade = grade
+
     asc = desc = 0.0
-    last = pts[0][2]
-    for p in pts[1:]:
-        d = p[2] - last
-        if abs(d) >= ELEV_SMOOTH_M:
-            if d > 0:
-                asc += d
-            else:
-                desc -= d
-            last = p[2]
-    elev = [p[2] for p in pts]
+    for seg in segments:
+        last = seg[0][2]
+        for p in seg[1:]:
+            d = p[2] - last
+            if abs(d) >= ELEV_SMOOTH_M:
+                if d > 0:
+                    asc += d
+                else:
+                    desc -= d
+                last = p[2]
+
+    all_elev = [p[2] for seg in segments for p in seg]
     return {
-        "n_points": float(len(pts)),
+        "n_points": float(n_total),
         "distance_km": dist / 1000.0,
         "ascent_m": asc,
         "descent_m": desc,
-        "min_ele": min(elev),
-        "max_ele": max(elev),
+        "min_ele": min(all_elev),
+        "max_ele": max(all_elev),
         "steepest_grade_pct": max_grade * 100.0,
     }
 
