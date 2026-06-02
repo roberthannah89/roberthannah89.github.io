@@ -77,6 +77,9 @@ SAC organises content as **peak pages** containing one or more **route pages**:
 
 ## Extracting Data from SAC Route Portal
 
+> [!CAUTION]
+> **SAC retired the old monolithic JSON endpoint between 2026-05-22 and 2026-06-01.** The Playwright-based "Phase 1 / Phase 2" workflow below is dead for new hikes — it returns HTML instead of JSON. **Read [`docs/workflows/SAC-EXTRACTION.md` § Architecture migration (2026-06)](docs/workflows/SAC-EXTRACTION.md#architecture-migration-2026-06) first** for the replacement APIs and the in-progress v2 script (`scripts/fetch_sac_route_v2.py`). The instructions below apply only to **re-rendering hikes whose `sac-route-<ID>.json` was captured before the cutover**.
+
 When creating a hike from an SAC route portal URL, follow **[`docs/workflows/SAC-EXTRACTION.md`](docs/workflows/SAC-EXTRACTION.md)**.
 
 ### Phase 1 — Scrape (Playwright, 2-3 tool calls)

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Federispitz (1864 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=='); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Federispitz <span style="font-weight:400; opacity:.85;">1864 m</span></h1>
+    <p>TODO: e.g. Ziegelbrücke -> Federispitz -- <span class="pill t4">SAC T4-</span> | ~850 m gain | ~8.4 km | ~5h round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  TODO: <p>2-3 sentences about the route character and highlights.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>1864 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t4">SAC T4-</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Ziegelbrücke</td></tr>
+    <tr><th>Distance</th><td>TODO: km round-trip</td></tr>
+    <tr><th>Total ascent</th><td>TODO: m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+  </div>
+      <p class="attrib">All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Ziegelbrücke)</span>
+    <span class="summit">Summit (Federispitz)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+
+<section class="getting-there">
+  <h2>Getting There</h2>
+  <div class="transit-actions">
+    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  </div>
+  <p class="attrib">
+    Directions from <span id="transit-origin"></span> to
+    <strong>Ziegelbrücke</strong>
+  </p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/47.16659N9.08961E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+  <p class="attrib">
+    Forecast modeled at 1864 m (summit coordinates) via
+    <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>.
+    Temperatures are summit-level; valleys will be warmer. Always cross-check
+    <a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">MeteoSwiss</a> before going.
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>23.8 km</strong> total</span>
+    <span>&uarr; <strong>0 m</strong> ascent</span>
+    <span>&darr; <strong>0 m</strong> descent</span>
+    <span>max <strong>0 m</strong></span>
+    <span>steepest <strong>0%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).</p>
+</section>
+
+<section>
+  <h2>Resources &amp; Links</h2>
+  <ul>
+    <li><a href="TODO: SAC route URL">SAC Route Portal -- Federispitz</a></li>
+    <li><a href="TODO: SwissTopo map URL">SwissTopo map</a></li>
+  </ul>
+</section>
+
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="federispitz.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 47.16659, lon: 9.08961, elev: 1864, name: "Federispitz" },
+  trailhead: { lat: 47.1352, lon: 9.0984, name: "Ziegelbr\u00fccke",
+               sbb_url: "" },
+  gpx_filename: "federispitz.gpx",
+  page_generated: "2026-06-01",
+  waypoints: [
+    [47.1352, 9.0984, "Ziegelbr\u00fccke", "start"],
+    [47.16659, 9.08961, "Federispitz (1864 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 0.0, "descent_m": 0.0, "distance_km": 23.752081736050926, "max_ele": 0.0, "min_ele": 0.0, "n_points": 4180.0, "steepest_grade_pct": 0.0};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>
