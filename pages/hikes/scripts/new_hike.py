@@ -112,11 +112,29 @@ def parse_gpx(gpx_path: Path) -> dict:
     name_el = tree.find(".//g:metadata/g:name", GPX_NS)
     track_name = name_el.text.strip() if name_el is not None and name_el.text else ""
 
-    pts: list[tuple[float, float, float | None]] = []
-    for tp in tree.findall(".//g:trkpt", GPX_NS):
-        ele_el = tp.find("g:ele", GPX_NS)
-        ele = float(ele_el.text) if ele_el is not None and ele_el.text else None
-        pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+    # Group points by <trkseg> so distance/gain don't count phantom jumps
+    # between disconnected segments. The v2 SAC pipeline emits one trkseg per
+    # GeoJSON feature, which may not be physically adjacent.
+    segments: list[list[tuple[float, float, float | None]]] = []
+    for trkseg in tree.findall(".//g:trkseg", GPX_NS):
+        seg_pts: list[tuple[float, float, float | None]] = []
+        for tp in trkseg.findall("g:trkpt", GPX_NS):
+            ele_el = tp.find("g:ele", GPX_NS)
+            ele = float(ele_el.text) if ele_el is not None and ele_el.text else None
+            seg_pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+        if seg_pts:
+            segments.append(seg_pts)
+    # Fallback: if a GPX has loose <trkpt>s outside any <trkseg>, treat them as one segment.
+    if not segments:
+        flat: list[tuple[float, float, float | None]] = []
+        for tp in tree.findall(".//g:trkpt", GPX_NS):
+            ele_el = tp.find("g:ele", GPX_NS)
+            ele = float(ele_el.text) if ele_el is not None and ele_el.text else None
+            flat.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+        if flat:
+            segments = [flat]
+
+    pts = [p for seg in segments for p in seg]
 
     if len(pts) < 2:
         sys.exit(f"ERROR: GPX has only {len(pts)} track points -- need at least 2.")
@@ -125,7 +143,8 @@ def parse_gpx(gpx_path: Path) -> dict:
 
     dist = sum(
         _haversine_m((a[0], a[1]), (b[0], b[1]))
-        for a, b in zip(pts, pts[1:])
+        for seg in segments
+        for a, b in zip(seg, seg[1:])
     )
 
     start, end = pts[0], pts[-1]
@@ -143,15 +162,17 @@ def parse_gpx(gpx_path: Path) -> dict:
 
     if has_elevation:
         asc = desc = 0.0
-        last_ele = pts[0][2]
-        for p in pts[1:]:
-            d = p[2] - last_ele
-            if abs(d) >= ELEV_SMOOTH_M:
-                if d > 0:
-                    asc += d
-                else:
-                    desc -= d
-                last_ele = p[2]
+        # Compute per-segment so jumps between trksegs don't inflate gain/loss.
+        for seg in segments:
+            last_ele = seg[0][2]
+            for p in seg[1:]:
+                d = p[2] - last_ele
+                if abs(d) >= ELEV_SMOOTH_M:
+                    if d > 0:
+                        asc += d
+                    else:
+                        desc -= d
+                    last_ele = p[2]
 
         summit_pt = max(pts, key=lambda p: p[2])
         elevations = [p[2] for p in pts]
