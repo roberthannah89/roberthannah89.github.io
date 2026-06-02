@@ -69,37 +69,37 @@ The authenticated route page HTML contains all the rich data; it's just not in a
 
 ### Quick reference for future sessions
 
-**Adding a new hike** (post-2026-06):
+**Adding a new hike** (post-2026-06) — one command, chains all five steps:
 
 ```bash
-# 1. Geometry from the public layer API
-python scripts/fetch_sac_route_v2.py \
-    --url '<route-page-url>' --slug '<slug>' --title '<title>'
-
-# 2. Scaffold data.json (uses GPX for distance, peak coords for region/canton)
-python scripts/new_hike.py --slug '<slug>' --name '<Peak Name>' \
-    --region '<Region>' --canton '<Canton>' --grade T3 --elev <peak-elev> \
-    --trailhead '<Trailhead Name>' \
-    --peak-lat <lat> --peak-lon <lon> \
-    --trailhead-lat <lat> --trailhead-lon <lon> \
-    --gpx-path routes/<slug>/<slug>.gpx --no-gpx
-
-# 3. Scrape the authenticated HTML for rich metadata and patch the scaffold
-#    (needs ~/.config/sac-hikes/cookie populated; see "Easiest" section above)
-python scripts/scrape_sac_route_page.py \
-    --url '<route-page-url>' --slug '<slug>' --apply
-
-# 4. Enrich the GPX with SwissTopo elevation
-python -c "from pathlib import Path; \
-           import sys; sys.path.insert(0,'scripts'); \
-           from new_hike import enrich_gpx_elevation; \
-           enrich_gpx_elevation(Path('routes/<slug>/<slug>.gpx'))"
-
-# 5. Render
-make render
+python scripts/add_sac_hike_v2.py \
+    --url '<route-page-url>' --slug '<slug>' \
+    --region '<Region>'   # canton auto-detects from peak coords
 ```
 
+That does: GPX from the layer API → SwissTopo elevation → HTML scrape with the saved cookie → scaffold a data.json with all scraped fields → `make render`. Flags: `--no-elevation`, `--no-scrape`, `--no-render` (for iteration); `--grade`, `--canton`, `--trailhead` (to override scraped values); `--stitch`/`--include-dashed` (rare GPX tweaks).
+
+Prerequisites: the peak ID embedded in the URL must already be in `guides/sac-routes.js`; the saved cookie at `~/.config/sac-hikes/cookie` must still be valid.
+
 **Re-rendering an existing hike that has `sac-route-<ID>.json` already**: use the OLD pipeline (`make render`). The pre-cutover JSON files are frozen captures and remain valid for those hikes.
+
+If you'd rather run the steps individually (debugging, partial regeneration, etc.):
+
+```bash
+# 1. Geometry only
+python scripts/fetch_sac_route_v2.py --url '<route-url>' --slug '<slug>'
+
+# 2. Scrape HTML and print what would be patched (no write)
+python scripts/scrape_sac_route_page.py --url '<route-url>' --inspect
+
+# 3. Scrape HTML and patch the slug's data.json (only TODO fields)
+python scripts/scrape_sac_route_page.py --url '<route-url>' --slug '<slug>' --apply
+
+# 4. Enrich an existing GPX with SwissTopo elevations
+python -c "import sys; sys.path.insert(0,'scripts'); from pathlib import Path; \
+           from new_hike import enrich_gpx_elevation; \
+           enrich_gpx_elevation(Path('routes/<slug>/<slug>.gpx'))"
+```
 
 ---
 
