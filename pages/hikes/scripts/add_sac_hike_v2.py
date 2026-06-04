@@ -42,11 +42,130 @@ from fetch_sac_route_v2 import (
     _peak_id_from_url, _route_id_from_url, _wgs84_to_lv95,
     _build_gpx, BBOX_PADDING_M,
 )
-from new_hike import enrich_gpx_elevation, parse_gpx, scaffold_hike
+from new_hike import enrich_gpx_elevation, orient_gpx_to_trailhead, parse_gpx, scaffold_hike
 from scrape_sac_route_page import fetch_html, scrape, patch_data_json
 from fetch_sac_route import _load_cookie
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+ROUTES_DB = REPO_ROOT / "guides" / "sac-routes.js"
+
+# Trailing "-<digits>/" marks a full route URL; peak URLs end with "/mountain-hiking/".
+_ROUTE_TRAIL_RE = re.compile(r"-\d+/?$")
+_DISCIPLINE = "mountain-hiking"
+
+
+def _is_route_url(url: str) -> bool:
+    path = urllib.parse.urlsplit(url).path
+    return bool(_ROUTE_TRAIL_RE.search(path))
+
+
+def _peak_id_from_any_url(url: str) -> int:
+    """Extract the peak ID from either a peak URL (.../<slug>-<id>/mountain-hiking/)
+    or a route URL (.../<slug>-<id>/mountain-hiking/<route-slug>-<route-id>/).
+
+    Walks the path right-to-left and returns the first segment whose stem
+    matches ``<slug>-<digits>`` — discipline segments like ``mountain-hiking``
+    don't end in digits and are skipped automatically.
+    """
+    parts = [p for p in urllib.parse.urlsplit(url).path.split("/") if p]
+    for p in reversed(parts):
+        m = re.search(r"-(\d+)$", p)
+        if not m:
+            continue
+        peak_id = int(m.group(1))
+        # If we matched the route segment, keep walking left to find the peak segment.
+        if p is parts[-1] and _ROUTE_TRAIL_RE.search(p):
+            continue
+        return peak_id
+    sys.exit(f"ERROR: couldn't extract peak ID from URL: {url}")
+
+
+def _load_routes_db() -> list[dict]:
+    if not ROUTES_DB.exists():
+        sys.exit(f"ERROR: routes DB not found at {ROUTES_DB}")
+    raw = ROUTES_DB.read_text(encoding="utf-8")
+    payload = raw.split("=", 1)[1].strip().rstrip(";").strip()
+    return json.loads(payload)
+
+
+_UMLAUTS = [("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss"),
+            ("é", "e"), ("è", "e"), ("ê", "e"), ("à", "a"), ("ô", "o")]
+
+
+def _slug_from_peak_name(name: str) -> str:
+    """Lowercase + hyphenate + transliterate umlauts. Matches existing conventions
+    (e.g. routes/federispitz/, routes/uessers-barrhorn/)."""
+    s = name.lower()
+    for a, b in _UMLAUTS:
+        s = s.replace(a, b)
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+    return s
+
+
+def _resolve_peak_url_to_route_url(peak_url: str, peak_id: int) -> str:
+    """Turn a peak URL into a route URL using the routes DB + the public peak listing.
+
+    The DB tells us which route_id(s) exist; the peak page HTML gives us the
+    matching URL with its canonical route slug. Errors clearly if multiple
+    routes exist (we don't guess between them).
+    """
+    db = _load_routes_db()
+    peak = next((p for p in db if p.get("id") == peak_id), None)
+    if peak is None:
+        sys.exit(
+            f"ERROR: peak {peak_id} not in {ROUTES_DB}. Add an entry with "
+            "id, name, alt, type='summit', lat, lon, routes=[{id, title, grade, ...}] "
+            "before passing a peak URL to this script."
+        )
+    routes = peak.get("routes") or []
+    if not routes:
+        sys.exit(f"ERROR: peak {peak_id} '{peak['name']}' has no routes listed.")
+    if len(routes) > 1:
+        listing = "\n".join(
+            f"  {r['id']}: {r.get('grade','?')} — {r.get('title','')[:80]}"
+            for r in routes
+        )
+        sys.exit(
+            f"ERROR: peak {peak_id} '{peak['name']}' has {len(routes)} routes; "
+            "pass the full route URL (with the -<route-id>/ suffix) instead.\n"
+            f"Routes:\n{listing}"
+        )
+    route_id = routes[0]["id"]
+
+    # Fetch the peak listing. Authenticated when possible (some routes only
+    # show on the listing when SAC knows you're logged in).
+    headers = {
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"),
+        "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+    }
+    try:
+        cookie = _load_cookie("SAC_COOKIE", None)
+        headers["Cookie"] = cookie
+    except SystemExit:
+        pass  # no cookie saved → fetch unauth, may still work for free routes
+    req = urllib.request.Request(peak_url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            html = resp.read().decode("utf-8", errors="replace")
+    except Exception as e:
+        sys.exit(f"ERROR: couldn't fetch peak listing {peak_url}: {e}")
+
+    # Look for any per-language route link ending in -<route_id>/ that includes
+    # one of the discipline slugs (mountain-hiking / berg-und-alpinwandern / etc.).
+    # Links may be either relative (/en/…) or absolute (https://www.sac-cas.ch/en/…).
+    pattern = re.compile(
+        rf'(?:https://www\.sac-cas\.ch)?(/(?:en|de|fr|it)/[^"\']*/(?:mountain-hiking|berg-und-alpinwandern|randonnee-en-montagne|escursionismo-alpino)/[^"\']*-{route_id}/)'
+    )
+    matches = pattern.findall(html)
+    if not matches:
+        sys.exit(
+            f"ERROR: peak page didn't expose a link ending in -{route_id}/. "
+            "Pass the full route URL directly."
+        )
+    # Prefer the English path if any of the matches is /en/.
+    href = next((h for h in matches if h.startswith("/en/")), matches[0])
+    return f"https://www.sac-cas.ch{href}"
 
 
 def _lookup_canton(lat: float, lon: float) -> str:
@@ -70,8 +189,11 @@ def _lookup_canton(lat: float, lon: float) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("--url", required=True, help="SAC route page URL")
-    p.add_argument("--slug", required=True, help="Folder slug under routes/")
+    p.add_argument("--url", required=True,
+                   help="SAC peak OR route URL. Peak URLs are auto-resolved "
+                        "to the route as long as the peak has exactly one route in sac-routes.js.")
+    p.add_argument("--slug",
+                   help="Folder slug under routes/. Default: derived from the peak name in sac-routes.js.")
     p.add_argument("--region", default="TODO")
     p.add_argument("--canton", default=None,
                    help="Override canton (default: auto-detect from peak coords).")
@@ -92,14 +214,31 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--cookie-env", default="SAC_COOKIE")
     args = p.parse_args(argv)
 
+    # Accept either peak or route URL; if it's a peak URL, resolve to a route URL.
+    peak_id = _peak_id_from_any_url(args.url)
+    if _is_route_url(args.url):
+        route_url = args.url
+    else:
+        print(f"[0/5] Resolving peak URL → route URL (peak_id={peak_id})")
+        route_url = _resolve_peak_url_to_route_url(args.url, peak_id)
+        print(f"      → {route_url}")
+
+    # Derive slug from peak name if the user didn't pass one.
     slug = args.slug
+    if not slug:
+        db = _load_routes_db()
+        peak = next((p for p in db if p.get("id") == peak_id), None)
+        if not peak:
+            sys.exit(f"ERROR: peak {peak_id} not in {ROUTES_DB} — pass --slug explicitly.")
+        slug = _slug_from_peak_name(peak["name"])
+        print(f"[0/5] Slug derived from peak name '{peak['name']}' → '{slug}'")
+
     out_dir = REPO_ROOT / "routes" / slug
     data_path = out_dir / f"{slug}.data.json"
     gpx_path = out_dir / f"{slug}.gpx"
 
     # Step 1: GPX from the layer API
-    route_id = _route_id_from_url(args.url)
-    peak_id = _peak_id_from_url(args.url)
+    route_id = _route_id_from_url(route_url)
     lat, lon = _load_peak_coords(peak_id)
     cx, cy = _wgs84_to_lv95(lat, lon)
     bbox = (cx - args.bbox_padding, cy - args.bbox_padding,
@@ -125,12 +264,13 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(f"[2/5] Skipping elevation enrichment (--no-elevation)")
 
-    # Step 3: HTML scrape (must happen before scaffold so we can pass scraped trailhead/grade)
+    # Step 3: HTML scrape (must happen before scaffold so we can pass scraped trailhead/grade,
+    # and before orient so we can anchor track direction to the scraped departure elevation)
     scraped = None
     if not args.no_scrape:
         print(f"[3/5] Fetching authenticated HTML and scraping metadata")
         cookie = _load_cookie(args.cookie_env, args.cookie_file)
-        html = fetch_html(args.url, cookie)
+        html = fetch_html(route_url, cookie)
         scraped = scrape(html)
         print(f"      title:      {scraped.title[:80] if scraped.title else '?'}")
         print(f"      difficulty: {scraped.difficulty}")
@@ -138,6 +278,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"      photos:     {len(scraped.photos)}")
     else:
         print(f"[3/5] Skipping HTML scrape (--no-scrape)")
+
+    # Orient the GPX so the trailhead endpoint is first. Prefer the scraped
+    # departure elevation as the anchor; fall back to a low-end heuristic.
+    if not args.no_elevation:
+        target_elev = scraped.departure_elev_m if scraped else None
+        orient_gpx_to_trailhead(gpx_path, target_start_elev_m=target_elev)
 
     # Step 4: Scaffold data.json (skip if exists)
     if not data_path.exists():

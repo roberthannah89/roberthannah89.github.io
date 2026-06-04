@@ -506,28 +506,17 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
             routes[0]["notes_html"] = sr.terrain_html
             changed.append("routes.0.notes_html")
 
-    # Waypoints — append scraped named via-points (with elevations from SAC)
-    # to the data.json waypoints list. They have no lat/lon so they're labels
-    # only; useful for documentation, won't render as map pins until coords
-    # are filled in by hand or via GPX matching.
-    if sr.waypoints:
-        existing = data.get("waypoints") or []
-        existing_names = {w.get("label") or w.get("name") for w in existing}
-        added = []
-        for w in sr.waypoints:
-            if w["name"] in existing_names:
-                continue
-            added.append({
-                "label": w["name"],
-                "elev": w["elev_m"],
-                "kind": "way",
-                "lat": None,
-                "lon": None,
-                **({"description": w["description"]} if w.get("description") else {}),
-            })
-        if added:
-            data["waypoints"] = existing + added
-            changed.append(f"waypoints (+{len(added)})")
+    # Waypoints — the scraper gives names + elevations but no coordinates;
+    # the schema requires lat/lon as numbers, so we stash them under a
+    # separate key (`scraped_waypoints`) instead of `waypoints`. Backfilling
+    # coordinates by matching the names against the GPX track is a future job.
+    if sr.waypoints and not data.get("scraped_waypoints"):
+        data["scraped_waypoints"] = [
+            {"name": w["name"], "elev_m": w["elev_m"],
+             **({"description": w["description"]} if w.get("description") else {})}
+            for w in sr.waypoints
+        ]
+        changed.append(f"scraped_waypoints (+{len(sr.waypoints)})")
 
     # End point — record as a top-level field for downstream rendering.
     if sr.end_name and not data.get("end_point"):
