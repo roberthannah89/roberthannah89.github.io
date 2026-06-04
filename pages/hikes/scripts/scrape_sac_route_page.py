@@ -66,8 +66,12 @@ class ScrapedRoute:
     descent_drop_m: int | None = None
     departure_name: str | None = None
     departure_elev_m: int | None = None
-    departure_transport: str | None = None  # "Bus" / "Train" / etc.
-    segments: list[str] = field(default_factory=list)
+    departure_transport: str | None = None  # "Bus" / "Train" / "Cable car" / etc.
+    end_name: str | None = None         # set only when distinct from departure
+    end_elev_m: int | None = None
+    terrain_html: str | None = None     # "Difficulty / Material" section — terrain/safety notes
+    segments: list[str] = field(default_factory=list)   # per-leg "A → B, T3, 2 Std. 45 Min." strings
+    waypoints: list[dict] = field(default_factory=list) # [{name, elev_m, description}]
     photos: list[dict] = field(default_factory=list)
 
 
@@ -76,10 +80,15 @@ def _meta(soup: BeautifulSoup, prop: str) -> str | None:
     return tag.get("content", "").strip() if tag else None
 
 
-def _dt_dd_lookup(soup: BeautifulSoup, label: str) -> str | None:
-    """Find the <dd> sibling of a <dt> whose stripped text == label."""
+def _dt_dd_lookup(soup: BeautifulSoup, *labels: str) -> str | None:
+    """Find the <dd> sibling of the first <dt> whose stripped text matches one
+    of ``labels`` (case-insensitive). SAC uses different labels on different
+    pages — e.g. "Departure point" vs. "Departure and arrival point" for
+    round-trip vs. point-to-point routes.
+    """
+    targets = {lbl.casefold() for lbl in labels}
     for dt in soup.find_all("dt"):
-        if dt.get_text(strip=True) == label:
+        if dt.get_text(strip=True).casefold() in targets:
             dd = dt.find_next_sibling("dd")
             if dd:
                 return re.sub(r"\s+", " ", dd.get_text(separator=" ", strip=True)).strip()
@@ -102,26 +111,124 @@ def _parse_time_gain(s: str) -> tuple[int | None, int | None]:
 
 
 def _parse_departure(raw: str) -> tuple[str | None, int | None]:
-    """Pull 'Name (NNN m)' out; ignore the 'Show on map' / 'Get there' chrome that follows."""
+    """Pull 'Name (NNN m)' out of the departure dd; ignore everything after.
+
+    Examples seen in the wild:
+      "Ziegelbrücke, Bahnhof (425 m)Show on mapGet there Google MapsZiegelbrücke"
+        → ("Ziegelbrücke, Bahnhof", 425)
+      "Morgenholz, Bergstation (982 m) Informationen zur Seilbahn: www.niederurnertaeli.ch/..."
+        → ("Morgenholz, Bergstation", 982)
+    """
     if not raw:
         return None, None
-    # Truncate at known chrome strings
-    for cut in ["Show on map", "Get there", "Google Maps", "View on map"]:
-        if cut in raw:
-            raw = raw.split(cut, 1)[0]
-    raw = raw.strip(" ,;")
-    m = _ELEV_PARENS_RE.search(raw)
-    elev = int(m.group(1)) if m else None
-    name = _ELEV_PARENS_RE.sub("", raw).strip(" ,;") or None
-    return name, elev
+    # The reliable anchor is the elevation parens — everything before is the
+    # name, everything after is extra content (transit info, chrome, etc.).
+    m = re.search(r"^\s*(.+?)\s*\((\d+)\s*m\)", raw)
+    if m:
+        name = re.sub(r"\s+", " ", m.group(1)).strip(" ,;")
+        return name or None, int(m.group(2))
+
+    # Fallback: no elevation parens — strip known chrome and use what's left.
+    cleaned = raw
+    for cut in ("Show on map", "Get there", "Google Maps", "View on map",
+                "Informationen zur", "Information about"):
+        if cut in cleaned:
+            cleaned = cleaned.split(cut, 1)[0]
+    cleaned = cleaned.strip(" ,;")
+    return (cleaned or None), None
 
 
-def _detect_transport(soup: BeautifulSoup) -> str | None:
-    """Look for the SVG icon class next to the departure point: bus / train / boat."""
-    for cls in ["bus", "train", "boat", "tram", "cable_car"]:
+def _detect_transport(soup: BeautifulSoup, dd_text: str | None) -> str | None:
+    """Best-effort detection of the public-transport mode for the departure.
+
+    Two signals: (a) a transport-named CSS class on a nearby icon span, and
+    (b) German keywords in the departure dd's text (Seilbahn = cable car, etc.).
+    """
+    for cls in ("bus", "train", "boat", "tram", "cable_car"):
         if soup.find(class_=re.compile(rf"\b{cls}\b")):
             return cls.replace("_", " ").title()
+    if dd_text:
+        text_de = dd_text.lower()
+        for kw, label in (
+            ("seilbahn", "Cable car"),
+            ("luftseilbahn", "Cable car"),
+            ("bergbahn", "Mountain railway"),
+            ("zahnradbahn", "Cog railway"),
+            ("postauto", "Post bus"),
+            ("bahnhof", "Train"),
+            ("bahn", "Train"),
+            ("station", "Train"),
+        ):
+            if kw in text_de:
+                return label
     return None
+
+
+def _parse_time_breakdown(raw: str) -> list[str]:
+    """Split the 'Time' dd into one entry per leg.
+
+    Examples seen:
+      Hirzli:       "Morgenholz – Hirzli 1 Std. 45 Min. Hirzli – Planggenstock 30 Min. …"
+      Federispitz:  "… T3, 30 Min. Federispitz - Plättlispitz - Unternätenalp T3, 1 Std. Unternätenalp - Weesen, T2, 1 Std. 45 Min."
+
+    Delimiter: 'Min.' OR 'Std.' followed by whitespace and a capital letter
+    that starts the next leg's name. "Std." in the middle of '2 Std. 45 Min.'
+    is naturally skipped because '45' isn't a capital letter.
+    """
+    if not raw:
+        return []
+    # Split capturing the trailing 'Min.' or 'Std.' so we can stitch it back
+    # onto the preceding chunk.
+    chunks = re.split(r"((?:Std|Min)\.)\s+(?=[A-ZÄÖÜ])", raw.strip())
+    # chunks alternates body / delimiter / body / delimiter / … / final body
+    out: list[str] = []
+    i = 0
+    while i < len(chunks):
+        body = chunks[i]
+        delim = chunks[i + 1] if i + 1 < len(chunks) else ""
+        seg = re.sub(r"\s+", " ", (body + " " + delim)).strip()
+        if seg:
+            out.append(seg)
+        i += 2
+    return out
+
+
+def _parse_waypoints(raw: str) -> list[dict]:
+    """Split the 'Waypoints' dd into structured entries.
+
+    Each waypoint is shaped 'Name (NNN m) [optional description] Show on map'.
+    Multiple waypoints repeat that pattern back-to-back.
+    """
+    if not raw:
+        return []
+    pat = re.compile(
+        r"([A-ZÄÖÜ][^()]*?)\s*\((\d+)\s*m\)\s*(.*?)\s*Show on map",
+        re.DOTALL,
+    )
+    out: list[dict] = []
+    for m in pat.finditer(raw):
+        name = re.sub(r"\s+", " ", m.group(1)).strip(" ,;-–")
+        elev = int(m.group(2))
+        desc = re.sub(r"\s+", " ", m.group(3)).strip(" ,;")
+        if name:
+            entry = {"name": name, "elev_m": elev}
+            if desc:
+                entry["description"] = desc
+            out.append(entry)
+    return out
+
+
+def _terrain_html(raw: str) -> str | None:
+    """Wrap the 'Difficulty / Material' dd content as one or more <p>s."""
+    if not raw:
+        return None
+    cleaned = re.sub(r"\s+", " ", raw).strip()
+    if not cleaned:
+        return None
+    # Split into paragraphs on " . " or "! " or "? " boundaries that look like
+    # sentence ends followed by an uppercase word — rare in this short field
+    # but harmless. Otherwise emit as a single paragraph.
+    return f"<p>{cleaned}</p>"
 
 
 def _extract_photos(soup: BeautifulSoup) -> list[dict]:
@@ -148,26 +255,39 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
     return out
 
 
-def _extract_description(soup: BeautifulSoup, teaser: str | None) -> str | None:
+def _extract_description(soup: BeautifulSoup, teaser: str | None,
+                         exclude_texts: list[str] | None = None) -> str | None:
     """Build a multi-paragraph HTML description from the first long article-body paragraphs.
 
     The og:description is server-truncated mid-sentence; prefer body <p> tags. Skip
-    paragraphs that look like the segment list (e.g. 'A - B, T3, 2 Std. 45 Min.').
+    paragraphs that look like the segment list, transit/URL notes ("Informationen
+    zur Seilbahn:…"), or duplicate content from terrain/safety sections.
     """
     paragraphs: list[str] = []
     seg_pattern = re.compile(r"T[1-6][+\-]?\s*,|\d+\s*Std\.|\d+\s*Min\.")
+    url_pattern = re.compile(r"https?://|www\.[a-z]")
+    excludes_norm = [re.sub(r"\W+", " ", (t or "").lower())[:160] for t in (exclude_texts or [])]
+
     for p in soup.find_all("p"):
         txt = re.sub(r"\s+", " ", p.get_text(strip=True))
         if not txt or len(txt) < 60:
             continue
-        if any(kw in txt.lower() for kw in ("cookie", "javascript", "browser", "abonnement", "newsletter")):
+        low = txt.lower()
+        if any(kw in low for kw in ("cookie", "javascript", "browser", "abonnement", "newsletter")):
             continue
         if seg_pattern.search(txt) and " - " in txt:
             # Looks like a route segment, not narrative
             continue
+        if url_pattern.search(txt):
+            # "Informationen zur Seilbahn:www.niederurnertaeli.ch/…" and friends
+            continue
         # Author bio paragraphs (Remo Kundert is a hiking guide...) — skip
         if re.search(r"\b(hiking guide|alpine journalist|co-authored|freelance photographer|guidebook author|Bergf(ü|u)hrer|Tourenleiter)\b",
                      txt, re.I):
+            continue
+        # Substantial overlap with terrain/excluded text — skip
+        norm = re.sub(r"\W+", " ", low)[:160]
+        if any(ex and (norm[:80] in ex or ex[:80] in norm) for ex in excludes_norm):
             continue
         paragraphs.append(txt)
         if len(paragraphs) >= 2:
@@ -203,26 +323,6 @@ def _overlap_len(a: str, b: str) -> int:
     return best
 
 
-def _extract_segments(soup: BeautifulSoup) -> list[str]:
-    """The route page lists numbered legs like 'A - B, T3, 2 Std. 45 Min.' — collect them."""
-    out: list[str] = []
-    for p in soup.find_all("p"):
-        txt = re.sub(r"\s+", " ", p.get_text(strip=True))
-        if not txt:
-            continue
-        if re.search(r"T[1-6][+\-]?,\s*\d+", txt) or re.search(r"\d+\s*(?:Std|h)\.?\s*\d*\s*(?:Min|min)?\.?", txt):
-            if " - " in txt or " – " in txt:
-                out.append(txt)
-    # Deduplicate while preserving order
-    seen: set[str] = set()
-    uniq = []
-    for s in out:
-        if s not in seen:
-            seen.add(s)
-            uniq.append(s)
-    return uniq
-
-
 def scrape(html: str) -> ScrapedRoute:
     soup = BeautifulSoup(html, "html.parser")
     res = ScrapedRoute()
@@ -235,13 +335,35 @@ def scrape(html: str) -> ScrapedRoute:
     res.ascent_time_min, res.ascent_gain_m = _parse_time_gain(_dt_dd_lookup(soup, "Ascent") or "")
     res.descent_time_min, res.descent_drop_m = _parse_time_gain(_dt_dd_lookup(soup, "Descent") or "")
 
-    raw_dep = _dt_dd_lookup(soup, "Departure point") or ""
+    raw_dep = (_dt_dd_lookup(soup, "Departure point", "Departure and arrival point",
+                              "Starting point", "Trailhead", "Start point") or "")
     res.departure_name, res.departure_elev_m = _parse_departure(raw_dep)
-    res.departure_transport = _detect_transport(soup)
+    res.departure_transport = _detect_transport(soup, raw_dep)
+
+    # End point only set when distinct from departure (i.e. point-to-point
+    # routes use a separate "End point" label; round-trips use "Departure and
+    # arrival point" instead, so we leave end_* null in that case).
+    raw_end = _dt_dd_lookup(soup, "End point", "Arrival point", "End and arrival point")
+    if raw_end:
+        res.end_name, res.end_elev_m = _parse_departure(raw_end)
+
+    # Per-leg time breakdown — the cleanest source for "what does the route do".
+    raw_time = _dt_dd_lookup(soup, "Time") or ""
+    res.segments = _parse_time_breakdown(raw_time)
+
+    # Terrain / safety notes
+    res.terrain_html = _terrain_html(_dt_dd_lookup(soup, "Difficulty / Material",
+                                                   "Material / Difficulty",
+                                                   "Conditions") or "")
+
+    # Named via-points with elevations + descriptions
+    res.waypoints = _parse_waypoints(_dt_dd_lookup(soup, "Waypoints", "Via points") or "")
 
     res.photos = _extract_photos(soup)
-    res.description_html = _extract_description(soup, res.teaser)
-    res.segments = _extract_segments(soup)
+    # Strip terrain HTML wrapper so the substring comparison sees raw text.
+    terrain_text = re.sub(r"<[^>]+>", "", res.terrain_html or "")
+    res.description_html = _extract_description(soup, res.teaser,
+                                                exclude_texts=[terrain_text])
 
     return res
 
@@ -343,8 +465,11 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
         grade = data.get("hero", {}).get("grade") or sr.difficulty or "T?"
         pill_cls = "t" + (grade[1] if len(grade) >= 2 and grade[1].isdigit() else "?")
         parts = []
-        if sr.departure_name:
-            parts.append(f"{sr.departure_name} → {data.get('peak', {}).get('name', '')}")
+        # Prefer "departure → end" when both endpoints are known and distinct
+        # (point-to-point routes); fall back to "departure → peak name" otherwise.
+        endpoint = sr.end_name or data.get("peak", {}).get("name", "")
+        if sr.departure_name and endpoint:
+            parts.append(f"{sr.departure_name} → {endpoint}")
         if grade:
             parts.append(f'<span class="pill {pill_cls}">SAC {grade}</span>')
         if gain_part and gain_part != "TODO":
@@ -372,6 +497,45 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
                 bullets[i] = sr.segments[i]
                 changed.append(f"routes.0.bullets_html.{i}")
         routes[0]["bullets_html"] = bullets
+
+    # Terrain / safety notes — append to intro if intro got patched, or attach
+    # to routes[0] as a notes_html if the schema accepts it.
+    if sr.terrain_html and routes:
+        existing_notes = routes[0].get("notes_html", "")
+        if is_placeholder(existing_notes) or not existing_notes:
+            routes[0]["notes_html"] = sr.terrain_html
+            changed.append("routes.0.notes_html")
+
+    # Waypoints — append scraped named via-points (with elevations from SAC)
+    # to the data.json waypoints list. They have no lat/lon so they're labels
+    # only; useful for documentation, won't render as map pins until coords
+    # are filled in by hand or via GPX matching.
+    if sr.waypoints:
+        existing = data.get("waypoints") or []
+        existing_names = {w.get("label") or w.get("name") for w in existing}
+        added = []
+        for w in sr.waypoints:
+            if w["name"] in existing_names:
+                continue
+            added.append({
+                "label": w["name"],
+                "elev": w["elev_m"],
+                "kind": "way",
+                "lat": None,
+                "lon": None,
+                **({"description": w["description"]} if w.get("description") else {}),
+            })
+        if added:
+            data["waypoints"] = existing + added
+            changed.append(f"waypoints (+{len(added)})")
+
+    # End point — record as a top-level field for downstream rendering.
+    if sr.end_name and not data.get("end_point"):
+        data["end_point"] = {
+            "name": sr.end_name,
+            "elev": sr.end_elev_m,
+        }
+        changed.append("end_point")
 
     # Photos: append scraped photos if data has empty list (don't clobber manual curation)
     if not data.get("photos") and sr.photos:
