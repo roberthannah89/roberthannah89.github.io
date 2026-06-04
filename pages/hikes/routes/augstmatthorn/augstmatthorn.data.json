@@ -253,7 +253,8 @@
         "Ällgäuwlicka - Augstmatthorn",
         "Augstmatthorn - Harder Kulm"
       ],
-      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/)"
+      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/)",
+      "notes_html": "<p>Der Grat weist keine Kletterpassagen im engeren Sinne auf, ist aber auf lange Strecken exponiert. Bei Nässe werden die erdigen Wegspuren am Grat sehr rutschig; von einer Begehung ist dann abzuraten. Vorsicht: Bei der Tour über den ganzen Brienzergrat dürfen die physische Komponente (Distanz Brienzer Rothorn - Harder rund 20 km, zahlreiche Gegensteigungen!) und vor allem die Anforderungen an die Konzentrationsfähigkeit nicht unterschätzt werden, man bewegt sich über lange Strecken in exponiertem Gelände, das kaum Fehler verzeiht. Die Markierungen (rot-weiss / blau-weiss oder nicht markiert) haben in den letzten Jahren immer wieder mal gewechselt, die Route ist aber kaum zu verfehlen.</p>"
     }
   ],
   "getting_there": {
@@ -289,5 +290,15 @@
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/"
     }
   ],
-  "photos_attrib_html": "All photos: Fabian Lippuner / SAC Route Portal"
+  "photos_attrib_html": "All photos: Fabian Lippuner / SAC Route Portal",
+  "scraped_waypoints": [
+    {
+      "name": "Ällgäuwlicka",
+      "elev_m": 1918
+    }
+  ],
+  "end_point": {
+    "name": "Harder Kulm",
+    "elev": 1321
+  }
 }
