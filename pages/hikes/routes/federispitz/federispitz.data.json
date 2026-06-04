@@ -14,7 +14,7 @@
   "index_card": {
     "region": "Eastern Switzerland",
     "canton": "St. Gallen",
-    "distance": "18.1 km",
+    "distance": "14.1 km",
     "gain": "1490 m",
     "time": "~7 h",
     "route_type": "out-and-back"
@@ -47,7 +47,7 @@
     ],
     [
       "Distance",
-      "<strong>18.1 km</strong>"
+      "<strong>14.1 km</strong>"
     ],
     [
       "Total ascent",

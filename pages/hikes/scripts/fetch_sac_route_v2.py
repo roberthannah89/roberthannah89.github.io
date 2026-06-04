@@ -45,6 +45,7 @@ except ImportError:
     sys.exit("ERROR: gpxpy is required.  pip install gpxpy")
 
 from extract_sac_gpx import _lv95_to_wgs84, _stitch_segments  # noqa: E402
+from itertools import permutations
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ROUTES_DB = REPO_ROOT / "guides" / "sac-routes.js"
@@ -147,8 +148,46 @@ def _features_for_route(layer: dict, route_id: int, include_dashed: bool = False
     return out
 
 
+def _gap_lv95(a: tuple[float, float], b: tuple[float, float]) -> float:
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
+
+
+def _smart_stitch(raw: list[tuple[str, list]]) -> tuple[list[tuple[str, list]], float]:
+    """Brute-force the best ordering + per-segment direction.
+
+    For each permutation of segments and each binary direction choice,
+    compute the sum of LV95 distances between consecutive endpoint pairs.
+    Return the lowest-total-gap ordering. O(N! * 2^N) — fine for N <= 7.
+
+    Returns ``(ordered_segments, total_gap_metres)``.
+    """
+    n = len(raw)
+    coords_per_seg = [seg_coords for _, seg_coords in raw]
+
+    best: tuple[list[tuple[str, list]], float] | None = None
+    for perm in permutations(range(n)):
+        for dir_bits in range(1 << n):
+            ordered: list[tuple[str, list]] = []
+            total_gap = 0.0
+            for i, idx in enumerate(perm):
+                title = raw[idx][0]
+                coords = coords_per_seg[idx]
+                reverse = bool((dir_bits >> i) & 1)
+                if reverse:
+                    coords = list(reversed(coords))
+                    title = f"{title}↺"
+                if ordered:
+                    gap = _gap_lv95(ordered[-1][1][-1], coords[0])
+                    total_gap += gap
+                ordered.append((title, coords))
+            if best is None or total_gap < best[1]:
+                best = (ordered, total_gap)
+    assert best is not None
+    return best
+
+
 def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
-               stitch: bool = False) -> Path:
+               stitch: bool = False, smart: bool = True) -> Path:
     """Write a GPX with one track segment per feature.
 
     The default mode (``stitch=False``) preserves each layer-API feature as a
@@ -174,17 +213,34 @@ def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
     if stitch:
         raw = _stitch_segments(raw)
         print(f"[gpx  ] stitched into {len(raw)} segments")
+    elif smart and 2 <= len(raw) <= 7:
+        ordered, total_gap = _smart_stitch(raw)
+        print(f"[gpx  ] smart-stitched: order=[{', '.join(t for t, _ in ordered)}], "
+              f"total endpoint gap={total_gap:.0f} m")
+        raw = ordered
+    elif smart and len(raw) > 7:
+        print(f"[gpx  ] {len(raw)} features > 7; smart stitcher skipped (too many permutations). "
+              "Using raw order; consider --stitch.")
 
     gpx = gpxpy.gpx.GPX()
     track = gpxpy.gpx.GPXTrack(name=title)
     gpx.tracks.append(track)
 
-    for seg_name, coords in raw:
+    # When smart-stitched, fuse all segments into ONE trkseg so the elevation
+    # profile renders as a single connected line. Otherwise keep them split
+    # (each feature in its own trkseg).
+    if smart and not stitch and 2 <= len(raw) <= 7:
         seg = gpxpy.gpx.GPXTrackSegment()
-        seg.points = [
-            gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in coords
-        ]
+        for _, coords in raw:
+            seg.points.extend(gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in coords)
         track.segments.append(seg)
+    else:
+        for seg_name, coords in raw:
+            seg = gpxpy.gpx.GPXTrackSegment()
+            seg.points = [
+                gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in coords
+            ]
+            track.segments.append(seg)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"{slug}.gpx"
@@ -206,8 +262,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--include-dashed", action="store_true",
                    help="Include style=dashed segments (default: skip; they are usually short connectors).")
     p.add_argument("--stitch", action="store_true",
-                   help="Run the legacy greedy stitcher (default: emit one trkseg per feature; "
-                        "more accurate elevation gain on figure-8 routes).")
+                   help="Run the legacy greedy stitcher with retraces (rarely useful).")
+    p.add_argument("--no-smart", action="store_true",
+                   help="Skip the smart brute-force stitcher; emit one trkseg per feature "
+                        "in raw API order (debugging only).")
     args = p.parse_args(argv)
 
     route_id = _route_id_from_url(args.url)
@@ -231,7 +289,8 @@ def main(argv: list[str] | None = None) -> int:
 
     out_dir = REPO_ROOT / "routes" / args.slug
     title = args.title or args.slug
-    _build_gpx(features, title, args.slug, out_dir, stitch=args.stitch)
+    _build_gpx(features, title, args.slug, out_dir,
+               stitch=args.stitch, smart=not args.no_smart)
 
     if args.save_layer:
         layer_path = out_dir / f"sac-layer-{route_id}.json"
