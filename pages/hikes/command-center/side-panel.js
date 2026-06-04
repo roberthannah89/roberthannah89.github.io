@@ -68,9 +68,36 @@
     return 't' + n;
   }
 
+  function matchingHike(poi) {
+    // window.HIKES is the auto-generated list of built hike pages from
+    // render_hike.py. Match by exact lat/lon since both sides come from the
+    // same SAC_ROUTES database; name comparison is unreliable across umlaut
+    // transliteration ("Nüenchamm" vs "Nueenchamm").
+    if (!window.HIKES || !poi || poi.lat == null || poi.lon == null) return null;
+    for (var i = 0; i < window.HIKES.length; i++) {
+      var h = window.HIKES[i];
+      if (h && h.lat === poi.lat && h.lon === poi.lon) return h;
+    }
+    return null;
+  }
+
   function render(poi) {
     var grade = Filters.bestGrade(poi);
     var html = '';
+    var hike = matchingHike(poi);
+
+    // Hero strip + local-page link — only when this peak has a built page.
+    if (hike) {
+      html += '<a class="panel-hero" href="../' + hike.href + '" '
+            + 'style="display:block;position:relative;height:140px;margin:-1rem -1rem 0;'
+            + 'background:#222 center/cover no-repeat url(\'' + esc(hike.photo) + '\');'
+            + 'border-bottom:1px solid var(--flap-border);text-decoration:none">'
+            + '<div style="position:absolute;bottom:0;left:0;right:0;padding:6px 10px;'
+            + 'background:linear-gradient(to top,rgba(0,0,0,.75),transparent);'
+            + 'color:#fff;font-size:12px;display:flex;justify-content:space-between;align-items:center">'
+            + '<span>Open hike page</span><span style="color:var(--amber)">↗</span>'
+            + '</div></a>';
+    }
 
     // Route info
     html += '<div class="panel-section">';
@@ -147,6 +174,8 @@
     html += '<div class="panel-section">';
     html += '<div class="panel-label">Links</div>';
     html += '<div class="panel-links">';
+    html += '<a class="panel-link" href="https://www.meteoblue.com/en/weather/week/' + poi.lat + 'N' + poi.lon + 'E" target="_blank" rel="noopener">';
+    html += '<span class="link-icon">⛅</span> Point forecast (meteoblue)</a>';
     html += '<a class="panel-link" href="https://www.windy.com/' + poi.lat.toFixed(3) + '/' + poi.lon.toFixed(3) + '?rain,' + poi.lat.toFixed(3) + ',' + poi.lon.toFixed(3) + ',12" target="_blank" rel="noopener">';
     html += '<span class="link-icon">🌊</span> Open in Windy</a>';
     html += '<a class="panel-link" href="https://www.google.com/maps/dir/?api=1&destination=' + poi.lat + ',' + poi.lon + '&travelmode=transit" target="_blank" rel="noopener">';
