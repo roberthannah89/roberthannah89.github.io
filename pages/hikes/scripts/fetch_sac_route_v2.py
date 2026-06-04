@@ -152,6 +152,28 @@ def _gap_lv95(a: tuple[float, float], b: tuple[float, float]) -> float:
     return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
 
 
+def _densify_gaps(coords: list[list[float]], max_gap_m: float = 50) -> list[list[float]]:
+    """Insert evenly-spaced intermediate points wherever the gap between two
+    consecutive points exceeds ``max_gap_m``.
+
+    Operates on LV95 [E, N] coordinates. The new points have no elevation —
+    SwissTopo enrichment fills that in afterwards. This is how we paper over
+    the 100-1000m gaps the smart stitcher leaves between feature endpoints
+    that almost-but-don't-quite touch: the chart shows real terrain across
+    the gap instead of a diagonal straight line.
+    """
+    out: list[list[float]] = [coords[0]]
+    for a, b in zip(coords, coords[1:]):
+        gap = _gap_lv95(tuple(a), tuple(b))
+        if gap > max_gap_m:
+            n_inter = int(gap // max_gap_m)  # number of intermediates to insert
+            for k in range(1, n_inter + 1):
+                t = k / (n_inter + 1)
+                out.append([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])])
+        out.append(b)
+    return out
+
+
 def _smart_stitch(raw: list[tuple[str, list]]) -> tuple[list[tuple[str, list]], float]:
     """Brute-force the best ordering + per-segment direction.
 
@@ -227,12 +249,20 @@ def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
     gpx.tracks.append(track)
 
     # When smart-stitched, fuse all segments into ONE trkseg so the elevation
-    # profile renders as a single connected line. Otherwise keep them split
-    # (each feature in its own trkseg).
+    # profile renders as a single connected line. Densify any large gaps
+    # between feature endpoints with intermediate points so the chart shows
+    # actual terrain (post-enrichment) instead of a diagonal connector.
+    # Otherwise keep them split (each feature in its own trkseg).
     if smart and not stitch and 2 <= len(raw) <= 7:
-        seg = gpxpy.gpx.GPXTrackSegment()
+        merged_coords: list[list[float]] = []
         for _, coords in raw:
-            seg.points.extend(gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in coords)
+            merged_coords.extend(coords)
+        densified = _densify_gaps(merged_coords, max_gap_m=50)
+        added = len(densified) - len(merged_coords)
+        if added:
+            print(f"[gpx  ] densified {added} intermediate point(s) across feature-boundary gaps")
+        seg = gpxpy.gpx.GPXTrackSegment()
+        seg.points = [gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in densified]
         track.segments.append(seg)
     else:
         for seg_name, coords in raw:
