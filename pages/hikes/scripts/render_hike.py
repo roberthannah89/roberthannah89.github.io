@@ -733,6 +733,24 @@ def build_index_hikes(data_files: list[Path],
         gain = ic.get("gain") or (
             f"{int(round(gpx['ascent_m']))} m" if gpx.get("ascent_m") else "—")
 
+        # Try to extract the SAC peak_id and route_id from any source URL —
+        # they're the cleanest join key for the command-center side panel,
+        # which has the SAC IDs but doesn't know about umlaut-transliterated
+        # hike names ("Faulhorn" hike on a Berghaus-Männdlenen route, etc.).
+        sac_peak_id, sac_route_id = None, None
+        for src in d.get("sources") or []:
+            url = src.get("url") or ""
+            if "sac-route-portal" not in url:
+                continue
+            # Peak id: digits in segment right after sac-route-portal/
+            m_peak = re.search(r"sac-route-portal/[^/]*?-(\d+)/", url)
+            if m_peak and not sac_peak_id:
+                sac_peak_id = int(m_peak.group(1))
+            # Route id: digits at end of path (only when URL is a full route URL)
+            m_route = re.search(r"/mountain-hiking/[^/]*?-(\d+)/?$", url)
+            if m_route and not sac_route_id:
+                sac_route_id = int(m_route.group(1))
+
         entry = {
             "name": peak.get("name", slug),
             "region": ic.get("region", ""),
@@ -749,6 +767,8 @@ def build_index_hikes(data_files: list[Path],
             "lon": peak.get("lon"),
             "summitElev": peak.get("elev", ""),
             "photo": _index_photo_url(d),
+            "sac_peak_id": sac_peak_id,
+            "sac_route_id": sac_route_id,
         }
         hikes.append(entry)
     return hikes

@@ -70,13 +70,34 @@
 
   function matchingHike(poi) {
     // window.HIKES is the auto-generated list of built hike pages from
-    // render_hike.py. Match by exact lat/lon since both sides come from the
-    // same SAC_ROUTES database; name comparison is unreliable across umlaut
-    // transliteration ("Nüenchamm" vs "Nueenchamm").
-    if (!window.HIKES || !poi || poi.lat == null || poi.lon == null) return null;
+    // render_hike.py. Match in this order, falling through on miss:
+    //   1. SAC route_id on any of the POI's routes (cleanest — IDs are stable)
+    //   2. SAC peak_id on the POI's id
+    //   3. lat/lon within ~200 m (handles 4-vs-5-decimal rounding)
+    //   4. exact name match (case- and umlaut-insensitive)
+    if (!window.HIKES || !poi) return null;
+    var poiRouteIds = (poi.routes || []).map(function (r) { return r.id; });
+
+    function normName(s) {
+      return (s || '')
+        .toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+    }
+    var poiNameN = normName(poi.name);
+
     for (var i = 0; i < window.HIKES.length; i++) {
       var h = window.HIKES[i];
-      if (h && h.lat === poi.lat && h.lon === poi.lon) return h;
+      if (!h) continue;
+      if (h.sac_route_id && poiRouteIds.indexOf(h.sac_route_id) >= 0) return h;
+      if (h.sac_peak_id && h.sac_peak_id === poi.id) return h;
+    }
+    for (var j = 0; j < window.HIKES.length; j++) {
+      var hk = window.HIKES[j];
+      if (!hk) continue;
+      if (poi.lat != null && hk.lat != null
+          && Math.abs(hk.lat - poi.lat) < 0.002
+          && Math.abs(hk.lon - poi.lon) < 0.002) return hk;
+      if (poiNameN && normName(hk.name) === poiNameN) return hk;
     }
     return null;
   }
