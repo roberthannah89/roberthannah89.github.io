@@ -61,24 +61,58 @@
   ],
   "photos": [
     {
-      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1533557725_705491663master_e13216823f.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1533557725_705491663master_e13216823f.jpg",
-      "alt": "Säntis — peak photo",
-      "caption_html": "<p>Säntis — peak photo</p>"
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1533555866_787592781master_871698939f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1533555866_787592781master_871698939f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
     },
     {
-      "url": "https://static.www.suissealpine.sac-cas.ch/1533555866_787592781Ma.jpg",
-      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1533555866_787592781L.jpg",
-      "alt": "Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route",
-      "caption_html": "<p>Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route</p>",
-      "copyright": "Fabian Lippuner"
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1660206042_120038184master_252471b225.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1660206042_120038184master_252471b225.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
     },
     {
-      "url": "https://static.www.suissealpine.sac-cas.ch/1660206042_120038184Ma.jpg",
-      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1660206042_120038184L.jpg",
-      "alt": "The nostrils - the trail to the actual \"holes\" is a dead end",
-      "caption_html": "<p>The nostrils - the trail to the actual \"holes\" is a dead end</p>",
-      "copyright": "Pascal Keller"
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/6/csm_1533557103_895110370master_5c2d7e43b1.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/6/csm_1533557103_895110370master_5c2d7e43b1.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
+      "alt": "Safety when hiking",
+      "caption_html": "<p>Safety when hiking</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/6/8/csm_SAC-taeschhuette-2016-davidschweizer_71a2ee8b13.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/8/csm_SAC-taeschhuette-2016-davidschweizer_71a2ee8b13.jpg",
+      "alt": "Hike responsibly",
+      "caption_html": "<p>Hike responsibly</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_8971c900e5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_8971c900e5.jpg",
+      "alt": "Legend and explanations",
+      "caption_html": "<p>Legend and explanations</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_2de79bd8d5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_2de79bd8d5.jpg",
+      "alt": "FAQ Route Portal",
+      "caption_html": "<p>FAQ Route Portal</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_bcbf468ebc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_bcbf468ebc.jpg",
+      "alt": "Legend and explanations",
+      "caption_html": "<p>Legend and explanations</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_8bfa9ce8a3.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_8bfa9ce8a3.jpg",
+      "alt": "FAQ Route Portal",
+      "caption_html": "<p>FAQ Route Portal</p>"
     }
   ],
   "waypoints": [
@@ -165,11 +199,6 @@
     "season_html": "<strong>June–October</strong> is best. Snow lingers on Nasenlöcher into June; fixed chains may be iced. Avoid after fresh snowfall. Afternoon thunderstorms frequent July–August."
   },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "resources_html": [
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Route Portal — From Schwägalp via Nasenlöcher</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/\">SAC Peak Page — Säntis</a>",
-    "<em>Coulin / Lippuner, Ostschweiz</em> (SAC, 2012). ISBN 978-3-85902-337-6"
-  ],
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -180,7 +209,7 @@
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/"
     }
   ],
-  "photos_attrib_html": "All photos: Fabian Lippuner, Pascal Keller / SAC Route Portal",
+  "photos_attrib_html": "All photos: SAC Route Portal",
   "scraped_waypoints": [
     {
       "name": "Hüenerberg",

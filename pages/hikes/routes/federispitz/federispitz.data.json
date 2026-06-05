@@ -116,16 +116,16 @@
       "caption_html": ""
     },
     {
-      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_79ecdf9e87.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_79ecdf9e87.jpg",
+      "url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg",
       "alt": "Route photo (SAC)",
       "caption_html": ""
     },
     {
-      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1600865435_408075397master_5c5c96c920.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1600865435_408075397master_5c5c96c920.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
+      "alt": "Safety when hiking",
+      "caption_html": "<p>Safety when hiking</p>"
     }
   ],
   "waypoints": [
@@ -151,7 +151,8 @@
         "Ziegelbrücke - Unternätenalp, T3, 2 Std. 45 Min.",
         "Unternätenalp - Vorder Federispitz, T4-, 1 Std. 15 Min."
       ],
-      "source": "SAC Route Portal"
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Die Krete beim Vorder Federispitz ist unübersichtlich und wellig, bei Nässe heikel. Einmal muss ein Grataufbau in der Schattenseite umgangen werden.</p>"
     }
   ],
   "getting_there": {
@@ -173,8 +174,25 @@
     "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
   },
   "elev_chart_attrib_html": "",
-  "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Federispitz</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
-  ]
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/federispitz-601/mountain-hiking/von-ziegelbruecke-via-vorder-federispitz-abstieg-via-plaettlispitz-nach-weesen-6819/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/federispitz-601/mountain-hiking/"
+    }
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Plättlispitz",
+      "elev_m": 1763
+    }
+  ],
+  "end_point": {
+    "name": "Weesen, See",
+    "elev": 423
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
 }

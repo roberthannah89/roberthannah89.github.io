@@ -61,17 +61,52 @@
   ],
   "photos": [
     {
-      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_a87fc1adc7.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1668417488_2142254707master_a87fc1adc7.jpg",
-      "alt": "View from the Schynige Platte – First traverse",
-      "caption_html": "<p>View from the Schynige Platte – First traverse</p>"
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1534266885_1864266862master_a64e92af1f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1534266885_1864266862master_a64e92af1f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
     },
     {
-      "url": "https://static.www.suissealpine.sac-cas.ch/1534266885_1864266862Ma.jpg",
-      "lightbox_url": "https://static.www.suissealpine.sac-cas.ch/1534266885_1864266862L.jpg",
-      "alt": "Am Ziel: das Berghaus Männdlenen auf 2344 Meter.",
-      "caption_html": "<p>Am Ziel: das Berghaus Männdlenen auf 2344 Meter.</p>",
-      "copyright": "Barbara Reichen"
+      "url": "https://www.sac-cas.ch/processed/fileadmin/0/8/csm_Bomio_Marco_287475cb95.jpeg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/0/8/csm_Bomio_Marco_287475cb95.jpeg",
+      "alt": "Marco Bomio",
+      "caption_html": "<p>Marco Bomio</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
+      "alt": "Safety when hiking",
+      "caption_html": "<p>Safety when hiking</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/6/8/csm_SAC-taeschhuette-2016-davidschweizer_71a2ee8b13.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/8/csm_SAC-taeschhuette-2016-davidschweizer_71a2ee8b13.jpg",
+      "alt": "Hike responsibly",
+      "caption_html": "<p>Hike responsibly</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_8971c900e5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_8971c900e5.jpg",
+      "alt": "Legend and explanations",
+      "caption_html": "<p>Legend and explanations</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_2de79bd8d5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_2de79bd8d5.jpg",
+      "alt": "FAQ Route Portal",
+      "caption_html": "<p>FAQ Route Portal</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_bcbf468ebc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_bcbf468ebc.jpg",
+      "alt": "Legend and explanations",
+      "caption_html": "<p>Legend and explanations</p>"
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_8bfa9ce8a3.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_8bfa9ce8a3.jpg",
+      "alt": "FAQ Route Portal",
+      "caption_html": "<p>FAQ Route Portal</p>"
     }
   ],
   "waypoints": [
@@ -138,10 +173,6 @@
     "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
   },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "resources_html": [
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Route Portal — Von Schynige Platte</a>",
-    "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/\">SAC Peak Page — Berghaus Männdlenen</a>"
-  ],
   "sources": [
     {
       "name": "SAC Route Portal (Schynige Platte leg)",
@@ -156,5 +187,5 @@
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/"
     }
   ],
-  "photos_attrib_html": "All photos: Barbara Reichen / SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal"
 }

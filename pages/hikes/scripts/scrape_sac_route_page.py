@@ -231,27 +231,72 @@ def _terrain_html(raw: str) -> str | None:
     return f"<p>{cleaned}</p>"
 
 
+_MASTER_RE = re.compile(r"csm_(\d+_\d+)master")
+
+
 def _extract_photos(soup: BeautifulSoup) -> list[dict]:
-    """Collect unique `/processed/` image URLs and their captions where available."""
-    seen: set[str] = set()
-    out: list[dict] = []
+    """Collect unique `/processed/` photos, deduped by SAC master ID.
+
+    SAC renders the same source image as multiple URLs at different
+    resolutions, each with a distinct trailing hash:
+      csm_<master_id>master_<hash1>.jpg   ← full-size (class m-media-gallery__image)
+      csm_<master_id>master_<hash2>.jpg   ← thumbnail  (class m-media-gallery__thumbnail)
+    Picking the thumbnail and scaling it up gives blurry gallery cards, so
+    we group by ``master_id`` and keep the full-size variant when both are
+    present (rank by container class).
+    """
+    # rank: lower = better; we'll keep the candidate with the lowest rank per master_id.
+    def rank_for(img) -> int:
+        cls = " ".join(img.get("class") or [])
+        # Also check parent (lazyload images sometimes carry the class on the wrapper).
+        parent_cls = " ".join((img.parent.get("class") if img.parent else []) or [])
+        all_cls = cls + " " + parent_cls
+        if "m-media-gallery__image" in all_cls:
+            return 0  # best — full-size
+        if "media-gallery__media" in all_cls:
+            return 1  # gallery-adjacent
+        if "thumbnail" in all_cls:
+            return 5  # explicit thumbnail
+        return 3  # neutral
+
+    by_master: dict[str, tuple[int, str, str]] = {}  # master_id → (rank, url, caption)
+    fallback: list[tuple[str, str]] = []  # (url, caption) — images that don't match the master pattern
+
     for img in soup.find_all("img"):
         src = (img.get("src") or "").strip()  # SAC's `src` attrs sometimes have leading/trailing whitespace
         if "/processed/" not in src:
             continue
         url = src if src.startswith("http") else "https://www.sac-cas.ch" + src
-        # Strip query string for dedup; SAC adds image-processing params per render.
-        key = url.split("?", 1)[0]
-        if key in seen:
-            continue
-        seen.add(key)
         caption = (img.get("alt") or "").strip()
+        m = _MASTER_RE.search(url)
+        if not m:
+            fallback.append((url, caption))
+            continue
+        master_id = m.group(1)
+        r = rank_for(img)
+        existing = by_master.get(master_id)
+        if existing is None or r < existing[0]:
+            by_master[master_id] = (r, url, caption)
+
+    out: list[dict] = []
+    seen_urls: set[str] = set()
+
+    def emit(url: str, caption: str):
+        key = url.split("?", 1)[0]
+        if key in seen_urls:
+            return
+        seen_urls.add(key)
         out.append({
             "url": url,
             "lightbox_url": url,
             "alt": caption or "Route photo (SAC)",
             "caption_html": f"<p>{caption}</p>" if caption else "",
         })
+
+    for _, url, caption in by_master.values():
+        emit(url, caption)
+    for url, caption in fallback:
+        emit(url, caption)
     return out
 
 
@@ -534,6 +579,13 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
         # Take up to 12 photos to avoid huge pages
         data["photos"] = gallery[:12]
         changed.append("photos")
+    # Set the correct attribution when our photos came from SAC. The template's
+    # default ("All photos: Wikimedia Commons …") is wrong for SAC photos.
+    if data.get("photos") and (sr.photos or any("/processed/" in (p.get("url") or "") for p in data.get("photos", []))):
+        attrib = "All photos: SAC Route Portal"
+        if data.get("photos_attrib_html") != attrib:
+            data["photos_attrib_html"] = attrib
+            changed.append("photos_attrib_html")
 
     # Public transport (getting_there)
     gt = data.get("getting_there") or {}

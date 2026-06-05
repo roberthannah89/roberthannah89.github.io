@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["page", "peak", "trailhead", "hero", "quick_facts", "photos",
                "waypoints", "routes", "getting_there", "day_plans", "weather",
-               "resources_html", "index_card"],
+               "index_card"],
   "additionalProperties": true,
   "properties": {
     "slug": { "type": "string" },
@@ -159,7 +159,6 @@
         "season_html":  { "type": "string" }
       }
     },
-    "resources_html":  { "type": "array", "items": { "type": "string" } },
     "intro_html":      { "type": "string" },
 
     "elev_chart_attrib_html": { "type": "string" },
