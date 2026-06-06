@@ -7,6 +7,7 @@
     duration: null,    // null=any, 'short', 'medium', 'long'
     elevation: null,   // null=any, 'low', 'mid', 'high'  (peak altitude)
     gain: null,        // null=any, 'easy', 'mod', 'hard', 'epic'  (vertical ascent)
+    hasPage: null,     // null=any (default), true=only POIs with a built hike page in this repo
     showHikes: true,   // include peaks/summits/traverses
     showHuts: true,    // include SAC huts
     weatherDay: 0,     // day index for weather filters
@@ -117,6 +118,11 @@
     return true;
   }
 
+  function matchesHasPage(poi) {
+    if (!state.hasPage) return true;
+    return !!poi._hasPage;
+  }
+
   function matchesWeather(poi) {
     var wx = WeatherService.getForPeak(poi.lat, poi.lon, state.weatherDay);
     if (!wx) return true; // no data = don't filter out
@@ -146,7 +152,8 @@
 
   function matchesPoi(poi) {
     return matchesType(poi) && matchesGrade(poi) && matchesDuration(poi)
-        && matchesElevation(poi) && matchesGain(poi) && matchesWeather(poi);
+        && matchesElevation(poi) && matchesGain(poi) && matchesHasPage(poi)
+        && matchesWeather(poi);
   }
 
   function apply() {
