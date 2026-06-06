@@ -99,6 +99,7 @@
       // Subtle amber ring on markers whose hike has a built page in this repo.
       // Reuses SidePanel.matchingHike so we don't drift from the panel's link logic.
       var hasPage = !!(window.SidePanel && SidePanel.matchingHike && SidePanel.matchingHike(poi));
+      poi._hasPage = hasPage;
 
       var marker = L.marker([poi.lat, poi.lon], {
         icon: makeHikeIcon(color, 'dot', null, null, hasPage)
