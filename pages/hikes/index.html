@@ -347,6 +347,41 @@
   .hm-icon { font-size: 1rem; line-height: 1; }
   .hm-temp { font-size: .72rem; color: #e8e8ea; font-weight: 600; }
 
+  /* Highlighted nav link for the command center — the headline interactive
+     feature of the site. Solid dark pill with a slowly rotating conic-gradient
+     border. @property is required for the CSS-variable angle to animate. */
+  @property --cc-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  .nav-cc {
+    position: relative;
+    display: inline-block;
+    padding: .35rem .75rem;
+    border-radius: 8px;
+    color: #fff !important;
+    font-weight: 600;
+    background: #1a1a1d;
+    z-index: 0;
+    isolation: isolate;
+  }
+  .nav-cc::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 10px;
+    padding: 2px;
+    background: conic-gradient(from var(--cc-angle),
+      #ff5e62, #ff9966, #ffd96a, #6ad77b, #5bc0eb, #9b6cff, #ff5e62);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: nav-cc-spin 5s linear infinite;
+    z-index: -1;
+  }
+  @keyframes nav-cc-spin { to { --cc-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-cc::before { animation: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -354,22 +389,32 @@
 <header class="hero">
   <h1>Hike Plans</h1>
   <p>Swiss Alps route notes · transit · weather · trip reports</p>
-  <nav style="margin-top:.8rem;font-size:.88rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem .8rem;">
+  <nav style="margin-top:.8rem;font-size:.88rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.35rem .8rem;">
     
     
-    <a href="command-center/index.html" style="color:var(--fg-dim);text-decoration:none;">Command center</a>
+    
+    <a href="command-center/index.html" class="nav-cc" style="text-decoration:none;">⭐ Command center</a>
+    
     
     <span style="color:var(--fg-dim);opacity:.4;">·</span>
+    
     <a href="guides/planning.html" style="color:var(--fg-dim);text-decoration:none;">Planning</a>
     
+    
     <span style="color:var(--fg-dim);opacity:.4;">·</span>
+    
     <a href="guides/difficulty.html" style="color:var(--fg-dim);text-decoration:none;">Trails & grades</a>
     
-    <span style="color:var(--fg-dim);opacity:.4;">·</span>
-    <a href="guides/weather.html" style="color:var(--fg-dim);text-decoration:none;">Weather</a>
     
     <span style="color:var(--fg-dim);opacity:.4;">·</span>
+    
+    <a href="guides/weather.html" style="color:var(--fg-dim);text-decoration:none;">Weather</a>
+    
+    
+    <span style="color:var(--fg-dim);opacity:.4;">·</span>
+    
     <a href="guides/gear.html" style="color:var(--fg-dim);text-decoration:none;">Gear & safety</a>
+    
     
   </nav>
 </header>
