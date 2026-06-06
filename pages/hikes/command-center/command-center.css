@@ -676,6 +676,7 @@ html, body {
 .hike-marker {
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 
 /* Default: small grade-colored dot */
@@ -712,6 +713,22 @@ html, body {
   font-weight: 600;
   color: var(--text-primary);
   line-height: 1;
+}
+
+/* Subtle amber star superscript on markers whose hike has a built page in
+   this repo. The star overflows the marker's top-right corner; the dark
+   text-shadow keeps it legible over any base-map tile. */
+.hike-marker--has-page::after {
+  content: "★";
+  position: absolute;
+  top: -7px;
+  right: -6px;
+  color: var(--amber);
+  font-size: 12px;
+  line-height: 1;
+  font-family: var(--font-display, sans-serif);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
 }
 
 /* Tooltip pane never intercepts clicks — markers must always receive them.

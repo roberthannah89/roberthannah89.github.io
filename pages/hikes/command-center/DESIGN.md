@@ -72,6 +72,7 @@ Markers and clusters are horizontal pills, not generic circles.
 **Hike/peak/hut marker (single):**
 - With weather data → pill showing weather emoji + temperature (e.g. `⛅ 9°`), bordered in the route's grade color.
 - Without weather data → small grade-colored dot.
+- Has a built hike page in this repo → small amber ★ at the marker's top-right corner (`.hike-marker--has-page::after`). Matching is delegated to `SidePanel.matchingHike` so the on-map cue can never drift from the side-panel's "Open hike page" link.
 - Permanent name tooltip below the marker, hidden via CSS at low zoom (`body.zoom-labels` is added at zoom ≥ 11). Tooltip visibility is controlled by the filter-bar **Show** pills: turning Name off sets `body.display-name-off`, which hides the name line; if no other Show pill (Grade/Gain/Time/Alt) is active, the whole tooltip box also collapses via `:not(:has(.hike-tt__meta))`.
 
 **Cluster:** Horizontal pill `count · dominant-sky-emoji · avg-temp` (e.g. `6 ⛅ 4°`), tinted by the dominant sky category among its children. Tints (`SKY_TINTS` in `command-center.js`):

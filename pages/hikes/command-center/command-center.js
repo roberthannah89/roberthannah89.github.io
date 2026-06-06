@@ -96,13 +96,17 @@
 
       var grade = Filters.bestGrade(poi);
       var color = gradeColor(grade);
+      // Subtle amber ring on markers whose hike has a built page in this repo.
+      // Reuses SidePanel.matchingHike so we don't drift from the panel's link logic.
+      var hasPage = !!(window.SidePanel && SidePanel.matchingHike && SidePanel.matchingHike(poi));
 
       var marker = L.marker([poi.lat, poi.lon], {
-        icon: makeHikeIcon(color, 'dot')
+        icon: makeHikeIcon(color, 'dot', null, null, hasPage)
       });
 
       marker._poi = poi;
       marker._color = color;
+      marker._hasPage = hasPage;
       marker._filtered = false;
 
       // Permanent name tooltips are bound lazily by updateLabelVisibility()
@@ -150,12 +154,13 @@
   // Three marker modes:
   //   'dot'     — small grade-colored dot (default, clean view)
   //   'weather' — larger ring with weather emoji + temp (when user opts in)
-  function makeHikeIcon(color, mode, wxIcon, tempStr) {
+  function makeHikeIcon(color, mode, wxIcon, tempStr, hasPage) {
+    var pageCls = hasPage ? ' hike-marker--has-page' : '';
     if (mode === 'weather' && wxIcon) {
       var temp = tempStr ? '<span class="hike-marker__temp">' + tempStr + '</span>' : '';
       return L.divIcon({
         className: '',
-        html: '<div class="hike-marker hike-marker--wx" style="border-color:' + color + ';background:' + color + '22">'
+        html: '<div class="hike-marker hike-marker--wx' + pageCls + '" style="border-color:' + color + ';background:' + color + '22">'
           + '<span class="hike-marker__wx">' + wxIcon + '</span>' + temp + '</div>',
         iconSize: [40, 28],
         iconAnchor: [20, 14]
@@ -163,7 +168,7 @@
     }
     return L.divIcon({
       className: '',
-      html: '<div class="hike-marker hike-marker--dot" style="background:' + color + '"></div>',
+      html: '<div class="hike-marker hike-marker--dot' + pageCls + '" style="background:' + color + '"></div>',
       iconSize: [12, 12],
       iconAnchor: [6, 6]
     });
@@ -180,18 +185,18 @@
     allMarkers.forEach(function (m) {
       var poi = m._poi;
       if (!showWeather) {
-        m.setIcon(makeHikeIcon(m._color, 'dot'));
+        m.setIcon(makeHikeIcon(m._color, 'dot', null, null, m._hasPage));
         return;
       }
       var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
       if (!wx) {
-        m.setIcon(makeHikeIcon(m._color, 'dot'));
+        m.setIcon(makeHikeIcon(m._color, 'dot', null, null, m._hasPage));
         return;
       }
       var emoji = WeatherService.weatherIcon(wx.code);
       var tempStr = wx.tempMax !== null && wx.tempMax !== undefined
         ? Math.round(wx.tempMax) + '°' : '';
-      m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr));
+      m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr, m._hasPage));
     });
   }
 
