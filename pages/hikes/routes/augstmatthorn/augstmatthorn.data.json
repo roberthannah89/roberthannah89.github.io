@@ -17,7 +17,7 @@
     "distance": "21.0 km",
     "gain": "1622 m",
     "time": "~7h",
-    "route_type": "out-and-back"
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Kemmeriboden",
@@ -218,6 +218,8 @@
   ],
   "end_point": {
     "name": "Harder Kulm",
-    "elev": 1321
+    "elev": 1321,
+    "lat": 46.6976,
+    "lon": 7.8523
   }
 }

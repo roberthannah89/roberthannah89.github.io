@@ -17,7 +17,7 @@
     "distance": "14.1 km",
     "gain": "1490 m",
     "time": "~7 h",
-    "route_type": "out-and-back"
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Ziegelbrücke",
@@ -168,7 +168,9 @@
   ],
   "end_point": {
     "name": "Weesen, See",
-    "elev": 423
+    "elev": 423,
+    "lat": 47.1361,
+    "lon": 9.0596
   },
   "photos_attrib_html": "All photos: SAC Route Portal"
 }

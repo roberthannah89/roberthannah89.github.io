@@ -152,6 +152,48 @@
     }
     html += '</div>';
 
+    // Getting There & Back — trailhead and end point with travel links.
+    // Only rendered when this POI has a matching built hike with a trailhead.
+    // End point shown only if distinct from trailhead (otherwise it's a
+    // loop/out-and-back and the start row already covers it).
+    if (hike && hike.trailhead) {
+      var endpoints = [{ kind: 'Start', ep: hike.trailhead }];
+      if (hike.end_point && hike.end_point.name && hike.end_point.name !== hike.trailhead.name) {
+        endpoints.push({ kind: 'End', ep: hike.end_point });
+      }
+      html += '<div class="panel-section">';
+      html += '<div class="panel-label">Getting There &amp; Back</div>';
+      endpoints.forEach(function (item, idx) {
+        var ep = item.ep;
+        var elev = (ep.elev != null) ? ' (' + ep.elev + ' m)' : '';
+        // Google Maps: prefer coords (more reliable). Fall back to name string.
+        var dest = (ep.lat != null && ep.lon != null)
+          ? (ep.lat + ',' + ep.lon)
+          : encodeURIComponent(ep.name);
+        var gmapsDrive = 'https://www.google.com/maps/dir/?api=1&destination=' + dest + '&travelmode=driving';
+        var gmapsTransit = 'https://www.google.com/maps/dir/?api=1&destination=' + dest + '&travelmode=transit';
+        // SBB: prefer ep.sbb_url if a future pipeline adds it; otherwise build
+        // from the endpoint name.
+        var sbbUrl = ep.sbb_url
+          ? ep.sbb_url
+          : 'https://www.sbb.ch/en?von=' + encodeURIComponent(ep.name);
+        var topMargin = idx === 0 ? '' : 'margin-top:10px;';
+        html += '<div style="' + topMargin + 'font-size:12px;color:var(--text-secondary);font-family:var(--font-mono);margin-bottom:6px">';
+        html += '<span style="color:var(--text-muted);text-transform:uppercase;font-size:9px;letter-spacing:0.8px">' + item.kind + '</span> ';
+        html += '<span style="color:var(--text-primary)">' + esc(ep.name) + '</span>' + elev;
+        html += '</div>';
+        html += '<div class="panel-links">';
+        html += '<a class="panel-link" href="' + gmapsDrive + '" target="_blank" rel="noopener">';
+        html += '<span class="link-icon">🚗</span> Drive (Google Maps)</a>';
+        html += '<a class="panel-link" href="' + gmapsTransit + '" target="_blank" rel="noopener">';
+        html += '<span class="link-icon">🚆</span> Transit (Google Maps)</a>';
+        html += '<a class="panel-link" href="' + sbbUrl + '" target="_blank" rel="noopener">';
+        html += '<span class="link-icon">🇨🇭</span> SBB timetable</a>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
     // Weather forecast
     var days = WeatherService.getDayChoices();
     if (days.length > 0) {

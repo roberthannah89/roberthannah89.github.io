@@ -141,26 +141,32 @@ Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüg
   <p>Der Grat weist keine Kletterpassagen im engeren Sinne auf, ist aber auf lange Strecken exponiert. Bei Nässe werden die erdigen Wegspuren am Grat sehr rutschig; von einer Begehung ist dann abzuraten. Vorsicht: Bei der Tour über den ganzen Brienzergrat dürfen die physische Komponente (Distanz Brienzer Rothorn - Harder rund 20 km, zahlreiche Gegensteigungen!) und vor allem die Anforderungen an die Konzentrationsfähigkeit nicht unterschätzt werden, man bewegt sich über lange Strecken in exponiertem Gelände, das kaum Fehler verzeiht. Die Markierungen (rot-weiss / blau-weiss oder nicht markiert) haben in den letzten Jahren immer wieder mal gewechselt, die Route ist aber kaum zu verfehlen.</p>
   <p class="attrib">Source: <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/augstmatthorn-106/mountain-hiking/brienzergrat-ueberschreitung-zweiter-teil-schnierenhoernli-harder-kulm-6803/" target="_blank" rel="noopener">SAC Route Portal</a></p>
 </section>
-
-<section>
-  <h2>Start &amp; finish</h2>
-  <table>
-    <tr><th>Start</th><td><strong>Kemmeriboden</strong> (976 m)</td></tr>
-    <tr><th>End</th><td><strong>Harder Kulm</strong> (1321 m)</td></tr>
-  </table>
-</section>
-
 <section class="getting-there">
-  <h2>Getting There</h2>
-  <div class="transit-actions">
-    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Kemmeriboden <span class="endpoint-elev">(976 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Kemmeriboden</strong>
+    </p>
   </div>
-  <p class="attrib">
-    Directions from <span id="transit-origin"></span> to
-    <strong>Kemmeriboden</strong>
-  </p>
+  <div class="endpoint-block">
+    <h3>End: Harder Kulm <span class="endpoint-elev">(1321 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>Harder Kulm</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
 </section>
 
 <section>
@@ -207,6 +213,8 @@ window.HIKE = {
   summit: { lat: 46.7423, lon: 7.9286, elev: 2136, name: "Augstmatthorn" },
   trailhead: { lat: 46.8025, lon: 7.9351, name: "Kemmeriboden",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Kemmeriboden" },
+  end_point: { lat: 46.6976, lon: 7.8523, name: "Harder Kulm",
+               sbb_url: "" },
   gpx_filename: "augstmatthorn.gpx",
   page_generated: "2026-05-22",
   waypoints: [

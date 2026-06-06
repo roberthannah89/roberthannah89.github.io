@@ -621,6 +621,25 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
         }
         changed.append("end_point")
 
+    # Route type — derive from the scraped data, don't trust the scaffold default.
+    # Truth table:
+    #   end_name set + name differs from trailhead → point-to-point traverse
+    #   end_name set + name matches trailhead       → out-and-back (start == end)
+    #   no end_name + trailhead name == peak name   → likely a loop
+    #   no end_name                                 → can't tell, leave alone
+    ic = data.get("index_card") or {}
+    if ic.get("route_type") in (None, "", "out-and-back", "TODO"):
+        trailhead_name = (data.get("trailhead") or {}).get("name", "")
+        if sr.end_name:
+            if sr.end_name.strip().lower() == trailhead_name.strip().lower():
+                new_type = "out-and-back"
+            else:
+                new_type = "point-to-point"
+            if new_type != ic.get("route_type"):
+                ic["route_type"] = new_type
+                data["index_card"] = ic
+                changed.append("index_card.route_type")
+
     # Photos: append scraped photos if data has empty list (don't clobber manual curation)
     if not data.get("photos") and sr.photos:
         # Drop the hero image (already used) and dedupe against it

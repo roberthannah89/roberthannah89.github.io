@@ -99,29 +99,37 @@
 </section>
 {%- endif %}
 
-<section>
-  <h2>Start &amp; finish</h2>
-  <table>
-    <tr><th>Start</th><td><strong>{{ trailhead.name }}</strong>{% if trailhead.elev %} ({{ trailhead.elev }} m){% endif %}</td></tr>
-{%- if end_point is defined and end_point and end_point.name %}
-    <tr><th>End</th><td><strong>{{ end_point.name }}</strong>{% if end_point.elev %} ({{ end_point.elev }} m){% endif %}</td></tr>
-{%- else %}
-    <tr><th>End</th><td>Returns to <strong>{{ trailhead.name }}</strong></td></tr>
-{%- endif %}
-  </table>
-</section>
-
+{%- set has_distinct_end = end_point is defined and end_point and end_point.name and end_point.name != trailhead.name %}
 <section class="getting-there">
-  <h2>Getting There</h2>
-  <div class="transit-actions">
-    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: {{ trailhead.name }}{% if trailhead.elev %} <span class="endpoint-elev">({{ trailhead.elev }} m)</span>{% endif %}</h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>{{ trailhead.name }}</strong>
+    </p>
   </div>
-  <p class="attrib">
-    Directions from <span id="transit-origin"></span> to
-    <strong>{{ trailhead.name }}</strong>
-  </p>
+{%- if has_distinct_end %}
+  <div class="endpoint-block">
+    <h3>End: {{ end_point.name }}{% if end_point.elev %} <span class="endpoint-elev">({{ end_point.elev }} m)</span>{% endif %}</h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>{{ end_point.name }}</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
+{%- else %}
+  <p class="attrib">Route returns to <strong>{{ trailhead.name }}</strong>.</p>
+{%- endif %}
 {%- if getting_there is defined and getting_there and getting_there.get('transport_notes_html') %}
   <div class="transport-notes">
     {{ getting_there.transport_notes_html | safe }}
@@ -177,6 +185,10 @@ window.HIKE = {
   summit: { lat: {{ peak.lat }}, lon: {{ peak.lon }}, elev: {{ peak.elev }}, name: {{ peak.name | tojson }} },
   trailhead: { lat: {{ trailhead.lat }}, lon: {{ trailhead.lon }}, name: {{ trailhead.name | tojson }},
                sbb_url: {{ trailhead.get('sbb_url', '') | tojson }} },
+{%- if end_point is defined and end_point and end_point.name and end_point.get('lat') is not none and end_point.get('lon') is not none %}
+  end_point: { lat: {{ end_point.lat }}, lon: {{ end_point.lon }}, name: {{ end_point.name | tojson }},
+               sbb_url: {{ end_point.get('sbb_url', '') | tojson }} },
+{%- endif %}
   gpx_filename: {{ (slug ~ '.gpx') | tojson }},
   page_generated: {{ page.generated | tojson }},
   waypoints: [

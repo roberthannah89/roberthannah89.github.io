@@ -17,7 +17,7 @@
     "distance": "10.1 km",
     "gain": "1351 m",
     "time": "~4h30",
-    "route_type": "out-and-back"
+    "route_type": "point-to-point"
   },
   "trailhead": {
     "name": "Schwägalp, Säntis aerial cableway",
@@ -135,6 +135,8 @@
   ],
   "end_point": {
     "name": "Säntis, Bergstation",
-    "elev": 2502
+    "elev": 2502,
+    "lat": 47.2563,
+    "lon": 9.3185
   }
 }

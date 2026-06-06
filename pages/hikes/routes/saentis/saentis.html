@@ -91,26 +91,32 @@ The first cabin to house visitors was built in 1846 and since then has been cont
   <p>The most exposed passages of the Nasenlöcher route are equipped with steel cables. Some passages require easy climbing (grade I). After rainfall the itinerary remains wet for a rather long time. In this case additional caution is advised. The bonus of the tour, Öhrlikopf, is climbed through chimneys (grade I). The loose rubble on the faces requires attention when several climbers are on the way to the summit.</p>
   <p class="attrib">Source: <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/from-schwaegalp-via-nasenloecher-2360/" target="_blank" rel="noopener">SAC Route Portal</a></p>
 </section>
-
-<section>
-  <h2>Start &amp; finish</h2>
-  <table>
-    <tr><th>Start</th><td><strong>Schwägalp, Säntis aerial cableway</strong> (1346 m)</td></tr>
-    <tr><th>End</th><td><strong>Säntis, Bergstation</strong> (2502 m)</td></tr>
-  </table>
-</section>
-
 <section class="getting-there">
-  <h2>Getting There</h2>
-  <div class="transit-actions">
-    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Schwägalp, Säntis aerial cableway <span class="endpoint-elev">(1346 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Schwägalp, Säntis aerial cableway</strong>
+    </p>
   </div>
-  <p class="attrib">
-    Directions from <span id="transit-origin"></span> to
-    <strong>Schwägalp, Säntis aerial cableway</strong>
-  </p>
+  <div class="endpoint-block">
+    <h3>End: Säntis, Bergstation <span class="endpoint-elev">(2502 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>Säntis, Bergstation</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
 </section>
 
 <section>
@@ -157,6 +163,8 @@ window.HIKE = {
   summit: { lat: 47.24936961249966, lon: 9.343336068527574, elev: 2502, name: "S\u00e4ntis" },
   trailhead: { lat: 47.256259395387104, lon: 9.3184713977177, name: "Schw\u00e4galp, S\u00e4ntis aerial cableway",
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Schw%C3%A4galp%2C+S%C3%A4ntis-Schwebebahn" },
+  end_point: { lat: 47.2563, lon: 9.3185, name: "S\u00e4ntis, Bergstation",
+               sbb_url: "" },
   gpx_filename: "saentis.gpx",
   page_generated: "2026-05-17",
   waypoints: [

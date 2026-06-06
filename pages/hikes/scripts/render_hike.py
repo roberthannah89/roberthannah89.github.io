@@ -772,6 +772,22 @@ def build_index_hikes(data_files: list[Path],
             if m_route and not sac_route_id:
                 sac_route_id = int(m_route.group(1))
 
+        # Trailhead + end_point: expose the names + coords + elevations so the
+        # command-center side panel can surface Google Maps + SBB links for
+        # both endpoints without needing to fetch the per-hike data.json.
+        th_d = d.get("trailhead") or {}
+        ep_d = d.get("end_point") or {}
+        trailhead = {
+            "name": th_d.get("name"),
+            "elev": th_d.get("elev"),
+            "lat": th_d.get("lat"),
+            "lon": th_d.get("lon"),
+        } if th_d.get("name") else None
+        end_point = {
+            "name": ep_d.get("name"),
+            "elev": ep_d.get("elev"),
+        } if ep_d.get("name") else None
+
         entry = {
             "name": peak.get("name", slug),
             "region": ic.get("region", ""),
@@ -790,6 +806,8 @@ def build_index_hikes(data_files: list[Path],
             "photo": _index_photo_url(d),
             "sac_peak_id": sac_peak_id,
             "sac_route_id": sac_route_id,
+            "trailhead": trailhead,
+            "end_point": end_point,
         }
         hikes.append(entry)
     return hikes

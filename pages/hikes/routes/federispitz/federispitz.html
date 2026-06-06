@@ -133,26 +133,32 @@
   <p>Die Krete beim Vorder Federispitz ist unübersichtlich und wellig, bei Nässe heikel. Einmal muss ein Grataufbau in der Schattenseite umgangen werden.</p>
   <p class="attrib">Source: <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/federispitz-601/mountain-hiking/von-ziegelbruecke-via-vorder-federispitz-abstieg-via-plaettlispitz-nach-weesen-6819/" target="_blank" rel="noopener">SAC Route Portal</a></p>
 </section>
-
-<section>
-  <h2>Start &amp; finish</h2>
-  <table>
-    <tr><th>Start</th><td><strong>Ziegelbrücke</strong> (425 m)</td></tr>
-    <tr><th>End</th><td><strong>Weesen, See</strong> (423 m)</td></tr>
-  </table>
-</section>
-
 <section class="getting-there">
-  <h2>Getting There</h2>
-  <div class="transit-actions">
-    <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-    <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-    <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Ziegelbrücke <span class="endpoint-elev">(425 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Ziegelbrücke</strong>
+    </p>
   </div>
-  <p class="attrib">
-    Directions from <span id="transit-origin"></span> to
-    <strong>Ziegelbrücke</strong>
-  </p>
+  <div class="endpoint-block">
+    <h3>End: Weesen, See <span class="endpoint-elev">(423 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>Weesen, See</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
 </section>
 
 <section>
@@ -198,6 +204,8 @@
 window.HIKE = {
   summit: { lat: 47.16659, lon: 9.08961, elev: 1864, name: "Federispitz" },
   trailhead: { lat: 47.1352, lon: 9.0984, name: "Ziegelbr\u00fccke",
+               sbb_url: "" },
+  end_point: { lat: 47.1361, lon: 9.0596, name: "Weesen, See",
                sbb_url: "" },
   gpx_filename: "federispitz.gpx",
   page_generated: "2026-06-01",
