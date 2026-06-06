@@ -108,15 +108,28 @@
     var hike = matchingHike(poi);
 
     // Hero strip + local-page link — only when this peak has a built page.
+    // The hero itself is clickable; we also place a prominent inset button on
+    // top of it so the call-to-action is unmissable rather than relying on
+    // the user noticing the small caption strip at the bottom.
     if (hike) {
       html += '<a class="panel-hero" href="../' + hike.href + '" '
-            + 'style="display:block;position:relative;height:140px;margin:-1rem -1rem 0;'
+            + 'style="display:block;position:relative;height:170px;margin:-1rem -1rem 0;'
             + 'background:#222 center/cover no-repeat url(\'' + esc(hike.photo) + '\');'
-            + 'border-bottom:1px solid var(--flap-border);text-decoration:none">'
-            + '<div style="position:absolute;bottom:0;left:0;right:0;padding:6px 10px;'
-            + 'background:linear-gradient(to top,rgba(0,0,0,.75),transparent);'
-            + 'color:#fff;font-size:12px;display:flex;justify-content:space-between;align-items:center">'
-            + '<span>Open hike page</span><span style="color:var(--amber)">↗</span>'
+            + 'border-bottom:2px solid var(--amber);text-decoration:none;cursor:pointer">'
+            + '<div style="position:absolute;inset:0;'
+            +   'background:linear-gradient(to top,rgba(0,0,0,.6) 0,rgba(0,0,0,.1) 40%,rgba(0,0,0,.4) 100%);"></div>'
+            + '<div style="position:absolute;top:10px;right:10px;'
+            +   'background:var(--amber,#ffb000);color:#000;font-weight:700;'
+            +   'padding:6px 12px;border-radius:4px;font-size:13px;letter-spacing:0.4px;'
+            +   'box-shadow:0 2px 4px rgba(0,0,0,0.3);">'
+            +   'OPEN HIKE PAGE →</div>'
+            + '<div style="position:absolute;bottom:10px;left:12px;right:12px;'
+            +   'color:#fff;font-size:14px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,0.8);'
+            +   'display:flex;justify-content:space-between;align-items:end;gap:8px">'
+            +   '<span>' + esc(hike.name || poi.name) + '</span>'
+            +   '<span style="font-size:11px;font-weight:400;opacity:.85;white-space:nowrap">'
+            +     (hike.distance || '') + (hike.gain ? ' · ↑' + hike.gain : '')
+            +   '</span>'
             + '</div></a>';
     }
 
