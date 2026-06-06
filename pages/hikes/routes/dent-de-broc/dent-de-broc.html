@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Dent De Broc (1813 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1523200732_1762843584master_a2d5558fc8.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Dent De Broc <span style="font-weight:400; opacity:.85;">1813 m</span></h1>
+    <p>SAC T4 · ~1199 m gain · ~12.7 km round-trip · ~4h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Granted, if you want to get from Broc (chocolate factory) to Gruyères (picturesque medieval town) it is not necessary to climb Dent de Broc, but definitely more interesting.</p>
+<p>Daniel Anker is a Bernese author and photographer. The historian has written around 40 ski tour, hiking, via ferrata and mountain bike guide books as well as detailed monographs on individual peaks in Switzerland.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>1813 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t4">SAC T4</span> Alpine hiking with exposure, rougher terrain, and sections that are not suitable for beginners. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Broc, station</td></tr>
+    <tr><th>Distance</th><td>12.7 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~1199 m</td></tr>
+    <tr><th>Elevation range</th><td>699-1813 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1523200732_1762843584master_3645a2eadb.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1525154558_191465699master_7f70ba82a5.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/5/csm_1523201627_732966382master_f54cec5883.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/8/csm_1538735367_1221994659master_5685862e06.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1523200732_1762843584master_3645a2eadb.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1525154558_191465699master_7f70ba82a5.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/5/csm_1523201627_732966382master_f54cec5883.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/8/csm_1538735367_1221994659master_5685862e06.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Broc, station)</span>
+    <span class="summit">Summit (Dent De Broc)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Broc – Dent de Broc – Gruyères</strong></p>
+  <ul>
+    <li>Total hiking time: 6¼ h Broc – Les Plains – Dent de Broc: 3½ h Dent de Broc – Le Châtelet – Gruyères: 2¾ h</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>The exposed summit ridge is T4, the rest T2. The trails are only partially marked. The last stretch requires surefootedness and being comfortable with heights.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Broc, station <span class="endpoint-elev">(719 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Broc, station</strong>
+    </p>
+  </div>
+  <div class="endpoint-block">
+    <h3>End: Gruyères, station <span class="endpoint-elev">(746 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>Gruyères, station</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.58855N7.12779E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>12.7 km</strong> total</span>
+    <span>&uarr; <strong>1199 m</strong> ascent</span>
+    <span>&darr; <strong>1173 m</strong> descent</span>
+    <span>max <strong>1813 m</strong></span>
+    <span>steepest <strong>82%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="dent-de-broc.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.58855, lon: 7.12779, elev: 1813, name: "Dent De Broc" },
+  trailhead: { lat: 46.6041, lon: 7.0988, name: "Broc, station",
+               sbb_url: "" },
+  gpx_filename: "dent-de-broc.gpx",
+  page_generated: "2026-06-05",
+  waypoints: [
+    [46.6041, 7.0988, "Broc, station (719 m)", "start"],
+    [46.58861874666954, 7.127946945214826, "Dent De Broc (1813 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 1199.4000000000012, "descent_m": 1173.4, "distance_km": 12.714382284391633, "max_ele": 1813.4, "min_ele": 699.5, "n_points": 1901.0, "steepest_grade_pct": 82.08225486366189};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

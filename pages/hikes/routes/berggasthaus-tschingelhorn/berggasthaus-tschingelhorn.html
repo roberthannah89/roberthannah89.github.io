@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Berggasthaus Tschingelhorn (1687 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/b/6/csm_1689775385_1475714847master_922fd7062e.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Berggasthaus Tschingelhorn <span style="font-weight:400; opacity:.85;">1687 m</span></h1>
+    <p>SAC T2 · ~781 m gain · ~4.7 km one-way · ~4h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Landschaftlich ergiebiger Zustieg durch das Naturschutzgebiet im hinteren Lauterbrunnental. Der schmale Höhenweg über die Stäga ist etwas länger und kann als Abwechslung für den Auf-/Abstieg genutzt werden.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>1687 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t2">SAC T2</span> Mountain hiking on marked trails with uneven terrain and some sustained ascent. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Stechelberg</td></tr>
+    <tr><th>Distance</th><td>4.7 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~781 m</td></tr>
+    <tr><th>Elevation range</th><td>905-1686 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/b/6/csm_1689775385_1475714847master_602bf1c005.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1552394640_1513561186master_2cc06ab806.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/b/6/csm_1689775385_1475714847master_602bf1c005.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1552394640_1513561186master_2cc06ab806.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Stechelberg)</span>
+    <span class="summit">Summit (Berggasthaus Tschingelhorn)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Von Stechelberg</strong></p>
+  <ul>
+    <li>TODO: Step 1 description.</li>
+    <li>TODO: Step 2 description.</li>
+  </ul>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Stechelberg <span class="endpoint-elev">(905 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Stechelberg</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Stechelberg</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.5232N7.89334E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>4.7 km</strong> total</span>
+    <span>&uarr; <strong>781 m</strong> ascent</span>
+    <span>&darr; <strong>0 m</strong> descent</span>
+    <span>max <strong>1686 m</strong></span>
+    <span>steepest <strong>61%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="berggasthaus-tschingelhorn.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.5232, lon: 7.89334, elev: 1687, name: "Berggasthaus Tschingelhorn" },
+  trailhead: { lat: 46.5456, lon: 7.9024, name: "Stechelberg",
+               sbb_url: "" },
+  gpx_filename: "berggasthaus-tschingelhorn.gpx",
+  page_generated: "2026-06-05",
+  waypoints: [
+    [46.5456, 7.9024, "Stechelberg (905 m)", "start"],
+    [46.523171009766585, 7.893447979831113, "Berggasthaus Tschingelhorn (1686 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 781.1, "descent_m": 0.0, "distance_km": 4.653609125032777, "max_ele": 1686.7, "min_ele": 905.6, "n_points": 627.0, "steepest_grade_pct": 61.258536395603834};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

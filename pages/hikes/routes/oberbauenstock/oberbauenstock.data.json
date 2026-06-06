@@ -1,0 +1,141 @@
+{
+  "slug": "oberbauenstock",
+  "page": {
+    "title": "Oberbauenstock (2117 m) -- Hike Plan",
+    "generated": "2026-06-05",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Oberbauenstock",
+    "elev": 2117,
+    "lat": 46.92787,
+    "lon": 8.54428
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "Uri",
+    "distance": "15.5 km",
+    "gain": "1336 m",
+    "time": "~5h30",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Alp Weid (UR)",
+    "elev": 1289,
+    "lat": 46.9522,
+    "lon": 8.5699
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_1d6dd3817b.jpg",
+    "subtitle_html": "Alp Weid (UR) -> Oberbauenstock -- <span class=\"pill t4\">SAC T4+</span> | ~1336 m gain | ~15.5 km | ~5h30",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>From Flüelen they look like two almost identical pictures of the same mountain: the Bauenstöcke. From a close range, however, Niderbauen Chulm (formerly called «Seelisbergerkulm») and Oberbauenstock («Baberg») turn out to be totally different characters, in terms of hiking as well as the landscape, which makes the traverse even more interesting. This is a Lake Lucerne tour par excellence, due to the central position directly above the lake.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2117 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Alp Weid (UR)"
+    ],
+    [
+      "Distance",
+      "15.5 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1336 m"
+    ],
+    [
+      "Elevation range",
+      "1251-2117 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.9522,
+      "lon": 8.5699,
+      "label": "Alp Weid (UR) (1289 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.92785191160096,
+      "lon": 8.54426833454753,
+      "label": "Oberbauenstock (2117 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Traverse from Niderbauen Chulm to Stockhütte</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Alp Weid – Niderbauen Chulm 1 h 45 min. Niderbauen Chulm – Oberbauenstock 2 h 15 min. Oberbauenstock – Stockhütte 2 h 45 min."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>On the ascent to Oberbauenstock there is a steep schrofen and rock face with scrambling passages (T4+, fixed ropes), followed by a sometimes precipitous grass and schrofen ridge (T4). The ascent to Niderbauen Chulm is easier: T3+ with a few protected passages, a ladder and a very steep grassy slope. The orientation is unproblematic, but the tour is not for wet days.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Alp Weid (UR)</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Oberbauenstock</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Niderbauen Chulm",
+      "elev_m": 1923
+    }
+  ],
+  "end_point": {
+    "name": "Stockhütte",
+    "elev": 1277
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}
