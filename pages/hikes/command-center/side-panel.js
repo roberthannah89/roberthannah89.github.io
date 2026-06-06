@@ -222,6 +222,7 @@
     init: init,
     open: open,
     close: close,
-    isOpen: isOpen
+    isOpen: isOpen,
+    matchingHike: matchingHike
   };
 })();
