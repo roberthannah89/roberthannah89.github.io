@@ -15,7 +15,8 @@
     weatherDay: 'd',
     sky:        'sk',
     tempMin:    't',
-    display:    'dp'
+    display:    'dp',
+    hasPage:    'p'
   };
 
   // State keys whose default value is a non-empty array. Encoded specially
@@ -38,6 +39,8 @@
           return;
         }
         parts.push(KEY_MAP[k] + '=' + v.join(','));
+      } else if (k === 'hasPage') {
+        if (v === true) parts.push(KEY_MAP[k] + '=1');
       } else if (typeof v === 'boolean') {
         // Only encode if not the default (true)
         if (v === false) parts.push(KEY_MAP[k] + '=0');
@@ -64,6 +67,8 @@
         out[key] = raw !== '0';
       } else if (key === 'weatherDay' || key === 'tempMin') {
         out[key] = parseFloat(raw);
+      } else if (key === 'hasPage') {
+        out[key] = raw === '1' || raw === 'true';
       } else {
         out[key] = raw;
       }
