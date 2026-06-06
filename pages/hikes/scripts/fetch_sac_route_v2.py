@@ -205,12 +205,14 @@ def _fetch_layer(bbox: tuple[float, float, float, float]) -> dict:
         return json.loads(resp.read())
 
 
-def _features_for_route(layer: dict, route_id: int, include_dashed: bool = False) -> list[dict]:
+def _features_for_route(layer: dict, route_id: int, include_dashed: bool = True) -> list[dict]:
     """Pick out the features tagged with this route_id.
 
-    ``style: dashed`` is excluded by default — empirically these are short
-    connector/marker segments rather than real trail and stitching them in
-    creates phantom retraces. Set ``include_dashed=True`` to keep them.
+    Drops features flagged ``alternative=True`` (route variants). Keeps
+    ``style=dashed`` features by default: on routes like Nüenchamm the
+    dashed segment is the descent leg (the connector between the two
+    plain features), not a variant. Pass ``include_dashed=False`` to
+    revert to the old "plain only" behaviour.
     """
     out = []
     for f in layer.get("features", []):
@@ -382,8 +384,8 @@ def main(argv: list[str] | None = None) -> int:
                    help=f"Half-width of bbox in LV95 metres (default: {BBOX_PADDING_M}).")
     p.add_argument("--save-layer", action="store_true",
                    help="Save the raw GeoJSON layer response next to the GPX (for debugging).")
-    p.add_argument("--include-dashed", action="store_true",
-                   help="Include style=dashed segments (default: skip; they are usually short connectors).")
+    p.add_argument("--no-dashed", action="store_true",
+                   help="Drop style=dashed features (default: keep — they are usually genuine route connectors).")
     p.add_argument("--stitch", action="store_true",
                    help="Run the legacy greedy stitcher with retraces (rarely useful).")
     p.add_argument("--no-smart", action="store_true",
@@ -402,10 +404,10 @@ def main(argv: list[str] | None = None) -> int:
           f"→ LV95 ({cx:.0f},{cy:.0f}), bbox padding {args.bbox_padding} m")
 
     layer = _fetch_layer(bbox)
-    features = _features_for_route(layer, route_id, include_dashed=args.include_dashed)
+    features = _features_for_route(layer, route_id, include_dashed=not args.no_dashed)
     print(f"[layer] {len(layer.get('features', []))} features in bbox, "
           f"{len(features)} matched route_id={route_id} (non-alternative"
-          f"{', incl. dashed' if args.include_dashed else ', excl. dashed'})")
+          f"{', excl. dashed' if args.no_dashed else ', incl. dashed'})")
 
     if not features:
         sys.exit("ERROR: no features matched; try a larger --bbox-padding.")

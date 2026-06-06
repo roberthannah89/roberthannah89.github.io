@@ -61,7 +61,10 @@ from config import (
 # Public API
 ###########################################################################################################################################################################################################
 
-__all__ = ["build_template", "scaffold_hike", "parse_gpx", "enrich_gpx_elevation"]
+__all__ = [
+    "build_template", "scaffold_hike", "parse_gpx",
+    "enrich_gpx_elevation", "orient_gpx_to_trailhead",
+]
 
 ###########################################################################################################################################################################################################
 # Helpers
@@ -246,67 +249,93 @@ def enrich_gpx_elevation(
     """
     ET.register_namespace("", GPX_NS_URI)
     tree = ET.parse(gpx_path)
-    trkpts = tree.findall(".//g:trkpt", GPX_NS)
+    # Build per-trkseg coord lists so we never linearly-interpolate across a
+    # discontinuity (e.g. the gap-split trksegs the v2 pipeline now emits).
+    # Without this, two SwissTopo samples on different sides of a 1+ km
+    # missing-trail gap get blended together, producing fake "vertical cliff"
+    # gradients in the elevation profile right at the seam.
+    segments: list[list[tuple[float, float]]] = []
+    seg_trkpts: list[list[ET.Element]] = []
+    for trkseg in tree.findall(".//g:trkseg", GPX_NS):
+        pts = trkseg.findall("g:trkpt", GPX_NS)
+        if pts:
+            segments.append([(float(tp.get("lat")), float(tp.get("lon"))) for tp in pts])
+            seg_trkpts.append(pts)
+    # Fallback: bare trkpts with no trkseg wrapper.
+    if not segments:
+        all_pts = tree.findall(".//g:trkpt", GPX_NS)
+        if not all_pts:
+            sys.exit("ERROR: GPX has no track points.")
+        segments = [[(float(tp.get("lat")), float(tp.get("lon"))) for tp in all_pts]]
+        seg_trkpts = [all_pts]
 
-    if not trkpts:
-        sys.exit("ERROR: GPX has no track points.")
-
-    first_ele = trkpts[0].find("g:ele", GPX_NS)
+    first_ele = seg_trkpts[0][0].find("g:ele", GPX_NS)
     if first_ele is not None and first_ele.text:
         print("[elevation] GPX already has elevation data -- skipping enrichment.")
         return parse_gpx(gpx_path)
 
-    coords = [(float(tp.get("lat")), float(tp.get("lon"))) for tp in trkpts]
-    n = len(coords)
+    total_pts = sum(len(s) for s in segments)
+    print(f"[elevation] Fetching SwissTopo for {total_pts} points across "
+          f"{len(segments)} segment(s); sample every {sample_rate}.")
 
-    indices = list(range(0, n, sample_rate))
-    if indices[-1] != n - 1:
-        indices.append(n - 1)
+    # Build the list of (segment_idx, point_idx, lat, lon) tuples to sample.
+    sample_jobs: list[tuple[int, int, float, float]] = []
+    for si, seg in enumerate(segments):
+        for j in range(0, len(seg), sample_rate):
+            sample_jobs.append((si, j, seg[j][0], seg[j][1]))
+        if len(seg) - 1 not in range(0, len(seg), sample_rate):
+            sample_jobs.append((si, len(seg) - 1, seg[-1][0], seg[-1][1]))
 
-    print(f"[elevation] Fetching {len(indices)} elevations from SwissTopo "
-          f"({n} points, sample every {sample_rate})...")
-
-    sampled: dict[int, float] = {}
+    sampled: dict[tuple[int, int], float] = {}
     with ThreadPoolExecutor(max_workers=max_workers) as ex:
-        futs = {ex.submit(_fetch_swisstopo_ele, *coords[i]): i for i in indices}
+        futs = {ex.submit(_fetch_swisstopo_ele, lat, lon): (si, pi)
+                for si, pi, lat, lon in sample_jobs}
         done = 0
         for fut in as_completed(futs):
-            idx = futs[fut]
+            key = futs[fut]
             ele = fut.result()
             done += 1
             if ele is not None:
-                sampled[idx] = ele
-            if done % 50 == 0 or done == len(indices):
-                print(f"  ... {done}/{len(indices)}")
+                sampled[key] = ele
+            if done % 50 == 0 or done == len(sample_jobs):
+                print(f"  ... {done}/{len(sample_jobs)}")
 
     if len(sampled) < 2:
         sys.exit("[elevation] Too few elevations fetched -- check network / coordinates.")
+    print(f"[elevation] Got {len(sampled)}/{len(sample_jobs)} sample elevations.")
 
-    print(f"[elevation] Got {len(sampled)}/{len(indices)} sample elevations.")
+    # Linearly interpolate WITHIN each segment only — never across.
+    all_ele: list[list[float]] = []
+    for si, seg in enumerate(segments):
+        n = len(seg)
+        ele = [0.0] * n
+        seg_samples = sorted(k[1] for k in sampled if k[0] == si)
+        if not seg_samples:
+            # Segment had no successful samples — fall back to neighbouring
+            # segments' nearest values (rare; surface as 0s if even those fail).
+            all_ele.append(ele)
+            continue
+        for j in seg_samples:
+            ele[j] = sampled[(si, j)]
+        for k in range(len(seg_samples) - 1):
+            a, b = seg_samples[k], seg_samples[k + 1]
+            ea, eb = sampled[(si, a)], sampled[(si, b)]
+            for j in range(a + 1, b):
+                t = (j - a) / (b - a)
+                ele[j] = ea + t * (eb - ea)
+        # Extrapolate flat at the ends.
+        first, last = seg_samples[0], seg_samples[-1]
+        for j in range(0, first):
+            ele[j] = sampled[(si, first)]
+        for j in range(last + 1, n):
+            ele[j] = sampled[(si, last)]
+        all_ele.append(ele)
 
-    # Linear interpolation between sampled points
-    sorted_idx = sorted(sampled.keys())
-    all_ele = [0.0] * n
-
-    for i in sampled:
-        all_ele[i] = sampled[i]
-
-    for i in range(len(sorted_idx) - 1):
-        a, b = sorted_idx[i], sorted_idx[i + 1]
-        ea, eb = sampled[a], sampled[b]
-        for j in range(a + 1, b):
-            t = (j - a) / (b - a)
-            all_ele[j] = ea + t * (eb - ea)
-
-    for j in range(0, sorted_idx[0]):
-        all_ele[j] = sampled[sorted_idx[0]]
-    for j in range(sorted_idx[-1] + 1, n):
-        all_ele[j] = sampled[sorted_idx[-1]]
-
-    # Write elevation into GPX track points
-    for tp, ele in zip(trkpts, all_ele):
-        ele_el = ET.SubElement(tp, f"{{{GPX_NS_URI}}}ele")
-        ele_el.text = f"{ele:.1f}"
+    # Write elevation into GPX track points, segment by segment.
+    for si, pts in enumerate(seg_trkpts):
+        for tp, ele in zip(pts, all_ele[si]):
+            ele_el = ET.SubElement(tp, f"{{{GPX_NS_URI}}}ele")
+            ele_el.text = f"{ele:.1f}"
 
     metadata = tree.find(f".//{{{GPX_NS_URI}}}metadata")
     if metadata is not None:
@@ -319,6 +348,88 @@ def enrich_gpx_elevation(
     print(f"[elevation] Enriched GPX written to {gpx_path}")
 
     return parse_gpx(gpx_path)
+
+
+def orient_gpx_to_trailhead(
+    gpx_path: Path,
+    target_start_elev_m: float | None = None,
+    threshold_m: float = 50.0,
+) -> bool:
+    """Reverse the GPX so the trailhead endpoint comes first.
+
+    The v2 layer API has no inherent direction; the smart stitcher picks the
+    ordering that minimises endpoint gaps but doesn't know which end is the
+    trailhead.
+
+    Preferred signal: ``target_start_elev_m`` — the scraped departure point
+    elevation (e.g. the public-transit stop the SAC route page lists). The
+    endpoint whose elevation is closer to that target wins; if it's currently
+    the last point, the track is reversed.
+
+    Fallback when no target is given: assume the trailhead is the lower
+    endpoint. Flip only if first.ele > last.ele + ``threshold_m`` to avoid
+    spurious flips on near-loops.
+
+    Returns ``True`` if the GPX was rewritten.
+    """
+    ET.register_namespace("", GPX_NS_URI)
+    tree = ET.parse(gpx_path)
+    trkpts = tree.findall(".//g:trkpt", GPX_NS)
+    if len(trkpts) < 2:
+        return False
+
+    def _ele(tp) -> float | None:
+        e = tp.find("g:ele", GPX_NS)
+        if e is None or not e.text:
+            return None
+        try:
+            return float(e.text)
+        except ValueError:
+            return None
+
+    first_ele = _ele(trkpts[0])
+    last_ele = _ele(trkpts[-1])
+    if first_ele is None or last_ele is None:
+        print("[orient] No elevation on endpoints — skipping orientation.")
+        return False
+
+    if target_start_elev_m is not None:
+        d_first = abs(first_ele - target_start_elev_m)
+        d_last = abs(last_ele - target_start_elev_m)
+        should_flip = d_last < d_first
+        print(f"[orient] Trailhead elev {target_start_elev_m:.0f} m vs "
+              f"first={first_ele:.0f} m (Δ {d_first:.0f}) / "
+              f"last={last_ele:.0f} m (Δ {d_last:.0f}) "
+              f"— {'flip' if should_flip else 'keep'}.")
+    else:
+        should_flip = first_ele > last_ele + threshold_m
+        if not should_flip:
+            print(f"[orient] First={first_ele:.0f} m, last={last_ele:.0f} m "
+                  f"(Δ ≤ {threshold_m:.0f} m) — no flip needed.")
+            return False
+        print(f"[orient] No target elev; first ({first_ele:.0f} m) > "
+              f"last ({last_ele:.0f} m) — flip.")
+
+    if not should_flip:
+        return False
+
+    for trkseg in tree.findall(".//g:trkseg", GPX_NS):
+        pts = list(trkseg.findall("g:trkpt", GPX_NS))
+        for p in pts:
+            trkseg.remove(p)
+        for p in reversed(pts):
+            trkseg.append(p)
+    for trk in tree.findall(".//g:trk", GPX_NS):
+        segs = list(trk.findall("g:trkseg", GPX_NS))
+        for s in segs:
+            trk.remove(s)
+        for s in reversed(segs):
+            trk.append(s)
+
+    tree.write(str(gpx_path), encoding="unicode", xml_declaration=True)
+    print(f"[orient] Reversed GPX (new start={last_ele:.0f} m, "
+          f"new end={first_ele:.0f} m).")
+    return True
 
 
 def _format_time(hours: float) -> str:

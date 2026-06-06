@@ -432,21 +432,42 @@ def _make_env() -> Environment:
 
 
 def _write_track_js(gpx_path: Path, out_path: Path) -> None:
-    """Generate a track.js file from a GPX for the Leaflet map and elevation chart."""
+    """Generate a track.js file from a GPX for the Leaflet map and elevation chart.
+
+    Emits TRACK as a flat list (back-compat) PLUS TRACK_SEGMENTS, a list of
+    [start_index, end_index_exclusive] pairs. The page JS uses the segment
+    map to draw the Leaflet polyline as a multi-line (no fake connector
+    across gap-split feature boundaries) and to break the elevation chart at
+    the same places.
+    """
     if not gpx_path.exists():
         return
     tree = ET.parse(gpx_path)
-    pts: list[tuple[float, float, float]] = []
-    for tp in tree.findall(".//g:trkpt", GPX_NS):
-        ele_el = tp.find("g:ele", GPX_NS)
-        ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
-        pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
-    if not pts:
+    segments: list[list[tuple[float, float, float]]] = []
+    for trkseg in tree.findall(".//g:trkseg", GPX_NS):
+        seg: list[tuple[float, float, float]] = []
+        for tp in trkseg.findall("g:trkpt", GPX_NS):
+            ele_el = tp.find("g:ele", GPX_NS)
+            ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
+            seg.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+        if seg:
+            segments.append(seg)
+    if not segments:
         return
-    lines = [f"window.TRACK_FULL_COUNT = {len(pts)};", "window.TRACK = ["]
-    for lat, lon, ele in pts:
-        lines.append(f"[{lat},{lon},{int(round(ele))}],")
-    lines.append("];")
+    flat: list[tuple[float, float, float]] = [p for s in segments for p in s]
+    spans: list[tuple[int, int]] = []
+    cursor = 0
+    for s in segments:
+        spans.append((cursor, cursor + len(s)))
+        cursor += len(s)
+    lines = [
+        f"window.TRACK_FULL_COUNT = {len(flat)};",
+        "window.TRACK = [",
+        *[f"[{lat},{lon},{int(round(ele))}]," for lat, lon, ele in flat],
+        "];",
+        "window.TRACK_SEGMENTS = ["
+        + ",".join(f"[{a},{b}]" for a, b in spans) + "];",
+    ]
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
 

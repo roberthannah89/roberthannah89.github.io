@@ -567,13 +567,31 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
             )
             changed.append("routes.0.source")
     if routes and sr.segments:
-        bullets = routes[0].get("bullets_html") or []
-        # Replace TODO bullets only
-        for i, b in enumerate(bullets):
-            if isinstance(b, str) and b.startswith("TODO") and i < len(sr.segments):
-                bullets[i] = sr.segments[i]
-                changed.append(f"routes.0.bullets_html.{i}")
-        routes[0]["bullets_html"] = bullets
+        bullets = list(routes[0].get("bullets_html") or [])
+        has_todo = any(isinstance(b, str) and b.startswith("TODO") for b in bullets)
+        if not has_todo:
+            # No TODO markers means the bullets were already populated -- either
+            # by a prior scrape (which may now be stale or wrong-count) or by
+            # hand. We can't tell, so replace wholesale with the fresh scrape;
+            # the alternative (preserving a wrong-count prior scrape) is what
+            # produced the duplicate-leg bug.
+            new_bullets = list(sr.segments)
+        else:
+            scraped_iter = iter(sr.segments)
+            new_bullets = []
+            for b in bullets:
+                if isinstance(b, str) and b.startswith("TODO"):
+                    nxt = next(scraped_iter, None)
+                    new_bullets.append(nxt if nxt is not None else b)
+                else:
+                    new_bullets.append(b)
+            for extra in scraped_iter:
+                new_bullets.append(extra)
+            while new_bullets and isinstance(new_bullets[-1], str) and new_bullets[-1].startswith("TODO"):
+                new_bullets.pop()
+        if new_bullets != bullets:
+            routes[0]["bullets_html"] = new_bullets
+            changed.append(f"routes.0.bullets_html ({len(new_bullets)} legs)")
 
     # Terrain / safety notes — append to intro if intro got patched, or attach
     # to routes[0] as a notes_html if the schema accepts it.

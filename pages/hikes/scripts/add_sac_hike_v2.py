@@ -204,8 +204,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--bbox-padding", type=int, default=BBOX_PADDING_M)
     p.add_argument("--stitch", action="store_true",
                    help="Run the legacy greedy stitcher on the layer features.")
-    p.add_argument("--include-dashed", action="store_true",
-                   help="Include style=dashed features in the GPX.")
+    p.add_argument("--no-dashed", action="store_true",
+                   help="Drop style=dashed features (default: keep — they are usually genuine connectors).")
     p.add_argument("--no-elevation", action="store_true")
     p.add_argument("--no-scrape", action="store_true",
                    help="Skip the HTML metadata scrape (offline mode).")
@@ -245,11 +245,11 @@ def main(argv: list[str] | None = None) -> int:
             cx + args.bbox_padding, cy + args.bbox_padding)
     print(f"[1/5] Fetching layer API for route_id={route_id} (peak_id={peak_id})")
     layer = _fetch_layer(bbox)
-    features = _features_for_route(layer, route_id, include_dashed=args.include_dashed)
+    features = _features_for_route(layer, route_id, include_dashed=not args.no_dashed)
     if not features:
         sys.exit("ERROR: no features matched in the bbox — try --bbox-padding bigger.")
     print(f"      {len(features)} features matched (excl. alternatives, "
-          f"{'incl. dashed' if args.include_dashed else 'excl. dashed'})")
+          f"{'excl. dashed' if args.no_dashed else 'incl. dashed'})")
     # Save raw layer for reproducibility
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / f"sac-layer-{route_id}.json").write_text(
