@@ -1,0 +1,160 @@
+{
+  "slug": "wildhornhuette-sac",
+  "page": {
+    "title": "Wildhornhuette Sac (2302 m) -- Hike Plan",
+    "generated": "2026-06-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Wildhornhuette Sac",
+    "elev": 2302,
+    "lat": 46.37923,
+    "lon": 7.38795
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "Bern",
+    "distance": "14.8 km",
+    "gain": "1260 m",
+    "time": "~5h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Lenk im Simmental",
+    "elev": 1068,
+    "lat": 46.4577,
+    "lon": 7.4436
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1530865989_708208879master_31643968f0.jpg",
+    "subtitle_html": "Lenk im Simmental -> Wildhornhuette Sac -- <span class=\"pill t2\">SAC T2</span> | ~1260 m gain | ~14.8 km | ~5h",
+    "grade": "T2",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>If you start at Iffigenalp the route is shortened by 2.5 hrs.</p>\n<p>Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2302 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Lenk im Simmental"
+    ],
+    [
+      "Distance",
+      "14.8 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1260 m"
+    ],
+    [
+      "Elevation range",
+      "1065-2301 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1530865989_708208879master_37b3a9cc03.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1530865989_708208879master_37b3a9cc03.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/b/csm_1530865989_1154717757master_4c09eb5375.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/b/csm_1530865989_1154717757master_4c09eb5375.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1530865988_422864922master_13442aaeb6.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1530865988_422864922master_13442aaeb6.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/0/csm_1530865989_2130961910master_2d28b56a4b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/0/csm_1530865989_2130961910master_2d28b56a4b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/8/csm_1530865989_319768986master_4aee75e6c8.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/8/csm_1530865989_319768986master_4aee75e6c8.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1530865989_1033404070master_0c1e03e5a9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1530865989_1033404070master_0c1e03e5a9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1595947689_1873058455master_c24664e4b2.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1595947689_1873058455master_c24664e4b2.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4577,
+      "lon": 7.4436,
+      "label": "Lenk im Simmental (1068 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.37926152025154,
+      "lon": 7.3881192414155334,
+      "label": "Wildhornhuette Sac (2301 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Lenk - Iffigenalp - Wildhornhütte SAC</strong>",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [
+        "If you start at Iffigenalp the route is shortened by 2.5 hrs."
+      ],
+      "source": "SAC Route Portal"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Lenk im Simmental</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Wildhornhuette Sac</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Iffigenalp",
+      "elev_m": 1584
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

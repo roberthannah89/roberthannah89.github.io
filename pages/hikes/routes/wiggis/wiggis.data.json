@@ -1,0 +1,146 @@
+{
+  "slug": "wiggis",
+  "page": {
+    "title": "Wiggis (2277 m) -- Hike Plan",
+    "generated": "2026-06-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Wiggis",
+    "elev": 2277,
+    "lat": 47.06533,
+    "lon": 9.02545
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "Glarus",
+    "distance": "12.3 km",
+    "gain": "1406 m",
+    "time": "~5h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Obersee",
+    "elev": 991,
+    "lat": 47.0881,
+    "lon": 9.0203
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_fa5dd77cda.jpg",
+    "subtitle_html": "Obersee -> Wiggis -- <span class=\"pill t4\">SAC T4</span> | ~1406 m gain | ~12.3 km | ~5h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Das Glarnerland wird oft liebevoll-spöttisch als «Zigerschlitz» bezeichnet. Dies ist nicht zuletzt der gewaltigen Ostwand von Rautispitz und Wiggis zuzuschreiben, mit fast 2000 m Höhe verstärkt sie den Eindruck des Glarner Haupttales als Schlitz zwischen himmelhohen Bergwänden. Im gleichen Atemzug wie der Rautispitz muss immer auch der benachbarte Wiggis genannt werden. Dem Rautispitz aufgrund seines Höhenvorteils von gerade mal 1 m den alleinigen Vorzug zu geben, ist nicht nötig: Schwindelfreie Alpinwanderer können bei trockenen Verhältnissen die beiden Gipfel über eine ausgesetzte Wegspur perfekt miteinander verbinden. Die Gänsehaut beim Tiefblick nach Netstal und Näfels gibt’s gratis dazu!</p>\n<p>Obersee – Grapplialp P. 1359 – Geisskappel – Rautispitz: 3–4 Std.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2277 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Obersee"
+    ],
+    [
+      "Distance",
+      "12.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1406 m"
+    ],
+    [
+      "Elevation range",
+      "986-2277 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_6c38ac304a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_6c38ac304a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1578062264_860485313master_ed410b94ee.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1578062264_860485313master_ed410b94ee.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1578062140_18442979master_12da82a5ce.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1578062140_18442979master_12da82a5ce.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1578061198_1275649207master_be077b66da.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1578061198_1275649207master_be077b66da.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.0881,
+      "lon": 9.0203,
+      "label": "Obersee (991 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.070993638366794,
+      "lon": 9.028292121037786,
+      "label": "Wiggis (2277 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Vom Obersee über Geisskappel und den Rautispitz</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Obersee – Grapplialp P. 1359 – Geisskappel – Rautispitz: 3–4 Std.",
+        "Rautispitz - Wiggis - Sattel P. 2168: 1 Std.",
+        "Rautispitz – Sattel P. 2168 – Rautialp – Grapplistafel – Obersee: 2–3"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Im Aufstieg über die Geisskappel steiler, bei Nässe rutschiger Bergweg, teils mit Seilen versichert (T3+). Die Querung vom Sattel P. 2166 über die Höchnase zum Wiggis ist zwar ausgesetzt, dank Drahtseilen an neuralgischen Stellen und der ausgetretenen Wegspur erstaunlich gut begehbar – wenn alles trocken und schneefrei ist! Ansonsten begnügt man sich besser mit dem Rautispitz.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Obersee</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Wiggis</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Rautispitz",
+      "elev_m": 2283,
+      "description": "Wird nur der Rautispitz via Geisskappel bestiegen, ist die Tour eine Stunde kürzer, Schwierigkeit T3+. Besteigt man den Rautispitz via die längere, aber landschaftlich lohnende Route Grapplistafel – Rautialp, beschränken sich die Schwierigkeiten auf T2."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

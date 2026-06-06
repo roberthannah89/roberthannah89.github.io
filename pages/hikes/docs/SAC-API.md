@@ -159,4 +159,4 @@ The API uses **LV95 (EPSG:2056)** Swiss coordinates. Convert to WGS84 using the 
 
 ## Current Usage
 
-`scripts/scrape_sac_pois.py` scrapes all 962 mountain hiking POIs (~10 pages, ~10 seconds) and writes `guides/sac-routes.js` for the interactive map at `guides/sac-map.html`.
+`scripts/scrape_sac_pois.py` scrapes all 962 mountain hiking POIs (~10 pages, ~10 seconds) and writes `guides/sac-routes.js`. That file feeds the command center (peak/hut markers + filters) and is the peak/route lookup table used by the v2 pipeline (`scripts/add_sac_hike_v2.py`, `scripts/fetch_sac_route_v2.py`).

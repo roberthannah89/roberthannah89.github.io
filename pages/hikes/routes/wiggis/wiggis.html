@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Wiggis (2277 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_fa5dd77cda.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Wiggis <span style="font-weight:400; opacity:.85;">2277 m</span></h1>
+    <p>SAC T4 · ~1406 m gain · ~12.3 km one-way · ~9h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Das Glarnerland wird oft liebevoll-spöttisch als «Zigerschlitz» bezeichnet. Dies ist nicht zuletzt der gewaltigen Ostwand von Rautispitz und Wiggis zuzuschreiben, mit fast 2000 m Höhe verstärkt sie den Eindruck des Glarner Haupttales als Schlitz zwischen himmelhohen Bergwänden. Im gleichen Atemzug wie der Rautispitz muss immer auch der benachbarte Wiggis genannt werden. Dem Rautispitz aufgrund seines Höhenvorteils von gerade mal 1 m den alleinigen Vorzug zu geben, ist nicht nötig: Schwindelfreie Alpinwanderer können bei trockenen Verhältnissen die beiden Gipfel über eine ausgesetzte Wegspur perfekt miteinander verbinden. Die Gänsehaut beim Tiefblick nach Netstal und Näfels gibt’s gratis dazu!</p>
+<p>Obersee – Grapplialp P. 1359 – Geisskappel – Rautispitz: 3–4 Std.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2277 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t4">SAC T4</span> Alpine hiking with exposure, rougher terrain, and sections that are not suitable for beginners. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Obersee</td></tr>
+    <tr><th>Distance</th><td>12.3 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~1406 m</td></tr>
+    <tr><th>Elevation range</th><td>986-2277 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_6c38ac304a.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1578062264_860485313master_ed410b94ee.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1578062140_18442979master_12da82a5ce.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1578061198_1275649207master_be077b66da.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_6c38ac304a.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1578062264_860485313master_ed410b94ee.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1578062140_18442979master_12da82a5ce.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1578061198_1275649207master_be077b66da.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Obersee)</span>
+    <span class="summit">Summit (Wiggis)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Vom Obersee über Geisskappel und den Rautispitz</strong></p>
+  <ul>
+    <li>Obersee – Grapplialp P. 1359 – Geisskappel – Rautispitz: 3–4 Std.</li>
+    <li>Rautispitz - Wiggis - Sattel P. 2168: 1 Std.</li>
+    <li>Rautispitz – Sattel P. 2168 – Rautialp – Grapplistafel – Obersee: 2–3</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>Im Aufstieg über die Geisskappel steiler, bei Nässe rutschiger Bergweg, teils mit Seilen versichert (T3+). Die Querung vom Sattel P. 2166 über die Höchnase zum Wiggis ist zwar ausgesetzt, dank Drahtseilen an neuralgischen Stellen und der ausgetretenen Wegspur erstaunlich gut begehbar – wenn alles trocken und schneefrei ist! Ansonsten begnügt man sich besser mit dem Rautispitz.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Obersee <span class="endpoint-elev">(991 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Obersee</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Obersee</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/47.06533N9.02545E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>12.3 km</strong> total</span>
+    <span>&uarr; <strong>1406 m</strong> ascent</span>
+    <span>&darr; <strong>1038 m</strong> descent</span>
+    <span>max <strong>2277 m</strong></span>
+    <span>steepest <strong>77%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="wiggis.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 47.06533, lon: 9.02545, elev: 2277, name: "Wiggis" },
+  trailhead: { lat: 47.0881, lon: 9.0203, name: "Obersee",
+               sbb_url: "" },
+  gpx_filename: "wiggis.gpx",
+  page_generated: "2026-06-06",
+  waypoints: [
+    [47.0881, 9.0203, "Obersee (991 m)", "start"],
+    [47.070993638366794, 9.028292121037786, "Wiggis (2277 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 1405.9, "descent_m": 1037.6000000000001, "distance_km": 12.31732827272762, "max_ele": 2277.2, "min_ele": 986.9, "n_points": 2334.0, "steepest_grade_pct": 77.17234099824435};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>
