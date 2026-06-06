@@ -1,0 +1,131 @@
+{
+  "slug": "marwees",
+  "page": {
+    "title": "Marwees (1990 m) -- Hike Plan",
+    "generated": "2026-06-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Marwees",
+    "elev": 1990,
+    "lat": 47.26131,
+    "lon": 9.40395
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "Appenzell Innerrhoden",
+    "distance": "15.0 km",
+    "gain": "1236 m",
+    "time": "~5h",
+    "route_type": "loop"
+  },
+  "trailhead": {
+    "name": "Wasserauen, Bahnhof",
+    "elev": 1683,
+    "lat": 47.2649,
+    "lon": 9.423
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1535451627_613093224master_ccd15853e9.jpg",
+    "subtitle_html": "Wasserauen, Bahnhof -> Marwees -- <span class=\"pill t4\">SAC T4-</span> | ~1236 m gain | ~15.0 km | ~5h",
+    "grade": "T4-",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>On Marwees nature and interesting trails built by courageous builders make for a hiking tour which satisfies every wish an alpine hiker might have: impressive views deep down, a boost of adrenalin on the steep ascent to Bogartenlücke or the feeling of flying when balancing on the Marwees ridge. East of Bogartenlücke stands a huge boulder called Bogartenmannli, which appears to guard the col. The view from the summit goes from Hoher Kasten to Stauberen and Kreuzberge against the backdrop of the Rätikon and Vorarlberg mountain ranges. Looking northward, Lake of Constance sparkles in the distance, while in front the hilly landscape of Appenzell and Thurgau is spread out.</p>\n<p>The Bogartenmannli rock tower at Bogartenlücke can be climbed with a few moves (III, state summer 2024 no more fixed rope).</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1990 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4-</span>"
+    ],
+    [
+      "Trailhead",
+      "Wasserauen, Bahnhof"
+    ],
+    [
+      "Distance",
+      "15.0 km (loop)"
+    ],
+    [
+      "Total ascent",
+      "~1236 m"
+    ],
+    [
+      "Elevation range",
+      "869-1990 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1535451627_613093224master_cccfa56b7b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1535451627_613093224master_cccfa56b7b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/f/csm_1535451627_2107247510master_8458d7140f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/f/csm_1535451627_2107247510master_8458d7140f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.2649,
+      "lon": 9.423,
+      "label": "Wasserauen, Bahnhof (1683 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.26270230791352,
+      "lon": 9.409497927882128,
+      "label": "Marwees (1990 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Traverse east-west from Wasserauen</strong>",
+      "grade": "T4-",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Wasserauen–Bogartenlücke–Marwees: 4 h Marwees–Meglisalp–Wasserauen: 2½ h"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Until Bogartenlücke the difficulty is T2. Then the trail to Marwees is marked white-blue-white (alpine hiking trail). An information board details the dangers of this stretch. Granted, the trail is steep, and the traverse to a grassy terrace may be precarious or even impassable, especially when wet or snow-covered. However, in good conditions, with appropriate gear and surefootedness the hike on the ridge should be a real pleasure (low T4). Some exposed passages are also found on the descent on Schrennenweg from Meglisalp to Wasserauen, but they are well equipped (T3).</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Wasserauen, Bahnhof</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Marwees</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Bogartenlücke",
+      "elev_m": 1709
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

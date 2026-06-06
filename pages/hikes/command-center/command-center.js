@@ -682,6 +682,7 @@
     var toggles = [
       { id: 'hikes',   icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
       { id: 'huts',    icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
+      { id: 'haspage', icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
       { id: 'webcams', icon: '📷', label: 'Webcams' }
     ];
 
@@ -768,6 +769,11 @@
     }
     if (id === 'huts') {
       Filters.setState('showHuts', show);
+      return;
+    }
+    if (id === 'haspage') {
+      // Off-state is null (no filter), not false — see hasPage state semantics.
+      Filters.setState('hasPage', show ? true : null);
       return;
     }
     if (id === 'webcams') {

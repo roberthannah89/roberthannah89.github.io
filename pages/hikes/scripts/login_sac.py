@@ -47,6 +47,12 @@ from fetch_sac_route import DEFAULT_COOKIE_FILE, save_cookie  # noqa: E402
 
 DEFAULT_CREDENTIALS_FILE = Path.home() / ".config" / "sac-hikes" / "credentials"
 
+# Persistent Chromium profile dir for --persist mode. XDG cache convention:
+# regenerable, per-machine, not synced. First login is interactive; cookies
+# survive on disk so subsequent invocations refresh in 3-5 seconds without
+# any human interaction.
+DEFAULT_PROFILE_DIR = Path.home() / ".cache" / "sac-hikes" / "chromium-profile"
+
 SAC_LOGIN_URL = "https://www.sac-cas.ch/en/login/"
 SAC_HOME_URL = "https://www.sac-cas.ch/"
 
@@ -314,6 +320,89 @@ def login_headless(creds: Credentials, *, timeout_s: int, cookie_file: Path | No
         sys.exit(f"ERROR: unexpected failure during headless login: {e}\nRe-run with --debug for a traceback.")
 
 
+def login_persist(*, profile_dir: Path, timeout_s: int, cookie_file: Path | None,
+                  headless: bool, debug: bool) -> int:
+    """Use a persistent Chromium profile so the SAC session sticks across runs.
+
+    First invocation: profile is empty → open a visible window at the SAC
+    login page → user logs in once → cookie auto-saved → browser closes.
+    Subsequent invocations: profile is already authenticated → opening
+    https://www.sac-cas.ch/ surfaces the existing ``fe_typo_user`` cookie
+    immediately → script saves it and exits in 3-5 seconds with no user
+    interaction.
+
+    The profile keeps SAC's session alive on its own as long as you run
+    this command occasionally; you should only have to log in manually
+    when SAC genuinely invalidates the session (rare — weeks at a time).
+    """
+    sync_playwright = _import_playwright()
+    profile_dir.mkdir(parents=True, exist_ok=True)
+    fresh_profile = not any(profile_dir.iterdir())
+    print(f"[login] persist mode, profile={profile_dir} "
+          f"({'fresh — log in once when window opens' if fresh_profile else 'reusing existing session'})")
+
+    try:
+        with sync_playwright() as pw:
+            try:
+                # Persistent context: cookies/localStorage live in profile_dir.
+                context = pw.chromium.launch_persistent_context(
+                    user_data_dir=str(profile_dir),
+                    headless=headless,
+                )
+            except Exception as e:
+                sys.exit(
+                    f"ERROR: failed to launch chromium with persistent profile ({e}).\n"
+                    "If chromium isn't installed: playwright install chromium\n"
+                )
+
+            page = context.pages[0] if context.pages else context.new_page()
+            # If we already have a valid session, hitting the home page
+            # surfaces fe_typo_user immediately (no redirect through OAuth).
+            # If we don't, the page itself shows the login link and the user
+            # navigates from there.
+            target_url = SAC_HOME_URL if not fresh_profile else SAC_LOGIN_URL
+            try:
+                page.goto(target_url, wait_until="domcontentloaded", timeout=30_000)
+            except Exception as nav_err:
+                # Don't abort — the user might still log in manually even
+                # if the initial navigation failed.
+                print(f"  warn: initial nav failed ({nav_err}); waiting for cookie anyway",
+                      file=sys.stderr)
+
+            # Short poll first: if the session is already authenticated, the
+            # cookie is there in seconds. Only after that do we fall back to
+            # the full headed-login budget.
+            quick_deadline = 5.0 if not fresh_profile else 1.0
+            cookie_value = _wait_for_typo_cookie(context, deadline_s=quick_deadline)
+            if not cookie_value:
+                if headless:
+                    sys.exit(
+                        "ERROR: no fe_typo_user cookie in profile and --persist-headless was set.\n"
+                        "Re-run without --persist-headless to log in manually."
+                    )
+                print(f"[login] no existing session; please log in manually "
+                      f"(up to {timeout_s}s)…")
+                cookie_value = _wait_for_typo_cookie(context, deadline_s=timeout_s)
+
+            if not cookie_value:
+                sys.exit(
+                    "ERROR: timed out waiting for fe_typo_user cookie. Did login complete?"
+                )
+
+            target = cookie_file or DEFAULT_COOKIE_FILE
+            path = save_cookie(cookie_value, target)
+            print(f"[login] OK — cookie saved to {path}")
+            print(f"        profile preserved at {profile_dir}; next run should be instant")
+            context.close()
+            return 0
+    except SystemExit:
+        raise
+    except Exception as e:
+        if debug:
+            raise
+        sys.exit(f"ERROR: persist-mode login failed: {e}\nRe-run with --debug for a traceback.")
+
+
 def login_headed(*, timeout_s: int, cookie_file: Path | None, debug: bool) -> int:
     sync_playwright = _import_playwright()
     print(f"[login] headed mode — a Chromium window will open; log in manually. "
@@ -360,6 +449,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--save-credentials", action="store_true",
                    help=f"Persist credentials to {DEFAULT_CREDENTIALS_FILE} and exit. "
                         "Prompts interactively unless --username/--password given.")
+    p.add_argument("--persist", action="store_true",
+                   help="Reuse a Chromium profile so the SAC session sticks across runs. "
+                        f"Profile lives at {DEFAULT_PROFILE_DIR}. First run: log in manually "
+                        "once; future runs auto-extract the cookie in ~3s.")
+    p.add_argument("--profile-dir", type=Path,
+                   help=f"Override --persist profile location (default: {DEFAULT_PROFILE_DIR}).")
     p.add_argument("--headed", action="store_true",
                    help="Open a visible browser; log in manually. No stored creds needed.")
     p.add_argument("--username", help="SAC username/email (overrides env + file).")
@@ -385,6 +480,12 @@ def main(argv: list[str] | None = None) -> int:
             path = _interactive_save_credentials(target)
         print(f"[save ] Wrote credentials to {path} (mode 0600)")
         return 0
+
+    if args.persist:
+        profile = args.profile_dir or DEFAULT_PROFILE_DIR
+        timeout = args.timeout or DEFAULT_HEADED_TIMEOUT_S
+        return login_persist(profile_dir=profile, timeout_s=timeout,
+                             cookie_file=args.cookie_file, headless=False, debug=args.debug)
 
     if args.headed:
         timeout = args.timeout or DEFAULT_HEADED_TIMEOUT_S

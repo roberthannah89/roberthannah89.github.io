@@ -1,0 +1,139 @@
+{
+  "slug": "piz-languard",
+  "page": {
+    "title": "Piz Languard (3262 m) -- Hike Plan",
+    "generated": "2026-06-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Piz Languard",
+    "elev": 3262,
+    "lat": 46.48844,
+    "lon": 9.9565
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "Graubünden",
+    "distance": "8.0 km",
+    "gain": "1009 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Alp Languard (Pontresina)",
+    "elev": 2823,
+    "lat": 46.4847,
+    "lon": 9.95
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1556711056_874820674master_9fdc6096c4.jpg",
+    "subtitle_html": "Alp Languard (Pontresina) -> Piz Languard -- <span class=\"pill t4\">SAC T4-</span> | ~1009 m gain | ~8.0 km | ~3h30",
+    "grade": "T4-",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The easy accessibility of the summit and the cabin high up cannot hide the fact that the trail is steep, stony and at times exposed. Thanks to Georgys Hütte it is uncomplicated to experience sunrise and sunset surrounded by majestic mountains. Observing ibex is almost guaranteed.</p>\n<p>This beautiful viewpoint is part of Muottas da Puntraschigna and is located vis-à-vis Piz Languard on the other side of Val Bernina. Pontresina railway station – Punt Ota – Tais – P. 2245 (marked white-red-white until here). Continue south-westward on a faint path, then pathless to Muot d’Mez. Descend on the ascent to P. 2245, then turn right and make an arc back to Pontresina. 2 h on the ascent, 1¾ h on the descent, T3.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3262 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4-</span>"
+    ],
+    [
+      "Trailhead",
+      "Alp Languard (Pontresina)"
+    ],
+    [
+      "Distance",
+      "8.0 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1009 m"
+    ],
+    [
+      "Elevation range",
+      "2327-3261 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1556711056_874820674master_61644b99aa.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1556711056_874820674master_61644b99aa.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/7/csm_1556708271_18769266master_a972206440.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/7/csm_1556708271_18769266master_a972206440.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1556708271_216317717master_7192985e1f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1556708271_216317717master_7192985e1f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4847,
+      "lon": 9.95,
+      "label": "Alp Languard (Pontresina) (2823 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.48845121048275,
+      "lon": 9.956495799077285,
+      "label": "Piz Languard (3261 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>South-west face</strong>",
+      "grade": "T4-",
+      "pill_class": "t4",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>The trail to the summit is marked white-red-white. However, the ascent is steep, covered with loose gravel and, on a few metres, fairly exposed. There are some fixed ropes.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Piz Languard</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Muottas Muragl, summit station",
+      "elev_m": 2454,
+      "description": "Starting point of the variant"
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

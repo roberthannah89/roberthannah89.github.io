@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx extract-sac-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border
+.PHONY: help new new-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -26,7 +26,6 @@ help:
 	@echo "  help           Show this help message (default)"
 	@echo "  new            Scaffold a new hike directory (manual metadata)"
 	@echo "  new-gpx        Scaffold from existing GPX (auto-extracts stats)"
-	@echo "  extract-sac-gpx Extract GPX from SAC route portal JSON"
 	@echo "  render         Render all hike HTML pages"
 	@echo "  validate       Validate hike data without writing output"
 	@echo "  serve          Render then serve the site on localhost"
@@ -76,14 +75,6 @@ new-gpx:
 	  $(if $(grade),--grade $(grade)) \
 	  $(if $(elev),--elev $(elev)) \
 	  $(if $(trailhead),--trailhead "$(trailhead)") \
-	  $(if $(add_elevation),--add-elevation)
-
-# -----------------------------------------------------------------------------
-## extract-sac-gpx : Extract GPX from SAC route portal JSON (see docs/workflows/GPX-EXTRACTION.md)
-extract-sac-gpx:
-	$(PYTHON) $(SCRIPTS)/extract_sac_gpx.py \
-	  $(if $(json),--json $(json)) \
-	  $(if $(slug),--slug $(slug)) \
 	  $(if $(add_elevation),--add-elevation)
 
 # -----------------------------------------------------------------------------

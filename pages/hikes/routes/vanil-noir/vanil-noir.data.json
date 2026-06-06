@@ -1,0 +1,162 @@
+{
+  "slug": "vanil-noir",
+  "page": {
+    "title": "Vanil Noir (2387 m) -- Hike Plan",
+    "generated": "2026-06-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Vanil Noir",
+    "elev": 2387,
+    "lat": 46.52848,
+    "lon": 7.14836
+  },
+  "index_card": {
+    "region": "TODO",
+    "canton": "Fribourg",
+    "distance": "20.6 km",
+    "gain": "1659 m",
+    "time": "~7h",
+    "route_type": "loop"
+  },
+  "trailhead": {
+    "name": "Grandvillard/ Villars-sous-Mont, Bahnhof",
+    "elev": 1995,
+    "lat": 46.5355,
+    "lon": 7.1426
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/a/csm_1523178709_18845553master_2f524d473f.jpg",
+    "subtitle_html": "Grandvillard/ Villars-sous-Mont, Bahnhof -> Vanil Noir -- <span class=\"pill t4\">SAC T4+</span> | ~1659 m gain | ~20.6 km | ~7h",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Vanil Noir, the highest mountain in the canton of Freiburg, stands in the centre of a nature reserve, which on two sides is limited by the Saane and on the north by the Jaunbach. It is impossible to get close to Vanil Noir by using the public transportation system. Wherever you leave the bus or the train, it takes a while until you reach the summit cross. The tour can be made shorter by driving, cycling or staying overnight at Cabane de Bounavaux.</p>\n<p>On weekdays Grandvillard can also be reached by bus from Bulle. Compared to the train you save 40 min.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2387 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Grandvillard/ Villars-sous-Mont, Bahnhof"
+    ],
+    [
+      "Distance",
+      "20.6 km (loop)"
+    ],
+    [
+      "Total ascent",
+      "~1659 m"
+    ],
+    [
+      "Elevation range",
+      "733-2387 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/a/csm_1523178709_18845553master_2293865f36.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/a/csm_1523178709_18845553master_2293865f36.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1523179904_1551308772master_5db9fc8e69.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/6/csm_1523179904_1551308772master_5db9fc8e69.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/8/csm_1523180875_1588854218master_a63f06d876.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/8/csm_1523180875_1588854218master_a63f06d876.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1523180737_700743923master_948c2b23a4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1523180737_700743923master_948c2b23a4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/6/csm_1523179952_685247537master_e832eb474c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/6/csm_1523179952_685247537master_e832eb474c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1523179957_778859615master_a6dd40935e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1523179957_778859615master_a6dd40935e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/6/csm_1539611078_552531832master_9f3cae4c15.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/6/csm_1539611078_552531832master_9f3cae4c15.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.5355,
+      "lon": 7.1426,
+      "label": "Grandvillard/ Villars-sous-Mont, Bahnhof (1995 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.528457531586646,
+      "lon": 7.148412987235807,
+      "label": "Vanil Noir (2387 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Grandvillard – Vanil Noir</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Total hiking time: 8½ h Grandvillard railway station – Cabane de Bounavaux: 3 h Cabane de Bounavaux – Vanil Noir: 2¼ h Vanil Noir – Cabane de Bounavaux: 1½ h Cabane de Bounavaux – Grandvillard railway station: 1¾ h"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>The routes on Vanil Noir are well equipped with steel cables and chains, but many precarious passages do need to be negotiated without technical help. The tour must not be undertaken in wet conditions!</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Grandvillard/ Villars-sous-Mont, Bahnhof</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Vanil Noir</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Grandvillard, Dorf",
+      "elev_m": 761,
+      "description": "On weekdays Grandvillard can also be reached by bus from Bulle. Compared to the train you save 40 min."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

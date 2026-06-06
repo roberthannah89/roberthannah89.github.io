@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Oberaletschhuette (2688 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1522069429_912409892master_a17140b697.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Oberaletschhuette <span style="font-weight:400; opacity:.85;">2688 m</span></h1>
+    <p>SAC T3 · ~842 m gain · ~10.1 km one-way · ~7h round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Since 2006, the summer path no longer leads over the Oberaletsch Glacier, but along a newly created panorama path along the western slope of the Fusshorns.</p>
+<p>Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2688 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t3">SAC T3</span> Demanding mountain hiking with possible exposure and a real need for sure-footedness. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Belalp</td></tr>
+    <tr><th>Distance</th><td>10.1 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~842 m</td></tr>
+    <tr><th>Elevation range</th><td>1970-2687 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1522069429_912409892master_36a6121612.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/2/csm_1522069433_847782962master_134c83e499.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/b/8/csm_1526401246_100481801master_23f0265da4.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1522069315_1551595706master_6c35d8a081.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-5"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/2/8/csm_1522070076_1571967455master_63a5fabf85.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-6"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1522070015_41283268master_6dda96af6b.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1522069429_912409892master_36a6121612.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/2/csm_1522069433_847782962master_134c83e499.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/b/8/csm_1526401246_100481801master_23f0265da4.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1522069315_1551595706master_6c35d8a081.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-5" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/2/8/csm_1522070076_1571967455master_63a5fabf85.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-6" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1522070015_41283268master_6dda96af6b.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Belalp)</span>
+    <span class="summit">Summit (Oberaletschhuette)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>From Belalp</strong></p>
+  <ul>
+    <li>TODO: Step 1 description.</li>
+    <li>TODO: Step 2 description.</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>I few exposed sections crossing the gullies between Z'Leng Fäsch und Jegi.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Belalp <span class="endpoint-elev">(2095 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Belalp</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Belalp</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.42492N7.97379E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>10.1 km</strong> total</span>
+    <span>&uarr; <strong>842 m</strong> ascent</span>
+    <span>&darr; <strong>302 m</strong> descent</span>
+    <span>max <strong>2687 m</strong></span>
+    <span>steepest <strong>43%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="oberaletschhuette.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.42492, lon: 7.97379, elev: 2688, name: "Oberaletschhuette" },
+  trailhead: { lat: 46.3717, lon: 7.9743, name: "Belalp",
+               sbb_url: "" },
+  gpx_filename: "oberaletschhuette.gpx",
+  page_generated: "2026-06-06",
+  waypoints: [
+    [46.3717, 7.9743, "Belalp (2095 m)", "start"],
+    [46.42044416672656, 7.990017598543127, "Oberaletschhuette (2687 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 842.4999999999989, "descent_m": 301.69999999999914, "distance_km": 10.092541665083957, "max_ele": 2687.9, "min_ele": 1970.1, "n_points": 1921.0, "steepest_grade_pct": 42.976062904933634};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

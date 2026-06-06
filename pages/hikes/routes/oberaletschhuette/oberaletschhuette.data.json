@@ -1,0 +1,150 @@
+{
+  "slug": "oberaletschhuette",
+  "page": {
+    "title": "Oberaletschhütte SAC (2688 m) -- Hike Plan",
+    "generated": "2026-06-06",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Oberaletschhütte SAC",
+    "elev": 2688,
+    "lat": 46.42492,
+    "lon": 7.97379
+  },
+  "index_card": {
+    "region": "Valais Alps",
+    "canton": "Valais",
+    "distance": "10.1 km",
+    "gain": "842 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Belalp",
+    "elev": 2095,
+    "lat": 46.3717,
+    "lon": 7.9743
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1522069429_912409892master_a17140b697.jpg",
+    "subtitle_html": "Belalp -> Oberaletschhuette -- <span class=\"pill t3\">SAC T3</span> | ~842 m gain | ~10.1 km | ~3h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Since 2006, the summer path no longer leads over the Oberaletsch Glacier, but along a newly created panorama path along the western slope of the Fusshorns.</p>\n<p>Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2688 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Belalp"
+    ],
+    [
+      "Distance",
+      "10.1 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~842 m"
+    ],
+    [
+      "Elevation range",
+      "1970-2687 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1522069429_912409892master_36a6121612.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1522069429_912409892master_36a6121612.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/2/csm_1522069433_847782962master_134c83e499.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/2/csm_1522069433_847782962master_134c83e499.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/8/csm_1526401246_100481801master_23f0265da4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/8/csm_1526401246_100481801master_23f0265da4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1522069315_1551595706master_6c35d8a081.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1522069315_1551595706master_6c35d8a081.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/8/csm_1522070076_1571967455master_63a5fabf85.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/8/csm_1522070076_1571967455master_63a5fabf85.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1522070015_41283268master_6dda96af6b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1522070015_41283268master_6dda96af6b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.3717,
+      "lon": 7.9743,
+      "label": "Belalp (2095 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.42044416672656,
+      "lon": 7.990017598543127,
+      "label": "Oberaletschhuette (2687 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From Belalp</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>I few exposed sections crossing the gullies between Z'Leng Fäsch und Jegi.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Oberaletschhuette</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}
