@@ -444,7 +444,7 @@
       { label: '500-1k', key: 'gain', value: 'mod' },
       { label: '1-1.5k', key: 'gain', value: 'hard' },
       { label: '1.5k+', key: 'gain', value: 'epic' }
-    ]));
+    ], /* multiSelect */ true));
 
     // Display — multi-select pills controlling what shows on each POI.
     // 'weather' = marker pill (vs simple dot); others = tooltip metadata.
@@ -612,12 +612,25 @@
     var activeClass = style === 'weather' ? 'weather-active' : 'active';
     var s = Filters.getState();
 
+    // The multi-select state field is the shared `key` across the option list
+    // (every option in a multi-select group writes into the same state slot,
+    // so we read the first option's key once).
+    var multiKey = multiSelect && options.length ? options[0].key : null;
+    // Some multi-select groups (grades) carry the bucket label in opt.value[0]
+    // instead of opt.value. Detect once.
+    function valueOf(opt) {
+      return Array.isArray(opt.value) ? opt.value[0] : opt.value;
+    }
+
     // Decide whether a given option should start active based on restored state.
-    // - Multi-select (grades): button active iff its value is in state.grades.
+    // - Multi-select: button active iff its value is in state[multiKey].
     // - Single-select: button active iff state[opt.key] equals opt.value.
     function isActive(opt) {
       if (multiSelect) {
-        return s.grades && opt.value && s.grades.indexOf(opt.value[0]) !== -1;
+        var arr = s[multiKey];
+        if (!arr) return false;
+        if (typeof arr === 'string') arr = [arr];  // tolerate legacy single-string state from old URLs
+        return arr.indexOf(valueOf(opt)) !== -1;
       }
       return s[opt.key] === opt.value;
     }
@@ -636,16 +649,17 @@
 
       btn.addEventListener('click', function () {
         if (multiSelect) {
-          // Multi-select: toggle this button, then collect all active values.
+          // Multi-select: toggle this button, then collect all active values
+          // and write them to state[multiKey] (e.g. 'grades' or 'gain').
           // Empty selection = any (no Any button needed).
           btn.classList.toggle(activeClass);
           var active = [];
           group.querySelectorAll('.filter-btn').forEach(function (b, i) {
             if (b.classList.contains(activeClass)) {
-              active.push(options[i].value[0]);
+              active.push(valueOf(options[i]));
             }
           });
-          Filters.setState('grades', active);
+          Filters.setState(multiKey, active);
         } else {
           // Single select: clicking the already-active button clears the
           // filter (state = null = any). Otherwise select just this one.

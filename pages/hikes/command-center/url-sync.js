@@ -61,7 +61,7 @@
       var raw = decodeURIComponent(pair.slice(eq + 1));
       var key = REV_MAP[short];
       if (!key) return;
-      if (key === 'grades' || key === 'display') {
+      if (key === 'grades' || key === 'display' || key === 'gain') {
         out[key] = raw.split(',').filter(Boolean);
       } else if (key === 'showHikes' || key === 'showHuts') {
         out[key] = raw !== '0';

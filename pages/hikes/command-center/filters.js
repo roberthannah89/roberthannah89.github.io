@@ -6,7 +6,7 @@
     grades: [],        // [] = any, or ['T3','T4'] etc
     duration: null,    // null=any, 'short', 'medium', 'long'
     elevation: null,   // null=any, 'low', 'mid', 'high'  (peak altitude)
-    gain: null,        // null=any, 'easy', 'mod', 'hard', 'epic'  (vertical ascent)
+    gain: [],          // [] = any, or any subset of ['easy','mod','hard','epic']  (vertical ascent)
     hasPage: null,     // null=any (default), true=only POIs with a built hike page in this repo
     showHikes: true,   // include peaks/summits/traverses
     showHuts: true,    // include SAC huts
@@ -107,15 +107,29 @@
     return g;
   }
 
+  // Each bucket's predicate. Centralised so the matcher loop stays trivial
+  // and adding/removing a bucket only changes one place.
+  var GAIN_BUCKETS = {
+    easy: function (g) { return g <= 500; },
+    mod:  function (g) { return g > 500 && g <= 1000; },
+    hard: function (g) { return g > 1000 && g <= 1500; },
+    epic: function (g) { return g > 1500; }
+  };
+
   function matchesGain(poi) {
-    if (!state.gain) return true;
+    // gain is multi-select: empty selection = any, otherwise the POI passes
+    // if ANY of the selected buckets contains its gain. Legacy single-string
+    // state.gain is tolerated transparently for URL-sync back-compat.
+    var sel = state.gain;
+    if (!sel || (sel.length === 0)) return true;
     var g = maxGain(poi);
     if (g === 0) return true; // no gain data = don't filter out
-    if (state.gain === 'easy') return g <= 500;
-    if (state.gain === 'mod')  return g > 500 && g <= 1000;
-    if (state.gain === 'hard') return g > 1000 && g <= 1500;
-    if (state.gain === 'epic') return g > 1500;
-    return true;
+    if (typeof sel === 'string') sel = [sel];
+    for (var i = 0; i < sel.length; i++) {
+      var fn = GAIN_BUCKETS[sel[i]];
+      if (fn && fn(g)) return true;
+    }
+    return false;
   }
 
   function matchesHasPage(poi) {
