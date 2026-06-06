@@ -353,7 +353,10 @@ def enrich_gpx_elevation(
 def orient_gpx_to_trailhead(
     gpx_path: Path,
     target_start_elev_m: float | None = None,
+    target_lat: float | None = None,
+    target_lon: float | None = None,
     threshold_m: float = 50.0,
+    distance_decisive_m: float = 50.0,
 ) -> bool:
     """Reverse the GPX so the trailhead endpoint comes first.
 
@@ -361,14 +364,21 @@ def orient_gpx_to_trailhead(
     ordering that minimises endpoint gaps but doesn't know which end is the
     trailhead.
 
-    Preferred signal: ``target_start_elev_m`` — the scraped departure point
-    elevation (e.g. the public-transit stop the SAC route page lists). The
-    endpoint whose elevation is closer to that target wins; if it's currently
-    the last point, the track is reversed.
+    Resolution order:
 
-    Fallback when no target is given: assume the trailhead is the lower
-    endpoint. Flip only if first.ele > last.ele + ``threshold_m`` to avoid
-    spurious flips on near-loops.
+    1. **Geographic distance** — if ``target_lat`` and ``target_lon`` are
+       provided, the GPX endpoint geographically closer to that point is the
+       trailhead. The flip decision is taken when the margin between the two
+       endpoint distances exceeds ``distance_decisive_m`` (default 50 m); on
+       routes where both ends are within that margin of each other (e.g. tight
+       loops, or coordinates that don't match either endpoint), we fall
+       through to the elevation heuristic so we don't flip on noise.
+    2. **Elevation** — ``target_start_elev_m`` (the scraped departure point
+       elevation, e.g. the public-transit stop the SAC route page lists). The
+       endpoint whose elevation is closer to that target wins.
+    3. **Lower endpoint first** fallback when no targets are given. Flip only
+       if first.ele > last.ele + ``threshold_m`` to avoid spurious flips on
+       near-loops.
 
     Returns ``True`` if the GPX was rewritten.
     """
@@ -387,28 +397,57 @@ def orient_gpx_to_trailhead(
         except ValueError:
             return None
 
+    def _latlon(tp) -> tuple[float, float] | None:
+        try:
+            return float(tp.get("lat")), float(tp.get("lon"))
+        except (TypeError, ValueError):
+            return None
+
     first_ele = _ele(trkpts[0])
     last_ele = _ele(trkpts[-1])
-    if first_ele is None or last_ele is None:
-        print("[orient] No elevation on endpoints — skipping orientation.")
-        return False
+    first_ll = _latlon(trkpts[0])
+    last_ll = _latlon(trkpts[-1])
 
-    if target_start_elev_m is not None:
-        d_first = abs(first_ele - target_start_elev_m)
-        d_last = abs(last_ele - target_start_elev_m)
-        should_flip = d_last < d_first
-        print(f"[orient] Trailhead elev {target_start_elev_m:.0f} m vs "
-              f"first={first_ele:.0f} m (Δ {d_first:.0f}) / "
-              f"last={last_ele:.0f} m (Δ {d_last:.0f}) "
-              f"— {'flip' if should_flip else 'keep'}.")
-    else:
-        should_flip = first_ele > last_ele + threshold_m
-        if not should_flip:
-            print(f"[orient] First={first_ele:.0f} m, last={last_ele:.0f} m "
-                  f"(Δ ≤ {threshold_m:.0f} m) — no flip needed.")
+    should_flip: bool | None = None
+
+    # 1. Geographic distance (decisive when one endpoint is clearly nearer).
+    if target_lat is not None and target_lon is not None and first_ll and last_ll:
+        target = (float(target_lat), float(target_lon))
+        d_first = _haversine_m(target, first_ll)
+        d_last = _haversine_m(target, last_ll)
+        margin = abs(d_first - d_last)
+        if margin >= distance_decisive_m:
+            should_flip = d_last < d_first
+            print(f"[orient] Trailhead {target[0]:.4f},{target[1]:.4f} vs "
+                  f"first={d_first:.0f} m / last={d_last:.0f} m "
+                  f"(margin {margin:.0f} m) — {'flip' if should_flip else 'keep'}.")
+        else:
+            print(f"[orient] Trailhead distances first={d_first:.0f} m / "
+                  f"last={d_last:.0f} m (margin {margin:.0f} m < "
+                  f"{distance_decisive_m:.0f} m) — falling back to elevation.")
+
+    # 2. Elevation-based heuristic.
+    if should_flip is None:
+        if first_ele is None or last_ele is None:
+            print("[orient] No elevation on endpoints — skipping orientation.")
             return False
-        print(f"[orient] No target elev; first ({first_ele:.0f} m) > "
-              f"last ({last_ele:.0f} m) — flip.")
+        if target_start_elev_m is not None:
+            d_first = abs(first_ele - target_start_elev_m)
+            d_last = abs(last_ele - target_start_elev_m)
+            should_flip = d_last < d_first
+            print(f"[orient] Trailhead elev {target_start_elev_m:.0f} m vs "
+                  f"first={first_ele:.0f} m (Δ {d_first:.0f}) / "
+                  f"last={last_ele:.0f} m (Δ {d_last:.0f}) "
+                  f"— {'flip' if should_flip else 'keep'}.")
+        else:
+            # 3. Lower endpoint first fallback.
+            should_flip = first_ele > last_ele + threshold_m
+            if not should_flip:
+                print(f"[orient] First={first_ele:.0f} m, last={last_ele:.0f} m "
+                      f"(Δ ≤ {threshold_m:.0f} m) — no flip needed.")
+                return False
+            print(f"[orient] No target elev; first ({first_ele:.0f} m) > "
+                  f"last ({last_ele:.0f} m) — flip.")
 
     if not should_flip:
         return False
@@ -427,8 +466,11 @@ def orient_gpx_to_trailhead(
             trk.append(s)
 
     tree.write(str(gpx_path), encoding="unicode", xml_declaration=True)
-    print(f"[orient] Reversed GPX (new start={last_ele:.0f} m, "
-          f"new end={first_ele:.0f} m).")
+    if first_ele is not None and last_ele is not None:
+        print(f"[orient] Reversed GPX (new start={last_ele:.0f} m, "
+              f"new end={first_ele:.0f} m).")
+    else:
+        print("[orient] Reversed GPX.")
     return True
 
 

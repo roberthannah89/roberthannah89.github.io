@@ -148,7 +148,7 @@
       const dest = `${TRAILHEAD.lat},${TRAILHEAD.lon}`;
       if (gmapsDrive)   gmapsDrive.href   = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${dest}&travelmode=driving`;
       if (gmapsTransit) gmapsTransit.href = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${dest}&travelmode=transit`;
-      if (sbbLink)      sbbLink.href      = TRAILHEAD.sbb_url || `https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?von=${enc(transitOrigin)}&nach=${enc(TRAILHEAD.name)}`;
+      if (sbbLink)      sbbLink.href      = TRAILHEAD.sbb_url || `https://www.sbb.ch/en?von=${enc(transitOrigin)}&nach=${enc(TRAILHEAD.name)}`;
     }
     // --- End point (return journey) ---
     const gmapsDriveEnd   = document.getElementById("gmaps-drive-link-end");
@@ -160,7 +160,7 @@
       const origin = `${END_POINT.lat},${END_POINT.lon}`;
       if (gmapsDriveEnd)   gmapsDriveEnd.href   = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${enc(transitOrigin)}&travelmode=driving`;
       if (gmapsTransitEnd) gmapsTransitEnd.href = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${enc(transitOrigin)}&travelmode=transit`;
-      if (sbbLinkEnd)      sbbLinkEnd.href      = END_POINT.sbb_url || `https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?von=${enc(END_POINT.name)}&nach=${enc(transitOrigin)}`;
+      if (sbbLinkEnd)      sbbLinkEnd.href      = END_POINT.sbb_url || `https://www.sbb.ch/en?von=${enc(END_POINT.name)}&nach=${enc(transitOrigin)}`;
     }
   }
   setupTransit();

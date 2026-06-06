@@ -161,22 +161,39 @@
       if (hike.end_point && hike.end_point.name && hike.end_point.name !== hike.trailhead.name) {
         endpoints.push({ kind: 'End', ep: hike.end_point });
       }
+      // Home/origin for inbound (Start) and outbound (End) journeys. No config
+      // plumbing yet — match the page JS default.
+      var transitOrigin = 'Zürich HB';
       html += '<div class="panel-section">';
       html += '<div class="panel-label">Getting There &amp; Back</div>';
       endpoints.forEach(function (item, idx) {
         var ep = item.ep;
         var elev = (ep.elev != null) ? ' (' + ep.elev + ' m)' : '';
         // Google Maps: prefer coords (more reliable). Fall back to name string.
-        var dest = (ep.lat != null && ep.lon != null)
+        var epPoint = (ep.lat != null && ep.lon != null)
           ? (ep.lat + ',' + ep.lon)
           : encodeURIComponent(ep.name);
-        var gmapsDrive = 'https://www.google.com/maps/dir/?api=1&destination=' + dest + '&travelmode=driving';
-        var gmapsTransit = 'https://www.google.com/maps/dir/?api=1&destination=' + dest + '&travelmode=transit';
-        // SBB: prefer ep.sbb_url if a future pipeline adds it; otherwise build
-        // from the endpoint name.
+        var originParam, destParam, sbbVon, sbbNach;
+        if (item.kind === 'Start') {
+          // Travelling from home TO the trailhead.
+          originParam = encodeURIComponent(transitOrigin);
+          destParam = epPoint;
+          sbbVon = transitOrigin;
+          sbbNach = ep.name;
+        } else {
+          // Travelling from the end point back home.
+          originParam = epPoint;
+          destParam = encodeURIComponent(transitOrigin);
+          sbbVon = ep.name;
+          sbbNach = transitOrigin;
+        }
+        var gmapsDrive = 'https://www.google.com/maps/dir/?api=1&origin=' + originParam + '&destination=' + destParam + '&travelmode=driving';
+        var gmapsTransit = 'https://www.google.com/maps/dir/?api=1&origin=' + originParam + '&destination=' + destParam + '&travelmode=transit';
+        // SBB: prefer ep.sbb_url if the pipeline supplies one; otherwise build
+        // a query from the correct von/nach pair for this leg.
         var sbbUrl = ep.sbb_url
           ? ep.sbb_url
-          : 'https://www.sbb.ch/en?von=' + encodeURIComponent(ep.name);
+          : 'https://www.sbb.ch/en?von=' + encodeURIComponent(sbbVon) + '&nach=' + encodeURIComponent(sbbNach);
         var topMargin = idx === 0 ? '' : 'margin-top:10px;';
         html += '<div style="' + topMargin + 'font-size:12px;color:var(--text-secondary);font-family:var(--font-mono);margin-bottom:6px">';
         html += '<span style="color:var(--text-muted);text-transform:uppercase;font-size:9px;letter-spacing:0.8px">' + item.kind + '</span> ';
@@ -241,8 +258,10 @@
     html += '<span class="link-icon">⛅</span> Point forecast (meteoblue)</a>';
     html += '<a class="panel-link" href="https://www.windy.com/' + poi.lat.toFixed(3) + '/' + poi.lon.toFixed(3) + '?rain,' + poi.lat.toFixed(3) + ',' + poi.lon.toFixed(3) + ',12" target="_blank" rel="noopener">';
     html += '<span class="link-icon">🌊</span> Open in Windy</a>';
-    html += '<a class="panel-link" href="https://www.google.com/maps/dir/?api=1&destination=' + poi.lat + ',' + poi.lon + '&travelmode=transit" target="_blank" rel="noopener">';
-    html += '<span class="link-icon">🚂</span> Directions (Google Maps)</a>';
+    // Google Maps directions intentionally NOT included here — the per-endpoint
+    // links in the "Getting There & Back" block above point at the trailhead
+    // (and end point), which is what you actually want to navigate to. Routing
+    // to the summit coords from here would be redundant and misleading.
     html += '</div>';
     html += '</div>';
 

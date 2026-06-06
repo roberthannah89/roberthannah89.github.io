@@ -279,11 +279,26 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(f"[3/5] Skipping HTML scrape (--no-scrape)")
 
-    # Orient the GPX so the trailhead endpoint is first. Prefer the scraped
-    # departure elevation as the anchor; fall back to a low-end heuristic.
+    # Orient the GPX so the trailhead endpoint is first. Prefer the trailhead's
+    # recorded lat/lon (decisive when one endpoint is clearly nearer), then fall
+    # back to the scraped departure elevation, then to a low-end heuristic.
     if not args.no_elevation:
         target_elev = scraped.departure_elev_m if scraped else None
-        orient_gpx_to_trailhead(gpx_path, target_start_elev_m=target_elev)
+        target_lat = target_lon = None
+        if data_path.exists():
+            try:
+                existing = json.loads(data_path.read_text(encoding="utf-8"))
+                th = existing.get("trailhead", {}) or {}
+                target_lat = th.get("lat")
+                target_lon = th.get("lon")
+            except (json.JSONDecodeError, OSError):
+                pass
+        orient_gpx_to_trailhead(
+            gpx_path,
+            target_start_elev_m=target_elev,
+            target_lat=target_lat,
+            target_lon=target_lon,
+        )
 
     # Step 4: Scaffold data.json (skip if exists)
     if not data_path.exists():
