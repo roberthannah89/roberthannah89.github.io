@@ -4,8 +4,7 @@
   "description": "Schema for <slug>.data.json. Validated by render_hike.py before rendering.",
   "type": "object",
   "required": ["page", "peak", "trailhead", "hero", "quick_facts", "photos",
-               "waypoints", "routes", "getting_there", "day_plans", "weather",
-               "index_card"],
+               "waypoints", "routes", "index_card"],
   "additionalProperties": true,
   "properties": {
     "slug": { "type": "string" },
@@ -125,38 +124,16 @@
     },
     "getting_there": {
       "type": "object",
-      "required": ["by_car_html", "by_pt_html"],
       "properties": {
-        "by_car_html":     { "type": "string" },
         "by_pt_html":      { "type": "string" }
       }
     },
-    "day_plans": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "required": ["rows"],
-        "properties": {
-          "title":       { "type": "string" },
-          "subheading":  { "type": "string" },
-          "rows": {
-            "type": "array",
-            "items": {
-              "type": "array",
-              "minItems": 2, "maxItems": 2,
-              "items": { "type": "string" }
-            }
-          }
-
-        }
-      }
-    },
-    "weather": {
+    "end_point": {
       "type": "object",
-      "required": ["season_html"],
+      "description": "Set when a route is a traverse (start != end). Surfaced in the Endpoints section.",
       "properties": {
-        "season_html":  { "type": "string" }
+        "name": { "type": "string" },
+        "elev": { "type": ["number", "null"] }
       }
     },
     "intro_html":      { "type": "string" },

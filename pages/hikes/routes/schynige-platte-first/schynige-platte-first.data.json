@@ -65,48 +65,6 @@
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1534266885_1864266862master_a64e92af1f.jpg",
       "alt": "Route photo (SAC)",
       "caption_html": ""
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/0/8/csm_Bomio_Marco_287475cb95.jpeg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/0/8/csm_Bomio_Marco_287475cb95.jpeg",
-      "alt": "Marco Bomio",
-      "caption_html": "<p>Marco Bomio</p>"
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
-      "alt": "Safety when hiking",
-      "caption_html": "<p>Safety when hiking</p>"
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/6/8/csm_SAC-taeschhuette-2016-davidschweizer_71a2ee8b13.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/8/csm_SAC-taeschhuette-2016-davidschweizer_71a2ee8b13.jpg",
-      "alt": "Hike responsibly",
-      "caption_html": "<p>Hike responsibly</p>"
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_8971c900e5.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_8971c900e5.jpg",
-      "alt": "Legend and explanations",
-      "caption_html": "<p>Legend and explanations</p>"
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_2de79bd8d5.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_2de79bd8d5.jpg",
-      "alt": "FAQ Route Portal",
-      "caption_html": "<p>FAQ Route Portal</p>"
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_bcbf468ebc.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/4/c/csm_B%C3%BChnenbild_Legenden_bcbf468ebc.jpg",
-      "alt": "Legend and explanations",
-      "caption_html": "<p>Legend and explanations</p>"
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_8bfa9ce8a3.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/6/d/csm_Tourenportal-B%C3%BChnenbild-FAQ-01_8bfa9ce8a3.jpg",
-      "alt": "FAQ Route Portal",
-      "caption_html": "<p>FAQ Route Portal</p>"
     }
   ],
   "waypoints": [
@@ -151,26 +109,11 @@
         "Berghaus Männdlenen — Faulhorn (2681 m)",
         "Faulhorn — Bachalpsee (2265 m) — First (2165 m)"
       ],
-      "source": "SAC Route Portal (https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/)"
+      "source": "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/von-schynige-platte-1467/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>"
     }
   ],
   "getting_there": {
-    "by_pt_html": "<p><strong>Start:</strong> Cog railway from Wilderswil to <strong>Schynige Platte</strong>.</p>\n<p><strong>End:</strong> Gondola from <strong>First</strong> down to Grindelwald, then bus/train.</p>\n<p>Timetables: <a href=\"https://www.jungfrau.ch\">jungfrau.ch</a></p>",
-    "by_car_html": "<p>Park at Wilderswil or Grindelwald. One-way traverse requires public transport between endpoints.</p>"
-  },
-  "day_plans": [
-    {
-      "title": "Day 1",
-      "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
-      ]
-    }
-  ],
-  "weather": {
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+    "by_pt_html": "<p><strong>Start:</strong> Cog railway from Wilderswil to <strong>Schynige Platte</strong>.</p>\n<p><strong>End:</strong> Gondola from <strong>First</strong> down to Grindelwald, then bus/train.</p>\n<p>Timetables: <a href=\"https://www.jungfrau.ch\">jungfrau.ch</a></p>"
   },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
   "sources": [

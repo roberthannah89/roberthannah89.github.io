@@ -235,44 +235,42 @@ _MASTER_RE = re.compile(r"csm_(\d+_\d+)master")
 
 
 def _extract_photos(soup: BeautifulSoup) -> list[dict]:
-    """Collect unique `/processed/` photos, deduped by SAC master ID.
+    """Collect route gallery photos only — no page chrome.
 
-    SAC renders the same source image as multiple URLs at different
-    resolutions, each with a distinct trailing hash:
-      csm_<master_id>master_<hash1>.jpg   ← full-size (class m-media-gallery__image)
-      csm_<master_id>master_<hash2>.jpg   ← thumbnail  (class m-media-gallery__thumbnail)
-    Picking the thumbnail and scaling it up gives blurry gallery cards, so
-    we group by ``master_id`` and keep the full-size variant when both are
-    present (rank by container class).
+    We restrict the search to the route's ``<div class="m-media-gallery">``
+    container. Within it, SAC renders each source image twice (full-size with
+    class ``m-media-gallery__image`` and a smaller ``m-media-gallery__thumbnail``);
+    we group by SAC's master ID (``csm_<master_id>master_<hash>``) and keep
+    only the full-size variant per group.
+
+    Anything outside ``m-media-gallery`` (navigation chrome, related-content
+    cards, footer logos, paywall banner) is ignored.
     """
-    # rank: lower = better; we'll keep the candidate with the lowest rank per master_id.
+    gallery = soup.find(class_=re.compile(r"\bm-media-gallery\b"))
+    if gallery is None:
+        return []
+
     def rank_for(img) -> int:
         cls = " ".join(img.get("class") or [])
-        # Also check parent (lazyload images sometimes carry the class on the wrapper).
         parent_cls = " ".join((img.parent.get("class") if img.parent else []) or [])
         all_cls = cls + " " + parent_cls
         if "m-media-gallery__image" in all_cls:
-            return 0  # best — full-size
-        if "media-gallery__media" in all_cls:
-            return 1  # gallery-adjacent
-        if "thumbnail" in all_cls:
-            return 5  # explicit thumbnail
-        return 3  # neutral
+            return 0  # full-size
+        if "m-media-gallery__thumbnail" in all_cls:
+            return 5  # smaller — only used if no full-size found
+        return 3  # other gallery-internal images
 
-    by_master: dict[str, tuple[int, str, str]] = {}  # master_id → (rank, url, caption)
-    fallback: list[tuple[str, str]] = []  # (url, caption) — images that don't match the master pattern
-
-    for img in soup.find_all("img"):
-        src = (img.get("src") or "").strip()  # SAC's `src` attrs sometimes have leading/trailing whitespace
+    by_master: dict[str, tuple[int, str, str]] = {}
+    for img in gallery.find_all("img"):
+        src = (img.get("src") or "").strip()
         if "/processed/" not in src:
-            continue
+            continue  # ignore inline data: URIs etc.
         url = src if src.startswith("http") else "https://www.sac-cas.ch" + src
-        caption = (img.get("alt") or "").strip()
         m = _MASTER_RE.search(url)
         if not m:
-            fallback.append((url, caption))
-            continue
+            continue  # not a SAC master-ID image; skip rather than guess
         master_id = m.group(1)
+        caption = (img.get("alt") or "").strip()
         r = rank_for(img)
         existing = by_master.get(master_id)
         if existing is None or r < existing[0]:
@@ -280,11 +278,10 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
 
     out: list[dict] = []
     seen_urls: set[str] = set()
-
-    def emit(url: str, caption: str):
+    for _, url, caption in by_master.values():
         key = url.split("?", 1)[0]
         if key in seen_urls:
-            return
+            continue
         seen_urls.add(key)
         out.append({
             "url": url,
@@ -292,11 +289,6 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
             "alt": caption or "Route photo (SAC)",
             "caption_html": f"<p>{caption}</p>" if caption else "",
         })
-
-    for _, url, caption in by_master.values():
-        emit(url, caption)
-    for url, caption in fallback:
-        emit(url, caption)
     return out
 
 
@@ -368,8 +360,37 @@ def _overlap_len(a: str, b: str) -> int:
     return best
 
 
+class PaywallError(RuntimeError):
+    """Raised when SAC serves the paywall page instead of the route content
+    (typically: cookie expired, or this route requires a separate purchase)."""
+
+
+def _is_paywall_page(soup: BeautifulSoup) -> bool:
+    """Detect SAC's paywall template. Distinctive markers:
+       - og:image URL contains "/fileadmin/.../paywall" or generic "Tourenportal" banner
+       - og:title is exactly "SAC Route Portal" (generic, no route name)
+       - body contains "not free of charge" or 5+ "paywall" hits
+    """
+    title = _meta(soup, "og:title") or ""
+    if title.strip().lower() == "sac route portal":
+        return True
+    og_image = _meta(soup, "og:image") or ""
+    if "paywall" in og_image.lower() or "csm_tourenportal" in og_image.lower():
+        return True
+    body = soup.get_text(" ", strip=True).lower()
+    if "not free of charge" in body or "kostenpflichtig" in body and "abo" in body:
+        return True
+    return False
+
+
 def scrape(html: str) -> ScrapedRoute:
     soup = BeautifulSoup(html, "html.parser")
+    if _is_paywall_page(soup):
+        raise PaywallError(
+            "SAC served the paywall page instead of the route content. "
+            "Refresh ~/.config/sac-hikes/cookie (cookie likely expired) or "
+            "verify this route is included in your SAC subscription."
+        )
     res = ScrapedRoute()
 
     res.title = _meta(soup, "og:title")
@@ -527,13 +548,24 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
             data["hero"]["subtitle_html"] = " | ".join(parts)
             changed.append("hero.subtitle_html")
 
-    # Routes[0] title + bullets
+    # Routes[0] title + bullets + source (replace TODO source with the SAC route link)
     routes = data.get("routes") or []
     if routes and sr.title and routes[0].get("title_html", "").startswith("TODO"):
         # Use the part before "|" in og:title for cleanliness
         title_clean = sr.title.split(" | ")[0]
         routes[0]["title_html"] = f"<strong>{title_clean}</strong>"
         changed.append("routes.0.title_html")
+    if routes and (not routes[0].get("source") or routes[0]["source"].startswith("TODO")):
+        route_url = next(
+            (s["url"] for s in (data.get("sources") or [])
+             if "route" in s.get("name", "").lower() and "peak" not in s.get("name", "").lower()),
+            None,
+        )
+        if route_url:
+            routes[0]["source"] = (
+                f'<a href="{route_url}" target="_blank" rel="noopener">SAC Route Portal</a>'
+            )
+            changed.append("routes.0.source")
     if routes and sr.segments:
         bullets = routes[0].get("bullets_html") or []
         # Replace TODO bullets only

@@ -111,23 +111,45 @@ def _load_cookie(env_name: str, cookie_file: Path | None) -> str:
 
 
 def save_cookie(value: str, target: Path | None = None) -> Path:
-    """Persist a cookie value to ``target`` (default: ``DEFAULT_COOKIE_FILE``).
+    """Persist a cookie (or cookies) to ``target`` (default: ``DEFAULT_COOKIE_FILE``).
 
-    Stores just the raw ``fe_typo_user`` value; ``_load_cookie`` re-adds the
-    prefix. Strips a leading ``fe_typo_user=`` if the user pasted the whole
-    ``name=value`` pair. Sets file mode 0600 where the filesystem supports it.
+    Accepted shapes (sniffed in this order):
+      1. Cookie-Editor "Export → JSON" — a JSON array of ``{name, value, ...}``
+         objects. Reassembled into a ``name1=value1; name2=value2`` header so
+         multi-cookie auth (e.g. SAC sometimes needs ``__Secure-oidc_context``
+         alongside ``fe_typo_user``) lands in one paste.
+      2. A complete ``Cookie:`` header line (``name1=v1; name2=v2; …``). Kept
+         as-is.
+      3. A single ``name=value`` pair. Kept as-is.
+      4. A raw value with no ``=``. Prefixed by the loader with ``fe_typo_user=``.
+
+    Sets file mode 0600 where the filesystem supports it.
     """
     path = target or DEFAULT_COOKIE_FILE
     val = value.strip()
     if not val:
         sys.exit("ERROR: --save-cookie got an empty value.")
-    # If the user pasted a name=value pair, keep just the value half. We
-    # tolerate any cookie name here (the loader re-prefixes if needed).
-    if "=" in val and not val.startswith("http"):
-        # Use only the first cookie if a full header was pasted.
-        first = val.split(";", 1)[0].strip()
-        if "=" in first:
-            val = first.split("=", 1)[1].strip()
+
+    # 1. JSON array (Cookie-Editor format).
+    if val.startswith("["):
+        try:
+            parsed = json.loads(val)
+        except json.JSONDecodeError as e:
+            sys.exit(f"ERROR: value looked like JSON but didn't parse: {e}")
+        if not isinstance(parsed, list):
+            sys.exit("ERROR: JSON cookie input must be an array of cookie objects.")
+        parts: list[str] = []
+        for c in parsed:
+            name = (c.get("name") or "").strip()
+            cookie_value = (c.get("value") or "").strip()
+            if name and cookie_value:
+                parts.append(f"{name}={cookie_value}")
+        if not parts:
+            sys.exit("ERROR: JSON cookie input had no usable name/value pairs.")
+        val = "; ".join(parts)
+
+    # 2/3/4 fall through — store whatever we have. _load_cookie handles the
+    # bare-value case by prefixing fe_typo_user= when there's no '=' present.
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(val + "\n", encoding="utf-8")
     try:

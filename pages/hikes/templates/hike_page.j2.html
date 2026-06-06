@@ -75,6 +75,42 @@
   </p>
 </section>
 
+{%- set route = (routes | first) if routes else None %}
+{%- if route %}
+<section>
+  <h2>Route Details</h2>
+{%- if route.get('title_html') %}
+  <p>{{ route.title_html | safe }}</p>
+{%- endif %}
+{%- if route.get('bullets_html') %}
+  <ul>
+{%- for b in route.bullets_html %}
+    <li>{{ b | safe }}</li>
+{%- endfor %}
+  </ul>
+{%- endif %}
+{%- if route.get('notes_html') %}
+  <h3>Terrain &amp; safety</h3>
+  {{ route.notes_html | safe }}
+{%- endif %}
+{%- if route.get('source') %}
+  <p class="attrib">Source: {{ route.source | safe }}</p>
+{%- endif %}
+</section>
+{%- endif %}
+
+<section>
+  <h2>Start &amp; finish</h2>
+  <table>
+    <tr><th>Start</th><td><strong>{{ trailhead.name }}</strong>{% if trailhead.elev %} ({{ trailhead.elev }} m){% endif %}</td></tr>
+{%- if end_point is defined and end_point and end_point.name %}
+    <tr><th>End</th><td><strong>{{ end_point.name }}</strong>{% if end_point.elev %} ({{ end_point.elev }} m){% endif %}</td></tr>
+{%- else %}
+    <tr><th>End</th><td>Returns to <strong>{{ trailhead.name }}</strong></td></tr>
+{%- endif %}
+  </table>
+</section>
+
 <section class="getting-there">
   <h2>Getting There</h2>
   <div class="transit-actions">
@@ -86,34 +122,12 @@
     Directions from <span id="transit-origin"></span> to
     <strong>{{ trailhead.name }}</strong>
   </p>
-{%- if getting_there.transport_notes_html %}
+{%- if getting_there is defined and getting_there and getting_there.get('transport_notes_html') %}
   <div class="transport-notes">
     {{ getting_there.transport_notes_html | safe }}
   </div>
 {%- endif %}
 </section>
-
-{%- if day_plans %}
-<section>
-{%- for plan in day_plans %}
-{%- if plan.title %}
-  <h2>{{ plan.title }}</h2>
-{%- endif %}
-{%- if plan.get('subheading') %}
-  <h3>{{ plan.subheading }}</h3>
-{%- endif %}
-  <table>
-    <tr><th>Time</th><th>Step</th></tr>
-{%- for time, step in plan.rows %}
-    <tr><td>{{ time }}</td><td>{{ step | safe }}</td></tr>
-{%- endfor %}
-  </table>
-{%- if plan.get('footer_html') %}
-  <p>{{ plan.footer_html | safe }}</p>
-{%- endif %}
-{%- endfor %}
-</section>
-{%- endif %}
 
 <section>
   <h2>Weather Planning</h2>
@@ -131,10 +145,6 @@
     Temperatures are summit-level; valleys will be warmer. Always cross-check
     <a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">MeteoSwiss</a> before going.
   </p>
-{%- if weather.season_html %}
-  <h3>Snow / season</h3>
-  <p>{{ weather.season_html | safe }}</p>
-{%- endif %}
 </section>
 
 <section>

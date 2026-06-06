@@ -11,7 +11,7 @@ The replacement is split:
     HTML at ``www.sac-cas.ch``.
 
 This script handles just the geometry half — fetches the layer API, filters
-by ``route_id``, stitches segments (reusing ``extract_sac_gpx._stitch_segments``),
+by ``route_id``, stitches segments,
 converts LV95 → WGS84, and writes ``routes/<slug>/<slug>.gpx``.
 
 Metadata scraping is intentionally out of scope here — it deserves a clean
@@ -44,8 +44,85 @@ try:
 except ImportError:
     sys.exit("ERROR: gpxpy is required.  pip install gpxpy")
 
-from extract_sac_gpx import _lv95_to_wgs84, _stitch_segments  # noqa: E402
 from itertools import permutations
+
+
+_GAP_THRESHOLD_M = 200  # LV95 is in metres; segments closer than this are "connected"
+
+
+def _lv95_to_wgs84(e: float, n: float) -> tuple[float, float]:
+    """Convert Swiss LV95 (EPSG:2056) to WGS84 (lat, lon)."""
+    y_aux = (e - 2_600_000) / 1_000_000
+    x_aux = (n - 1_200_000) / 1_000_000
+    lon = (2.6779094
+           + 4.728982 * y_aux
+           + 0.791484 * y_aux * x_aux
+           + 0.1306 * y_aux * x_aux * x_aux
+           - 0.0436 * y_aux * y_aux * y_aux)
+    lat = (16.9023892
+           + 3.238272 * x_aux
+           - 0.270978 * y_aux * y_aux
+           - 0.002528 * x_aux * x_aux
+           - 0.0447 * y_aux * y_aux * x_aux
+           - 0.0140 * x_aux * x_aux * x_aux)
+    return lat * 100 / 36, lon * 100 / 36
+
+
+def _lv95_dist(a: list, b: list) -> float:
+    """Euclidean distance between two LV95 [e, n] coordinates (metres)."""
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
+
+
+def _stitch_segments(raw: list[tuple[str, list]]) -> list[tuple[str, list]]:
+    """Reorder/reverse/retrace segments to form a connected track.
+
+    SAC routes can contain out-and-back spurs (e.g. summit detours) and
+    segments whose geometry is stored in reverse.  Stitches them into a
+    continuous line by choosing, for each transition, the best of four
+    options: forward, reverse next, retrace previous + forward, or retrace
+    previous + reverse next. Operates on LV95 coordinates before WGS84
+    conversion.
+    """
+    if len(raw) <= 1:
+        return list(raw)
+
+    placed: list[tuple[str, list]] = [raw[0]]
+
+    for i in range(1, len(raw)):
+        title, coords = raw[i]
+        _, prev_coords = placed[-1]
+
+        prev_end = prev_coords[-1]
+        prev_start = prev_coords[0]
+        next_start = coords[0]
+        next_end = coords[-1]
+
+        d_fwd = _lv95_dist(prev_end, next_start)
+        d_rev = _lv95_dist(prev_end, next_end)
+        d_ret_fwd = _lv95_dist(prev_start, next_start)
+        d_ret_rev = _lv95_dist(prev_start, next_end)
+
+        best = min(d_fwd, d_rev, d_ret_fwd, d_ret_rev)
+
+        if best == d_fwd:
+            placed.append((title, coords))
+            if d_fwd > _GAP_THRESHOLD_M:
+                print(f"[sac-gpx] WARNING: {d_fwd:.0f}m gap before '{title}'")
+        elif best == d_rev:
+            placed.append((title, list(reversed(coords))))
+            print(f"[sac-gpx] Reversed '{title}' to connect ({d_rev:.0f}m)")
+        elif best == d_ret_fwd:
+            prev_title = placed[-1][0]
+            placed.append((f"{prev_title} (retrace)", list(reversed(prev_coords))))
+            placed.append((title, coords))
+            print(f"[sac-gpx] Retraced '{prev_title}' then '{title}' forward ({d_ret_fwd:.0f}m)")
+        else:
+            prev_title = placed[-1][0]
+            placed.append((f"{prev_title} (retrace)", list(reversed(prev_coords))))
+            placed.append((title, list(reversed(coords))))
+            print(f"[sac-gpx] Retraced '{prev_title}' then reversed '{title}' ({d_ret_rev:.0f}m)")
+
+    return placed
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ROUTES_DB = REPO_ROOT / "guides" / "sac-routes.js"
@@ -93,7 +170,7 @@ def _load_peak_coords(peak_id: int) -> tuple[float, float]:
 def _wgs84_to_lv95(lat: float, lon: float) -> tuple[float, float]:
     """WGS84 (lat, lon) → LV95 (E, N) using swisstopo approximation formulas.
 
-    Inverse of ``_lv95_to_wgs84`` in extract_sac_gpx. Accurate to ~1m, plenty
+    Inverse of ``_lv95_to_wgs84`` above. Accurate to ~1m, plenty
     for computing a bbox padding.
     """
     phi = (lat * 3600 - 169028.66) / 10000
@@ -152,26 +229,37 @@ def _gap_lv95(a: tuple[float, float], b: tuple[float, float]) -> float:
     return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
 
 
-def _densify_gaps(coords: list[list[float]], max_gap_m: float = 50) -> list[list[float]]:
-    """Insert evenly-spaced intermediate points wherever the gap between two
-    consecutive points exceeds ``max_gap_m``.
+def _densify_and_split(coords: list[list[float]],
+                       densify_below_m: float = 50,
+                       split_above_m: float = 250) -> list[list[list[float]]]:
+    """Walk the merged-after-smart-stitch coordinate list and decide, for each
+    consecutive pair, whether to:
 
-    Operates on LV95 [E, N] coordinates. The new points have no elevation —
-    SwissTopo enrichment fills that in afterwards. This is how we paper over
-    the 100-1000m gaps the smart stitcher leaves between feature endpoints
-    that almost-but-don't-quite touch: the chart shows real terrain across
-    the gap instead of a diagonal straight line.
+      * gap < ``densify_below_m``: leave the pair as-is (real trail data).
+      * gap in [densify, split): insert evenly-spaced intermediate points so
+        the elevation profile reads as terrain (SwissTopo enrichment fills in
+        Z afterwards). The map still shows a short straight connector but
+        it's a few tens of metres — well within trail-simplification noise.
+      * gap >= ``split_above_m``: don't connect at all. End the current
+        trkseg and start a fresh one at ``b``. The map then shows a visible
+        break, which is honest — the SAC layer API genuinely doesn't
+        publish trail geometry between the two endpoints.
+
+    Returns a list of trksegs (each is a list of [E, N] coords).
     """
-    out: list[list[float]] = [coords[0]]
+    segs: list[list[list[float]]] = [[coords[0]]]
     for a, b in zip(coords, coords[1:]):
         gap = _gap_lv95(tuple(a), tuple(b))
-        if gap > max_gap_m:
-            n_inter = int(gap // max_gap_m)  # number of intermediates to insert
+        if gap >= split_above_m:
+            segs.append([b])
+            continue
+        if gap > densify_below_m:
+            n_inter = int(gap // densify_below_m)
             for k in range(1, n_inter + 1):
                 t = k / (n_inter + 1)
-                out.append([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])])
-        out.append(b)
-    return out
+                segs[-1].append([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])])
+        segs[-1].append(b)
+    return segs
 
 
 def _smart_stitch(raw: list[tuple[str, list]]) -> tuple[list[tuple[str, list]], float]:
@@ -216,7 +304,7 @@ def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
     separate ``<trkseg>``. This keeps elevation gain accurate (no double-counting
     from retraces on figure-8 routes) and the Leaflet renderer in this repo
     treats the multi-segment track as a single visual line. Pass ``stitch=True``
-    to invoke the legacy greedy stitcher in ``extract_sac_gpx`` — only useful
+    to invoke the legacy greedy stitcher (``_stitch_segments`` above) — only useful
     for routes you know are a strict point-to-point with no shared trail.
     """
     raw: list[tuple[str, list]] = []
@@ -257,13 +345,18 @@ def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
         merged_coords: list[list[float]] = []
         for _, coords in raw:
             merged_coords.extend(coords)
-        densified = _densify_gaps(merged_coords, max_gap_m=50)
-        added = len(densified) - len(merged_coords)
-        if added:
-            print(f"[gpx  ] densified {added} intermediate point(s) across feature-boundary gaps")
-        seg = gpxpy.gpx.GPXTrackSegment()
-        seg.points = [gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in densified]
-        track.segments.append(seg)
+        chunks = _densify_and_split(merged_coords)
+        added = sum(len(c) for c in chunks) - len(merged_coords)
+        splits = len(chunks) - 1
+        if added or splits:
+            note = []
+            if added: note.append(f"densified {added} intermediate point(s)")
+            if splits: note.append(f"split into {len(chunks)} trkseg(s) on >250 m gaps")
+            print(f"[gpx  ] {'; '.join(note)}")
+        for chunk in chunks:
+            seg = gpxpy.gpx.GPXTrackSegment()
+            seg.points = [gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in chunk]
+            track.segments.append(seg)
     else:
         for seg_name, coords in raw:
             seg = gpxpy.gpx.GPXTrackSegment()

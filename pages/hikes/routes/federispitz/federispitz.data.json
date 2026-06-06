@@ -114,18 +114,6 @@
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/f/csm_1600865436_955432907master_003ecda110.jpg",
       "alt": "Route photo (SAC)",
       "caption_html": ""
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
-    },
-    {
-      "url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
-      "lightbox_url": "https://www.sac-cas.ch/processed/fileadmin/c/b/csm_2406_cabane-rambert-sac-2017_davidschweizer_d9fc3c4b7b.jpg",
-      "alt": "Safety when hiking",
-      "caption_html": "<p>Safety when hiking</p>"
     }
   ],
   "waypoints": [
@@ -151,27 +139,12 @@
         "Ziegelbrücke - Unternätenalp, T3, 2 Std. 45 Min.",
         "Unternätenalp - Vorder Federispitz, T4-, 1 Std. 15 Min."
       ],
-      "source": "SAC Route Portal",
+      "source": "<a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/federispitz-601/mountain-hiking/von-ziegelbruecke-via-vorder-federispitz-abstieg-via-plaettlispitz-nach-weesen-6819/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
       "notes_html": "<p>Die Krete beim Vorder Federispitz ist unübersichtlich und wellig, bei Nässe heikel. Einmal muss ein Grataufbau in der Schattenseite umgangen werden.</p>"
     }
   ],
   "getting_there": {
-    "by_pt_html": "<p><strong>Bus</strong> to <strong>Ziegelbrücke, Bahnhof</strong>.</p>",
-    "by_car_html": "TODO: Driving directions."
-  },
-  "day_plans": [
-    {
-      "title": "Day 1",
-      "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
-      ]
-    }
-  ],
-  "weather": {
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Ziegelbrücke, Bahnhof</strong>.</p>"
   },
   "elev_chart_attrib_html": "",
   "sources": [
