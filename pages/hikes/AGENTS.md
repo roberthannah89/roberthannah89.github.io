@@ -90,7 +90,21 @@ python scripts/add_sac_hike_v2.py \
 
 This chains: layer-API GPX → SwissTopo elevation → HTML scrape → scaffold `data.json` with scraped fields → `make render`. Flags: `--no-elevation` / `--no-scrape` / `--no-render` for iteration; `--grade` / `--canton` / `--trailhead` to override; `--stitch` / `--include-dashed` for rare GPX tweaks.
 
-Prerequisites: the peak ID embedded in the URL must already be in `guides/sac-routes.js`; the saved cookie at `~/.config/sac-hikes/cookie` must still be valid (use `scripts/login_sac.py` to refresh).
+Prerequisites: the peak ID embedded in the URL must already be in `guides/sac-routes.js`; the saved cookie at `~/.config/sac-hikes/cookie` must still be valid (see below to refresh).
+
+### Refreshing the SAC cookie (Cookie-Editor workflow)
+
+The v2 pipeline needs a valid `fe_typo_user` session cookie at `~/.config/sac-hikes/cookie`. When the SAC scrape suddenly returns the login wall (typically every few days), refresh the cookie:
+
+1. In Chrome, log in at https://www.sac-cas.ch.
+2. Install the [Cookie-Editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) extension if you haven't already.
+3. Click the Cookie-Editor toolbar icon on the SAC tab → **Export** → **Export as JSON** (copies to clipboard).
+4. Paste the JSON to the agent, or save it yourself:
+   ```bash
+   pbpaste | python scripts/fetch_sac_route.py --save-cookie -
+   ```
+   The script auto-detects Cookie-Editor JSON and writes `~/.config/sac-hikes/cookie` (mode 0600). It also accepts a raw `fe_typo_user` value if you'd rather paste that directly.
+5. Re-run `make add-sac …` or `python scripts/scrape_sac_route_page.py …` — it'll pick the cookie up automatically.
 
 **Re-rendering an existing hike** that already has a `sac-route-<ID>.json` capture: just `make render` — the frozen pre-cutover JSONs stay valid for those hikes.
 

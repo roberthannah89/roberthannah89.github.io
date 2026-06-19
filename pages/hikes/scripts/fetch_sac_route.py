@@ -7,28 +7,32 @@ and 2026-06-01. New hikes use ``fetch_sac_route_v2.py`` + ``scrape_sac_route_pag
   * It can still re-fetch the legacy JSON for hikes that were captured before
     the cutover (the URL now returns HTML, but the script is otherwise sound).
   * It hosts the shared cookie helpers — ``save_cookie``, ``_load_cookie``,
-    ``DEFAULT_COOKIE_FILE`` — imported by ``add_sac_hike_v2.py``,
-    ``login_sac.py``, and ``scrape_sac_route_page.py``.
+    ``DEFAULT_COOKIE_FILE`` — imported by ``add_sac_hike_v2.py`` and
+    ``scrape_sac_route_page.py``, and exposes the ``--save-cookie`` CLI
+    used by the Cookie-Editor refresh workflow.
 
 Cookie loading order:
   1. ``--cookie-file PATH`` (explicit override)
   2. ``$SAC_COOKIE`` environment variable
   3. ``~/.config/sac-hikes/cookie`` (default; written by ``--save-cookie``)
 
-The cookie can be either the raw value of ``fe_typo_user`` or a complete
-``Cookie:`` header line (e.g. ``fe_typo_user=...; other=...``). Anything
-without an ``=`` is treated as the raw ``fe_typo_user`` value.
+The cookie can be either the raw value of ``fe_typo_user``, a complete
+``Cookie:`` header line (e.g. ``fe_typo_user=...; other=...``), or a JSON
+array exported by the Chrome Cookie-Editor extension. ``--save-cookie``
+auto-detects the JSON array form and reassembles a ``name=value; …``
+header. Anything without an ``=`` is treated as the raw ``fe_typo_user``
+value at load time.
 
-Setup (one-time, per user)
---------------------------
-1. Log in at https://www.sac-cas.ch in your browser
-2. Open DevTools → Application/Storage → Cookies → www.sac-cas.ch
-3. Copy the value of ``fe_typo_user``
-4. Save it once:
+Refreshing the cookie (Cookie-Editor workflow)
+----------------------------------------------
+1. Log in at https://www.sac-cas.ch in Chrome.
+2. Click the Cookie-Editor toolbar icon → Export → Export as JSON.
+3. Save the clipboard contents:
 
-       python scripts/fetch_sac_route.py --save-cookie '<value>'
+       pbpaste | python scripts/fetch_sac_route.py --save-cookie -
 
-   (or use ``scripts/login_sac.py`` to log in interactively.)
+   The script writes ``~/.config/sac-hikes/cookie`` (mode 0600). Future
+   scrapes pick the cookie up automatically — no env var needed.
 """
 from __future__ import annotations
 
@@ -84,13 +88,14 @@ def _load_cookie(env_name: str, cookie_file: Path | None) -> str:
     if not cookie:
         sys.exit(
             f"ERROR: no cookie found (tried: {', '.join(sources_tried)}).\n\n"
-            "Get your cookie:\n"
-            "  1. Log in at https://www.sac-cas.ch\n"
-            "  2. Open DevTools → Application → Cookies → www.sac-cas.ch\n"
-            "  3. Copy the value of `fe_typo_user`\n\n"
-            "Save it (writes ~/.config/sac-hikes/cookie, 0600):\n"
+            "Refresh your SAC cookie:\n"
+            "  1. Log in at https://www.sac-cas.ch in Chrome\n"
+            "  2. Install the Cookie-Editor extension if you haven't already\n"
+            "  3. Click Cookie-Editor → Export → Export as JSON (copies to clipboard)\n"
+            "  4. Pipe it in to save (~/.config/sac-hikes/cookie, mode 0600):\n"
+            "       pbpaste | python scripts/fetch_sac_route.py --save-cookie -\n\n"
+            "Or pass the raw fe_typo_user value directly:\n"
             "    python scripts/fetch_sac_route.py --save-cookie '<value>'\n"
-            "or pipe it in: pbpaste | python scripts/fetch_sac_route.py --save-cookie -\n"
         )
     if "=" not in cookie:
         cookie = f"fe_typo_user={cookie}"
