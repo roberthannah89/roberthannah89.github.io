@@ -307,8 +307,8 @@ def main(argv: list[str] | None = None) -> int:
     # Step 4: Scaffold data.json (skip if exists)
     if not data_path.exists():
         print(f"[4/5] Scaffolding {data_path.name}")
-        trailhead = args.trailhead or (scraped.departure_name if scraped else "TODO")
-        grade = args.grade or (scraped.difficulty if scraped else "T3")
+        trailhead = args.trailhead or (scraped.departure_name if scraped else None) or "TODO"
+        grade = args.grade or (scraped.difficulty if scraped else None) or "T3"
         canton = args.canton or _lookup_canton(lat, lon)
         # Use GPX start/end for trailhead coords
         gpx_data = parse_gpx(gpx_path)

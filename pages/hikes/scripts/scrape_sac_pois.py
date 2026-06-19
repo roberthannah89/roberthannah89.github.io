@@ -13,11 +13,11 @@ The script calls the public API directly (no auth required).
 
 import argparse
 import json
-import os
 import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 API_BASE = "https://www.suissealpine.sac-cas.ch/api/1/poi/search"
 PAGE_SIZE = 100
@@ -66,6 +66,7 @@ def fetch_page(cursor: int | None = None) -> dict:
                 time.sleep(wait)
             else:
                 raise
+    raise RuntimeError("unreachable: retry loop exited without returning or raising")
 
 
 def extract_poi(raw: dict) -> dict:
@@ -100,13 +101,13 @@ def main():
                         help="Output JS file path (default: guides/sac-routes.js)")
     args = parser.parse_args()
 
-    checkpoint = args.output + ".partial.json"
+    checkpoint = Path(args.output + ".partial.json")
     pois = []
     seen = set()
     cursor = None
 
-    if os.path.exists(checkpoint):
-        with open(checkpoint) as f:
+    if checkpoint.exists():
+        with checkpoint.open() as f:
             saved = json.load(f)
             pois = saved["pois"]
             seen = set(saved["seen"])
@@ -114,7 +115,7 @@ def main():
         print(f"Resumed from checkpoint: {len(pois)} POIs, cursor={cursor}", file=sys.stderr)
 
     def save_checkpoint():
-        with open(checkpoint, "w") as f:
+        with checkpoint.open("w") as f:
             json.dump({"pois": pois, "seen": list(seen), "cursor": cursor}, f)
 
     page = 0
@@ -144,12 +145,12 @@ def main():
 
     js_content = "window.SAC_ROUTES = " + json.dumps(pois, separators=(",", ":")) + ";\n"
 
-    with open(args.output, "w") as f:
+    with Path(args.output).open("w") as f:
         f.write(js_content)
     print(f"Wrote {args.output}", file=sys.stderr)
 
-    if os.path.exists(checkpoint):
-        os.remove(checkpoint)
+    if checkpoint.exists():
+        checkpoint.unlink()
 
 
 if __name__ == "__main__":

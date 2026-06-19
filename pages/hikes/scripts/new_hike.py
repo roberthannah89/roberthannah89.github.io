@@ -123,7 +123,7 @@ def parse_gpx(gpx_path: Path) -> dict:
         for tp in trkseg.findall("g:trkpt", GPX_NS):
             ele_el = tp.find("g:ele", GPX_NS)
             ele = float(ele_el.text) if ele_el is not None and ele_el.text else None
-            seg_pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+            seg_pts.append((float(tp.get("lat") or 0), float(tp.get("lon") or 0), ele))
         if seg_pts:
             segments.append(seg_pts)
     # Fallback: if a GPX has loose <trkpt>s outside any <trkseg>, treat them as one segment.
@@ -132,7 +132,7 @@ def parse_gpx(gpx_path: Path) -> dict:
         for tp in tree.findall(".//g:trkpt", GPX_NS):
             ele_el = tp.find("g:ele", GPX_NS)
             ele = float(ele_el.text) if ele_el is not None and ele_el.text else None
-            flat.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+            flat.append((float(tp.get("lat") or 0), float(tp.get("lon") or 0), ele))
         if flat:
             segments = [flat]
 
@@ -146,7 +146,7 @@ def parse_gpx(gpx_path: Path) -> dict:
     dist = sum(
         _haversine_m((a[0], a[1]), (b[0], b[1]))
         for seg in segments
-        for a, b in zip(seg, seg[1:])
+        for a, b in zip(seg, seg[1:], strict=False)
     )
 
     start, end = pts[0], pts[-1]
@@ -163,28 +163,36 @@ def parse_gpx(gpx_path: Path) -> dict:
     }
 
     if has_elevation:
+        # has_elevation==True ⇒ every p[2] is a float; the assertions narrow
+        # the union so the arithmetic and min/max below type-check cleanly.
         asc = desc = 0.0
         # Compute per-segment so jumps between trksegs don't inflate gain/loss.
         for seg in segments:
-            last_ele = seg[0][2]
+            first_ele = seg[0][2]
+            assert first_ele is not None
+            last_ele: float = first_ele
             for p in seg[1:]:
-                d = p[2] - last_ele
+                p_ele = p[2]
+                assert p_ele is not None
+                d = p_ele - last_ele
                 if abs(d) >= ELEV_SMOOTH_M:
                     if d > 0:
                         asc += d
                     else:
                         desc -= d
-                    last_ele = p[2]
+                    last_ele = p_ele
 
-        summit_pt = max(pts, key=lambda p: p[2])
-        elevations = [p[2] for p in pts]
+        elevations: list[float] = [p[2] for p in pts if p[2] is not None]
+        summit_pt = max(pts, key=lambda p: p[2] if p[2] is not None else float("-inf"))
+        summit_ele = summit_pt[2]
+        assert summit_ele is not None
 
         result.update({
             "ascent_m": asc,
             "descent_m": desc,
             "min_ele": min(elevations),
             "max_ele": max(elevations),
-            "summit": {"lat": summit_pt[0], "lon": summit_pt[1], "ele": summit_pt[2]},
+            "summit": {"lat": summit_pt[0], "lon": summit_pt[1], "ele": summit_ele},
             "naismith_hours": dist / 1000.0 / NAISMITH_SPEED_KMH + asc / NAISMITH_ASCENT_MH,
         })
 
@@ -196,7 +204,7 @@ def parse_gpx(gpx_path: Path) -> dict:
         ele = float(we.text) if we is not None and we.text else None
         wt = w.find("g:type", GPX_NS)
         kind = wt.text.strip() if wt is not None and wt.text else "way"
-        wpts.append({"lat": float(w.get("lat")), "lon": float(w.get("lon")),
+        wpts.append({"lat": float(w.get("lat") or 0), "lon": float(w.get("lon") or 0),
                       "ele": ele, "label": label, "kind": kind})
     result["waypoints"] = wpts
 
@@ -258,14 +266,14 @@ def enrich_gpx_elevation(
     for trkseg in tree.findall(".//g:trkseg", GPX_NS):
         pts = trkseg.findall("g:trkpt", GPX_NS)
         if pts:
-            segments.append([(float(tp.get("lat")), float(tp.get("lon"))) for tp in pts])
+            segments.append([(float(tp.get("lat") or 0), float(tp.get("lon") or 0)) for tp in pts])
             seg_trkpts.append(pts)
     # Fallback: bare trkpts with no trkseg wrapper.
     if not segments:
         all_pts = tree.findall(".//g:trkpt", GPX_NS)
         if not all_pts:
             sys.exit("ERROR: GPX has no track points.")
-        segments = [[(float(tp.get("lat")), float(tp.get("lon"))) for tp in all_pts]]
+        segments = [[(float(tp.get("lat") or 0), float(tp.get("lon") or 0)) for tp in all_pts]]
         seg_trkpts = [all_pts]
 
     first_ele = seg_trkpts[0][0].find("g:ele", GPX_NS)
@@ -289,11 +297,9 @@ def enrich_gpx_elevation(
     with ThreadPoolExecutor(max_workers=max_workers) as ex:
         futs = {ex.submit(_fetch_swisstopo_ele, lat, lon): (si, pi)
                 for si, pi, lat, lon in sample_jobs}
-        done = 0
-        for fut in as_completed(futs):
+        for done, fut in enumerate(as_completed(futs), start=1):
             key = futs[fut]
             ele = fut.result()
-            done += 1
             if ele is not None:
                 sampled[key] = ele
             if done % 50 == 0 or done == len(sample_jobs):
@@ -307,34 +313,34 @@ def enrich_gpx_elevation(
     all_ele: list[list[float]] = []
     for si, seg in enumerate(segments):
         n = len(seg)
-        ele = [0.0] * n
+        seg_ele: list[float] = [0.0] * n
         seg_samples = sorted(k[1] for k in sampled if k[0] == si)
         if not seg_samples:
             # Segment had no successful samples — fall back to neighbouring
             # segments' nearest values (rare; surface as 0s if even those fail).
-            all_ele.append(ele)
+            all_ele.append(seg_ele)
             continue
         for j in seg_samples:
-            ele[j] = sampled[(si, j)]
+            seg_ele[j] = sampled[(si, j)]
         for k in range(len(seg_samples) - 1):
             a, b = seg_samples[k], seg_samples[k + 1]
             ea, eb = sampled[(si, a)], sampled[(si, b)]
             for j in range(a + 1, b):
                 t = (j - a) / (b - a)
-                ele[j] = ea + t * (eb - ea)
+                seg_ele[j] = ea + t * (eb - ea)
         # Extrapolate flat at the ends.
         first, last = seg_samples[0], seg_samples[-1]
         for j in range(0, first):
-            ele[j] = sampled[(si, first)]
+            seg_ele[j] = sampled[(si, first)]
         for j in range(last + 1, n):
-            ele[j] = sampled[(si, last)]
-        all_ele.append(ele)
+            seg_ele[j] = sampled[(si, last)]
+        all_ele.append(seg_ele)
 
     # Write elevation into GPX track points, segment by segment.
     for si, pts in enumerate(seg_trkpts):
-        for tp, ele in zip(pts, all_ele[si]):
+        for tp, ele_val in zip(pts, all_ele[si], strict=False):
             ele_el = ET.SubElement(tp, f"{{{GPX_NS_URI}}}ele")
-            ele_el.text = f"{ele:.1f}"
+            ele_el.text = f"{ele_val:.1f}"
 
     metadata = tree.find(f".//{{{GPX_NS_URI}}}metadata")
     if metadata is not None:
@@ -398,7 +404,7 @@ def orient_gpx_to_trailhead(
 
     def _latlon(tp) -> tuple[float, float] | None:
         try:
-            return float(tp.get("lat")), float(tp.get("lon"))
+            return float(tp.get("lat") or 0), float(tp.get("lon") or 0)
         except (TypeError, ValueError):
             return None
 
@@ -724,10 +730,7 @@ def scaffold_hike(
         else:
             print(f"[gpx] Using {target_gpx}")
 
-        if add_elevation:
-            gpx_data = enrich_gpx_elevation(target_gpx)
-        else:
-            gpx_data = parse_gpx(target_gpx)
+        gpx_data = enrich_gpx_elevation(target_gpx) if add_elevation else parse_gpx(target_gpx)
 
         print(f"[gpx] Track: {gpx_data.get('track_name', '?')}")
         print(f"[gpx] Points: {gpx_data['n_points']}, "

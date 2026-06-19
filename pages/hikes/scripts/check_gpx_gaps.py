@@ -27,7 +27,7 @@ def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 
 def check_gaps(gpx_path: Path, threshold_m: float = 100) -> None:
     """Print segment connectivity report to stdout."""
-    with open(gpx_path, encoding="utf-8") as f:
+    with gpx_path.open(encoding="utf-8") as f:
         gpx = gpxpy.parse(f)
 
     for track in gpx.tracks:

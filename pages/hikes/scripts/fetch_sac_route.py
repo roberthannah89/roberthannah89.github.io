@@ -43,6 +43,7 @@ Refreshing the cookie (Cookie-Editor workflow)
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
 import sys
@@ -128,10 +129,8 @@ def save_cookie(value: str, target: Path | None = None) -> Path:
     # bare-value case by prefixing fe_typo_user= when there's no '=' present.
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(val + "\n", encoding="utf-8")
-    try:
+    with contextlib.suppress(OSError):
         path.chmod(0o600)
-    except OSError:
-        pass
     return path
 
 

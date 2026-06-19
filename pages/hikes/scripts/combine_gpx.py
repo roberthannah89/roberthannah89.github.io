@@ -8,6 +8,7 @@ Usage:
 """
 
 import argparse
+from pathlib import Path
 
 import gpxpy
 
@@ -21,9 +22,9 @@ def main():
     parser.add_argument("--name", help="Track name for the combined GPX")
     args = parser.parse_args()
 
-    with open(args.gpx1) as f:
+    with Path(args.gpx1).open() as f:
         gpx1 = gpxpy.parse(f)
-    with open(args.gpx2) as f:
+    with Path(args.gpx2).open() as f:
         gpx2 = gpxpy.parse(f)
 
     points1 = []
@@ -57,7 +58,7 @@ def main():
             combined.waypoints.append(w)
             seen.add(key)
 
-    with open(args.output, "w") as f:
+    with Path(args.output).open("w") as f:
         f.write(combined.to_xml())
     print(f"Combined: {len(points1)} + {len(points2)} = {len(points1) + len(points2)} points")
     print(f"Waypoints: {len(combined.waypoints)}")

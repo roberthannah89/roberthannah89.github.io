@@ -17,6 +17,7 @@ import sys
 from html import escape
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import Any
 
 PROTO_DIR = Path(__file__).resolve().parent.parent / "docs" / "prototypes"
 INDEX_PATH = PROTO_DIR / "index.html"
@@ -33,9 +34,10 @@ class _ProtoMetaParser(HTMLParser):
             self._in_head = True
         if tag == "meta" and self._in_head:
             d = dict(attrs)
-            name = d.get("name", "")
-            if name.startswith("proto-") and d.get("content"):
-                self.meta[name] = d["content"]
+            name = d.get("name") or ""
+            content = d.get("content")
+            if name.startswith("proto-") and content:
+                self.meta[name] = content
 
     def handle_endtag(self, tag: str):
         if tag == "head":
@@ -45,8 +47,8 @@ class _ProtoMetaParser(HTMLParser):
 SCREENSHOTS_DIR = PROTO_DIR / "screenshots"
 
 
-def discover_prototypes() -> list[dict[str, str]]:
-    pages: list[dict[str, str]] = []
+def discover_prototypes() -> list[dict[str, Any]]:
+    pages: list[dict[str, Any]] = []
     for html_file in sorted(PROTO_DIR.glob("*.html")):
         if html_file.name == "index.html":
             continue
@@ -70,7 +72,7 @@ def discover_prototypes() -> list[dict[str, str]]:
     return pages
 
 
-def render_card(p: dict[str, str]) -> str:
+def render_card(p: dict[str, Any]) -> str:
     thumb = ""
     if p["screenshot"]:
         thumb = (

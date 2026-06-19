@@ -406,9 +406,7 @@ def _is_paywall_page(soup: BeautifulSoup) -> bool:
     if "paywall" in og_image.lower() or "csm_tourenportal" in og_image.lower():
         return True
     body = soup.get_text(" ", strip=True).lower()
-    if "not free of charge" in body:
-        return True
-    return False
+    return "not free of charge" in body
 
 
 def scrape(html: str) -> ScrapedRoute:
@@ -516,7 +514,16 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
         for p in path[:-1]:
             ref = ref[p]
         last = path[-1]
-        if replace_todo_only and not is_placeholder(ref[last] if isinstance(ref, list) or last in ref else None):
+        # Look up the current value, treating list and dict refs uniformly.
+        # Kept as two branches (not the SIM114 combined `or`) so mypy can narrow
+        # `ref` and `last` per branch — a combined condition broke type checking.
+        if isinstance(ref, list) and isinstance(last, int):  # noqa: SIM114
+            current = ref[last]
+        elif isinstance(ref, dict) and last in ref:
+            current = ref[last]
+        else:
+            current = None
+        if replace_todo_only and not is_placeholder(current):
             return
         ref[last] = value
         changed.append(".".join(str(p) for p in path))
