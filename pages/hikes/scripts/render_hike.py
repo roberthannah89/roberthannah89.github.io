@@ -29,8 +29,8 @@ from __future__ import annotations
 ####################################################################################################################################
 # Imports
 ####################################################################################################################################
-
 import argparse
+import contextlib
 import cProfile
 import json
 import math
@@ -40,14 +40,11 @@ import sys
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
+from collections.abc import Iterable
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Iterable
-
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
-
 from html.parser import HTMLParser
+from pathlib import Path
 
 from config import (
     DIFFICULTY_BLURBS,
@@ -58,6 +55,7 @@ from config import (
     NAISMITH_SPEED_KMH,
     SOURCE_URL_MAP,
 )
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 try:
     from jsonschema import Draft7Validator
@@ -165,7 +163,7 @@ class StageTimer:
         self.store = store
         self.name = name
 
-    def __enter__(self) -> "StageTimer":
+    def __enter__(self) -> StageTimer:
         self.t0 = time.perf_counter()
         return self
 
@@ -339,30 +337,30 @@ def _source_to_link(source: str) -> str:
         url = url_match.group(1)
         display = source[:url_match.start()].strip()
         return f'<a href="{url}" target="_blank" rel="noopener">{display}</a>'
-    
+
     # Split multiple sources (separated by " and ", ", ", or ";")
     # Split on commas and "and", removing "and" from results
     parts = re.split(r',\s*|\s+and\s+', source)
     parts = [p.strip().lstrip('and ').strip() for p in parts if p.strip()]
     links = []
-    
+
     for part in parts:
         part = part.strip()
         if not part:
             continue
-        
+
         # Try to find a matching URL from the map
         url = None
         for keyword, base_url in SOURCE_URL_MAP.items():
             if keyword.lower() in part.lower():
                 url = base_url
                 break
-        
+
         if url:
             links.append(f'<a href="{url}" target="_blank" rel="noopener">{part}</a>')
         else:
             links.append(part)
-    
+
     # Rejoin with " and " or ", " as appropriate
     if len(links) > 1:
         return ", ".join(links[:-1]) + ", and " + links[-1]
@@ -372,7 +370,7 @@ def _source_to_link(source: str) -> str:
 def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: list[dict] | None = None) -> list[list[str]]:
     """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
-    
+
     # Add difficulty if grade is available
     if grade:
         difficulty_value = (
@@ -390,7 +388,7 @@ def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: 
                 break
         else:
             facts.append(["Difficulty", difficulty_value])
-    
+
     # Add route sources if available
     if routes:
         unique_sources = set()
@@ -405,7 +403,7 @@ def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: 
                 source_links.append(link)
             sources_html = "; ".join(source_links)
             facts.append(["Route sources", sources_html])
-    
+
     return facts
 
 
@@ -561,7 +559,7 @@ def render_one(data_path: Path) -> RenderResult:
             hero = data.get("hero") or {}
             if hero.get("auto_subtitle") and gpx_stats:
                 hero["subtitle_html"] = auto_subtitle(hero.get("grade", ""), gpx_stats)
-            
+
             # Auto-use first photo as hero if hero image is empty or TODO
             photos = data.get("photos") or []
             hero_url = hero.get("image_url", "").strip()
@@ -571,7 +569,7 @@ def render_one(data_path: Path) -> RenderResult:
             elif not photos and (not hero_url or "TODO" in hero_url):
                 # No photos available; use placeholder
                 hero["image_url"] = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
-            
+
             if hero:
                 data["hero"] = hero
             data["display_quick_facts"] = build_display_quick_facts(
@@ -618,6 +616,43 @@ def find_data_files(root: Path, only_slug: str | None) -> list[Path]:
     return files
 
 
+def _newest_template_mtime() -> float:
+    """Return the newest mtime across all hike templates and shared _assets.
+
+    Used by incremental render to bust the per-hike cache whenever a template
+    or asset changes — those changes affect every hike, so we have to assume
+    the whole site needs re-rendering.
+    """
+    candidates: list[float] = []
+    if TEMPLATE_DIR.exists():
+        for f in TEMPLATE_DIR.glob("*.j2.html"):
+            with contextlib.suppress(OSError):
+                candidates.append(f.stat().st_mtime)
+    if ASSETS_DIR.exists():
+        for f in ASSETS_DIR.iterdir():
+            if f.is_file():
+                with contextlib.suppress(OSError):
+                    candidates.append(f.stat().st_mtime)
+    return max(candidates) if candidates else 0.0
+
+
+def _hike_needs_render(data_path: Path, template_mtime: float) -> bool:
+    """True if the rendered HTML is missing or older than any input."""
+    slug = data_path.stem.replace(".data", "")
+    out_path = data_path.parent / f"{slug}.html"
+    if not out_path.exists():
+        return True
+    try:
+        out_mtime = out_path.stat().st_mtime
+    except OSError:
+        return True
+    data_mtime = data_path.stat().st_mtime
+    gpx_path = data_path.parent / f"{slug}.gpx"
+    gpx_mtime = gpx_path.stat().st_mtime if gpx_path.exists() else 0.0
+    newest_input = max(data_mtime, gpx_mtime, template_mtime)
+    return out_mtime <= newest_input
+
+
 ####################################################################################################################################
 # URL probing (optional)
 ####################################################################################################################################
@@ -633,8 +668,8 @@ def _head(url: str, timeout: float = 5.0) -> tuple[str, int | None, str]:
         return url, None, str(e)
 
 
-def probe_urls(data_files: Iterable[Path], max_workers: int = 16) -> None:
-    """HEAD-check every photo URL across all hikes; warn on failure."""
+def probe_urls(data_files: Iterable[Path], max_workers: int = 16) -> bool:
+    """HEAD-check every photo URL across all hikes; warn on failure. Returns True if any URLs failed."""
     targets: list[tuple[str, str]] = []  # (slug, url)
     for f in data_files:
         try:
@@ -705,7 +740,7 @@ def sync_assets(root: Path) -> tuple[int, int]:
 
 def _resize_photo_url(url: str, width: int = INDEX_PHOTO_WIDTH) -> str:
     """Set or replace the 'width' query parameter in a photo URL."""
-    from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+    from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
     parsed = urlparse(url)
     params = parse_qs(parsed.query)
     params["width"] = [str(width)]
@@ -1013,6 +1048,8 @@ def main(argv: list[str] | None = None) -> int:
                    help="Skip rendering the index.html landing page.")
     p.add_argument("--validate-only", action="store_true",
                    help="Schema-validate all data.json files without rendering. Exits non-zero on any error.")
+    p.add_argument("--force", action="store_true",
+                   help="Force re-render of every hike, ignoring mtime-based incremental cache.")
     args = p.parse_args(argv)
 
     data_files = find_data_files(args.root, args.slug)
@@ -1060,17 +1097,48 @@ def main(argv: list[str] | None = None) -> int:
     if total:
         print(f"[assets] {copied}/{total} file(s) updated in {args.root}/_assets/")
 
-    n_jobs = args.jobs or min(len(data_files), 8)
+    # Incremental: skip hikes whose <slug>.html is newer than its inputs.
+    # Templates/_assets changes affect every hike, so a single new template
+    # mtime busts the cache for the whole site.
+    skipped_files: list[Path] = []
+    if args.force:
+        to_render = list(data_files)
+    else:
+        template_mtime = _newest_template_mtime()
+        to_render = []
+        for f in data_files:
+            if _hike_needs_render(f, template_mtime):
+                to_render.append(f)
+            else:
+                skipped_files.append(f)
+                slug = f.stem.replace(".data", "")
+                print(f"[skip] {slug} (unchanged)")
+
+    n_jobs = args.jobs or max(1, min(len(to_render), 8))
 
     t0 = time.perf_counter()
-    if n_jobs <= 1 or len(data_files) == 1:
-        results = [render_one(f) for f in data_files]
+    if not to_render:
+        results: list[RenderResult] = []
+    elif n_jobs <= 1 or len(to_render) == 1:
+        results = [render_one(f) for f in to_render]
     else:
         with ProcessPoolExecutor(max_workers=n_jobs) as ex:
-            results = list(ex.map(render_one, data_files))
+            results = list(ex.map(render_one, to_render))
     wall = time.perf_counter() - t0
 
     print_summary(results, wall)
+
+    # Skipped hikes still need GPX stats so the index/difficulty pages have
+    # complete data. Fill them in as ok=True placeholders with computed stats.
+    if skipped_files:
+        for f in skipped_files:
+            slug = f.stem.replace(".data", "")
+            results.append(RenderResult(
+                slug=slug,
+                out_path=str(f.parent / f"{slug}.html"),
+                ok=True,
+                gpx_stats=compute_gpx_stats(f.parent / f"{slug}.gpx"),
+            ))
 
     # Render the index page from the union of per-hike data + GPX stats.
     # Skipped when filtering to a single slug (would drop the others) or --no-index.

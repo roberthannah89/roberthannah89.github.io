@@ -35,7 +35,6 @@ from __future__ import annotations
 ###########################################################################################################################################################################################################
 # Imports
 ###########################################################################################################################################################################################################
-
 import argparse
 import json
 import math
@@ -808,9 +807,9 @@ def scaffold_hike(
             print("\n[GPX] Skipped -- pass --gpx or coordinate flags.")
 
     print(
-        f"\nTo render:\n"
-        f"  make render          # all hikes\n"
-        f"  make serve           # render + local preview\n"
+        "\nTo render:\n"
+        "  make render          # all hikes\n"
+        "  make serve           # render + local preview\n"
     )
 
 

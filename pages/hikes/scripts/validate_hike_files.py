@@ -14,7 +14,6 @@ from __future__ import annotations
 ###########################################################################################################################################################################################################
 # Imports
 ###########################################################################################################################################################################################################
-
 import sys
 from pathlib import Path
 
@@ -56,19 +55,19 @@ def validate_hike_files() -> int:
     if not HIKES_DIR.exists():
         print(f"Error: hikes directory not found: {HIKES_DIR}")
         return 1
-    
+
     # Get all hike directories (exclude _assets and other non-hike folders)
     hike_dirs = sorted([
         d for d in HIKES_DIR.iterdir()
         if d.is_dir() and not d.name.startswith("_")
     ])
-    
+
     if not hike_dirs:
         print(f"No hikes found in {HIKES_DIR}")
         return 1
-    
+
     all_complete = True
-    
+
     for hike_dir in hike_dirs:
         hike_name = hike_dir.name
         existing_files = {
@@ -76,14 +75,14 @@ def validate_hike_files() -> int:
             for f in hike_dir.glob(f"{hike_name}.*")
         }
         missing = REQUIRED_EXTENSIONS - existing_files
-        
+
         if missing:
             all_complete = False
             missing_str = ", ".join(sorted(missing))
             print(f"❌ {hike_name}: missing {missing_str}")
         else:
             print(f"✓ {hike_name}")
-    
+
     print()
     if all_complete:
         print(f"✅ All {len(hike_dirs)} hikes have complete file sets.")

@@ -8,7 +8,9 @@ Usage:
 """
 
 import argparse
+
 import gpxpy
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)

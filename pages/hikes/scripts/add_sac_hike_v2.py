@@ -37,14 +37,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from fetch_sac_route import _load_cookie
 from fetch_sac_route_v2 import (
-    _features_for_route, _fetch_layer, _load_peak_coords,
-    _peak_id_from_url, _route_id_from_url, _wgs84_to_lv95,
-    _build_gpx, BBOX_PADDING_M,
+    BBOX_PADDING_M,
+    _build_gpx,
+    _features_for_route,
+    _fetch_layer,
+    _load_peak_coords,
+    _route_id_from_url,
+    _wgs84_to_lv95,
 )
 from new_hike import enrich_gpx_elevation, orient_gpx_to_trailhead, parse_gpx, scaffold_hike
-from scrape_sac_route_page import fetch_html, scrape, patch_data_json
-from fetch_sac_route import _load_cookie
+from scrape_sac_route_page import fetch_html, patch_data_json, scrape
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ROUTES_DB = REPO_ROOT / "guides" / "sac-routes.js"
@@ -259,16 +263,16 @@ def main(argv: list[str] | None = None) -> int:
 
     # Step 2: SwissTopo elevation enrichment
     if not args.no_elevation:
-        print(f"[2/5] Enriching GPX with SwissTopo elevation")
+        print("[2/5] Enriching GPX with SwissTopo elevation")
         enrich_gpx_elevation(gpx_path)
     else:
-        print(f"[2/5] Skipping elevation enrichment (--no-elevation)")
+        print("[2/5] Skipping elevation enrichment (--no-elevation)")
 
     # Step 3: HTML scrape (must happen before scaffold so we can pass scraped trailhead/grade,
     # and before orient so we can anchor track direction to the scraped departure elevation)
     scraped = None
     if not args.no_scrape:
-        print(f"[3/5] Fetching authenticated HTML and scraping metadata")
+        print("[3/5] Fetching authenticated HTML and scraping metadata")
         cookie = _load_cookie(args.cookie_env, args.cookie_file)
         html = fetch_html(route_url, cookie)
         scraped = scrape(html)
@@ -277,7 +281,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"      departure:  {scraped.departure_name} ({scraped.departure_elev_m} m)")
         print(f"      photos:     {len(scraped.photos)}")
     else:
-        print(f"[3/5] Skipping HTML scrape (--no-scrape)")
+        print("[3/5] Skipping HTML scrape (--no-scrape)")
 
     # Orient the GPX so the trailhead endpoint is first. Prefer the trailhead's
     # recorded lat/lon (decisive when one endpoint is clearly nearer), then fall
@@ -333,10 +337,10 @@ def main(argv: list[str] | None = None) -> int:
 
     # Final: render
     if not args.no_render:
-        print(f"\n[render] make render")
+        print("\n[render] make render")
         subprocess.run(["make", "render"], cwd=str(REPO_ROOT), check=False)
     else:
-        print(f"\n[render] skipped — run `make render` when ready")
+        print("\n[render] skipped — run `make render` when ready")
 
     print(f"\nDone: routes/{slug}/")
     return 0

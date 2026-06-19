@@ -3,8 +3,8 @@
 
 import json
 import time
-import urllib.request
 import urllib.parse
+import urllib.request
 from pathlib import Path
 
 HIKES_ROOT = Path(__file__).resolve().parent.parent

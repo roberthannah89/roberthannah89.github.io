@@ -26,7 +26,7 @@ import re
 import sys
 import urllib.parse
 import urllib.request
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 try:
@@ -40,7 +40,7 @@ except ImportError:  # pragma: no cover
     brotli = None  # request gzip only and fall back gracefully
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch_sac_route import DEFAULT_COOKIE_FILE, _load_cookie  # noqa: E402
+from fetch_sac_route import _load_cookie  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -367,9 +367,15 @@ class PaywallError(RuntimeError):
 
 def _is_paywall_page(soup: BeautifulSoup) -> bool:
     """Detect SAC's paywall template. Distinctive markers:
-       - og:image URL contains "/fileadmin/.../paywall" or generic "Tourenportal" banner
        - og:title is exactly "SAC Route Portal" (generic, no route name)
-       - body contains "not free of charge" or 5+ "paywall" hits
+       - og:image URL contains "paywall" or generic "Tourenportal" banner
+       - body contains the explicit English paywall string "not free of charge"
+
+    The body-text check intentionally does NOT look for the German
+    ``kostenpflichtig``: real route descriptions legitimately use the word to
+    describe toll roads or paid parking (e.g. Uri Rotstock notes the
+    chargeable road to Musenalp), and combined with "abo" (which appears in
+    SAC's site chrome on every page) it produced false positives.
     """
     title = _meta(soup, "og:title") or ""
     if title.strip().lower() == "sac route portal":
@@ -378,7 +384,7 @@ def _is_paywall_page(soup: BeautifulSoup) -> bool:
     if "paywall" in og_image.lower() or "csm_tourenportal" in og_image.lower():
         return True
     body = soup.get_text(" ", strip=True).lower()
-    if "not free of charge" in body or "kostenpflichtig" in body and "abo" in body:
+    if "not free of charge" in body:
         return True
     return False
 
@@ -460,6 +466,13 @@ def fetch_html(url: str, cookie: str) -> str:
     elif encoding and encoding != "identity":
         sys.exit(f"ERROR: unsupported Content-Encoding: {encoding}")
     return raw.decode("utf-8", errors="replace")
+
+
+def _humanize_time(minutes: int | None) -> str | None:
+    if not minutes:
+        return None
+    h, m = divmod(minutes, 60)
+    return f"{h} h {m:02d} min" if h else f"{m} min"
 
 
 def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: bool = True) -> list[str]:

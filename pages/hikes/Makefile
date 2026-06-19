@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border
+.PHONY: help new new-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border add-sac
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -35,6 +35,7 @@ help:
 	@echo "  check-gaps     Check GPX track connectivity (gpx=<path>)"
 	@echo "  combine-gpx    Stitch two GPX tracks (gpx1=... gpx2=... output=...)"
 	@echo "  swiss-border   Regenerate swiss_border.js from GADM"
+	@echo "  add-sac        Add a hike via the v2 SAC pipeline (URL=... SLUG=... REGION=... CANTON=... GRADE=...)"
 	@echo ""
 	@echo "Variables for 'new':"
 	@echo "  slug            (required) URL-safe hike slug, e.g. lisengrat"
@@ -122,3 +123,13 @@ combine-gpx:
 ## swiss-border : Regenerate swiss_border.js from GADM boundary data
 swiss-border:
 	$(PYTHON) $(SCRIPTS)/make_swiss_boundary.py
+
+# -----------------------------------------------------------------------------
+## add-sac : Add a hike via the v2 SAC pipeline (post-2026-06 architecture)
+add-sac:
+	$(PYTHON) $(SCRIPTS)/add_sac_hike_v2.py \
+	  $(if $(URL),--url '$(URL)') \
+	  $(if $(SLUG),--slug '$(SLUG)') \
+	  $(if $(REGION),--region '$(REGION)') \
+	  $(if $(CANTON),--canton '$(CANTON)') \
+	  $(if $(GRADE),--grade '$(GRADE)')

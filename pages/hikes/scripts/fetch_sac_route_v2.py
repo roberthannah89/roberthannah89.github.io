@@ -46,7 +46,6 @@ except ImportError:
 
 from itertools import permutations
 
-
 _GAP_THRESHOLD_M = 200  # LV95 is in metres; segments closer than this are "connected"
 
 

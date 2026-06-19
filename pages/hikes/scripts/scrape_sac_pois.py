@@ -16,8 +16,8 @@ import json
 import os
 import sys
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 
 API_BASE = "https://www.suissealpine.sac-cas.ch/api/1/poi/search"
 PAGE_SIZE = 100
