@@ -13,6 +13,7 @@
     weatherDay: 0,     // day index for weather filters
     sky: null,         // null = any; or one of 'clear'|'partly-cloudy'|'cloudy'|'rain'|'snow'|'storm' (threshold — "this weather or better")
     tempMin: null,     // null=any, or number (°C threshold)
+    inSeasonNow: null, // null=any, true=only show POIs whose heuristic season includes the current month (see season.js)
     // Display state — which fields to render on each POI's marker/tooltip.
     // 'weather' controls the marker pill (vs simple dot). All others are
     // tooltip-only metadata lines. Empty array = nothing shown. Name labels
@@ -164,10 +165,20 @@
     return state.showHikes;
   }
 
+  function matchesSeason(poi) {
+    // null = any (default). true = only show POIs in season for the current month.
+    // Season window is computed heuristically from peak altitude + best grade
+    // (see season.js). POIs with no altitude data are treated as in-season so
+    // the filter never silently drops them — the signal isn't strong enough.
+    if (!state.inSeasonNow) return true;
+    if (!window.Season) return true;
+    return window.Season.isInSeason(poi);
+  }
+
   function matchesPoi(poi) {
     return matchesType(poi) && matchesGrade(poi) && matchesDuration(poi)
         && matchesElevation(poi) && matchesGain(poi) && matchesHasPage(poi)
-        && matchesWeather(poi);
+        && matchesSeason(poi) && matchesWeather(poi);
   }
 
   function apply() {

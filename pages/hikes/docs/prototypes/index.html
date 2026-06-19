@@ -229,7 +229,7 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">19 demos</span>
+  <span class="title-count">18 demos</span>
 </div>
 
 <!-- Card grid -->
@@ -417,6 +417,17 @@
     </div>
   </a>
 
+  <a class="card" href="sac-grade-hybrid.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🧭</span>
+        <span class="card-title">SAC T-grade segments (hybrid OSM + swisstopo)</span>
+      </div>
+      <div class="card-desc">OSM sac_scale primary, swissTLM3D Wanderwegart fallback for gaps — best coverage + T1–T6 precision</div>
+      <span class="card-source">OpenStreetMap + swisstopo</span>
+    </div>
+  </a>
+
   <a class="card" href="trail-conditions.html">
     <div class="card-thumb">
       <img src="screenshots/trail-conditions.png" alt="Trail Conditions" loading="lazy">
@@ -431,6 +442,28 @@
     </div>
   </a>
 
+  <a class="card" href="sac-grade-osm.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🥾</span>
+        <span class="card-title">SAC T-grade segments (OSM)</span>
+      </div>
+      <div class="card-desc">Per-segment T1–T6 along a GPX track from OSM sac_scale tags via Overpass</div>
+      <span class="card-source">OpenStreetMap (Overpass API)</span>
+    </div>
+  </a>
+
+  <a class="card" href="sac-grade-swisstopo.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">⛰️</span>
+        <span class="card-title">SAC T-grade segments (swisstopo)</span>
+      </div>
+      <div class="card-desc">Per-segment Wanderweg/Bergwanderweg/Alpinwanderweg from swissTLM3D — authoritative but 3-class only</div>
+      <span class="card-source">swisstopo (swissTLM3D Wanderwege)</span>
+    </div>
+  </a>
+
   <a class="card" href="sun-daylight.html">
     <div class="card-thumb">
       <img src="screenshots/sun-daylight.png" alt="Sun &amp; Daylight" loading="lazy">
@@ -442,50 +475,6 @@
       </div>
       <div class="card-desc">Sunrise, sunset, golden hour, and sun arc for any Swiss location and date</div>
       <span class="card-source">SunCalc (client-side)</span>
-    </div>
-  </a>
-
-  <a class="card" href="3d-maplibre.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">⛰️</span>
-        <span class="card-title">3D map — MapLibre <em>(shipped)</em></span>
-      </div>
-      <div class="card-desc">GPX track on draped satellite + 3D terrain. No API key. Powers the per-hike "Load interactive 3D view" section.</div>
-      <span class="card-source">MapLibre GL JS + swisstopo + AWS Terrarium</span>
-    </div>
-  </a>
-
-  <a class="card" href="3d-cesium.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🛰️</span>
-        <span class="card-title">3D map — Cesium</span>
-      </div>
-      <div class="card-desc">Sharper alpine terrain (quantized-mesh DEM). Needs free Cesium Ion token. See <a href="../IDEAS.md">IDEAS.md</a>.</div>
-      <span class="card-source">CesiumJS + Cesium World Terrain</span>
-    </div>
-  </a>
-
-  <a class="card" href="3d-mapbox.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">📦</span>
-        <span class="card-title">3D map — Mapbox GL</span>
-      </div>
-      <div class="card-desc">Mapbox Standard Satellite. Polished defaults but proprietary + paid above 50K loads/mo.</div>
-      <span class="card-source">Mapbox GL JS v3</span>
-    </div>
-  </a>
-
-  <a class="card" href="3d-swisstopo.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🇨🇭</span>
-        <span class="card-title">3D map — swisstopo embed</span>
-      </div>
-      <div class="card-desc">Iframe of map.geo.admin.ch in 3D mode. Heavy UI chrome, slow init — kept for reference only.</div>
-      <span class="card-source">map.geo.admin.ch (Cesium under the hood)</span>
     </div>
   </a>
 

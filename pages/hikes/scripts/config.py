@@ -62,3 +62,38 @@ DEFAULT_DISCLAIMER = (
     "This page is an informal hike plan, not professional mountain-safety advice. "
     "Conditions change rapidly. Always check MeteoSwiss and SAC before setting out."
 )
+
+# ---------------------------------------------------------------------------
+# SLF avalanche bulletin (EAWS CAAML V6.0 GeoJSON endpoint)
+# ---------------------------------------------------------------------------
+# Live GeoJSON: features carry merged region polygons + dangerRatings.
+# Returns an empty FeatureCollection in the off-season (June-October).
+SLF_BULLETIN_GEOJSON_URL = "https://aws.slf.ch/api/bulletin/caaml/en/geojson"
+
+# EAWS danger-level keyword → 1-5 numeric scale.
+SLF_DANGER_LEVELS: dict[str, int] = {
+    "low": 1,
+    "moderate": 2,
+    "considerable": 3,
+    "high": 4,
+    "very_high": 5,
+}
+
+# Official EAWS / SLF colours (matching the WhiteRisk app CSS vars).
+# Level 5 is rendered as a black-on-red chequer in print bulletins; for a
+# semi-transparent map fill we use the dark red (#640000) WhiteRisk uses.
+SLF_DANGER_COLORS: dict[int, str] = {
+    1: "#ccff66",  # low — light green
+    2: "#ffff00",  # moderate — yellow
+    3: "#ff9900",  # considerable — orange
+    4: "#ff0000",  # high — red
+    5: "#640000",  # very high — dark red (EAWS uses black+red chequer)
+}
+
+SLF_DANGER_LABELS: dict[int, str] = {
+    1: "Low",
+    2: "Moderate",
+    3: "Considerable",
+    4: "High",
+    5: "Very High",
+}

@@ -150,6 +150,22 @@
     html += (poi.alt || '—') + ' m';
     html += '</div>';
 
+    // Season window — heuristic from peak altitude + best grade. Labeled
+    // (estimated) so users know it's not authoritative SAC data.
+    if (window.Season) {
+      var season = window.Season.windowFor(poi);
+      var inSeason = window.Season.isInSeason(poi);
+      var dotColor = inSeason ? 'var(--amber, #ffb000)' : '#888';
+      html += '<div class="panel-route-meta" style="margin-top:4px;font-size:11px;color:var(--text-secondary)" '
+           +  'title="Estimated season window — derived from peak altitude and SAC grade. '
+           +  'Not authoritative; check the SAC route page for definitive guidance.">';
+      html += '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;'
+           +  'background:' + dotColor + ';margin-right:6px;vertical-align:middle"></span>';
+      html += 'Season: <strong style="color:var(--text-primary)">' + esc(season.label) + '</strong>';
+      html += ' <span style="opacity:0.6">(estimated)</span>';
+      html += '</div>';
+    }
+
     if (poi.routes && poi.routes.length > 0) {
       poi.routes.forEach(function (r) {
         var url = sacRouteUrl(poi, r);
@@ -243,6 +259,14 @@
           if (wx.precip > 0) {
             html += '<div class="day-precip">' + wx.precip.toFixed(1) + ' mm</div>';
           }
+          // Snow line on every card — small and consistent so you can scan
+          // across days and watch the freezing level shift. Highlighted in
+          // pale blue when the peak is above it (i.e. likely to be in snow).
+          if (wx.freezingLevel != null) {
+            var above = poi.alt && poi.alt > wx.freezingLevel;
+            var cls = 'day-freeze' + (above ? ' day-freeze--above' : '');
+            html += '<div class="' + cls + '">❄ ' + wx.freezingLevel + ' m</div>';
+          }
         } else {
           html += '<div class="day-icon">—</div>';
           html += '<div class="day-temp">No data</div>';
@@ -251,7 +275,7 @@
       });
       html += '</div>';
 
-      // Wind + sunrise/sunset for selected day
+      // Wind + sunrise/sunset + freezing level for selected day
       var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, Filters.getState().weatherDay);
       if (wxToday) {
         html += '<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
@@ -262,6 +286,18 @@
           html += ' · 🌅 ' + rise + ' – ' + set;
         }
         html += '</div>';
+        if (wxToday.freezingLevel != null) {
+          var aboveSel = poi.alt && poi.alt > wxToday.freezingLevel;
+          var delta = poi.alt ? (poi.alt - wxToday.freezingLevel) : null;
+          html += '<div style="margin-top:4px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
+          html += '❄️ Freezing level: ' + wxToday.freezingLevel + ' m';
+          if (delta != null) {
+            var sign = delta >= 0 ? '+' : '';
+            html += ' <span style="color:' + (aboveSel ? '#cfe3ff' : 'var(--text-muted)') + '">'
+                  + '(peak ' + sign + delta + ' m)</span>';
+          }
+          html += '</div>';
+        }
       }
       html += '</div>';
     }

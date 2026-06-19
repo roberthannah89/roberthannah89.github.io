@@ -155,13 +155,17 @@
   // Three marker modes:
   //   'dot'     — small grade-colored dot (default, clean view)
   //   'weather' — larger ring with weather emoji + temp (when user opts in)
-  function makeHikeIcon(color, mode, wxIcon, tempStr, hasPage) {
+  // Extras:
+  //   hasPage        → amber ★ at top-right (built hike page exists in repo)
+  //   aboveFreezing  → ❄️ at bottom-right (peak's elev > forecast snow line)
+  function makeHikeIcon(color, mode, wxIcon, tempStr, hasPage, aboveFreezing) {
     var pageCls = hasPage ? ' hike-marker--has-page' : '';
+    var frzCls = aboveFreezing ? ' hike-marker--above-freezing' : '';
     if (mode === 'weather' && wxIcon) {
       var temp = tempStr ? '<span class="hike-marker__temp">' + tempStr + '</span>' : '';
       return L.divIcon({
         className: '',
-        html: '<div class="hike-marker hike-marker--wx' + pageCls + '" style="border-color:' + color + ';background:' + color + '22">'
+        html: '<div class="hike-marker hike-marker--wx' + pageCls + frzCls + '" style="border-color:' + color + ';background:' + color + '22">'
           + '<span class="hike-marker__wx">' + wxIcon + '</span>' + temp + '</div>',
         iconSize: [40, 28],
         iconAnchor: [20, 14]
@@ -169,7 +173,7 @@
     }
     return L.divIcon({
       className: '',
-      html: '<div class="hike-marker hike-marker--dot' + pageCls + '" style="background:' + color + '"></div>',
+      html: '<div class="hike-marker hike-marker--dot' + pageCls + frzCls + '" style="background:' + color + '"></div>',
       iconSize: [12, 12],
       iconAnchor: [6, 6]
     });
@@ -179,25 +183,29 @@
   // and the Display filter. When 'weather' is in display, markers show the
   // weather pill (emoji + temp); when it isn't, every marker is a small
   // grade-colored dot regardless of forecast data.
+  //
+  // The ❄️ "above freezing line" badge is computed here so it tracks the
+  // selected forecast day — Today might have a 3500 m snow line, Friday might
+  // drop to 2200 m. POIs without an `alt` or without forecast freezing data
+  // never get the badge.
   function refreshMarkerIcons() {
     var s = Filters.getState();
     var dayIdx = s.weatherDay;
     var showWeather = (s.display || []).indexOf('weather') !== -1;
     allMarkers.forEach(function (m) {
       var poi = m._poi;
-      if (!showWeather) {
-        m.setIcon(makeHikeIcon(m._color, 'dot', null, null, m._hasPage));
-        return;
-      }
       var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
-      if (!wx) {
-        m.setIcon(makeHikeIcon(m._color, 'dot', null, null, m._hasPage));
+      var fl = wx ? wx.freezingLevel : null;
+      var aboveFreezing = !!(poi.alt && fl != null && poi.alt > fl);
+      m._aboveFreezing = aboveFreezing;
+      if (!showWeather || !wx) {
+        m.setIcon(makeHikeIcon(m._color, 'dot', null, null, m._hasPage, aboveFreezing));
         return;
       }
       var emoji = WeatherService.weatherIcon(wx.code);
       var tempStr = wx.tempMax !== null && wx.tempMax !== undefined
         ? Math.round(wx.tempMax) + '°' : '';
-      m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr, m._hasPage));
+      m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr, m._hasPage, aboveFreezing));
     });
   }
 
@@ -371,6 +379,11 @@
       html += ', ' + Math.round(wx.tempMax) + '°C';
       if (wx.precip > 0) html += ', ' + wx.precip.toFixed(1) + 'mm';
       html += ', 💨 ' + Math.round(wx.windMax) + ' km/h';
+      if (wx.freezingLevel != null) {
+        var above = poi.alt && poi.alt > wx.freezingLevel;
+        html += '<br>❄️ Snow line: ' + wx.freezingLevel + ' m';
+        if (above) html += ' <strong>(peak above)</strong>';
+      }
       html += '</div>';
     }
 
@@ -446,9 +459,39 @@
       { label: '1.5k+', key: 'gain', value: 'epic' }
     ], /* multiSelect */ true));
 
+    // Season — single toggle. Hides routes whose heuristic season window doesn't
+    // include the current month (see season.js). Icon-only with a tooltip
+    // explaining the heuristic — the data is estimated, not authoritative.
+    bar.appendChild(seasonFilterGroup());
+
     // Display — multi-select pills controlling what shows on each POI.
     // 'weather' = marker pill (vs simple dot); others = tooltip metadata.
     bar.appendChild(displayFilterGroup());
+  }
+
+  // Single-button "in season now" toggle. Same click-active-to-clear idiom as
+  // the rest of the single-select filters but rendered as one button (no group
+  // label, no value pills) because the only meaningful state is on/off.
+  function seasonFilterGroup() {
+    var group = document.createElement('div');
+    group.className = 'filter-group filter-group--season';
+
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn filter-btn--icon';
+    var monthLabel = (window.Season && Season.currentMonthLabel) ? Season.currentMonthLabel() : '';
+    btn.title = 'In season now' + (monthLabel ? ' (' + monthLabel + ')' : '')
+              + ' · estimated from altitude + grade';
+    btn.innerHTML = '<span class="season-icon">🍂</span>';
+
+    if (Filters.getState().inSeasonNow === true) btn.classList.add('active');
+
+    btn.addEventListener('click', function () {
+      var was = btn.classList.contains('active');
+      btn.classList.toggle('active');
+      Filters.setState('inSeasonNow', was ? null : true);
+    });
+    group.appendChild(btn);
+    return group;
   }
 
   // Multi-select pills controlling which fields each POI renders. Empty
@@ -775,6 +818,8 @@
   }
 
   var webcamLayer = null;
+  var slfLayer = null;
+  var slfWanted = false;
 
   function toggleWeatherLayer(id, show) {
     if (id === 'hikes') {
@@ -796,6 +841,26 @@
         if (webcamLayer) map.addLayer(webcamLayer);
       } else if (webcamLayer) {
         map.removeLayer(webcamLayer);
+      }
+      return;
+    }
+    if (id === 'avalanche') {
+      // SlfLayer.create() returns a Promise (it lazy-loads slf-cache.js via a
+      // dynamic <script> tag on first activation), so the add/remove pattern
+      // is async-aware. slfWanted tracks the latest intent in case the user
+      // toggles off before the cache finishes loading.
+      slfWanted = show;
+      if (show) {
+        if (slfLayer) {
+          map.addLayer(slfLayer);
+        } else if (window.SlfLayer) {
+          window.SlfLayer.create().then(function (layer) {
+            slfLayer = layer;
+            if (slfWanted) map.addLayer(slfLayer);
+          });
+        }
+      } else if (slfLayer) {
+        map.removeLayer(slfLayer);
       }
       return;
     }

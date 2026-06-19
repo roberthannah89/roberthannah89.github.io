@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
+.PHONY: help new new-gpx render validate serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -30,6 +30,10 @@ help:
 	@echo "  3d-previews    Generate static 3D-map preview JPEGs (headless Chromium; slow)"
 	@echo "  validate       Validate hike data without writing output"
 	@echo "  serve          Render then serve the site on localhost"
+	@echo ""
+	@echo "Command-center data:"
+	@echo "  weather        Pre-bake MeteoSwiss ICON-CH2 forecasts → weather-cache.js"
+	@echo "  avalanche      Fetch SLF avalanche bulletin → slf-cache.js (winter only)"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  inspect-sac    Print SAC JSON structure (json=<path>)"
@@ -105,6 +109,11 @@ serve: render
 ## weather : Fetch weather forecasts for all SAC peaks (run before using command center)
 weather:
 	$(PYTHON) $(SCRIPTS)/fetch_weather.py
+
+# -----------------------------------------------------------------------------
+## avalanche : Fetch the current SLF avalanche bulletin (run before opening the command center in winter)
+avalanche:
+	$(PYTHON) $(SCRIPTS)/fetch_slf_avalanche.py
 
 # -----------------------------------------------------------------------------
 ## inspect-sac : Print SAC JSON structure (photos, segments, waypoints, metadata)

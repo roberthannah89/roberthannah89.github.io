@@ -41,6 +41,12 @@
     var idx = dayIndex || 0;
     if (idx >= d.time.length) idx = d.time.length - 1;
 
+    // freezing_level_max is the schema=2 addition (see fetch_weather.py); old
+    // caches won't have it, so guard the access. Per-day None values are
+    // possible too (rolled up from sparse hourly samples).
+    var fl = (d.freezing_level_max && d.freezing_level_max[idx] != null)
+      ? d.freezing_level_max[idx] : null;
+
     return {
       date: d.time[idx],
       tempMax: d.temperature_2m_max[idx],
@@ -50,8 +56,17 @@
       code: d.weathercode[idx],
       sunrise: d.sunrise ? d.sunrise[idx] : null,
       sunset: d.sunset ? d.sunset[idx] : null,
+      freezingLevel: fl,
       elevation: entry.elevation
     };
+  }
+
+  // Standalone accessor for "snow line" (max forecast freezing-level height in
+  // metres) on a given day. Returns null if the cache predates schema=2 or the
+  // peak's hourly samples were all missing.
+  function freezingLevel(lat, lon, dayIndex) {
+    var wx = getForPeak(lat, lon, dayIndex);
+    return wx ? wx.freezingLevel : null;
   }
 
   function weatherIcon(code) {
@@ -162,6 +177,7 @@
     init: init,
     onReady: onReady,
     getForPeak: getForPeak,
+    freezingLevel: freezingLevel,
     weatherIcon: weatherIcon,
     weatherLabel: weatherLabel,
     isDry: isDry,
