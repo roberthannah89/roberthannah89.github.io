@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Zindlenspitz — 3D (MapLibre)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+  <style>
+    :root { --pad: 14px; --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+    header { padding: var(--pad) 20px; border-bottom: 1px solid #e2e2dd; background: #fff; }
+    h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    p.sub { margin: 0; color: var(--muted); font-size: 13px; }
+    #map { width: 100%; height: calc(100vh - 110px); }
+    .controls { position: absolute; top: 78px; right: 18px; background: rgba(255,255,255,0.94); padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.18); font-size: 12px; min-width: 180px; }
+    .controls label { display: block; margin: 4px 0; color: var(--fg); }
+    .controls input[type=range] { width: 100%; }
+    .controls .row { display: flex; justify-content: space-between; color: var(--muted); }
+    .note { padding: 10px 20px; font-size: 12px; color: var(--muted); background: #fff; border-top: 1px solid #e2e2dd; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Zindlenspitz — 3D prototype (MapLibre GL JS)</h1>
+    <p class="sub">SWISSIMAGE satellite (swisstopo) draped on AWS Terrarium DEM. Right-click + drag to tilt &amp; rotate. GPX track in red.</p>
+  </header>
+  <div id="map"></div>
+  <div class="controls">
+    <label>Terrain exaggeration <span id="exag-val">1.5×</span></label>
+    <input id="exag" type="range" min="1" max="3" step="0.1" value="1.5">
+    <label style="margin-top:8px">Pitch <span id="pitch-val">70°</span></label>
+    <input id="pitch" type="range" min="0" max="85" step="1" value="70">
+    <div class="row" style="margin-top:8px"><span>Zoom</span><span id="zoom-val">13</span></div>
+  </div>
+  <div class="note">
+    Free, no API key. Tiles: <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo SWISSIMAGE</a> (satellite) + <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a> (terrarium DEM). Library: <a href="https://maplibre.org/" target="_blank" rel="noopener">MaplibreGL JS</a>.
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+  <script>
+    const TRAILHEAD = [8.9303, 47.0851];
+    const SUMMIT    = [8.95987, 47.07627];
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: {
+          swissimage: {
+            type: 'raster',
+            tiles: ['https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg'],
+            tileSize: 256,
+            maxzoom: 19,
+            attribution: '© swisstopo'
+          },
+          terrarium: {
+            type: 'raster-dem',
+            tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+            tileSize: 256,
+            maxzoom: 15,
+            encoding: 'terrarium',
+            attribution: 'Terrain: Mapzen / AWS Open Data'
+          }
+        },
+        layers: [
+          { id: 'satellite', type: 'raster', source: 'swissimage' }
+        ],
+        terrain: { source: 'terrarium', exaggeration: 1.5 },
+        sky: { 'sky-color': '#9fc8ec', 'horizon-color': '#dfe7ed', 'fog-color': '#dfe7ed', 'fog-ground-blend': 0.5 }
+      },
+      center: [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2],
+      zoom: 13,
+      pitch: 70,
+      bearing: 35,
+      maxPitch: 85,
+      hash: false
+    });
+
+    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
+    map.addControl(new maplibregl.FullscreenControl(), 'top-left');
+    map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
+
+    map.on('load', () => {
+      // Track is window.TRACK = [[lat, lon, elev], ...] — convert to GeoJSON [lon, lat]
+      const coords = (window.TRACK || []).map(p => [p[1], p[0]]);
+
+      if (coords.length) {
+        map.addSource('track', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            properties: {},
+            geometry: { type: 'LineString', coordinates: coords }
+          }
+        });
+        // Subtle dark casing for contrast on snow / pale rock
+        map.addLayer({
+          id: 'track-casing',
+          type: 'line',
+          source: 'track',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#1a1a1a', 'line-width': 6, 'line-opacity': 0.45 }
+        });
+        map.addLayer({
+          id: 'track-line',
+          type: 'line',
+          source: 'track',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#e74c3c', 'line-width': 3.5 }
+        });
+      }
+
+      // Trailhead + summit markers
+      new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD)
+        .setPopup(new maplibregl.Popup().setText('Trailhead — Wägitalersee P. 932'))
+        .addTo(map);
+      new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT)
+        .setPopup(new maplibregl.Popup().setText('Zindlenspitz — 2111 m'))
+        .addTo(map);
+    });
+
+    // Live controls
+    const exag = document.getElementById('exag');
+    const exagVal = document.getElementById('exag-val');
+    exag.addEventListener('input', () => {
+      const v = parseFloat(exag.value);
+      exagVal.textContent = v.toFixed(1) + '×';
+      map.setTerrain({ source: 'terrarium', exaggeration: v });
+    });
+
+    const pitch = document.getElementById('pitch');
+    const pitchVal = document.getElementById('pitch-val');
+    pitch.addEventListener('input', () => {
+      const v = parseFloat(pitch.value);
+      pitchVal.textContent = v + '°';
+      map.setPitch(v);
+    });
+    map.on('pitchend', () => { pitch.value = map.getPitch(); pitchVal.textContent = Math.round(map.getPitch()) + '°'; });
+
+    const zoomVal = document.getElementById('zoom-val');
+    map.on('zoomend', () => { zoomVal.textContent = map.getZoom().toFixed(1); });
+  </script>
+</body>
+</html>

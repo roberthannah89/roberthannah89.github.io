@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Zindlenspitz — 3D (Mapbox GL v3)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
+  <style>
+    :root { --pad: 14px; --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+    header { padding: var(--pad) 20px; border-bottom: 1px solid #e2e2dd; background: #fff; }
+    h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    p.sub { margin: 0; color: var(--muted); font-size: 13px; }
+    p.sub a { color: var(--accent); }
+    #map { width: 100%; height: calc(100vh - 110px); }
+    .controls { position: absolute; top: 78px; right: 18px; background: rgba(255,255,255,0.94); padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.18); font-size: 12px; min-width: 180px; }
+    .controls label { display: block; margin: 4px 0; }
+    .controls input[type=range] { width: 100%; }
+    .note { padding: 10px 20px; font-size: 12px; color: var(--muted); background: #fff; border-top: 1px solid #e2e2dd; }
+    .note code { background: #efeee8; padding: 1px 5px; border-radius: 3px; font-size: 11.5px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Zindlenspitz — 3D prototype (Mapbox GL JS v3)</h1>
+    <p class="sub">Mapbox Standard Satellite style with built-in 3D terrain + atmosphere. Right-click + drag to tilt &amp; rotate. GPX track in red.</p>
+  </header>
+  <div id="map"></div>
+  <div class="controls">
+    <label>Terrain exaggeration <span id="exag-val">1.5×</span></label>
+    <input id="exag" type="range" min="1" max="3" step="0.1" value="1.5">
+    <label style="margin-top:8px">Pitch <span id="pitch-val">70°</span></label>
+    <input id="pitch" type="range" min="0" max="85" step="1" value="70">
+  </div>
+  <div class="note">
+    Library: <a href="https://docs.mapbox.com/mapbox-gl-js/guides/" target="_blank" rel="noopener">Mapbox GL JS v3</a>. Uses the public docs demo access token — fine for prototyping. For production, sign up free at <a href="https://account.mapbox.com" target="_blank" rel="noopener">account.mapbox.com</a> and replace <code>mapboxgl.accessToken</code> (free tier: 50K map loads/month).
+  </div>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
+  <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+  <script>
+    // Paste a free Mapbox access token from https://account.mapbox.com — required
+    // before the map will render. Token is intentionally not committed (GitHub's
+    // secret scanner flags any pk.* token, even Mapbox's own public docs one).
+    mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+
+    const TRAILHEAD = [8.9303, 47.0851];
+    const SUMMIT    = [8.95987, 47.07627];
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/standard-satellite',
+      center: [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2],
+      zoom: 13,
+      pitch: 70,
+      bearing: 35,
+      maxPitch: 85
+    });
+
+    map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-left');
+    map.addControl(new mapboxgl.FullscreenControl(), 'top-left');
+    map.addControl(new mapboxgl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
+
+    map.on('style.load', () => {
+      // Terrain comes built-in with the Standard Satellite style; configure exaggeration
+      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 });
+
+      const coords = (window.TRACK || []).map(p => [p[1], p[0]]);
+      if (coords.length) {
+        map.addSource('track', {
+          type: 'geojson',
+          data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: coords } }
+        });
+        map.addLayer({
+          id: 'track-casing', type: 'line', source: 'track',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#1a1a1a', 'line-width': 6, 'line-opacity': 0.45 }
+        });
+        map.addLayer({
+          id: 'track-line', type: 'line', source: 'track',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#e74c3c', 'line-width': 3.5 }
+        });
+      }
+
+      new mapboxgl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD)
+        .setPopup(new mapboxgl.Popup().setText('Trailhead — Wägitalersee P. 932'))
+        .addTo(map);
+      new mapboxgl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT)
+        .setPopup(new mapboxgl.Popup().setText('Zindlenspitz — 2111 m'))
+        .addTo(map);
+    });
+
+    document.getElementById('exag').addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      document.getElementById('exag-val').textContent = v.toFixed(1) + '×';
+      map.setTerrain({ source: 'mapbox-dem', exaggeration: v });
+    });
+    document.getElementById('pitch').addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      document.getElementById('pitch-val').textContent = v + '°';
+      map.setPitch(v);
+    });
+    map.on('pitchend', () => {
+      const v = Math.round(map.getPitch());
+      document.getElementById('pitch').value = v;
+      document.getElementById('pitch-val').textContent = v + '°';
+    });
+  </script>
+</body>
+</html>
