@@ -150,6 +150,22 @@
     html += (poi.alt || '—') + ' m';
     html += '</div>';
 
+    // Season window — heuristic from peak altitude + best grade. Labeled
+    // (estimated) so users know it's not authoritative SAC data.
+    if (window.Season) {
+      var season = window.Season.windowFor(poi);
+      var inSeason = window.Season.isInSeason(poi);
+      var dotColor = inSeason ? 'var(--amber, #ffb000)' : '#888';
+      html += '<div class="panel-route-meta" style="margin-top:4px;font-size:11px;color:var(--text-secondary)" '
+           +  'title="Estimated season window — derived from peak altitude and SAC grade. '
+           +  'Not authoritative; check the SAC route page for definitive guidance.">';
+      html += '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;'
+           +  'background:' + dotColor + ';margin-right:6px;vertical-align:middle"></span>';
+      html += 'Season: <strong style="color:var(--text-primary)">' + esc(season.label) + '</strong>';
+      html += ' <span style="opacity:0.6">(estimated)</span>';
+      html += '</div>';
+    }
+
     if (poi.routes && poi.routes.length > 0) {
       poi.routes.forEach(function (r) {
         var url = sacRouteUrl(poi, r);

@@ -783,6 +783,19 @@ html, body {
 
 .sky-icon { display: inline-block; }
 
+/* Season filter — single icon button. Greyed out when inactive (matches
+   the sky-icon convention) and tinted amber when active so users can see
+   at a glance whether the filter is on. */
+.season-icon {
+  display: inline-block;
+  line-height: 1;
+  font-size: 14px;
+  filter: grayscale(0.6) brightness(0.85);
+  transition: filter 0.15s;
+}
+.filter-btn--icon.active .season-icon { filter: none; }
+.filter-group--season .filter-btn--icon { padding: 4px 6px; }
+
 /* Display filter — multi-select pills for what each POI shows */
 .filter-btn--display {
   padding: 4px 7px;
