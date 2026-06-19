@@ -31,11 +31,23 @@ The core question this tool answers: **"Where should I hike this weekend given t
 **Pipeline:** `scripts/fetch_weather.py` calls Open-Meteo for every unique peak coordinate (40 peaks/batch, 2 s between batches), writes `command-center/weather-cache.js`:
 
 ```js
-window.WEATHER_CACHE_META = { updated: "2026-05-25T...", model: "meteoswiss_icon_ch2", peaks: 962 };
+window.WEATHER_CACHE_META = { updated: "2026-05-25T...", model: "meteoswiss_icon_ch2", peaks: 962, schema: 2 };
 window.WEATHER_CACHE = { "47.123,8.456": { elevation, daily: { ... } }, ... };
 ```
 
-The `_META` header is rendered in the bottom bar so the user knows which model and how stale.
+The `_META` header is rendered in the bottom bar so the user knows which model and how stale. `schema` bumps whenever a new daily field is added so client code can detect older caches.
+
+**Daily fields** (per-peak `daily.*` arrays, one entry per forecast day):
+
+| Field | Source | Notes |
+|---|---|---|
+| `time` | Open-Meteo daily | `YYYY-MM-DD`, Europe/Zurich |
+| `weathercode` | Open-Meteo daily | WMO code → emoji + sky category |
+| `temperature_2m_max` / `_min` | Open-Meteo daily | Drives Temp filter and marker pill |
+| `precipitation_sum` | Open-Meteo daily | mm |
+| `windspeed_10m_max` | Open-Meteo daily | km/h |
+| `sunrise` / `sunset` | Open-Meteo daily | ISO |
+| `freezing_level_max` | **schema 2** — rolled up from hourly `freezing_level_height` | Metres above sea level. Open-Meteo only exposes freezing-level as an hourly variable, so `fetch_weather.py` requests the hourly series and stores the per-day max. Used by the snow-line indicator on markers and side-panel cards. `null` per day if the hourly samples were missing; field absent entirely on older (schema 1) caches. |
 
 Run `make weather` locally before opening the page.
 
@@ -73,6 +85,7 @@ Markers and clusters are horizontal pills, not generic circles.
 - With weather data → pill showing weather emoji + temperature (e.g. `⛅ 9°`), bordered in the route's grade color.
 - Without weather data → small grade-colored dot.
 - Has a built hike page in this repo → small amber ★ at the marker's top-right corner (`.hike-marker--has-page::after`). Matching is delegated to `SidePanel.matchingHike` so the on-map cue can never drift from the side-panel's "Open hike page" link.
+- Peak elevation above the forecast snow line → pale-blue ❄ at the marker's bottom-right corner (`.hike-marker--above-freezing::before`). Computed in `refreshMarkerIcons` from `WeatherService.freezingLevel(lat, lon, dayIndex)` against `poi.alt` — so it tracks the currently selected Day filter. POIs without an `alt` or without freezing data never get the badge (no false negatives surface as "safe").
 - Permanent name tooltip below the marker, hidden via CSS at low zoom (`body.zoom-labels` is added at zoom ≥ 11). Tooltip visibility is controlled by the filter-bar **Show** pills: turning Name off sets `body.display-name-off`, which hides the name line; if no other Show pill (Grade/Gain/Time/Alt) is active, the whole tooltip box also collapses via `:not(:has(.hike-tt__meta))`.
 
 **Cluster:** Horizontal pill `count · dominant-sky-emoji · avg-temp` (e.g. `6 ⛅ 4°`), tinted by the dominant sky category among its children. Tints (`SKY_TINTS` in `command-center.js`):
@@ -147,8 +160,9 @@ Base-layer choice (Topo+Trails / Topo / Aerial / OSM) is provided by `MapShared.
 Opens when "Expand details" is clicked in a marker popup, OR when a marker is clicked while the panel is already open (the panel swaps to the new POI and no popup is shown — see the `popupopen` guard in `createMarkers()`). Sections:
 
 1. Route info: name (linked to SAC peak portal, `/mountain-hiking/` variant), grade badge, elevation, per-route ascent / descent / elevation gain (each linked to its SAC route page)
-2. Forecast cards for the peak — one per day in `WEATHER_CACHE` (currently up to 5)
-3. Links to [Windy](https://www.windy.com/) (centered on peak) and [Google Maps](https://maps.google.com/) transit directions
+2. Forecast cards for the peak — one per day in `WEATHER_CACHE` (currently up to 5). Each card includes a `❄ NNNN m` snow-line value when the cache has freezing-level data; the value pops to pale blue (`day-freeze--above`) when the peak is above it.
+3. Selected-day summary line under the cards: max wind, sunrise/sunset, and a `❄️ Freezing level: NNNN m (peak +/- N m)` indicator so the delta is unambiguous.
+4. Links to [Windy](https://www.windy.com/) (centered on peak) and [Google Maps](https://maps.google.com/) transit directions
 
 The panel re-renders live on every filter change via `Filters.subscribe()`, so flipping Day / Sky / Temp while the panel is open updates the forecast cards in place.
 
@@ -223,6 +237,8 @@ scripts/
 | Wind filter | **Removed** | Wind speed thresholds | Cache no longer exposes wind via the filter UI (wind data is still in the cache and shown in popups). Adding back if requested |
 | Season filter — data source | Heuristic (altitude + grade → tier) labeled "(estimated)" | (a) Re-scrape `discipline_season` for all ~960 routes, (b) per-hut `opening` codes from the search API | SAC's only per-route season field is binary `"summer"`/`"winter"` and lives on individual route detail pages — re-scraping 960 of them just to derive a coarse signal isn't worth it. Per-hut opening codes ARE in the search API but would only cover huts (~25% of POIs). A documented heuristic from altitude + grade is reproducible, defensible (high alpine = summer-only by convention), and clearly labeled in the UI as estimated. See `season.js` for the tier table |
 | Season filter — UI | Single toggle "In season now" (🍂) | Multi-select month picker / "what's in season in August" | v1 matches the existing single-toggle idiom (like Day picker); planning a hike for a specific future month is rare enough that a date-picker would clutter the bar. Easy to extend later if the use case shows up |
+| Snow-line indicator surface | Pale-blue ❄ corner badge on the marker (bottom-right) + numeric snow-line on every side-panel forecast card | Standalone filter pill ("Above freezing only") | The marker badge is glanceable while scanning the map and mirrors the existing ★ has-page corner-badge pattern — adding a *filter* would gate visibility, which is usually not what the user wants (T6 climbers may *want* the snowy peaks). Showing the value in the side-panel cards lets the user see the snow line shift day-by-day, which is the real planning signal. A filter pill can be added later if it turns out hikers reach for it. |
+| Snow-line daily roll-up | Max of the hourly `freezing_level_height` series, per day | Mean / median / min | Highest excursion during the day is the conservative bound — "could the peak be in snow at any point today?" matters more for planning than the daily average. Computed in `fetch_weather.py` so client code never has to crunch the hourly array. |
 
 ## Verification
 
@@ -237,3 +253,4 @@ scripts/
 9. Forecast meta in the bottom bar should show `MeteoSwiss ICON-CH2 · updated Nh ago`.
 10. Click any peak — popup opens on first click (no Enter needed). Click "Expand details" — side panel slides in. Click another peak — panel content swaps directly, no popup re-appears.
 11. With the side panel open, change the Day filter — the forecast cards in the panel update live without re-opening.
+12. Snow line: each side-panel forecast card shows `❄ NNNN m`. When the peak's elevation exceeds the value, the line goes pale blue and the marker on the map gains a small ❄ at its bottom-right corner (mirroring the ★ has-page badge at top-right). Flipping Day re-renders both surfaces.

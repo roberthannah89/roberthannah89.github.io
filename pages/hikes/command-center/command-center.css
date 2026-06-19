@@ -447,6 +447,20 @@ html, body {
   margin-top: 2px;
 }
 
+/* Freezing-level (snow line) per day. Muted unless the peak is above it,
+   in which case we use the same pale-blue accent as the marker badge so
+   the at-a-glance link between marker and card is obvious. */
+.forecast-day .day-freeze {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.forecast-day .day-freeze--above {
+  color: #cfe3ff;
+  font-weight: 600;
+}
+
 /* Webcam in panel */
 .panel-webcam {
   width: 100%;
@@ -729,6 +743,31 @@ html, body {
   font-family: var(--font-display, sans-serif);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.95);
   pointer-events: none;
+}
+
+/* Snowflake at bottom-right when the peak's elevation exceeds the forecast
+   freezing-level (daily max) for the currently selected Day. Sits opposite
+   the ★ has-page badge so the two never collide. text-shadow keeps the
+   glyph legible against snow/glacier/forest tiles alike. ::before so it
+   stacks independently of the existing ::after star pseudo-element. */
+.hike-marker--above-freezing::before {
+  content: "❄";
+  position: absolute;
+  bottom: -7px;
+  right: -6px;
+  color: #cfe3ff;
+  font-size: 11px;
+  line-height: 1;
+  font-family: var(--font-display, sans-serif);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+}
+/* Dot mode is only 12 × 12, so nudge the badge a hair further out so it
+   doesn't crowd the dot itself. */
+.hike-marker--dot.hike-marker--above-freezing::before {
+  bottom: -8px;
+  right: -8px;
+  font-size: 10px;
 }
 
 /* Tooltip pane never intercepts clicks — markers must always receive them.
