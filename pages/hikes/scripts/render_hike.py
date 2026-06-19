@@ -301,6 +301,25 @@ def _grade_pill_class(grade: str) -> str:
     return f"t{m.group(1)}" if m else grade.lower()
 
 
+def _parse_meters(value: object) -> float | None:
+    """Parse a string like ``"1490 m"`` / ``"~1411 m"`` / ``"1,490m"`` into a float.
+
+    Used to read canonical values out of ``index_card.gain`` / ``index_card.drop``
+    so we can prefer the SAC-scraped numbers over naive GPX-derived ascent /
+    descent (which over-counts on figure-8 / circuit routes that retrace
+    ridges). Returns ``None`` when the input is missing or unparseable.
+    """
+    if not isinstance(value, str):
+        return None
+    digits = re.search(r"-?\d[\d,.]*", value)
+    if not digits:
+        return None
+    try:
+        return float(digits.group(0).replace(",", ""))
+    except ValueError:
+        return None
+
+
 def naismith_hours(distance_km: float, ascent_m: float) -> float:
     """Naismith's rule: 1 h per 5 km flat + 1 h per 600 m of ascent."""
     return distance_km / NAISMITH_SPEED_KMH + ascent_m / NAISMITH_ASCENT_MH
@@ -572,6 +591,32 @@ def augment_hike_data(data: dict, gpx_stats: dict[str, float], hike_dir: Path) -
     """
     slug = data.get("slug") or ""
     gpx_path = hike_dir / f"{slug}.gpx"
+
+    # Prefer SAC-scraped gain/drop (``index_card.gain`` / ``index_card.drop``)
+    # over naive GPX-derived ascent/descent. The GPX walker sums every positive
+    # delta along the track, which over-counts on figure-8 / circuit routes
+    # whose features retrace a ridge (Federispitz: 2830 m GPX vs SAC's 1490 m).
+    # SAC's published gain is the canonical headline value, so we override
+    # ``gpx_stats`` in place — that way the elevation-profile headline, the
+    # hero auto-subtitle, and the Naismith time all converge on the same
+    # number without each consumer having to know about the override.
+    ic = data.get("index_card") or {}
+    sac_gain = _parse_meters(ic.get("gain"))
+    sac_drop = _parse_meters(ic.get("drop"))
+    for key, sac_val in (("ascent_m", sac_gain), ("descent_m", sac_drop)):
+        if sac_val is None:
+            continue
+        gpx_val = gpx_stats.get(key)
+        if gpx_val and gpx_val > 0:
+            diff_pct = abs(gpx_val - sac_val) / sac_val * 100.0 if sac_val else 0.0
+            if diff_pct > 25.0:
+                label = "ascent" if key == "ascent_m" else "descent"
+                print(
+                    f"[gain-warn] {slug}: GPX {label} {int(round(gpx_val))} m vs SAC "
+                    f"{int(round(sac_val))} m (diff {diff_pct:.1f}%)",
+                    file=sys.stderr,
+                )
+        gpx_stats[key] = sac_val
 
     data["gpx_stats"] = gpx_stats
     # Auto-derive waypoints from GPX <wpt>s when data has none.
