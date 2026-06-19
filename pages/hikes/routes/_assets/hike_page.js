@@ -65,6 +65,24 @@
   if (TRACK.length) { map.whenReady(placeArrows); map.on('zoomend moveend', placeArrows); }
 
   function fitRoute() { if (TRACK.length) map.fitBounds(routeBounds, { padding: [40, 40] }); }
+
+  // Briefly pulse a marker at (lat, lon) on the map; used by elevation-badge clicks.
+  function pulseOnMap(lat, lon) {
+    if (typeof map === "undefined" || !lat || !lon) return;
+    const mapEl = document.getElementById("map");
+    if (mapEl) mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    map.panTo([lat, lon], { animate: true });
+    const ring = L.circleMarker([lat, lon], {
+      radius: 6, color: "#ff5c5c", weight: 3, fill: false, interactive: false,
+    }).addTo(map);
+    let r = 6, op = 1;
+    const id = setInterval(() => {
+      r += 3; op -= 0.08;
+      ring.setRadius(r);
+      ring.setStyle({ opacity: Math.max(0, op) });
+      if (op <= 0) { clearInterval(id); map.removeLayer(ring); }
+    }, 50);
+  }
   const fitBtn = document.getElementById("fitBtn");
   if (fitBtn) fitBtn.onclick = fitRoute;
   const gpxBtn = document.getElementById("gpxBtn");
@@ -81,11 +99,20 @@
     const params = new URLSearchParams(location.search);
     let selectedDate = params.get("date") || todayIsoLocal();
     const listeners = [];
+    function syncUrl(iso) {
+      try {
+        const url = new URL(location.href);
+        if (iso === todayIsoLocal()) url.searchParams.delete("date");
+        else url.searchParams.set("date", iso);
+        if (url.toString() !== location.href) history.replaceState({}, "", url);
+      } catch (e) { /* old browser — silently skip URL sync */ }
+    }
     return {
       get date() { return selectedDate; },
       setDate(iso) {
         if (!iso || iso === selectedDate) return;
         selectedDate = iso;
+        syncUrl(iso);
         listeners.forEach(fn => { try { fn(iso); } catch (e) { /* noop */ } });
       },
       onChange(fn) { listeners.push(fn); },
@@ -306,6 +333,7 @@
       ${ticks.join("")}
       ${xticks.join("")}
       <g class="hour-overlay" id="elev-hour-overlay"></g>
+      <g class="elev-waypoints" id="elev-waypoints"></g>
     `;
     // Lookup: distance (m) → elevation (m) along the curve, linearly interpolated.
     // Lets the hour-overlay drop guide-lines from each badge down onto the curve.
@@ -328,6 +356,41 @@
     };
   }
   const ELEV_GEOM = renderElevation();
+
+  // ---- Waypoint markers on the elevation curve ----
+  // Each `WAYPOINTS` entry is [lat, lon, label, kind]. We snap the waypoint to the
+  // nearest TRACK point, drop a small marker on the curve at that distance, and
+  // add a hover/tap title for the label + elevation.
+  function renderWaypointTicks(geom) {
+    if (!geom || !WAYPOINTS.length) return;
+    const layer = document.getElementById("elev-waypoints");
+    if (!layer) return;
+    const SNAP_M = 250;       // skip waypoints farther than this from the track
+    const out = [];
+    WAYPOINTS.forEach(([lat, lon, label, kind]) => {
+      if (kind === "start" || kind === "end") return;       // covered by hour-0 / route ends
+      let bestI = -1, bestD = Infinity;
+      for (let i = 0; i < TRACK.length; i++) {
+        const d = haversineMeters([lat, lon], TRACK[i]);
+        if (d < bestD) { bestD = d; bestI = i; }
+      }
+      if (bestI < 0 || bestD > SNAP_M) return;
+      const distM = geom.trackDist[bestI];
+      const x  = geom.xScale(distM);
+      const yC = geom.yScale(geom.elevAt(distM));
+      const yTop = yC - 14;
+      out.push(
+        '<g class="elev-waypoint elev-waypoint--' + (kind || "other") + '">' +
+          '<title>' + label.replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</title>' +
+          '<line x1="' + x.toFixed(1) + '" y1="' + yTop.toFixed(1) + '" ' +
+                'x2="' + x.toFixed(1) + '" y2="' + yC.toFixed(1) + '"/>' +
+          '<circle cx="' + x.toFixed(1) + '" cy="' + yC.toFixed(1) + '" r="3"/>' +
+        '</g>'
+      );
+    });
+    layer.innerHTML = out.join("");
+  }
+  renderWaypointTicks(ELEV_GEOM);
 
   // ---- Hourly weather overlay on the elevation profile ----
   // Walk the GPX via Naismith from a user-chosen start time; sample weather at each whole
@@ -414,8 +477,16 @@
     }
 
     // Walk TRACK forward, interpolating exact lat/lon/ele at each integer hour past start.
+    // The leading mark (hour 0) is the trailhead itself — weather at the moment you set off.
     function naismithHourPoints(startDate) {
-      const marks = [];
+      const marks = [{
+        hour: 0,
+        time: new Date(startDate.getTime()),
+        distM: 0,
+        lat: TRACK[0][0],
+        lon: TRACK[0][1],
+        ele: TRACK[0][2],
+      }];
       let cumH = 0;
       let nextHour = 1;
       for (let i = 1; i < TRACK.length && nextHour <= MAX_HOURS; i++) {
@@ -438,25 +509,6 @@
           nextHour++;
         }
         cumH += segH;
-      }
-      // Hike shorter than 1 h Naismith → show a single mid-point badge.
-      if (!marks.length && geom.totalM > 0) {
-        const midDist = geom.totalM / 2;
-        let mi = 0;
-        for (let i = 1; i < TRACK.length; i++) {
-          if (geom.trackDist[i] >= midDist) { mi = i; break; }
-        }
-        const a = TRACK[mi - 1] || TRACK[0], b = TRACK[mi] || TRACK[0];
-        const span = (geom.trackDist[mi] - geom.trackDist[mi - 1]) || 1;
-        const t = mi > 0 ? (midDist - geom.trackDist[mi - 1]) / span : 0;
-        marks.push({
-          hour: 0,
-          time: new Date(startDate.getTime() + totalHours * 0.5 * 3600 * 1000),
-          distM: midDist,
-          lat: a[0] + (b[0] - a[0]) * t,
-          lon: a[1] + (b[1] - a[1]) * t,
-          ele: a[2] + (b[2] - a[2]) * t,
-        });
       }
       return marks;
     }
@@ -553,6 +605,10 @@
           + (p.row === 1 ? " elev-hour-badge--stagger" : "")
           + (postSunset ? " elev-hour-badge--night" : "");
         badge.style.left = p.leftPct.toFixed(2) + "%";
+        badge.title = "Click to show this point on the map";
+        badge.dataset.lat = p.lat.toFixed(5);
+        badge.dataset.lon = p.lon.toFixed(5);
+        badge.addEventListener("click", () => pulseOnMap(p.lat, p.lon));
         badge.innerHTML =
           '<div class="elev-hour-time">' + label + '</div>' +
           '<div class="elev-hour-data">' +
