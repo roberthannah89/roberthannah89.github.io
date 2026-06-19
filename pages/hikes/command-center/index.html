@@ -61,7 +61,7 @@
   </div>
 </div>
 
-<!-- Data (classic scripts; expose window globals consumed by the app modules) -->
+<!-- Data -->
 <script src="../routes/_assets/swiss_border.js"></script>
 <script src="../routes/_assets/map_shared.js"></script>
 <script src="../guides/sac-routes.js"></script>
@@ -69,8 +69,13 @@
 <script src="weather-cache.js"></script>
 <script src="webcams_windy_data.js"></script>
 
-<!-- App entry point (ES module — pulls in filters/side-panel/url-sync/weather/webcams via imports) -->
-<script type="module" src="command-center.js"></script>
+<!-- App modules -->
+<script src="weather.js"></script>
+<script src="url-sync.js"></script>
+<script src="filters.js"></script>
+<script src="side-panel.js"></script>
+<script src="webcams.js"></script>
+<script src="command-center.js"></script>
 
 </body>
 </html>
