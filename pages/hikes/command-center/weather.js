@@ -135,7 +135,9 @@
     var diff = Math.round((d - today) / 86400000);
     if (diff === 0) return 'Today';
     if (diff === 1) return 'Tomorrow';
-    return d.toLocaleDateString('en', { weekday: 'short', day: 'numeric', month: 'short' });
+    // Compact form "Thu 4" — the forecast window is short, so the month is
+    // implicit; the day-of-month + weekday is enough to disambiguate.
+    return d.toLocaleDateString('en', { weekday: 'short' }) + ' ' + d.getDate();
   }
 
   function getDayChoices() {

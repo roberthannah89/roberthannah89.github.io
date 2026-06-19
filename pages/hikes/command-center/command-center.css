@@ -80,6 +80,19 @@ html, body {
   white-space: nowrap;
 }
 
+/* Icon-mode group label — same role as text but rendered as a compact
+   emoji or SVG glyph (mountain peak, gain chart, eye, etc.). Tighter padding
+   so the icon doesn't float in a text-sized slot; bumped font-size so the
+   emoji branch renders at a readable size (the SVG branch ignores it). */
+.filter-label--icon {
+  padding: 0 3px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  line-height: 1;
+}
+.filter-label--icon svg { display: block; }
+
 .filter-btn {
   font-family: var(--font-mono);
   font-size: 11px;
