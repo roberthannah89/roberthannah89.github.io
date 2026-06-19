@@ -11,6 +11,12 @@
   const mapsKey = cfg.mapsApiKey || "";
   const transitOrigin = cfg.defaultOrigin || "Zürich HB";
 
+  // Populate the print-only page URL (must run before any early-return so the
+  // printed copy points back to the live page even if Leaflet failed to load).
+  document.querySelectorAll(".page-url").forEach(el => {
+    el.textContent = location.href.replace(/^file:\/\//, "");
+  });
+
   // ---- Map (Leaflet) ----
   if (typeof L === "undefined") {
     const mapEl = document.getElementById("map");
