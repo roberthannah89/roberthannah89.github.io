@@ -1,0 +1,178 @@
+{
+  "slug": "chlingenstock",
+  "page": {
+    "title": "Chlingenstock (1927 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Chlingenstock",
+    "elev": 1927,
+    "lat": 46.95743,
+    "lon": 8.67462
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Schwyz",
+    "distance": "10.8 km",
+    "gain": "237 m",
+    "time": "~2h30",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Chlingenstock / Klingenstock, Bergstation",
+    "elev": 1927,
+    "lat": 46.957,
+    "lon": 8.6759
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1590142929_1398182490master_0536ee8e5d.jpg",
+    "subtitle_html": "Chlingenstock / Klingenstock, Bergstation -> Chlingenstock -- <span class=\"pill t4\">SAC T4+</span> | ~237 m gain | ~10.8 km | ~2h30",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Auf und Ab ist auf der gesamten Tour Programm. Von Spitzchen zu Spitzchen – meist zuoberst auf der Krete, manchmal leicht darunter durch die Sonnen- oder Schattenseite, holprig über steile Kuhweiden, federnd weich auf Erika-Kreten, kraxlig steile Grashalden hinauf und durch Alpenrosenwirrwarr hinab. Und immer ein grosses Panorama vor Augen: rechts die Riemenstaldner Berge mit ihren hell leuchtenden Kalkplatten und Zinnen, links das Mittelland und die beiden kühn geschwungenen Mythen.</p>\n<p>Der Stoos kann auch von Morschach mit der Luftseilbahn erreicht werden, Haltestelle: Stoos Bergstat. (Luftseilb).</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1927 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Chlingenstock / Klingenstock, Bergstation"
+    ],
+    [
+      "Distance",
+      "10.8 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~237 m"
+    ],
+    [
+      "Elevation range",
+      "1303-1927 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1590142929_1398182490master_1943a07422.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1590142929_1398182490master_1943a07422.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/1/csm_1601385399_1444098709master_cf2bc08ad1.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/1/csm_1601385399_1444098709master_cf2bc08ad1.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/1/csm_1590142932_573871145master_5890ad88b8.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/1/csm_1590142932_573871145master_5890ad88b8.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/0/csm_1601467756_382272918master_5ac9089a8c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/0/csm_1601467756_382272918master_5ac9089a8c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1601467756_1424473936master_ce45ad78bc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1601467756_1424473936master_ce45ad78bc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/4/csm_1590142931_2105198741master_50d3726e4c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/4/csm_1590142931_2105198741master_50d3726e4c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/2/csm_1590144043_1313844973master_008e1a6f6a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/2/csm_1590144043_1313844973master_008e1a6f6a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/3/csm_1601467756_1353026608master_fe3ed16c72.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/3/csm_1601467756_1353026608master_fe3ed16c72.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/0/csm_1590144042_1304820360master_d854578de3.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/0/csm_1590144042_1304820360master_d854578de3.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/e/csm_1590142922_964258700master_01dcfb4c95.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/e/csm_1590142922_964258700master_01dcfb4c95.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.957,
+      "lon": 8.6759,
+      "label": "Chlingenstock / Klingenstock, Bergstation (1927 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.95696704351312,
+      "lon": 8.675866816194047,
+      "label": "Chlingenstock (1927 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung zum Sisiger Spitz mit Abstieg via Wannentritt nach Stoos</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Chlingenstock – Sisiger Spitz: 2 Std. 15 Min.",
+        "Sisiger Spitz – Wannentritt – Stoosbahn: 2 Std. 30 Min"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Technische Schwierigkeiten stellen sich beim Überqueren unzähliger Stacheldrähte, so dass man oft in die rutschige Nordflanke ausweichen muss. Diese ist oft mit mehr Felsen durchsetzt, als man aus der Karte erahnen würde. Anspruchsvollste Passage ist der Aufstieg über die Grasrippe zum Nordgrat des Sisiger Spitz: obwohl sehr steil, finden Hände und Füsse im moosigen Gras guten Halt. Das Geröllfeld links der Rippe eignet sich ebenfalls für den Aufstieg.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Cable car</strong> to <strong>Chlingenstock / Klingenstock, Bergstation</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Chlingenstock</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "end_point": {
+    "name": "Stoos SZ, Bergstation",
+    "elev": 1300
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

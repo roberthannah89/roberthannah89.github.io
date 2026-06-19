@@ -1,0 +1,195 @@
+{
+  "slug": "hardergrat",
+  "page": {
+    "title": "Hardergrat (2134 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Hardergrat",
+    "elev": 2134,
+    "lat": 46.74226,
+    "lon": 7.92861
+  },
+  "index_card": {
+    "region": "Berner Oberland",
+    "canton": "Bern",
+    "distance": "21.0 km",
+    "gain": "1608 m",
+    "time": "~7h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Kemmeriboden",
+    "elev": 976,
+    "lat": 46.8025,
+    "lon": 7.9351
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1700685149_1914509002master_e7d77d8d6d.jpg",
+    "subtitle_html": "Kemmeriboden -> Hardergrat -- <span class=\"pill t4\">SAC T4</span> | ~1608 m gain | ~21.0 km | ~7h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Wenn man den ganzen Brienzergrat überschreiten wollte, wäre das für Normalwandernde mit An- und Abreise ein sehr langes Tageswerk. Der erste Gratabschnitt um das Tannhorn ist für Alpinwandernde am interessantesten, doch auch die hier beschriebene Fortsetzung über die luftigen Grasgrate zwischen Schnierenhörnli und Augstmatthorn ist ein Leckerbissen. Der Einstieg ist sowohl von Norden (Kemmeribodenbad, landschaftlich interessant, längere Wegstrecke), von Süden (Oberried am Brienzersee, sehr steil, dafür kürzere Wegstrecke) oder vom östlichen Teil Brienzergrat (ab Brienzer Rothorn oder gar dem Brünigpass) möglich. Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüge sind verboten, dafür stehen die Chancen für eine Steinbockbegegnung gut. Die Einhaltung der Regeln im Jagdbanngebiet und respektvolles Verhalten (z.B. kein offensives Annähern an die Tiere zum Fotografieren) ist auf dem populären Brienzergrat leider nicht für alle selbstverständlich.</p>\n<p>Der Zeitbedarf variiert je nach Gangart auf den exponierten Graten.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2134 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Kemmeriboden"
+    ],
+    [
+      "Distance",
+      "21.0 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1608 m"
+    ],
+    [
+      "Elevation range",
+      "976-2133 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1700685149_1914509002master_d7ab2f602a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1700685149_1914509002master_d7ab2f602a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1594053010_668048460master_9c17af9b1d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1594053010_668048460master_9c17af9b1d.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/c/csm_1700044224_2005331040master_7c2d0b62d7.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/c/csm_1700044224_2005331040master_7c2d0b62d7.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/3/csm_1700685149_1269515549master_0038b12cb5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/3/csm_1700685149_1269515549master_0038b12cb5.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1700044217_997731581master_57b3e680ca.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1700044217_997731581master_57b3e680ca.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/f/csm_1700685149_1708719200master_3cfbee21f9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/f/csm_1700685149_1708719200master_3cfbee21f9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1700044222_2081222607master_f0b37fc4d3.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1700044222_2081222607master_f0b37fc4d3.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/6/csm_1700044224_520286820master_5415190704.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/6/csm_1700044224_520286820master_5415190704.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1700650549_11156327master_51ec6e4a8c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1700650549_11156327master_51ec6e4a8c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/b/csm_1700043864_1625936969master_b054513b01.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/b/csm_1700043864_1625936969master_b054513b01.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/7/csm_1700044093_1329734543master_d5f22bc909.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/7/csm_1700044093_1329734543master_d5f22bc909.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/4/csm_1700685150_1210575861master_154db54545.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/4/csm_1700685150_1210575861master_154db54545.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.8025,
+      "lon": 7.9351,
+      "label": "Kemmeriboden (976 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.742334467726295,
+      "lon": 7.928617846548402,
+      "label": "Hardergrat (2133 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Brienzergrat-Überschreitung zweiter Teil Schnierenhörnli - Harder Kulm</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Der Zeitbedarf variiert je nach Gangart auf den exponierten Graten. Kemmeribodenbad - Ällgäuwlicka: 2:30 h Ällgäuwlicka - Augstmatthorn: 2 - 3 h Augstmatthorn - Harder Kulm: 2:30 h Varianten: Oberried - Ällgäuwlicka: 3 - 4 Std (1350 hm) Zeitbedarf ganzer Brienzergrat vom Brienzer Rothorn zum Harder Kulm 7:30 - 9:30 h"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Der Grat weist keine Kletterpassagen im engeren Sinne auf, ist aber auf lange Strecken exponiert. Bei Nässe werden die erdigen Wegspuren am Grat sehr rutschig; von einer Begehung ist dann abzuraten. Vorsicht: Bei der Tour über den ganzen Brienzergrat dürfen die physische Komponente (Distanz Brienzer Rothorn - Harder rund 20 km, zahlreiche Gegensteigungen!) und vor allem die Anforderungen an die Konzentrationsfähigkeit nicht unterschätzt werden, man bewegt sich über lange Strecken in exponiertem Gelände, das kaum Fehler verzeiht. Die Markierungen (rot-weiss / blau-weiss oder nicht markiert) haben in den letzten Jahren immer wieder mal gewechselt, die Route ist aber kaum zu verfehlen.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Kemmeriboden</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Hardergrat</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Ällgäuwlicka",
+      "elev_m": 1918
+    }
+  ],
+  "end_point": {
+    "name": "Harder Kulm",
+    "elev": 1321
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Pizzo Alzasca (2261 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1588747109_647216865master_71711c3f11.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Pizzo Alzasca <span style="font-weight:400; opacity:.85;">2261 m</span></h1>
+    <p>SAC T5 · ~537 m gain · ~3.6 km one-way · ~3h round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Der Pizzo Alzasca ist eine kurze, aber lohnende Tour ab der Capanna Alzasca. Wer sich mit dem Südwestgipfel begnügt, muss keine grossen Überraschungen befürchten, das Gelände ist recht zahm. Wer aber auch dem Nordostgipfel einen Besuch abstatten möchte, darf sich auf eine luftige und knackige Angelegenheit gefasst machen. So oder so ein attraktives Ziel mit grosser Aussicht. Besonders geländegängige Alpinwanderer können den Berg auch überschreiten: rauf über den Ostgrat (s. Variante), runter auf der Normalroute.</p>
+<p>Deutliche Einsattelung zwischen Pizzo Alzasca und Pizzo Molinera, verbindet die Vallemaggia mit der Valle di Campo.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2261 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t5">SAC T5</span> Demanding alpine hiking with exposure, scrambling, and route-finding. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Capanna Alzasca CAS</td></tr>
+    <tr><th>Distance</th><td>3.6 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~537 m</td></tr>
+    <tr><th>Elevation range</th><td>1733-2260 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1588747109_647216865master_3e2ea42c81.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1597848241_62685530master_742e6dec81.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1555588516_1446305308master_afbe21a85e.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1555588517_1182313061master_ef63ea6585.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1588747109_647216865master_3e2ea42c81.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1597848241_62685530master_742e6dec81.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1555588516_1446305308master_afbe21a85e.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1555588517_1182313061master_ef63ea6585.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Capanna Alzasca CAS)</span>
+    <span class="summit">Summit (Pizzo Alzasca)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Südwestgrat (von der Bocchetta di Cansgei)</strong></p>
+  <ul>
+    <li>TODO: Step 1 description.</li>
+    <li>TODO: Step 2 description.</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>Von der Bocchetta di Cansgei zum Südwestgipfel vereinzelte Wegspuren und Steinmännchen sowie ein paar leichte Felsstufen (T3+). Der Verbindungsgrat zum Nordostgipfel ist dagegen luftig, ausgesetzt und zuletzt etwas kraxlig, also eher im Bereich T5 anzusiedeln.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Capanna Alzasca CAS <span class="endpoint-elev">(1733 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Capanna Alzasca CAS</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Capanna Alzasca CAS</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.27742N8.57606E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>3.6 km</strong> total</span>
+    <span>&uarr; <strong>537 m</strong> ascent</span>
+    <span>&darr; <strong>10 m</strong> descent</span>
+    <span>max <strong>2260 m</strong></span>
+    <span>steepest <strong>57%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="pizzo-alzasca.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.27742, lon: 8.57606, elev: 2261, name: "Pizzo Alzasca" },
+  trailhead: { lat: 46.2712, lon: 8.5892, name: "Capanna Alzasca CAS",
+               sbb_url: "" },
+  gpx_filename: "pizzo-alzasca.gpx",
+  page_generated: "2026-06-19",
+  waypoints: [
+    [46.2712, 8.5892, "Capanna Alzasca CAS (1733 m)", "start"],
+    [46.27741007706167, 8.57605355542552, "Pizzo Alzasca (2260 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 537.4000000000001, "descent_m": 10.300000000000182, "distance_km": 3.6207686667087944, "max_ele": 2260.7, "min_ele": 1733.6, "n_points": 464.0, "steepest_grade_pct": 57.17340557688534};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

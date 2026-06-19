@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Gross Mythen (1872 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_5a70d6c060.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Gross Mythen <span style="font-weight:400; opacity:.85;">1872 m</span></h1>
+    <p>SAC T5 · ~468 m gain · ~2.7 km one-way · ~2h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Gross Mythen, this mighty spire above Schwyz, is a landmark of Central Switzerland. Consequently, it is a very popular target for hikers. Most of them ascend it on the fairly easy normal route. Moreover, the cabin on the summit draws the crowds to the mountain. However, there are also more quiet itineraries to the top. One of the most rewarding is the route via Schafweg, Mythenmatt and Rot Grätli: entertaining, pleasurable, very sunny with great views – and wonderfully deserted.</p>
+<p>If you start at the Rotenfluebahn summit station, add 25 minutes (way up) and 35 minutes (way back).</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>1872 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t5">SAC T5</span> Demanding alpine hiking with exposure, scrambling, and route-finding. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Holzegg, summit station</td></tr>
+    <tr><th>Distance</th><td>2.7 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~468 m</td></tr>
+    <tr><th>Elevation range</th><td>1402-1871 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Holzegg, summit station)</span>
+    <span class="summit">Summit (Gross Mythen)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Schafweg, Mythenmatt and Rot Grätli</strong></p>
+  <ul>
+    <li>If you start at the Rotenfluebahn summit station, add 25 minutes (way up) and 35 minutes (way back). If you start at Brunni (Holzeggbahn bottom station), add 55 minutes (way up) and 35 minutes (way back).</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>The crux is the last stretch of the tour, Rot Grätli, where scrambling skills are required. Several bolts make sure that protecting with a rope is possible. The steep grassy face after leaving the normal route at bend 22 is around T4+. The same degree is for the exposed passages after this grassy face, which are equipped with fixed ropes, and the traversing of the steep ditch of a creek before Mythenmatt. The short tour is ideal for introducing beginners to the art of alpine hiking.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Holzegg, summit station <span class="endpoint-elev">(1402 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Holzegg, summit station</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Holzegg, summit station</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/47.02992N8.68877E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>2.7 km</strong> total</span>
+    <span>&uarr; <strong>468 m</strong> ascent</span>
+    <span>&darr; <strong>197 m</strong> descent</span>
+    <span>max <strong>1871 m</strong></span>
+    <span>steepest <strong>57%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="gross-mythen.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 47.02992, lon: 8.68877, elev: 1872, name: "Gross Mythen" },
+  trailhead: { lat: 47.0288, lon: 8.6981, name: "Holzegg, summit station",
+               sbb_url: "" },
+  gpx_filename: "gross-mythen.gpx",
+  page_generated: "2026-06-19",
+  waypoints: [
+    [47.0288, 8.6981, "Holzegg, summit station (1402 m)", "start"],
+    [47.029895411099794, 8.689523864219082, "Gross Mythen (1871 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 467.60000000000014, "descent_m": 197.30000000000018, "distance_km": 2.6793161109066204, "max_ele": 1871.9, "min_ele": 1402.8, "n_points": 358.0, "steepest_grade_pct": 57.040896335880916};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

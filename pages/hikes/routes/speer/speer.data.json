@@ -1,0 +1,141 @@
+{
+  "slug": "speer",
+  "page": {
+    "title": "Speer (1944 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Speer",
+    "elev": 1944,
+    "lat": 47.18577,
+    "lon": 9.12282
+  },
+  "index_card": {
+    "region": "Eastern Switzerland",
+    "canton": "St. Gallen",
+    "distance": "14.5 km",
+    "gain": "969 m",
+    "time": "~4h30",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Wolzenalp",
+    "elev": 1115,
+    "lat": 47.2287,
+    "lon": 9.1533
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1534161003_1779348565master_d6c57625d3.jpg",
+    "subtitle_html": "Wolzenalp -> Speer -- <span class=\"pill t5\">SAC T5</span> | ~969 m gain | ~14.5 km | ~4h30",
+    "grade": "T5",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The bench on the concrete platform on top of Speer is very comfortable. At first the solid handrail of the platform may seem rather overdone, but the view down to Toggenburg from the exposed platform can indeed cause dizziness. If you ascend on the itinerary along the north ridge described here, which is equipped with steel cables, you have time to get used to being exposed. With some luck you may see ibex, stoically watching you ascend. The information boards of the geology trail on the summit tell you that the geology of Speer is something special. The conglomerate rock called Nagelfluh (small stones embedded in sandstone), normally a feature of the Mittelland, reaches up to a record high altitude of almost 2000 m.</p>\n<p>Wolzenalp - Bützalpsattel - Elisalp – north ridge - Speer: 4 h</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1944 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5</span>"
+    ],
+    [
+      "Trailhead",
+      "Wolzenalp"
+    ],
+    [
+      "Distance",
+      "14.5 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~969 m"
+    ],
+    [
+      "Elevation range",
+      "1101-1944 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1534161003_1779348565master_2444b3d198.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1534161003_1779348565master_2444b3d198.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1534161006_985445330master_991d3ea7ed.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1534161006_985445330master_991d3ea7ed.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/3/csm_1534161005_1152504627master_f6fb53bf9c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/3/csm_1534161005_1152504627master_f6fb53bf9c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.2287,
+      "lon": 9.1533,
+      "label": "Wolzenalp (1115 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.1857902286689,
+      "lon": 9.122671034680982,
+      "label": "Speer (1944 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From Wolzenalp on the north ridge</strong>",
+      "grade": "T5",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Wolzenalp - Bützalpsattel - Elisalp – north ridge - Speer: 4 h Speer - Ober Chäseren - Hinter Höhi - Niederschlag summit station (- Amden): 2–3 h"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>The Speer north ridge is neither a via ferrata nor an undemanding trail equipped with some steel cables. It is marked white-blue (alpine route). A number of exposed passages require a firm grip and a few passages graded I require som courage, as they need to be overcome without the help of cables. Experienced hikers do not need a via ferrata set, but for beginners it is highly recommended. The other ascent and descent trails marked white-red are easy to negotiate (T3). Be careful in wet weather: Nagelfluh gets dangerously slippery.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Wolzenalp</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Speer</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Hinter Höhi",
+      "elev_m": 1415
+    }
+  ],
+  "end_point": {
+    "name": "Amden Niederschlag, Bergstation",
+    "elev": 1289
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

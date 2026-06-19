@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Wildhuser Schafberg (2336 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1533562765_766408838master_e156050758.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Wildhuser Schafberg <span style="font-weight:400; opacity:.85;">2336 m</span></h1>
+    <p>SAC T4 · ~1438 m gain · ~12.5 km one-way · ~10h round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>While the neighbouring Wildhuser Schofberg is very popular among hikers, hardly anybody knows Jöchliturm. Not even swisstopo, the Swiss map maker, knew its name and charted it simply as P. 2335. The summit is only a stone’s throw away from Nädliger with its limestone cliffs full of fossils, which is reachable on one of the most splendid hiking trails of the region. The round trip to Jöchliturm requires some stamina, as the Gamplüt aerial cable way saves only about 200 metres of vertical height. It is important to carry enough water because of the steep, sunny slopes. There are no restaurants on this side of the Alpstein range.</p>
+<p>If you undertake the tour in the opposite direction, you have a number of variants to continue to the Alpstein range, e.g. climbing Altmann or crossing Rotsteinpass.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2336 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t4">SAC T4</span> Alpine hiking with exposure, rougher terrain, and sections that are not suitable for beginners. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Wildhaus</td></tr>
+    <tr><th>Distance</th><td>12.5 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~1438 m</td></tr>
+    <tr><th>Elevation range</th><td>1084-2335 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1533562765_766408838master_594c4fbd7a.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/5/csm_1578930037_1360068741master_70234d049d.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/a/csm_1578930036_784338401master_e9cfa39d52.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/9/csm_1554991023_173591553master_5b0741e763.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-5"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/5/csm_1554991023_1727305038master_78bf31ba4d.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1533562765_766408838master_594c4fbd7a.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/5/csm_1578930037_1360068741master_70234d049d.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/a/csm_1578930036_784338401master_e9cfa39d52.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/9/csm_1554991023_173591553master_5b0741e763.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-5" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/5/csm_1554991023_1727305038master_78bf31ba4d.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Wildhaus)</span>
+    <span class="summit">Summit (Wildhuser Schafberg)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Traverse Jöchliturm – Nädliger</strong></p>
+  <ul>
+    <li>Wildhaus - Zwinglipasshütte: 2 ½ h Zwinglipasshütte - Nädliger - Jöchliturm: 2- 2: ½ h Jöchliturm - P. 2197 - Schöferhütte - Gamplüt: 2 h Add ½ hour if you do not ride the gondola down. If you undertake the tour in the opposite direction, you have a number of variants to continue to the Alpstein range, e.g. climbing Altmann or crossing Rotsteinpass.</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>The traverse Jöchli–Nädliger is well-marked (white-blue). There are exposed passages, some requiring the use of hands. There is a risk of rock fall on the steep slope below Jöchli.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Wildhaus <span class="endpoint-elev">(1090 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Wildhaus</strong>
+    </p>
+  </div>
+  <div class="endpoint-block">
+    <h3>End: Gamplüt, Bergstation <span class="endpoint-elev">(1349 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>Gamplüt, Bergstation</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/47.23234N9.35796E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>12.5 km</strong> total</span>
+    <span>&uarr; <strong>1438 m</strong> ascent</span>
+    <span>&darr; <strong>1179 m</strong> descent</span>
+    <span>max <strong>2335 m</strong></span>
+    <span>steepest <strong>154%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="wildhuser-schafberg.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 47.23234, lon: 9.35796, elev: 2336, name: "Wildhuser Schafberg" },
+  trailhead: { lat: 47.2034, lon: 9.3508, name: "Wildhaus",
+               sbb_url: "" },
+  gpx_filename: "wildhuser-schafberg.gpx",
+  page_generated: "2026-06-19",
+  waypoints: [
+    [47.2034, 9.3508, "Wildhaus (1090 m)", "start"],
+    [47.23233215771443, 9.357926977113438, "Wildhuser Schafberg (2335 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 1437.7000000000003, "descent_m": 1178.5000000000005, "distance_km": 12.454969810611535, "max_ele": 2335.5, "min_ele": 1084.4, "n_points": 2632.0, "steepest_grade_pct": 153.90272634747166};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

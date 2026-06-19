@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Torrone Alto (2948 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/2/5/csm_1574961210_522544106master_f9cfca526b.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Torrone Alto <span style="font-weight:400; opacity:.85;">2948 m</span></h1>
+    <p>SAC T5- · ~1699 m gain · ~6.9 km one-way · ~8h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Anstrengende Tour, nicht bloss des Höhenunterschieds wegen: Der Aufstieg durch das Schuttcouloir ist auf gut 300 Höhenmetern besonders kräfteraubend. Dafür wird man mit einer ungemein wilden Landschaft belohnt, die nur selten besucht wird. Die Tour erreicht allerdings nicht die höchste Erhebung des Torent Alto, sondern die westlichste, die Cima 7 (etwa 100 m westlich von P. 2953).</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2948 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t5">SAC T5-</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Landarenca, Bergstation</td></tr>
+    <tr><th>Distance</th><td>6.9 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~1699 m</td></tr>
+    <tr><th>Elevation range</th><td>1278-2947 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/2/5/csm_1574961210_522544106master_b0af504a12.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/1/csm_1574960478_2136690564master_ccf8eae83c.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/0/csm_1574960478_1186463265master_5086f8bab4.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/b/1/csm_1574960478_1145203713master_f98a53a19d.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-5"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1574960478_175945225master_e03f7cee8d.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/2/5/csm_1574961210_522544106master_b0af504a12.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/c/1/csm_1574960478_2136690564master_ccf8eae83c.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/0/csm_1574960478_1186463265master_5086f8bab4.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/b/1/csm_1574960478_1145203713master_f98a53a19d.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-5" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1574960478_175945225master_e03f7cee8d.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Landarenca, Bergstation)</span>
+    <span class="summit">Summit (Torrone Alto)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Von Landarenca</strong></p>
+  <ul>
+    <li>TODO: Step 1 description.</li>
+    <li>TODO: Step 2 description.</li>
+  </ul>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Landarenca, Bergstation <span class="endpoint-elev">(1278 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Landarenca, Bergstation</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Landarenca, Bergstation</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.34492N9.07367E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>6.9 km</strong> total</span>
+    <span>&uarr; <strong>1699 m</strong> ascent</span>
+    <span>&darr; <strong>30 m</strong> descent</span>
+    <span>max <strong>2947 m</strong></span>
+    <span>steepest <strong>236%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="torrone-alto.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.34492, lon: 9.07367, elev: 2948, name: "Torrone Alto" },
+  trailhead: { lat: 46.3187, lon: 9.1108, name: "Landarenca, Bergstation",
+               sbb_url: "" },
+  gpx_filename: "torrone-alto.gpx",
+  page_generated: "2026-06-19",
+  waypoints: [
+    [46.3187, 9.1108, "Landarenca, Bergstation (1278 m)", "start"],
+    [46.34354859801968, 9.069898399156468, "Torrone Alto (2947 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 1699.3, "descent_m": 30.200000000000045, "distance_km": 6.911958878111966, "max_ele": 2947.5, "min_ele": 1278.4, "n_points": 1135.0, "steepest_grade_pct": 236.4140146422736};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+{
+  "slug": "ortstock",
+  "page": {
+    "title": "Ortstock (2717 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Ortstock",
+    "elev": 2717,
+    "lat": 46.92539,
+    "lon": 8.94819
+  },
+  "index_card": {
+    "region": "Eastern Switzerland",
+    "canton": "Schwyz",
+    "distance": "7.6 km",
+    "gain": "1117 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Gumen, Bergstation",
+    "elev": 1900,
+    "lat": 46.956,
+    "lon": 8.9852
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1537860760_1168528953master_e344f432da.jpg",
+    "subtitle_html": "Gumen, Bergstation -> Ortstock -- <span class=\"pill t3\">SAC T3</span> | ~1117 m gain | ~7.6 km | ~3h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The Ortstock forms a imposing backdrop to Braunwald, though when viewed from Glattalp it is a rather inconspicuous scree cone. The summit panorama gives exceptional views down to Braunwald and into Linthtal. The western or \"Hinter\" Ortstock (P. 2717) is accessible via easy mountain trails and is often done. From Glattalp or from Braunwald's 'Gumen' cable car station, two equally long and similarly difficult routes lead to the summit. The route described here from Gumen is more varied than the one from Glattalp.</p>\n<p>Without the use of the chairlift to the Gumen, the ascent will be 1.5 to 2 hours longer (+ 700 hm).</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2717 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Gumen, Bergstation"
+    ],
+    [
+      "Distance",
+      "7.6 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1117 m"
+    ],
+    [
+      "Elevation range",
+      "1900-2716 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1537860760_1168528953master_a09e605d74.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1537860760_1168528953master_a09e605d74.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/8/csm_1537862347_679275598master_8488642596.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/8/csm_1537862347_679275598master_8488642596.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.956,
+      "lon": 8.9852,
+      "label": "Gumen, Bergstation (1900 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.92537846114206,
+      "lon": 8.948204464552639,
+      "label": "Ortstock (2716 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From Gumen via the Ortstock's Furggele Pass</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "Without the use of the chairlift to the Gumen, the ascent will be 1.5 to 2 hours longer (+ 700 hm). The descent variant via \"Bärentritt\" to Braunwald takes about the same amount of time as the way to the cable car station at Gumen, but is more demanding on the knees with more vertical metres."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>The hiker is strongly advised to follow the marked footpath. In foggy or snowy conditions, this area can be very challenging.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Gumen, Bergstation</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Ortstock</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

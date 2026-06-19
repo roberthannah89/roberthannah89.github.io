@@ -1,0 +1,159 @@
+{
+  "slug": "pizzo-campo-tencia",
+  "page": {
+    "title": "Pizzo Campo Tencia (3048 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Pizzo Campo Tencia",
+    "elev": 3048,
+    "lat": 46.42977,
+    "lon": 8.72589
+  },
+  "index_card": {
+    "region": "Southern Alps",
+    "canton": "Ticino",
+    "distance": "14.6 km",
+    "gain": "918 m",
+    "time": "~4h30",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Capanna Campo Tencia CAS",
+    "elev": 2139,
+    "lat": 46.4441,
+    "lon": 8.7325
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1597763065_204440270master_ad255354cc.jpg",
+    "subtitle_html": "Capanna Campo Tencia CAS -> Pizzo Campo Tencia -- <span class=\"pill t4\">SAC T4+</span> | ~918 m gain | ~14.6 km | ~4h30",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>The canton of Ticino counts 50 threethousanders, but most of them are shared with its neighbours The Grisons, Uri, Valais and Italy. But not so Pizzo Campo Tencia: it is the highest all Ticino summit. In old pictures you can see that it was a heavily glaciered summit with huge seracs, and the first ascent in 1867 required many complicated detours. The glaciers have shrunk considerably in the meantime, and easier routes were discovered. Therefore, Pizzo Campo Tencia has become a premium target for alpine hikers.</p>\n<p>(Pizzo Campo Tencia – Capanna Campo Tencia CAS: 1 h 45 min.)</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3048 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Capanna Campo Tencia CAS"
+    ],
+    [
+      "Distance",
+      "14.6 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~918 m"
+    ],
+    [
+      "Elevation range",
+      "743-3047 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1597763065_204440270master_1bd0e316b0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1597763065_204440270master_1bd0e316b0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/9/csm_1593178328_2142315641master_17ff5791aa.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/9/csm_1593178328_2142315641master_17ff5791aa.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/6/csm_1593178737_126360921master_6b5014b4bc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/6/csm_1593178737_126360921master_6b5014b4bc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1593178169_1287781254master_986c0656a5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1593178169_1287781254master_986c0656a5.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1715768415_1694631160master_9bdd5163b0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1715768415_1694631160master_9bdd5163b0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1689608725_1235237097master_e398753d33.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1689608725_1235237097master_e398753d33.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4441,
+      "lon": 8.7325,
+      "label": "Capanna Campo Tencia CAS (2139 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.42972353878693,
+      "lon": 8.726937329912799,
+      "label": "Pizzo Campo Tencia (3047 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From Capanna Campo Tencia CAS via Pizzo Campo Tencia to Prato</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Capanna Campo Tencia CAS – Pizzo Campo Tencia: 2 h 30 min. (Pizzo Campo Tencia – Capanna Campo Tencia CAS: 1 h 45 min.) Pizzo Campo Tencia – Solveltra – Prato: 4 h."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Right at the beginning you need to scramble up a tiered ramp (faint path, at the end slightly exposed, grade I). Then follows a long rocky rib with more grade I passages. The summit ridge is made of blocks, and in early summer it is often snow-covered. Then an ice axe might come in handy. On its most important passages the route is well marked.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Capanna Campo Tencia CAS</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Pizzo Campo Tencia</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Bocchetta di Crozlina",
+      "elev_m": 2864
+    }
+  ],
+  "end_point": {
+    "name": "Prato",
+    "elev": 742
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

@@ -1,0 +1,131 @@
+{
+  "slug": "rigi-kulm",
+  "page": {
+    "title": "Rigi Kulm (1797 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Rigi Kulm",
+    "elev": 1797,
+    "lat": 47.05675,
+    "lon": 8.48533
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Schwyz",
+    "distance": "10.0 km",
+    "gain": "975 m",
+    "time": "~3h30",
+    "route_type": "loop"
+  },
+  "trailhead": {
+    "name": "Seebodenalp, Bergstation",
+    "elev": 1791,
+    "lat": 47.0567,
+    "lon": 8.4861
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1513783829_370894793master_089ff5ee6f.jpg",
+    "subtitle_html": "Seebodenalp, Bergstation -> Rigi Kulm -- <span class=\"pill t5\">SAC T5-</span> | ~975 m gain | ~10.0 km | ~3h30",
+    "grade": "T5-",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>In a description from 1479 the deacon of the Einsiedeln monastery called Rigi «mons regina». In later texts Rigena, Riginun or Rigam are mentioned. They are all derived from «Riga», Latin for „line“, „trait“, „rock belt“, or „fold“. Scientists of today see the origin of the name Rigi in the „Rigenen“, those clearly distinguishable rock belts on the north and west sides of Rigi Kulm. Rigi is undisputedly an attractive mountain for alpine hiking. Proof are the ascent and especially the descent, which are far away from the daily hubbub of mass tourism.</p>\n<p>The descent is somewhat easier (T4). On the stretch Buechzingelflue - Grässelen - Ober Stockbann the faint path on the Rigi north-east face is occasionally fairly overgrown, which requires orientational skill and surefootedness. Moreover, the trail has steep, rocky passages. Iron rungs and ladders help to overcome these obstacles.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1797 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5-</span>"
+    ],
+    [
+      "Trailhead",
+      "Seebodenalp, Bergstation"
+    ],
+    [
+      "Distance",
+      "10.0 km (loop)"
+    ],
+    [
+      "Total ascent",
+      "~975 m"
+    ],
+    [
+      "Elevation range",
+      "1015-1797 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1513783829_370894793master_eadd71247a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1513783829_370894793master_eadd71247a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/4/csm_1513784085_1889780430master_c7f709900e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/4/csm_1513784085_1889780430master_c7f709900e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1513783983_242412495master_cde3b9a28b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1513783983_242412495master_cde3b9a28b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.0567,
+      "lon": 8.4861,
+      "label": "Seebodenalp, Bergstation (1791 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.05671509596254,
+      "lon": 8.48537123238367,
+      "label": "Rigi Kulm (1797 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Seebodenalp - \"Arschbaggen\" - Rigi Kulm - Leiterliweg – Seebodenalp</strong>",
+      "grade": "T5-",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Seebodenalp – Rigi Kulm 2 h 15 min. Rigi Kulm – Seebodenalp 2 h 30 min."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>On the ascent there are various ledges made of a conglomerate rock called nagelfluh, which are equipped with good fixed ropes. The start of the first ledge, the highest and most challenging, is often wet. It goes 15 metres straight up and is fairly exposed. The other ledges are much easier. The descent is somewhat easier (T4). On the stretch Buechzingelflue - Grässelen - Ober Stockbann the faint path on the Rigi north-east face is occasionally fairly overgrown, which requires orientational skill and surefootedness. Moreover, the trail has steep, rocky passages. Iron rungs and ladders help to overcome these obstacles.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Cable car</strong> to <strong>Seebodenalp, Bergstation</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Rigi Kulm</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

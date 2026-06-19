@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Zuestoll (2235 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1625577175_1554383181master_5d48ef3be5.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Zuestoll <span style="font-weight:400; opacity:.85;">2235 m</span></h1>
+    <p>SAC T4- · ~853 m gain · ~4.3 km one-way · ~4h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>The Churfirsten range of seven mountains between Walensee and Toggenburg, is unique. On the north side they form a precisely arranged row of monopitch slopes and on the south they are sheer cliffs offering a splendid view down to Walensee almost 2000 metres down. Hiking to one of them is a must for every alpine hiker. The question is: which one? We have chosen Zuestoll for its elegant form. The ascent is short and multifaceted. It offers a number of exposed, but well-equipped passages and the aforementioned view.</p>
+<p>The summit ascent is now marked white-blue; it had been white-red until recently.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>2235 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t4">SAC T4-</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Selamatt, Bergstation</td></tr>
+    <tr><th>Distance</th><td>4.3 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~853 m</td></tr>
+    <tr><th>Elevation range</th><td>1385-2234 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1625577175_1554383181master_09667cff6c.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/e/csm_1625577175_1930702053master_9b217c29d7.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1535371221_908851002master_fc753d0e72.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/a/csm_1535371221_774681742master_88c96fef04.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+    <figure>
+      <a href="#lightbox-5"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/0/csm_1535371222_1966105686master_8fca12a49b.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1625577175_1554383181master_09667cff6c.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/e/csm_1625577175_1930702053master_9b217c29d7.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1535371221_908851002master_fc753d0e72.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/7/a/csm_1535371221_774681742master_88c96fef04.jpg" alt=""></a>
+      <a class="lightbox" id="lightbox-5" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/0/csm_1535371222_1966105686master_8fca12a49b.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Selamatt, Bergstation)</span>
+    <span class="summit">Summit (Zuestoll)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>From Sellamatt</strong></p>
+  <ul>
+    <li>Selamatt - Langlitten - Rüggli - Zuestoll: 2½ h Descent Zuestoll - Selamatt: 1½ h</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>There are three cruxes: the ascent to Rüggli, the exposed small ridge leading to the summit ridge, and the summit structure itself (equipped with steel cables). Do not underestimate the tour in snow or rain. The summit ascent is now marked white-blue; it had been white-red until recently.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Selamatt, Bergstation <span class="endpoint-elev">(1385 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Selamatt, Bergstation</strong>
+    </p>
+  </div>
+  <p class="attrib">Route returns to <strong>Selamatt, Bergstation</strong>.</p>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/47.15408N9.28544E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>4.3 km</strong> total</span>
+    <span>&uarr; <strong>853 m</strong> ascent</span>
+    <span>&darr; <strong>3 m</strong> descent</span>
+    <span>max <strong>2234 m</strong></span>
+    <span>steepest <strong>47%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="zuestoll.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 47.15408, lon: 9.28544, elev: 2235, name: "Zuestoll" },
+  trailhead: { lat: 47.1826, lon: 9.2964, name: "Selamatt, Bergstation",
+               sbb_url: "" },
+  gpx_filename: "zuestoll.gpx",
+  page_generated: "2026-06-19",
+  waypoints: [
+    [47.1826, 9.2964, "Selamatt, Bergstation (1385 m)", "start"],
+    [47.154085115988856, 9.285376463942876, "Zuestoll (2234 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 852.6000000000004, "descent_m": 3.200000000000273, "distance_km": 4.307149336088195, "max_ele": 2234.8, "min_ele": 1385.4, "n_points": 871.0, "steepest_grade_pct": 46.907650249844565};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

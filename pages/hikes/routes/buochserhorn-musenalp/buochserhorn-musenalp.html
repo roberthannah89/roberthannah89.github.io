@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Buochserhorn Musenalp (1804 m) -- Hike Plan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="../_assets/map_shared.css"/>
+<link rel="stylesheet" href="../_assets/hike_page.css"/>
+<style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1513770325_1559416681master_5d283a9bc7.jpg'); }</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Buochserhorn Musenalp <span style="font-weight:400; opacity:.85;">1804 m</span></h1>
+    <p>SAC T4+ · ~1190 m gain · ~11.3 km one-way · ~8h30 round-trip</p>
+  </div>
+</header>
+
+<main>
+
+
+<section>
+  <p>Around Lake Lucerne there are a number of spectacular and very well-known mountains, and several of them are described as a „pyramid“. However, actually there is only one that deserves this characterisation: Buochserhorn. If you sail by boat from Gersau through to Vitznau, do not forget to turn your head south-westward. Like a triangle an almost perfectly shaped mountain towers above the houses of Beckenried. Welcome to Buochserhorn!</p>
+<p>On Bleikigrat there are also a number of metallic safety measures (ladders, cables) but the grade of difficulty does not exceed T3+.</p>
+</section>
+
+
+<section>
+  <h2>Quick Facts</h2>
+  <table>
+    <tr><th>Summit elevation</th><td><strong>1804 m</strong></td></tr>
+    <tr><th>Difficulty</th><td><span class="pill t4">SAC T4+</span> Check the route notes below for terrain and commitment level. <a href="../../guides/difficulty.html">Guide</a></td></tr>
+    <tr><th>Trailhead</th><td>Niederrickenbach, upper station</td></tr>
+    <tr><th>Distance</th><td>11.3 km (out-and-back)</td></tr>
+    <tr><th>Total ascent</th><td>~1190 m</td></tr>
+    <tr><th>Elevation range</th><td>937-1804 m</td></tr>
+    <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <figure>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1513770325_1559416681master_91c888866b.jpg" alt="Route photo (SAC)"></a>
+      <figcaption></figcaption>
+    </figure>
+  </div>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1513770325_1559416681master_91c888866b.jpg" alt=""></a>
+      <p class="attrib">All photos: SAC Route Portal</p>
+</section>
+
+<section>
+  <h2>Interactive Route Map</h2>
+  <div class="map-controls">
+    <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
+    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+  </div>
+  <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
+  <div class="legend">
+    <span class="start">Start (Niederrickenbach, upper station)</span>
+    <span class="summit">Summit (Buochserhorn Musenalp)</span>
+    <span class="way">Waypoint</span>
+    <span class="line">Approximate route</span>
+  </div>
+  <p class="attrib">
+    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
+    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
+    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
+    Route line is approximate — verify against the SAC Route Portal before going.
+  </p>
+</section>
+<section>
+  <h2>Route Details</h2>
+  <p><strong>Niederrickenbach - Buochserhorn – Musenalp</strong></p>
+  <ul>
+    <li>Niederrickenbach – Schwandenberg P. 1039 1 h 15 min. Schwandenberg P. 1039 – Buochserhorn 3 h. Buochserhorn – Ober Musenalp 1 h 30 min.</li>
+  </ul>
+  <h3>Terrain &amp; safety</h3>
+  <p>On the long traverse from P. 1039 to Ribihuisli the trail has occasionally collapsed. The alpine route from there to Guberntossen («Gitzitritt») leads through a very steep forest, is equipped with steel cables and offers a multitude of holds and footholds on roots and trees, but it is very precarious in wet conditions. On Bleikigrat there are also a number of metallic safety measures (ladders, cables) but the grade of difficulty does not exceed T3+.</p>
+  <p class="attrib">Source: SAC Route Portal</p>
+</section>
+<section class="getting-there">
+  <h2>Getting There &amp; Back</h2>
+  <div class="endpoint-block">
+    <h3>Start: Niederrickenbach, upper station <span class="endpoint-elev">(1156 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <span id="transit-origin"></span> to
+      <strong>Niederrickenbach, upper station</strong>
+    </p>
+  </div>
+  <div class="endpoint-block">
+    <h3>End: Ober Musenalp <span class="endpoint-elev">(1755 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
+      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+    <p class="attrib">
+      Directions from <strong>Ober Musenalp</strong> back to
+      <span id="transit-origin-end"></span>
+    </p>
+  </div>
+  <div class="transport-notes">
+    <p><strong>Cable car</strong> to <strong>Niederrickenbach, upper station</strong>.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Weather Planning</h2>
+  <h3>7-day summit forecast (live)</h3>
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.94558N8.42874E"
+       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
+  </p>
+</section>
+
+<section>
+  <h2>Elevation Profile</h2>
+  <div class="elev-stats" id="elev-stats">
+    <span><strong>11.3 km</strong> total</span>
+    <span>&uarr; <strong>1190 m</strong> ascent</span>
+    <span>&darr; <strong>598 m</strong> descent</span>
+    <span>max <strong>1804 m</strong></span>
+    <span>steepest <strong>52%</strong></span>
+  </div>
+  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="max-width:1100px; margin:0 auto;">
+    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
+    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../_assets/swiss_border.js"></script>
+<script src="../_assets/map_shared.js"></script>
+<script src="buochserhorn-musenalp.track.js"></script>
+<script>
+window.HIKE = {
+  summit: { lat: 46.94558, lon: 8.42874, elev: 1804, name: "Buochserhorn Musenalp" },
+  trailhead: { lat: 46.9297, lon: 8.4273, name: "Niederrickenbach, upper station",
+               sbb_url: "" },
+  gpx_filename: "buochserhorn-musenalp.gpx",
+  page_generated: "2026-06-19",
+  waypoints: [
+    [46.9297, 8.4273, "Niederrickenbach, upper station (1156 m)", "start"],
+    [46.945491354936756, 8.428831454606758, "Buochserhorn Musenalp (1804 m)", "summit"]
+  ]
+};
+window.TRACK_STATS = {"ascent_m": 1190.0000000000005, "descent_m": 598.0000000000003, "distance_km": 11.344914613082082, "max_ele": 1804.0, "min_ele": 937.8, "n_points": 2732.0, "steepest_grade_pct": 51.839430941292896};
+</script>
+<script src="../_assets/hike_page.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+{
+  "slug": "munt-pers",
+  "page": {
+    "title": "Munt Pers (3207 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Munt Pers",
+    "elev": 3207,
+    "lat": 46.42146,
+    "lon": 9.95349
+  },
+  "index_card": {
+    "region": "Engadin",
+    "canton": "Graubünden",
+    "distance": "2.0 km",
+    "gain": "243 m",
+    "time": "~1h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Diavolezza, summit station",
+    "elev": 2972,
+    "lat": 46.4119,
+    "lon": 9.965
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/5/csm_1555592380_831539785master_083f62ccd0.jpg",
+    "subtitle_html": "Diavolezza, summit station -> Munt Pers -- <span class=\"pill t2\">SAC T2</span> | ~243 m gain | ~2.0 km | ~1h",
+    "grade": "T2",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Der Sage nach lebte an diesem Berg einst eine schöne Fee in einem Felsenschloss. Manchmal sahen Jäger die Fee beim Bad im Lej da Diavolezza und waren von ihrer Schönheit hingerissen. Manche Jäger versuchten, der Fee zu ihrem Schloss im steilen Fels zu folgen, blieben aber am Berg verschollen. Seither heisst der Berg Munt Pers, der verlorene Berg. Heute ist der Gipfel mit der Luftseilbahn und einem sicheren Pfad erschlossen. Viele brechen die leichte Wanderung jedoch ab, weil ihnen die allzu schnell erreichte Höhe zu schaffen macht.</p>\n<p>Der Sass Queder (Südgipfel) ist von der Diavolezza in ca. 30 Min. erreichbar (weiss-rot-weiss markiert, T2).</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3207 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Diavolezza, summit station"
+    ],
+    [
+      "Distance",
+      "2.0 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~243 m"
+    ],
+    [
+      "Elevation range",
+      "2969-3207 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/5/csm_1555592380_831539785master_8182ed779f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/5/csm_1555592380_831539785master_8182ed779f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/e/csm_1555592381_1323561290master_c3b54c9021.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/e/csm_1555592381_1323561290master_c3b54c9021.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/5/csm_1555592381_172094018master_381c1aac5b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/5/csm_1555592381_172094018master_381c1aac5b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4119,
+      "lon": 9.965,
+      "label": "Diavolezza, summit station (2972 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.4214460584686,
+      "lon": 9.953492252441116,
+      "label": "Munt Pers (3207 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Südostgrat</strong>",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Bergweg, weiss-rot-weiss markiert, bis zum Gipfel. Steinig und eine gewisse Stolpergefahr, aber nirgends gefährlich, sofern man den Weg nicht verlässt.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Diavolezza, summit station</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Munt Pers</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Bernina Diavolezza, Bahnhof",
+      "elev_m": 2093,
+      "description": "Talort der Varianten."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

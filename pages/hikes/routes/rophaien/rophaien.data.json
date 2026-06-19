@@ -1,0 +1,185 @@
+{
+  "slug": "rophaien",
+  "page": {
+    "title": "Rophaien (2071 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Rophaien",
+    "elev": 2071,
+    "lat": 46.92798,
+    "lon": 8.64648
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Uri",
+    "distance": "5.1 km",
+    "gain": "1609 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Flüelen Gruonbach",
+    "elev": 461,
+    "lat": 46.9154,
+    "lon": 8.6251
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1587574405_1774423476master_b4ed13afc9.jpg",
+    "subtitle_html": "Flüelen Gruonbach -> Rophaien -- <span class=\"pill t3\">SAC T3+</span> | ~1609 m gain | ~5.1 km | ~3h30",
+    "grade": "T3+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Seit der alpine Wanderweg am Franzenstock eingerichtet wurde, verfügt der Hausberg von Flüelen über einen eleganten Aufstieg fast ohne Umschweife. Eine ideale Trainingslinie, aber auch eine kurzweilige Wandertour. So sehr sich die Route im Aufstieg lohnt: Für den Abstieg dürfte sie den meisten zu steil und knieschindend sein.</p>\n<p>Endstation der Urner Buslinie 1, meist viertelstündliche Verbindung von und zum Bahnhof Flüelen. Zu Fuss rund 25 Minuten von Bahnhof entfernt. Unmittelbar bei der Bushaltestelle befindet sich die Talstation der Luftseilbahn nach Ober Axen, rund 15 Minuten entfernt jene nach Giebel.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2071 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3+</span>"
+    ],
+    [
+      "Trailhead",
+      "Flüelen Gruonbach"
+    ],
+    [
+      "Distance",
+      "5.1 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1609 m"
+    ],
+    [
+      "Elevation range",
+      "461-2070 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1587574405_1774423476master_b55e60e923.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1587574405_1774423476master_b55e60e923.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/a/csm_1587574405_1667630614master_05257d8c8d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/a/csm_1587574405_1667630614master_05257d8c8d.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1587575083_1431094142master_d7d2563b4a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1587575083_1431094142master_d7d2563b4a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/a/csm_1587575128_92609716master_cd8f1b7fd2.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/a/csm_1587575128_92609716master_cd8f1b7fd2.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/5/csm_1587575128_572330230master_704a896764.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/5/csm_1587575128_572330230master_704a896764.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/4/csm_1587574392_1487182787master_85f19a7a6e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/4/csm_1587574392_1487182787master_85f19a7a6e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/2/csm_1587574392_1742680311master_8c8a1c5021.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/2/csm_1587574392_1742680311master_8c8a1c5021.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/e/csm_1587574392_756199226master_1bfc2c8772.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/e/csm_1587574392_756199226master_1bfc2c8772.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1587574392_1350332867master_b1c2134c40.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1587574392_1350332867master_b1c2134c40.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1587574844_363693995master_7947cc14a1.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1587574844_363693995master_7947cc14a1.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1587574845_1588199024master_f60d8fb476.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1587574845_1588199024master_f60d8fb476.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.9154,
+      "lon": 8.6251,
+      "label": "Flüelen Gruonbach (461 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.92818474233741,
+      "lon": 8.646543667446286,
+      "label": "Rophaien (2070 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Von Flüelen über Franzen</strong>",
+      "grade": "T3+",
+      "pill_class": "t3",
+      "bullets_html": [
+        "Bei Benützung der Luftseilbahn Giebel rund 40 Minuten kürzer."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Zwischen Giebel und Franzen bewegt man sich in steilem Gelände, allerdings dämpft der dichte Wald das Gefühl der Exposition. Einige Felsstufen sind mit Fixseilen gesichert. Der Abschnitt von Franzen bis zum Sattel auf 1870 m führt durch steile Wildheuplanggen: Der Weg ist dort stets gut begehbar, bei Nässe allerdings sehr heikel.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Flüelen Gruonbach</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Rophaien</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Giebel, Bergstation",
+      "elev_m": 782
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

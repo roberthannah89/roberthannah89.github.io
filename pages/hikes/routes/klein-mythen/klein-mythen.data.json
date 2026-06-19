@@ -1,0 +1,137 @@
+{
+  "slug": "klein-mythen",
+  "page": {
+    "title": "Klein Mythen (1810 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Klein Mythen",
+    "elev": 1810,
+    "lat": 47.04072,
+    "lon": 8.68478
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Schwyz",
+    "distance": "3.3 km",
+    "gain": "711 m",
+    "time": "~2h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Brunni SZ, Talstation LBH",
+    "elev": 1098,
+    "lat": 47.042,
+    "lon": 8.7033
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/0/csm_1555759263_476626866master_19c4042342.jpg",
+    "subtitle_html": "Brunni SZ, Talstation LBH -> Klein Mythen -- <span class=\"pill t5\">SAC T5-</span> | ~711 m gain | ~3.3 km | ~2h",
+    "grade": "T5-",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Klein Mythen is a small, but complex mountain. Rock walls, ribs and ridges make it look serious. The two main summits (Klein Mythen proper and Haggenspitz, slightly north of it) are interlinked by a whole net of itineraries and variants. From afar they all look considerably more difficult than they actually are. However, surefootedness, mobility and a feel for the itinerary are required. A very popular tour is the traverse of Haggenspitz and Klein Mythen: from Haggenegg to Grigelli (see Haggenspitz). From Grigelli follow the variant up to Klein Mythen described here and descend on the normal route also described here. Those who continue to climb Gross Mythen via Chrüzplangg (see Gross Mythen), can boast to have made the so-called Mythen trilogy.</p>\n<p>Starting at Holzegg (aerial cableway from Brunni) cuts the hiking time by 30 min.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1810 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5-</span>"
+    ],
+    [
+      "Trailhead",
+      "Brunni SZ, Talstation LBH"
+    ],
+    [
+      "Distance",
+      "3.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~711 m"
+    ],
+    [
+      "Elevation range",
+      "1098-1810 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/0/csm_1555759263_476626866master_a69952e518.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/0/csm_1555759263_476626866master_a69952e518.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1560255561_1006818121master_e87498519a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1560255561_1006818121master_e87498519a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/b/csm_1555759598_471791620master_3c051ac304.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/b/csm_1555759598_471791620master_3c051ac304.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.042,
+      "lon": 8.7033,
+      "label": "Brunni SZ, Talstation LBH (1098 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.04072046606592,
+      "lon": 8.684782313933471,
+      "label": "Klein Mythen (1810 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From the south (Zwischenmythen)</strong>",
+      "grade": "T5-",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Starting at Holzegg (aerial cableway from Brunni) cuts the hiking time by 30 min."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Some scrambling, fairly slippery scree and relatively steep meadows with faint paths: do not undertake when wet.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Brunni SZ, Talstation LBH</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Klein Mythen</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Zwischenmythen",
+      "elev_m": 1437
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

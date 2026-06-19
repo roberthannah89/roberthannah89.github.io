@@ -1,0 +1,192 @@
+{
+  "slug": "piz-beverin-glaspass",
+  "page": {
+    "title": "Piz Beverin Glaspass (2997 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Piz Beverin Glaspass",
+    "elev": 2997,
+    "lat": 46.65256,
+    "lon": 9.35791
+  },
+  "index_card": {
+    "region": "Eastern Switzerland",
+    "canton": "Graubünden",
+    "distance": "5.1 km",
+    "gain": "1177 m",
+    "time": "~3h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Glaspass, Haltestelle",
+    "elev": 1834,
+    "lat": 46.6778,
+    "lon": 9.3505
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/2/csm_1594933823_1627064907master_656f665a3f.jpg",
+    "subtitle_html": "Glaspass, Haltestelle -> Piz Beverin Glaspass -- <span class=\"pill t4\">SAC T4</span> | ~1177 m gain | ~5.1 km | ~3h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Der wohl schönste Anstieg zum Piz Beverin. Spannende, teils ausgesetzte und steile Alpinwanderung. Kombiniert mit einem Abstieg nach Wergenstein oder Mathon ergibt sich eine schöne Überschreitung.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2997 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Glaspass, Haltestelle"
+    ],
+    [
+      "Distance",
+      "5.1 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1177 m"
+    ],
+    [
+      "Elevation range",
+      "1834-2997 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/2/csm_1594933823_1627064907master_6eaab62883.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/2/csm_1594933823_1627064907master_6eaab62883.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/0/csm_1598351356_996681714master_bcb803467e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/0/csm_1598351356_996681714master_bcb803467e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1598351356_1282726165master_c3d02d95f1.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1598351356_1282726165master_c3d02d95f1.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1594935050_1504963314master_4d8ee25fcc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1594935050_1504963314master_4d8ee25fcc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/a/csm_1595102016_794573371master_06f6705295.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/a/csm_1595102016_794573371master_06f6705295.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1594935150_1962157806master_ba06dbcf14.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1594935150_1962157806master_ba06dbcf14.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1594934983_1577340087master_e84b766271.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1594934983_1577340087master_e84b766271.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1594935248_1282504877master_f6fbdf8b8a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1594935248_1282504877master_f6fbdf8b8a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/8/csm_1594935499_2119334334master_14113174cb.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/8/csm_1594935499_2119334334master_14113174cb.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/3/csm_1594935304_119700783master_5cded129ce.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/3/csm_1594935304_119700783master_5cded129ce.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1594935257_1311861358master_6c9822ae3a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1594935257_1311861358master_6c9822ae3a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/7/csm_1594935318_867704609master_8df794c8e0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/7/csm_1594935318_867704609master_8df794c8e0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.6778,
+      "lon": 9.3505,
+      "label": "Glaspass, Haltestelle (1834 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.65255069025007,
+      "lon": 9.357914879687574,
+      "label": "Piz Beverin Glaspass (2997 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Vom Glaspass durch die Westflanke</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Glaspass - Piz Beverin: 2:30 - 3:30 Std.",
+        "Abstieg über die Aufstiegsroute: rund 2 Std Abstieg nach Wergenstein oder Mathon: rund 2:30 Std."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Stellenweise mit Ketten gesicherter Alpinwanderweg. Bei Nässe, mit Altschneefeldern / Neuschnee oder gar Vereisung heikel. Günstigste Jahreszeit in der Spätsommer, da dann auch die Steinschlagaktivität geringer ist.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Glaspass, Haltestelle</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Piz Beverin Glaspass</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Glaspass",
+      "elev_m": 1843
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

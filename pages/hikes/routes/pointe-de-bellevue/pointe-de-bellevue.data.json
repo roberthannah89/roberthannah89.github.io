@@ -1,0 +1,172 @@
+{
+  "slug": "pointe-de-bellevue",
+  "page": {
+    "title": "Pointe De Bellevue (2036 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Pointe De Bellevue",
+    "elev": 2036,
+    "lat": 46.25769,
+    "lon": 6.88755
+  },
+  "index_card": {
+    "region": "Valais Alps",
+    "canton": "Valais",
+    "distance": "15.2 km",
+    "gain": "1641 m",
+    "time": "~6h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Muraz (Collombey)",
+    "elev": 402,
+    "lat": 46.2785,
+    "lon": 6.928
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1608912344_81294229master_768dacfcc2.jpg",
+    "subtitle_html": "Muraz (Collombey) -> Pointe De Bellevue -- <span class=\"pill t2\">SAC T2</span> | ~1641 m gain | ~15.2 km | ~6h",
+    "grade": "T2",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>L’itinéraire passe par des chemins très peu fréquentés, essentiellement en forêt. Du village de Muraz, gravir par des sentiers le versant NE en forêt, en passant à Les Cavoues. L’ascension se termine par le versant S, assez débonnaire. La descente à Morgins s’effectue tout d’abord par la crête W, ensuite directement par la pente S.</p>\n<p>Georges Sanga, active alpinist in both summer and winter, is the author of several ski tour and alpine hiking guides and an editor of the swisstopo ski tour maps. His passion for the mountains, and mountain photography, takes him to every corner of Switzerland.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2036 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Muraz (Collombey)"
+    ],
+    [
+      "Distance",
+      "15.2 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1641 m"
+    ],
+    [
+      "Elevation range",
+      "402-2036 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1608912344_81294229master_282b1b1313.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1608912344_81294229master_282b1b1313.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/6/csm_1612275251_1311215917master_1f14234fd7.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/6/csm_1612275251_1311215917master_1f14234fd7.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1612275251_413356027master_49e3371691.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1612275251_413356027master_49e3371691.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1612275252_2010024508master_6d47570966.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1612275252_2010024508master_6d47570966.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1608911997_1016088430master_9c834c6edf.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1608911997_1016088430master_9c834c6edf.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1612275252_1975432854master_ff4b2edbc8.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1612275252_1975432854master_ff4b2edbc8.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1608911883_533510168master_38956652d0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1608911883_533510168master_38956652d0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/8/csm_1608911857_541953008master_0685f71ecc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/8/csm_1608911857_541953008master_0685f71ecc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1608911804_176507480master_30294bbab4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1608911804_176507480master_30294bbab4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.2785,
+      "lon": 6.928,
+      "label": "Muraz (Collombey) (402 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.25753856978319,
+      "lon": 6.886720089476966,
+      "label": "Pointe De Bellevue (2036 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>De Muraz par le versant E</strong>",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>L’orientation générale de l’ascension se déroule par le versant NE, essentiellement en forêt, hormis les clairières des Cavoués et la pente finale. Chemins par endroits exposés aux chutes de pierre, surtout aux passages des ravines.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Muraz (Collombey)</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Pointe De Bellevue</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "end_point": {
+    "name": "Morgins",
+    "elev": 1294
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

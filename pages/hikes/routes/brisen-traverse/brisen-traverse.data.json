@@ -1,0 +1,160 @@
+{
+  "slug": "brisen-traverse",
+  "page": {
+    "title": "Brisen Traverse (2413 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Brisen Traverse",
+    "elev": 2413,
+    "lat": 46.8975,
+    "lon": 8.46572
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Nidwalden",
+    "distance": "9.5 km",
+    "gain": "1251 m",
+    "time": "~4h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Brändlen, Bergstation",
+    "elev": 1178,
+    "lat": 46.9036,
+    "lon": 8.4076
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/0/csm_1535206856_719384120master_0adddb0f8b.jpg",
+    "subtitle_html": "Brändlen, Bergstation -> Brisen Traverse -- <span class=\"pill t5\">SAC T5</span> | ~1251 m gain | ~9.5 km | ~4h",
+    "grade": "T5",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Der Brisen, höchster und wohl formschönster Berg der Schwalmiskette, besteht aus zwei markant geschnittenen Gipfeln. Der niedrigere ist von verschiedenen Seiten mit markierten Wegen erschlossen und wird entsprechend rege besucht, während der höhere viel Schwindelfreiheit und Trittsicherheit erfordert. Die hier vorgestellte Tour folgt dem aussichtsreichen Haldigrat und benutzt für den Abstieg eine wenig bekannte Variante durch die steilen Wiesen der Südflanke, Richtung Oberrickenbach.</p>\n<p>Die Talstation der Seilbahn Wolfenschiessen Berghof – Brändlen liegt an der Strasse nach Oberrickenbach rund 10 Gehminuten von der Bahnstation Wolfenschiessen. Informationen zur Seilbahn:berghof.ch/berghof-ch/berghof-braendlen/seilbahn// +41 41 628 28 21</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2413 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5</span>"
+    ],
+    [
+      "Trailhead",
+      "Brändlen, Bergstation"
+    ],
+    [
+      "Distance",
+      "9.5 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1251 m"
+    ],
+    [
+      "Elevation range",
+      "1178-2413 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/0/csm_1535206856_719384120master_233c202327.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/0/csm_1535206856_719384120master_233c202327.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/2/csm_1535206967_282178255master_77900bc6a8.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/2/csm_1535206967_282178255master_77900bc6a8.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/e/csm_1535207246_558369018master_4bc627b141.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/e/csm_1535207246_558369018master_4bc627b141.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/4/csm_1535207246_397116611master_6614ec0fcd.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/4/csm_1535207246_397116611master_6614ec0fcd.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/3/csm_1535214942_1659352258master_037fa09281.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/3/csm_1535214942_1659352258master_037fa09281.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/a/csm_1588621855_1793371236master_371ce16d72.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/a/csm_1588621855_1793371236master_371ce16d72.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.9036,
+      "lon": 8.4076,
+      "label": "Brändlen, Bergstation (1178 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.897497712228336,
+      "lon": 8.465646114308095,
+      "label": "Brisen Traverse (2413 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung Brisen von Westen nach Süden</strong>",
+      "grade": "T5",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Ohne Hoh Brisen: rund 40 Minuten kürzer."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Die Bewertung (T5) gilt für den anspruchsvollen Übergang vom Brisen zum Hoh Brisen. Man folgt einem Schrofengrat, stellenweise sehr luftig ist und einen ungefähr 15 m langen, ausgesetzten Balanceakt erfordert. Wird nur der Brisen begangen, gilt die Bewertung T3 (im Auf- und Abstieg). Bei Nässe ist auch die Besteigung des Brisen nicht zu unterschätzen (steile Grasflanken, am Gipfelkopf leichte Felsstufen).</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Brändlen, Bergstation</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Brisen Traverse</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Brisen",
+      "elev_m": 2403,
+      "description": "Beliebtes Ziel und von verschiedenen Seiten mit markierten Wegen erschlossen."
+    }
+  ],
+  "end_point": {
+    "name": "Sinsgäu (Oberrickenbach), Bergstation",
+    "elev": 1640
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

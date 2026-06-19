@@ -1,0 +1,185 @@
+{
+  "slug": "bunderspitz",
+  "page": {
+    "title": "Bunderspitz (2536 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Bunderspitz",
+    "elev": 2536,
+    "lat": 46.50484,
+    "lon": 7.64299
+  },
+  "index_card": {
+    "region": "Bernese Alps",
+    "canton": "Bern",
+    "distance": "8.3 km",
+    "gain": "865 m",
+    "time": "~3h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Allmenalp, Bergstation",
+    "elev": 1723,
+    "lat": 46.4923,
+    "lon": 7.6498
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1594129703_1571925540master_56fc648be2.jpg",
+    "subtitle_html": "Allmenalp, Bergstation -> Bunderspitz -- <span class=\"pill t6\">SAC T6</span> | ~865 m gain | ~8.3 km | ~3h",
+    "grade": "T6",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Die Allmenalp oberhalb von Kandersteg ist bekannt für den Klettersteig; der grösste Teil der dort vorzufindenden Bergfreunde begeht den Klettersteig (und schwebt mit der Bahn wieder hinab). Deutlich weniger Besucher erhalten die Aussichtsgipfel Bunderspitz und First oberhalb der Allmenalp, trotz der Tatsache, dass beide per Wanderweg (siehe Varianten) erreichbar sind. Der hier beschriebene Verbindungsgrat zwischen den beiden Gipfeln wird dann nur noch von einem kleinen Kreis von Alpinwandernden begangen. Der Grat ist technisch gesehen zwar nicht sonderlich schwierig (Kletterstellen max. II), erfordert aber aufgrund der stellenweise scharfen Gratkante eine gegen Ausgesetztheit und Tiefblicke resistente Psyche.</p>\n<p>Die Aufstiegszeit ist die Zeitangabe für den Aufstieg zum First und der Überschreitung zum Bunderspitz. Vom Bunderspitz zur Allmenalp zurück sind noch 820 m abzusteigen.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2536 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t6\">T6</span>"
+    ],
+    [
+      "Trailhead",
+      "Allmenalp, Bergstation"
+    ],
+    [
+      "Distance",
+      "8.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~865 m"
+    ],
+    [
+      "Elevation range",
+      "1723-2535 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1594129703_1571925540master_312d3194a6.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1594129703_1571925540master_312d3194a6.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/4/csm_1588769307_1584020468master_c4e92b8c04.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/4/csm_1588769307_1584020468master_c4e92b8c04.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1588769293_902399172master_d0cc71998d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1588769293_902399172master_d0cc71998d.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1588769234_297625628master_afe880ab38.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1588769234_297625628master_afe880ab38.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/a/csm_1588769222_2140145587master_e275fc14f9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/a/csm_1588769222_2140145587master_e275fc14f9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1594127651_583324990master_1331e6be4f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1594127651_583324990master_1331e6be4f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/d/csm_1588769063_764341869master_57454e1345.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/d/csm_1588769063_764341869master_57454e1345.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1588768905_792184714master_ad64a08035.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1588768905_792184714master_ad64a08035.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/f/csm_1588768877_819970490master_92ce238bdb.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/f/csm_1588768877_819970490master_92ce238bdb.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1588768856_120756641master_643af7db99.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1588768856_120756641master_643af7db99.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1588768796_807527154master_f78c332be6.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1588768796_807527154master_f78c332be6.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4923,
+      "lon": 7.6498,
+      "label": "Allmenalp, Bergstation (1723 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.5044892878653,
+      "lon": 7.642487604365233,
+      "label": "Bunderspitz (2535 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung zum Bunderspitz (Allmegrat)</strong>",
+      "grade": "T6",
+      "pill_class": "t6",
+      "bullets_html": [
+        "Die Aufstiegszeit ist die Zeitangabe für den Aufstieg zum First und der Überschreitung zum Bunderspitz. Vom Bunderspitz zur Allmenalp zurück sind noch 820 m abzusteigen."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Die Gratabschnitte zwischen First und Bunderspitz unterscheiden sich stark in ihrer Charakterisitik: im ersten Drittel eine sehr ausgesetzte Gratschneide (T6), im mittleren Teil ein breiter Grasgrat (T2), im letzten felsigen Drittel sind zwei exponierte Querungen zu verzeichnen (T5+). In der Gegenrichtung (Bunderspitz - First) ist der Grat noch einen Tick anspruchsvoller.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Cable car</strong> to <strong>Allmenalp, Bergstation</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Bunderspitz</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Bunderspitz",
+      "elev_m": 2546
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

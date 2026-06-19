@@ -1,0 +1,161 @@
+{
+  "slug": "fronalpstock-sz-morschach",
+  "page": {
+    "title": "Fronalpstock Sz Morschach (1920 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Fronalpstock Sz Morschach",
+    "elev": 1920,
+    "lat": 46.9682,
+    "lon": 8.63727
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Schwyz",
+    "distance": "4.8 km",
+    "gain": "1125 m",
+    "time": "~3h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Morschach Talstation",
+    "elev": 798,
+    "lat": 46.9901,
+    "lon": 8.6382
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1554823064_441906616master_8b8f6c30a8.jpg",
+    "subtitle_html": "Morschach Talstation -> Fronalpstock Sz Morschach -- <span class=\"pill t4\">SAC T4-</span> | ~1125 m gain | ~4.8 km | ~3h",
+    "grade": "T4-",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>A grand ascent. At first glance the north flank of the Fronalpstock appears somewhat repellent, but it proves an easy climb. Unsurprisingly, the view from the summit is amazing; above Lake Lucerne, the Fronalpstock is known to have one of the best panoramic views in the region.</p>\n<p>Informationen zu den Transportanlagen:stoos-muotatal.ch/train/stoosbahnen/</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1920 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4-</span>"
+    ],
+    [
+      "Trailhead",
+      "Morschach Talstation"
+    ],
+    [
+      "Distance",
+      "4.8 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1125 m"
+    ],
+    [
+      "Elevation range",
+      "794-1919 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1554823064_441906616master_dae6becc6d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1554823064_441906616master_dae6becc6d.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1554823064_1218265832master_1b89d5b37c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1554823064_1218265832master_1b89d5b37c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/4/csm_1532967387_300351340master_30a9a19b3d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/4/csm_1532967387_300351340master_30a9a19b3d.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/c/csm_1554823064_1057866140master_95b9a43c39.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/c/csm_1554823064_1057866140master_95b9a43c39.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1554823064_1127956517master_053df7ed40.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1554823064_1127956517master_053df7ed40.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1554823064_748960265master_c2efd63254.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1554823064_748960265master_c2efd63254.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.9901,
+      "lon": 8.6382,
+      "label": "Morschach Talstation (798 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.96808711623109,
+      "lon": 8.637357361927759,
+      "label": "Fronalpstock Sz Morschach (1919 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From Morschach via Chälen</strong>",
+      "grade": "T4-",
+      "pill_class": "t4",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Route marked throughout; from \"Eu\" with white-blue-white paint. Some easy, ever-so-slightly-exposed bits of scrambling, but these are secured with fixed ropes. Main difficulties limited to around 100 vertical metres. The route is officially closed from late autumn to early summer (some fixed ropes are removed at the end of the hiking season). Due to the shady aspect of the the terrain it is often damp - and it is very tricky with wet or old snow. In dry conditions however, it is an ideal route for all those keen to try alpine hiking.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Morschach Talstation</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Fronalpstock Sz Morschach</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Stoos SZ, Bergstation",
+      "elev_m": 1300,
+      "description": "Alternative starting point (variant 1)."
+    }
+  ],
+  "end_point": {
+    "name": "Fronalpstock, Bergstation",
+    "elev": 1906
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

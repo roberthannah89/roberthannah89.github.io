@@ -1,0 +1,178 @@
+{
+  "slug": "pizzo-barone",
+  "page": {
+    "title": "Pizzo Barone (2835 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Pizzo Barone",
+    "elev": 2835,
+    "lat": 46.40576,
+    "lon": 8.74216
+  },
+  "index_card": {
+    "region": "Southern Alps",
+    "canton": "Ticino",
+    "distance": "7.3 km",
+    "gain": "868 m",
+    "time": "~3h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Rifugio Alpe Sponda",
+    "elev": 2000,
+    "lat": 46.4176,
+    "lon": 8.786
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/f/csm_1564160276_1656306160master_721673cbad.jpg",
+    "subtitle_html": "Rifugio Alpe Sponda -> Pizzo Barone -- <span class=\"pill t4\">SAC T4+</span> | ~868 m gain | ~7.3 km | ~3h",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Der Pizzo Barone ist, bedingt durch seine Lage, ein ziemlich edler Berg. Denn er bringt drei wichtige Haupttäler des Tessins zusammen: die Leventina, die Vallemaggia und die Val Verzasca. Zugleich ist er der höchste Gipfel der Val Verzasca. Meist wird er auch von dort bestiegen, auf einem guten Bergweg. Spannender ist jedoch, den Berg zu überschreiten, und so auch noch die Leventineser Seite kennenzulernen (während die dritte, jene zum Vallemaggia hin, wohl zum Anschauen, aber nicht zum Anfassen gedacht ist). Und: Wir tun das nicht auf dem schnellsten, sondern auf dem schönsten Weg – jenem durch den hinteren Talkessel der Val Chironico.</p>\n<p>Abstieg (T3): Guter Bergwanderweg, markiert, weitgehend sanftes Gelände.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2835 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Rifugio Alpe Sponda"
+    ],
+    [
+      "Distance",
+      "7.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~868 m"
+    ],
+    [
+      "Elevation range",
+      "2000-2834 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/f/csm_1564160276_1656306160master_ffe99fe342.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/f/csm_1564160276_1656306160master_ffe99fe342.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/8/csm_1569423998_1271917754master_1a4a18cbb0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/8/csm_1569423998_1271917754master_1a4a18cbb0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1569423998_967355999master_98d22d5199.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1569423998_967355999master_98d22d5199.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/8/csm_1689595671_1949499285master_920ede2db4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/8/csm_1689595671_1949499285master_920ede2db4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/0/csm_1689595418_2140912739master_ac219b1616.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/0/csm_1689595418_2140912739master_ac219b1616.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1689595401_1921245096master_ac9173740b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1689595401_1921245096master_ac9173740b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/0/csm_1689595402_1718070391master_0409a191e5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/0/csm_1689595402_1718070391master_0409a191e5.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1689595401_2115056102master_8baf8173e0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1689595401_2115056102master_8baf8173e0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/d/csm_1564160276_576414772master_7185b9fc7e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/d/csm_1564160276_576414772master_7185b9fc7e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/5/csm_1564160277_1824329856master_a8c094d54a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/5/csm_1564160277_1824329856master_a8c094d54a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4176,
+      "lon": 8.786,
+      "label": "Rifugio Alpe Sponda (2000 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.40532926174761,
+      "lon": 8.742800493125916,
+      "label": "Pizzo Barone (2834 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Aufstieg von Norden, Abstieg nach Süden</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Aufstieg (T4+): Über weite Strecken weglos, am Gipfelhang loses Geröll und instabile Blöcke (bei Andrang Vorsicht vor Steinschlag). Bei Nebel schwierige Wegfindung auf der ganzen Route. Abstieg (T3): Guter Bergwanderweg, markiert, weitgehend sanftes Gelände.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Pizzo Barone</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "end_point": {
+    "name": "Rifugio Barone",
+    "elev": 2172
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

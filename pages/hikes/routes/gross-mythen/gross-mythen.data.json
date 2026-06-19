@@ -1,0 +1,144 @@
+{
+  "slug": "gross-mythen",
+  "page": {
+    "title": "Gross Mythen (1872 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Gross Mythen",
+    "elev": 1872,
+    "lat": 47.02992,
+    "lon": 8.68877
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Schwyz",
+    "distance": "2.7 km",
+    "gain": "468 m",
+    "time": "~1h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Holzegg, summit station",
+    "elev": 1402,
+    "lat": 47.0288,
+    "lon": 8.6981
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_5a70d6c060.jpg",
+    "subtitle_html": "Holzegg, summit station -> Gross Mythen -- <span class=\"pill t5\">SAC T5</span> | ~468 m gain | ~2.7 km | ~1h30",
+    "grade": "T5",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Gross Mythen, this mighty spire above Schwyz, is a landmark of Central Switzerland. Consequently, it is a very popular target for hikers. Most of them ascend it on the fairly easy normal route. Moreover, the cabin on the summit draws the crowds to the mountain. However, there are also more quiet itineraries to the top. One of the most rewarding is the route via Schafweg, Mythenmatt and Rot Grätli: entertaining, pleasurable, very sunny with great views – and wonderfully deserted.</p>\n<p>If you start at the Rotenfluebahn summit station, add 25 minutes (way up) and 35 minutes (way back).</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1872 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5</span>"
+    ],
+    [
+      "Trailhead",
+      "Holzegg, summit station"
+    ],
+    [
+      "Distance",
+      "2.7 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~468 m"
+    ],
+    [
+      "Elevation range",
+      "1402-1871 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.0288,
+      "lon": 8.6981,
+      "label": "Holzegg, summit station (1402 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.029895411099794,
+      "lon": 8.689523864219082,
+      "label": "Gross Mythen (1871 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Schafweg, Mythenmatt and Rot Grätli</strong>",
+      "grade": "T5",
+      "pill_class": "t5",
+      "bullets_html": [
+        "If you start at the Rotenfluebahn summit station, add 25 minutes (way up) and 35 minutes (way back). If you start at Brunni (Holzeggbahn bottom station), add 55 minutes (way up) and 35 minutes (way back)."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>The crux is the last stretch of the tour, Rot Grätli, where scrambling skills are required. Several bolts make sure that protecting with a rope is possible. The steep grassy face after leaving the normal route at bend 22 is around T4+. The same degree is for the exposed passages after this grassy face, which are equipped with fixed ropes, and the traversing of the steep ditch of a creek before Mythenmatt. The short tour is ideal for introducing beginners to the art of alpine hiking.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Holzegg, summit station</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Gross Mythen</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Zwischenmythen",
+      "elev_m": 1437,
+      "description": "A col, which is passed on the variant."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

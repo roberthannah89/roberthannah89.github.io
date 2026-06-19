@@ -1,0 +1,129 @@
+{
+  "slug": "buochserhorn-musenalp",
+  "page": {
+    "title": "Buochserhorn Musenalp (1804 m) -- Hike Plan",
+    "generated": "2026-06-19",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Buochserhorn Musenalp",
+    "elev": 1804,
+    "lat": 46.94558,
+    "lon": 8.42874
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Nidwalden",
+    "distance": "11.3 km",
+    "gain": "1190 m",
+    "time": "~4h30",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Niederrickenbach, upper station",
+    "elev": 1156,
+    "lat": 46.9297,
+    "lon": 8.4273
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1513770325_1559416681master_5d283a9bc7.jpg",
+    "subtitle_html": "Niederrickenbach, upper station -> Buochserhorn Musenalp -- <span class=\"pill t4\">SAC T4+</span> | ~1190 m gain | ~11.3 km | ~4h30",
+    "grade": "T4+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Around Lake Lucerne there are a number of spectacular and very well-known mountains, and several of them are described as a „pyramid“. However, actually there is only one that deserves this characterisation: Buochserhorn. If you sail by boat from Gersau through to Vitznau, do not forget to turn your head south-westward. Like a triangle an almost perfectly shaped mountain towers above the houses of Beckenried. Welcome to Buochserhorn!</p>\n<p>On Bleikigrat there are also a number of metallic safety measures (ladders, cables) but the grade of difficulty does not exceed T3+.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1804 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4+</span>"
+    ],
+    [
+      "Trailhead",
+      "Niederrickenbach, upper station"
+    ],
+    [
+      "Distance",
+      "11.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1190 m"
+    ],
+    [
+      "Elevation range",
+      "937-1804 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1513770325_1559416681master_91c888866b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1513770325_1559416681master_91c888866b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.9297,
+      "lon": 8.4273,
+      "label": "Niederrickenbach, upper station (1156 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.945491354936756,
+      "lon": 8.428831454606758,
+      "label": "Buochserhorn Musenalp (1804 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Niederrickenbach - Buochserhorn – Musenalp</strong>",
+      "grade": "T4+",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Niederrickenbach – Schwandenberg P. 1039 1 h 15 min. Schwandenberg P. 1039 – Buochserhorn 3 h. Buochserhorn – Ober Musenalp 1 h 30 min."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>On the long traverse from P. 1039 to Ribihuisli the trail has occasionally collapsed. The alpine route from there to Guberntossen («Gitzitritt») leads through a very steep forest, is equipped with steel cables and offers a multitude of holds and footholds on roots and trees, but it is very precarious in wet conditions. On Bleikigrat there are also a number of metallic safety measures (ladders, cables) but the grade of difficulty does not exceed T3+.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Cable car</strong> to <strong>Niederrickenbach, upper station</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Buochserhorn Musenalp</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Musenalper Grat",
+      "elev_m": 1785
+    }
+  ],
+  "end_point": {
+    "name": "Ober Musenalp",
+    "elev": 1755
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}
