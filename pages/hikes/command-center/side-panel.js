@@ -243,6 +243,14 @@
           if (wx.precip > 0) {
             html += '<div class="day-precip">' + wx.precip.toFixed(1) + ' mm</div>';
           }
+          // Snow line on every card — small and consistent so you can scan
+          // across days and watch the freezing level shift. Highlighted in
+          // pale blue when the peak is above it (i.e. likely to be in snow).
+          if (wx.freezingLevel != null) {
+            var above = poi.alt && poi.alt > wx.freezingLevel;
+            var cls = 'day-freeze' + (above ? ' day-freeze--above' : '');
+            html += '<div class="' + cls + '">❄ ' + wx.freezingLevel + ' m</div>';
+          }
         } else {
           html += '<div class="day-icon">—</div>';
           html += '<div class="day-temp">No data</div>';
@@ -251,7 +259,7 @@
       });
       html += '</div>';
 
-      // Wind + sunrise/sunset for selected day
+      // Wind + sunrise/sunset + freezing level for selected day
       var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, Filters.getState().weatherDay);
       if (wxToday) {
         html += '<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
@@ -262,6 +270,18 @@
           html += ' · 🌅 ' + rise + ' – ' + set;
         }
         html += '</div>';
+        if (wxToday.freezingLevel != null) {
+          var aboveSel = poi.alt && poi.alt > wxToday.freezingLevel;
+          var delta = poi.alt ? (poi.alt - wxToday.freezingLevel) : null;
+          html += '<div style="margin-top:4px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
+          html += '❄️ Freezing level: ' + wxToday.freezingLevel + ' m';
+          if (delta != null) {
+            var sign = delta >= 0 ? '+' : '';
+            html += ' <span style="color:' + (aboveSel ? '#cfe3ff' : 'var(--text-muted)') + '">'
+                  + '(peak ' + sign + delta + ' m)</span>';
+          }
+          html += '</div>';
+        }
       }
       html += '</div>';
     }
