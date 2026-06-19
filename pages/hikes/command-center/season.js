@@ -27,13 +27,15 @@
    - Per-route HTML scrape for `discipline_season` → authoritative coarse summer/winter
    When those land, return `source: 'sac'` and a derived window.
 
-   IIFE + window-global pattern — see weather.js / webcams.js. Pages are
-   opened via file://, so ES modules are not viable. */
+   Loaded as a plain <script> (no ES modules — pages run via file://),
+   exposes window.Season. We compute the best grade locally rather than
+   calling Filters.bestGrade — keeps season.js a leaf (filters.js consumes
+   Season, not the other way around) and avoids a script-order coupling. */
 (function () {
   'use strict';
 
   // Month indices are 1-based to match common date conventions (Jan = 1).
-  // Year-round is encoded as start=1, end=12 so the UI can label it explicitly.
+  // Year-round is encoded as start=1, end=12 so a simple range check works.
   var TIER_WINDOWS = {
     'year_round':  { start: 1,  end: 12, label: 'Year-round' },
     'lowland':     { start: 4,  end: 11, label: 'Apr–Nov'    },
@@ -47,12 +49,11 @@
   // glacial — independent of altitude. We use the WORST tier between the
   // altitude- and grade-derived tiers, since both push the season inward.
   //
-  // Note on `lowland`: only reachable when BOTH altTier=lowland AND gradeTier
+  // Note on `lowland`: only reachable when altTier=lowland AND gradeTier
   // stays in lowland (T1/T2). But we override that combo to `year_round`
-  // in tierFor(), so in practice `lowland` is dead branch in the current
+  // below, so in practice `lowland` is a dead branch in the current
   // taxonomy. Kept in the table for documentation completeness and to give
-  // a sensible answer if the heuristic ever decouples the altitude floor
-  // from grade.
+  // a sensible answer if the heuristic ever decouples altitude from grade.
   var GRADE_TIER = {
     1: 'lowland',
     2: 'lowland',
@@ -64,6 +65,10 @@
 
   var TIER_ORDER = ['year_round', 'lowland', 'sub_alpine', 'alpine', 'high_alpine', 'glacial'];
 
+  // Month abbreviations for the "currently in season" filter label.
+  var MONTH_ABBR = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
   function altTier(alt) {
     if (alt == null) return null;
     if (alt < 1500) return 'lowland';        // base; year_round only if grade also low
@@ -74,8 +79,8 @@
   }
 
   function bestGradeNum(poi) {
-    // Mirror Filters.bestGrade / Filters.gradeNum without depending on Filters
-    // (season.js loads before filters.js — see index.html order).
+    // Mirror Filters.bestGrade / Filters.gradeNum locally so season.js
+    // doesn't depend on script-tag order with filters.js.
     if (!poi || !poi.routes) return 1;
     var best = 'T1';
     for (var i = 0; i < poi.routes.length; i++) {
@@ -90,8 +95,9 @@
     var g = bestGradeNum(poi);
     var aTier = altTier(alt);
 
-    // Year-round: only when BOTH signals are low. Sub-alpine altitude with T1/T2
-    // grade also stays modest — bumped to sub_alpine ('May–Nov') by altTier.
+    // Year-round: only when BOTH signals are low. Sub-alpine altitude with
+    // T1/T2 grade also stays modest — bumped to sub_alpine ('May–Nov') by
+    // altTier.
     if (aTier === 'lowland' && g <= 2) return 'year_round';
 
     var gTier = GRADE_TIER[g] || 'lowland';
@@ -115,6 +121,10 @@
     };
   }
 
+  function currentMonth() {
+    return new Date().getMonth() + 1;
+  }
+
   // True if the POI is in season for the given 1-based month (defaults to today).
   function isInSeason(poi, month) {
     if (poi == null) return true;
@@ -124,14 +134,6 @@
     // have a winter-only sport here), so a simple range check is enough.
     return m >= w.start && m <= w.end;
   }
-
-  function currentMonth() {
-    return new Date().getMonth() + 1;
-  }
-
-  // Month abbreviation for the "currently in season" filter label.
-  var MONTH_ABBR = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   function currentMonthLabel() {
     return MONTH_ABBR[currentMonth()];

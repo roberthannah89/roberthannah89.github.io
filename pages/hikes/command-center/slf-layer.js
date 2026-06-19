@@ -5,12 +5,12 @@
    by scripts/fetch_slf_avalanche.py. Off-season the cache is empty and the
    layer simply renders nothing.
 
-   Exposes:  SlfLayer.create()  →  Promise<L.LayerGroup>
-             SlfLayer.getMeta() →  meta object (or null)
+   Exposes:  window.SlfLayer.create()  →  Promise<L.LayerGroup>
+             window.SlfLayer.getMeta() →  meta object (or null)
 
-   Pattern: IIFE + window-global (matches weather.js / webcams.js / season.js).
-   Pages are opened via file:// so <script type="module"> is not used —
-   modules must self-attach to window. */
+   Loads as a plain <script> tag (no ES modules — pages are opened via file://
+   where `type="module"` breaks). Same IIFE/window-globals pattern as
+   webcams.js and weather.js. */
 (function () {
   'use strict';
 
@@ -42,9 +42,8 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  // Lazy <script>-tag loader so the ~50 KB winter blob is only paid for when
-  // the user opens the layer. Same pattern as webcams.js lazy-loading its
-  // windy data. Off-season the cache file is tiny (~4 bytes of regions).
+  // Lazy <script>-tag loader so the ~50 KB winter blob is only paid for when the
+  // user opens the layer. Same pattern as webcams.js / weather.js.
   var dataPromise = null;
   function ensureData() {
     if (window.SLF_CACHE) return Promise.resolve();

@@ -459,9 +459,10 @@
       { label: '1.5k+', key: 'gain', value: 'epic' }
     ], /* multiSelect */ true));
 
-    // Season — single toggle. Hides routes whose heuristic season window doesn't
-    // include the current month (see season.js). Icon-only with a tooltip
-    // explaining the heuristic — the data is estimated, not authoritative.
+    // Season — single toggle. Hides routes whose heuristic season window
+    // doesn't include the current month (see season.js). Icon-only with a
+    // tooltip explaining the heuristic — the data is estimated, not
+    // authoritative.
     bar.appendChild(seasonFilterGroup());
 
     // Display — multi-select pills controlling what shows on each POI.
@@ -478,9 +479,9 @@
 
     var btn = document.createElement('button');
     btn.className = 'filter-btn filter-btn--icon';
-    var monthLabel = (window.Season && Season.currentMonthLabel) ? Season.currentMonthLabel() : '';
-    btn.title = 'In season now' + (monthLabel ? ' (' + monthLabel + ')' : '')
-              + ' · estimated from altitude + grade';
+    var monthLabel = (window.Season && Season.currentMonthLabel()) || '';
+    btn.title = 'In season now (' + monthLabel
+              + ') · estimated from altitude + grade';
     btn.innerHTML = '<span class="season-icon">🍂</span>';
 
     if (Filters.getState().inSeasonNow === true) btn.classList.add('active');
@@ -737,10 +738,11 @@
     // Tooltip visibility is handled entirely by the filter-bar "Show" pills
     // (display-name-off + meta presence collapse) — no separate Names toggle.
     var toggles = [
-      { id: 'hikes',   icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
-      { id: 'huts',    icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
-      { id: 'haspage', icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
-      { id: 'webcams', icon: '📷', label: 'Webcams' }
+      { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
+      { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
+      { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
+      { id: 'webcams',   icon: '📷', label: 'Webcams' },
+      { id: 'avalanche', icon: '❄️', label: 'SLF avalanche bulletin' }
     ];
 
     toggles.forEach(function (t) {
