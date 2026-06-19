@@ -3,6 +3,7 @@
   "use strict";
   const H = window.HIKE || {};
   const SUMMIT = H.summit, TRAILHEAD = H.trailhead, END_POINT = H.end_point, WAYPOINTS = H.waypoints || [];
+  const HAZARDS = H.hazards || [];
   const HIKR_INDEX_URL = H.hikr_index_url;
   const GPX_FILENAME = H.gpx_filename, REPORTS_UPDATED = H.reports_updated;
   const PAGE_GENERATED = H.page_generated, WEBCAMS = H.webcams || [];
@@ -65,6 +66,61 @@
         if (!map.hasLayer(waypointLayer)) waypointLayer.addTo(map);
       } else if (map.hasLayer(waypointLayer)) {
         map.removeLayer(waypointLayer);
+      }
+      btn.classList.toggle('active', visible);
+      btn.setAttribute('aria-pressed', String(visible));
+    }
+    apply();
+    btn.addEventListener('click', () => { visible = !visible; apply(); });
+  })();
+
+  // ---- Hazard markers ----
+  // Per-hazard schema: { type, lat, lon, note }. `type` keys a small lookup
+  // table of emoji + accent colour + readable label. Unknown types fall back to
+  // a generic warning marker so a typo never silently hides a hazard.
+  const HAZARD_KINDS = {
+    cable:    { emoji: "⛓",  color: "#b86b1f", label: "Fixed chain / cable" },
+    exposed:  { emoji: "🪂", color: "#c0392b", label: "Exposed ridge / no-fall zone" },
+    scree:    { emoji: "🪨", color: "#7f6a52", label: "Loose scree / rockfall" },
+    stream:   { emoji: "💧", color: "#2e7fb8", label: "Stream crossing" },
+    snow:     { emoji: "❄",  color: "#4f8bbf", label: "Snowfield / steep snow" },
+    cableway: { emoji: "🚠", color: "#5a4a8a", label: "Cable car / funicular" },
+    other:    { emoji: "⚠",  color: "#888",    label: "Hazard" },
+  };
+  const hazardLayer = L.layerGroup();
+  HAZARDS.forEach(h => {
+    if (typeof h.lat !== "number" || typeof h.lon !== "number") return;
+    const kind = HAZARD_KINDS[h.type] || HAZARD_KINDS.other;
+    const icon = L.divIcon({
+      className: "hazard-marker",
+      html:
+        '<span class="hazard-marker__pin" style="border-color:' + kind.color + '">' +
+        '<span class="hazard-marker__emoji">' + kind.emoji + '</span></span>',
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -14],
+    });
+    const safeNote = (h.note || "").replace(/[<>&]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
+    L.marker([h.lat, h.lon], { icon, riseOnHover: true })
+      .bindPopup(
+        '<div class="hazard-popup">' +
+        '<strong>' + kind.emoji + ' ' + kind.label + '</strong>' +
+        (safeNote ? '<p>' + safeNote + '</p>' : '') +
+        '</div>'
+      )
+      .addTo(hazardLayer);
+  });
+  // Hazards visible by default — they're the point of the layer.
+  if (HAZARDS.length) hazardLayer.addTo(map);
+  (function wireHazardToggle() {
+    const btn = document.getElementById('hazard-toggle');
+    if (!btn || !HAZARDS.length) return;
+    let visible = true;
+    function apply() {
+      if (visible) {
+        if (!map.hasLayer(hazardLayer)) hazardLayer.addTo(map);
+      } else if (map.hasLayer(hazardLayer)) {
+        map.removeLayer(hazardLayer);
       }
       btn.classList.toggle('active', visible);
       btn.setAttribute('aria-pressed', String(visible));

@@ -117,6 +117,8 @@
        aria-label="Download GPX track for Hardergrat">↓ Download GPX</a>
     <button type="button" id="waypoint-toggle" class="ms-layer-btn"
             aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <button type="button" id="hazard-toggle" class="ms-layer-btn"
+            aria-pressed="true" aria-label="Toggle hazard markers">⚠ Hazards</button>
     <details class="info-popover">
       <summary class="info-icon" aria-label="Map attribution">i</summary>
       <div class="info-body">
@@ -265,7 +267,8 @@ window.HIKE = {
   waypoints: [
     [46.8025, 7.9351, "Kemmeriboden (976 m)", "start"],
     [46.742334467726295, 7.928617846548402, "Hardergrat (2133 m)", "summit"]
-  ]
+  ],
+  hazards: [{"lat": 46.7997, "lon": 7.94973, "note": "Bach: Emme tributary crossing on lower forest track. Bridged; impassable only after heavy storms.", "type": "stream"}, {"lat": 46.78178, "lon": 7.97057, "note": "Loose scree on the steep grass-and-rubble rise to the Schnierenh\u00f6rnli col.", "type": "scree"}, {"lat": 46.76512, "lon": 7.96809, "note": "First fully exposed ridge section. Knife-edge grass ar\u00eate with steep drops both sides \u2014 no fall zone.", "type": "exposed"}, {"lat": 46.75069, "lon": 7.94249, "note": "Short fixed cable / chain on the rocky step before the Hardergrat summit ridge (~15 m).", "type": "cable"}, {"lat": 46.74225, "lon": 7.92859, "note": "Hardergrat summit ridge: long stretch of exposed grass ridge, slippery when wet.", "type": "exposed"}, {"lat": 46.72641, "lon": 7.90903, "note": "Loose, eroded path on the steep descent off the Suggiture flank.", "type": "scree"}, {"lat": 46.712, "lon": 7.87313, "note": "Harder Kulm funicular: hike ends here; ride down to Interlaken Ost.", "type": "cableway"}]
 };
 window.TRACK_STATS = {"ascent_m": 1608.0, "descent_m": 1258.1000000000001, "distance_km": 21.03948163994485, "max_ele": 2133.6, "min_ele": 976.8, "n_points": 3687.0, "steepest_grade_pct": 46.77853326712869};
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 0.61, "end_m": 127.5, "length_m": 127.5, "n_points": 19, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 0.7, "end_m": 280.4, "length_m": 147.6, "n_points": 26, "source": "none", "start_m": 132.8, "t_grade": "unknown"}, {"coverage_pct": 9.76, "end_m": 2341.3, "length_m": 2054.4, "n_points": 263, "source": "swisstopo", "start_m": 286.9, "t_grade": "T1"}, {"coverage_pct": 0.5, "end_m": 2451.4, "length_m": 104.7, "n_points": 15, "source": "osm", "start_m": 2346.7, "t_grade": "T2"}, {"coverage_pct": 25.45, "end_m": 7822.3, "length_m": 5354.2, "n_points": 728, "source": "swisstopo", "start_m": 2468.1, "t_grade": "T2/T3"}, {"coverage_pct": 22.71, "end_m": 12604.0, "length_m": 4778.4, "n_points": 1232, "source": "osm", "start_m": 7825.6, "t_grade": "T4"}, {"coverage_pct": 8.01, "end_m": 14291.0, "length_m": 1685.5, "n_points": 446, "source": "osm", "start_m": 12605.4, "t_grade": "T3"}, {"coverage_pct": 23.08, "end_m": 19153.7, "length_m": 4856.0, "n_points": 716, "source": "osm", "start_m": 14297.6, "t_grade": "T2"}, {"coverage_pct": 8.95, "end_m": 21039.5, "length_m": 1882.3, "n_points": 242, "source": "osm", "start_m": 19157.2, "t_grade": "T2"}], "slug": "hardergrat", "stats": {"n_points": 3687, "osm_pct": 63.2, "swisstopo_pct": 35.8, "total_m": 21039.5, "unknown_pct": 0.7}};

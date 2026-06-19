@@ -63,6 +63,10 @@
        aria-label="Download GPX track for {{ peak.name }}">↓ Download GPX</a>
     <button type="button" id="waypoint-toggle" class="ms-layer-btn"
             aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+{%- if hazards is defined and hazards %}
+    <button type="button" id="hazard-toggle" class="ms-layer-btn"
+            aria-pressed="true" aria-label="Toggle hazard markers">⚠ Hazards</button>
+{%- endif %}
     <details class="info-popover">
       <summary class="info-icon" aria-label="Map attribution">i</summary>
       <div class="info-body">
@@ -260,7 +264,8 @@ window.HIKE = {
 {%- for w in waypoints %}
     [{{ w.lat }}, {{ w.lon }}, {{ w.label | tojson }}, {{ w.kind | tojson }}]{% if not loop.last %},{% endif %}
 {%- endfor %}
-  ]
+  ]{% if hazards is defined and hazards %},
+  hazards: {{ hazards | tojson }}{% endif %}
 };
 {% if gpx_stats %}window.TRACK_STATS = {{ gpx_stats | tojson }};{% endif %}
 {% if sac_grade_segments %}window.SAC_GRADE_SEGMENTS = {{ sac_grade_segments | tojson }};{% endif %}
