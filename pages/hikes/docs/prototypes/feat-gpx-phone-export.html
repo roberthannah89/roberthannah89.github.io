@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="proto-title" content="GPX &rarr; Phone-Native Apps">
+<meta name="proto-icon" content="&#x1F4F1;">
+<meta name="proto-desc" content="One-tap Download GPX / Web Share / SchweizMobil / Trailhead deep-link / QR — pragmatic, no fake 'open in Komoot' buttons">
+<meta name="proto-source" content="Feature integration / worktree">
+<meta name="proto-order" content="150">
+<title>GPX &rarr; Phone-Native &mdash; Feature Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/feat-proto.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <p class="crumbs"><a href="index.html">&larr; All prototypes</a></p>
+
+  <header class="proto-hero">
+    <div class="hero-icon">&#x1F4F1;</div>
+    <div>
+      <h1>GPX &rarr; Phone-Native Apps</h1>
+      <p>Pragmatic one-tap strip &mdash; no fake "open in Komoot" buttons. Download GPX, Web Share, SchweizMobil, Trailhead deep-link, QR.</p>
+    </div>
+    <span class="status status-done">DONE</span>
+  </header>
+
+  <section class="card">
+    <h2>Demo</h2>
+    <p class="demo-link">
+      <a href="file:///mnt/c/Users/User/My%20Drive%20(roberthannah89@gmail.com)/Code/website/.claude/worktrees/agent-a57cd763e29461987/pages/hikes/routes/augstmatthorn/augstmatthorn.html">
+        Open augstmatthorn.html &mdash; "Take it on the trail" strip
+      </a>
+    </p>
+    <p class="caption">
+      Six pill-style buttons in a wrapping flex strip, each with icon + bold label + tiny sub-line.
+      Ships on all 75 hikes.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>The honest research finding</h2>
+    <p>
+      <strong>No</strong> hiking app ships a documented <code>app://import?url=…/track.gpx</code> scheme
+      that works cross-platform. Komoot's "Send to Komoot" is OAuth-gated; Gaia's URL-scheme request
+      has been open since 2019; only Locus Map (Android) has a real intent filter. SchweizMobil GPX
+      import is gated behind paid Plus.
+    </p>
+    <p>
+      <strong>Don't fake "Open in &lt;app&gt;" buttons</strong> &mdash; pretending creates broken expectations.
+      The reliable cross-platform path is <code>&lt;a download&gt;</code> &rarr; OS share-sheet &rarr; user picks
+      Komoot / OsmAnd / Organic Maps / SchweizMobil / Gaia / AllTrails. Every installed app surfaces.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>The six buttons</h2>
+    <ul>
+      <li><strong>Download GPX</strong> (primary, red) &mdash; <code>&lt;a download&gt;</code> with mime <code>application/gpx+xml</code>. Triggers OS app picker.</li>
+      <li><strong>Share</strong> (mobile-only, feature-detected) &mdash; Web Share API level 2 with the GPX file attached on iOS Safari + recent Chrome. Short-circuits the download step.</li>
+      <li><strong>Copy link</strong> &mdash; page URL to clipboard.</li>
+      <li><strong>Trailhead</strong> &mdash; <code>geo:lat,lon</code> on Android, <code>maps.apple.com/?q=&hellip;</code> on iOS, Google Maps directions everywhere else. UA-detected.</li>
+      <li><strong>SchweizMobil</strong> &mdash; <code>map.schweizmobil.ch?E=…&amp;N=…&amp;zoom=10</code> with WGS84&rarr;LV95 conversion. Works free without paid Plus.</li>
+      <li><strong>QR code</strong> &mdash; lazy-rendered SVG (vendored qrcode-generator, MIT), desktop-to-phone hop. <em>Note: overlaps with the dedicated QR prototype &mdash; deduplicate before merging.</em></li>
+    </ul>
+    <p class="caption">Below the strip: a <code>&lt;details&gt;</code> "What app should I use?" with brief per-app guidance.</p>
+  </section>
+
+  <section class="card">
+    <h2>Files touched (in worktree)</h2>
+    <ul class="files">
+      <li><code>templates/hike_page.j2.html</code> (+63 lines)</li>
+      <li><code>templates/_assets/hike_page.js</code> (+192 lines) &mdash; new <code>setupOnPhone()</code> with WGS84&rarr;LV95 conversion + Web Share file-probe</li>
+      <li><code>templates/_assets/hike_page.css</code> (+54 lines)</li>
+      <li><code>templates/_assets/qrcode.min.js</code> (vendored, 20 KB) &mdash; <em>same lib as the QR prototype</em></li>
+      <li>All 75 <code>routes/*/*.html</code> &mdash; regenerated</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Recommended verdict</h2>
+    <ol>
+      <li><strong>Web Share API is the highest-value mobile addition</strong> &mdash; one tap &rarr; app picker with the actual GPX file. Invisible on desktop.</li>
+      <li><strong>SchweizMobil web map is the highest-value Swiss-specific touch</strong> &mdash; canonical map, free to view.</li>
+      <li><strong>QR is the highest-value desktop-to-phone bridge</strong> &mdash; many users plan on a laptop.</li>
+      <li><strong>Don't add fake deep-links.</strong> Honest is better than slick.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Future enhancement</h2>
+    <p>
+      If/when a hike has a known SchweizMobil national-route number (e.g. Hardergrat is part of
+      Trail 13), link directly to that route page &mdash; that IS effectively a deep link for the Swiss
+      audience. Would need a <code>national_route_id</code> field in <code>data.json</code>.
+    </p>
+  </section>
+
+  <p class="footer-meta">
+    Worktree branch: <code>worktree-agent-a57cd763e29461987</code>
+  </p>
+
+</div>
+
+</body>
+</html>
