@@ -69,10 +69,13 @@ function formatTime(minutes) {
   return h + 'h ' + m + 'min';
 }
 
+// CSS class for the grade badge — keep in sync with Python `_grade_pill_class`
+// in scripts/render_hike.py. Returns 't1'..'t6' by extracting the digit after T;
+// command-center.css merges T1/T2 visually via a comma-selector, so we don't
+// collapse them here.
 function gradeClass(grade) {
-  var n = parseInt((grade || 'T1').replace('T', ''), 10) || 1;
-  if (n <= 2) return 't1';
-  return 't' + n;
+  var m = /[Tt](\d)/.exec(grade || '');
+  return m ? 't' + m[1] : 't1';
 }
 
 function matchingHike(poi) {

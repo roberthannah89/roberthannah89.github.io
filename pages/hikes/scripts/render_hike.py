@@ -292,7 +292,10 @@ def parse_gpx_waypoints(gpx_path: Path,
 
 
 def _grade_pill_class(grade: str) -> str:
-    """Convert 'T4+' → 't4', 'T5-' → 't5', etc. for CSS pill class."""
+    """Convert 'T4+' → 't4', 'T5-' → 't5', etc. for CSS pill class.
+
+    Keep in sync with ``gradeClass`` in ``command-center/side-panel.js``.
+    """
     m = re.match(r'[Tt](\d)', str(grade))
     return f"t{m.group(1)}" if m else grade.lower()
 
