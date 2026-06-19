@@ -159,7 +159,17 @@
     <span>max <strong>2413 m</strong></span>
     <span>steepest <strong>60%</strong></span>
   </div>
-  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  </div>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
 
@@ -184,6 +194,7 @@ window.HIKE = {
                sbb_url: "" },
   gpx_filename: "brisen-traverse.gpx",
   page_generated: "2026-06-19",
+  pipeline_constants: {"lapse_rate_c_per_km": 6.5, "naismith_ascent_mh": 600.0, "naismith_speed_kmh": 5.0},
   waypoints: [
     [46.9036, 8.4076, "Br\u00e4ndlen, Bergstation (1178 m)", "start"],
     [46.897497712228336, 8.465646114308095, "Brisen Traverse (2413 m)", "summit"]

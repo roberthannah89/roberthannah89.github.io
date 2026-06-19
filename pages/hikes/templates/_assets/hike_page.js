@@ -65,10 +65,59 @@
   if (TRACK.length) { map.whenReady(placeArrows); map.on('zoomend moveend', placeArrows); }
 
   function fitRoute() { if (TRACK.length) map.fitBounds(routeBounds, { padding: [40, 40] }); }
+
+  // Briefly pulse a marker at (lat, lon) on the map; used by elevation-badge clicks.
+  function pulseOnMap(lat, lon) {
+    if (typeof map === "undefined" || !lat || !lon) return;
+    const mapEl = document.getElementById("map");
+    if (mapEl) mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    map.panTo([lat, lon], { animate: true });
+    const ring = L.circleMarker([lat, lon], {
+      radius: 6, color: "#ff5c5c", weight: 3, fill: false, interactive: false,
+    }).addTo(map);
+    let r = 6, op = 1;
+    const id = setInterval(() => {
+      r += 3; op -= 0.08;
+      ring.setRadius(r);
+      ring.setStyle({ opacity: Math.max(0, op) });
+      if (op <= 0) { clearInterval(id); map.removeLayer(ring); }
+    }, 50);
+  }
   const fitBtn = document.getElementById("fitBtn");
   if (fitBtn) fitBtn.onclick = fitRoute;
   const gpxBtn = document.getElementById("gpxBtn");
   if (gpxBtn) gpxBtn.href = GPX_FILENAME;
+
+  // ---- Shared planning state (date selection across daily forecast tiles and hourly overlay) ----
+  function todayIsoLocal() {
+    const d = new Date();
+    return d.getFullYear() + "-" +
+      String(d.getMonth() + 1).padStart(2, "0") + "-" +
+      String(d.getDate()).padStart(2, "0");
+  }
+  const planning = (function () {
+    const params = new URLSearchParams(location.search);
+    let selectedDate = params.get("date") || todayIsoLocal();
+    const listeners = [];
+    function syncUrl(iso) {
+      try {
+        const url = new URL(location.href);
+        if (iso === todayIsoLocal()) url.searchParams.delete("date");
+        else url.searchParams.set("date", iso);
+        if (url.toString() !== location.href) history.replaceState({}, "", url);
+      } catch (e) { /* old browser — silently skip URL sync */ }
+    }
+    return {
+      get date() { return selectedDate; },
+      setDate(iso) {
+        if (!iso || iso === selectedDate) return;
+        selectedDate = iso;
+        syncUrl(iso);
+        listeners.forEach(fn => { try { fn(iso); } catch (e) { /* noop */ } });
+      },
+      onChange(fn) { listeners.push(fn); },
+    };
+  })();
 
   // ---- 7-day summit forecast (Open-Meteo) ----
   function fmtSunTime(iso) {
@@ -92,7 +141,6 @@
   async function loadForecast() {
     const container = document.getElementById("forecast");
     if (!container || !SUMMIT) return;
-    const params = new URLSearchParams(location.search);
     const url =
       "https://api.open-meteo.com/v1/forecast" +
       `?latitude=${SUMMIT.lat}&longitude=${SUMMIT.lon}&elevation=${SUMMIT.elev}` +
@@ -112,10 +160,12 @@
         const code = d.weather_code[i];
         const { text, cls } = wxLabel(code);
         const isThunder = code >= 95;
-        const planned = (params.get("date") === iso);
+        const isSelected = (planning.date === iso);
         const pop = d.precipitation_probability_max[i];
         return `
-          <div class="forecast-day${isThunder ? " thunder" : ""}${planned ? " planned" : ""}">
+          <div class="forecast-day${isThunder ? " thunder" : ""}${isSelected ? " planned" : ""}"
+               data-date="${iso}" role="button" tabindex="0"
+               aria-pressed="${isSelected}" aria-label="Plan hike for ${day} ${dm}">
             <div class="day">${day}</div>
             <div class="date">${dm}</div>
             <div class="wx ${cls}">${text}</div>
@@ -129,6 +179,25 @@
           </div>`;
       }).join("");
       container.innerHTML = html;
+      // Click to choose a day for the hourly overlay below; the highlight stays in sync.
+      function syncSelected() {
+        container.querySelectorAll(".forecast-day").forEach(tile => {
+          const selected = tile.dataset.date === planning.date;
+          tile.classList.toggle("planned", selected);
+          tile.setAttribute("aria-pressed", String(selected));
+        });
+      }
+      container.querySelectorAll(".forecast-day").forEach(tile => {
+        const iso = tile.dataset.date;
+        tile.addEventListener("click", () => planning.setDate(iso));
+        tile.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            planning.setDate(iso);
+          }
+        });
+      });
+      planning.onChange(syncSelected);
     } catch (e) {
       container.innerHTML =
         '<p class="forecast-error">Could not load forecast (' + e.message +
@@ -206,14 +275,16 @@
     const svg     = document.getElementById("elev-chart");
     if (!svg || !TRACK.length || TRACK[0].length < 3) {
       if (statsEl) statsEl.parentElement.style.display = "none";
-      return;
+      return null;
     }
     const S = window.TRACK_STATS;
     let dist = 0, maxEle = -Infinity, minEle = Infinity;
-    const points = [];
+    const points = [];                 // [distM, ele]
+    const trackDist = new Array(TRACK.length);  // cumulative distance per TRACK index
     for (let i = 0; i < TRACK.length; i++) {
       const [lat, lon, ele] = TRACK[i];
       if (i > 0) dist += haversineMeters(TRACK[i - 1], TRACK[i]);
+      trackDist[i] = dist;
       points.push([dist, ele]);
       if (ele > maxEle) maxEle = ele;
       if (ele < minEle) minEle = ele;
@@ -261,9 +332,339 @@
       <line class="axis" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" />
       ${ticks.join("")}
       ${xticks.join("")}
+      <g class="hour-overlay" id="elev-hour-overlay"></g>
+      <g class="elev-waypoints" id="elev-waypoints"></g>
     `;
+    // Lookup: distance (m) → elevation (m) along the curve, linearly interpolated.
+    // Lets the hour-overlay drop guide-lines from each badge down onto the curve.
+    function elevAt(distM) {
+      if (distM <= 0) return points[0][1];
+      if (distM >= dist) return points[points.length - 1][1];
+      let lo = 0, hi = points.length - 1;
+      while (lo + 1 < hi) {
+        const mid = (lo + hi) >> 1;
+        if (points[mid][0] < distM) lo = mid; else hi = mid;
+      }
+      const [d0, e0] = points[lo], [d1, e1] = points[hi];
+      const t = (distM - d0) / (d1 - d0 || 1);
+      return e0 + (e1 - e0) * t;
+    }
+    return {
+      svg, totalM: dist, trackDist,
+      x0, x1, y0, y1,
+      xScale, yScale, elevAt,
+    };
   }
-  renderElevation();
+  const ELEV_GEOM = renderElevation();
+
+  // ---- Waypoint markers on the elevation curve ----
+  // Each `WAYPOINTS` entry is [lat, lon, label, kind]. We snap the waypoint to the
+  // nearest TRACK point, drop a small marker on the curve at that distance, and
+  // add a hover/tap title for the label + elevation.
+  function renderWaypointTicks(geom) {
+    if (!geom || !WAYPOINTS.length) return;
+    const layer = document.getElementById("elev-waypoints");
+    if (!layer) return;
+    const SNAP_M = 250;       // skip waypoints farther than this from the track
+    const out = [];
+    WAYPOINTS.forEach(([lat, lon, label, kind]) => {
+      if (kind === "start" || kind === "end") return;       // covered by hour-0 / route ends
+      let bestI = -1, bestD = Infinity;
+      for (let i = 0; i < TRACK.length; i++) {
+        const d = haversineMeters([lat, lon], TRACK[i]);
+        if (d < bestD) { bestD = d; bestI = i; }
+      }
+      if (bestI < 0 || bestD > SNAP_M) return;
+      const distM = geom.trackDist[bestI];
+      const x  = geom.xScale(distM);
+      const yC = geom.yScale(geom.elevAt(distM));
+      const yTop = yC - 14;
+      out.push(
+        '<g class="elev-waypoint elev-waypoint--' + (kind || "other") + '">' +
+          '<title>' + label.replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</title>' +
+          '<line x1="' + x.toFixed(1) + '" y1="' + yTop.toFixed(1) + '" ' +
+                'x2="' + x.toFixed(1) + '" y2="' + yC.toFixed(1) + '"/>' +
+          '<circle cx="' + x.toFixed(1) + '" cy="' + yC.toFixed(1) + '" r="3"/>' +
+        '</g>'
+      );
+    });
+    layer.innerHTML = out.join("");
+  }
+  renderWaypointTicks(ELEV_GEOM);
+
+  // ---- Hourly weather overlay on the elevation profile ----
+  // Walk the GPX via Naismith from a user-chosen start time; sample weather at each whole
+  // hour position. One batched Open-Meteo call covers all sampled grid cells. Temperatures
+  // are lapse-rate corrected from the model's grid elevation down to the actual trail point.
+  // WMO code → emoji (mirrors command-center/weather.js → WeatherService.weatherIcon).
+  // The U+FE0F selector forces colour-emoji presentation, matching the map markers.
+  function wxIcon(code) {
+    if (code == null) return "—";
+    if (code <= 1)  return "☀️";
+    if (code <= 2)  return "⛅";
+    if (code <= 48) return "☁️";
+    if (code <= 67) return "🌧️";
+    if (code <= 77) return "❄️";
+    if (code <= 82) return "🌧️";
+    if (code <= 86) return "❄️";
+    if (code >= 95) return "⛈️";
+    return "🌤️";
+  }
+  const NIGHT_ICON = "🌙";
+  function renderHourlyWeather(geom) {
+    if (!geom) return;
+    const C = H.pipeline_constants || {};
+    const SPEED_KMH = C.naismith_speed_kmh || 5.0;
+    const ASCENT_MH = C.naismith_ascent_mh || 600.0;
+    const LAPSE_PER_KM = C.lapse_rate_c_per_km || 6.5;
+    const MAX_HOURS = 12;
+    const GRID_DEG = 0.02;            // ≈ 2 km grid (ICON-CH2 cell width)
+    const COLLISION_VB = 40;          // viewBox-x distance below which badges stagger
+    const FORECAST_DAYS = 7;          // match the daily forecast horizon above
+
+    const controlsEl = document.getElementById("elev-controls");
+    const dayLabelEl = document.getElementById("elev-controls-day");
+    const startInput = document.getElementById("elev-start-time");
+    const nowBtn     = document.getElementById("elev-now-btn");
+    const endsEl     = document.getElementById("elev-controls-end");
+    const statusEl   = document.getElementById("elev-controls-status");
+    const badgesEl   = document.getElementById("elev-hour-badges");
+    const overlayG   = document.getElementById("elev-hour-overlay");
+    if (!controlsEl || !startInput || !badgesEl || !overlayG) return;
+    if (!TRACK || TRACK.length < 2) return;
+    controlsEl.hidden = false;
+    function toIsoDate(d) {
+      return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+    }
+
+    let totalAscent = 0;
+    for (let i = 1; i < TRACK.length; i++) {
+      const d = TRACK[i][2] - TRACK[i - 1][2];
+      if (d > 0) totalAscent += d;
+    }
+    const totalHours = (geom.totalM / 1000) / SPEED_KMH + totalAscent / ASCENT_MH;
+
+    function startDateFromInput() {
+      const time = startInput.value || "10:00";
+      const [hh, mm] = time.split(":").map(Number);
+      const dateStr = planning.date || todayIsoLocal();
+      const [y, mo, d] = dateStr.split("-").map(Number);
+      return new Date(y, (mo || 1) - 1, d || 1, hh || 10, mm || 0, 0, 0);
+    }
+    function dayWording(iso) {
+      const today = todayIsoLocal();
+      if (iso === today) return "Today";
+      const d = new Date(iso + "T12:00:00");
+      const todayD = new Date(today + "T12:00:00");
+      const diff = Math.round((d - todayD) / 86400000);
+      if (diff === 1) return "Tomorrow";
+      return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    }
+    function fmtTime(d) {
+      return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    }
+    function localIsoHour(d) {
+      return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0") + "T" +
+        String(d.getHours()).padStart(2, "0") + ":00";
+    }
+    function gridKey(lat, lon) {
+      return (Math.round(lat / GRID_DEG) * GRID_DEG).toFixed(3) + "_" +
+             (Math.round(lon / GRID_DEG) * GRID_DEG).toFixed(3);
+    }
+
+    // Walk TRACK forward, interpolating exact lat/lon/ele at each integer hour past start.
+    // The leading mark (hour 0) is the trailhead itself — weather at the moment you set off.
+    function naismithHourPoints(startDate) {
+      const marks = [{
+        hour: 0,
+        time: new Date(startDate.getTime()),
+        distM: 0,
+        lat: TRACK[0][0],
+        lon: TRACK[0][1],
+        ele: TRACK[0][2],
+      }];
+      let cumH = 0;
+      let nextHour = 1;
+      for (let i = 1; i < TRACK.length && nextHour <= MAX_HOURS; i++) {
+        const a = TRACK[i - 1], b = TRACK[i];
+        const segM = haversineMeters(a, b);
+        const dEle = b[2] - a[2];
+        const segH = (segM / 1000) / SPEED_KMH + Math.max(0, dEle) / ASCENT_MH;
+        if (segH <= 0) { continue; }
+        while (nextHour <= MAX_HOURS && nextHour <= cumH + segH) {
+          const t = (nextHour - cumH) / segH;
+          const lat = a[0] + (b[0] - a[0]) * t;
+          const lon = a[1] + (b[1] - a[1]) * t;
+          const ele = a[2] + (b[2] - a[2]) * t;
+          const distM = geom.trackDist[i - 1] + (geom.trackDist[i] - geom.trackDist[i - 1]) * t;
+          marks.push({
+            hour: nextHour,
+            time: new Date(startDate.getTime() + nextHour * 3600 * 1000),
+            distM, lat, lon, ele,
+          });
+          nextHour++;
+        }
+        cumH += segH;
+      }
+      return marks;
+    }
+
+    let forecastCache = null;
+    async function fetchHourly(hourPoints) {
+      if (forecastCache) return forecastCache;
+      if (!hourPoints.length) return null;
+      const seen = new Map();
+      for (const p of hourPoints) {
+        const k = gridKey(p.lat, p.lon);
+        if (!seen.has(k)) seen.set(k, { key: k, lat: p.lat, lon: p.lon });
+      }
+      const grid = [...seen.values()];
+      const params = new URLSearchParams({
+        latitude: grid.map(g => g.lat.toFixed(4)).join(","),
+        longitude: grid.map(g => g.lon.toFixed(4)).join(","),
+        hourly: "temperature_2m,weather_code,wind_gusts_10m,precipitation",
+        daily: "sunset",
+        timezone: "Europe/Zurich",
+        forecast_days: String(FORECAST_DAYS),
+      });
+      const r = await fetch("https://api.open-meteo.com/v1/forecast?" + params.toString());
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const data = await r.json();
+      const arr = Array.isArray(data) ? data : [data];
+      const byGrid = new Map();
+      grid.forEach((g, i) => {
+        const d = arr[i];
+        if (!d) return;
+        byGrid.set(g.key, {
+          gridElev: d.elevation || 0,
+          hourly: d.hourly || {},
+          daily: d.daily || {},
+        });
+      });
+      forecastCache = { byGrid };
+      return forecastCache;
+    }
+
+    function renderBadges(hourPoints, fc, startDate) {
+      badgesEl.innerHTML = "";
+      overlayG.innerHTML = "";
+      if (!hourPoints.length) return;
+      // Look up sunset for the actual day the hike starts (date picker may have
+      // moved off "today"). All grid cells share the same day index because the
+      // batched fetch uses one timezone.
+      let sunsetDate = null;
+      if (fc) {
+        const startIsoDay = toIsoDate(startDate);
+        for (const v of fc.byGrid.values()) {
+          const days = v.daily && v.daily.time;
+          if (!days) continue;
+          const di = days.indexOf(startIsoDay);
+          const iso = di >= 0 && v.daily.sunset ? v.daily.sunset[di] : null;
+          if (iso) { sunsetDate = new Date(iso); break; }
+        }
+      }
+      const placed = hourPoints.map(p => {
+        const xVB = geom.xScale(p.distM);
+        const leftPct = ((xVB - geom.x0) / (geom.x1 - geom.x0)) * 100;
+        return Object.assign({}, p, {
+          xVB,
+          leftPct: Math.max(3, Math.min(97, leftPct)),
+          row: 0,
+        });
+      });
+      for (let i = 1; i < placed.length; i++) {
+        if (placed[i].xVB - placed[i - 1].xVB < COLLISION_VB && placed[i - 1].row === 0) {
+          placed[i].row = 1;
+        }
+      }
+      placed.forEach(p => {
+        let temp = null, code = null;
+        if (fc) {
+          const g = fc.byGrid.get(gridKey(p.lat, p.lon));
+          if (g && g.hourly && g.hourly.time) {
+            const idx = g.hourly.time.indexOf(localIsoHour(p.time));
+            if (idx >= 0) {
+              const rawT = g.hourly.temperature_2m && g.hourly.temperature_2m[idx];
+              code = g.hourly.weather_code && g.hourly.weather_code[idx];
+              if (rawT != null) {
+                temp = rawT - (p.ele - (g.gridElev || 0)) * (LAPSE_PER_KM / 1000);
+              }
+            }
+          }
+        }
+        const postSunset = !!(sunsetDate && p.time > sunsetDate);
+        const label = fmtTime(p.time);
+        const tempStr = (temp != null) ? Math.round(temp) + "°" : "";
+        const iconStr = postSunset ? NIGHT_ICON : wxIcon(code);
+        const badge = document.createElement("div");
+        badge.className = "elev-hour-badge"
+          + (p.row === 1 ? " elev-hour-badge--stagger" : "")
+          + (postSunset ? " elev-hour-badge--night" : "");
+        badge.style.left = p.leftPct.toFixed(2) + "%";
+        badge.title = "Click to show this point on the map";
+        badge.dataset.lat = p.lat.toFixed(5);
+        badge.dataset.lon = p.lon.toFixed(5);
+        badge.addEventListener("click", () => pulseOnMap(p.lat, p.lon));
+        badge.innerHTML =
+          '<div class="elev-hour-time">' + label + '</div>' +
+          '<div class="elev-hour-data">' +
+            '<span class="elev-hour-icon">' + iconStr + '</span>' +
+            '<span class="elev-hour-temp">' + tempStr + '</span>' +
+          '</div>';
+        badgesEl.appendChild(badge);
+        const yCurve = geom.yScale(geom.elevAt(p.distM));
+        overlayG.insertAdjacentHTML("beforeend",
+          '<line class="elev-hour-guide' + (postSunset ? ' elev-hour-guide--night' : '') + '" ' +
+          'x1="' + p.xVB.toFixed(1) + '" y1="' + geom.y1.toFixed(1) + '" ' +
+          'x2="' + p.xVB.toFixed(1) + '" y2="' + yCurve.toFixed(1) + '"/>'
+        );
+      });
+    }
+
+    async function redraw() {
+      const startDate = startDateFromInput();
+      const hourPoints = naismithHourPoints(startDate);
+      if (dayLabelEl) dayLabelEl.textContent = dayWording(planning.date);
+      if (endsEl) {
+        const endDate = new Date(startDate.getTime() + totalHours * 3600 * 1000);
+        const hh = Math.floor(totalHours);
+        const mm = Math.round((totalHours - hh) * 60);
+        const sameDay = toIsoDate(startDate) === toIsoDate(endDate);
+        const endStr = sameDay ? fmtTime(endDate)
+          : fmtTime(endDate) + " (+" + Math.round((endDate - startDate) / 86400000) + "d)";
+        endsEl.textContent = "· " + hh + "h " + String(mm).padStart(2, "0") + "m · ends " + endStr;
+      }
+      if (statusEl) statusEl.textContent = forecastCache ? "" : "loading weather…";
+      try {
+        const fc = await fetchHourly(hourPoints);
+        renderBadges(hourPoints, fc, startDate);
+        if (statusEl) statusEl.textContent = "";
+      } catch (e) {
+        renderBadges(hourPoints, null, startDate);
+        if (statusEl) statusEl.textContent = "weather unavailable";
+      }
+    }
+
+    startInput.addEventListener("change", redraw);
+    planning.onChange(redraw);
+    if (nowBtn) {
+      nowBtn.addEventListener("click", () => {
+        const d = new Date();
+        let m = Math.ceil(d.getMinutes() / 15) * 15;
+        if (m === 60) { d.setHours(d.getHours() + 1); m = 0; }
+        d.setMinutes(m, 0, 0);
+        startInput.value = String(d.getHours()).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+        planning.setDate(toIsoDate(d));
+        redraw();
+      });
+    }
+    redraw();
+  }
+  renderHourlyWeather(ELEV_GEOM);
 
   const hikrLink = document.getElementById("hikr-link");
   const reportsUpdated = document.getElementById("reports-updated");

@@ -173,7 +173,17 @@
     <span>max <strong>2070 m</strong></span>
     <span>steepest <strong>84%</strong></span>
   </div>
-  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  </div>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
 
@@ -198,6 +208,7 @@ window.HIKE = {
                sbb_url: "" },
   gpx_filename: "rophaien.gpx",
   page_generated: "2026-06-19",
+  pipeline_constants: {"lapse_rate_c_per_km": 6.5, "naismith_ascent_mh": 600.0, "naismith_speed_kmh": 5.0},
   waypoints: [
     [46.9154, 8.6251, "Fl\u00fcelen Gruonbach (461 m)", "start"],
     [46.92818474233741, 8.646543667446286, "Rophaien (2070 m)", "summit"]

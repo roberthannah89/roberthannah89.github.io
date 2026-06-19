@@ -174,7 +174,17 @@
     <span>max <strong>2871 m</strong></span>
     <span>steepest <strong>158%</strong></span>
   </div>
-  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  </div>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
 
@@ -199,6 +209,7 @@ window.HIKE = {
                sbb_url: "" },
   gpx_filename: "grand-chavalard.gpx",
   page_generated: "2026-06-19",
+  pipeline_constants: {"lapse_rate_c_per_km": 6.5, "naismith_ascent_mh": 600.0, "naismith_speed_kmh": 5.0},
   waypoints: [
     [46.2036, 7.1406, "Jorasse, Bergstation (1946 m)", "start"],
     [46.178392467626026, 7.112640049349054, "Grand Chavalard (2871 m)", "summit"]

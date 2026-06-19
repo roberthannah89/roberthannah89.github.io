@@ -172,7 +172,17 @@
     <span>max <strong>1464 m</strong></span>
     <span>steepest <strong>161%</strong></span>
   </div>
-  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  </div>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
 
@@ -197,6 +207,7 @@ window.HIKE = {
                sbb_url: "" },
   gpx_filename: "le-soliat-creux-du-van.gpx",
   page_generated: "2026-06-05",
+  pipeline_constants: {"lapse_rate_c_per_km": 6.5, "naismith_ascent_mh": 600.0, "naismith_speed_kmh": 5.0},
   waypoints: [
     [46.955, 6.722, "Noiraigue (729.8 m) On the transN-line Buttes \u2013 Fleurier \u2013 Travers \u2013 Neuch\u00e2tel (729 m)", "start"],
     [46.928679004759786, 6.724739920866458, "Le Soliat Creux Du Van (1464 m)", "summit"]

@@ -6,6 +6,7 @@ from __future__ import annotations
 # Physical / geodetic
 # ---------------------------------------------------------------------------
 EARTH_RADIUS_M = 6_371_000.0
+LAPSE_RATE_C_PER_KM = 6.5  # standard environmental lapse rate; used to correct forecast temp to the trail's actual elevation
 
 # ---------------------------------------------------------------------------
 # GPX processing
