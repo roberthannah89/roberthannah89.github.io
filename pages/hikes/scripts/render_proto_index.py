@@ -13,6 +13,7 @@ Files without proto-title are silently skipped.
 
 from __future__ import annotations
 
+import subprocess
 import sys
 from html import escape
 from html.parser import HTMLParser
@@ -21,6 +22,23 @@ from typing import Any
 
 PROTO_DIR = Path(__file__).resolve().parent.parent / "docs" / "prototypes"
 INDEX_PATH = PROTO_DIR / "index.html"
+
+
+def _git_first_commit_epoch(path: Path) -> float:
+    """Return epoch seconds of the first commit that introduced `path`, or 0 if unknown."""
+    try:
+        out = subprocess.run(
+            ["git", "log", "--diff-filter=A", "--follow", "--format=%at", "--", str(path)],
+            cwd=path.parent, capture_output=True, text=True, timeout=5, check=False,
+        ).stdout.strip().splitlines()
+        return float(out[-1]) if out else 0.0
+    except (subprocess.SubprocessError, OSError, ValueError):
+        return 0.0
+
+
+def _creation_epoch(path: Path) -> float:
+    """Best-effort creation timestamp: git first-commit date, else file mtime."""
+    return _git_first_commit_epoch(path) or path.stat().st_mtime
 
 
 class _ProtoMetaParser(HTMLParser):
@@ -67,8 +85,11 @@ def discover_prototypes() -> list[dict[str, Any]]:
             "source": m.get("proto-source", ""),
             "screenshot": f"screenshots/{slug}.png" if screenshot.exists() else "",
             "_order": int(m.get("proto-order", "999")),
+            "_created": _creation_epoch(html_file),
         })
-    pages.sort(key=lambda p: p["_order"])
+    # Newest first by creation date; proto-order is the tiebreaker for files
+    # that landed in the same commit.
+    pages.sort(key=lambda p: (-p["_created"], p["_order"]))
     return pages
 
 
