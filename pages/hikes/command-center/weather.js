@@ -15,42 +15,18 @@ function notifyReady() {
   listeners = [];
 }
 
-// Lazy-load a classic-script data file by injecting a <script> tag. Resolves
-// once the script has executed (and its window globals are populated). We
-// reuse this for weather-cache.js and webcams_windy_data.js so the ~500 KB /
-// ~100 KB blobs don't block initial HTML parsing.
-function loadDataScript(src) {
-  return new Promise(function (resolve, reject) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.onload = function () { resolve(); };
-    s.onerror = function () { reject(new Error('Failed to load ' + src)); };
-    document.head.appendChild(s);
-  });
-}
-
 function init(routes, statusCb) {
-  // weather-cache.js is no longer a static <script> in index.html — load it
-  // here so first paint of the map/markers doesn't wait for the ~500 KB blob.
-  // Markers start as plain dots and upgrade to weather pills once this resolves.
-  function adopt() {
-    if (window.WEATHER_CACHE) {
-      cache = window.WEATHER_CACHE;
-      var count = Object.keys(cache).length;
-      if (statusCb) statusCb('Weather loaded (' + count + ' peaks cached)');
-    } else {
-      if (statusCb) statusCb('No weather cache — run: make weather');
-    }
+  if (window.WEATHER_CACHE) {
+    cache = window.WEATHER_CACHE;
+    var count = Object.keys(cache).length;
+    if (statusCb) statusCb('Weather loaded (' + count + ' peaks cached)');
     notifyReady();
+    return Promise.resolve();
   }
 
-  if (window.WEATHER_CACHE) { adopt(); return Promise.resolve(); }
-
-  if (statusCb) statusCb('Loading weather cache...');
-  return loadDataScript('weather-cache.js').then(adopt, function (err) {
-    console.warn(err);
-    adopt();
-  });
+  if (statusCb) statusCb('No weather cache — run: make weather');
+  notifyReady();
+  return Promise.resolve();
 }
 
 function getForPeak(lat, lon, dayIndex) {
