@@ -122,7 +122,17 @@
     <span>max <strong>2344 m</strong></span>
     <span>steepest <strong>35%</strong></span>
   </div>
-  <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  </div>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
 </section>
 
@@ -147,6 +157,7 @@ window.HIKE = {
                sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Schynige+Platte" },
   gpx_filename: "schynige-platte-first.gpx",
   page_generated: "2026-05-22",
+  pipeline_constants: {"lapse_rate_c_per_km": 6.5, "naismith_ascent_mh": 600.0, "naismith_speed_kmh": 5.0},
   waypoints: [
     [46.65224480861517, 7.911173065975709, "Schynige Platte (1967 m)", "start"],
     [46.66892281810453, 7.968787902451804, "Berghaus M\u00e4nndlenen (2344 m)", "hut"],

@@ -54,6 +54,7 @@ from config import (
     EARTH_RADIUS_M,
     ELEV_SMOOTH_M,
     INDEX_PHOTO_WIDTH,
+    LAPSE_RATE_C_PER_KM,
     NAISMITH_ASCENT_MH,
     NAISMITH_SPEED_KMH,
     SOURCE_URL_MAP,
@@ -584,6 +585,11 @@ def render_one(data_path: Path) -> RenderResult:
             _filter_todo_sections(data)
             # Optional per-hike _config.js (e.g. Google Maps Embed API key).
             data["has_config_js"] = (data_path.parent / "_config.js").exists()
+            data["pipeline_constants"] = {
+                "naismith_speed_kmh": NAISMITH_SPEED_KMH,
+                "naismith_ascent_mh": NAISMITH_ASCENT_MH,
+                "lapse_rate_c_per_km": LAPSE_RATE_C_PER_KM,
+            }
 
         with StageTimer(stages, "load_template"):
             env = _make_env()
