@@ -967,3 +967,81 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
 .webcam-popup__link:hover {
   background: #f0b840;
 }
+
+/* --- SLF avalanche overlay popup --- */
+.slf-popup-wrapper .leaflet-popup-content {
+  margin: 10px 12px !important;
+  min-width: 0 !important;
+}
+
+.slf-popup {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  max-width: 260px;
+}
+
+.slf-popup__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.slf-popup__badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1810;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.slf-popup__level {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.slf-popup__regions {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.slf-popup__count {
+  color: var(--text-muted);
+}
+
+.slf-popup__valid {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.slf-popup__link {
+  display: block;
+  padding: 6px 10px;
+  background: var(--amber);
+  color: var(--board-bg);
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.15s;
+}
+
+.slf-popup__link:hover {
+  background: #f0b840;
+}
