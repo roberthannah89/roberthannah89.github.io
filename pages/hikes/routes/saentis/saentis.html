@@ -45,7 +45,7 @@ The first cabin to house visitors was built in 1846 and since then has been cont
   </table>
 </section>
 
-<section>
+<section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
@@ -62,11 +62,12 @@ The first cabin to house visitors was built in 1846 and since then has been cont
       <p class="attrib">All photos: SAC Route Portal</p>
 </section>
 
-<section>
+<section class="map-section">
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+    <a class="btn" id="gpxBtn" href="./saentis.gpx" download="saentis.gpx"
+       aria-label="Download GPX track for Säntis">↓ Download GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -138,7 +139,7 @@ The first cabin to house visitors was built in 1846 and since then has been cont
   </div>
 </section>
 
-<section>
+<section class="weather-section">
   <h2>Weather Planning</h2>
   <h3>7-day summit forecast (live)</h3>
   <div id="forecast" class="forecast-grid">
@@ -178,6 +179,19 @@ The first cabin to house visitors was built in 1846 and since then has been cont
     <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   </div>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+
+<section class="print-only field-ref">
+  <h2>Field Reference</h2>
+  <table>
+    <tr><th>Trailhead</th><td>Schwägalp, Säntis aerial cableway</td><td>47.25626, 9.31847</td></tr>
+    <tr><th>Summit</th><td>Säntis (2502 m)</td><td>47.24937, 9.34334</td></tr>
+    <tr><th>End</th><td>Säntis, Bergstation (2502 m)</td><td>47.25630, 9.31850</td></tr>
+  </table>
+  <p class="attrib">Coordinates are WGS84 decimal degrees (lat, lon).
+    Emergency: <strong>112</strong> (general) or <strong>1414</strong> (Rega air rescue).
+    Page URL: <span class="page-url"></span></p>
 </section>
 
 </main>
