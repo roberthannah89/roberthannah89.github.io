@@ -1,5 +1,7 @@
 # Has-page filter toggle — design
 
+**Status:** Implemented in commit `8355fa0` (built up across `98d6aa0`, `749a08d`, `8355fa0`)
+
 ## Goal
 
 Add a control to the command center that filters POIs down to those with a built hike page in this repo. The page-match logic already exists (`SidePanel.matchingHike`) and already drives the amber-ring styling on dots; this spec exposes it as a real filter.

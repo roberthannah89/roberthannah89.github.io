@@ -1,5 +1,7 @@
 # Unified "Getting There" Section
 
+**Status:** Implemented in commit `fa6bfd7`
+
 Replace the two existing transport sections (live transit iframe + static directions) with a single, unified "Getting There" section using deep links and manual direction notes.
 
 ## Current state
