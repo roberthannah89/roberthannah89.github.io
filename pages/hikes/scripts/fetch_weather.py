@@ -59,7 +59,7 @@ def fetch_batch(peaks):
     })
     url = f"{BASE_URL}?{params}"
 
-    last_err = None
+    last_err: Exception | None = None
     for attempt in range(MAX_RETRIES):
         try:
             req = urllib.request.Request(url)

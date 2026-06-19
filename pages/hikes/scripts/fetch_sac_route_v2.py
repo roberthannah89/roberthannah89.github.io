@@ -20,7 +20,7 @@ redesign of the rest of the pipeline rather than a tactical add-on.
 Usage
 -----
     python scripts/fetch_sac_route_v2.py \\
-        --url 'https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/federispitz-601/mountain-hiking/von-ziegelbruecke-via-vorder-federispitz-abstieg-via-plaettlispitz-nach-weesen-6819/' \\
+        --url 'https://www.sac-cas.ch/.../federispitz-601/mountain-hiking/<route-slug>-6819/' \\
         --slug federispitz
 
 The peak ID (used to look up coordinates for the bbox) is read from the URL.

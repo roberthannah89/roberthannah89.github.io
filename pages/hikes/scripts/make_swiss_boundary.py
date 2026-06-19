@@ -12,6 +12,7 @@ import json
 import math
 import urllib.request
 from pathlib import Path
+from typing import Any
 
 GADM_URL = "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_CHE_0.json"
 OUTPUT = Path(__file__).resolve().parent.parent / "routes" / "_assets" / "swiss_border.js"
@@ -57,7 +58,7 @@ def main():
     geom = data["features"][0]["geometry"]
     epsilon = 0.003  # ~300m at Swiss latitudes
 
-    simplified = {"type": "MultiPolygon", "coordinates": []}
+    simplified: dict[str, Any] = {"type": "MultiPolygon", "coordinates": []}
     total_before, total_after = 0, 0
 
     for polygon in geom["coordinates"]:

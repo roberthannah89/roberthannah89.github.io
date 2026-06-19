@@ -371,7 +371,11 @@ def _source_to_link(source: str) -> str:
     return links[0] if links else source
 
 
-def build_display_quick_facts(quick_facts: list[list[str]], grade: str, routes: list[dict] | None = None) -> list[list[str]]:
+def build_display_quick_facts(
+    quick_facts: list[list[str]],
+    grade: str,
+    routes: list[dict] | None = None,
+) -> list[list[str]]:
     """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
 
@@ -587,7 +591,7 @@ def augment_hike_data(data: dict, gpx_stats: dict[str, float], hike_dir: Path) -
         hero["subtitle_html"] = hero.get("subtitle_html", "") or f"Photo via {photos[0].get('caption_html', '')}"
     elif not photos and (not hero_url or "TODO" in hero_url):
         # No photos available; use placeholder
-        hero["image_url"] = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
+        hero["image_url"] = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="  # noqa: E501  -- inline base64 SVG placeholder; kept on one line to avoid an asset file
 
     if hero:
         data["hero"] = hero

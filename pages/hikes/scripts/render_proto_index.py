@@ -95,6 +95,26 @@ def render_card(p: dict[str, Any]) -> str:
     )
 
 
+# Long asset URLs hoisted out of TEMPLATE so the multi-line template string
+# stays within the 120-char line-length budget.
+_FONTS_HREF = (
+    "https://fonts.googleapis.com/css2"
+    "?family=Familjen+Grotesk:wght@400;600;700"
+    "&family=IBM+Plex+Mono:wght@400;500;600"
+    "&display=swap"
+)
+_NOISE_SVG_URL = (
+    "data:image/svg+xml,"
+    "%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E"
+    "%3Cfilter id='n'%3E"
+    "%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'"
+    " stitchTiles='stitch'/%3E"
+    "%3C/filter%3E"
+    "%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E"
+    "%3C/svg%3E"
+)
+
+
 TEMPLATE = """\
 <!DOCTYPE html>
 <html lang="en">
@@ -103,7 +123,7 @@ TEMPLATE = """\
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>API Prototypes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="{fonts_href}" rel="stylesheet">
 <style>
   :root {{
     --board-bg: #1a1810;
@@ -134,7 +154,7 @@ TEMPLATE = """\
     content: '';
     position: fixed;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background: url("{noise_svg_url}");
     pointer-events: none;
     z-index: 10000;
   }}
@@ -354,7 +374,12 @@ def main() -> None:
         sys.exit(1)
 
     cards = "\n\n".join(render_card(p) for p in protos)
-    html = TEMPLATE.format(count=len(protos), cards=cards)
+    html = TEMPLATE.format(
+        count=len(protos),
+        cards=cards,
+        fonts_href=_FONTS_HREF,
+        noise_svg_url=_NOISE_SVG_URL,
+    )
     INDEX_PATH.write_text(html, encoding="utf-8")
     print(f"Generated {INDEX_PATH.name} with {len(protos)} prototypes")
 

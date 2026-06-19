@@ -35,7 +35,7 @@ except ImportError:
     sys.exit("ERROR: beautifulsoup4 is required. pip install beautifulsoup4")
 
 try:
-    import brotli  # type: ignore
+    import brotli
 except ImportError:  # pragma: no cover
     brotli = None  # request gzip only and fall back gracefully
 
@@ -175,7 +175,8 @@ def _parse_time_breakdown(raw: str) -> list[str]:
 
     Examples seen:
       Hirzli:       "Morgenholz – Hirzli 1 Std. 45 Min. Hirzli – Planggenstock 30 Min. …"
-      Federispitz:  "… T3, 30 Min. Federispitz - Plättlispitz - Unternätenalp T3, 1 Std. Unternätenalp - Weesen, T2, 1 Std. 45 Min."
+      Federispitz:  "… T3, 30 Min. Federispitz - Plättlispitz - Unternätenalp T3, 1 Std.
+                     Unternätenalp - Weesen, T2, 1 Std. 45 Min."
 
     Delimiter: 'Min.' OR 'Std.' followed by whitespace and a capital letter
     that starts the next leg's name. "Std." in the middle of '2 Std. 45 Min.'
@@ -341,8 +342,11 @@ def _extract_description(soup: BeautifulSoup, teaser: str | None,
             # "Informationen zur Seilbahn:www.niederurnertaeli.ch/…" and friends
             continue
         # Author bio paragraphs (Remo Kundert is a hiking guide...) — skip
-        if re.search(r"\b(hiking guide|alpine journalist|co-authored|freelance photographer|guidebook author|Bergf(ü|u)hrer|Tourenleiter)\b",
-                     txt, re.I):
+        if re.search(
+            r"\b(hiking guide|alpine journalist|co-authored|freelance photographer"
+            r"|guidebook author|Bergf(ü|u)hrer|Tourenleiter)\b",
+            txt, re.I,
+        ):
             continue
         # Substantial overlap with terrain/excluded text — skip
         norm = re.sub(r"\W+", " ", low)[:160]
@@ -547,7 +551,9 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
     # Distance quick fact (row 3): derive from existing index_card.distance
     dist = (data.get("index_card") or {}).get("distance")
     if dist and dist != "TODO" and "quick_facts" in data and len(data["quick_facts"]) > 3:
-        maybe_set(["quick_facts", 3, 1], f"<strong>{dist}</strong> round-trip" if "loop" not in (data.get("index_card", {}).get("route_type", "")) else f"<strong>{dist}</strong>")
+        route_type = (data.get("index_card", {}) or {}).get("route_type", "")
+        dist_html = f"<strong>{dist}</strong>" if "loop" in route_type else f"<strong>{dist}</strong> round-trip"
+        maybe_set(["quick_facts", 3, 1], dist_html)
 
     # Trailhead elevation
     if sr.departure_elev_m and (data.get("trailhead") or {}).get("elev") in (None, 0):
