@@ -62,35 +62,60 @@ function popupHtml(cam) {
   );
 }
 
+// Lazy-load webcams_windy_data.js by injecting a classic <script> tag — the
+// file sets window.WINDY_WEBCAMS as a side effect. We do this on demand so
+// the ~100 KB blob isn't downloaded until the user opens the webcams layer.
+var dataPromise = null;
+function ensureData() {
+  if (window.WINDY_WEBCAMS) return Promise.resolve();
+  if (dataPromise) return dataPromise;
+  dataPromise = new Promise(function (resolve, reject) {
+    var s = document.createElement('script');
+    s.src = 'webcams_windy_data.js';
+    s.onload = function () { resolve(); };
+    s.onerror = function () { reject(new Error('Failed to load webcams_windy_data.js')); };
+    document.head.appendChild(s);
+  }).catch(function (err) {
+    console.warn(err);
+    // Reset so a later toggle re-attempts the load.
+    dataPromise = null;
+  });
+  return dataPromise;
+}
+
+// Returns a Promise resolving to an L.LayerGroup of webcam markers. The data
+// blob is fetched on first call only; subsequent calls reuse window globals.
 function create() {
-  var group = L.layerGroup();
-  var cams = window.WINDY_WEBCAMS || [];
-  if (!cams.length) return group;
+  return ensureData().then(function () {
+    var group = L.layerGroup();
+    var cams = window.WINDY_WEBCAMS || [];
+    if (!cams.length) return group;
 
-  // Data is already sorted by views (per fetch script), but sort defensively.
-  var sorted = cams.slice().sort(function (a, b) {
-    return (b.views || 0) - (a.views || 0);
-  });
-  var top = sorted.slice(0, DISPLAY_LIMIT);
-
-  var icon = makeIcon();
-  top.forEach(function (cam) {
-    if (typeof cam.lat !== 'number' || typeof cam.lon !== 'number') return;
-    var marker = L.marker([cam.lat, cam.lon], {
-      icon: icon,
-      title: cam.name,
-      riseOnHover: true
+    // Data is already sorted by views (per fetch script), but sort defensively.
+    var sorted = cams.slice().sort(function (a, b) {
+      return (b.views || 0) - (a.views || 0);
     });
-    marker.bindPopup(popupHtml(cam), {
-      maxWidth: 280,
-      minWidth: 240,
-      className: 'webcam-popup-wrapper',
-      closeButton: true
-    });
-    group.addLayer(marker);
-  });
+    var top = sorted.slice(0, DISPLAY_LIMIT);
 
-  return group;
+    var icon = makeIcon();
+    top.forEach(function (cam) {
+      if (typeof cam.lat !== 'number' || typeof cam.lon !== 'number') return;
+      var marker = L.marker([cam.lat, cam.lon], {
+        icon: icon,
+        title: cam.name,
+        riseOnHover: true
+      });
+      marker.bindPopup(popupHtml(cam), {
+        maxWidth: 280,
+        minWidth: 240,
+        className: 'webcam-popup-wrapper',
+        closeButton: true
+      });
+      group.addLayer(marker);
+    });
+
+    return group;
+  });
 }
 
 export const WebcamLayer = {

@@ -62,12 +62,25 @@
 </div>
 
 <!-- Data (classic scripts; expose window globals consumed by the app modules) -->
+<!--
+  Load order rationale:
+  - swiss_border.js + map_shared.js: tiny, needed by initMap. Eager.
+  - hikes.js (~42 KB): needed at first paint to mark which POIs `_hasPage`. Eager.
+  - sac-routes.js (~250 KB): POIs for markers — needed at first paint, but marked
+    `defer` so it doesn't block HTML parsing. Module scripts run after defer
+    scripts, so window.SAC_ROUTES is guaranteed populated before command-center
+    boots.
+  - weather-cache.js (~506 KB): not needed for first paint — markers start as
+    plain dots and upgrade to weather pills once weather loads. Removed from
+    here and lazy-loaded inside WeatherService.init via a dynamic <script> tag.
+  - webcams_windy_data.js (~100 KB): only used when the user opens the webcam
+    layer. Removed from here and lazy-loaded inside WebcamLayer.create via a
+    dynamic <script> tag.
+-->
 <script src="../routes/_assets/swiss_border.js"></script>
 <script src="../routes/_assets/map_shared.js"></script>
-<script src="../guides/sac-routes.js"></script>
+<script defer src="../guides/sac-routes.js"></script>
 <script src="../hikes.js"></script>
-<script src="weather-cache.js"></script>
-<script src="webcams_windy_data.js"></script>
 
 <!-- App entry point (ES module — pulls in filters/side-panel/url-sync/weather/webcams via imports) -->
 <script type="module" src="command-center.js"></script>

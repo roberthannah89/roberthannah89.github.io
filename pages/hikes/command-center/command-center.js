@@ -776,6 +776,7 @@ function fallbackCopy(text) {
 }
 
 var webcamLayer = null;
+var webcamWanted = false;
 
 function toggleWeatherLayer(id, show) {
   if (id === 'hikes') {
@@ -792,9 +793,21 @@ function toggleWeatherLayer(id, show) {
     return;
   }
   if (id === 'webcams') {
+    // WebcamLayer.create() lazily injects webcams_windy_data.js — the first
+    // toggle pays the ~100 KB download cost; subsequent toggles reuse
+    // webcamLayer instantly. Track desired visibility so a quick on→off flip
+    // while the data is still loading doesn't show the layer after the user
+    // turned it back off.
+    webcamWanted = show;
     if (show) {
-      if (!webcamLayer) webcamLayer = WebcamLayer.create();
-      if (webcamLayer) map.addLayer(webcamLayer);
+      if (webcamLayer) {
+        map.addLayer(webcamLayer);
+      } else {
+        WebcamLayer.create().then(function (layer) {
+          webcamLayer = layer;
+          if (webcamWanted) map.addLayer(webcamLayer);
+        });
+      }
     } else if (webcamLayer) {
       map.removeLayer(webcamLayer);
     }
