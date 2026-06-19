@@ -6,6 +6,8 @@
 <link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#0b0c10">
 <title>Draettehorn (2776 m) -- Hike Plan</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
@@ -67,6 +69,9 @@
        aria-label="Download GPX track for Draettehorn">↓ Download GPX</a>
     <button type="button" id="waypoint-toggle" class="ms-layer-btn"
             aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <button type="button" id="offline-save-btn" class="ms-layer-btn"
+            aria-label="Save this hike for offline use (requires the site to be served over HTTPS)"
+            hidden>⤓ Save for offline</button>
     <details class="info-popover">
       <summary class="info-icon" aria-label="Map attribution">i</summary>
       <div class="info-body">
@@ -222,6 +227,48 @@ window.TRACK_STATS = {"ascent_m": 853.0, "descent_m": 2150.600000000002, "distan
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 1.43, "end_m": 294.1, "length_m": 294.1, "n_points": 19, "source": "swisstopo", "start_m": 0.0, "t_grade": "T2/T3"}, {"coverage_pct": 1.6, "end_m": 658.8, "length_m": 328.6, "n_points": 34, "source": "osm", "start_m": 330.2, "t_grade": "T2"}, {"coverage_pct": 1.21, "end_m": 911.6, "length_m": 247.5, "n_points": 36, "source": "swisstopo", "start_m": 664.1, "t_grade": "T2/T3"}, {"coverage_pct": 5.98, "end_m": 2150.4, "length_m": 1227.7, "n_points": 155, "source": "osm", "start_m": 922.8, "t_grade": "T2"}, {"coverage_pct": 13.14, "end_m": 4868.1, "length_m": 2698.2, "n_points": 472, "source": "osm", "start_m": 2169.9, "t_grade": "T4"}, {"coverage_pct": 7.85, "end_m": 6484.4, "length_m": 1610.7, "n_points": 76, "source": "swisstopo", "start_m": 4873.7, "t_grade": "T2/T3"}, {"coverage_pct": 0.51, "end_m": 6617.9, "length_m": 104.1, "n_points": 8, "source": "osm", "start_m": 6513.8, "t_grade": "T3"}, {"coverage_pct": 2.2, "end_m": 7074.6, "length_m": 450.7, "n_points": 22, "source": "swisstopo", "start_m": 6623.9, "t_grade": "T2/T3"}, {"coverage_pct": 17.43, "end_m": 10693.8, "length_m": 3578.4, "n_points": 97, "source": "none", "start_m": 7115.4, "t_grade": "unknown"}, {"coverage_pct": 0.56, "end_m": 10846.2, "length_m": 115.7, "n_points": 4, "source": "osm", "start_m": 10730.5, "t_grade": "T2"}, {"coverage_pct": 3.11, "end_m": 11527.9, "length_m": 637.7, "n_points": 55, "source": "swisstopo", "start_m": 10890.1, "t_grade": "T2/T3"}, {"coverage_pct": 10.22, "end_m": 13637.5, "length_m": 2097.3, "n_points": 263, "source": "osm", "start_m": 11540.2, "t_grade": "T2"}, {"coverage_pct": 5.53, "end_m": 14808.9, "length_m": 1136.0, "n_points": 106, "source": "none", "start_m": 13673.0, "t_grade": "unknown"}, {"coverage_pct": 12.32, "end_m": 17384.7, "length_m": 2529.4, "n_points": 464, "source": "swisstopo", "start_m": 14855.4, "t_grade": "T2/T3"}, {"coverage_pct": 15.29, "end_m": 20529.2, "length_m": 3139.2, "n_points": 298, "source": "osm", "start_m": 17390.0, "t_grade": "T1"}], "slug": "draettehorn", "stats": {"n_points": 2109, "osm_pct": 47.3, "swisstopo_pct": 28.1, "total_m": 20529.2, "unknown_pct": 23.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+<script src="../_assets/sw-register.js" defer></script>
+<script>
+/* "Save for offline" wiring. The button is hidden by default; we only
+   reveal it once the service worker is active (i.e. we're on https://
+   and SW registration succeeded). On file:// the button stays hidden.
+   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
+   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
+(function () {
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  var btn = document.getElementById("offline-save-btn");
+  if (!btn) return;
+  navigator.serviceWorker.ready.then(function (reg) {
+    btn.hidden = false;
+    btn.addEventListener("click", function () {
+      var pageUrl = new URL(location.href);
+      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
+      var urls = [
+        pageUrl.href,
+        hereDir + "draettehorn.track.js",
+        hereDir + "draettehorn.gpx",
+        hereDir + "draettehorn.3d-preview.jpg",
+      ];
+      // Photos (cross-origin, allow-listed in the SW).
+      try {
+        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
+          if (el.tagName === "IMG" && el.src) urls.push(el.src);
+        });
+      } catch (_) {}
+      btn.disabled = true;
+      btn.textContent = "Saving…";
+      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
+      // We don't get a completion ack in this prototype — flip the label
+      // after a short delay so the user sees feedback. (A real impl would
+      // wait for a MessageChannel reply.)
+      setTimeout(function () {
+        btn.textContent = "✓ Saved";
+        btn.disabled = false;
+      }, 1500);
+    });
+  });
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

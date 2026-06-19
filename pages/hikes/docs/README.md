@@ -62,3 +62,4 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | Shared constants (physical, algorithmic, defaults) | [`scripts/config.py`](../scripts/config.py) |
 | Golden reference (fully populated example) | [`routes/augstmatthorn/augstmatthorn.data.json`](../routes/augstmatthorn/augstmatthorn.data.json) |
 | Command Center design spec | [`command-center/DESIGN.md`](../command-center/DESIGN.md) |
+| Offline / PWA support — design memo | [`docs/design/offline.md`](design/offline.md) |
