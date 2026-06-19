@@ -392,7 +392,7 @@
   //   T4-T6 → white-blue-white horizontal stripe (Alpinwanderweg)
   // The TX grade label is overlaid centered in the colored band.
   function sacGradeIcon(label) {
-    var w = 38, h = 18;
+    var w = 22, h = 22;
     var bg, band, textFill;
     if (label === 'T1-2') {
       bg = '#f2c800'; band = null; textFill = '#1a1810';
@@ -401,12 +401,14 @@
     } else {
       bg = '#ffffff'; band = '#3388ff'; textFill = '#ffffff';
     }
+    // T1-2 is 4 chars so it needs a smaller font than the single-digit labels.
+    var fontSize = label.length > 2 ? 6.5 : 9;
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '" class="grade-icon">';
     svg += '<rect width="' + w + '" height="' + h + '" fill="' + bg + '" rx="2"/>';
     if (band) {
-      svg += '<rect y="3" width="' + w + '" height="12" fill="' + band + '"/>';
+      svg += '<rect y="6" width="' + w + '" height="10" fill="' + band + '"/>';
     }
-    svg += '<text x="' + (w/2) + '" y="' + (h/2 + 3.2) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700" fill="' + textFill + '">' + label + '</text>';
+    svg += '<text x="' + (w/2) + '" y="' + (h/2 + 3) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="' + fontSize + '" font-weight="700" fill="' + textFill + '">' + label + '</text>';
     svg += '</svg>';
     return svg;
   }
@@ -432,14 +434,14 @@
     ]));
 
     // Peak elevation
-    bar.appendChild(filterGroup('Elev', [
+    bar.appendChild(filterGroup('elev', [
       { label: '≤2000', key: 'elevation', value: 'low' },
       { label: '2-2.5k', key: 'elevation', value: 'mid' },
       { label: '2.5k+', key: 'elevation', value: 'high' }
     ]));
 
     // Vertical gain
-    bar.appendChild(filterGroup('Gain', [
+    bar.appendChild(filterGroup('gain', [
       { label: '≤500', key: 'gain', value: 'easy' },
       { label: '500-1k', key: 'gain', value: 'mod' },
       { label: '1-1.5k', key: 'gain', value: 'hard' },
@@ -459,8 +461,9 @@
     group.className = 'filter-group filter-group--display';
 
     var lbl = document.createElement('span');
-    lbl.className = 'filter-label';
-    lbl.textContent = 'Show';
+    lbl.className = 'filter-label filter-label--icon';
+    lbl.title = 'Show';
+    lbl.innerHTML = LABEL_ICONS.show;
     group.appendChild(lbl);
 
     var options = [
@@ -596,16 +599,34 @@
     return group;
   }
 
+  // Group label glyphs. Emoji for the topographic ones (mountain peak, gain
+  // chart) so they read as colored hints; mono SVG for the eye (no good
+  // emoji equivalent). The CSS rule .filter-label--icon bumps font-size so
+  // emoji render at a visible size against the small label slot.
+  var LABEL_ICONS = {
+    elev: '🏔️',
+    gain: '📈',
+    show: '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 6 Q6 1.5 11 6 Q6 10.5 1 6 Z"/><circle cx="6" cy="6" r="1.6" fill="currentColor"/></svg>'
+  };
+
   function filterGroup(label, options, multiSelect, style) {
     var group = document.createElement('div');
     group.className = 'filter-group';
 
     // Label is optional — pass '' (or null/undefined) to render an icon-only
     // group where the buttons are self-evident (e.g. Grade, Time, Sky, Temp).
+    // Pass a key from LABEL_ICONS (e.g. 'elev') to render an inline SVG glyph
+    // instead of text.
     if (label) {
       var lbl = document.createElement('span');
       lbl.className = 'filter-label';
-      lbl.textContent = label;
+      if (LABEL_ICONS[label]) {
+        lbl.classList.add('filter-label--icon');
+        lbl.title = label.charAt(0).toUpperCase() + label.slice(1);
+        lbl.innerHTML = LABEL_ICONS[label];
+      } else {
+        lbl.textContent = label;
+      }
       group.appendChild(lbl);
     }
 
