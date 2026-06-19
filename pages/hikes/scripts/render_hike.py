@@ -523,6 +523,91 @@ def _filter_todo_sections(data: dict) -> None:
         weather["season_html"] = ""
 
 
+def load_hike_data(data_path: Path) -> dict:
+    """Read a hike's data.json from disk. No augmentation — pure I/O.
+
+    Sets ``slug`` from the file stem if missing so downstream callers can rely
+    on it.
+    """
+    slug = data_path.stem.replace(".data", "")
+    data = json.loads(data_path.read_text(encoding="utf-8"))
+    data.setdefault("slug", slug)
+    return data
+
+
+def validate_hike_data(data: dict) -> None:
+    """JSON-schema validate hike data. Raises ``ValueError`` on failure.
+
+    No-op if ``jsonschema`` isn't installed or the schema file is missing.
+    """
+    if Draft7Validator is None or _SCHEMA is None:
+        return
+    errors = sorted(Draft7Validator(_SCHEMA).iter_errors(data),
+                    key=lambda e: list(e.absolute_path))
+    if not errors:
+        return
+    msgs = []
+    for e in errors[:5]:
+        loc = "/".join(str(p) for p in e.absolute_path) or "<root>"
+        msgs.append(f"{loc}: {e.message}")
+    raise ValueError("schema validation failed: " + "; ".join(msgs))
+
+
+def augment_hike_data(data: dict, gpx_stats: dict[str, float], hike_dir: Path) -> dict:
+    """Derive all the rendered fields on top of raw hike data.
+
+    Mutates and returns ``data`` so callers can chain. Performs no disk I/O
+    apart from the GPX waypoint parse (which reads from ``hike_dir``) and the
+    ``_config.js`` existence probe; everything else is in-memory field
+    derivation: hero fallbacks, quick-facts assembly, source-link expansion,
+    transport notes, TODO filtering, and the pipeline-constants block.
+    """
+    slug = data.get("slug") or ""
+    gpx_path = hike_dir / f"{slug}.gpx"
+
+    data["gpx_stats"] = gpx_stats
+    # Auto-derive waypoints from GPX <wpt>s when data has none.
+    if not data.get("waypoints"):
+        data["waypoints"] = parse_gpx_waypoints(
+            gpx_path,
+            peak_name=data.get("peak", {}).get("name"),
+            trailhead_name=data.get("trailhead", {}).get("name"),
+        )
+    # Auto-derive hero subtitle from GPX when requested.
+    # Auto-populate hero image from photos[0] if hero image is missing/TODO
+    hero = data.get("hero") or {}
+    if hero.get("auto_subtitle") and gpx_stats:
+        hero["subtitle_html"] = auto_subtitle(hero.get("grade", ""), gpx_stats)
+
+    # Auto-use first photo as hero if hero image is empty or TODO
+    photos = data.get("photos") or []
+    hero_url = hero.get("image_url", "").strip()
+    if photos and (not hero_url or "TODO" in hero_url):
+        hero["image_url"] = photos[0].get("url", "")
+        hero["subtitle_html"] = hero.get("subtitle_html", "") or f"Photo via {photos[0].get('caption_html', '')}"
+    elif not photos and (not hero_url or "TODO" in hero_url):
+        # No photos available; use placeholder
+        hero["image_url"] = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
+
+    if hero:
+        data["hero"] = hero
+    data["display_quick_facts"] = build_display_quick_facts(
+        data.get("quick_facts") or [],
+        hero.get("grade", ""),
+        data.get("routes"),
+    )
+    _build_transport_notes(data)
+    _filter_todo_sections(data)
+    # Optional per-hike _config.js (e.g. Google Maps Embed API key).
+    data["has_config_js"] = (hike_dir / "_config.js").exists()
+    data["pipeline_constants"] = {
+        "naismith_speed_kmh": NAISMITH_SPEED_KMH,
+        "naismith_ascent_mh": NAISMITH_ASCENT_MH,
+        "lapse_rate_c_per_km": LAPSE_RATE_C_PER_KM,
+    }
+    return data
+
+
 def render_one(data_path: Path) -> RenderResult:
     """Render one hike. Pure function — safe for ProcessPoolExecutor."""
     stages: dict[str, float] = {}
@@ -531,65 +616,17 @@ def render_one(data_path: Path) -> RenderResult:
     out_path = data_path.parent / f"{slug}.html"
     try:
         with StageTimer(stages, "load_json"):
-            data = json.loads(data_path.read_text(encoding="utf-8"))
-            data.setdefault("slug", slug)
+            data = load_hike_data(data_path)
 
         with StageTimer(stages, "validate"):
-            if Draft7Validator is not None and _SCHEMA is not None:
-                errors = sorted(Draft7Validator(_SCHEMA).iter_errors(data),
-                                key=lambda e: list(e.absolute_path))
-                if errors:
-                    msgs = []
-                    for e in errors[:5]:
-                        loc = "/".join(str(p) for p in e.absolute_path) or "<root>"
-                        msgs.append(f"{loc}: {e.message}")
-                    raise ValueError("schema validation failed: " + "; ".join(msgs))
+            validate_hike_data(data)
 
         with StageTimer(stages, "gpx_stats"):
             gpx_path = data_path.parent / f"{slug}.gpx"
             gpx_stats = compute_gpx_stats(gpx_path)
 
         with StageTimer(stages, "augment"):
-            data["gpx_stats"] = gpx_stats
-            # Auto-derive waypoints from GPX <wpt>s when data has none.
-            if not data.get("waypoints"):
-                data["waypoints"] = parse_gpx_waypoints(
-                    gpx_path,
-                    peak_name=data.get("peak", {}).get("name"),
-                    trailhead_name=data.get("trailhead", {}).get("name"),
-                )
-            # Auto-derive hero subtitle from GPX when requested.
-            # Auto-populate hero image from photos[0] if hero image is missing/TODO
-            hero = data.get("hero") or {}
-            if hero.get("auto_subtitle") and gpx_stats:
-                hero["subtitle_html"] = auto_subtitle(hero.get("grade", ""), gpx_stats)
-
-            # Auto-use first photo as hero if hero image is empty or TODO
-            photos = data.get("photos") or []
-            hero_url = hero.get("image_url", "").strip()
-            if photos and (not hero_url or "TODO" in hero_url):
-                hero["image_url"] = photos[0].get("url", "")
-                hero["subtitle_html"] = hero.get("subtitle_html", "") or f"Photo via {photos[0].get('caption_html', '')}"
-            elif not photos and (not hero_url or "TODO" in hero_url):
-                # No photos available; use placeholder
-                hero["image_url"] = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
-
-            if hero:
-                data["hero"] = hero
-            data["display_quick_facts"] = build_display_quick_facts(
-                data.get("quick_facts") or [],
-                hero.get("grade", ""),
-                data.get("routes"),
-            )
-            _build_transport_notes(data)
-            _filter_todo_sections(data)
-            # Optional per-hike _config.js (e.g. Google Maps Embed API key).
-            data["has_config_js"] = (data_path.parent / "_config.js").exists()
-            data["pipeline_constants"] = {
-                "naismith_speed_kmh": NAISMITH_SPEED_KMH,
-                "naismith_ascent_mh": NAISMITH_ASCENT_MH,
-                "lapse_rate_c_per_km": LAPSE_RATE_C_PER_KM,
-            }
+            augment_hike_data(data, gpx_stats, data_path.parent)
 
         with StageTimer(stages, "load_template"):
             env = _make_env()
