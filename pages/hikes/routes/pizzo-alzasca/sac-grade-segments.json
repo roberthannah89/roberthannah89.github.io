@@ -1,0 +1,67 @@
+{
+  "slug": "pizzo-alzasca",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 88.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 20,
+      "coverage_pct": 2.43,
+      "length_m": 88.2
+    },
+    {
+      "start_m": 94.0,
+      "end_m": 890.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 142,
+      "coverage_pct": 21.98,
+      "length_m": 796.0
+    },
+    {
+      "start_m": 893.0,
+      "end_m": 1258.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 62,
+      "coverage_pct": 10.09,
+      "length_m": 365.5
+    },
+    {
+      "start_m": 1265.2,
+      "end_m": 1632.3,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 46,
+      "coverage_pct": 10.14,
+      "length_m": 367.1
+    },
+    {
+      "start_m": 1637.3,
+      "end_m": 3198.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 180,
+      "coverage_pct": 43.11,
+      "length_m": 1560.9
+    },
+    {
+      "start_m": 3223.3,
+      "end_m": 3620.8,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 14,
+      "coverage_pct": 10.98,
+      "length_m": 397.4
+    }
+  ],
+  "stats": {
+    "total_m": 3620.8,
+    "n_points": 464,
+    "osm_pct": 55.6,
+    "swisstopo_pct": 32.1,
+    "unknown_pct": 11.0
+  }
+}

@@ -43,53 +43,99 @@
     <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
   </table>
 </section>
-
 <section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
-      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
   </div>
-      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg" alt=""></a>
-      <p class="attrib">All photos: SAC Route Portal</p>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg" alt="" title="All photos: SAC Route Portal"></a>
 </section>
 
 <section class="map-section">
-  <h2>Interactive Route Map</h2>
+  <h2>Route Map &amp; Elevation</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./gross-mythen.gpx" download="gross-mythen.gpx"
        aria-label="Download GPX track for Gross Mythen">↓ Download GPX</a>
+    <button type="button" id="waypoint-toggle" class="ms-layer-btn"
+            aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <details class="info-popover">
+      <summary class="info-icon" aria-label="Map attribution">i</summary>
+      <div class="info-body">
+        Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a>
+        (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors |
+        Map library: <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>.
+        Route line is approximate — verify against the SAC Route Portal before going.
+      </div>
+    </details>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
-  <div class="legend">
-    <span class="start">Start (Holzegg, summit station)</span>
-    <span class="summit">Summit (Gross Mythen)</span>
-    <span class="way">Waypoint</span>
-    <span class="line">Approximate route</span>
+
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+    <div class="elev-hover-info" id="elev-hover-info" hidden></div>
   </div>
-  <p class="attrib">
-    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
-    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
-    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
-    Route line is approximate — verify against the SAC Route Portal before going.
+  <div class="elev-summary-row">
+    <div class="elev-stats" id="elev-stats">
+      <span><strong>2.7 km</strong> total</span>
+      <span>&uarr; <strong>468 m</strong> ascent</span>
+      <span>&darr; <strong>197 m</strong> descent</span>
+      <span>max <strong>1871 m</strong></span>
+      <span>steepest <strong>57%</strong></span>
+    </div>
+    <div class="tgrade-legend" id="tgrade-legend" aria-label="SAC T-grade legend"></div>
+    <details class="info-popover tgrade-info">
+      <summary class="info-icon" aria-label="Trail difficulty source">i</summary>
+      <div class="info-body">
+        Trail difficulty per segment: OSM <code>sac_scale</code> (precise T1–T6) with
+        <a href="https://www.swisstopo.admin.ch/en/landscape-model-swisstlm3d" target="_blank" rel="noopener">swissTLM3D <em>Wanderwegart</em></a>
+        fallback where OSM is silent (coarser T2/T3 and T4+ buckets).
+        Coverage: OSM 99.0% · swisstopo 0.0% · unknown 0.0%.<br>
+        Elevations computed from the inlined GPX track (SwissTopo height API).
+      </div>
+    </details>
+  </div>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start" aria-label="Hike start time"><input type="time" id="elev-start-time" value="10:00" step="600"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
+      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
+      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
+      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
+    </span>
+    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+</section>
+
+<section class="weather-section" aria-label="7-day forecast date picker">
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/47.02992N8.68877E"
+       target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
 </section>
 
@@ -103,12 +149,7 @@
       <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib">
-    Tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a> (SWISSIMAGE) +
-    <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>.
-    Powered by <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a>.
-    <a href="gross-mythen.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
-  </p>
+  <p class="attrib"><a href="gross-mythen.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
 </section>
 <section>
   <h2>Route Details</h2>
@@ -137,48 +178,6 @@
   <p class="attrib">Route returns to <strong>Holzegg, summit station</strong>.</p>
 </section>
 
-<section class="weather-section">
-  <h2>Weather Planning</h2>
-  <h3>7-day summit forecast (live)</h3>
-  <div id="forecast" class="forecast-grid">
-    <p class="forecast-loading">Loading forecast…</p>
-  </div>
-  <p class="forecast-more">
-    <a href="https://www.meteoblue.com/en/weather/week/47.02992N8.68877E"
-       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
-  </p>
-</section>
-
-<section>
-  <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats">
-    <span><strong>2.7 km</strong> total</span>
-    <span>&uarr; <strong>468 m</strong> ascent</span>
-    <span>&darr; <strong>197 m</strong> descent</span>
-    <span>max <strong>1871 m</strong></span>
-    <span>steepest <strong>57%</strong></span>
-  </div>
-  <div class="elev-controls" id="elev-controls" hidden>
-    <span class="elev-controls-day" id="elev-controls-day"></span>
-    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
-    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
-    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
-      <span class="elev-controls-label">Pace</span>
-      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
-      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
-      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
-    </span>
-    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
-    <span class="elev-controls-end" id="elev-controls-end"></span>
-    <span class="elev-controls-status" id="elev-controls-status"></span>
-  </div>
-  <div class="elev-chart-wrap">
-    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
-    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
-  </div>
-  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
-</section>
-
 
 <section class="print-only field-ref">
   <h2>Field Reference</h2>
@@ -195,8 +194,7 @@
 
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
-    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+    <p>© 2026 · compiled from public Swiss sources (tiles © swisstopo / OSM) · generated <time id="page-generated"></time></p>
   </div>
 </footer>
 
@@ -219,6 +217,7 @@ window.HIKE = {
   ]
 };
 window.TRACK_STATS = {"ascent_m": 468.0, "descent_m": 197.30000000000018, "distance_km": 2.6793161109066204, "max_ele": 1871.9, "min_ele": 1402.8, "n_points": 358.0, "steepest_grade_pct": 57.040896335880916};
+window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 13.01, "end_m": 348.6, "length_m": 348.6, "n_points": 59, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 55.72, "end_m": 1850.3, "length_m": 1493.0, "n_points": 271, "source": "osm", "start_m": 357.3, "t_grade": "T3"}, {"coverage_pct": 30.29, "end_m": 2679.3, "length_m": 811.6, "n_points": 28, "source": "osm", "start_m": 1867.7, "t_grade": "T5"}], "slug": "gross-mythen", "stats": {"n_points": 358, "osm_pct": 99.0, "swisstopo_pct": 0.0, "total_m": 2679.3, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
 <script>

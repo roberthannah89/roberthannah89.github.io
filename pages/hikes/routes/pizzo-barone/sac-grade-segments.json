@@ -1,0 +1,67 @@
+{
+  "slug": "pizzo-barone",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1797.4,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 338,
+      "coverage_pct": 22.79,
+      "length_m": 1797.4
+    },
+    {
+      "start_m": 1817.4,
+      "end_m": 2991.5,
+      "t_grade": "T4+",
+      "source": "swisstopo",
+      "n_points": 70,
+      "coverage_pct": 14.89,
+      "length_m": 1174.2
+    },
+    {
+      "start_m": 3034.9,
+      "end_m": 5347.3,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 45,
+      "coverage_pct": 29.32,
+      "length_m": 2312.3
+    },
+    {
+      "start_m": 5388.8,
+      "end_m": 6991.8,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 209,
+      "coverage_pct": 20.32,
+      "length_m": 1603.0
+    },
+    {
+      "start_m": 6996.7,
+      "end_m": 7711.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 161,
+      "coverage_pct": 9.07,
+      "length_m": 715.1
+    },
+    {
+      "start_m": 7719.9,
+      "end_m": 7887.6,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 26,
+      "coverage_pct": 2.13,
+      "length_m": 167.7
+    }
+  ],
+  "stats": {
+    "total_m": 7887.6,
+    "n_points": 849,
+    "osm_pct": 54.3,
+    "swisstopo_pct": 14.9,
+    "unknown_pct": 29.3
+  }
+}

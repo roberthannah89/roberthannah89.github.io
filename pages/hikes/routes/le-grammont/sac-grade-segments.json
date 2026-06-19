@@ -1,0 +1,76 @@
+{
+  "slug": "le-grammont",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2860.6,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 446,
+      "coverage_pct": 27.88,
+      "length_m": 2860.6
+    },
+    {
+      "start_m": 2865.1,
+      "end_m": 2954.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 20,
+      "coverage_pct": 0.87,
+      "length_m": 89.4
+    },
+    {
+      "start_m": 2964.5,
+      "end_m": 4227.4,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 251,
+      "coverage_pct": 12.31,
+      "length_m": 1262.8
+    },
+    {
+      "start_m": 4231.0,
+      "end_m": 4392.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 19,
+      "coverage_pct": 1.57,
+      "length_m": 161.6
+    },
+    {
+      "start_m": 4440.8,
+      "end_m": 5478.5,
+      "t_grade": "T5",
+      "source": "osm",
+      "n_points": 51,
+      "coverage_pct": 10.11,
+      "length_m": 1037.7
+    },
+    {
+      "start_m": 5495.3,
+      "end_m": 9585.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 498,
+      "coverage_pct": 39.87,
+      "length_m": 4090.4
+    },
+    {
+      "start_m": 9596.0,
+      "end_m": 10258.8,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 61,
+      "coverage_pct": 6.46,
+      "length_m": 662.8
+    }
+  ],
+  "stats": {
+    "total_m": 10258.8,
+    "n_points": 1346,
+    "osm_pct": 99.1,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 0.0
+  }
+}

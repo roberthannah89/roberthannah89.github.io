@@ -1,0 +1,58 @@
+{
+  "slug": "monte-rosa-huette",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 55.6,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 6,
+      "coverage_pct": 0.64,
+      "length_m": 55.6
+    },
+    {
+      "start_m": 62.4,
+      "end_m": 3101.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 567,
+      "coverage_pct": 34.74,
+      "length_m": 3039.3
+    },
+    {
+      "start_m": 3108.1,
+      "end_m": 4639.3,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 99,
+      "coverage_pct": 17.5,
+      "length_m": 1531.2
+    },
+    {
+      "start_m": 4893.2,
+      "end_m": 5077.6,
+      "t_grade": "T4+",
+      "source": "swisstopo",
+      "n_points": 6,
+      "coverage_pct": 2.11,
+      "length_m": 184.4
+    },
+    {
+      "start_m": 5127.1,
+      "end_m": 8749.7,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 793,
+      "coverage_pct": 41.4,
+      "length_m": 3622.6
+    }
+  ],
+  "stats": {
+    "total_m": 8749.7,
+    "n_points": 1471,
+    "osm_pct": 94.3,
+    "swisstopo_pct": 2.1,
+    "unknown_pct": 0.0
+  }
+}

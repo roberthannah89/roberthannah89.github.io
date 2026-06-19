@@ -1,0 +1,40 @@
+{
+  "slug": "ortstock",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 944.6,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 166,
+      "coverage_pct": 12.37,
+      "length_m": 944.6
+    },
+    {
+      "start_m": 946.4,
+      "end_m": 6709.3,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 1248,
+      "coverage_pct": 75.46,
+      "length_m": 5762.9
+    },
+    {
+      "start_m": 6718.6,
+      "end_m": 7636.7,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 291,
+      "coverage_pct": 12.02,
+      "length_m": 918.1
+    }
+  ],
+  "stats": {
+    "total_m": 7636.7,
+    "n_points": 1705,
+    "osm_pct": 87.8,
+    "swisstopo_pct": 12.0,
+    "unknown_pct": 0.0
+  }
+}

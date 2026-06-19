@@ -1,0 +1,94 @@
+{
+  "slug": "geltenhuette-sac",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2213.4,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 212,
+      "coverage_pct": 26.73,
+      "length_m": 2213.4
+    },
+    {
+      "start_m": 2230.4,
+      "end_m": 2538.3,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 14,
+      "coverage_pct": 3.72,
+      "length_m": 308.0
+    },
+    {
+      "start_m": 2543.9,
+      "end_m": 4585.1,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 241,
+      "coverage_pct": 24.65,
+      "length_m": 2041.1
+    },
+    {
+      "start_m": 4589.1,
+      "end_m": 4872.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 20,
+      "coverage_pct": 3.42,
+      "length_m": 283.0
+    },
+    {
+      "start_m": 4879.0,
+      "end_m": 4938.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 16,
+      "coverage_pct": 0.72,
+      "length_m": 59.7
+    },
+    {
+      "start_m": 4949.2,
+      "end_m": 6030.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 133,
+      "coverage_pct": 13.05,
+      "length_m": 1080.9
+    },
+    {
+      "start_m": 6036.7,
+      "end_m": 7716.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 236,
+      "coverage_pct": 20.28,
+      "length_m": 1679.3
+    },
+    {
+      "start_m": 7729.8,
+      "end_m": 7907.8,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 28,
+      "coverage_pct": 2.15,
+      "length_m": 178.0
+    },
+    {
+      "start_m": 7911.6,
+      "end_m": 8280.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 59,
+      "coverage_pct": 4.45,
+      "length_m": 368.4
+    }
+  ],
+  "stats": {
+    "total_m": 8280.1,
+    "n_points": 959,
+    "osm_pct": 0.7,
+    "swisstopo_pct": 92.6,
+    "unknown_pct": 5.9
+  }
+}

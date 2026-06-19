@@ -1,0 +1,22 @@
+{
+  "slug": "munt-pers",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1971.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 548,
+      "coverage_pct": 100.0,
+      "length_m": 1971.8
+    }
+  ],
+  "stats": {
+    "total_m": 1971.8,
+    "n_points": 548,
+    "osm_pct": 100.0,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 0.0
+  }
+}

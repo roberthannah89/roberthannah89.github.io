@@ -1,0 +1,94 @@
+{
+  "slug": "fronalpstock-sz-morschach",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2487.6,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 459,
+      "coverage_pct": 51.73,
+      "length_m": 2487.6
+    },
+    {
+      "start_m": 2498.1,
+      "end_m": 2649.9,
+      "t_grade": "T4+",
+      "source": "swisstopo",
+      "n_points": 19,
+      "coverage_pct": 3.16,
+      "length_m": 151.8
+    },
+    {
+      "start_m": 2656.1,
+      "end_m": 2928.9,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 48,
+      "coverage_pct": 5.67,
+      "length_m": 272.9
+    },
+    {
+      "start_m": 2933.0,
+      "end_m": 3829.4,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 177,
+      "coverage_pct": 18.64,
+      "length_m": 896.5
+    },
+    {
+      "start_m": 3832.8,
+      "end_m": 3916.0,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 29,
+      "coverage_pct": 1.73,
+      "length_m": 83.2
+    },
+    {
+      "start_m": 3925.7,
+      "end_m": 4167.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 19,
+      "coverage_pct": 5.03,
+      "length_m": 241.7
+    },
+    {
+      "start_m": 4172.5,
+      "end_m": 4314.3,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 14,
+      "coverage_pct": 2.95,
+      "length_m": 141.9
+    },
+    {
+      "start_m": 4319.6,
+      "end_m": 4588.4,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 25,
+      "coverage_pct": 5.59,
+      "length_m": 268.8
+    },
+    {
+      "start_m": 4602.6,
+      "end_m": 4809.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 13,
+      "coverage_pct": 4.3,
+      "length_m": 206.7
+    }
+  ],
+  "stats": {
+    "total_m": 4809.3,
+    "n_points": 803,
+    "osm_pct": 87.1,
+    "swisstopo_pct": 8.7,
+    "unknown_pct": 3.0
+  }
+}

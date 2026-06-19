@@ -1,0 +1,103 @@
+{
+  "slug": "bunderspitz",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 248.5,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 44,
+      "coverage_pct": 2.98,
+      "length_m": 248.5
+    },
+    {
+      "start_m": 250.8,
+      "end_m": 656.5,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 57,
+      "coverage_pct": 4.87,
+      "length_m": 405.7
+    },
+    {
+      "start_m": 662.1,
+      "end_m": 776.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 16,
+      "coverage_pct": 1.38,
+      "length_m": 114.7
+    },
+    {
+      "start_m": 795.8,
+      "end_m": 947.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 21,
+      "coverage_pct": 1.82,
+      "length_m": 151.2
+    },
+    {
+      "start_m": 977.1,
+      "end_m": 3894.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 408,
+      "coverage_pct": 35.03,
+      "length_m": 2917.7
+    },
+    {
+      "start_m": 3938.6,
+      "end_m": 5750.5,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 56,
+      "coverage_pct": 21.75,
+      "length_m": 1812.0
+    },
+    {
+      "start_m": 5784.1,
+      "end_m": 7681.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 301,
+      "coverage_pct": 22.78,
+      "length_m": 1897.4
+    },
+    {
+      "start_m": 7696.6,
+      "end_m": 7952.0,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 47,
+      "coverage_pct": 3.07,
+      "length_m": 255.4
+    },
+    {
+      "start_m": 7955.0,
+      "end_m": 8239.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 40,
+      "coverage_pct": 3.41,
+      "length_m": 284.0
+    },
+    {
+      "start_m": 8260.8,
+      "end_m": 8329.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 10,
+      "coverage_pct": 0.83,
+      "length_m": 68.7
+    }
+  ],
+  "stats": {
+    "total_m": 8329.6,
+    "n_points": 1000,
+    "osm_pct": 66.1,
+    "swisstopo_pct": 10.1,
+    "unknown_pct": 21.8
+  }
+}

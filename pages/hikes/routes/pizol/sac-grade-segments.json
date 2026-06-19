@@ -1,0 +1,67 @@
+{
+  "slug": "pizol",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 829.2,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 69,
+      "coverage_pct": 6.61,
+      "length_m": 829.2
+    },
+    {
+      "start_m": 835.3,
+      "end_m": 2412.8,
+      "t_grade": "T4+",
+      "source": "swisstopo",
+      "n_points": 173,
+      "coverage_pct": 12.58,
+      "length_m": 1577.6
+    },
+    {
+      "start_m": 2419.7,
+      "end_m": 6385.7,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 953,
+      "coverage_pct": 31.64,
+      "length_m": 3966.0
+    },
+    {
+      "start_m": 6388.5,
+      "end_m": 9596.0,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 937,
+      "coverage_pct": 25.59,
+      "length_m": 3207.5
+    },
+    {
+      "start_m": 9602.6,
+      "end_m": 10191.0,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 164,
+      "coverage_pct": 4.69,
+      "length_m": 588.4
+    },
+    {
+      "start_m": 10193.4,
+      "end_m": 12535.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 561,
+      "coverage_pct": 18.68,
+      "length_m": 2342.1
+    }
+  ],
+  "stats": {
+    "total_m": 12535.5,
+    "n_points": 2857,
+    "osm_pct": 80.6,
+    "swisstopo_pct": 19.2,
+    "unknown_pct": 0.0
+  }
+}

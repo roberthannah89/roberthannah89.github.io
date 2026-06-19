@@ -1,0 +1,121 @@
+{
+  "slug": "dent-de-broc",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 77.8,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 14,
+      "coverage_pct": 0.61,
+      "length_m": 77.8
+    },
+    {
+      "start_m": 82.1,
+      "end_m": 502.5,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 34,
+      "coverage_pct": 3.31,
+      "length_m": 420.4
+    },
+    {
+      "start_m": 547.9,
+      "end_m": 847.9,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 26,
+      "coverage_pct": 2.36,
+      "length_m": 300.0
+    },
+    {
+      "start_m": 856.6,
+      "end_m": 1279.3,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 35,
+      "coverage_pct": 3.32,
+      "length_m": 422.7
+    },
+    {
+      "start_m": 1288.8,
+      "end_m": 1867.5,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 66,
+      "coverage_pct": 4.55,
+      "length_m": 578.6
+    },
+    {
+      "start_m": 1877.2,
+      "end_m": 4622.8,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 439,
+      "coverage_pct": 21.59,
+      "length_m": 2745.6
+    },
+    {
+      "start_m": 4627.5,
+      "end_m": 5025.1,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 82,
+      "coverage_pct": 3.13,
+      "length_m": 397.6
+    },
+    {
+      "start_m": 5028.2,
+      "end_m": 5321.0,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 109,
+      "coverage_pct": 2.3,
+      "length_m": 292.8
+    },
+    {
+      "start_m": 5370.2,
+      "end_m": 5596.2,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 60,
+      "coverage_pct": 1.78,
+      "length_m": 226.0
+    },
+    {
+      "start_m": 5603.8,
+      "end_m": 9798.8,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 681,
+      "coverage_pct": 32.99,
+      "length_m": 4195.0
+    },
+    {
+      "start_m": 9808.2,
+      "end_m": 10229.5,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 35,
+      "coverage_pct": 3.31,
+      "length_m": 421.3
+    },
+    {
+      "start_m": 10236.6,
+      "end_m": 12714.4,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 320,
+      "coverage_pct": 19.49,
+      "length_m": 2477.7
+    }
+  ],
+  "stats": {
+    "total_m": 12714.4,
+    "n_points": 1901,
+    "osm_pct": 44.8,
+    "swisstopo_pct": 50.7,
+    "unknown_pct": 3.3
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "slug": "hoernlihuette",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 55.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 7,
+      "coverage_pct": 1.31,
+      "length_m": 55.9
+    },
+    {
+      "start_m": 56.6,
+      "end_m": 4268.0,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 567,
+      "coverage_pct": 98.67,
+      "length_m": 4211.4
+    }
+  ],
+  "stats": {
+    "total_m": 4268.0,
+    "n_points": 574,
+    "osm_pct": 100.0,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 0.0
+  }
+}

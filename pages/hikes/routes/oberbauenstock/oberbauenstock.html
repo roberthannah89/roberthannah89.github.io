@@ -42,48 +42,94 @@
     <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
   </table>
 </section>
-
 <section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
-      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
   </div>
-      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg" alt=""></a>
-      <p class="attrib">All photos: SAC Route Portal</p>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg" alt="" title="All photos: SAC Route Portal"></a>
 </section>
 
 <section class="map-section">
-  <h2>Interactive Route Map</h2>
+  <h2>Route Map &amp; Elevation</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./oberbauenstock.gpx" download="oberbauenstock.gpx"
        aria-label="Download GPX track for Oberbauenstock">↓ Download GPX</a>
+    <button type="button" id="waypoint-toggle" class="ms-layer-btn"
+            aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <details class="info-popover">
+      <summary class="info-icon" aria-label="Map attribution">i</summary>
+      <div class="info-body">
+        Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a>
+        (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors |
+        Map library: <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>.
+        Route line is approximate — verify against the SAC Route Portal before going.
+      </div>
+    </details>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
-  <div class="legend">
-    <span class="start">Start (Alp Weid (UR))</span>
-    <span class="summit">Summit (Oberbauenstock)</span>
-    <span class="way">Waypoint</span>
-    <span class="line">Approximate route</span>
+
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+    <div class="elev-hover-info" id="elev-hover-info" hidden></div>
   </div>
-  <p class="attrib">
-    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
-    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
-    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
-    Route line is approximate — verify against the SAC Route Portal before going.
+  <div class="elev-summary-row">
+    <div class="elev-stats" id="elev-stats">
+      <span><strong>15.5 km</strong> total</span>
+      <span>&uarr; <strong>1336 m</strong> ascent</span>
+      <span>&darr; <strong>1344 m</strong> descent</span>
+      <span>max <strong>2117 m</strong></span>
+      <span>steepest <strong>31%</strong></span>
+    </div>
+    <div class="tgrade-legend" id="tgrade-legend" aria-label="SAC T-grade legend"></div>
+    <details class="info-popover tgrade-info">
+      <summary class="info-icon" aria-label="Trail difficulty source">i</summary>
+      <div class="info-body">
+        Trail difficulty per segment: OSM <code>sac_scale</code> (precise T1–T6) with
+        <a href="https://www.swisstopo.admin.ch/en/landscape-model-swisstlm3d" target="_blank" rel="noopener">swissTLM3D <em>Wanderwegart</em></a>
+        fallback where OSM is silent (coarser T2/T3 and T4+ buckets).
+        Coverage: OSM 86.0% · swisstopo 12.3% · unknown 1.5%.<br>
+        Elevations computed from the inlined GPX track (SwissTopo height API).
+      </div>
+    </details>
+  </div>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start" aria-label="Hike start time"><input type="time" id="elev-start-time" value="10:00" step="600"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
+      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
+      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
+      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
+    </span>
+    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+</section>
+
+<section class="weather-section" aria-label="7-day forecast date picker">
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.92787N8.54428E"
+       target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
 </section>
 
@@ -97,12 +143,7 @@
       <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib">
-    Tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a> (SWISSIMAGE) +
-    <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>.
-    Powered by <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a>.
-    <a href="oberbauenstock.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
-  </p>
+  <p class="attrib"><a href="oberbauenstock.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
 </section>
 <section>
   <h2>Route Details</h2>
@@ -142,48 +183,6 @@
   </div>
 </section>
 
-<section class="weather-section">
-  <h2>Weather Planning</h2>
-  <h3>7-day summit forecast (live)</h3>
-  <div id="forecast" class="forecast-grid">
-    <p class="forecast-loading">Loading forecast…</p>
-  </div>
-  <p class="forecast-more">
-    <a href="https://www.meteoblue.com/en/weather/week/46.92787N8.54428E"
-       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
-  </p>
-</section>
-
-<section>
-  <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats">
-    <span><strong>15.5 km</strong> total</span>
-    <span>&uarr; <strong>1336 m</strong> ascent</span>
-    <span>&darr; <strong>1344 m</strong> descent</span>
-    <span>max <strong>2117 m</strong></span>
-    <span>steepest <strong>31%</strong></span>
-  </div>
-  <div class="elev-controls" id="elev-controls" hidden>
-    <span class="elev-controls-day" id="elev-controls-day"></span>
-    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
-    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
-    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
-      <span class="elev-controls-label">Pace</span>
-      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
-      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
-      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
-    </span>
-    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
-    <span class="elev-controls-end" id="elev-controls-end"></span>
-    <span class="elev-controls-status" id="elev-controls-status"></span>
-  </div>
-  <div class="elev-chart-wrap">
-    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
-    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
-  </div>
-  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
-</section>
-
 
 <section class="print-only field-ref">
   <h2>Field Reference</h2>
@@ -200,8 +199,7 @@
 
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
-    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+    <p>© 2026 · compiled from public Swiss sources (tiles © swisstopo / OSM) · generated <time id="page-generated"></time></p>
   </div>
 </footer>
 
@@ -224,6 +222,7 @@ window.HIKE = {
   ]
 };
 window.TRACK_STATS = {"ascent_m": 1336.0, "descent_m": 1344.4999999999998, "distance_km": 15.483361089295409, "max_ele": 2117.3, "min_ele": 1251.5, "n_points": 6181.0, "steepest_grade_pct": 30.63009877005341};
+window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 1.14, "end_m": 176.4, "length_m": 176.4, "n_points": 33, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 7.81, "end_m": 1391.5, "length_m": 1209.1, "n_points": 306, "source": "osm", "start_m": 182.4, "t_grade": "T2"}, {"coverage_pct": 6.88, "end_m": 2460.7, "length_m": 1065.2, "n_points": 592, "source": "osm", "start_m": 1395.6, "t_grade": "T4"}, {"coverage_pct": 8.75, "end_m": 3816.6, "length_m": 1354.5, "n_points": 702, "source": "osm", "start_m": 2462.1, "t_grade": "T2"}, {"coverage_pct": 3.7, "end_m": 4391.1, "length_m": 572.6, "n_points": 176, "source": "osm", "start_m": 3818.5, "t_grade": "T1"}, {"coverage_pct": 2.21, "end_m": 4735.8, "length_m": 342.4, "n_points": 80, "source": "swisstopo", "start_m": 4393.5, "t_grade": "T2/T3"}, {"coverage_pct": 4.53, "end_m": 5441.7, "length_m": 701.0, "n_points": 365, "source": "osm", "start_m": 4740.7, "t_grade": "T3"}, {"coverage_pct": 0.52, "end_m": 5525.2, "length_m": 81.2, "n_points": 37, "source": "osm", "start_m": 5444.0, "t_grade": "T2"}, {"coverage_pct": 7.89, "end_m": 6749.0, "length_m": 1221.3, "n_points": 407, "source": "osm", "start_m": 5527.7, "t_grade": "T3"}, {"coverage_pct": 1.13, "end_m": 6926.9, "length_m": 174.8, "n_points": 72, "source": "osm", "start_m": 6752.1, "t_grade": "T5"}, {"coverage_pct": 36.57, "end_m": 12591.3, "length_m": 5663.0, "n_points": 2754, "source": "osm", "start_m": 6928.3, "t_grade": "T3"}, {"coverage_pct": 7.04, "end_m": 13682.3, "length_m": 1089.4, "n_points": 302, "source": "osm", "start_m": 12592.9, "t_grade": "T2"}, {"coverage_pct": 0.95, "end_m": 13833.8, "length_m": 147.8, "n_points": 44, "source": "swisstopo", "start_m": 13686.0, "t_grade": "T2/T3"}, {"coverage_pct": 1.51, "end_m": 14072.5, "length_m": 234.5, "n_points": 103, "source": "none", "start_m": 13838.0, "t_grade": "unknown"}, {"coverage_pct": 9.09, "end_m": 15483.4, "length_m": 1407.1, "n_points": 208, "source": "swisstopo", "start_m": 14076.2, "t_grade": "T1"}], "slug": "oberbauenstock", "stats": {"n_points": 6181, "osm_pct": 86.0, "swisstopo_pct": 12.3, "total_m": 15483.4, "unknown_pct": 1.5}};
 </script>
 <script src="../_assets/hike_page.js"></script>
 <script>

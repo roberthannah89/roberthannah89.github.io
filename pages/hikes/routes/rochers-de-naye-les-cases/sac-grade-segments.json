@@ -1,0 +1,220 @@
+{
+  "slug": "rochers-de-naye-les-cases",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 389.2,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 48,
+      "coverage_pct": 2.27,
+      "length_m": 389.2
+    },
+    {
+      "start_m": 391.9,
+      "end_m": 1045.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 124,
+      "coverage_pct": 3.82,
+      "length_m": 653.6
+    },
+    {
+      "start_m": 1055.9,
+      "end_m": 1528.7,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 125,
+      "coverage_pct": 2.76,
+      "length_m": 472.7
+    },
+    {
+      "start_m": 1536.0,
+      "end_m": 3968.1,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 407,
+      "coverage_pct": 14.21,
+      "length_m": 2432.0
+    },
+    {
+      "start_m": 3974.1,
+      "end_m": 4088.1,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 34,
+      "coverage_pct": 0.67,
+      "length_m": 114.0
+    },
+    {
+      "start_m": 4092.2,
+      "end_m": 4428.0,
+      "t_grade": "T5",
+      "source": "osm",
+      "n_points": 106,
+      "coverage_pct": 1.96,
+      "length_m": 335.7
+    },
+    {
+      "start_m": 4431.3,
+      "end_m": 5521.9,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 165,
+      "coverage_pct": 6.37,
+      "length_m": 1090.6
+    },
+    {
+      "start_m": 5525.2,
+      "end_m": 5704.5,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 29,
+      "coverage_pct": 1.05,
+      "length_m": 179.3
+    },
+    {
+      "start_m": 5719.2,
+      "end_m": 5856.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 20,
+      "coverage_pct": 0.8,
+      "length_m": 137.5
+    },
+    {
+      "start_m": 5879.1,
+      "end_m": 6802.7,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 111,
+      "coverage_pct": 5.4,
+      "length_m": 923.6
+    },
+    {
+      "start_m": 6806.9,
+      "end_m": 6968.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 25,
+      "coverage_pct": 0.94,
+      "length_m": 161.7
+    },
+    {
+      "start_m": 6981.9,
+      "end_m": 7822.8,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 118,
+      "coverage_pct": 4.92,
+      "length_m": 840.9
+    },
+    {
+      "start_m": 7834.5,
+      "end_m": 7934.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 16,
+      "coverage_pct": 0.58,
+      "length_m": 100.1
+    },
+    {
+      "start_m": 7940.2,
+      "end_m": 11108.1,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 434,
+      "coverage_pct": 18.52,
+      "length_m": 3167.9
+    },
+    {
+      "start_m": 11113.6,
+      "end_m": 11213.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 16,
+      "coverage_pct": 0.58,
+      "length_m": 100.1
+    },
+    {
+      "start_m": 11225.4,
+      "end_m": 12066.4,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 118,
+      "coverage_pct": 4.92,
+      "length_m": 840.9
+    },
+    {
+      "start_m": 12079.6,
+      "end_m": 12241.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 25,
+      "coverage_pct": 0.94,
+      "length_m": 161.7
+    },
+    {
+      "start_m": 12245.5,
+      "end_m": 13772.5,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 220,
+      "coverage_pct": 8.92,
+      "length_m": 1526.9
+    },
+    {
+      "start_m": 13778.3,
+      "end_m": 13883.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 13,
+      "coverage_pct": 0.62,
+      "length_m": 105.2
+    },
+    {
+      "start_m": 13893.8,
+      "end_m": 14187.9,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 51,
+      "coverage_pct": 1.72,
+      "length_m": 294.1
+    },
+    {
+      "start_m": 14196.0,
+      "end_m": 14303.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 13,
+      "coverage_pct": 0.63,
+      "length_m": 107.2
+    },
+    {
+      "start_m": 14323.5,
+      "end_m": 14422.8,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 15,
+      "coverage_pct": 0.58,
+      "length_m": 99.3
+    },
+    {
+      "start_m": 14439.5,
+      "end_m": 17109.0,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 512,
+      "coverage_pct": 15.6,
+      "length_m": 2669.5
+    }
+  ],
+  "stats": {
+    "total_m": 17109.0,
+    "n_points": 2745,
+    "osm_pct": 72.3,
+    "swisstopo_pct": 26.5,
+    "unknown_pct": 0.0
+  }
+}

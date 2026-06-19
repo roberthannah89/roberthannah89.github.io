@@ -1,0 +1,76 @@
+{
+  "slug": "le-soliat-creux-du-van",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2251.8,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 212,
+      "coverage_pct": 24.77,
+      "length_m": 2251.8
+    },
+    {
+      "start_m": 2259.9,
+      "end_m": 2336.6,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 12,
+      "coverage_pct": 0.84,
+      "length_m": 76.7
+    },
+    {
+      "start_m": 2363.7,
+      "end_m": 2903.6,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 88,
+      "coverage_pct": 5.94,
+      "length_m": 539.8
+    },
+    {
+      "start_m": 2915.5,
+      "end_m": 3541.4,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 68,
+      "coverage_pct": 6.88,
+      "length_m": 625.9
+    },
+    {
+      "start_m": 3550.6,
+      "end_m": 4715.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 166,
+      "coverage_pct": 12.81,
+      "length_m": 1164.9
+    },
+    {
+      "start_m": 4721.6,
+      "end_m": 7616.2,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 258,
+      "coverage_pct": 31.84,
+      "length_m": 2894.6
+    },
+    {
+      "start_m": 7641.9,
+      "end_m": 9092.5,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 73,
+      "coverage_pct": 15.95,
+      "length_m": 1450.6
+    }
+  ],
+  "stats": {
+    "total_m": 9092.5,
+    "n_points": 877,
+    "osm_pct": 61.4,
+    "swisstopo_pct": 30.7,
+    "unknown_pct": 6.9
+  }
+}

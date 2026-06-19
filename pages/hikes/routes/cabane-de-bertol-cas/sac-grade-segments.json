@@ -1,0 +1,58 @@
+{
+  "slug": "cabane-de-bertol-cas",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2239.6,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 175,
+      "coverage_pct": 27.8,
+      "length_m": 2239.6
+    },
+    {
+      "start_m": 2249.3,
+      "end_m": 2355.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 13,
+      "coverage_pct": 1.32,
+      "length_m": 106.5
+    },
+    {
+      "start_m": 2364.9,
+      "end_m": 2726.8,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 37,
+      "coverage_pct": 4.49,
+      "length_m": 361.9
+    },
+    {
+      "start_m": 2744.7,
+      "end_m": 5585.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 443,
+      "coverage_pct": 35.26,
+      "length_m": 2840.5
+    },
+    {
+      "start_m": 5603.0,
+      "end_m": 8055.0,
+      "t_grade": "T5",
+      "source": "osm",
+      "n_points": 242,
+      "coverage_pct": 30.44,
+      "length_m": 2452.0
+    }
+  ],
+  "stats": {
+    "total_m": 8055.0,
+    "n_points": 910,
+    "osm_pct": 67.0,
+    "swisstopo_pct": 32.3,
+    "unknown_pct": 0.0
+  }
+}

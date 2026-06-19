@@ -43,38 +43,84 @@
     <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
   </table>
 </section>
-
 <section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
-      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_152c47710b.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_152c47710b.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
   </div>
-      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_152c47710b.jpg" alt=""></a>
-      <p class="attrib">All photos: SAC Route Portal</p>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_152c47710b.jpg" alt="" title="All photos: SAC Route Portal"></a>
 </section>
 
 <section class="map-section">
-  <h2>Interactive Route Map</h2>
+  <h2>Route Map &amp; Elevation</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./capanna-cadagno.gpx" download="capanna-cadagno.gpx"
        aria-label="Download GPX track for Capanna Cadagno">↓ Download GPX</a>
+    <button type="button" id="waypoint-toggle" class="ms-layer-btn"
+            aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <details class="info-popover">
+      <summary class="info-icon" aria-label="Map attribution">i</summary>
+      <div class="info-body">
+        Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a>
+        (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors |
+        Map library: <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>.
+        Route line is approximate — verify against the SAC Route Portal before going.
+      </div>
+    </details>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
-  <div class="legend">
-    <span class="start">Start (Piora, Bergstation)</span>
-    <span class="summit">Summit (Capanna Cadagno)</span>
-    <span class="way">Waypoint</span>
-    <span class="line">Approximate route</span>
+
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+    <div class="elev-hover-info" id="elev-hover-info" hidden></div>
   </div>
-  <p class="attrib">
-    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
-    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
-    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
-    Route line is approximate — verify against the SAC Route Portal before going.
+  <div class="elev-summary-row">
+    <div class="elev-stats" id="elev-stats">
+      <span><strong>5.7 km</strong> total</span>
+      <span>&uarr; <strong>191 m</strong> ascent</span>
+      <span>&darr; <strong>3 m</strong> descent</span>
+      <span>max <strong>1983 m</strong></span>
+      <span>steepest <strong>21%</strong></span>
+    </div>
+    <div class="tgrade-legend" id="tgrade-legend" aria-label="SAC T-grade legend"></div>
+    <details class="info-popover tgrade-info">
+      <summary class="info-icon" aria-label="Trail difficulty source">i</summary>
+      <div class="info-body">
+        Trail difficulty per segment: OSM <code>sac_scale</code> (precise T1–T6) with
+        <a href="https://www.swisstopo.admin.ch/en/landscape-model-swisstlm3d" target="_blank" rel="noopener">swissTLM3D <em>Wanderwegart</em></a>
+        fallback where OSM is silent (coarser T2/T3 and T4+ buckets).
+        Coverage: OSM 18.6% · swisstopo 70.2% · unknown 8.5%.<br>
+        Elevations computed from the inlined GPX track (SwissTopo height API).
+      </div>
+    </details>
+  </div>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start" aria-label="Hike start time"><input type="time" id="elev-start-time" value="10:00" step="600"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
+      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
+      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
+      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
+    </span>
+    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+</section>
+
+<section class="weather-section" aria-label="7-day forecast date picker">
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.54654N8.71967E"
+       target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
 </section>
 
@@ -88,12 +134,7 @@
       <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib">
-    Tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a> (SWISSIMAGE) +
-    <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>.
-    Powered by <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a>.
-    <a href="capanna-cadagno.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
-  </p>
+  <p class="attrib"><a href="capanna-cadagno.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
 </section>
 <section>
   <h2>Route Details</h2>
@@ -123,48 +164,6 @@
   </div>
 </section>
 
-<section class="weather-section">
-  <h2>Weather Planning</h2>
-  <h3>7-day summit forecast (live)</h3>
-  <div id="forecast" class="forecast-grid">
-    <p class="forecast-loading">Loading forecast…</p>
-  </div>
-  <p class="forecast-more">
-    <a href="https://www.meteoblue.com/en/weather/week/46.54654N8.71967E"
-       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
-  </p>
-</section>
-
-<section>
-  <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats">
-    <span><strong>5.7 km</strong> total</span>
-    <span>&uarr; <strong>191 m</strong> ascent</span>
-    <span>&darr; <strong>3 m</strong> descent</span>
-    <span>max <strong>1983 m</strong></span>
-    <span>steepest <strong>21%</strong></span>
-  </div>
-  <div class="elev-controls" id="elev-controls" hidden>
-    <span class="elev-controls-day" id="elev-controls-day"></span>
-    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
-    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
-    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
-      <span class="elev-controls-label">Pace</span>
-      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
-      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
-      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
-    </span>
-    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
-    <span class="elev-controls-end" id="elev-controls-end"></span>
-    <span class="elev-controls-status" id="elev-controls-status"></span>
-  </div>
-  <div class="elev-chart-wrap">
-    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
-    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
-  </div>
-  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
-</section>
-
 
 <section class="print-only field-ref">
   <h2>Field Reference</h2>
@@ -181,8 +180,7 @@
 
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
-    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+    <p>© 2026 · compiled from public Swiss sources (tiles © swisstopo / OSM) · generated <time id="page-generated"></time></p>
   </div>
 </footer>
 
@@ -205,6 +203,7 @@ window.HIKE = {
   ]
 };
 window.TRACK_STATS = {"ascent_m": 191.0, "descent_m": 3.099999999999909, "distance_km": 5.666880666285946, "max_ele": 1983.4, "min_ele": 1793.4, "n_points": 634.0, "steepest_grade_pct": 21.455554900425845};
+window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 1.52, "end_m": 86.0, "length_m": 86.0, "n_points": 7, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 1.15, "end_m": 160.3, "length_m": 65.0, "n_points": 10, "source": "swisstopo", "start_m": 95.3, "t_grade": "T2/T3"}, {"coverage_pct": 4.35, "end_m": 409.9, "length_m": 246.7, "n_points": 40, "source": "osm", "start_m": 163.3, "t_grade": "T2"}, {"coverage_pct": 10.05, "end_m": 988.2, "length_m": 569.8, "n_points": 70, "source": "swisstopo", "start_m": 418.4, "t_grade": "T2/T3"}, {"coverage_pct": 2.61, "end_m": 1142.4, "length_m": 148.1, "n_points": 25, "source": "osm", "start_m": 994.2, "t_grade": "T2"}, {"coverage_pct": 1.08, "end_m": 1212.3, "length_m": 61.1, "n_points": 16, "source": "osm", "start_m": 1151.2, "t_grade": "T2"}, {"coverage_pct": 1.36, "end_m": 1304.4, "length_m": 77.1, "n_points": 11, "source": "osm", "start_m": 1227.4, "t_grade": "T1"}, {"coverage_pct": 2.5, "end_m": 1480.3, "length_m": 141.7, "n_points": 13, "source": "osm", "start_m": 1338.6, "t_grade": "T2"}, {"coverage_pct": 48.35, "end_m": 4237.2, "length_m": 2739.9, "n_points": 277, "source": "swisstopo", "start_m": 1497.4, "t_grade": "T2/T3"}, {"coverage_pct": 2.49, "end_m": 4381.7, "length_m": 141.1, "n_points": 32, "source": "osm", "start_m": 4240.6, "t_grade": "T4"}, {"coverage_pct": 8.5, "end_m": 4868.6, "length_m": 481.8, "n_points": 72, "source": "none", "start_m": 4386.9, "t_grade": "unknown"}, {"coverage_pct": 5.29, "end_m": 5176.8, "length_m": 299.9, "n_points": 30, "source": "swisstopo", "start_m": 4876.8, "t_grade": "T2/T3"}, {"coverage_pct": 2.67, "end_m": 5331.4, "length_m": 151.2, "n_points": 12, "source": "osm", "start_m": 5180.2, "t_grade": "T2"}, {"coverage_pct": 5.4, "end_m": 5666.9, "length_m": 306.1, "n_points": 19, "source": "swisstopo", "start_m": 5360.8, "t_grade": "T2/T3"}], "slug": "capanna-cadagno", "stats": {"n_points": 634, "osm_pct": 18.6, "swisstopo_pct": 70.2, "total_m": 5666.9, "unknown_pct": 8.5}};
 </script>
 <script src="../_assets/hike_page.js"></script>
 <script>

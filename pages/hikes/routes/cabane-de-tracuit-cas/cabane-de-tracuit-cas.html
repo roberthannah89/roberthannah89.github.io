@@ -43,58 +43,104 @@
     <tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/" target="_blank" rel="noopener">SAC Route Portal</a></td></tr>
   </table>
 </section>
-
 <section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
-      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1530193569_1344479428master_c1fb04f8b9.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-1"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1530193569_1344479428master_c1fb04f8b9.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1569587161_177673898master_e8057b2621.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-2"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1569587161_177673898master_e8057b2621.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1569587161_1185026067master_1702b57689.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-3"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1569587161_1185026067master_1702b57689.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1625036306_519120098master_d28719406f.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-4"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1625036306_519120098master_d28719406f.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
     <figure>
-      <a href="#lightbox-5"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1530191451_1115146398master_b10d717b60.jpg" alt="Route photo (SAC)"></a>
+      <a href="#lightbox-5"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1530191451_1115146398master_b10d717b60.jpg" alt="Route photo (SAC)" title="All photos: SAC Route Portal"></a>
       <figcaption></figcaption>
     </figure>
   </div>
-      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1530193569_1344479428master_c1fb04f8b9.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1569587161_177673898master_e8057b2621.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1569587161_1185026067master_1702b57689.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1625036306_519120098master_d28719406f.jpg" alt=""></a>
-      <a class="lightbox" id="lightbox-5" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1530191451_1115146398master_b10d717b60.jpg" alt=""></a>
-      <p class="attrib">All photos: SAC Route Portal</p>
+      <a class="lightbox" id="lightbox-1" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1530193569_1344479428master_c1fb04f8b9.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-2" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1569587161_177673898master_e8057b2621.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-3" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1569587161_1185026067master_1702b57689.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-4" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1625036306_519120098master_d28719406f.jpg" alt="" title="All photos: SAC Route Portal"></a>
+      <a class="lightbox" id="lightbox-5" href="#"><img src="https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1530191451_1115146398master_b10d717b60.jpg" alt="" title="All photos: SAC Route Portal"></a>
 </section>
 
 <section class="map-section">
-  <h2>Interactive Route Map</h2>
+  <h2>Route Map &amp; Elevation</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./cabane-de-tracuit-cas.gpx" download="cabane-de-tracuit-cas.gpx"
        aria-label="Download GPX track for Cabane De Tracuit Cas">↓ Download GPX</a>
+    <button type="button" id="waypoint-toggle" class="ms-layer-btn"
+            aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <details class="info-popover">
+      <summary class="info-icon" aria-label="Map attribution">i</summary>
+      <div class="info-body">
+        Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a>
+        (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors |
+        Map library: <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>.
+        Route line is approximate — verify against the SAC Route Portal before going.
+      </div>
+    </details>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
-  <div class="legend">
-    <span class="start">Start (Zinal)</span>
-    <span class="summit">Summit (Cabane De Tracuit Cas)</span>
-    <span class="way">Waypoint</span>
-    <span class="line">Approximate route</span>
+
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+    <div class="elev-hover-info" id="elev-hover-info" hidden></div>
   </div>
-  <p class="attrib">
-    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
-    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
-    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
-    Route line is approximate — verify against the SAC Route Portal before going.
+  <div class="elev-summary-row">
+    <div class="elev-stats" id="elev-stats">
+      <span><strong>7.9 km</strong> total</span>
+      <span>&uarr; <strong>1581 m</strong> ascent</span>
+      <span>&darr; <strong>0 m</strong> descent</span>
+      <span>max <strong>3253 m</strong></span>
+      <span>steepest <strong>48%</strong></span>
+    </div>
+    <div class="tgrade-legend" id="tgrade-legend" aria-label="SAC T-grade legend"></div>
+    <details class="info-popover tgrade-info">
+      <summary class="info-icon" aria-label="Trail difficulty source">i</summary>
+      <div class="info-body">
+        Trail difficulty per segment: OSM <code>sac_scale</code> (precise T1–T6) with
+        <a href="https://www.swisstopo.admin.ch/en/landscape-model-swisstlm3d" target="_blank" rel="noopener">swissTLM3D <em>Wanderwegart</em></a>
+        fallback where OSM is silent (coarser T2/T3 and T4+ buckets).
+        Coverage: OSM 86.2% · swisstopo 4.9% · unknown 8.3%.<br>
+        Elevations computed from the inlined GPX track (SwissTopo height API).
+      </div>
+    </details>
+  </div>
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start" aria-label="Hike start time"><input type="time" id="elev-start-time" value="10:00" step="600"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
+      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
+      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
+      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
+    </span>
+    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+</section>
+
+<section class="weather-section" aria-label="7-day forecast date picker">
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/46.13016N7.67955E"
+       target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
 </section>
 
@@ -108,12 +154,7 @@
       <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib">
-    Tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a> (SWISSIMAGE) +
-    <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>.
-    Powered by <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a>.
-    <a href="cabane-de-tracuit-cas.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
-  </p>
+  <p class="attrib"><a href="cabane-de-tracuit-cas.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
 </section>
 <section>
   <h2>Route Details</h2>
@@ -140,48 +181,6 @@
   <p class="attrib">Route returns to <strong>Zinal</strong>.</p>
 </section>
 
-<section class="weather-section">
-  <h2>Weather Planning</h2>
-  <h3>7-day summit forecast (live)</h3>
-  <div id="forecast" class="forecast-grid">
-    <p class="forecast-loading">Loading forecast…</p>
-  </div>
-  <p class="forecast-more">
-    <a href="https://www.meteoblue.com/en/weather/week/46.13016N7.67955E"
-       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
-  </p>
-</section>
-
-<section>
-  <h2>Elevation Profile</h2>
-  <div class="elev-stats" id="elev-stats">
-    <span><strong>7.9 km</strong> total</span>
-    <span>&uarr; <strong>1581 m</strong> ascent</span>
-    <span>&darr; <strong>0 m</strong> descent</span>
-    <span>max <strong>3253 m</strong></span>
-    <span>steepest <strong>48%</strong></span>
-  </div>
-  <div class="elev-controls" id="elev-controls" hidden>
-    <span class="elev-controls-day" id="elev-controls-day"></span>
-    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
-    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
-    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
-      <span class="elev-controls-label">Pace</span>
-      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
-      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
-      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
-    </span>
-    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
-    <span class="elev-controls-end" id="elev-controls-end"></span>
-    <span class="elev-controls-status" id="elev-controls-status"></span>
-  </div>
-  <div class="elev-chart-wrap">
-    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
-    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
-  </div>
-  <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
-</section>
-
 
 <section class="print-only field-ref">
   <h2>Field Reference</h2>
@@ -198,8 +197,7 @@
 
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
-    <p>© 2026 — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+    <p>© 2026 · compiled from public Swiss sources (tiles © swisstopo / OSM) · generated <time id="page-generated"></time></p>
   </div>
 </footer>
 
@@ -222,6 +220,7 @@ window.HIKE = {
   ]
 };
 window.TRACK_STATS = {"ascent_m": 1581.0, "descent_m": 0.0, "distance_km": 7.870115309978389, "max_ele": 3253.0, "min_ele": 1669.8, "n_points": 1736.0, "steepest_grade_pct": 48.10912450919824};
+window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 2.92, "end_m": 229.9, "length_m": 229.9, "n_points": 25, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 6.67, "end_m": 762.6, "length_m": 524.6, "n_points": 76, "source": "none", "start_m": 237.9, "t_grade": "unknown"}, {"coverage_pct": 1.3, "end_m": 869.2, "length_m": 102.2, "n_points": 15, "source": "osm", "start_m": 766.9, "t_grade": "T3"}, {"coverage_pct": 1.64, "end_m": 1010.1, "length_m": 129.3, "n_points": 18, "source": "none", "start_m": 880.9, "t_grade": "unknown"}, {"coverage_pct": 0.89, "end_m": 1086.9, "length_m": 69.9, "n_points": 17, "source": "osm", "start_m": 1017.0, "t_grade": "T2"}, {"coverage_pct": 38.65, "end_m": 4129.6, "length_m": 3041.7, "n_points": 639, "source": "osm", "start_m": 1087.9, "t_grade": "T3"}, {"coverage_pct": 2.98, "end_m": 4372.1, "length_m": 234.8, "n_points": 69, "source": "osm", "start_m": 4137.3, "t_grade": "T2"}, {"coverage_pct": 1.95, "end_m": 4529.0, "length_m": 153.1, "n_points": 38, "source": "swisstopo", "start_m": 4375.9, "t_grade": "T2/T3"}, {"coverage_pct": 42.36, "end_m": 7870.1, "length_m": 3334.1, "n_points": 839, "source": "osm", "start_m": 4536.0, "t_grade": "T3"}], "slug": "cabane-de-tracuit-cas", "stats": {"n_points": 1736, "osm_pct": 86.2, "swisstopo_pct": 4.9, "total_m": 7870.1, "unknown_pct": 8.3}};
 </script>
 <script src="../_assets/hike_page.js"></script>
 <script>

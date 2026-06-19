@@ -1,0 +1,76 @@
+{
+  "slug": "klein-mythen",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 42.1,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 5,
+      "coverage_pct": 1.27,
+      "length_m": 42.1
+    },
+    {
+      "start_m": 49.8,
+      "end_m": 615.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 51,
+      "coverage_pct": 17.04,
+      "length_m": 565.2
+    },
+    {
+      "start_m": 622.6,
+      "end_m": 779.5,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 28,
+      "coverage_pct": 4.73,
+      "length_m": 157.0
+    },
+    {
+      "start_m": 783.3,
+      "end_m": 1638.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 146,
+      "coverage_pct": 25.79,
+      "length_m": 855.6
+    },
+    {
+      "start_m": 1644.5,
+      "end_m": 2299.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 110,
+      "coverage_pct": 19.74,
+      "length_m": 655.0
+    },
+    {
+      "start_m": 2304.6,
+      "end_m": 3053.2,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 159,
+      "coverage_pct": 22.56,
+      "length_m": 748.6
+    },
+    {
+      "start_m": 3076.6,
+      "end_m": 3317.5,
+      "t_grade": "T5",
+      "source": "osm",
+      "n_points": 8,
+      "coverage_pct": 7.26,
+      "length_m": 240.9
+    }
+  ],
+  "stats": {
+    "total_m": 3317.5,
+    "n_points": 507,
+    "osm_pct": 81.4,
+    "swisstopo_pct": 17.0,
+    "unknown_pct": 0.0
+  }
+}

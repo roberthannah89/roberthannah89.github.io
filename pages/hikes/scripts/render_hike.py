@@ -681,6 +681,11 @@ def render_one(data_path: Path) -> RenderResult:
         with StageTimer(stages, "augment"):
             augment_hike_data(data, gpx_stats, data_path.parent)
 
+        with StageTimer(stages, "sac_grade_segments"):
+            seg_path = data_path.parent / "sac-grade-segments.json"
+            if seg_path.exists():
+                data["sac_grade_segments"] = json.loads(seg_path.read_text())
+
         with StageTimer(stages, "load_template"):
             env = _make_env()
             template = env.get_template(TEMPLATE_NAME)

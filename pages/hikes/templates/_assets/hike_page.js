@@ -30,16 +30,48 @@
   const MS = window.MapShared;
   const map = L.map("map", { zoomControl: true });
   if (MS) MS.addLayerControl(map, { defaultLayer: "hike" });
+
+  // Pull the Fit/Download buttons up into the layer-control bar so the
+  // map's whole toolbar sits on one horizontal line above the map.
+  (function moveMapControlsIntoLayerBar() {
+    const ctl = document.querySelector('.map-controls');
+    const bar = document.querySelector('.ms-layer-bar');
+    if (ctl && bar) {
+      ctl.classList.add('map-controls--inbar');
+      bar.appendChild(ctl);
+    }
+  })();
   const line = L.polyline([], { color: "#9b59b6", weight: 3, opacity: 0.85, dashArray: "8 6" }).addTo(map);
 
+  // Waypoint + peak markers live in a togglable layerGroup. Off by default
+  // because their permanent labels overlap with the basemap's own peak/place
+  // labels and clutter the view; user can flip them back on via the toolbar
+  // button for routes where the basemap is sparse.
+  const waypointLayer = L.layerGroup();
   WAYPOINTS.forEach(([lat, lon, label, kind]) => {
     const color = kind === "start" ? "#9b59b6" : "#ff5c5c";
     L.circleMarker([lat, lon], {
       radius: 9, fillColor: color, color: "#222", weight: 2, fillOpacity: 1
-    }).addTo(map).bindPopup(`<strong>${label}</strong>`).bindTooltip(label, {
+    }).bindPopup(`<strong>${label}</strong>`).bindTooltip(label, {
       permanent: true, direction: "right", offset: [10, 0], className: "route-tooltip"
-    });
+    }).addTo(waypointLayer);
   });
+  (function wireWaypointToggle() {
+    const btn = document.getElementById('waypoint-toggle');
+    if (!btn) return;
+    let visible = false;
+    function apply() {
+      if (visible) {
+        if (!map.hasLayer(waypointLayer)) waypointLayer.addTo(map);
+      } else if (map.hasLayer(waypointLayer)) {
+        map.removeLayer(waypointLayer);
+      }
+      btn.classList.toggle('active', visible);
+      btn.setAttribute('aria-pressed', String(visible));
+    }
+    apply();
+    btn.addEventListener('click', () => { visible = !visible; apply(); });
+  })();
 
   const TRACK = window.TRACK || [];
   line.setLatLngs(TRACK);
@@ -168,20 +200,19 @@
         const isThunder = code >= 95;
         const isSelected = (planning.date === iso);
         const pop = d.precipitation_probability_max[i];
+        const popStr = pop != null && pop > 0 ? ` · ${pop}% rain` : '';
+        const icon = wxIcon(code);
         return `
           <div class="forecast-day${isThunder ? " thunder" : ""}${isSelected ? " planned" : ""}"
                data-date="${iso}" role="button" tabindex="0"
-               aria-pressed="${isSelected}" aria-label="Plan hike for ${day} ${dm}">
-            <div class="day">${day}</div>
-            <div class="date">${dm}</div>
+               aria-pressed="${isSelected}" aria-label="Plan hike for ${day} ${dm} — ${text}">
+            <div class="day">${day} <span class="date">${dm}</span></div>
+            <div class="wx-icon">${icon}</div>
             <div class="wx ${cls}">${text}</div>
             <div class="temps">
               <span class="hi">${Math.round(d.temperature_2m_max[i])}°</span> /
-              <span class="lo">${Math.round(d.temperature_2m_min[i])}°</span>
+              <span class="lo">${Math.round(d.temperature_2m_min[i])}°</span><span class="precip">${popStr}</span>
             </div>
-            <div class="precip">${d.precipitation_sum[i].toFixed(1)} mm${pop != null ? " · " + pop + "%" : ""}</div>
-            <div class="wind">gust ${Math.round(d.wind_gusts_10m_max[i])} km/h</div>
-            <div class="sun">↑ ${fmtSunTime(d.sunrise[i])} · ↓ ${fmtSunTime(d.sunset[i])}</div>
           </div>`;
       }).join("");
       container.innerHTML = html;
@@ -213,30 +244,77 @@
 
   function setupTransit() {
     const enc = encodeURIComponent;
-    // --- Start (trailhead) ---
-    const gmapsDrive   = document.getElementById("gmaps-drive-link");
-    const gmapsTransit = document.getElementById("gmaps-transit-link");
-    const sbbLink      = document.getElementById("sbb-link");
-    const originLabel  = document.getElementById("transit-origin");
-    if (TRAILHEAD) {
-      if (originLabel) originLabel.textContent = transitOrigin;
-      const dest = `${TRAILHEAD.lat},${TRAILHEAD.lon}`;
-      if (gmapsDrive)   gmapsDrive.href   = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${dest}&travelmode=driving`;
-      if (gmapsTransit) gmapsTransit.href = `https://www.google.com/maps/dir/?api=1&origin=${enc(transitOrigin)}&destination=${dest}&travelmode=transit`;
-      if (sbbLink)      sbbLink.href      = TRAILHEAD.sbb_url || `https://www.sbb.ch/en?von=${enc(transitOrigin)}&nach=${enc(TRAILHEAD.name)}`;
+    // Local date/time formatter — Google Maps and SBB want the user's
+    // wall-clock time in their URL params, not UTC.
+    function localDT(dt) {
+      return {
+        date: dt.getFullYear() + "-" +
+              String(dt.getMonth() + 1).padStart(2, "0") + "-" +
+              String(dt.getDate()).padStart(2, "0"),
+        time: String(dt.getHours()).padStart(2, "0") + ":" +
+              String(dt.getMinutes()).padStart(2, "0"),
+      };
     }
-    // --- End point (return journey) ---
+    // Maps "classic" URL — same one Google Maps' share button emits — which
+    // unlike the api=1 format DOES support date/time/ttype params for transit.
+    // dirflg: r=transit, d=driving, w=walking. ttype: arr=arrival, dep=departure.
+    function mapsUrl(saddr, daddr, mode, anchor) {
+      const dirflg = mode === "transit" ? "r" : (mode === "walking" ? "w" : "d");
+      let url = `https://www.google.com/maps?saddr=${enc(saddr)}&daddr=${enc(daddr)}&dirflg=${dirflg}`;
+      if (anchor && anchor.dt && mode === "transit") {
+        const dt = localDT(anchor.dt);
+        url += `&ttype=${anchor.type}&date=${dt.date}&time=${dt.time}`;
+      }
+      return url;
+    }
+    // SBB's public timetable URL accepts von/nach + date/time + zeit (an/ab).
+    function sbbUrl(von, nach, anchor) {
+      let url = `https://www.sbb.ch/en?von=${enc(von)}&nach=${enc(nach)}`;
+      if (anchor && anchor.dt) {
+        const dt = localDT(anchor.dt);
+        url += `&date=${dt.date}&time=${dt.time}&zeit=${anchor.type === "arr" ? "an" : "ab"}`;
+      }
+      return url;
+    }
+    const gmapsDrive      = document.getElementById("gmaps-drive-link");
+    const gmapsTransit    = document.getElementById("gmaps-transit-link");
+    const sbbLink         = document.getElementById("sbb-link");
+    const originLabel     = document.getElementById("transit-origin");
     const gmapsDriveEnd   = document.getElementById("gmaps-drive-link-end");
     const gmapsTransitEnd = document.getElementById("gmaps-transit-link-end");
     const sbbLinkEnd      = document.getElementById("sbb-link-end");
     const originLabelEnd  = document.getElementById("transit-origin-end");
-    if (END_POINT) {
-      if (originLabelEnd) originLabelEnd.textContent = transitOrigin;
-      const origin = `${END_POINT.lat},${END_POINT.lon}`;
-      if (gmapsDriveEnd)   gmapsDriveEnd.href   = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${enc(transitOrigin)}&travelmode=driving`;
-      if (gmapsTransitEnd) gmapsTransitEnd.href = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${enc(transitOrigin)}&travelmode=transit`;
-      if (sbbLinkEnd)      sbbLinkEnd.href      = END_POINT.sbb_url || `https://www.sbb.ch/en?von=${enc(END_POINT.name)}&nach=${enc(transitOrigin)}`;
+    if (TRAILHEAD && originLabel)   originLabel.textContent   = transitOrigin;
+    if (END_POINT && originLabelEnd) originLabelEnd.textContent = transitOrigin;
+
+    function update(startDate, endDate) {
+      if (TRAILHEAD) {
+        const dest = `${TRAILHEAD.lat},${TRAILHEAD.lon}`;
+        const arrAnchor = startDate ? { type: "arr", dt: startDate } : null;
+        if (gmapsDrive)   gmapsDrive.href   = mapsUrl(transitOrigin, dest, "driving", null);
+        if (gmapsTransit) gmapsTransit.href = mapsUrl(transitOrigin, dest, "transit", arrAnchor);
+        if (sbbLink) {
+          sbbLink.href = arrAnchor
+            ? sbbUrl(transitOrigin, TRAILHEAD.name, arrAnchor)
+            : (TRAILHEAD.sbb_url || sbbUrl(transitOrigin, TRAILHEAD.name, null));
+        }
+      }
+      if (END_POINT) {
+        const origin = `${END_POINT.lat},${END_POINT.lon}`;
+        const depAnchor = endDate ? { type: "dep", dt: endDate } : null;
+        if (gmapsDriveEnd)   gmapsDriveEnd.href   = mapsUrl(origin, transitOrigin, "driving", null);
+        if (gmapsTransitEnd) gmapsTransitEnd.href = mapsUrl(origin, transitOrigin, "transit", depAnchor);
+        if (sbbLinkEnd) {
+          sbbLinkEnd.href = depAnchor
+            ? sbbUrl(END_POINT.name, transitOrigin, depAnchor)
+            : (END_POINT.sbb_url || sbbUrl(END_POINT.name, transitOrigin, null));
+        }
+      }
     }
+    update(null, null);
+    document.addEventListener("hike-times-changed", e => {
+      update(e.detail && e.detail.startDate, e.detail && e.detail.endDate);
+    });
   }
   setupTransit();
 
@@ -397,6 +475,249 @@
     layer.innerHTML = out.join("");
   }
   renderWaypointTicks(ELEV_GEOM);
+
+  // ---- Chart ↔ map hover sync ----
+  function wireElevHover(geom) {
+    if (!geom || !TRACK.length) return;
+    const svg = geom.svg;
+    const wrap = svg.closest('.elev-chart-wrap');
+    const info = document.getElementById('elev-hover-info');
+    if (!wrap || !info) return;
+    const NS = 'http://www.w3.org/2000/svg';
+    const hoverG = document.createElementNS(NS, 'g');
+    hoverG.setAttribute('class', 'elev-hover');
+    hoverG.style.display = 'none';
+    const hoverLine = document.createElementNS(NS, 'line');
+    hoverLine.setAttribute('class', 'elev-hover-x');
+    hoverLine.setAttribute('y1', geom.y1);
+    hoverLine.setAttribute('y2', geom.y0);
+    const hoverDot = document.createElementNS(NS, 'circle');
+    hoverDot.setAttribute('class', 'elev-hover-dot');
+    hoverDot.setAttribute('r', '4');
+    hoverG.appendChild(hoverLine);
+    hoverG.appendChild(hoverDot);
+    svg.appendChild(hoverG);
+
+    const mapMarker = L.circleMarker([0, 0], {
+      radius: 8, color: '#fff', weight: 2,
+      fillColor: '#9b59b6', fillOpacity: 1, interactive: false,
+    });
+    let mapMarkerOn = false;
+
+    function clientXToDistM(clientX) {
+      const rect = svg.getBoundingClientRect();
+      const VB_W = 800;
+      const vbX = ((clientX - rect.left) / rect.width) * VB_W;
+      const t = (vbX - geom.x0) / (geom.x1 - geom.x0);
+      return Math.max(0, Math.min(geom.totalM, t * geom.totalM));
+    }
+    function trackIndexAtDist(distM) {
+      const td = geom.trackDist;
+      let lo = 0, hi = td.length - 1;
+      while (lo + 1 < hi) {
+        const mid = (lo + hi) >> 1;
+        if (td[mid] < distM) lo = mid; else hi = mid;
+      }
+      return (distM - td[lo]) < (td[hi] - distM) ? lo : hi;
+    }
+    // Window for the local-grade calculation (m). 60 m is wide enough to
+    // smooth out GPS-jitter noise but tight enough to feel like "right here".
+    const SLOPE_WIN_M = 60;
+    function slopeAt(distM) {
+      const d0 = Math.max(0, distM - SLOPE_WIN_M);
+      const d1 = Math.min(geom.totalM, distM + SLOPE_WIN_M);
+      const dd = d1 - d0;
+      if (dd <= 0) return 0;
+      return (geom.elevAt(d1) - geom.elevAt(d0)) / dd * 100;
+    }
+    // T-grade for the hover position, when segments are loaded. Linear scan
+    // is fine — typical routes have <20 segments. Returns null if the point
+    // falls outside any segment (gaps between adjacent bisect-rounded ranges
+    // are rare but possible; the badge just omits T-grade in that case).
+    const TG_SEGS = (window.SAC_GRADE_SEGMENTS && window.SAC_GRADE_SEGMENTS.segments) || null;
+    function tGradeAt(distM) {
+      if (!TG_SEGS) return null;
+      for (const s of TG_SEGS) {
+        if (distM >= s.start_m && distM <= s.end_m) return s.t_grade;
+      }
+      return null;
+    }
+    function show(clientX) {
+      const distM = clientXToDistM(clientX);
+      const idx = trackIndexAtDist(distM);
+      const tp = TRACK[idx];
+      if (!tp) return;
+      const ele = geom.elevAt(distM);
+      const x = geom.xScale(distM);
+      const y = geom.yScale(ele);
+      hoverLine.setAttribute('x1', x.toFixed(1));
+      hoverLine.setAttribute('x2', x.toFixed(1));
+      hoverDot.setAttribute('cx', x.toFixed(1));
+      hoverDot.setAttribute('cy', y.toFixed(1));
+      hoverG.style.display = '';
+      info.hidden = false;
+      const slope = slopeAt(distM);
+      const slopeStr = Math.abs(slope) < 1
+        ? 'flat'
+        : (slope > 0 ? '↑' : '↓') + Math.abs(Math.round(slope)) + '%';
+      const grade = tGradeAt(distM);
+      const gradeStr = grade ? ` · ${grade}` : '';
+      info.textContent = `${(distM / 1000).toFixed(2)} km · ${Math.round(ele)} m · ${slopeStr}${gradeStr}`;
+      if (!mapMarkerOn) { mapMarker.addTo(map); mapMarkerOn = true; }
+      mapMarker.setLatLng([tp[0], tp[1]]);
+    }
+    function hide() {
+      hoverG.style.display = 'none';
+      info.hidden = true;
+      if (mapMarkerOn) { map.removeLayer(mapMarker); mapMarkerOn = false; }
+    }
+    svg.addEventListener('mousemove', e => show(e.clientX));
+    svg.addEventListener('mouseleave', hide);
+    svg.addEventListener('touchstart', e => { if (e.touches[0]) show(e.touches[0].clientX); }, { passive: true });
+    svg.addEventListener('touchmove',  e => { if (e.touches[0]) show(e.touches[0].clientX); }, { passive: true });
+    svg.addEventListener('touchend', hide);
+    svg.addEventListener('touchcancel', hide);
+  }
+  wireElevHover(ELEV_GEOM);
+
+  // ---- SAC T-grade per-segment coloring (OSM + swissTLM3D hybrid) ----
+  // Colors the elevation profile + Leaflet route polyline, builds the legend.
+  // When `window.SAC_GRADE_SEGMENTS` is absent (hikes without segment data
+  // generated yet), this is a no-op and the page renders with the single-
+  // color route + profile defaults.
+  const T_PALETTE = {
+    "T1":      "#1a9850",
+    "T2":      "#91cf60",
+    "T3":      "#fee08b",
+    "T4":      "#fc8d59",
+    "T5":      "#d73027",
+    "T6":      "#7a0177",
+    "T2/T3":   "#b8c46a",  // swissTLM3D Bergwanderweg — muted, hints at imprecision
+    "T4+":     "#c97a6a",  // swissTLM3D Alpinwanderweg — desaturated terra-cotta
+    "unknown": "#888888",
+  };
+  const TLM_GRADES = new Set(["T2/T3", "T4+"]);
+  function bisectLeftArr(arr, val) {
+    let lo = 0, hi = arr.length;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (arr[m] < val) lo = m + 1; else hi = m; }
+    return lo;
+  }
+  function bisectRightArr(arr, val) {
+    let lo = 0, hi = arr.length;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (arr[m] <= val) lo = m + 1; else hi = m; }
+    return lo;
+  }
+  function segBoundsFromSegments(segments, trackDist) {
+    const last = trackDist.length - 1;
+    return segments.map(s => {
+      let si = Math.max(0, Math.min(bisectLeftArr(trackDist, s.start_m), last));
+      let ei = Math.max(si, Math.min(bisectRightArr(trackDist, s.end_m) - 1, last));
+      return { start_i: si, end_i: ei, t_grade: s.t_grade, source: s.source };
+    });
+  }
+  function colorProfileByTGrade(geom, segments) {
+    if (!geom || !segments || !segments.length) return;
+    const svg = geom.svg;
+    // Drop the single-color area + line so we can repaint per segment.
+    const oldArea = svg.querySelector('polygon.area');
+    const oldLine = svg.querySelector('polyline.line');
+    if (oldArea) oldArea.remove();
+    if (oldLine) oldLine.remove();
+    const NS = 'http://www.w3.org/2000/svg';
+    const bounds = segBoundsFromSegments(segments, geom.trackDist);
+    const newNodes = [];
+    for (let k = 0; k < bounds.length; k++) {
+      const { start_i, end_i, t_grade } = bounds[k];
+      // Extend draw range by one point so adjacent segments share a boundary
+      // pixel (otherwise sub-pixel slivers appear as white seams).
+      const draw_end = (k + 1 < bounds.length)
+        ? Math.max(end_i, bounds[k + 1].start_i)
+        : end_i;
+      if (draw_end <= start_i) continue;
+      const color = T_PALETTE[t_grade] || T_PALETTE.unknown;
+      const areaPts = [];
+      const linePts = [];
+      for (let i = start_i; i <= draw_end; i++) {
+        const x = geom.xScale(geom.trackDist[i]).toFixed(1);
+        const y = geom.yScale(TRACK[i][2]).toFixed(1);
+        areaPts.push(`${x},${y}`);
+        linePts.push(`${x},${y}`);
+      }
+      areaPts.push(`${geom.xScale(geom.trackDist[draw_end]).toFixed(1)},${geom.y0.toFixed(1)}`);
+      areaPts.push(`${geom.xScale(geom.trackDist[start_i]).toFixed(1)},${geom.y0.toFixed(1)}`);
+      const polygon = document.createElementNS(NS, 'polygon');
+      polygon.setAttribute('points', areaPts.join(' '));
+      polygon.setAttribute('fill', color);
+      polygon.setAttribute('fill-opacity', '0.55');
+      polygon.setAttribute('stroke', 'none');
+      polygon.setAttribute('class', 'tgrade-area');
+      newNodes.push(polygon);
+      const polyline = document.createElementNS(NS, 'polyline');
+      polyline.setAttribute('points', linePts.join(' '));
+      polyline.setAttribute('fill', 'none');
+      polyline.setAttribute('stroke', color);
+      polyline.setAttribute('stroke-width', '1.6');
+      polyline.setAttribute('class', 'tgrade-line');
+      newNodes.push(polyline);
+    }
+    // Insert before axes/groups so the curve sits under the gridlines + waypoints.
+    for (let n = newNodes.length - 1; n >= 0; n--) svg.insertBefore(newNodes[n], svg.firstChild);
+  }
+  function colorMapPolylineByTGrade(segments) {
+    if (!segments || !segments.length || !TRACK.length) return;
+    let dist = 0;
+    const trackDist = new Array(TRACK.length);
+    for (let i = 0; i < TRACK.length; i++) {
+      if (i > 0) dist += haversineMeters(TRACK[i - 1], TRACK[i]);
+      trackDist[i] = dist;
+    }
+    const bounds = segBoundsFromSegments(segments, trackDist);
+    // Remove the single-color dashed line.
+    map.removeLayer(line);
+    // Draw a thick dark "casing" pass first, then the colored line on top.
+    // Without this the green T2/T1 segments disappear against the green
+    // basemap. Two passes keep contrast consistent across every T-grade.
+    const casingLayer = L.layerGroup().addTo(map);
+    const colorLayer = L.layerGroup().addTo(map);
+    for (let k = 0; k < bounds.length; k++) {
+      const { start_i, end_i, t_grade } = bounds[k];
+      const draw_end = (k + 1 < bounds.length)
+        ? Math.max(end_i, bounds[k + 1].start_i)
+        : end_i;
+      if (draw_end <= start_i) continue;
+      const latlngs = [];
+      for (let i = start_i; i <= draw_end; i++) latlngs.push([TRACK[i][0], TRACK[i][1]]);
+      L.polyline(latlngs, {
+        color: '#1a1a1a', weight: 7, opacity: 0.85,
+        interactive: false, lineCap: 'round', lineJoin: 'round',
+      }).addTo(casingLayer);
+      L.polyline(latlngs, {
+        color: T_PALETTE[t_grade] || T_PALETTE.unknown,
+        weight: 4, opacity: 1.0, interactive: false,
+        lineCap: 'round', lineJoin: 'round',
+      }).addTo(colorLayer);
+    }
+    // Make sure the colored layer always sits above the casing.
+    colorLayer.eachLayer(l => l.bringToFront());
+  }
+  function buildTGradeLegend(segments) {
+    const el = document.getElementById('tgrade-legend');
+    if (!el || !segments || !segments.length) return;
+    const seen = new Set(segments.map(s => s.t_grade));
+    const order = ["T1", "T2", "T2/T3", "T3", "T4", "T4+", "T5", "T6", "unknown"];
+    el.innerHTML = order.filter(g => seen.has(g)).map(g => {
+      const color = T_PALETTE[g] || T_PALETTE.unknown;
+      const cls = TLM_GRADES.has(g) ? "tgrade-swatch tgrade-swatch--tlm" : "tgrade-swatch";
+      const tag = TLM_GRADES.has(g) ? ' <em class="tgrade-src-tag">swissTLM3D</em>' : '';
+      return `<span class="${cls}"><i style="background:${color}"></i>${g}${tag}</span>`;
+    }).join('');
+  }
+  if (window.SAC_GRADE_SEGMENTS && window.SAC_GRADE_SEGMENTS.segments) {
+    const segs = window.SAC_GRADE_SEGMENTS.segments;
+    colorProfileByTGrade(ELEV_GEOM, segs);
+    colorMapPolylineByTGrade(segs);
+    buildTGradeLegend(segs);
+  }
 
   // ---- Hourly weather overlay on the elevation profile ----
   // Walk the GPX via Naismith from a user-chosen start time; sample weather at each whole
@@ -734,9 +1055,9 @@
       const startDate = startDateFromInput();
       const hourPoints = naismithHourPoints(startDate);
       const total = totalHoursNow();
+      const endDate = new Date(startDate.getTime() + total * 3600 * 1000);
       if (dayLabelEl) dayLabelEl.textContent = dayWording(planning.date);
       if (endsEl) {
-        const endDate = new Date(startDate.getTime() + total * 3600 * 1000);
         const hh = Math.floor(total);
         const mm = Math.round((total - hh) * 60);
         const sameDay = toIsoDate(startDate) === toIsoDate(endDate);
@@ -744,6 +1065,12 @@
           : fmtTime(endDate) + " (+" + Math.round((endDate - startDate) / 86400000) + "d)";
         endsEl.textContent = "· " + hh + "h " + String(mm).padStart(2, "0") + "m · ends " + endStr;
       }
+      // Tell the transit links about the freshly computed start/end so they
+      // can rebuild their URLs with arrival_time (Maps trip to trailhead) and
+      // departure_time (Maps return from end point).
+      document.dispatchEvent(new CustomEvent("hike-times-changed", {
+        detail: { startDate, endDate },
+      }));
       if (statusEl) statusEl.textContent = forecastCache ? "" : "loading weather…";
       try {
         const fc = await fetchHourly(hourPoints);
@@ -769,6 +1096,22 @@
     }
 
     startInput.addEventListener("change", redraw);
+    // Mouse-wheel over the start-time input nudges by 10-minute increments
+    // (matches the input's step). Only active while the input is focused so
+    // accidental scrolls over the controls bar don't change planning state.
+    const STEP_MIN = 10, DAY_LAST_MIN = 23 * 60 + 50;
+    startInput.addEventListener("wheel", (e) => {
+      if (document.activeElement !== startInput) return;
+      e.preventDefault();
+      const [h, m] = (startInput.value || "10:00").split(":").map(Number);
+      const cur = h * 60 + m;
+      const delta = e.deltaY < 0 ? STEP_MIN : -STEP_MIN;  // wheel up = later
+      const next = Math.max(0, Math.min(DAY_LAST_MIN, cur + delta));
+      const hh = String(Math.floor(next / 60)).padStart(2, "0");
+      const mm = String(next % 60).padStart(2, "0");
+      startInput.value = `${hh}:${mm}`;
+      startInput.dispatchEvent(new Event("change", { bubbles: true }));
+    }, { passive: false });
     planning.onChange(() => { maybeShiftPastStart(); redraw(); });
     if (nowBtn) {
       nowBtn.addEventListener("click", () => {

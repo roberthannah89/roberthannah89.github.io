@@ -1,0 +1,40 @@
+{
+  "slug": "oberaletschhuette",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1877.7,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 292,
+      "coverage_pct": 18.6,
+      "length_m": 1877.7
+    },
+    {
+      "start_m": 1885.0,
+      "end_m": 2688.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 163,
+      "coverage_pct": 7.97,
+      "length_m": 803.9
+    },
+    {
+      "start_m": 2693.4,
+      "end_m": 10092.5,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 1466,
+      "coverage_pct": 73.31,
+      "length_m": 7399.2
+    }
+  ],
+  "stats": {
+    "total_m": 10092.5,
+    "n_points": 1921,
+    "osm_pct": 81.3,
+    "swisstopo_pct": 18.6,
+    "unknown_pct": 0.0
+  }
+}

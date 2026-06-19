@@ -1,0 +1,58 @@
+{
+  "slug": "piz-languard",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1804.0,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 312,
+      "coverage_pct": 21.76,
+      "length_m": 1804.0
+    },
+    {
+      "start_m": 1812.7,
+      "end_m": 3632.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 228,
+      "coverage_pct": 21.95,
+      "length_m": 1820.2
+    },
+    {
+      "start_m": 3642.5,
+      "end_m": 4676.4,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 119,
+      "coverage_pct": 12.47,
+      "length_m": 1034.0
+    },
+    {
+      "start_m": 4687.4,
+      "end_m": 8110.1,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 568,
+      "coverage_pct": 41.28,
+      "length_m": 3422.6
+    },
+    {
+      "start_m": 8113.7,
+      "end_m": 8290.9,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 47,
+      "coverage_pct": 2.14,
+      "length_m": 177.2
+    }
+  ],
+  "stats": {
+    "total_m": 8290.9,
+    "n_points": 1274,
+    "osm_pct": 77.6,
+    "swisstopo_pct": 22.0,
+    "unknown_pct": 0.0
+  }
+}

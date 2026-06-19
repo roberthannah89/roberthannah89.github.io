@@ -1,0 +1,58 @@
+{
+  "slug": "stockhorn-be",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2847.4,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 266,
+      "coverage_pct": 41.66,
+      "length_m": 2847.4
+    },
+    {
+      "start_m": 2864.0,
+      "end_m": 4997.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 218,
+      "coverage_pct": 31.22,
+      "length_m": 2133.8
+    },
+    {
+      "start_m": 5027.0,
+      "end_m": 5657.2,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 22,
+      "coverage_pct": 9.22,
+      "length_m": 630.2
+    },
+    {
+      "start_m": 5701.7,
+      "end_m": 6653.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 150,
+      "coverage_pct": 13.93,
+      "length_m": 952.2
+    },
+    {
+      "start_m": 6662.1,
+      "end_m": 6835.2,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 32,
+      "coverage_pct": 2.53,
+      "length_m": 173.1
+    }
+  ],
+  "stats": {
+    "total_m": 6835.2,
+    "n_points": 688,
+    "osm_pct": 89.3,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 9.2
+  }
+}

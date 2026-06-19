@@ -1,0 +1,58 @@
+{
+  "slug": "loucherhorn",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 297.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 35,
+      "coverage_pct": 6.75,
+      "length_m": 297.6
+    },
+    {
+      "start_m": 305.4,
+      "end_m": 468.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 22,
+      "coverage_pct": 3.69,
+      "length_m": 162.7
+    },
+    {
+      "start_m": 472.4,
+      "end_m": 3738.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 721,
+      "coverage_pct": 74.11,
+      "length_m": 3266.4
+    },
+    {
+      "start_m": 3777.8,
+      "end_m": 4203.6,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 22,
+      "coverage_pct": 9.66,
+      "length_m": 425.7
+    },
+    {
+      "start_m": 4229.5,
+      "end_m": 4407.3,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 6,
+      "coverage_pct": 4.03,
+      "length_m": 177.8
+    }
+  ],
+  "stats": {
+    "total_m": 4407.3,
+    "n_points": 806,
+    "osm_pct": 84.9,
+    "swisstopo_pct": 3.7,
+    "unknown_pct": 9.7
+  }
+}

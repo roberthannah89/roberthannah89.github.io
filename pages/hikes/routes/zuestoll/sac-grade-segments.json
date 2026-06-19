@@ -1,0 +1,49 @@
+{
+  "slug": "zuestoll",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1069.6,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 165,
+      "coverage_pct": 24.83,
+      "length_m": 1069.6
+    },
+    {
+      "start_m": 1074.0,
+      "end_m": 1585.7,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 50,
+      "coverage_pct": 11.88,
+      "length_m": 511.7
+    },
+    {
+      "start_m": 1594.0,
+      "end_m": 3062.1,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 311,
+      "coverage_pct": 34.08,
+      "length_m": 1468.0
+    },
+    {
+      "start_m": 3068.1,
+      "end_m": 4307.1,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 345,
+      "coverage_pct": 28.77,
+      "length_m": 1239.1
+    }
+  ],
+  "stats": {
+    "total_m": 4307.1,
+    "n_points": 871,
+    "osm_pct": 87.7,
+    "swisstopo_pct": 11.9,
+    "unknown_pct": 0.0
+  }
+}

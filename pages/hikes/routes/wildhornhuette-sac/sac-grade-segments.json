@@ -1,0 +1,49 @@
+{
+  "slug": "wildhornhuette-sac",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 8671.3,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 951,
+      "coverage_pct": 58.67,
+      "length_m": 8671.3
+    },
+    {
+      "start_m": 8697.1,
+      "end_m": 8785.5,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 12,
+      "coverage_pct": 0.6,
+      "length_m": 88.3
+    },
+    {
+      "start_m": 8789.8,
+      "end_m": 10138.8,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 166,
+      "coverage_pct": 9.13,
+      "length_m": 1348.9
+    },
+    {
+      "start_m": 10151.7,
+      "end_m": 14779.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 778,
+      "coverage_pct": 31.31,
+      "length_m": 4627.7
+    }
+  ],
+  "stats": {
+    "total_m": 14779.4,
+    "n_points": 1907,
+    "osm_pct": 90.6,
+    "swisstopo_pct": 9.1,
+    "unknown_pct": 0.0
+  }
+}

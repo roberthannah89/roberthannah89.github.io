@@ -1,0 +1,58 @@
+{
+  "slug": "le-moleson",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2531.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 504,
+      "coverage_pct": 21.93,
+      "length_m": 2531.4
+    },
+    {
+      "start_m": 2533.1,
+      "end_m": 2843.8,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 52,
+      "coverage_pct": 2.69,
+      "length_m": 310.7
+    },
+    {
+      "start_m": 2845.6,
+      "end_m": 7262.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 645,
+      "coverage_pct": 38.27,
+      "length_m": 4416.9
+    },
+    {
+      "start_m": 7278.5,
+      "end_m": 11380.7,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 480,
+      "coverage_pct": 35.54,
+      "length_m": 4102.2
+    },
+    {
+      "start_m": 11393.1,
+      "end_m": 11542.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 18,
+      "coverage_pct": 1.29,
+      "length_m": 149.3
+    }
+  ],
+  "stats": {
+    "total_m": 11542.4,
+    "n_points": 1699,
+    "osm_pct": 64.2,
+    "swisstopo_pct": 35.5,
+    "unknown_pct": 0.0
+  }
+}

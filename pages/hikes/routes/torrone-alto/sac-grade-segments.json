@@ -1,0 +1,40 @@
+{
+  "slug": "torrone-alto",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 3809.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 866,
+      "coverage_pct": 55.12,
+      "length_m": 3809.7
+    },
+    {
+      "start_m": 3816.7,
+      "end_m": 5137.4,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 226,
+      "coverage_pct": 19.11,
+      "length_m": 1320.7
+    },
+    {
+      "start_m": 5179.5,
+      "end_m": 6912.0,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 43,
+      "coverage_pct": 25.06,
+      "length_m": 1732.4
+    }
+  ],
+  "stats": {
+    "total_m": 6912.0,
+    "n_points": 1135,
+    "osm_pct": 55.1,
+    "swisstopo_pct": 19.1,
+    "unknown_pct": 25.1
+  }
+}

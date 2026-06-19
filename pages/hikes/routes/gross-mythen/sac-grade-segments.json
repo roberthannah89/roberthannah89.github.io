@@ -1,0 +1,40 @@
+{
+  "slug": "gross-mythen",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 348.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 59,
+      "coverage_pct": 13.01,
+      "length_m": 348.6
+    },
+    {
+      "start_m": 357.3,
+      "end_m": 1850.3,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 271,
+      "coverage_pct": 55.72,
+      "length_m": 1493.0
+    },
+    {
+      "start_m": 1867.7,
+      "end_m": 2679.3,
+      "t_grade": "T5",
+      "source": "osm",
+      "n_points": 28,
+      "coverage_pct": 30.29,
+      "length_m": 811.6
+    }
+  ],
+  "stats": {
+    "total_m": 2679.3,
+    "n_points": 358,
+    "osm_pct": 99.0,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 0.0
+  }
+}

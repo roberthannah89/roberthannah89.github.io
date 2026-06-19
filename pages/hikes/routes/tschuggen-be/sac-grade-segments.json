@@ -1,0 +1,40 @@
+{
+  "slug": "tschuggen-be",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 2395.1,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 318,
+      "coverage_pct": 40.02,
+      "length_m": 2395.1
+    },
+    {
+      "start_m": 2435.7,
+      "end_m": 3995.1,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 47,
+      "coverage_pct": 26.06,
+      "length_m": 1559.3
+    },
+    {
+      "start_m": 4035.6,
+      "end_m": 5984.5,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 324,
+      "coverage_pct": 32.57,
+      "length_m": 1948.9
+    }
+  ],
+  "stats": {
+    "total_m": 5984.5,
+    "n_points": 689,
+    "osm_pct": 72.6,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 26.1
+  }
+}

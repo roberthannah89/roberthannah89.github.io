@@ -1,0 +1,40 @@
+{
+  "slug": "schynige-platte-first",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 297.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 35,
+      "coverage_pct": 4.03,
+      "length_m": 297.6
+    },
+    {
+      "start_m": 305.4,
+      "end_m": 468.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 22,
+      "coverage_pct": 2.2,
+      "length_m": 162.7
+    },
+    {
+      "start_m": 472.4,
+      "end_m": 7379.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 1231,
+      "coverage_pct": 93.6,
+      "length_m": 6907.4
+    }
+  ],
+  "stats": {
+    "total_m": 7379.8,
+    "n_points": 1288,
+    "osm_pct": 97.6,
+    "swisstopo_pct": 2.2,
+    "unknown_pct": 0.0
+  }
+}

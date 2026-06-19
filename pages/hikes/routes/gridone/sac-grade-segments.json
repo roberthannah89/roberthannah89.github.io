@@ -1,0 +1,58 @@
+{
+  "slug": "gridone",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1706.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 324,
+      "coverage_pct": 17.28,
+      "length_m": 1706.8
+    },
+    {
+      "start_m": 1711.1,
+      "end_m": 6489.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 560,
+      "coverage_pct": 48.38,
+      "length_m": 4778.8
+    },
+    {
+      "start_m": 6493.4,
+      "end_m": 6902.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 56,
+      "coverage_pct": 4.14,
+      "length_m": 408.8
+    },
+    {
+      "start_m": 6910.5,
+      "end_m": 8888.1,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 376,
+      "coverage_pct": 20.02,
+      "length_m": 1977.6
+    },
+    {
+      "start_m": 8896.4,
+      "end_m": 9876.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 165,
+      "coverage_pct": 9.93,
+      "length_m": 980.5
+    }
+  ],
+  "stats": {
+    "total_m": 9876.9,
+    "n_points": 1481,
+    "osm_pct": 51.4,
+    "swisstopo_pct": 48.4,
+    "unknown_pct": 0.0
+  }
+}

@@ -39,41 +39,98 @@
   </table>
 </section>
 
+{%- set _photos_src = (photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true)) | striptags %}
 <section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
 {%- for p in photos %}
     <figure>
-      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}"{% if p.get('copyright') %} title="© {{ p.copyright }}"{% endif %}></a>
+      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}" title="{% if p.get('copyright') %}© {{ p.copyright }}{% else %}{{ _photos_src }}{% endif %}"></a>
       <figcaption>{{ p.caption_html | safe }}</figcaption>
     </figure>
 {%- endfor %}
   </div>
 {%- for p in photos %}
-      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt=""{% if p.get('copyright') %} title="© {{ p.copyright }}"{% endif %}></a>
+      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt="" title="{% if p.get('copyright') %}© {{ p.copyright }}{% else %}{{ _photos_src }}{% endif %}"></a>
 {%- endfor %}
-      <p class="attrib">{{ photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true) | safe }}</p>
 </section>
 
 <section class="map-section">
-  <h2>Interactive Route Map</h2>
+  <h2>Route Map &amp; Elevation</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./{{ slug }}.gpx" download="{{ slug }}.gpx"
        aria-label="Download GPX track for {{ peak.name }}">↓ Download GPX</a>
+    <button type="button" id="waypoint-toggle" class="ms-layer-btn"
+            aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <details class="info-popover">
+      <summary class="info-icon" aria-label="Map attribution">i</summary>
+      <div class="info-body">
+        Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a>
+        (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors |
+        Map library: <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>.
+        Route line is approximate — verify against the SAC Route Portal before going.
+      </div>
+    </details>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
-  <div class="legend">
-    <span class="start">Start ({{ trailhead.name }})</span>
-    <span class="summit">Summit ({{ peak.name }})</span>
-    <span class="way">Waypoint</span>
-    <span class="line">Approximate route</span>
+
+  <div class="elev-chart-wrap">
+    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
+    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+    <div class="elev-hover-info" id="elev-hover-info" hidden></div>
   </div>
-  <p class="attrib">
-    Map tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>
-    (CC BY 3.0) | © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors |
-    Map library: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>.
-    Route line is approximate — verify against the SAC Route Portal before going.
+  <div class="elev-summary-row">
+{%- if gpx_stats and gpx_stats.distance_km %}
+    <div class="elev-stats" id="elev-stats">
+      <span><strong>{{ "%.1f"|format(gpx_stats.distance_km) }} km</strong> total</span>
+      <span>&uarr; <strong>{{ gpx_stats.ascent_m|round|int }} m</strong> ascent</span>
+      <span>&darr; <strong>{{ gpx_stats.descent_m|round|int }} m</strong> descent</span>
+      <span>max <strong>{{ gpx_stats.max_ele|int }} m</strong></span>
+      <span>steepest <strong>{{ gpx_stats.steepest_grade_pct|round|int }}%</strong></span>
+    </div>
+{%- else %}
+    <div class="elev-stats" id="elev-stats"></div>
+{%- endif %}
+{%- if sac_grade_segments %}
+    <div class="tgrade-legend" id="tgrade-legend" aria-label="SAC T-grade legend"></div>
+    <details class="info-popover tgrade-info">
+      <summary class="info-icon" aria-label="Trail difficulty source">i</summary>
+      <div class="info-body">
+        Trail difficulty per segment: OSM <code>sac_scale</code> (precise T1–T6) with
+        <a href="https://www.swisstopo.admin.ch/en/landscape-model-swisstlm3d" target="_blank" rel="noopener">swissTLM3D <em>Wanderwegart</em></a>
+        fallback where OSM is silent (coarser T2/T3 and T4+ buckets).
+        {% set s = sac_grade_segments.stats %}Coverage: OSM {{ s.osm_pct }}% · swisstopo {{ s.swisstopo_pct }}% · unknown {{ s.unknown_pct }}%.<br>
+        Elevations computed from the inlined GPX track (SwissTopo height API).
+      </div>
+    </details>
+{%- endif %}
+  </div>
+{%- if not sac_grade_segments %}
+  <p class="attrib">{{ elev_chart_attrib_html | default('Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).', true) | safe }}</p>
+{%- endif %}
+  <div class="elev-controls" id="elev-controls" hidden>
+    <span class="elev-controls-day" id="elev-controls-day"></span>
+    <label class="elev-controls-start" aria-label="Hike start time"><input type="time" id="elev-start-time" value="10:00" step="600"></label>
+    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
+      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
+      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
+      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
+    </span>
+    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
+    <span class="elev-controls-end" id="elev-controls-end"></span>
+    <span class="elev-controls-status" id="elev-controls-status"></span>
+  </div>
+</section>
+
+<section class="weather-section" aria-label="7-day forecast date picker">
+  <div id="forecast" class="forecast-grid">
+    <p class="forecast-loading">Loading forecast…</p>
+  </div>
+  <p class="forecast-more">
+    <a href="https://www.meteoblue.com/en/weather/week/{{ peak.lat }}N{{ peak.lon }}E"
+       target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
 </section>
 
@@ -87,12 +144,7 @@
       <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib">
-    Tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a> (SWISSIMAGE) +
-    <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>.
-    Powered by <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a>.
-    <a href="{{ slug }}.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
-  </p>
+  <p class="attrib"><a href="{{ slug }}.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
 </section>
 
 {%- set route = (routes | first) if routes else None %}
@@ -157,52 +209,6 @@
 {%- endif %}
 </section>
 
-<section class="weather-section">
-  <h2>Weather Planning</h2>
-  <h3>7-day summit forecast (live)</h3>
-  <div id="forecast" class="forecast-grid">
-    <p class="forecast-loading">Loading forecast…</p>
-  </div>
-  <p class="forecast-more">
-    <a href="https://www.meteoblue.com/en/weather/week/{{ peak.lat }}N{{ peak.lon }}E"
-       target="_blank" rel="noopener">Detailed point forecast at meteoblue →</a>
-  </p>
-</section>
-
-<section>
-  <h2>Elevation Profile</h2>
-{%- if gpx_stats and gpx_stats.distance_km %}
-  <div class="elev-stats" id="elev-stats">
-    <span><strong>{{ "%.1f"|format(gpx_stats.distance_km) }} km</strong> total</span>
-    <span>&uarr; <strong>{{ gpx_stats.ascent_m|round|int }} m</strong> ascent</span>
-    <span>&darr; <strong>{{ gpx_stats.descent_m|round|int }} m</strong> descent</span>
-    <span>max <strong>{{ gpx_stats.max_ele|int }} m</strong></span>
-    <span>steepest <strong>{{ gpx_stats.steepest_grade_pct|round|int }}%</strong></span>
-  </div>
-{%- else %}
-  <div class="elev-stats" id="elev-stats"></div>
-{%- endif %}
-  <div class="elev-controls" id="elev-controls" hidden>
-    <span class="elev-controls-day" id="elev-controls-day"></span>
-    <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
-    <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
-    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
-      <span class="elev-controls-label">Pace</span>
-      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
-      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
-      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
-    </span>
-    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
-    <span class="elev-controls-end" id="elev-controls-end"></span>
-    <span class="elev-controls-status" id="elev-controls-status"></span>
-  </div>
-  <div class="elev-chart-wrap">
-    <div class="elev-hour-badges" id="elev-hour-badges" aria-hidden="true"></div>
-    <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
-  </div>
-  <p class="attrib">{{ elev_chart_attrib_html | default('Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).', true) | safe }}</p>
-</section>
-
 {# Print-only field reference: GPS coordinates for trailhead, summit, and waypoints.
    Hidden on screen by default; revealed by the print stylesheet so a printed page is
    actually useful in the field (punch coords into a GPS / phone offline map). #}
@@ -229,8 +235,7 @@
 
 <footer>
   <div style="max-width:1100px; margin:0 auto;">
-    <p>© {{ page.get('year') or 2026 }} — Hike plan compiled from public Swiss sources. Tiles © swisstopo / OSM.</p>
-    <p style="opacity:.7;">Page generated <time id="page-generated"></time>; live data (forecast, transit) fetched on load.</p>
+    <p>© {{ page.get('year') or 2026 }} · compiled from public Swiss sources (tiles © swisstopo / OSM) · generated <time id="page-generated"></time></p>
   </div>
 </footer>
 
@@ -258,6 +263,7 @@ window.HIKE = {
   ]
 };
 {% if gpx_stats %}window.TRACK_STATS = {{ gpx_stats | tojson }};{% endif %}
+{% if sac_grade_segments %}window.SAC_GRADE_SEGMENTS = {{ sac_grade_segments | tojson }};{% endif %}
 </script>
 <script src="../_assets/hike_page.js"></script>
 <script>

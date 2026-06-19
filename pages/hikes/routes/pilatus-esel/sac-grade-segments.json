@@ -1,0 +1,94 @@
+{
+  "slug": "pilatus-esel",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 106.1,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 22,
+      "coverage_pct": 2.64,
+      "length_m": 106.1
+    },
+    {
+      "start_m": 113.3,
+      "end_m": 193.1,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 9,
+      "coverage_pct": 1.99,
+      "length_m": 79.9
+    },
+    {
+      "start_m": 202.7,
+      "end_m": 305.1,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 10,
+      "coverage_pct": 2.55,
+      "length_m": 102.4
+    },
+    {
+      "start_m": 313.0,
+      "end_m": 1189.4,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 126,
+      "coverage_pct": 21.79,
+      "length_m": 876.5
+    },
+    {
+      "start_m": 1202.6,
+      "end_m": 1627.7,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 45,
+      "coverage_pct": 10.57,
+      "length_m": 425.1
+    },
+    {
+      "start_m": 1633.0,
+      "end_m": 1951.7,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 14,
+      "coverage_pct": 7.92,
+      "length_m": 318.8
+    },
+    {
+      "start_m": 1986.4,
+      "end_m": 2134.2,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 8,
+      "coverage_pct": 3.67,
+      "length_m": 147.8
+    },
+    {
+      "start_m": 2140.1,
+      "end_m": 3235.0,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 154,
+      "coverage_pct": 27.22,
+      "length_m": 1094.9
+    },
+    {
+      "start_m": 3237.1,
+      "end_m": 4022.8,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 118,
+      "coverage_pct": 19.53,
+      "length_m": 785.6
+    }
+  ],
+  "stats": {
+    "total_m": 4022.8,
+    "n_points": 506,
+    "osm_pct": 84.8,
+    "swisstopo_pct": 13.1,
+    "unknown_pct": 0.0
+  }
+}
