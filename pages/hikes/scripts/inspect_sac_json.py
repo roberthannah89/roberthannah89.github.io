@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 def inspect(json_path: Path) -> None:
-    with open(json_path, encoding="utf-8") as f:
+    with json_path.open(encoding="utf-8") as f:
         data = json.load(f)
     inspect_data(data)
 

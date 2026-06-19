@@ -249,8 +249,8 @@ def _densify_and_split(coords: list[list[float]],
     Returns a list of trksegs (each is a list of [E, N] coords).
     """
     segs: list[list[list[float]]] = [[coords[0]]]
-    for a, b in zip(coords, coords[1:]):
-        gap = _gap_lv95(tuple(a), tuple(b))
+    for a, b in zip(coords, coords[1:], strict=False):
+        gap = _gap_lv95((a[0], a[1]), (b[0], b[1]))
         if gap >= split_above_m:
             segs.append([b])
             continue
@@ -351,15 +351,17 @@ def _build_gpx(features: list[dict], title: str, slug: str, out_dir: Path,
         splits = len(chunks) - 1
         if added or splits:
             note = []
-            if added: note.append(f"densified {added} intermediate point(s)")
-            if splits: note.append(f"split into {len(chunks)} trkseg(s) on >250 m gaps")
+            if added:
+                note.append(f"densified {added} intermediate point(s)")
+            if splits:
+                note.append(f"split into {len(chunks)} trkseg(s) on >250 m gaps")
             print(f"[gpx  ] {'; '.join(note)}")
         for chunk in chunks:
             seg = gpxpy.gpx.GPXTrackSegment()
             seg.points = [gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in chunk]
             track.segments.append(seg)
     else:
-        for seg_name, coords in raw:
+        for _seg_name, coords in raw:
             seg = gpxpy.gpx.GPXTrackSegment()
             seg.points = [
                 gpxpy.gpx.GPXTrackPoint(*_lv95_to_wgs84(e, n)) for e, n in coords

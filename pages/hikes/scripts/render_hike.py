@@ -45,6 +45,7 @@ from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_compl
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import Any
 
 from config import (
     DIFFICULTY_BLURBS,
@@ -59,9 +60,10 @@ from config import (
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 try:
-    from jsonschema import Draft7Validator
+    from jsonschema import Draft7Validator as _Draft7Validator
     SCHEMA_PATH = Path(__file__).resolve().parent.parent / "templates" / "hike_data.schema.json"
     _SCHEMA = json.loads(SCHEMA_PATH.read_text()) if SCHEMA_PATH.exists() else None
+    Draft7Validator: Any = _Draft7Validator
 except ImportError:
     Draft7Validator = None
     _SCHEMA = None
@@ -94,16 +96,17 @@ class _GuideMetaParser(HTMLParser):
             self._in_head = True
         if tag == "meta" and self._in_head:
             d = dict(attrs)
-            name = d.get("name", "")
-            if name.startswith("guide-") and d.get("content"):
-                self.meta[name] = d["content"]
+            name = d.get("name") or ""
+            content = d.get("content")
+            if name.startswith("guide-") and content:
+                self.meta[name] = content
 
     def handle_endtag(self, tag: str):
         if tag == "head":
             self._in_head = False
 
 
-def discover_guide_pages(hikes_root: Path) -> list[dict[str, str]]:
+def discover_guide_pages(hikes_root: Path) -> list[dict[str, Any]]:
     """Scan guides/ and command-center/ for HTML files with guide-* meta tags.
 
     ``hikes_root`` is the ``pages/hikes/`` directory (the parent of ``routes/``).
@@ -119,7 +122,7 @@ def discover_guide_pages(hikes_root: Path) -> list[dict[str, str]]:
     if cc_index.is_file():
         candidates.append(cc_index)
 
-    pages: list[dict[str, str]] = []
+    pages: list[dict[str, Any]] = []
     for html_file in candidates:
         parser = _GuideMetaParser()
         parser.feed(html_file.read_text(encoding="utf-8"))
@@ -205,7 +208,7 @@ def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
         for tp in trkseg.findall("g:trkpt", GPX_NS):
             ele_el = tp.find("g:ele", GPX_NS)
             ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
-            seg_pts.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+            seg_pts.append((float(tp.get("lat") or 0), float(tp.get("lon") or 0), ele))
         if seg_pts:
             segments.append(seg_pts)
     # Fallback for GPX with bare <trkpt>s (shouldn't normally happen).
@@ -214,7 +217,7 @@ def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
         for tp in tree.findall(".//g:trkpt", GPX_NS):
             ele_el = tp.find("g:ele", GPX_NS)
             ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
-            flat.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+            flat.append((float(tp.get("lat") or 0), float(tp.get("lon") or 0), ele))
         if flat:
             segments = [flat]
 
@@ -225,7 +228,7 @@ def compute_gpx_stats(gpx_path: Path) -> dict[str, float]:
     dist = 0.0
     max_grade = 0.0
     for seg in segments:
-        for a, b in zip(seg, seg[1:]):
+        for a, b in zip(seg, seg[1:], strict=False):
             d_m = _haversine_m((a[0], a[1]), (b[0], b[1]))
             dist += d_m
             if d_m > 5:
@@ -280,8 +283,8 @@ def parse_gpx_waypoints(gpx_path: Path,
         elif peak_name and label.lower() == peak_name.lower():
             kind = "summit"
         out.append({
-            "lat": float(w.get("lat")),
-            "lon": float(w.get("lon")),
+            "lat": float(w.get("lat") or 0),
+            "lon": float(w.get("lon") or 0),
             "label": label,
             "kind": kind,
         })
@@ -447,7 +450,7 @@ def _write_track_js(gpx_path: Path, out_path: Path) -> None:
         for tp in trkseg.findall("g:trkpt", GPX_NS):
             ele_el = tp.find("g:ele", GPX_NS)
             ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
-            seg.append((float(tp.get("lat")), float(tp.get("lon")), ele))
+            seg.append((float(tp.get("lat") or 0), float(tp.get("lon") or 0), ele))
         if seg:
             segments.append(seg)
     if not segments:

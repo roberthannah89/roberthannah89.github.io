@@ -1,15 +1,21 @@
-"""Legacy SAC route fetcher (v1) + shared cookie helpers.
+"""Shared SAC session-cookie helpers + ``--save-cookie`` CLI.
 
-The SAC route portal retired its monolithic JSON endpoint between 2026-05-22
-and 2026-06-01. New hikes use ``fetch_sac_route_v2.py`` + ``scrape_sac_route_page.py``
-(orchestrated by ``add_sac_hike_v2.py``). This script remains because:
+This module is the single home for the SAC cookie loader/saver used by the v2
+pipeline. The SAC route portal retired its monolithic JSON endpoint between
+2026-05-22 and 2026-06-01, so the original v1 fetcher that lived here has been
+removed. New hikes use ``fetch_sac_route_v2.py`` + ``scrape_sac_route_page.py``
+(orchestrated by ``add_sac_hike_v2.py``), all of which import the cookie
+helpers below.
 
-  * It can still re-fetch the legacy JSON for hikes that were captured before
-    the cutover (the URL now returns HTML, but the script is otherwise sound).
-  * It hosts the shared cookie helpers — ``save_cookie``, ``_load_cookie``,
-    ``DEFAULT_COOKIE_FILE`` — imported by ``add_sac_hike_v2.py`` and
-    ``scrape_sac_route_page.py``, and exposes the ``--save-cookie`` CLI
-    used by the Cookie-Editor refresh workflow.
+Public surface
+--------------
+- ``DEFAULT_COOKIE_FILE`` — ``~/.config/sac-hikes/cookie`` (XDG-style per-user
+  state; not synced via dotfiles, since cookies are per-machine and expire).
+- ``_load_cookie(env_name, cookie_file)`` — resolves the cookie from
+  ``--cookie-file`` / ``$ENV`` / ``DEFAULT_COOKIE_FILE`` in that order.
+- ``save_cookie(value, target=None)`` — persists a cookie (raw value, header
+  line, or Cookie-Editor JSON export) at mode 0600.
+- ``main()`` — the ``--save-cookie`` CLI used by the Cookie-Editor workflow.
 
 Cookie loading order:
   1. ``--cookie-file PATH`` (explicit override)
@@ -37,36 +43,15 @@ Refreshing the cookie (Cookie-Editor workflow)
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
-import re
 import sys
-import urllib.error
-import urllib.parse
-import urllib.request
 from pathlib import Path
-
-REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # Default place to stash the session cookie. XDG-compliant per-user state —
 # not synced via dotfiles (cookies are per-machine and expire).
 DEFAULT_COOKIE_FILE = Path.home() / ".config" / "sac-hikes" / "cookie"
-
-# TYPO3 pageType that switches the route page to its JSON representation.
-JSON_TYPE_PARAM = "1567765346410"
-
-# 32-hex TYPO3 cache hash. Some installations require it on cacheable URLs;
-# we scrape it from the page HTML if the first attempt comes back as HTML.
-# The hash appears in the login-redirect URL, which is double-URL-encoded, so
-# the literal `=` shows up as `%3D` (and could escalate further on retry).
-_CHASH_RE = re.compile(r"cHash(?:=|%3D|%253D)([a-f0-9]{32})", re.IGNORECASE)
-
-_TEASER_BLOCK_RE = re.compile(
-    r'class="[^"]*c-teaser-destination__image[^"]*"(.*?)</',
-    re.DOTALL,
-)
-_SRCSET_RE = re.compile(r'srcset="([^"]+)"')
-_SRC_RE = re.compile(r'\bsrc="([^"]+)"')
 
 
 def _load_cookie(env_name: str, cookie_file: Path | None) -> str:
@@ -144,201 +129,30 @@ def save_cookie(value: str, target: Path | None = None) -> Path:
     # bare-value case by prefixing fe_typo_user= when there's no '=' present.
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(val + "\n", encoding="utf-8")
-    try:
+    with contextlib.suppress(OSError):
         path.chmod(0o600)
-    except OSError:
-        pass
     return path
-
-
-def _add_query(url: str, **params: str) -> str:
-    parts = urllib.parse.urlsplit(url)
-    qs = urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
-    have = {k for k, _ in qs}
-    for k, v in params.items():
-        if k not in have:
-            qs.append((k, v))
-    return urllib.parse.urlunsplit(parts._replace(query=urllib.parse.urlencode(qs)))
-
-
-def _extract_route_id(url: str) -> str:
-    m = re.search(r"-(\d+)/?$", urllib.parse.urlsplit(url).path)
-    if not m:
-        sys.exit(f"ERROR: could not extract route ID from URL: {url}")
-    return m.group(1)
-
-
-def _derive_peak_url(route_url: str) -> str:
-    """Strip the trailing route segment to get the peak page URL."""
-    parts = urllib.parse.urlsplit(route_url)
-    path = parts.path.rstrip("/")
-    peak_path = path.rsplit("/", 1)[0] + "/"
-    return urllib.parse.urlunsplit((parts.scheme, parts.netloc, peak_path, "", ""))
-
-
-def _fetch(url: str, cookie: str, accept: str) -> tuple[int, bytes, str]:
-    req = urllib.request.Request(url, headers={
-        "Cookie": cookie,
-        "User-Agent": "fetch_sac_route/1.0 (+https://github.com/roberthannah89/website)",
-        "Accept": accept,
-        "Accept-Language": "en-GB,en;q=0.9",
-    })
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return resp.status, resp.read(), resp.headers.get_content_type()
-    except urllib.error.HTTPError as e:
-        return e.code, e.read(), e.headers.get_content_type()
-
-
-def _is_json_body(ctype: str, body: bytes) -> bool:
-    if "json" in ctype:
-        return True
-    head = body.lstrip()[:1]
-    return head in (b"{", b"[")
-
-
-def fetch_route_json(route_url: str, cookie: str, out_dir: Path) -> Path:
-    """Fetch the route JSON and save to ``out_dir/sac-route-<id>.json``."""
-    route_id = _extract_route_id(route_url)
-    json_url = _add_query(route_url, type=JSON_TYPE_PARAM)
-
-    print(f"[fetch] GET {json_url}")
-    status, body, ctype = _fetch(json_url, cookie, accept="application/json")
-
-    # Retry with cHash if the server gave us HTML (likely the login wall or a
-    # "cHash required" page). The cHash is embedded in the HTML response.
-    if status == 200 and not _is_json_body(ctype, body):
-        html = body.decode("utf-8", "replace")
-        m = _CHASH_RE.search(html)
-        if m:
-            json_url_with_hash = _add_query(json_url, cHash=m.group(1))
-            print(f"[fetch] HTML returned; retrying with cHash={m.group(1)[:8]}…")
-            status, body, ctype = _fetch(json_url_with_hash, cookie, accept="application/json")
-
-    if status != 200:
-        sys.exit(f"ERROR: HTTP {status} from {json_url}\n{body[:300]!r}")
-
-    if not _is_json_body(ctype, body):
-        head = body[:200].decode("utf-8", "replace").replace("\n", " ")
-        sys.exit(
-            f"ERROR: Expected JSON, got {ctype}.\n"
-            "Likely causes:\n"
-            "  - Cookie expired or invalid → re-copy fe_typo_user from your browser\n"
-            "  - URL needs a cHash that isn't present in the page HTML → copy the\n"
-            "    full JSON request URL from DevTools → Network and pass it as --url\n"
-            f"Response head: {head!r}"
-        )
-
-    try:
-        data = json.loads(body)
-    except json.JSONDecodeError as e:
-        sys.exit(f"ERROR: body claimed to be JSON but failed to parse: {e}")
-
-    # Authentication can fail silently — the server returns valid JSON with
-    # empty `segments`. The docs flag this explicitly as a sign of bad auth.
-    if not data.get("segments"):
-        sys.exit(
-            "ERROR: JSON has no `segments` — the cookie probably isn't authenticated\n"
-            "for this paid route. Verify you can view the page in your browser, then\n"
-            "re-copy `fe_typo_user`."
-        )
-
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"sac-route-{route_id}.json"
-    # Match the format produced by the Playwright capture: minified, no trailing newline.
-    out_path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"[fetch] Wrote {out_path}  ({out_path.stat().st_size // 1024} KB, "
-          f"{len(data.get('segments', []))} segments)")
-    return out_path
-
-
-def _largest_from_srcset(srcset: str) -> str:
-    entries: list[tuple[int, str]] = []
-    for item in srcset.split(","):
-        item = item.strip()
-        if not item:
-            continue
-        parts = item.split()
-        url = parts[0]
-        width = 0
-        if len(parts) > 1 and parts[1].endswith("w"):
-            try:
-                width = int(parts[1][:-1])
-            except ValueError:
-                pass
-        entries.append((width, url))
-    entries.sort(reverse=True)
-    return entries[0][1] if entries else ""
-
-
-def fetch_peak_hero(route_url: str, cookie: str) -> str | None:
-    """Fetch the peak overview page and return the largest hero image URL."""
-    peak_url = _derive_peak_url(route_url)
-    print(f"[hero ] GET {peak_url}")
-    status, body, _ = _fetch(peak_url, cookie, accept="text/html")
-    if status != 200:
-        print(f"  WARN: HTTP {status} fetching peak page", file=sys.stderr)
-        return None
-
-    html = body.decode("utf-8", "replace")
-    candidates: list[str] = []
-    for block in _TEASER_BLOCK_RE.findall(html):
-        m_srcset = _SRCSET_RE.search(block)
-        url = _largest_from_srcset(m_srcset.group(1)) if m_srcset else ""
-        if not url:
-            m_src = _SRC_RE.search(block)
-            url = m_src.group(1) if m_src else ""
-        if url and not url.startswith("data:"):
-            candidates.append(url)
-
-    if not candidates:
-        print("  WARN: no .c-teaser-destination__image candidate found in HTML", file=sys.stderr)
-        return None
-
-    hero = candidates[0]
-    if hero.startswith("/"):
-        hero = "https://www.sac-cas.ch" + hero
-    print(f"[hero ] {hero}")
-    return hero
 
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
-        description=__doc__.splitlines()[0],
+        description=(__doc__ or "").splitlines()[0],
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    p.add_argument("--url", help="SAC route page URL (human-readable)")
-    p.add_argument("--slug", help="Folder slug under routes/")
-    p.add_argument("--cookie-env", default="SAC_COOKIE",
-                   help="Env var holding the cookie (default: SAC_COOKIE)")
-    p.add_argument("--cookie-file", type=Path,
-                   help="File containing the cookie (overrides env var and default file)")
-    p.add_argument("--save-cookie", metavar="VALUE",
-                   help=f"Save cookie to {DEFAULT_COOKIE_FILE} (mode 0600) and exit. "
-                        "Use '-' to read the value from stdin.")
-    p.add_argument("--peak-hero", action="store_true",
-                   help="Also fetch the peak page and resolve the hero image URL")
+    p.add_argument(
+        "--save-cookie",
+        metavar="VALUE",
+        required=True,
+        help=(
+            f"Save cookie to {DEFAULT_COOKIE_FILE} (mode 0600) and exit. "
+            "Use '-' to read the value from stdin."
+        ),
+    )
     args = p.parse_args(argv)
 
-    if args.save_cookie is not None:
-        raw = sys.stdin.read() if args.save_cookie == "-" else args.save_cookie
-        target = args.cookie_file or DEFAULT_COOKIE_FILE
-        path = save_cookie(raw, target)
-        print(f"[save ] Wrote cookie to {path} (mode 0600)")
-        return 0
-
-    if not args.url or not args.slug:
-        p.error("--url and --slug are required (unless using --save-cookie)")
-
-    cookie = _load_cookie(args.cookie_env, args.cookie_file)
-    out_dir = REPO_ROOT / "routes" / args.slug
-    json_path = fetch_route_json(args.url, cookie, out_dir)
-
-    if args.peak_hero:
-        fetch_peak_hero(args.url, cookie)
-
-    rel = json_path.relative_to(REPO_ROOT)
-    print(f"\n[done ] Wrote {rel}")
+    raw = sys.stdin.read() if args.save_cookie == "-" else args.save_cookie
+    path = save_cookie(raw)
+    print(f"[save ] Wrote cookie to {path} (mode 0600)")
     return 0
 
 

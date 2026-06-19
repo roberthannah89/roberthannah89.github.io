@@ -32,11 +32,11 @@ REQUIRED_EXTENSIONS = {".data.json", ".gpx", ".html", ".track.js"}
 
 def _get_file_extension(filename: str, hike_name: str) -> str:
     """Extract full extension for multi-part extensions like .data.json.
-    
+
     Parameters:
         filename: The filename to extract extension from
         hike_name: The base hike name (to remove and find the suffix)
-    
+
     Returns:
         The extension (e.g., ".data.json", ".gpx", ".track.js")
     """
@@ -48,7 +48,7 @@ def _get_file_extension(filename: str, hike_name: str) -> str:
 
 def validate_hike_files() -> int:
     """Check all hikes for required files.
-    
+
     Returns:
         0 if all hikes are complete, 1 if any files are missing.
     """
