@@ -77,7 +77,6 @@ ASSETS_DIR = TEMPLATE_DIR / "_assets"
 TEMPLATE_NAME = "hike_page.j2.html"
 INDEX_TEMPLATE_NAME = "index.j2.html"
 DIFFICULTY_TEMPLATE_NAME = "difficulty.j2.html"
-GUIDE_INDEX_TEMPLATE_NAME = "guide_index.j2.html"
 DEFAULT_ROOT = REPO_ROOT / "routes"
 
 GPX_NS = {"g": "http://www.topografix.com/GPX/1/1"}
@@ -945,20 +944,6 @@ def render_guide_nav_js(hikes_root: Path) -> list[tuple[Path, float]]:
     out_path = hikes_root / "guides" / "_nav.js"
     out_path.write_text(js, encoding="utf-8")
     return [(out_path, elapsed)]
-
-
-def render_guide_index(root: Path) -> tuple[Path, float]:
-    """Render the guide index page; returns (out_path, elapsed_seconds)."""
-    t0 = time.perf_counter()
-    guides_dir = root.parent / "guides"
-    guides_dir.mkdir(exist_ok=True)
-    guide_pages = discover_guide_pages(root.parent)
-    env = _make_env()
-    template = env.get_template(GUIDE_INDEX_TEMPLATE_NAME)
-    html = template.render(guide_pages=guide_pages)
-    out_path = guides_dir / "index.html"
-    out_path.write_text(html, encoding="utf-8")
-    return out_path, time.perf_counter() - t0
 
 
 ####################################################################################################################################

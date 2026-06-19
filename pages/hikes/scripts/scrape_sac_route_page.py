@@ -462,13 +462,6 @@ def fetch_html(url: str, cookie: str) -> str:
     return raw.decode("utf-8", errors="replace")
 
 
-def _humanize_time(minutes: int | None) -> str | None:
-    if not minutes:
-        return None
-    h, m = divmod(minutes, 60)
-    return f"{h} h {m:02d} min" if h else f"{m} min"
-
-
 def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: bool = True) -> list[str]:
     """Apply scraped values into ``data.json``. Returns a list of field paths changed."""
     data = json.loads(data_path.read_text(encoding="utf-8"))

@@ -77,29 +77,21 @@ SAC organises content as **peak pages** containing one or more **route pages**:
 
 ## Extracting Data from SAC Route Portal
 
-> [!CAUTION]
-> **SAC retired the old monolithic JSON endpoint between 2026-05-22 and 2026-06-01.** The Playwright-based "Phase 1 / Phase 2" workflow below is dead for new hikes — it returns HTML instead of JSON. **Read [`docs/workflows/SAC-EXTRACTION.md` § Architecture migration (2026-06)](docs/workflows/SAC-EXTRACTION.md#architecture-migration-2026-06) first** for the replacement APIs and the in-progress v2 script (`scripts/fetch_sac_route_v2.py`). The instructions below apply only to **re-rendering hikes whose `sac-route-<ID>.json` was captured before the cutover**.
+> [!IMPORTANT]
+> SAC retired the old monolithic JSON endpoint between 2026-05-22 and 2026-06-01. **New hikes use the v2 pipeline** — see [`docs/workflows/SAC-EXTRACTION.md`](docs/workflows/SAC-EXTRACTION.md) for the full guide. The pre-cutover Playwright/Phase 1–Phase 2 flow is gone (`extract_sac_route.py`/`extract_sac_gpx.py`/`extract_sac_photos.py` have been removed).
 
-When creating a hike from an SAC route portal URL, follow **[`docs/workflows/SAC-EXTRACTION.md`](docs/workflows/SAC-EXTRACTION.md)**.
-
-### Phase 1 — Scrape (Playwright, 2-3 tool calls)
-
-1. Navigate to the **route page** in Playwright (user must be logged in)
-2. Capture the route JSON via `browser_network_requests` (filter: `type=1567765346410`)
-3. Save to `routes/<slug>/sac-route-<ID>.json`
-4. Navigate to the **peak page** and extract the hero image URL via `browser_evaluate`
-
-### Phase 2 — Extract (one command)
+### Adding a new hike (one command)
 
 ```bash
-python scripts/extract_sac_route.py \
-    --json routes/<slug>/sac-route-<ID>.json \
-    --slug <slug> \
-    --region "..." --canton "..." \
-    --peak-hero "<url>" \
-    --render
+python scripts/add_sac_hike_v2.py \
+    --url '<route-page-url>' --slug '<slug>' \
+    --region '<Region>'   # canton auto-detects from peak coords
 ```
 
-This single command runs: GPX extraction → scaffold data.json → photo extraction → SAC metadata population → render. For multiple hikes use `--route slug:json` (repeat).
+This chains: layer-API GPX → SwissTopo elevation → HTML scrape → scaffold `data.json` with scraped fields → `make render`. Flags: `--no-elevation` / `--no-scrape` / `--no-render` for iteration; `--grade` / `--canton` / `--trailhead` to override; `--stitch` / `--include-dashed` for rare GPX tweaks.
 
-**Never delete SAC route JSONs** — they are raw source data needed for reproducibility. If extraction scripts change, these files allow re-running the pipeline without re-authenticating to SAC.
+Prerequisites: the peak ID embedded in the URL must already be in `guides/sac-routes.js`; the saved cookie at `~/.config/sac-hikes/cookie` must still be valid (use `scripts/login_sac.py` to refresh).
+
+**Re-rendering an existing hike** that already has a `sac-route-<ID>.json` capture: just `make render` — the frozen pre-cutover JSONs stay valid for those hikes.
+
+**Never delete SAC source files** (`sac-route-<ID>.json` from v1 captures, or `sac-layer-<ID>.json` from v2 fetches) — they're raw source data needed for reproducibility.

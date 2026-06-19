@@ -25,24 +25,6 @@ def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
-def find_gaps(gpx_path: Path, threshold_m: float = 100) -> list[dict]:
-    """Return list of gaps exceeding threshold: [{seg_from, seg_to, distance_m}, ...]."""
-    with open(gpx_path, encoding="utf-8") as f:
-        gpx = gpxpy.parse(f)
-
-    gaps = []
-    for track in gpx.tracks:
-        segs = track.segments
-        for i in range(1, len(segs)):
-            prev_end = segs[i - 1].points[-1]
-            cur_start = segs[i].points[0]
-            dist = haversine(prev_end.latitude, prev_end.longitude,
-                             cur_start.latitude, cur_start.longitude)
-            if dist > threshold_m:
-                gaps.append({"seg_from": i - 1, "seg_to": i, "distance_m": dist})
-    return gaps
-
-
 def check_gaps(gpx_path: Path, threshold_m: float = 100) -> None:
     """Print segment connectivity report to stdout."""
     with open(gpx_path, encoding="utf-8") as f:

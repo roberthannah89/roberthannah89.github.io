@@ -24,13 +24,14 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 
 | Script | Purpose |
 |---|---|
-| `extract_sac_route.py` | **Master pipeline** — SAC JSON → GPX → scaffold → photos → metadata → render (supports multiple hikes) |
+| `add_sac_hike_v2.py` | **Master pipeline (v2)** — SAC layer API → GPX → scaffold → metadata → render. Supports multiple hikes via repeated `--route slug:id`. |
 | `render_hike.py` | `data.json` + GPX → HTML (main workhorse); also renders index, regions, and difficulty guide pages |
 | `new_hike.py` | Scaffold a new empty hike directory |
 | `config.py` | Shared constants imported by other scripts (physical, algorithmic, display, defaults) |
 | `validate_hike_files.py` | Check every hike has all required files |
-| `extract_sac_gpx.py` | SAC route JSON → GPX track (LV95→WGS84, segment stitching); imported by `extract_sac_route.py` |
-| `extract_sac_photos.py` | SAC route JSON + peak hero → photo URLs in `data.json`; imported by `extract_sac_route.py` |
+| `fetch_sac_route_v2.py` | SAC layer API → GPX track (LV95→WGS84) + raw layer JSON; imported by `add_sac_hike_v2.py` |
+| `scrape_sac_route_page.py` | Scrape SAC route HTML page → patch `data.json` with metadata (difficulty, times, departure/destination); imported by `add_sac_hike_v2.py` |
+| `fetch_sac_route.py` | Legacy v1 fetcher; still hosts the SAC cookie helpers (`_load_cookie`, `save_cookie`, `DEFAULT_COOKIE_FILE`) imported by the v2 scripts |
 | `fetch_geodata.py` | Fetch canton/region GeoJSON from SwissTopo; imported by `render_hike.py` for the regions guide |
 | `fetch_weather.py` | Open-Meteo (MeteoSwiss ICON-CH2) → `command-center/weather-cache.js`. Run via `make weather` before opening the command center |
 

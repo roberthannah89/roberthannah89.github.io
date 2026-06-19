@@ -1,10 +1,14 @@
-"""Fetch SAC route JSON without Playwright.
+"""Legacy SAC route fetcher (v1) + shared cookie helpers.
 
-Replaces Phase 1 (browser scraping) of the SAC extraction workflow with a
-direct authenticated HTTP request. The SAC route portal exposes its route
-data as a TYPO3 page-type response at the same URL as the human page, with
-`?type=1567765346410`. With a valid `fe_typo_user` session cookie the server
-returns JSON instead of the HTML login wall.
+The SAC route portal retired its monolithic JSON endpoint between 2026-05-22
+and 2026-06-01. New hikes use ``fetch_sac_route_v2.py`` + ``scrape_sac_route_page.py``
+(orchestrated by ``add_sac_hike_v2.py``). This script remains because:
+
+  * It can still re-fetch the legacy JSON for hikes that were captured before
+    the cutover (the URL now returns HTML, but the script is otherwise sound).
+  * It hosts the shared cookie helpers — ``save_cookie``, ``_load_cookie``,
+    ``DEFAULT_COOKIE_FILE`` — imported by ``add_sac_hike_v2.py``,
+    ``login_sac.py``, and ``scrape_sac_route_page.py``.
 
 Cookie loading order:
   1. ``--cookie-file PATH`` (explicit override)
@@ -24,23 +28,7 @@ Setup (one-time, per user)
 
        python scripts/fetch_sac_route.py --save-cookie '<value>'
 
-   The script writes ``~/.config/sac-hikes/cookie`` (mode 0600). Future
-   invocations pick it up automatically — no env var needed. Refresh by
-   re-running ``--save-cookie`` when the session expires (typically a few
-   days). You can also pipe the value in: ``... --save-cookie -``.
-
-Usage
------
-    # Fetch JSON only
-    python scripts/fetch_sac_route.py \\
-        --url 'https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/zindlenspitz-2260/mountain-hiking/bruennelistock-rossaelplispitz-and-zindlenspitz-4567/' \\
-        --slug zindlenspitz
-
-    # Also resolve the peak hero image URL
-    python scripts/fetch_sac_route.py --url ... --slug ... --peak-hero
-
-    # Chain into the full extraction pipeline (replaces Playwright entirely)
-    python scripts/fetch_sac_route.py --url ... --slug ... --peak-hero --extract --render
+   (or use ``scripts/login_sac.py`` to log in interactively.)
 """
 from __future__ import annotations
 
@@ -48,7 +36,6 @@ import argparse
 import json
 import os
 import re
-import subprocess
 import sys
 import urllib.error
 import urllib.parse
@@ -326,13 +313,6 @@ def main(argv: list[str] | None = None) -> int:
                         "Use '-' to read the value from stdin.")
     p.add_argument("--peak-hero", action="store_true",
                    help="Also fetch the peak page and resolve the hero image URL")
-    p.add_argument("--extract", action="store_true",
-                   help="Chain into scripts/extract_sac_route.py after fetching")
-    # Pass-through args for --extract
-    p.add_argument("--region", default="TODO")
-    p.add_argument("--canton", default="TODO")
-    p.add_argument("--render", action="store_true",
-                   help="Forwarded to extract_sac_route.py when --extract is set")
     args = p.parse_args(argv)
 
     if args.save_cookie is not None:
@@ -349,32 +329,11 @@ def main(argv: list[str] | None = None) -> int:
     out_dir = REPO_ROOT / "routes" / args.slug
     json_path = fetch_route_json(args.url, cookie, out_dir)
 
-    hero_url = fetch_peak_hero(args.url, cookie) if args.peak_hero else None
-
-    if args.extract:
-        cmd = [
-            sys.executable, str(Path(__file__).parent / "extract_sac_route.py"),
-            "--json", str(json_path),
-            "--slug", args.slug,
-            "--region", args.region,
-            "--canton", args.canton,
-            "--route-url", args.url,
-        ]
-        if hero_url:
-            cmd += ["--peak-hero", hero_url]
-        if args.render:
-            cmd.append("--render")
-        print(f"\n[chain] {' '.join(cmd)}")
-        return subprocess.call(cmd, cwd=str(REPO_ROOT))
+    if args.peak_hero:
+        fetch_peak_hero(args.url, cookie)
 
     rel = json_path.relative_to(REPO_ROOT)
-    print("\nNext step:")
-    print(f"  python scripts/extract_sac_route.py \\")
-    print(f"    --json {rel} \\")
-    print(f"    --slug {args.slug} \\")
-    if hero_url:
-        print(f"    --peak-hero '{hero_url}' \\")
-    print(f"    --route-url '{args.url}' --render")
+    print(f"\n[done ] Wrote {rel}")
     return 0
 
 

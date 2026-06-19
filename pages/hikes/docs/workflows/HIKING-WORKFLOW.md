@@ -59,9 +59,10 @@ hikes/
     render_hike.py               # data.json + GPX → HTML  (main workhorse)
     new_hike.py                  # scaffold a new empty hike directory
     validate_hike_files.py       # check every hike has all 4 required files
-    extract_sac_route.py         # master SAC pipeline (JSON → GPX → scaffold → photos → metadata)
-    extract_sac_gpx.py           # SAC route JSON → GPX track
-    extract_sac_photos.py        # SAC route JSON → photo URLs in data.json
+    add_sac_hike_v2.py           # master v2 SAC pipeline (layer-API GPX → SwissTopo elevations → HTML scrape → scaffold → render)
+    fetch_sac_route_v2.py        # SAC layer API → GPX track (LV95→WGS84)
+    scrape_sac_route_page.py     # SAC route HTML → patch data.json (difficulty, times, photos, departure point)
+    fetch_sac_route.py           # legacy v1 fetcher; also hosts shared cookie helpers
     config.py                    # shared constants imported by all scripts
     fetch_geodata.py             # canton/region GeoJSON from SwissTopo; imported by render_hike.py
     # Standalone utilities (run directly as needed)
@@ -163,13 +164,13 @@ Photos are **URLs embedded in `data.json`** — this repo does not download or s
 
 **SAC extraction (preferred method):**
 
+Photos are scraped from the SAC route page automatically by `add_sac_hike_v2.py` (which delegates to `scrape_sac_route_page.py`). To re-scrape photos on an existing hike:
+
 ```bash
-# Extract photos from SAC route JSON, with peak hero image:
-python scripts/extract_sac_photos.py --json routes/<slug>/sac-route-<ID>.json --slug <slug> \
-    --peak-hero "<peak-page-hero-url>"
+python scripts/scrape_sac_route_page.py --url '<route-page-url>' --slug <slug> --apply
 ```
 
-The script populates `photos[]` and `photos_attrib_html` in `data.json`, and sets `hero.image_url` from the peak hero.
+This populates `photos[]` and `photos_attrib_html` in `data.json` (only overwriting `"TODO"` values unless `--replace-non-todo` is passed). Peak page hero images are not yet auto-scraped — set `hero.image_url` manually for now.
 
 **Photo sourcing priority:**
 1. **SAC peak page** — hero image (best for summit/banner photo, captured via Playwright)

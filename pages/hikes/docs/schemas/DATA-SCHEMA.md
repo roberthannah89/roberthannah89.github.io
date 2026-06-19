@@ -130,7 +130,7 @@ Starting point for the hike.
 
 **Optional fields:**
 - `elev` (number): Elevation in metres
-- `sbb_url` (string): SBB timetable link (extracted from SAC route JSON by `extract_sac_route.py`). If absent, the page falls back to constructing a link from the trailhead name.
+- `sbb_url` (string): SBB timetable link. Pre-cutover hikes have this extracted from the legacy SAC JSON; for v2 hikes the page falls back to constructing a link from the trailhead name.
 
 Google Maps directions are derived automatically from the trailhead coordinates.
 

@@ -81,7 +81,7 @@ GET https://api3.geo.admin.ch/rest/services/height
 
 - **Auth:** None
 - **CORS:** Yes
-- **Used in:** `extract_sac_route.py`, `fetch_geodata.py`, `new_hike.py`
+- **Used in:** `add_sac_hike_v2.py`, `fetch_geodata.py`, `new_hike.py`
 
 ### SAC Suissealpine — Route Data
 

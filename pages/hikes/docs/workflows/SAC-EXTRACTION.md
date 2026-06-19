@@ -312,16 +312,21 @@ Runs `make render` to generate HTML pages.
 
 ## Scripts Reference
 
+**v2 pipeline (current, post-2026-06):**
+
 | Script | Purpose |
 |---|---|
+| `add_sac_hike_v2.py` | **Master pipeline** — chains layer-API GPX → SwissTopo elevation → HTML scrape → scaffold → render |
+| `fetch_sac_route_v2.py` | SAC layer API → GPX (LV95→WGS84) + raw layer JSON for reproducibility |
+| `scrape_sac_route_page.py` | SAC route HTML → patch `data.json` (difficulty, times, photos, departure point) |
 | `login_sac.py` | **Cookie refresh** — Playwright headless (or `--headed`) login that writes `~/.config/sac-hikes/cookie` |
-| `fetch_sac_route.py` | **Phase 1 alternative** — fetch JSON + peak hero via HTTPS using `$SAC_COOKIE` |
-| `extract_sac_route.py` | **Master pipeline** — chains all steps below |
-| `extract_sac_gpx.py` | SAC JSON → GPX (LV95→WGS84, segment stitching) |
-| `extract_sac_photos.py` | SAC JSON + peak hero → photo URLs in data.json |
-| `inspect_sac_json.py` | Standalone diagnostic — print SAC JSON structure for debugging captures |
+| `fetch_sac_route.py` | Legacy v1 fetcher (pre-cutover JSON only); also hosts shared cookie helpers |
+| `inspect_sac_json.py` | Standalone diagnostic — print legacy SAC JSON structure |
 | `check_gpx_gaps.py` | Standalone diagnostic — verify GPX track connectivity, flag gaps exceeding a threshold |
 | `combine_gpx.py` | Standalone utility — stitch two GPX tracks for multi-route traverses |
+
+> [!NOTE]
+> The legacy `extract_sac_route.py` / `extract_sac_gpx.py` / `extract_sac_photos.py` trio (referenced in the pre-cutover phases below) has been removed; their behaviour is now folded into `add_sac_hike_v2.py` + `scrape_sac_route_page.py`. The phase-by-phase narrative below is retained for context on hikes captured before the 2026-06 cutover.
 
 ---
 
