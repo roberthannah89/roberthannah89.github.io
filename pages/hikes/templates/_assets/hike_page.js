@@ -79,29 +79,6 @@
   if (TRACK.length) map.fitBounds(routeBounds, { padding: [40, 40] });
   line.bringToFront();
 
-  // Direction arrows along the track
-  const arrowLayer = L.layerGroup().addTo(map);
-  const arrowSvg = '<svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">' +
-    '<path d="M2 1 L10 6 L2 11 Z" fill="#9b59b6" stroke="#fff" stroke-width="1"/></svg>';
-  function placeArrows() {
-    arrowLayer.clearLayers();
-    if (TRACK.length < 20) return;
-    const step = Math.max(1, Math.floor(TRACK.length / 25));
-    for (let i = step; i < TRACK.length - step; i += step) {
-      const a = map.latLngToContainerPoint(L.latLng(TRACK[i]));
-      const b = map.latLngToContainerPoint(L.latLng(TRACK[Math.min(i + step, TRACK.length - 1)]));
-      const angle = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
-      const icon = L.divIcon({
-        html: '<div style="transform:rotate(' + angle + 'deg);width:12px;height:12px;">' + arrowSvg + '</div>',
-        iconSize: [12, 12],
-        iconAnchor: [6, 6],
-        className: ''
-      });
-      L.marker(L.latLng(TRACK[i]), { icon: icon, interactive: false }).addTo(arrowLayer);
-    }
-  }
-  if (TRACK.length) { map.whenReady(placeArrows); map.on('zoomend moveend', placeArrows); }
-
   function fitRoute() { if (TRACK.length) map.fitBounds(routeBounds, { padding: [40, 40] }); }
 
   // Briefly pulse a marker at (lat, lon) on the map; used by elevation-badge clicks.
