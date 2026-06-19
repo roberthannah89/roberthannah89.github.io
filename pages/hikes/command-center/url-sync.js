@@ -6,17 +6,18 @@
 
   // Map of state-key → short URL key. Arrays get joined with "," in the URL.
   var KEY_MAP = {
-    grades:     'g',
-    duration:   'dur',
-    elevation:  'el',
-    gain:       'gn',
-    showHikes:  'h',
-    showHuts:   'u',
-    weatherDay: 'd',
-    sky:        'sk',
-    tempMin:    't',
-    display:    'dp',
-    hasPage:    'p'
+    grades:      'g',
+    duration:    'dur',
+    elevation:   'el',
+    gain:        'gn',
+    showHikes:   'h',
+    showHuts:    'u',
+    weatherDay:  'd',
+    sky:         'sk',
+    tempMin:     't',
+    display:     'dp',
+    hasPage:     'p',
+    inSeasonNow: 'sn'
   };
 
   // State keys whose default value is a non-empty array. Encoded specially
@@ -39,7 +40,7 @@
           return;
         }
         parts.push(KEY_MAP[k] + '=' + v.join(','));
-      } else if (k === 'hasPage') {
+      } else if (k === 'hasPage' || k === 'inSeasonNow') {
         if (v === true) parts.push(KEY_MAP[k] + '=1');
       } else if (typeof v === 'boolean') {
         // Only encode if not the default (true)
@@ -67,7 +68,7 @@
         out[key] = raw !== '0';
       } else if (key === 'weatherDay' || key === 'tempMin') {
         out[key] = parseFloat(raw);
-      } else if (key === 'hasPage') {
+      } else if (key === 'hasPage' || key === 'inSeasonNow') {
         out[key] = raw === '1' || raw === 'true';
       } else {
         out[key] = raw;

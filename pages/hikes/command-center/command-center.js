@@ -446,9 +446,40 @@
       { label: '1.5k+', key: 'gain', value: 'epic' }
     ], /* multiSelect */ true));
 
+    // Season — single toggle. Hides routes whose heuristic season window
+    // doesn't include the current month (see season.js). Icon-only with a
+    // tooltip explaining the heuristic — the data is estimated, not
+    // authoritative.
+    bar.appendChild(seasonFilterGroup());
+
     // Display — multi-select pills controlling what shows on each POI.
     // 'weather' = marker pill (vs simple dot); others = tooltip metadata.
     bar.appendChild(displayFilterGroup());
+  }
+
+  // Single-button "in season now" toggle. Same click-active-to-clear idiom as
+  // the rest of the single-select filters but rendered as one button (no group
+  // label, no value pills) because the only meaningful state is on/off.
+  function seasonFilterGroup() {
+    var group = document.createElement('div');
+    group.className = 'filter-group filter-group--season';
+
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn filter-btn--icon';
+    var monthLabel = (window.Season && Season.currentMonthLabel()) || '';
+    btn.title = 'In season now (' + monthLabel
+              + ') · estimated from altitude + grade';
+    btn.innerHTML = '<span class="season-icon">🍂</span>';
+
+    if (Filters.getState().inSeasonNow === true) btn.classList.add('active');
+
+    btn.addEventListener('click', function () {
+      var was = btn.classList.contains('active');
+      btn.classList.toggle('active');
+      Filters.setState('inSeasonNow', was ? null : true);
+    });
+    group.appendChild(btn);
+    return group;
   }
 
   // Multi-select pills controlling which fields each POI renders. Empty

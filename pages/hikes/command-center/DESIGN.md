@@ -101,6 +101,7 @@ Filter bar at top-left. **No "Any" buttons** — empty/no selection means any. F
 | Day | single-select | Today, Tomorrow, … (driven by `WEATHER_CACHE` day count — up to 5 days per `FORECAST_DAYS` in `fetch_weather.py`) |
 | Sky | threshold-select, emoji icons | ☀️ Clear · ⛅ Partly · ☁️ Cloudy/fog · 🌧 Rain. Snow ❄️ and Storm ⛈ remain in `SKY_CATEGORIES` for ordering (so "Rain or better" still excludes them) and marker emoji, but are hidden from the filter UI — nobody filters "snow or better". |
 | Temp (peak max) | single-select | >0°, >5°, >10°, >15° |
+| Season (in-season now) | single toggle (🍂) | Hides routes whose **heuristic** season window doesn't include the current month. The window is computed from peak altitude + best SAC grade — there is no per-route month data exposed by SAC, so this is explicitly labeled "(estimated)" in the side panel. See `season.js` for the tier table. |
 
 The selected Day drives both the temperature/sky filters and the emoji + temperature shown on every marker and cluster.
 
@@ -125,6 +126,7 @@ Filter state is mirrored to `window.location.hash` so views are bookmarkable/sha
 | weatherDay | `d` |
 | sky | `sk` |
 | tempMin | `t` |
+| inSeasonNow | `sn` |
 
 `Filters.setState` writes the hash on every change. `Filters.loadState(UrlSync.readFromUrl())` is called before the filter UI is built so buttons reflect the restored state.
 
@@ -164,7 +166,8 @@ command-center/
 ├── index.html              # Page shell (hand-authored)
 ├── command-center.js       # Map setup, markers, clusters, filter bar, toggles, reset
 ├── command-center.css      # Dark amber theme
-├── filters.js              # Filter state + matching (grade, duration, elev, gain, sky, temp)
+├── filters.js              # Filter state + matching (grade, duration, elev, gain, sky, temp, season)
+├── season.js               # Heuristic season window per POI (altitude + grade → month range)
 ├── url-sync.js             # Filter state ↔ window.location.hash
 ├── weather.js              # WEATHER_CACHE accessor, sky categories, day choices, meta
 ├── side-panel.js           # Expandable detail panel
@@ -218,6 +221,8 @@ scripts/
 | "Show weather on markers" toggle | **Removed** | Toggle on/off | Weather-on-markers is now always on; the alternative (grade-only dots) was rarely chosen and added a click |
 | Day summary subtitle | **Removed** | Brief sentence under Day buttons | Day labels (Today / Tomorrow / …) are self-explanatory; subtitle was filler |
 | Wind filter | **Removed** | Wind speed thresholds | Cache no longer exposes wind via the filter UI (wind data is still in the cache and shown in popups). Adding back if requested |
+| Season filter — data source | Heuristic (altitude + grade → tier) labeled "(estimated)" | (a) Re-scrape `discipline_season` for all ~960 routes, (b) per-hut `opening` codes from the search API | SAC's only per-route season field is binary `"summer"`/`"winter"` and lives on individual route detail pages — re-scraping 960 of them just to derive a coarse signal isn't worth it. Per-hut opening codes ARE in the search API but would only cover huts (~25% of POIs). A documented heuristic from altitude + grade is reproducible, defensible (high alpine = summer-only by convention), and clearly labeled in the UI as estimated. See `season.js` for the tier table |
+| Season filter — UI | Single toggle "In season now" (🍂) | Multi-select month picker / "what's in season in August" | v1 matches the existing single-toggle idiom (like Day picker); planning a hike for a specific future month is rare enough that a date-picker would clutter the bar. Easy to extend later if the use case shows up |
 
 ## Verification
 
