@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Pilatus Esel (2107 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/pilatus-esel/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Pilatus Esel <span style="font-weight:400; opacity:.85;">2107 m</span></h1>
     <p>SAC T5+ · ~914 m gain · ~4.0 km one-way · ~4h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -246,6 +255,28 @@ window.TRACK_STATS = {"ascent_m": 914.0, "descent_m": 208.29999999999995, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 2.64, "end_m": 106.1, "length_m": 106.1, "n_points": 22, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 1.99, "end_m": 193.1, "length_m": 79.9, "n_points": 9, "source": "osm", "start_m": 113.3, "t_grade": "T2"}, {"coverage_pct": 2.55, "end_m": 305.1, "length_m": 102.4, "n_points": 10, "source": "swisstopo", "start_m": 202.7, "t_grade": "T2/T3"}, {"coverage_pct": 21.79, "end_m": 1189.4, "length_m": 876.5, "n_points": 126, "source": "osm", "start_m": 313.0, "t_grade": "T3"}, {"coverage_pct": 10.57, "end_m": 1627.7, "length_m": 425.1, "n_points": 45, "source": "swisstopo", "start_m": 1202.6, "t_grade": "T2/T3"}, {"coverage_pct": 7.92, "end_m": 1951.7, "length_m": 318.8, "n_points": 14, "source": "osm", "start_m": 1633.0, "t_grade": "T3"}, {"coverage_pct": 3.67, "end_m": 2134.2, "length_m": 147.8, "n_points": 8, "source": "osm", "start_m": 1986.4, "t_grade": "T4"}, {"coverage_pct": 27.22, "end_m": 3235.0, "length_m": 1094.9, "n_points": 154, "source": "osm", "start_m": 2140.1, "t_grade": "T3"}, {"coverage_pct": 19.53, "end_m": 4022.8, "length_m": 785.6, "n_points": 118, "source": "osm", "start_m": 3237.1, "t_grade": "T2"}], "slug": "pilatus-esel", "stats": {"n_points": 506, "osm_pct": 84.8, "swisstopo_pct": 13.1, "total_m": 4022.8, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

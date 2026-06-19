@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Tomlishorn (2120 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/tomlishorn/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Tomlishorn <span style="font-weight:400; opacity:.85;">2120 m</span></h1>
     <p>SAC T4 · ~1211 m gain · ~9.8 km one-way · ~8h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -251,6 +260,28 @@ window.TRACK_STATS = {"ascent_m": 1211.0, "descent_m": 167.9000000000001, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 13.09, "end_m": 1288.2, "length_m": 1288.2, "n_points": 144, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 24.18, "end_m": 3669.6, "length_m": 2378.3, "n_points": 333, "source": "osm", "start_m": 1291.3, "t_grade": "T2"}, {"coverage_pct": 10.68, "end_m": 4722.1, "length_m": 1050.4, "n_points": 128, "source": "osm", "start_m": 3671.7, "t_grade": "T1"}, {"coverage_pct": 3.45, "end_m": 5068.1, "length_m": 339.3, "n_points": 70, "source": "osm", "start_m": 4728.8, "t_grade": "T2"}, {"coverage_pct": 10.23, "end_m": 6080.3, "length_m": 1006.0, "n_points": 224, "source": "osm", "start_m": 5074.2, "t_grade": "T3"}, {"coverage_pct": 5.26, "end_m": 6601.5, "length_m": 517.7, "n_points": 120, "source": "osm", "start_m": 6083.8, "t_grade": "T2"}, {"coverage_pct": 9.54, "end_m": 7586.1, "length_m": 938.6, "n_points": 116, "source": "osm", "start_m": 6647.5, "t_grade": "T4"}, {"coverage_pct": 3.85, "end_m": 7972.1, "length_m": 378.3, "n_points": 46, "source": "osm", "start_m": 7593.8, "t_grade": "T5"}, {"coverage_pct": 1.95, "end_m": 8169.7, "length_m": 191.4, "n_points": 35, "source": "osm", "start_m": 7978.3, "t_grade": "T3"}, {"coverage_pct": 2.58, "end_m": 8428.0, "length_m": 254.1, "n_points": 41, "source": "osm", "start_m": 8173.9, "t_grade": "T2"}, {"coverage_pct": 14.23, "end_m": 9837.9, "length_m": 1400.0, "n_points": 282, "source": "osm", "start_m": 8437.8, "t_grade": "T1"}], "slug": "tomlishorn", "stats": {"n_points": 1539, "osm_pct": 85.9, "swisstopo_pct": 13.1, "total_m": 9837.9, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

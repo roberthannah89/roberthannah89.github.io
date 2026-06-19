@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Vorder Glaernisch (2327 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/vorder-glaernisch/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Vorder Glaernisch <span style="font-weight:400; opacity:.85;">2327 m</span></h1>
     <p>SAC T5+ · ~1626 m gain · ~11.9 km round-trip · ~5h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -226,6 +235,28 @@ window.TRACK_STATS = {"ascent_m": 1626.0, "descent_m": 1474.999999999999, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 4.8, "end_m": 573.3, "length_m": 573.3, "n_points": 65, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 36.46, "end_m": 4945.8, "length_m": 4355.6, "n_points": 479, "source": "none", "start_m": 590.2, "t_grade": "unknown"}, {"coverage_pct": 6.13, "end_m": 5711.3, "length_m": 731.9, "n_points": 78, "source": "osm", "start_m": 4979.4, "t_grade": "T3"}, {"coverage_pct": 30.07, "end_m": 9311.0, "length_m": 3592.3, "n_points": 633, "source": "osm", "start_m": 5718.7, "t_grade": "T4"}, {"coverage_pct": 2.06, "end_m": 9560.2, "length_m": 246.5, "n_points": 18, "source": "osm", "start_m": 9313.7, "t_grade": "T1"}, {"coverage_pct": 2.88, "end_m": 9929.3, "length_m": 344.5, "n_points": 18, "source": "swisstopo", "start_m": 9584.8, "t_grade": "T4+"}, {"coverage_pct": 16.53, "end_m": 11945.9, "length_m": 1974.4, "n_points": 191, "source": "osm", "start_m": 9971.5, "t_grade": "T1"}], "slug": "vorder-glaernisch", "stats": {"n_points": 1482, "osm_pct": 54.8, "swisstopo_pct": 7.7, "total_m": 11945.9, "unknown_pct": 36.5}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

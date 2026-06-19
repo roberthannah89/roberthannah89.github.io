@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Buochserhorn Musenalp (1804 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/buochserhorn-musenalp/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Buochserhorn Musenalp <span style="font-weight:400; opacity:.85;">1804 m</span></h1>
     <p>SAC T4+ · ~1190 m gain · ~11.3 km one-way · ~8h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -219,6 +228,28 @@ window.TRACK_STATS = {"ascent_m": 1190.0, "descent_m": 598.0000000000003, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 31.34, "end_m": 3555.2, "length_m": 3555.2, "n_points": 473, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 2.21, "end_m": 3817.3, "length_m": 251.1, "n_points": 17, "source": "swisstopo", "start_m": 3566.2, "t_grade": "T2/T3"}, {"coverage_pct": 4.27, "end_m": 4315.5, "length_m": 485.0, "n_points": 108, "source": "osm", "start_m": 3830.5, "t_grade": "T3"}, {"coverage_pct": 2.36, "end_m": 4586.7, "length_m": 267.9, "n_points": 54, "source": "osm", "start_m": 4318.8, "t_grade": "T2"}, {"coverage_pct": 12.63, "end_m": 6029.4, "length_m": 1432.8, "n_points": 236, "source": "none", "start_m": 4596.7, "t_grade": "unknown"}, {"coverage_pct": 9.33, "end_m": 7092.2, "length_m": 1059.0, "n_points": 233, "source": "osm", "start_m": 6033.2, "t_grade": "T5"}, {"coverage_pct": 12.66, "end_m": 8535.4, "length_m": 1436.3, "n_points": 319, "source": "osm", "start_m": 7099.1, "t_grade": "T4"}, {"coverage_pct": 11.18, "end_m": 9805.2, "length_m": 1268.3, "n_points": 595, "source": "osm", "start_m": 8536.8, "t_grade": "T2"}, {"coverage_pct": 5.56, "end_m": 10437.6, "length_m": 630.6, "n_points": 361, "source": "osm", "start_m": 9807.0, "t_grade": "T4"}, {"coverage_pct": 7.98, "end_m": 11344.9, "length_m": 905.7, "n_points": 336, "source": "osm", "start_m": 10439.2, "t_grade": "T1"}], "slug": "buochserhorn-musenalp", "stats": {"n_points": 2732, "osm_pct": 84.7, "swisstopo_pct": 2.2, "total_m": 11344.9, "unknown_pct": 12.6}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

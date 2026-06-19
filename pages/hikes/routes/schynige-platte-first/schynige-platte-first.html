@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Schynige Platte – First (2681 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/schynige-platte-first/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Faulhorn <span style="font-weight:400; opacity:.85;">2681 m</span></h1>
     <p>SAC T2 · ~490 m gain · ~7.4 km one-way · ~4h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -210,6 +219,28 @@ window.TRACK_STATS = {"ascent_m": 490.0, "descent_m": 117.0, "distance_km": 7.37
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 4.03, "end_m": 297.6, "length_m": 297.6, "n_points": 35, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 2.2, "end_m": 468.1, "length_m": 162.7, "n_points": 22, "source": "swisstopo", "start_m": 305.4, "t_grade": "T2/T3"}, {"coverage_pct": 93.6, "end_m": 7379.8, "length_m": 6907.4, "n_points": 1231, "source": "osm", "start_m": 472.4, "t_grade": "T2"}], "slug": "schynige-platte-first", "stats": {"n_points": 1288, "osm_pct": 97.6, "swisstopo_pct": 2.2, "total_m": 7379.8, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

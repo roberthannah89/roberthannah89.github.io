@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Le Moleson (1995 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/le-moleson/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Le Moleson <span style="font-weight:400; opacity:.85;">1995 m</span></h1>
     <p>SAC T2 · ~955 m gain · ~11.5 km round-trip · ~4h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -229,6 +238,28 @@ window.TRACK_STATS = {"ascent_m": 955.0, "descent_m": 957.8, "distance_km": 11.5
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 21.93, "end_m": 2531.4, "length_m": 2531.4, "n_points": 504, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 2.69, "end_m": 2843.8, "length_m": 310.7, "n_points": 52, "source": "osm", "start_m": 2533.1, "t_grade": "T1"}, {"coverage_pct": 38.27, "end_m": 7262.5, "length_m": 4416.9, "n_points": 645, "source": "osm", "start_m": 2845.6, "t_grade": "T2"}, {"coverage_pct": 35.54, "end_m": 11380.7, "length_m": 4102.2, "n_points": 480, "source": "swisstopo", "start_m": 7278.5, "t_grade": "T1"}, {"coverage_pct": 1.29, "end_m": 11542.4, "length_m": 149.3, "n_points": 18, "source": "osm", "start_m": 11393.1, "t_grade": "T2"}], "slug": "le-moleson", "stats": {"n_points": 1699, "osm_pct": 64.2, "swisstopo_pct": 35.5, "total_m": 11542.4, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

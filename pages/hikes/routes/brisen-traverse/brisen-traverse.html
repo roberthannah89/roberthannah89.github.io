@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Brisen Traverse (2413 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/brisen-traverse/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Brisen Traverse <span style="font-weight:400; opacity:.85;">2413 m</span></h1>
     <p>SAC T5 · ~1251 m gain · ~9.5 km one-way · ~8h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -241,6 +250,28 @@ window.TRACK_STATS = {"ascent_m": 1251.0, "descent_m": 610.5, "distance_km": 9.4
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 12.38, "end_m": 1299.7, "length_m": 1299.7, "n_points": 205, "source": "swisstopo", "start_m": 0.0, "t_grade": "T2/T3"}, {"coverage_pct": 15.43, "end_m": 2928.2, "length_m": 1620.0, "n_points": 284, "source": "osm", "start_m": 1308.2, "t_grade": "T2"}, {"coverage_pct": 6.88, "end_m": 3652.3, "length_m": 722.0, "n_points": 184, "source": "osm", "start_m": 2930.3, "t_grade": "T1"}, {"coverage_pct": 4.97, "end_m": 4177.5, "length_m": 521.6, "n_points": 129, "source": "osm", "start_m": 3655.9, "t_grade": "T2"}, {"coverage_pct": 0.91, "end_m": 4275.9, "length_m": 95.8, "n_points": 29, "source": "osm", "start_m": 4180.1, "t_grade": "T1"}, {"coverage_pct": 10.99, "end_m": 5434.7, "length_m": 1154.1, "n_points": 429, "source": "osm", "start_m": 4280.6, "t_grade": "T2"}, {"coverage_pct": 5.56, "end_m": 6022.7, "length_m": 584.1, "n_points": 256, "source": "osm", "start_m": 5438.6, "t_grade": "T3"}, {"coverage_pct": 2.73, "end_m": 6884.7, "length_m": 286.8, "n_points": 8, "source": "osm", "start_m": 6598.0, "t_grade": "T5"}, {"coverage_pct": 1.2, "end_m": 7056.6, "length_m": 125.6, "n_points": 5, "source": "osm", "start_m": 6931.0, "t_grade": "T4"}, {"coverage_pct": 27.77, "end_m": 10005.0, "length_m": 2916.4, "n_points": 698, "source": "osm", "start_m": 7088.6, "t_grade": "T3"}, {"coverage_pct": 4.66, "end_m": 10502.5, "length_m": 489.2, "n_points": 98, "source": "swisstopo", "start_m": 10013.3, "t_grade": "T2/T3"}], "slug": "brisen-traverse", "stats": {"n_points": 2325, "osm_pct": 76.4, "swisstopo_pct": 17.0, "total_m": 10502.5, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Wildstrubel (3243 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/wildstrubel/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Wildstrubel <span style="font-weight:400; opacity:.85;">3243 m</span></h1>
     <p>SAC T4 · ~1167 m gain · ~15.2 km one-way · ~10h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -252,6 +261,28 @@ window.TRACK_STATS = {"ascent_m": 1167.0, "descent_m": 1945.1000000000006, "dist
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 33.96, "end_m": 5910.5, "length_m": 5910.5, "n_points": 986, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 32.79, "end_m": 11655.5, "length_m": 5706.8, "n_points": 610, "source": "osm", "start_m": 5948.7, "t_grade": "T3"}, {"coverage_pct": 0.52, "end_m": 11754.2, "length_m": 91.3, "n_points": 29, "source": "osm", "start_m": 11662.9, "t_grade": "T2"}, {"coverage_pct": 5.12, "end_m": 12648.5, "length_m": 891.4, "n_points": 149, "source": "osm", "start_m": 11757.2, "t_grade": "T2"}, {"coverage_pct": 12.36, "end_m": 14804.5, "length_m": 2151.4, "n_points": 514, "source": "osm", "start_m": 12653.1, "t_grade": "T3"}, {"coverage_pct": 14.92, "end_m": 17405.1, "length_m": 2596.9, "n_points": 398, "source": "swisstopo", "start_m": 14808.2, "t_grade": "T1"}], "slug": "wildstrubel", "stats": {"n_points": 2686, "osm_pct": 84.8, "swisstopo_pct": 14.9, "total_m": 17405.1, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

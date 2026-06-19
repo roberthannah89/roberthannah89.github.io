@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Loucherhorn (2211 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/loucherhorn/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Loucherhorn <span style="font-weight:400; opacity:.85;">2211 m</span></h1>
     <p>SAC T5+ · ~332 m gain · ~4.4 km one-way · ~3h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -221,6 +230,28 @@ window.TRACK_STATS = {"ascent_m": 332.0, "descent_m": 278.20000000000005, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 6.75, "end_m": 297.6, "length_m": 297.6, "n_points": 35, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 3.69, "end_m": 468.1, "length_m": 162.7, "n_points": 22, "source": "swisstopo", "start_m": 305.4, "t_grade": "T2/T3"}, {"coverage_pct": 74.11, "end_m": 3738.8, "length_m": 3266.4, "n_points": 721, "source": "osm", "start_m": 472.4, "t_grade": "T2"}, {"coverage_pct": 9.66, "end_m": 4203.6, "length_m": 425.7, "n_points": 22, "source": "none", "start_m": 3777.8, "t_grade": "unknown"}, {"coverage_pct": 4.03, "end_m": 4407.3, "length_m": 177.8, "n_points": 6, "source": "osm", "start_m": 4229.5, "t_grade": "T3"}], "slug": "loucherhorn", "stats": {"n_points": 806, "osm_pct": 84.9, "swisstopo_pct": 3.7, "total_m": 4407.3, "unknown_pct": 9.7}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

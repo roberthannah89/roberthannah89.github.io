@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Piz Languard (3262 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/piz-languard/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Piz Languard <span style="font-weight:400; opacity:.85;">3262 m</span></h1>
     <p>SAC T4- · ~1009 m gain · ~8.0 km one-way · ~6h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -216,6 +225,28 @@ window.TRACK_STATS = {"ascent_m": 1009.0, "descent_m": 519.6999999999998, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 21.76, "end_m": 1804.0, "length_m": 1804.0, "n_points": 312, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 21.95, "end_m": 3632.9, "length_m": 1820.2, "n_points": 228, "source": "swisstopo", "start_m": 1812.7, "t_grade": "T2/T3"}, {"coverage_pct": 12.47, "end_m": 4676.4, "length_m": 1034.0, "n_points": 119, "source": "osm", "start_m": 3642.5, "t_grade": "T1"}, {"coverage_pct": 41.28, "end_m": 8110.1, "length_m": 3422.6, "n_points": 568, "source": "osm", "start_m": 4687.4, "t_grade": "T2"}, {"coverage_pct": 2.14, "end_m": 8290.9, "length_m": 177.2, "n_points": 47, "source": "osm", "start_m": 8113.7, "t_grade": "T3"}], "slug": "piz-languard", "stats": {"n_points": 1274, "osm_pct": 77.6, "swisstopo_pct": 22.0, "total_m": 8290.9, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

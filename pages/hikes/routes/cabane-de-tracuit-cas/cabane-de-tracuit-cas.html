@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Cabane De Tracuit Cas (3253 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/cabane-de-tracuit-cas/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Cabane De Tracuit Cas <span style="font-weight:400; opacity:.85;">3253 m</span></h1>
     <p>SAC T4 · ~1581 m gain · ~7.9 km one-way · ~8h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -223,6 +232,28 @@ window.TRACK_STATS = {"ascent_m": 1581.0, "descent_m": 0.0, "distance_km": 7.870
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 2.92, "end_m": 229.9, "length_m": 229.9, "n_points": 25, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 6.67, "end_m": 762.6, "length_m": 524.6, "n_points": 76, "source": "none", "start_m": 237.9, "t_grade": "unknown"}, {"coverage_pct": 1.3, "end_m": 869.2, "length_m": 102.2, "n_points": 15, "source": "osm", "start_m": 766.9, "t_grade": "T3"}, {"coverage_pct": 1.64, "end_m": 1010.1, "length_m": 129.3, "n_points": 18, "source": "none", "start_m": 880.9, "t_grade": "unknown"}, {"coverage_pct": 0.89, "end_m": 1086.9, "length_m": 69.9, "n_points": 17, "source": "osm", "start_m": 1017.0, "t_grade": "T2"}, {"coverage_pct": 38.65, "end_m": 4129.6, "length_m": 3041.7, "n_points": 639, "source": "osm", "start_m": 1087.9, "t_grade": "T3"}, {"coverage_pct": 2.98, "end_m": 4372.1, "length_m": 234.8, "n_points": 69, "source": "osm", "start_m": 4137.3, "t_grade": "T2"}, {"coverage_pct": 1.95, "end_m": 4529.0, "length_m": 153.1, "n_points": 38, "source": "swisstopo", "start_m": 4375.9, "t_grade": "T2/T3"}, {"coverage_pct": 42.36, "end_m": 7870.1, "length_m": 3334.1, "n_points": 839, "source": "osm", "start_m": 4536.0, "t_grade": "T3"}], "slug": "cabane-de-tracuit-cas", "stats": {"n_points": 1736, "osm_pct": 86.2, "swisstopo_pct": 4.9, "total_m": 7870.1, "unknown_pct": 8.3}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

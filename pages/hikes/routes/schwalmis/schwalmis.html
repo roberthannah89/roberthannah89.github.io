@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Schwalmis (2241 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/schwalmis/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Schwalmis <span style="font-weight:400; opacity:.85;">2241 m</span></h1>
     <p>SAC T4 · ~872 m gain · ~8.6 km one-way · ~6h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -224,6 +233,28 @@ window.TRACK_STATS = {"ascent_m": 872.0, "descent_m": 663.9000000000003, "distan
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 6.4, "end_m": 550.3, "length_m": 550.3, "n_points": 94, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 4.69, "end_m": 960.2, "length_m": 403.4, "n_points": 166, "source": "osm", "start_m": 556.8, "t_grade": "T2"}, {"coverage_pct": 4.66, "end_m": 1362.3, "length_m": 401.2, "n_points": 141, "source": "osm", "start_m": 961.1, "t_grade": "T1"}, {"coverage_pct": 2.56, "end_m": 1583.2, "length_m": 219.8, "n_points": 125, "source": "osm", "start_m": 1363.4, "t_grade": "T2"}, {"coverage_pct": 18.78, "end_m": 3203.1, "length_m": 1615.5, "n_points": 614, "source": "osm", "start_m": 1587.7, "t_grade": "T1"}, {"coverage_pct": 3.71, "end_m": 3550.8, "length_m": 319.5, "n_points": 10, "source": "none", "start_m": 3231.3, "t_grade": "unknown"}, {"coverage_pct": 9.96, "end_m": 4457.0, "length_m": 856.8, "n_points": 270, "source": "osm", "start_m": 3600.2, "t_grade": "T3"}, {"coverage_pct": 8.71, "end_m": 5227.0, "length_m": 749.5, "n_points": 78, "source": "none", "start_m": 4477.4, "t_grade": "unknown"}, {"coverage_pct": 2.65, "end_m": 5461.2, "length_m": 228.0, "n_points": 17, "source": "osm", "start_m": 5233.2, "t_grade": "T2"}, {"coverage_pct": 6.39, "end_m": 6016.9, "length_m": 549.6, "n_points": 95, "source": "none", "start_m": 5467.3, "t_grade": "unknown"}, {"coverage_pct": 2.85, "end_m": 6265.3, "length_m": 245.4, "n_points": 23, "source": "swisstopo", "start_m": 6019.9, "t_grade": "T2/T3"}, {"coverage_pct": 3.53, "end_m": 6617.4, "length_m": 303.5, "n_points": 121, "source": "none", "start_m": 6313.8, "t_grade": "unknown"}, {"coverage_pct": 5.4, "end_m": 7083.4, "length_m": 464.6, "n_points": 146, "source": "osm", "start_m": 6618.9, "t_grade": "T2"}, {"coverage_pct": 17.62, "end_m": 8601.6, "length_m": 1515.2, "n_points": 434, "source": "osm", "start_m": 7086.4, "t_grade": "T1"}], "slug": "schwalmis", "stats": {"n_points": 2334, "osm_pct": 72.7, "swisstopo_pct": 2.9, "total_m": 8601.6, "unknown_pct": 22.3}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Hardergrat (2134 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/hardergrat/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Hardergrat <span style="font-weight:400; opacity:.85;">2134 m</span></h1>
     <p>SAC T4 · ~1608 m gain · ~21.0 km one-way · ~14h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -271,6 +280,28 @@ window.TRACK_STATS = {"ascent_m": 1608.0, "descent_m": 1258.1000000000001, "dist
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 0.61, "end_m": 127.5, "length_m": 127.5, "n_points": 19, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 0.7, "end_m": 280.4, "length_m": 147.6, "n_points": 26, "source": "none", "start_m": 132.8, "t_grade": "unknown"}, {"coverage_pct": 9.76, "end_m": 2341.3, "length_m": 2054.4, "n_points": 263, "source": "swisstopo", "start_m": 286.9, "t_grade": "T1"}, {"coverage_pct": 0.5, "end_m": 2451.4, "length_m": 104.7, "n_points": 15, "source": "osm", "start_m": 2346.7, "t_grade": "T2"}, {"coverage_pct": 25.45, "end_m": 7822.3, "length_m": 5354.2, "n_points": 728, "source": "swisstopo", "start_m": 2468.1, "t_grade": "T2/T3"}, {"coverage_pct": 22.71, "end_m": 12604.0, "length_m": 4778.4, "n_points": 1232, "source": "osm", "start_m": 7825.6, "t_grade": "T4"}, {"coverage_pct": 8.01, "end_m": 14291.0, "length_m": 1685.5, "n_points": 446, "source": "osm", "start_m": 12605.4, "t_grade": "T3"}, {"coverage_pct": 23.08, "end_m": 19153.7, "length_m": 4856.0, "n_points": 716, "source": "osm", "start_m": 14297.6, "t_grade": "T2"}, {"coverage_pct": 8.95, "end_m": 21039.5, "length_m": 1882.3, "n_points": 242, "source": "osm", "start_m": 19157.2, "t_grade": "T2"}], "slug": "hardergrat", "stats": {"n_points": 3687, "osm_pct": 63.2, "swisstopo_pct": 35.8, "total_m": 21039.5, "unknown_pct": 0.7}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

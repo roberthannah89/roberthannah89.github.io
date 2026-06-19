@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Piz Ot Samedan (3246 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/piz-ot-samedan/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Piz Ot Samedan <span style="font-weight:400; opacity:.85;">3246 m</span></h1>
     <p>SAC T4+ · ~1071 m gain · ~12.7 km round-trip · ~4h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -237,6 +246,28 @@ window.TRACK_STATS = {"ascent_m": 1071.0, "descent_m": 1164.3999999999999, "dist
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 0.82, "end_m": 113.9, "length_m": 113.9, "n_points": 23, "source": "swisstopo", "start_m": 0.0, "t_grade": "T2/T3"}, {"coverage_pct": 0.7, "end_m": 216.0, "length_m": 97.4, "n_points": 15, "source": "osm", "start_m": 118.6, "t_grade": "T1"}, {"coverage_pct": 11.89, "end_m": 1874.1, "length_m": 1645.2, "n_points": 307, "source": "swisstopo", "start_m": 228.9, "t_grade": "T2/T3"}, {"coverage_pct": 11.21, "end_m": 3431.6, "length_m": 1550.5, "n_points": 391, "source": "osm", "start_m": 1881.1, "t_grade": "T2"}, {"coverage_pct": 8.25, "end_m": 4579.2, "length_m": 1142.0, "n_points": 273, "source": "osm", "start_m": 3437.2, "t_grade": "T3"}, {"coverage_pct": 4.19, "end_m": 5158.2, "length_m": 579.0, "n_points": 120, "source": "osm", "start_m": 4579.2, "t_grade": "T4"}, {"coverage_pct": 8.74, "end_m": 6371.0, "length_m": 1209.1, "n_points": 357, "source": "osm", "start_m": 5162.0, "t_grade": "T4"}, {"coverage_pct": 38.1, "end_m": 12754.2, "length_m": 5271.1, "n_points": 1544, "source": "osm", "start_m": 7483.1, "t_grade": "T2"}, {"coverage_pct": 7.02, "end_m": 13743.2, "length_m": 971.6, "n_points": 79, "source": "swisstopo", "start_m": 12771.7, "t_grade": "T2/T3"}, {"coverage_pct": 0.47, "end_m": 13835.8, "length_m": 65.0, "n_points": 8, "source": "swisstopo", "start_m": 13770.8, "t_grade": "T1"}], "slug": "piz-ot-samedan", "stats": {"n_points": 3117, "osm_pct": 71.2, "swisstopo_pct": 20.2, "total_m": 13835.8, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

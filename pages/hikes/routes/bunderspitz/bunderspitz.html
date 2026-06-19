@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Bunderspitz (2536 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/bunderspitz/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Bunderspitz <span style="font-weight:400; opacity:.85;">2536 m</span></h1>
     <p>SAC T6 · ~865 m gain · ~8.3 km one-way · ~6h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -258,6 +267,28 @@ window.TRACK_STATS = {"ascent_m": 865.0, "descent_m": 683.4999999999998, "distan
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 2.98, "end_m": 248.5, "length_m": 248.5, "n_points": 44, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 4.87, "end_m": 656.5, "length_m": 405.7, "n_points": 57, "source": "swisstopo", "start_m": 250.8, "t_grade": "T2/T3"}, {"coverage_pct": 1.38, "end_m": 776.8, "length_m": 114.7, "n_points": 16, "source": "osm", "start_m": 662.1, "t_grade": "T2"}, {"coverage_pct": 1.82, "end_m": 947.0, "length_m": 151.2, "n_points": 21, "source": "swisstopo", "start_m": 795.8, "t_grade": "T2/T3"}, {"coverage_pct": 35.03, "end_m": 3894.8, "length_m": 2917.7, "n_points": 408, "source": "osm", "start_m": 977.1, "t_grade": "T2"}, {"coverage_pct": 21.75, "end_m": 5750.5, "length_m": 1812.0, "n_points": 56, "source": "none", "start_m": 3938.6, "t_grade": "unknown"}, {"coverage_pct": 22.78, "end_m": 7681.5, "length_m": 1897.4, "n_points": 301, "source": "osm", "start_m": 5784.1, "t_grade": "T2"}, {"coverage_pct": 3.07, "end_m": 7952.0, "length_m": 255.4, "n_points": 47, "source": "osm", "start_m": 7696.6, "t_grade": "T2"}, {"coverage_pct": 3.41, "end_m": 8239.0, "length_m": 284.0, "n_points": 40, "source": "swisstopo", "start_m": 7955.0, "t_grade": "T2/T3"}, {"coverage_pct": 0.83, "end_m": 8329.6, "length_m": 68.7, "n_points": 10, "source": "osm", "start_m": 8260.8, "t_grade": "T2"}], "slug": "bunderspitz", "stats": {"n_points": 1000, "osm_pct": 66.1, "swisstopo_pct": 10.1, "total_m": 8329.6, "unknown_pct": 21.8}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

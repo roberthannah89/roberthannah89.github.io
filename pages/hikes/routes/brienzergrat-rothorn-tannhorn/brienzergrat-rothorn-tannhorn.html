@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Brienzergrat Rothorn Tannhorn (2265 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/brienzergrat-rothorn-tannhorn/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Brienzergrat Rothorn Tannhorn <span style="font-weight:400; opacity:.85;">2265 m</span></h1>
     <p>SAC T5- · ~484 m gain · ~13.2 km one-way · ~7h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -274,6 +283,28 @@ window.TRACK_STATS = {"ascent_m": 484.0, "descent_m": 1383.6000000000001, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 29.19, "end_m": 3862.2, "length_m": 3862.2, "n_points": 996, "source": "osm", "start_m": 0.0, "t_grade": "T3"}, {"coverage_pct": 21.7, "end_m": 6737.1, "length_m": 2870.9, "n_points": 694, "source": "osm", "start_m": 3866.2, "t_grade": "T4"}, {"coverage_pct": 47.48, "end_m": 13021.0, "length_m": 6281.7, "n_points": 1128, "source": "swisstopo", "start_m": 6739.2, "t_grade": "T2/T3"}, {"coverage_pct": 1.55, "end_m": 13229.2, "length_m": 204.5, "n_points": 36, "source": "osm", "start_m": 13024.7, "t_grade": "T1"}], "slug": "brienzergrat-rothorn-tannhorn", "stats": {"n_points": 2854, "osm_pct": 52.4, "swisstopo_pct": 47.5, "total_m": 13229.2, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

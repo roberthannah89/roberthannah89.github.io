@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Rigi Kulm (1797 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/rigi-kulm/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -20,6 +23,12 @@
     <h1>Rigi Kulm <span style="font-weight:400; opacity:.85;">1797 m</span></h1>
     <p>SAC T5- · ~975 m gain · ~10.0 km round-trip · ~3h30 round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -218,6 +227,28 @@ window.TRACK_STATS = {"ascent_m": 975.0, "descent_m": 972.0999999999999, "distan
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 0.66, "end_m": 65.9, "length_m": 65.9, "n_points": 33, "source": "osm", "start_m": 0.0, "t_grade": "T3"}, {"coverage_pct": 5.3, "end_m": 597.8, "length_m": 529.5, "n_points": 238, "source": "osm", "start_m": 68.3, "t_grade": "T4"}, {"coverage_pct": 5.47, "end_m": 1149.0, "length_m": 546.1, "n_points": 98, "source": "osm", "start_m": 602.8, "t_grade": "T4"}, {"coverage_pct": 2.93, "end_m": 1445.1, "length_m": 292.6, "n_points": 24, "source": "osm", "start_m": 1152.6, "t_grade": "T3"}, {"coverage_pct": 3.02, "end_m": 1786.3, "length_m": 301.7, "n_points": 10, "source": "none", "start_m": 1484.5, "t_grade": "unknown"}, {"coverage_pct": 15.43, "end_m": 3347.6, "length_m": 1540.5, "n_points": 157, "source": "osm", "start_m": 1807.1, "t_grade": "T1"}, {"coverage_pct": 9.13, "end_m": 4262.5, "length_m": 911.8, "n_points": 70, "source": "swisstopo", "start_m": 3350.6, "t_grade": "T2/T3"}, {"coverage_pct": 2.47, "end_m": 4514.3, "length_m": 246.3, "n_points": 28, "source": "osm", "start_m": 4268.0, "t_grade": "T4"}, {"coverage_pct": 1.12, "end_m": 4638.3, "length_m": 111.8, "n_points": 9, "source": "swisstopo", "start_m": 4526.5, "t_grade": "T2/T3"}, {"coverage_pct": 4.52, "end_m": 5098.8, "length_m": 451.0, "n_points": 62, "source": "none", "start_m": 4647.9, "t_grade": "unknown"}, {"coverage_pct": 6.6, "end_m": 5768.5, "length_m": 658.9, "n_points": 70, "source": "osm", "start_m": 5109.6, "t_grade": "T4"}, {"coverage_pct": 0.51, "end_m": 5821.0, "length_m": 50.6, "n_points": 16, "source": "none", "start_m": 5770.4, "t_grade": "unknown"}, {"coverage_pct": 3.82, "end_m": 6203.6, "length_m": 381.3, "n_points": 67, "source": "osm", "start_m": 5822.2, "t_grade": "T4"}, {"coverage_pct": 8.0, "end_m": 7006.7, "length_m": 799.2, "n_points": 45, "source": "none", "start_m": 6207.5, "t_grade": "unknown"}, {"coverage_pct": 10.22, "end_m": 8047.1, "length_m": 1020.4, "n_points": 245, "source": "osm", "start_m": 7026.7, "t_grade": "T4"}, {"coverage_pct": 14.69, "end_m": 9534.0, "length_m": 1466.5, "n_points": 349, "source": "osm", "start_m": 8067.5, "t_grade": "T2"}, {"coverage_pct": 3.9, "end_m": 9924.0, "length_m": 389.2, "n_points": 187, "source": "osm", "start_m": 9534.8, "t_grade": "T3"}, {"coverage_pct": 0.56, "end_m": 9984.7, "length_m": 55.8, "n_points": 4, "source": "osm", "start_m": 9928.8, "t_grade": "T1"}], "slug": "rigi-kulm", "stats": {"n_points": 1712, "osm_pct": 72.0, "swisstopo_pct": 10.3, "total_m": 9984.7, "unknown_pct": 16.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  // Prefer the canonical URL declared in <head>; fall back to location.href
+  // (useful when the page is opened over file:// for prototype previews,
+  // even though phones can't navigate to a file:// URL).
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  // Type 0 = auto-pick smallest version that fits; "M" = ~15% error correction
+  // (resilient to a thumb on the screen without ballooning module count).
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  // SVG output is crisp at any size and weighs less than a canvas-rendered PNG.
+  // cellSize=4 + margin=2 modules → ~120px for a typical 29-module URL.
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');
