@@ -738,10 +738,11 @@
     // Tooltip visibility is handled entirely by the filter-bar "Show" pills
     // (display-name-off + meta presence collapse) — no separate Names toggle.
     var toggles = [
-      { id: 'hikes',   icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
-      { id: 'huts',    icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
-      { id: 'haspage', icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
-      { id: 'webcams', icon: '📷', label: 'Webcams' }
+      { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
+      { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
+      { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
+      { id: 'webcams',   icon: '📷', label: 'Webcams' },
+      { id: 'avalanche', icon: '❄️', label: 'SLF avalanche bulletin' }
     ];
 
     toggles.forEach(function (t) {
@@ -819,6 +820,8 @@
   }
 
   var webcamLayer = null;
+  var slfLayer = null;
+  var slfWanted = false;
 
   function toggleWeatherLayer(id, show) {
     if (id === 'hikes') {
@@ -840,6 +843,26 @@
         if (webcamLayer) map.addLayer(webcamLayer);
       } else if (webcamLayer) {
         map.removeLayer(webcamLayer);
+      }
+      return;
+    }
+    if (id === 'avalanche') {
+      // SlfLayer.create() returns a Promise (it lazy-loads slf-cache.js via a
+      // dynamic <script> tag on first activation), so the add/remove pattern
+      // is async-aware. slfWanted tracks the latest intent in case the user
+      // toggles off before the cache finishes loading.
+      slfWanted = show;
+      if (show) {
+        if (slfLayer) {
+          map.addLayer(slfLayer);
+        } else if (window.SlfLayer) {
+          window.SlfLayer.create().then(function (layer) {
+            slfLayer = layer;
+            if (slfWanted) map.addLayer(slfLayer);
+          });
+        }
+      } else if (slfLayer) {
+        map.removeLayer(slfLayer);
       }
       return;
     }

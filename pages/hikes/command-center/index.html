@@ -61,6 +61,17 @@
   </div>
 </div>
 
+<!--
+  All app JS is loaded as plain <script> tags (no `type="module"`) so the page
+  works under `file://` as well as via http(s). Each module IIFE-wraps itself
+  and exposes a single window.* global (e.g. window.WeatherService,
+  window.SlfLayer); command-center.js orchestrates them via those globals.
+
+  Lazy-loaded caches (NOT listed here):
+  - slf-cache.js (0 KB off-season, ~50 KB in winter): only used when the user
+    enables the SLF avalanche overlay. Loaded by SlfLayer.create() via a
+    dynamic <script> tag on first activation (same pattern as webcams).
+-->
 <!-- Data -->
 <script src="../routes/_assets/swiss_border.js"></script>
 <script src="../routes/_assets/map_shared.js"></script>
@@ -76,6 +87,7 @@
 <script src="filters.js"></script>
 <script src="side-panel.js"></script>
 <script src="webcams.js"></script>
+<script src="slf-layer.js"></script>
 <script src="command-center.js"></script>
 
 </body>

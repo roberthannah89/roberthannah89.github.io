@@ -21,6 +21,7 @@ The core question this tool answers: **"Where should I hike this weekend given t
 | `SAC_ROUTES` | `../guides/sac-routes.js` | Scraped SAC POIs (peaks + huts) |
 | `WEATHER_CACHE` + `WEATHER_CACHE_META` | `weather-cache.js` | Pre-baked by `scripts/fetch_weather.py` |
 | `WINDY_WEBCAMS` | `webcams_windy_data.js` | Pre-fetched by `scripts/fetch_windy_webcams.py` |
+| `SLF_CACHE` + `SLF_CACHE_META` | `slf-cache.js` | Pre-baked by `scripts/fetch_slf_avalanche.py` (lazy-loaded on first toggle) |
 | `SWISS_BORDER` | `../routes/_assets/swiss_border.js` | GADM boundary |
 | `cantons` data | `cantons.js` | Canton polygons (not currently rendered as overlay) |
 
@@ -150,6 +151,7 @@ Filter state is mirrored to `window.location.hash` so views are bookmarkable/sha
 | ⛰ Hikes | on | Show peak/summit/traverse POIs (`Filters.showHikes`) |
 | 🏚 SAC huts | on | Show SAC hut POIs (`Filters.showHuts`) |
 | 📷 Webcams | off | Add the Windy webcam layer (`WebcamLayer.create()`) |
+| ❄️ Avalanche | off | Add the SLF danger-region overlay (`SlfLayer.create()`); empty in summer |
 
 Tooltip/name visibility is controlled by the filter-bar **Show** pills, not a bottom-bar toggle (see Markers and clusters section above).
 
@@ -173,6 +175,16 @@ The panel re-renders live on every filter change via `Filters.subscribe()`, so f
 - Click → popup with thumbnail, name, location, "Updated N min ago", and "View live →" link.
 - Toggle in the bottom bar; layer is created lazily on first activation.
 
+## SLF avalanche layer (`slf-layer.js`)
+
+- Data: `SLF_CACHE` from `slf-cache.js` (pre-baked by `scripts/fetch_slf_avalanche.py`).
+- Source: the official [SLF EAWS CAAML V6.0 GeoJSON feed](https://aws.slf.ch/api/bulletin/caaml/en/geojson) — the same data the WhiteRisk app uses. Run `make avalanche` to refresh.
+- Display: region polygons / multipolygons filled at 0.4 opacity using the EAWS danger-scale colours:
+  - **1 Low** `#ccff66` · **2 Moderate** `#ffff00` · **3 Considerable** `#ff9900` · **4 High** `#ff0000` · **5 Very High** `#640000`
+- Each feature aggregates many SLF micro-regions sharing the same danger rating + subdivision (minus / neutral / plus); the popup shows the level badge, sub-grade label (e.g. "Considerable +"), region names, validity window, and a link to the full bulletin.
+- Off-season behaviour: SLF returns an empty `FeatureCollection` between roughly mid-June and early November. The toggle still works — it just renders nothing.
+- Toggle in the bottom bar (default off); the cache JS is lazy-loaded on first activation, same pattern as webcams. The module follows the IIFE + `window.SlfLayer` global convention (no ES module `import`/`export`), so it loads cleanly under `file://`.
+
 ## File structure
 
 ```
@@ -186,13 +198,16 @@ command-center/
 ├── weather.js              # WEATHER_CACHE accessor, sky categories, day choices, meta
 ├── side-panel.js           # Expandable detail panel
 ├── webcams.js              # Windy webcam Leaflet layer
+├── slf-layer.js            # SLF avalanche-region Leaflet layer
 ├── weather-cache.js        # Pre-baked forecasts (generated)
 ├── webcams_windy_data.js   # Pre-fetched webcam data (generated)
+├── slf-cache.js            # Pre-baked SLF bulletin (generated)
 └── cantons.js              # Canton polygons (kept on disk for a future overlay; NOT loaded from index.html)
 
 scripts/
 ├── fetch_weather.py        # Open-Meteo (model=meteoswiss_icon_ch2) → weather-cache.js
-└── fetch_windy_webcams.py  # Windy Webcams API → webcams_windy_data.js
+├── fetch_windy_webcams.py  # Windy Webcams API → webcams_windy_data.js
+└── fetch_slf_avalanche.py  # SLF EAWS CAAML GeoJSON → slf-cache.js
 ```
 
 ## Data sources
@@ -202,6 +217,7 @@ scripts/
 | [SwissTopo WMTS](https://www.swisstopo.admin.ch/) | Base maps + hiking trail overlay | Free, no key |
 | [Open-Meteo](https://open-meteo.com/) (MeteoSwiss ICON-CH2) | Per-peak forecasts (`FORECAST_DAYS = 5`) | Free, no key |
 | [Windy Webcams API](https://api.windy.com/webcams) | Webcam thumbnails + links | Free tier (key needed for scrape) |
+| [SLF CAAML bulletin (aws.slf.ch)](https://aws.slf.ch/api/bulletin/caaml/en/geojson) | Daily avalanche danger regions + polygons | Free, no key |
 | [SAC Route Portal](https://www.sac-cas.ch/) | Route POIs (existing pipeline) | Free |
 
 ## Decisions log
@@ -239,6 +255,10 @@ scripts/
 | Season filter — UI | Single toggle "In season now" (🍂) | Multi-select month picker / "what's in season in August" | v1 matches the existing single-toggle idiom (like Day picker); planning a hike for a specific future month is rare enough that a date-picker would clutter the bar. Easy to extend later if the use case shows up |
 | Snow-line indicator surface | Pale-blue ❄ corner badge on the marker (bottom-right) + numeric snow-line on every side-panel forecast card | Standalone filter pill ("Above freezing only") | The marker badge is glanceable while scanning the map and mirrors the existing ★ has-page corner-badge pattern — adding a *filter* would gate visibility, which is usually not what the user wants (T6 climbers may *want* the snowy peaks). Showing the value in the side-panel cards lets the user see the snow line shift day-by-day, which is the real planning signal. A filter pill can be added later if it turns out hikers reach for it. |
 | Snow-line daily roll-up | Max of the hourly `freezing_level_height` series, per day | Mean / median / min | Highest excursion during the day is the conservative bound — "could the peak be in snow at any point today?" matters more for planning than the daily average. Computed in `fetch_weather.py` so client code never has to crunch the hourly array. |
+| Avalanche data source | SLF EAWS CAAML GeoJSON (`aws.slf.ch/api/bulletin/caaml/en/geojson`) | geo.admin.ch WMS `ch.bab.schutzgebiete-lawinengefahrenzonen`; scraping the SLF bulletin HTML | The CAAML GeoJSON is the same feed WhiteRisk uses — gives both the merged region polygons and the current 1–5 danger rating per region group in one CORS-enabled call. The WMS layer only shows static hazard *zones* (where avalanches can happen) not today's danger *level*, which is what hikers actually need |
+| Avalanche colour scheme | Official EAWS levels: 1 `#ccff66` · 2 `#ffff00` · 3 `#ff9900` · 4 `#ff0000` · 5 `#640000`, 0.4 fill opacity | Custom scheme; greyscale; black-and-red chequer for level 5 | Hikers recognise the EAWS scale from every Swiss avalanche bulletin. The dark red (`#640000`) for level 5 matches WhiteRisk's app convention and reads better as a semi-transparent fill than the print-bulletin chequer pattern |
+| Avalanche layer default | Off | On in winter / on always | Most users hit the map in summer when there's no bulletin; opt-in toggle keeps the overview clean and matches the existing webcam pattern |
+| Avalanche module pattern | IIFE + `window.SlfLayer` global, plain `<script src>` | ES modules with `import/export` | Pages are opened via `file://`, so `<script type="module">` is blocked for local files. Matches the existing `weather.js` / `webcams.js` convention so command-center.js can consume `SlfLayer` as a plain global inside its IIFE |
 
 ## Verification
 
