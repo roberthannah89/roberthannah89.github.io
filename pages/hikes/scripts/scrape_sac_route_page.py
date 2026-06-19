@@ -30,7 +30,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 try:
-    from bs4 import BeautifulSoup
+    from bs4 import BeautifulSoup, Tag
 except ImportError:
     sys.exit("ERROR: beautifulsoup4 is required. pip install beautifulsoup4")
 
@@ -47,10 +47,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
               "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
 
-# Regexes for the structured value strings the page renders.
+# Regexes for the structured value strings the page renders. These extract
+# numbers out of strings that BS4 has already pulled out of the DOM — they
+# are NOT used to navigate the tree (use BS4 finders/selectors for that).
 _ASCENT_RE = re.compile(r"(?P<h>\d+):(?P<m>\d+)\s*h.*?(?P<gain>\d+)\s*m", re.I)
 _TIME_RE = re.compile(r"(\d+):(\d+)\s*h", re.I)
-_ELEV_PARENS_RE = re.compile(r"\((\d+)\s*m\)")
 
 
 @dataclass
@@ -77,7 +78,12 @@ class ScrapedRoute:
 
 def _meta(soup: BeautifulSoup, prop: str) -> str | None:
     tag = soup.find("meta", attrs={"property": prop}) or soup.find("meta", attrs={"name": prop})
-    return tag.get("content", "").strip() if tag else None
+    if not isinstance(tag, Tag):
+        return None
+    content = tag.get("content", "")
+    if not isinstance(content, str):
+        return None
+    return content.strip()
 
 
 def _dt_dd_lookup(soup: BeautifulSoup, *labels: str) -> str | None:
@@ -234,6 +240,22 @@ def _terrain_html(raw: str) -> str | None:
 _MASTER_RE = re.compile(r"csm_(\d+_\d+)master")
 
 
+def _img_classes(img: Tag) -> list[str]:
+    """Return the class tokens for ``img`` and its parent (if any). Token-based
+    so callers can use plain ``in`` checks on the list rather than substring
+    matches on a joined string.
+    """
+    tokens: list[str] = []
+    for source in (img.get("class"), img.parent.get("class") if isinstance(img.parent, Tag) else None):
+        if source is None:
+            continue
+        if isinstance(source, str):
+            tokens.append(source)
+        else:
+            tokens.extend(source)
+    return tokens
+
+
 def _extract_photos(soup: BeautifulSoup) -> list[dict]:
     """Collect route gallery photos only — no page chrome.
 
@@ -246,23 +268,23 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
     Anything outside ``m-media-gallery`` (navigation chrome, related-content
     cards, footer logos, paywall banner) is ignored.
     """
-    gallery = soup.find(class_=re.compile(r"\bm-media-gallery\b"))
-    if gallery is None:
+    gallery = soup.find(class_="m-media-gallery")
+    if not isinstance(gallery, Tag):
         return []
 
-    def rank_for(img) -> int:
-        cls = " ".join(img.get("class") or [])
-        parent_cls = " ".join((img.parent.get("class") if img.parent else []) or [])
-        all_cls = cls + " " + parent_cls
-        if "m-media-gallery__image" in all_cls:
+    def rank_for(img: Tag) -> int:
+        classes = _img_classes(img)
+        if "m-media-gallery__image" in classes:
             return 0  # full-size
-        if "m-media-gallery__thumbnail" in all_cls:
+        if "m-media-gallery__thumbnail" in classes:
             return 5  # smaller — only used if no full-size found
         return 3  # other gallery-internal images
 
     by_master: dict[str, tuple[int, str, str]] = {}
     for img in gallery.find_all("img"):
-        src = (img.get("src") or "").strip()
+        if not isinstance(img, Tag):
+            continue
+        src = str(img.get("src") or "").strip()
         if "/processed/" not in src:
             continue  # ignore inline data: URIs etc.
         url = src if src.startswith("http") else "https://www.sac-cas.ch" + src
@@ -270,7 +292,7 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
         if not m:
             continue  # not a SAC master-ID image; skip rather than guess
         master_id = m.group(1)
-        caption = (img.get("alt") or "").strip()
+        caption = str(img.get("alt") or "").strip()
         r = rank_for(img)
         existing = by_master.get(master_id)
         if existing is None or r < existing[0]:
@@ -339,11 +361,11 @@ def _extract_description(soup: BeautifulSoup, teaser: str | None,
 
     # Dedupe near-duplicates: paragraphs sharing >=40 chars of overlap with a previous one.
     deduped: list[str] = []
-    for p in paragraphs:
-        if any(_overlap_len(p, q) >= 40 for q in deduped):
+    for para in paragraphs:
+        if any(_overlap_len(para, q) >= 40 for q in deduped):
             continue
-        deduped.append(p)
-    return "\n".join(f"<p>{p}</p>" for p in deduped[:3])
+        deduped.append(para)
+    return "\n".join(f"<p>{para}</p>" for para in deduped[:3])
 
 
 def _overlap_len(a: str, b: str) -> int:
