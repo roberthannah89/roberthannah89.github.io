@@ -419,13 +419,19 @@
     const LAPSE_PER_KM = C.lapse_rate_c_per_km || 6.5;
     const MAX_HOURS = 12;
     const GRID_DEG = 0.02;            // ≈ 2 km grid (ICON-CH2 cell width)
-    const COLLISION_VB = 40;          // viewBox-x distance below which badges stagger
+    const BADGE_HALF_VB = 30;         // half a badge's width in viewBox units (used for packing)
+    const ROW_HEIGHT_PX = 28;
     const FORECAST_DAYS = 7;          // match the daily forecast horizon above
+    const STORM_CODE = 95;            // WMO codes ≥ this are thunderstorms
+    const PRECIP_MIN_MM = 0.1;
+    const GUST_MIN_KMH  = 30;
 
     const controlsEl = document.getElementById("elev-controls");
     const dayLabelEl = document.getElementById("elev-controls-day");
     const startInput = document.getElementById("elev-start-time");
     const nowBtn     = document.getElementById("elev-now-btn");
+    const paceWrap   = document.getElementById("elev-controls-pace");
+    const tempToggle = document.getElementById("elev-temp-toggle");
     const endsEl     = document.getElementById("elev-controls-end");
     const statusEl   = document.getElementById("elev-controls-status");
     const badgesEl   = document.getElementById("elev-hour-badges");
@@ -444,7 +450,12 @@
       const d = TRACK[i][2] - TRACK[i - 1][2];
       if (d > 0) totalAscent += d;
     }
-    const totalHours = (geom.totalM / 1000) / SPEED_KMH + totalAscent / ASCENT_MH;
+    // Pace + temperature mode are user-tweakable; everything downstream reads them via accessors.
+    let paceMul = 1.0;
+    let useFeelsLike = false;
+    function effectiveSpeed()  { return SPEED_KMH * paceMul; }
+    function effectiveAscent() { return ASCENT_MH * paceMul; }
+    function totalHoursNow()   { return (geom.totalM / 1000) / effectiveSpeed() + totalAscent / effectiveAscent(); }
 
     function startDateFromInput() {
       const time = startInput.value || "10:00";
@@ -490,11 +501,13 @@
       }];
       let cumH = 0;
       let nextHour = 1;
+      const speedKmh = effectiveSpeed();
+      const ascentMh = effectiveAscent();
       for (let i = 1; i < TRACK.length && nextHour <= MAX_HOURS; i++) {
         const a = TRACK[i - 1], b = TRACK[i];
         const segM = haversineMeters(a, b);
         const dEle = b[2] - a[2];
-        const segH = (segM / 1000) / SPEED_KMH + Math.max(0, dEle) / ASCENT_MH;
+        const segH = (segM / 1000) / speedKmh + Math.max(0, dEle) / ascentMh;
         if (segH <= 0) { continue; }
         while (nextHour <= MAX_HOURS && nextHour <= cumH + segH) {
           const t = (nextHour - cumH) / segH;
@@ -514,7 +527,7 @@
       const last = TRACK[TRACK.length - 1];
       marks.push({
         kind: "end",
-        time: new Date(startDate.getTime() + totalHours * 3600 * 1000),
+        time: new Date(startDate.getTime() + totalHoursNow() * 3600 * 1000),
         distM: geom.totalM,
         lat: last[0],
         lon: last[1],
@@ -536,7 +549,7 @@
       const params = new URLSearchParams({
         latitude: grid.map(g => g.lat.toFixed(4)).join(","),
         longitude: grid.map(g => g.lon.toFixed(4)).join(","),
-        hourly: "temperature_2m,weather_code,wind_gusts_10m,precipitation",
+        hourly: "temperature_2m,apparent_temperature,weather_code,wind_gusts_10m,precipitation",
         daily: "sunset",
         timezone: "Europe/Zurich",
         forecast_days: String(FORECAST_DAYS),
@@ -559,13 +572,64 @@
       return forecastCache;
     }
 
+    // Resolve forecast data at one hour-point: returns the matched grid cell and hourly index,
+    // plus the lapse-corrected temperature (either actual or apparent depending on mode).
+    function lookupForecast(p, fc) {
+      if (!fc) return null;
+      const g = fc.byGrid.get(gridKey(p.lat, p.lon));
+      if (!g || !g.hourly || !g.hourly.time) return null;
+      const idx = g.hourly.time.indexOf(localIsoHour(p.time));
+      if (idx < 0) return null;
+      const h = g.hourly;
+      const rawSeries = useFeelsLike && h.apparent_temperature ? h.apparent_temperature : h.temperature_2m;
+      const rawT = rawSeries && rawSeries[idx];
+      const temp = (rawT != null)
+        ? rawT - (p.ele - (g.gridElev || 0)) * (LAPSE_PER_KM / 1000)
+        : null;
+      return {
+        temp,
+        code:   h.weather_code   && h.weather_code[idx],
+        precip: h.precipitation  && h.precipitation[idx],
+        gust:   h.wind_gusts_10m && h.wind_gusts_10m[idx],
+      };
+    }
+    // Pack badges into as many rows as needed: each badge takes the lowest row that doesn't
+    // overlap an already-placed badge within ±BADGE_HALF_VB. badgesEl height grows to fit.
+    function packRows(placed) {
+      const order = placed.slice().sort((a, b) => a.xVB - b.xVB);
+      const rowRight = [];
+      let maxRow = 0;
+      for (const p of order) {
+        const leftEdge = p.xVB - BADGE_HALF_VB;
+        let row = 0;
+        while (row < rowRight.length && leftEdge < rowRight[row] + 2) row++;
+        p.row = row;
+        rowRight[row] = p.xVB + BADGE_HALF_VB;
+        if (row > maxRow) maxRow = row;
+      }
+      return maxRow;
+    }
+    // Find runs of consecutive hour-points with WMO storm codes (≥95) and return their x-spans.
+    function findStormRuns(hourPoints, lookups) {
+      const runs = [];
+      let runStart = -1;
+      for (let i = 0; i < hourPoints.length; i++) {
+        const lu = lookups[i];
+        const isStorm = lu && lu.code != null && lu.code >= STORM_CODE;
+        if (isStorm && runStart < 0) runStart = i;
+        if ((!isStorm || i === hourPoints.length - 1) && runStart >= 0) {
+          const end = isStorm ? i : i - 1;
+          runs.push({ start: runStart, end });
+          runStart = -1;
+        }
+      }
+      return runs;
+    }
     function renderBadges(hourPoints, fc, startDate) {
       badgesEl.innerHTML = "";
       overlayG.innerHTML = "";
       if (!hourPoints.length) return;
-      // Look up sunset for the actual day the hike starts (date picker may have
-      // moved off "today"). All grid cells share the same day index because the
-      // batched fetch uses one timezone.
+      // Sunset for the selected day (date picker may have moved off "today").
       let sunsetDate = null;
       if (fc) {
         const startIsoDay = toIsoDate(startDate);
@@ -577,63 +641,79 @@
           if (iso) { sunsetDate = new Date(iso); break; }
         }
       }
-      const placed = hourPoints.map(p => {
+      const lookups = hourPoints.map(p => lookupForecast(p, fc));
+      // Storm bands first, so badges paint on top.
+      const stormRuns = findStormRuns(hourPoints, lookups);
+      stormRuns.forEach(run => {
+        const xA = geom.xScale(hourPoints[run.start].distM);
+        const xB = geom.xScale(hourPoints[run.end].distM);
+        const width = Math.max(xB - xA, 6);
+        overlayG.insertAdjacentHTML("beforeend",
+          '<rect class="elev-storm-band" x="' + xA.toFixed(1) + '" y="' + geom.y1.toFixed(1) + '" ' +
+            'width="' + width.toFixed(1) + '" height="' + (geom.y0 - geom.y1).toFixed(1) + '"/>' +
+          '<text class="elev-storm-label" x="' + ((xA + xB) / 2).toFixed(1) + '" y="' + (geom.y1 + 12).toFixed(1) + '" ' +
+            'text-anchor="middle">⛈ storm ' + fmtTime(hourPoints[run.start].time) +
+            (run.end !== run.start ? "–" + fmtTime(hourPoints[run.end].time) : "") + '</text>'
+        );
+      });
+      const placed = hourPoints.map((p, i) => {
         const xVB = geom.xScale(p.distM);
         const leftPct = ((xVB - geom.x0) / (geom.x1 - geom.x0)) * 100;
         return Object.assign({}, p, {
           xVB,
           leftPct: Math.max(3, Math.min(97, leftPct)),
           row: 0,
+          lookup: lookups[i],
         });
       });
-      for (let i = 1; i < placed.length; i++) {
-        if (placed[i].xVB - placed[i - 1].xVB < COLLISION_VB && placed[i - 1].row === 0) {
-          placed[i].row = 1;
-        }
-      }
+      const maxRow = packRows(placed);
+      badgesEl.style.minHeight = ((maxRow + 1) * ROW_HEIGHT_PX + 28) + "px";
       placed.forEach(p => {
-        let temp = null, code = null;
-        if (fc) {
-          const g = fc.byGrid.get(gridKey(p.lat, p.lon));
-          if (g && g.hourly && g.hourly.time) {
-            const idx = g.hourly.time.indexOf(localIsoHour(p.time));
-            if (idx >= 0) {
-              const rawT = g.hourly.temperature_2m && g.hourly.temperature_2m[idx];
-              code = g.hourly.weather_code && g.hourly.weather_code[idx];
-              if (rawT != null) {
-                temp = rawT - (p.ele - (g.gridElev || 0)) * (LAPSE_PER_KM / 1000);
-              }
-            }
-          }
-        }
+        const lu = p.lookup || {};
         const postSunset = !!(sunsetDate && p.time > sunsetDate);
         const label = fmtTime(p.time);
-        const tempStr = (temp != null) ? Math.round(temp) + "°" : "";
-        const iconStr = postSunset ? NIGHT_ICON : wxIcon(code);
-        const badge = document.createElement("div");
+        const tempStr = (lu.temp != null) ? Math.round(lu.temp) + "°" : "";
+        const iconStr = postSunset ? NIGHT_ICON : wxIcon(lu.code);
+        const isStorm = lu.code != null && lu.code >= STORM_CODE;
+        const isWindy = lu.gust != null && lu.gust >= GUST_MIN_KMH;
+        const isWet   = lu.precip != null && lu.precip >= PRECIP_MIN_MM;
         const kindClass = p.kind === "start" ? " elev-hour-badge--start"
                        : p.kind === "end"   ? " elev-hour-badge--end"
                        : "";
+        const badge = document.createElement("div");
         badge.className = "elev-hour-badge"
-          + (p.row === 1 ? " elev-hour-badge--stagger" : "")
           + (postSunset ? " elev-hour-badge--night" : "")
+          + (isStorm    ? " elev-hour-badge--storm" : "")
+          + (!isStorm && isWindy ? " elev-hour-badge--wind" : "")
           + kindClass;
         badge.style.left = p.leftPct.toFixed(2) + "%";
-        badge.title = p.kind === "start" ? "Trailhead — click to show on map"
-                    : p.kind === "end"   ? "Route end — click to show on map"
-                    : "Click to show this point on the map";
+        badge.style.top  = (p.row * ROW_HEIGHT_PX) + "px";
+        // Daylight remaining on the end badge (only when end < sunset).
+        let extraTitle = "";
+        if (p.kind === "end" && sunsetDate && p.time < sunsetDate) {
+          const mins = Math.round((sunsetDate - p.time) / 60000);
+          const hh = Math.floor(mins / 60), mm = mins - hh * 60;
+          extraTitle = " — " + (hh ? hh + "h " : "") + mm + "m daylight left";
+        }
+        badge.title = (p.kind === "start" ? "Trailhead — click to show on map"
+                     : p.kind === "end"   ? "Route end — click to show on map"
+                     : "Click to show this point on the map") + extraTitle;
         badge.dataset.lat = p.lat.toFixed(5);
         badge.dataset.lon = p.lon.toFixed(5);
         badge.addEventListener("click", () => pulseOnMap(p.lat, p.lon));
         const prefix = p.kind === "start" ? '<span class="elev-hour-kind">▶</span> '
                      : p.kind === "end"   ? '<span class="elev-hour-kind">■</span> '
                      : "";
+        const extras = [];
+        if (isWet)   extras.push('<span class="elev-hour-precip">' + lu.precip.toFixed(1) + ' mm</span>');
+        if (isWindy) extras.push('<span class="elev-hour-gust">g ' + Math.round(lu.gust) + '</span>');
         badge.innerHTML =
           '<div class="elev-hour-time">' + prefix + label + '</div>' +
           '<div class="elev-hour-data">' +
             '<span class="elev-hour-icon">' + iconStr + '</span>' +
             '<span class="elev-hour-temp">' + tempStr + '</span>' +
-          '</div>';
+          '</div>' +
+          (extras.length ? '<div class="elev-hour-extras">' + extras.join("") + '</div>' : "");
         badgesEl.appendChild(badge);
         const yCurve = geom.yScale(geom.elevAt(p.distM));
         overlayG.insertAdjacentHTML("beforeend",
@@ -647,11 +727,12 @@
     async function redraw() {
       const startDate = startDateFromInput();
       const hourPoints = naismithHourPoints(startDate);
+      const total = totalHoursNow();
       if (dayLabelEl) dayLabelEl.textContent = dayWording(planning.date);
       if (endsEl) {
-        const endDate = new Date(startDate.getTime() + totalHours * 3600 * 1000);
-        const hh = Math.floor(totalHours);
-        const mm = Math.round((totalHours - hh) * 60);
+        const endDate = new Date(startDate.getTime() + total * 3600 * 1000);
+        const hh = Math.floor(total);
+        const mm = Math.round((total - hh) * 60);
         const sameDay = toIsoDate(startDate) === toIsoDate(endDate);
         const endStr = sameDay ? fmtTime(endDate)
           : fmtTime(endDate) + " (+" + Math.round((endDate - startDate) / 86400000) + "d)";
@@ -668,8 +749,21 @@
       }
     }
 
+    // If selected day is today and the chosen start time is already in the past, snap
+    // start to the next quarter-hour so the badges show forecasts the user can act on.
+    function maybeShiftPastStart() {
+      if (planning.date !== todayIsoLocal()) return;
+      const sd = startDateFromInput();
+      if (sd.getTime() > Date.now()) return;
+      const d = new Date();
+      let m = Math.ceil(d.getMinutes() / 15) * 15;
+      if (m === 60) { d.setHours(d.getHours() + 1); m = 0; }
+      d.setMinutes(m, 0, 0);
+      startInput.value = String(d.getHours()).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+    }
+
     startInput.addEventListener("change", redraw);
-    planning.onChange(redraw);
+    planning.onChange(() => { maybeShiftPastStart(); redraw(); });
     if (nowBtn) {
       nowBtn.addEventListener("click", () => {
         const d = new Date();
@@ -681,6 +775,25 @@
         redraw();
       });
     }
+    if (paceWrap) {
+      paceWrap.querySelectorAll(".elev-pace-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          paceWrap.querySelectorAll(".elev-pace-btn").forEach(b => b.classList.remove("elev-pace-btn--active"));
+          btn.classList.add("elev-pace-btn--active");
+          paceMul = parseFloat(btn.dataset.pace) || 1.0;
+          redraw();
+        });
+      });
+    }
+    if (tempToggle) {
+      tempToggle.addEventListener("click", () => {
+        useFeelsLike = !useFeelsLike;
+        tempToggle.setAttribute("aria-pressed", String(useFeelsLike));
+        tempToggle.textContent = useFeelsLike ? "actual" : "feels-like";
+        redraw();
+      });
+    }
+    maybeShiftPastStart();
     redraw();
   }
   renderHourlyWeather(ELEV_GEOM);

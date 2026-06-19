@@ -105,10 +105,18 @@ footer a { color: #fff; }
 .elev-controls-day { color: var(--fg); font-weight: 600; padding: 2px 8px; background: var(--soft, var(--card)); border-radius: 4px; }
 .elev-now-btn { font: inherit; padding: 2px 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--fg); cursor: pointer; }
 .elev-now-btn:hover { border-color: var(--accent); color: var(--accent); }
+.elev-controls-pace { display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; background: var(--card); border: 1px solid var(--border); border-radius: 4px; }
+.elev-controls-label { color: var(--muted); font-size: .82rem; padding-right: 2px; }
+.elev-pace-btn { font: inherit; padding: 1px 8px; border: 1px solid transparent; border-radius: 3px; background: transparent; color: var(--muted); cursor: pointer; font-size: .82rem; }
+.elev-pace-btn:hover { color: var(--fg); }
+.elev-pace-btn--active { background: var(--accent); color: white; }
+.elev-temp-toggle { font: inherit; padding: 2px 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--muted); cursor: pointer; font-size: .85rem; }
+.elev-temp-toggle:hover { color: var(--fg); border-color: var(--accent); }
+.elev-temp-toggle[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
 .elev-controls-end { color: var(--muted); }
 .elev-controls-status { color: var(--muted); font-style: italic; }
 .elev-chart-wrap { position: relative; }
-.elev-hour-badges { position: relative; height: 56px; margin-bottom: 2px; }
+.elev-hour-badges { position: relative; min-height: 56px; margin-bottom: 2px; transition: min-height .12s; }
 .elev-hour-badge {
   position: absolute; top: 0; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 1px;
@@ -119,8 +127,12 @@ footer a { color: #fff; }
 }
 .elev-hour-badge:hover { border-color: var(--accent); }
 .elev-hour-badge:active { transform: translateX(-50%) translateY(1px); }
-.elev-hour-badge--stagger { top: 28px; }
 .elev-hour-badge--night { opacity: .55; }
+.elev-hour-badge--storm { border-color: #c44; box-shadow: 0 0 0 1px rgba(204, 68, 68, .35); }
+.elev-hour-badge--wind  { border-color: #c89; }
+.elev-hour-extras { display: flex; flex-direction: column; gap: 0; margin-top: 1px; font-size: .62rem; color: var(--muted); line-height: 1.1; }
+.elev-hour-precip { color: #6cb4ff; }
+.elev-hour-gust { color: #e0a060; }
 .elev-hour-badge--start, .elev-hour-badge--end { border-color: var(--accent); }
 .elev-hour-kind { color: var(--accent); font-size: .7rem; }
 .elev-hour-time { font-size: .65rem; color: var(--muted); letter-spacing: .02em; }
@@ -129,6 +141,8 @@ footer a { color: #fff; }
 .elev-hour-temp { font-weight: 600; }
 .elev-chart .hour-overlay .elev-hour-guide { stroke: var(--accent); stroke-width: 1; stroke-opacity: .35; stroke-dasharray: 2 3; }
 .elev-chart .hour-overlay .elev-hour-guide--night { stroke: #888; stroke-opacity: .35; }
+.elev-chart .hour-overlay .elev-storm-band { fill: rgba(204, 68, 68, 0.16); stroke: rgba(204, 68, 68, 0.5); stroke-width: 1; stroke-dasharray: 3 3; }
+.elev-chart .hour-overlay .elev-storm-label { fill: #c44; font-weight: 700; font-size: 11px; }
 .elev-chart .elev-waypoints .elev-waypoint line { stroke: var(--muted); stroke-width: 1; }
 .elev-chart .elev-waypoints .elev-waypoint circle { fill: var(--accent); stroke: var(--card); stroke-width: 1.5; }
 .elev-chart .elev-waypoints .elev-waypoint--summit circle { fill: #f5a623; r: 4; }
@@ -137,8 +151,8 @@ footer a { color: #fff; }
 @media (max-width: 600px) {
   .elev-hour-badge { min-width: 34px; padding: 1px 4px; font-size: .68rem; }
   .elev-hour-badge .elev-hour-time { display: none; }
-  .elev-hour-badges { height: 44px; }
-  .elev-hour-badge--stagger { top: 22px; }
+  .elev-hour-extras { font-size: .58rem; }
+  .elev-hour-badges { min-height: 44px; }
 }
 .trip-takeaways { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: .8rem 1.2rem; margin: .8rem 0; }
 .trip-reports { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }

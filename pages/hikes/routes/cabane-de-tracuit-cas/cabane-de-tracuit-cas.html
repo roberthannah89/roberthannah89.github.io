@@ -145,6 +145,13 @@
     <span class="elev-controls-day" id="elev-controls-day"></span>
     <label class="elev-controls-start">Start <input type="time" id="elev-start-time" value="10:00" step="900"></label>
     <button type="button" id="elev-now-btn" class="elev-now-btn">now</button>
+    <span class="elev-controls-pace" id="elev-controls-pace" role="group" aria-label="Hiking pace">
+      <span class="elev-controls-label">Pace</span>
+      <button type="button" class="elev-pace-btn" data-pace="0.8">slow</button>
+      <button type="button" class="elev-pace-btn elev-pace-btn--active" data-pace="1.0">normal</button>
+      <button type="button" class="elev-pace-btn" data-pace="1.25">fast</button>
+    </span>
+    <button type="button" id="elev-temp-toggle" class="elev-temp-toggle" aria-pressed="false" title="Toggle actual vs feels-like temperature">feels-like</button>
     <span class="elev-controls-end" id="elev-controls-end"></span>
     <span class="elev-controls-status" id="elev-controls-status"></span>
   </div>
