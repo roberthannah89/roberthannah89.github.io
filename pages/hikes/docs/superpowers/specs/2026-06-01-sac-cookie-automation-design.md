@@ -1,7 +1,7 @@
 # SAC cookie automation — one-shot headless login
 
 **Date:** 2026-06-01
-**Status:** Approved (brainstorm); ready for implementation plan.
+**Status:** **Superseded** — `login_sac.py` was implemented as designed but SAC's bot detection on the OAuth callback made the headless path unreliable in practice. Current workflow uses the Chrome Cookie-Editor extension + `scripts/fetch_sac_route.py --save-cookie -` (see [`docs/workflows/SAC-EXTRACTION.md`](../../workflows/SAC-EXTRACTION.md#refreshing-the-sac-cookie-cookie-editor-workflow)). `login_sac.py` has been removed. Kept here for design context only.
 **Scope:** Add a single command that logs into sac-cas.ch and saves the resulting `fe_typo_user` cookie to the location `fetch_sac_route.py` already reads from. Manual DevTools copy becomes optional.
 
 ---

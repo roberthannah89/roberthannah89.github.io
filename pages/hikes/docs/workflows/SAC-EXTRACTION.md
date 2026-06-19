@@ -51,7 +51,7 @@ The authenticated route page HTML contains all the rich data; it's just not in a
 - Cookie name: still `fe_typo_user`, but the **value is now a JWT** (`eyJ...`) rather than the classic 32-hex TYPO3 hex. The existing `fetch_sac_route.py --save-cookie '<value>'` flow continues to work — it just stores whatever the user pastes.
 - OAuth flow: `https://www.sac-cas.ch/en/login/` → 302 → `https://portal.sac-cas.ch/oauth/authorize` → Rails Devise-style form at `https://portal.sac-cas.ch/de/users/sign_in?oauth=true` with `#person_login_identity`, `#person_password`, `button[type="submit"]`.
 - Other cookies present in the browser but **not required** for the page fetch we tested: `__Secure-oidc_context`, `CookieConsent`. Sending just `fe_typo_user` was sufficient to render the authenticated route page HTML.
-- **Bot detection on the OAuth callback**: Playwright Chromium (both headless and headed) consistently gets a 500 from `/typo3conf/ext/oidc/Resources/Public/callback.php`. The same flow in regular Chrome works fine. Anti-detection tweaks (User-Agent, `--disable-blink-features=AutomationControlled`, `navigator.webdriver` masking) are unverified — would need investigation. For now, treat `login_sac.py` automation as "didn't work, manual cookie copy is the reliable path."
+- **Bot detection on the OAuth callback**: Playwright Chromium (both headless and headed) consistently gets a 500 from `/typo3conf/ext/oidc/Resources/Public/callback.php`. The same flow in regular Chrome works fine. Anti-detection tweaks (User-Agent, `--disable-blink-features=AutomationControlled`, `navigator.webdriver` masking) are unverified — the Cookie-Editor manual workflow turned out to be reliable enough that we didn't pursue this further.
 
 ### v2 pipeline status
 
@@ -205,57 +205,20 @@ Prefix relative URLs with `https://www.sac-cas.ch`.
 
 ---
 
-## Phase 1 alternative — no Playwright (`fetch_sac_route.py`)
+## Refreshing the SAC cookie (Cookie-Editor workflow)
 
-If you'd rather not drive a browser, `scripts/fetch_sac_route.py` fetches the same JSON over plain HTTPS using your `fe_typo_user` session cookie. Useful when sharing the workflow with others: they run the script with their own cookie, yours never leaves your machine.
+The v2 pipeline reads `fe_typo_user` from `~/.config/sac-hikes/cookie`. When the SAC scrape returns the login wall (typically every few days), refresh the cookie:
 
-### Easiest: headless login via `login_sac.py`
+1. In Chrome, log in at https://www.sac-cas.ch.
+2. Install the [Cookie-Editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) extension if you haven't already.
+3. Click the Cookie-Editor toolbar icon on the SAC tab → **Export** → **Export as JSON** (copies all sac-cas.ch cookies to the clipboard).
+4. Save them:
+   ```bash
+   pbpaste | python scripts/fetch_sac_route.py --save-cookie -
+   ```
+   `--save-cookie` auto-detects Cookie-Editor JSON, picks out the relevant session cookies, and writes `~/.config/sac-hikes/cookie` (mode 0600). Raw `fe_typo_user` values are also accepted.
 
-Save credentials once, refresh the cookie with one command whenever it expires:
-
-```bash
-# One-time: write ~/.config/sac-hikes/credentials (mode 0600, outside the repo)
-python scripts/login_sac.py --save-credentials
-
-# Each time the cookie expires (a few days):
-python scripts/login_sac.py
-```
-
-The script drives Playwright Chromium headlessly, completes the OAuth flow, and writes `~/.config/sac-hikes/cookie` — the same file `fetch_sac_route.py` already reads from.
-
-If headless ever breaks (SAC layout change, MFA prompt, captcha):
-
-```bash
-python scripts/login_sac.py --headed
-```
-
-A visible Chromium window opens at the login page; finish login manually. The script polls the browser's cookie store and saves as soon as `fe_typo_user` appears.
-
-### Manual fallback: paste the cookie
-
-If you'd rather not use Playwright at all:
-
-1. Log in at https://www.sac-cas.ch in your browser.
-2. Open DevTools → Application → Cookies → `www.sac-cas.ch`, copy the value of `fe_typo_user`.
-3. `python scripts/fetch_sac_route.py --save-cookie '<value>'`
-   (or pipe it: `pbpaste | python scripts/fetch_sac_route.py --save-cookie -`)
-
-### Fetch
-
-```bash
-python scripts/fetch_sac_route.py \
-    --url 'https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/<peak>/mountain-hiking/<route>/' \
-    --slug <slug> \
-    --peak-hero
-```
-
-This writes `routes/<slug>/sac-route-<ID>.json` and prints the peak hero URL. Chain straight into Phase 2 with `--extract --render` (forwards `--region`, `--canton`, hero, etc.):
-
-```bash
-python scripts/fetch_sac_route.py \
-    --url '...' --slug '<slug>' --peak-hero \
-    --extract --region "..." --canton "..." --render
-```
+The previous Playwright-based `scripts/login_sac.py` has been retired — Cookie-Editor + paste-to-clipboard turned out to be faster and didn't trip SAC's bot detection on the OAuth callback.
 
 > [!WARNING]
 > If the script reports `JSON has no segments`, the cookie isn't authenticated for paid content — re-copy `fe_typo_user` from your browser. If it reports `Expected JSON, got text/html` even with a valid cookie, paste the full JSON request URL from DevTools → Network (including its `cHash`) as `--url`.
@@ -319,8 +282,7 @@ Runs `make render` to generate HTML pages.
 | `add_sac_hike_v2.py` | **Master pipeline** — chains layer-API GPX → SwissTopo elevation → HTML scrape → scaffold → render |
 | `fetch_sac_route_v2.py` | SAC layer API → GPX (LV95→WGS84) + raw layer JSON for reproducibility |
 | `scrape_sac_route_page.py` | SAC route HTML → patch `data.json` (difficulty, times, photos, departure point) |
-| `login_sac.py` | **Cookie refresh** — Playwright headless (or `--headed`) login that writes `~/.config/sac-hikes/cookie` |
-| `fetch_sac_route.py` | Legacy v1 fetcher (pre-cutover JSON only); also hosts shared cookie helpers |
+| `fetch_sac_route.py` | Legacy v1 fetcher (pre-cutover JSON only); also hosts shared cookie helpers and the `--save-cookie` CLI used by the Cookie-Editor refresh workflow |
 | `inspect_sac_json.py` | Standalone diagnostic — print legacy SAC JSON structure |
 | `check_gpx_gaps.py` | Standalone diagnostic — verify GPX track connectivity, flag gaps exceeding a threshold |
 | `combine_gpx.py` | Standalone utility — stitch two GPX tracks for multi-route traverses |
