@@ -1,0 +1,148 @@
+/* Shared styles for feature-integration prototype landing pages
+   (the ones whose filenames start with feat-).
+   Visual language matches the amber/dark theme used by the API-explore prototypes. */
+
+:root {
+  --board-bg: #1a1810;
+  --board-surface: #242118;
+  --flap-bg: #2c2820;
+  --flap-border: #3a3428;
+  --amber: #e8a832;
+  --amber-dim: #b8862a;
+  --amber-glow: #e8a83240;
+  --green: #48b848;
+  --red: #e63228;
+  --blue: #5aa6e8;
+  --text-primary: #f0e8d8;
+  --text-secondary: #a89878;
+  --text-muted: #786848;
+  --font-display: 'Familjen Grotesk', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: var(--board-bg);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 100;
+}
+
+.wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.crumbs { margin-bottom: 18px; font-family: var(--font-mono); font-size: 12px; }
+.crumbs a { color: var(--amber); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+
+.proto-hero {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 22px;
+  margin-bottom: 22px;
+  border-bottom: 2px solid var(--flap-border);
+}
+.proto-hero > div:not(.hero-icon) { flex: 1; }
+.hero-icon {
+  width: 56px; height: 56px;
+  background: var(--flap-bg);
+  border: 1px solid var(--flap-border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0;
+}
+.proto-hero h1 {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2;
+  color: var(--text-primary);
+}
+.proto-hero p {
+  margin-top: 4px;
+  font-size: 14px; line-height: 1.5; color: var(--text-secondary);
+}
+
+.status {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
+  padding: 5px 11px; border-radius: 4px;
+  flex-shrink: 0; align-self: flex-start;
+  text-transform: uppercase;
+}
+.status-running { background: #2a1f0d; color: #ffb854; border: 1px solid #533a14; }
+.status-done    { background: #142a1c; color: #6fe09f; border: 1px solid #1d5236; }
+.status-merged  { background: #0d1f2a; color: #6fb8ff; border: 1px solid #1d3a52; }
+.status-blocked { background: #2a0d10; color: #ff7c8a; border: 1px solid #521d24; }
+.status-dropped { background: #1a1a1a; color: #777;    border: 1px solid #2a2a2a; }
+
+.card {
+  background: var(--flap-bg);
+  border: 1px solid var(--flap-border);
+  border-radius: 8px;
+  padding: 18px 22px 20px;
+  margin: 14px 0;
+}
+.card h2 {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--amber);
+  margin-bottom: 12px;
+}
+.card p { font-size: 14px; line-height: 1.6; color: var(--text-primary); margin: .55em 0; }
+.card p.caption { font-size: 13px; color: var(--text-secondary); }
+.card ul, .card ol { padding-left: 1.3rem; margin: .4em 0; }
+.card li { font-size: 14px; line-height: 1.6; color: var(--text-primary); margin: 4px 0; }
+.card strong { color: var(--text-primary); font-weight: 700; }
+.card em { color: var(--text-secondary); font-style: italic; }
+
+code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--board-surface);
+  border: 1px solid var(--flap-border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  color: var(--amber);
+}
+
+a {
+  color: var(--amber);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+a:hover { border-bottom-color: var(--amber); }
+
+p.demo-link {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--board-surface);
+  border-left: 3px solid var(--amber);
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  word-break: break-all;
+}
+
+ul.files li, ul.questions li { padding-left: 2px; }
+ul.files code { font-size: 12px; }
+
+.footer-meta {
+  margin-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}

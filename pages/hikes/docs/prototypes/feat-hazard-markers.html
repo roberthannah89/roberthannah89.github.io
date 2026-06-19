@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="proto-title" content="Hazard Markers">
+<meta name="proto-icon" content="&#x26A0;&#xFE0F;">
+<meta name="proto-desc" content="Pin chain sections, exposed ridges, stream crossings along the route on individual hike pages">
+<meta name="proto-source" content="Feature integration / worktree">
+<meta name="proto-order" content="100">
+<title>Hazard Markers — Feature Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/feat-proto.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <p class="crumbs">
+    <a href="index.html">&larr; All prototypes</a>
+  </p>
+
+  <header class="proto-hero">
+    <div class="hero-icon">&#x26A0;&#xFE0F;</div>
+    <div>
+      <h1>Hazard Markers</h1>
+      <p>Pin chain sections, exposed ridges, stream crossings &amp; other hazards along the route on individual hike pages.</p>
+    </div>
+    <span class="status status-done">DONE</span>
+  </header>
+
+  <section class="card">
+    <h2>Demo</h2>
+    <p class="demo-link">
+      <a href="file:///mnt/c/Users/User/My%20Drive%20(roberthannah89@gmail.com)/Code/website/.claude/worktrees/agent-aa097da5f1ae3ef5d/pages/hikes/routes/hardergrat/hardergrat.html">
+        Open hardergrat.html in worktree
+      </a>
+    </p>
+    <p class="caption">
+      Hardergrat T4 (Kemmeriboden &rarr; Brienzergrat &rarr; Harder Kulm).
+      Chosen because SAC prose flags "exponiert", "luftige Grasgrate",
+      "kaum Fehler verzeiht" &mdash; textbook scary-ridge hike.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>What got built</h2>
+    <ul>
+      <li>7 hazard pins sampled along the existing GPX so they sit on the route, not floating.</li>
+      <li>Hazard types: <code>cable &#x26D3;</code>, <code>exposed &#x1FA82;</code>, <code>scree &#x1FAA8;</code>, <code>stream &#x1F4A7;</code>, <code>snow &#x2744;</code>, <code>cableway &#x1F6A0;</code>, fallback <code>other &#x26A0;</code>.</li>
+      <li>Stored as <code>hazards[]</code> in <code>data.json</code> with <code>{ type, lat, lon, note }</code>.</li>
+      <li>Toolbar toggle "&#x26A0; Hazards", on by default. Click a pin for a popup with the note.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Files touched (in worktree)</h2>
+    <ul class="files">
+      <li><code>routes/hardergrat/hardergrat.data.json</code> &mdash; <code>hazards[]</code> array</li>
+      <li><code>templates/hike_page.j2.html</code> &mdash; passes hazards into <code>window.HIKE</code>, toolbar button</li>
+      <li><code>templates/_assets/hike_page.js</code> &mdash; <code>HAZARD_KINDS</code> lookup, layer + toggle wiring</li>
+      <li><code>templates/_assets/hike_page.css</code> &mdash; <code>.hazard-marker</code> + <code>.hazard-popup</code></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Data-source recommendation</h2>
+    <p>
+      Hybrid &mdash; pure regex on SAC prose is too noisy for a safety layer; hand-authoring every hike doesn't
+      scale to ~75 hikes.
+    </p>
+    <ol>
+      <li>Write <code>scripts/suggest_hazards.py</code> that scans <code>intro_html</code> + <code>routes[].notes_html</code>
+        for keyword families (<em>Kette/Drahtseil</em> &rarr; cable, <em>exponiert</em> &rarr; exposed,
+        <em>Ger&ouml;ll</em> &rarr; scree, <em>Bach</em> &rarr; stream, &hellip;) and emits a
+        <code>hazards-suggested.json</code> &mdash; <strong>without coordinates</strong>, since SAC prose
+        doesn't say <em>where</em> along the route.</li>
+      <li>Human anchors each suggestion to a GPX point via a small click-on-map UI. Coordinates get added
+        to <code>data.json</code> at curation time.</li>
+      <li>Hikes without a <code>hazards</code> field just don't render the layer.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Open design questions</h2>
+    <ul class="questions">
+      <li><strong>Severity / certainty</strong> &mdash; add a <code>severity</code> field (advisory vs.
+        consequential), or stay flat? Affects whether icons colour-grade or filter.</li>
+      <li><strong>Seasonality</strong> &mdash; snow gully in spring, stream impassable after storms.
+        Add <code>season</code> / <code>condition</code> fields, or fold into the note text?</li>
+      <li><strong>Linear hazards</strong> &mdash; chain sections and exposed ridges are stretches, not
+        points. Allow optional <code>[lat,lon]</code> start+end (rendered as a coloured polyline overlay)?</li>
+      <li><strong>Source attribution</strong> &mdash; if auto-suggest from SAC, expose
+        <code>source_quote</code> in the popup so users can audit the call?</li>
+      <li><strong>Mirror onto elevation profile</strong> &mdash; drop badges at the matching distance?
+        Infrastructure for distance-along-track lookup already exists for waypoints.</li>
+    </ul>
+  </section>
+
+  <p class="footer-meta">
+    Worktree branch: <code>worktree-agent-aa097da5f1ae3ef5d</code>
+  </p>
+
+</div>
+
+</body>
+</html>
