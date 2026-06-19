@@ -420,11 +420,11 @@ function buildFilterBar() {
   // Grade — multi-select. Icon-only (SAC trail markers); no label needed.
   // No "Any" button: empty selection means any.
   bar.appendChild(filterGroup('', [
-    { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'grade', value: ['T1-2'] },
-    { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'grade', value: ['T3'] },
-    { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'grade', value: ['T4'] },
-    { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'grade', value: ['T5'] },
-    { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'grade', value: ['T6'] }
+    { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'grades', value: ['T1-2'] },
+    { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'grades', value: ['T3'] },
+    { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'grades', value: ['T4'] },
+    { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'grades', value: ['T5'] },
+    { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'grades', value: ['T6'] }
   ], true));
 
   // Duration — single-select; "h" suffix carries the meaning, no label.
