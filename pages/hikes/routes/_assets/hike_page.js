@@ -477,10 +477,11 @@
     }
 
     // Walk TRACK forward, interpolating exact lat/lon/ele at each integer hour past start.
-    // The leading mark (hour 0) is the trailhead itself — weather at the moment you set off.
+    // The leading mark (kind: "start") is the trailhead itself — weather at the moment you
+    // set off. The trailing mark (kind: "end") is the route end at total-Naismith-time.
     function naismithHourPoints(startDate) {
       const marks = [{
-        hour: 0,
+        kind: "start",
         time: new Date(startDate.getTime()),
         distM: 0,
         lat: TRACK[0][0],
@@ -502,7 +503,7 @@
           const ele = a[2] + (b[2] - a[2]) * t;
           const distM = geom.trackDist[i - 1] + (geom.trackDist[i] - geom.trackDist[i - 1]) * t;
           marks.push({
-            hour: nextHour,
+            kind: "hour",
             time: new Date(startDate.getTime() + nextHour * 3600 * 1000),
             distM, lat, lon, ele,
           });
@@ -510,6 +511,15 @@
         }
         cumH += segH;
       }
+      const last = TRACK[TRACK.length - 1];
+      marks.push({
+        kind: "end",
+        time: new Date(startDate.getTime() + totalHours * 3600 * 1000),
+        distM: geom.totalM,
+        lat: last[0],
+        lon: last[1],
+        ele: last[2],
+      });
       return marks;
     }
 
@@ -601,16 +611,25 @@
         const tempStr = (temp != null) ? Math.round(temp) + "°" : "";
         const iconStr = postSunset ? NIGHT_ICON : wxIcon(code);
         const badge = document.createElement("div");
+        const kindClass = p.kind === "start" ? " elev-hour-badge--start"
+                       : p.kind === "end"   ? " elev-hour-badge--end"
+                       : "";
         badge.className = "elev-hour-badge"
           + (p.row === 1 ? " elev-hour-badge--stagger" : "")
-          + (postSunset ? " elev-hour-badge--night" : "");
+          + (postSunset ? " elev-hour-badge--night" : "")
+          + kindClass;
         badge.style.left = p.leftPct.toFixed(2) + "%";
-        badge.title = "Click to show this point on the map";
+        badge.title = p.kind === "start" ? "Trailhead — click to show on map"
+                    : p.kind === "end"   ? "Route end — click to show on map"
+                    : "Click to show this point on the map";
         badge.dataset.lat = p.lat.toFixed(5);
         badge.dataset.lon = p.lon.toFixed(5);
         badge.addEventListener("click", () => pulseOnMap(p.lat, p.lon));
+        const prefix = p.kind === "start" ? '<span class="elev-hour-kind">▶</span> '
+                     : p.kind === "end"   ? '<span class="elev-hour-kind">■</span> '
+                     : "";
         badge.innerHTML =
-          '<div class="elev-hour-time">' + label + '</div>' +
+          '<div class="elev-hour-time">' + prefix + label + '</div>' +
           '<div class="elev-hour-data">' +
             '<span class="elev-hour-icon">' + iconStr + '</span>' +
             '<span class="elev-hour-temp">' + tempStr + '</span>' +

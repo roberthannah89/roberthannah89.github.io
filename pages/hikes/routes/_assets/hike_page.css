@@ -121,6 +121,8 @@ footer a { color: #fff; }
 .elev-hour-badge:active { transform: translateX(-50%) translateY(1px); }
 .elev-hour-badge--stagger { top: 28px; }
 .elev-hour-badge--night { opacity: .55; }
+.elev-hour-badge--start, .elev-hour-badge--end { border-color: var(--accent); }
+.elev-hour-kind { color: var(--accent); font-size: .7rem; }
 .elev-hour-time { font-size: .65rem; color: var(--muted); letter-spacing: .02em; }
 .elev-hour-data { display: flex; align-items: center; gap: 3px; }
 .elev-hour-icon { font-size: .95rem; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif; line-height: 1; }
