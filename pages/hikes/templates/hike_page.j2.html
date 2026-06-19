@@ -38,7 +38,7 @@
   </table>
 </section>
 
-<section>
+<section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
 {%- for p in photos %}
@@ -54,11 +54,12 @@
       <p class="attrib">{{ photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true) | safe }}</p>
 </section>
 
-<section>
+<section class="map-section">
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+    <a class="btn" id="gpxBtn" href="./{{ slug }}.gpx" download="{{ slug }}.gpx"
+       aria-label="Download GPX track for {{ peak.name }}">↓ Download GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -137,7 +138,7 @@
 {%- endif %}
 </section>
 
-<section>
+<section class="weather-section">
   <h2>Weather Planning</h2>
   <h3>7-day summit forecast (live)</h3>
   <div id="forecast" class="forecast-grid">
@@ -164,6 +165,28 @@
 {%- endif %}
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">{{ elev_chart_attrib_html | default('Computed from the inlined GPX track (OSM-routed via Dijkstra; elevations from Open-Elevation / SRTM).', true) | safe }}</p>
+</section>
+
+{# Print-only field reference: GPS coordinates for trailhead, summit, and waypoints.
+   Hidden on screen by default; revealed by the print stylesheet so a printed page is
+   actually useful in the field (punch coords into a GPS / phone offline map). #}
+<section class="print-only field-ref">
+  <h2>Field Reference</h2>
+  <table>
+    <tr><th>Trailhead</th><td>{{ trailhead.name }}</td><td>{{ "%.5f"|format(trailhead.lat) }}, {{ "%.5f"|format(trailhead.lon) }}</td></tr>
+    <tr><th>Summit</th><td>{{ peak.name }} ({{ peak.elev }} m)</td><td>{{ "%.5f"|format(peak.lat) }}, {{ "%.5f"|format(peak.lon) }}</td></tr>
+{%- if end_point is defined and end_point and end_point.name and end_point.get('lat') is not none and end_point.get('lon') is not none and end_point.name != trailhead.name %}
+    <tr><th>End</th><td>{{ end_point.name }}{% if end_point.elev %} ({{ end_point.elev }} m){% endif %}</td><td>{{ "%.5f"|format(end_point.lat) }}, {{ "%.5f"|format(end_point.lon) }}</td></tr>
+{%- endif %}
+{%- for w in waypoints %}
+{%- if w.lat is not none and w.lon is not none and (w.kind not in ['start', 'summit']) %}
+    <tr><th>Waypoint</th><td>{{ w.label }}</td><td>{{ "%.5f"|format(w.lat) }}, {{ "%.5f"|format(w.lon) }}</td></tr>
+{%- endif %}
+{%- endfor %}
+  </table>
+  <p class="attrib">Coordinates are WGS84 decimal degrees (lat, lon).
+    Emergency: <strong>112</strong> (general) or <strong>1414</strong> (Rega air rescue).
+    Page URL: <span class="page-url"></span></p>
 </section>
 
 </main>

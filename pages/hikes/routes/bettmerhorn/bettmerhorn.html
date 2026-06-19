@@ -43,7 +43,7 @@
   </table>
 </section>
 
-<section>
+<section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
@@ -65,11 +65,12 @@
       <p class="attrib">All photos: SAC Route Portal</p>
 </section>
 
-<section>
+<section class="map-section">
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+    <a class="btn" id="gpxBtn" href="./bettmerhorn.gpx" download="bettmerhorn.gpx"
+       aria-label="Download GPX track for Bettmerhorn">↓ Download GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -124,7 +125,7 @@
   </div>
 </section>
 
-<section>
+<section class="weather-section">
   <h2>Weather Planning</h2>
   <h3>7-day summit forecast (live)</h3>
   <div id="forecast" class="forecast-grid">
@@ -147,6 +148,18 @@
   </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+
+<section class="print-only field-ref">
+  <h2>Field Reference</h2>
+  <table>
+    <tr><th>Trailhead</th><td>Eggishorn, summit station</td><td>46.43130, 8.09430</td></tr>
+    <tr><th>Summit</th><td>Bettmerhorn (2926 m)</td><td>46.41424, 8.08009</td></tr>
+  </table>
+  <p class="attrib">Coordinates are WGS84 decimal degrees (lat, lon).
+    Emergency: <strong>112</strong> (general) or <strong>1414</strong> (Rega air rescue).
+    Page URL: <span class="page-url"></span></p>
 </section>
 
 </main>

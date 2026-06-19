@@ -42,7 +42,7 @@
   </table>
 </section>
 
-<section>
+<section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
@@ -104,11 +104,12 @@
       <p class="attrib">All photos: SAC Route Portal</p>
 </section>
 
-<section>
+<section class="map-section">
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+    <a class="btn" id="gpxBtn" href="./le-soliat-creux-du-van.gpx" download="le-soliat-creux-du-van.gpx"
+       aria-label="Download GPX track for Le Soliat Creux Du Van">↓ Download GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -151,7 +152,7 @@
   <p class="attrib">Route returns to <strong>Noiraigue (729.8 m) On the transN-line Buttes – Fleurier – Travers – Neuchâtel</strong>.</p>
 </section>
 
-<section>
+<section class="weather-section">
   <h2>Weather Planning</h2>
   <h3>7-day summit forecast (live)</h3>
   <div id="forecast" class="forecast-grid">
@@ -174,6 +175,18 @@
   </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+
+<section class="print-only field-ref">
+  <h2>Field Reference</h2>
+  <table>
+    <tr><th>Trailhead</th><td>Noiraigue (729.8 m) On the transN-line Buttes – Fleurier – Travers – Neuchâtel</td><td>46.95500, 6.72200</td></tr>
+    <tr><th>Summit</th><td>Le Soliat Creux Du Van (1464 m)</td><td>46.92868, 6.72478</td></tr>
+  </table>
+  <p class="attrib">Coordinates are WGS84 decimal degrees (lat, lon).
+    Emergency: <strong>112</strong> (general) or <strong>1414</strong> (Rega air rescue).
+    Page URL: <span class="page-url"></span></p>
 </section>
 
 </main>

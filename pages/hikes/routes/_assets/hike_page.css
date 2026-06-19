@@ -109,18 +109,90 @@ footer a { color: #fff; }
   .grid-2 { grid-template-columns: 1fr; }
   #map { height: 420px; }
 }
+
+/* Print-only utility: revealed only when @media print activates. */
+.print-only { display: none; }
+
 @media print {
-  header.hero { height: auto; min-height: 0; padding: 1rem; background: none !important; color: var(--fg); }
-  header.hero::after { background: none; }
-  header.hero h1 { font-size: 1.4rem; color: var(--fg); }
-  header.hero p { color: var(--fg); }
-  footer { background: none; color: var(--fg); }
-  .map-controls, .transit-actions, .transit-embed iframe, .lightbox { display: none !important; }
-  #map { height: 6cm; page-break-inside: avoid; }
-  .forecast-grid, .webcam-grid, .photo-grid, .trip-reports { page-break-inside: avoid; }
-  section { page-break-inside: avoid; }
-  body { background: white; color: black; font-size: 10pt; }
-  main { padding: 0 .5cm; }
-  a { color: inherit; text-decoration: none; }
-  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+  /* ---- Page geometry ---------------------------------------------------- */
+  @page { size: A4; margin: 1.2cm 1.4cm; }
+  html, body { background: #fff !important; color: #000 !important;
+               font-size: 10.5pt; line-height: 1.35; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  main { max-width: none; padding: 0; margin: 0; }
+  section { margin: .5rem 0; page-break-inside: avoid; }
+  h2 { font-size: 13pt; margin: .7rem 0 .25rem; padding-bottom: .1rem;
+       border-bottom: 1px solid #000; color: #000; }
+  h3 { font-size: 11pt; margin: .5rem 0 .15rem; color: #000; }
+  p { margin: .2rem 0; }
+  ul { margin: .2rem 0 .2rem 1.2rem; padding: 0; }
+  li { margin-bottom: .1rem; }
+
+  /* ---- Hero: compact, monochrome --------------------------------------- */
+  header.hero { position: static; height: auto; min-height: 0;
+                padding: 0 0 .3rem; margin: 0 0 .3rem;
+                background: none !important; color: #000 !important;
+                display: block; border-bottom: 2px solid #000; }
+  header.hero::after { display: none; content: none; }
+  header.hero .inner { padding: 0; max-width: none; }
+  header.hero h1 { font-size: 16pt; color: #000; margin: 0; font-weight: 700; }
+  header.hero p { font-size: 10pt; color: #333; opacity: 1; margin: .1rem 0 0; }
+
+  /* ---- Tables ----------------------------------------------------------- */
+  table { background: #fff !important; border-collapse: collapse; width: 100%;
+          font-size: 10pt; }
+  th, td { border: 1px solid #888; padding: .15rem .35rem; color: #000;
+           background: #fff !important; vertical-align: top; }
+  th { font-weight: 600; }
+
+  /* ---- Hide entire sections that have no useful printed content -------- */
+  .photos-section, .map-section, .weather-section,
+  /* Plus interactive widgets that sneak in elsewhere. */
+  .transit-actions, .transit-embed, .transit-embed iframe,
+  .lightbox, .webcam-grid, .trip-reports, .trip-takeaways,
+  footer {
+    display: none !important;
+  }
+
+  /* ---- Pills (difficulty grade): readable in B/W ----------------------- */
+  .pill { background: #fff !important; color: #000 !important;
+          border: 1px solid #000; padding: 0 4px; font-weight: 700; }
+
+  /* ---- Elevation profile: keep the SVG; force visible strokes --------- */
+  .elev-chart { background: #fff !important; border: 1px solid #888;
+                height: 4.5cm; page-break-inside: avoid; }
+  .elev-chart .line { stroke: #000 !important; stroke-width: 1.2; }
+  .elev-chart .area { fill: #ddd !important; }
+  .elev-chart .axis { stroke: #000 !important; }
+  .elev-chart text  { fill: #000 !important; }
+  .elev-stats { color: #000; }
+  .elev-stats strong { color: #000; }
+
+  /* ---- Getting There: keep endpoint headings, drop the buttons -------- */
+  .getting-there .endpoint-block { background: #fff !important;
+                                    border: 1px solid #888; padding: .25rem .4rem;
+                                    margin: .2rem 0; }
+  .getting-there .endpoint-block h3 { font-size: 10.5pt; }
+
+  /* ---- Print-only field reference (coordinates) ------------------------ */
+  .print-only { display: block; }
+  .field-ref table { font-size: 9.5pt; }
+  .field-ref th { width: 4.5em; text-align: left; }
+  .field-ref td:last-child { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+                             white-space: nowrap; }
+
+  /* ---- Links: show black, append URL inline for HTTP links ------------ */
+  a { color: #000 !important; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")";
+                           font-size: 8pt; color: #444; word-break: break-all; }
+  /* Internal/relative/anchor/mail links: don't blow up with URLs. */
+  a[href^="#"]::after, a[href^="./"]::after, a[href^="../"]::after,
+  a[href^="mailto:"]::after { content: ""; }
+
+  /* ---- Attribution lines: small but legible --------------------------- */
+  .attrib { font-size: 8.5pt; color: #444; margin-top: .2rem; }
+
+  /* ---- Honor color-adjust so the SVG/borders don't get bleached ------ */
+  * { -webkit-print-color-adjust: exact;
+      print-color-adjust: exact; }
 }

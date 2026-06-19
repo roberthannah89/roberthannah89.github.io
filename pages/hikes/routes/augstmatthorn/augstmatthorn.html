@@ -44,7 +44,7 @@ Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüg
   </table>
 </section>
 
-<section>
+<section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
     <figure>
@@ -111,11 +111,12 @@ Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüg
       <p class="attrib">All photos: SAC Route Portal</p>
 </section>
 
-<section>
+<section class="map-section">
   <h2>Interactive Route Map</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
-    <a class="btn" id="gpxBtn" download aria-label="Download GPX track">↓ GPX</a>
+    <a class="btn" id="gpxBtn" href="./augstmatthorn.gpx" download="augstmatthorn.gpx"
+       aria-label="Download GPX track for Augstmatthorn">↓ Download GPX</a>
   </div>
   <div id="map"><noscript><div style="padding:2rem;text-align:center;color:#666;"><strong>JavaScript is required for the interactive map.</strong></div></noscript></div>
   <div class="legend">
@@ -169,7 +170,7 @@ Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüg
   </div>
 </section>
 
-<section>
+<section class="weather-section">
   <h2>Weather Planning</h2>
   <h3>7-day summit forecast (live)</h3>
   <div id="forecast" class="forecast-grid">
@@ -192,6 +193,20 @@ Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüg
   </div>
   <svg class="elev-chart" id="elev-chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <p class="attrib">Computed from the inlined GPX track (elevations from SwissTopo height API).</p>
+</section>
+
+
+<section class="print-only field-ref">
+  <h2>Field Reference</h2>
+  <table>
+    <tr><th>Trailhead</th><td>Kemmeriboden</td><td>46.80250, 7.93510</td></tr>
+    <tr><th>Summit</th><td>Augstmatthorn (2136 m)</td><td>46.74230, 7.92860</td></tr>
+    <tr><th>End</th><td>Harder Kulm (1321 m)</td><td>46.69760, 7.85230</td></tr>
+    <tr><th>Waypoint</th><td>Ällgäuwlicka (1918 m)</td><td>46.76605, 7.97030</td></tr>
+  </table>
+  <p class="attrib">Coordinates are WGS84 decimal degrees (lat, lon).
+    Emergency: <strong>112</strong> (general) or <strong>1414</strong> (Rega air rescue).
+    Page URL: <span class="page-url"></span></p>
 </section>
 
 </main>
