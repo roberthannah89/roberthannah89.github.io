@@ -8,6 +8,7 @@
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
 <title>Augstmatthorn (2136 m) -- Hike Plan</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
 <link rel="stylesheet" href="../_assets/hike_page.css"/>
 <style>header.hero { background-image: url('https://www.sac-cas.ch/processed/sa2020assetsprod/d/a/csm_1594053010_668048460master_9c17af9b1d.jpg'); }</style>
@@ -131,6 +132,24 @@ Die Route führt durch das Jagdbanngebiet Augstmatthorn. Zelten und Drohnenflüg
     Route line is approximate — verify against the SAC Route Portal before going.
   </p>
 </section>
+
+<section>
+  <h2>3D Terrain View</h2>
+  <div id="hike3d-wrap" class="hike3d-wrap" aria-label="3D map of Augstmatthorn">
+    <img class="hike3d-preview" src="augstmatthorn.3d-preview.jpg" alt="Preview of the 3D map showing the route across Augstmatthorn" loading="lazy" onerror="this.style.display='none'">
+    <button class="hike3d-load btn-cc" id="hike3d-load" type="button">
+      <span class="hike3d-load-icon" aria-hidden="true">⛰</span>
+      <span class="hike3d-load-text">Load interactive 3D view</span>
+      <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
+    </button>
+  </div>
+  <p class="attrib">
+    Tiles: © <a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a> (SWISSIMAGE) +
+    <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>.
+    Powered by <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a>.
+    <a href="augstmatthorn.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
+  </p>
+</section>
 <section>
   <h2>Route Details</h2>
   <p><strong>Brienzergrat-Überschreitung zweiter Teil Schnierenhörnli - Harder Kulm</strong></p>
@@ -249,5 +268,34 @@ window.HIKE = {
 window.TRACK_STATS = {"ascent_m": 1608.2000000000003, "descent_m": 1258.1000000000001, "distance_km": 21.03948163994485, "max_ele": 2133.6, "min_ele": 976.8, "n_points": 3687.0, "steepest_grade_pct": 46.77853326712869};
 </script>
 <script src="../_assets/hike_page.js"></script>
+<script>
+(function () {
+  var loadBtn = document.getElementById('hike3d-load');
+  if (!loadBtn) return;
+  loadBtn.addEventListener('click', function () {
+    var wrap = document.getElementById('hike3d-wrap');
+    wrap.classList.add('loading');
+    var ml = document.createElement('script');
+    ml.src = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js';
+    ml.onload = function () {
+      var s = document.createElement('script');
+      s.src = '../_assets/hike_3d.js';
+      s.onload = function () {
+        wrap.innerHTML = '<div id="hike3d-map" style="width:100%;height:100%;"></div>';
+        wrap.classList.add('loaded');
+        initHike3DMap('hike3d-map', {
+          trailhead: [window.HIKE.trailhead.lon, window.HIKE.trailhead.lat],
+          summit:    [window.HIKE.summit.lon,    window.HIKE.summit.lat],
+          peakName:  window.HIKE.summit.name,
+          peakElev:  window.HIKE.summit.elev,
+          trailheadName: window.HIKE.trailhead.name
+        });
+      };
+      document.body.appendChild(s);
+    };
+    document.body.appendChild(ml);
+  });
+})();
+</script>
 </body>
 </html>

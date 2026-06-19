@@ -194,3 +194,57 @@ footer a { color: #fff; }
   /* Daily forecast tiles: keep visible but drop the "← your day" badge cruft */
   .forecast-day.planned::after { display: none; }
 }
+
+/* ===== Inline 3D map section ===== */
+.hike3d-wrap {
+  position: relative; width: 100%; aspect-ratio: 16 / 9;
+  background: var(--card); border-radius: 6px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.hike3d-wrap.loaded { aspect-ratio: auto; height: 70vh; min-height: 480px; }
+.hike3d-preview {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: brightness(.7) saturate(.85);
+  transition: filter .25s ease;
+}
+.hike3d-wrap:hover .hike3d-preview { filter: brightness(.6) saturate(.85); }
+.hike3d-wrap.loading .hike3d-preview { filter: brightness(.45) blur(2px); }
+.hike3d-load {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: .25rem;
+  padding: 1rem 1.6rem; min-width: 260px;
+  border: none; border-radius: 12px; cursor: pointer;
+  background: #1a1a1d; color: #fff;
+  font-family: inherit; font-size: 1.05rem; font-weight: 600;
+  box-shadow: 0 6px 22px rgba(0,0,0,.55);
+  z-index: 1; isolation: isolate;
+}
+.hike3d-load-icon { font-size: 1.8rem; line-height: 1; margin-bottom: .15rem; }
+.hike3d-load-sub { font-size: .72rem; font-weight: 500; opacity: .8; letter-spacing: .01em; }
+.hike3d-wrap.loading .hike3d-load { opacity: .6; pointer-events: none; }
+.hike3d-wrap.loading .hike3d-load-text::after { content: ' …'; }
+
+/* Conic-gradient border (matches command-center nav highlight). Consumer must
+   establish its own positioning context — .hike3d-load uses position:absolute. */
+@property --hk3d-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.btn-cc::before {
+  content: ''; position: absolute; inset: -2px; border-radius: 14px; padding: 2px;
+  background: conic-gradient(from var(--hk3d-angle),
+    #ff5e62, #ff9966, #ffd96a, #6ad77b, #5bc0eb, #9b6cff, #ff5e62);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: btn-cc-spin 5s linear infinite;
+  z-index: -1;
+}
+@keyframes btn-cc-spin { to { --hk3d-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .btn-cc::before { animation: none; }
+}
+@media (max-width: 600px) {
+  .hike3d-wrap { aspect-ratio: 4 / 3; }
+  .hike3d-wrap.loaded { height: 60vh; min-height: 380px; }
+  .hike3d-load { min-width: 0; padding: .8rem 1.2rem; font-size: .95rem; }
+  .hike3d-load-icon { font-size: 1.5rem; }
+}

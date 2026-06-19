@@ -76,6 +76,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = REPO_ROOT / "templates"
 ASSETS_DIR = TEMPLATE_DIR / "_assets"
 TEMPLATE_NAME = "hike_page.j2.html"
+TEMPLATE_3D_NAME = "3d_map.j2.html"
 INDEX_TEMPLATE_NAME = "index.j2.html"
 DIFFICULTY_TEMPLATE_NAME = "difficulty.j2.html"
 DEFAULT_ROOT = REPO_ROOT / "routes"
@@ -638,12 +639,15 @@ def render_one(data_path: Path) -> RenderResult:
         with StageTimer(stages, "load_template"):
             env = _make_env()
             template = env.get_template(TEMPLATE_NAME)
+            template_3d = env.get_template(TEMPLATE_3D_NAME)
 
         with StageTimer(stages, "render"):
             html = template.render(**data)
+            html_3d = template_3d.render(**data)
 
         with StageTimer(stages, "write"):
             out_path.write_text(html, encoding="utf-8")
+            (data_path.parent / f"{slug}.3d.html").write_text(html_3d, encoding="utf-8")
 
         with StageTimer(stages, "track_js"):
             _write_track_js(gpx_path, data_path.parent / f"{slug}.track.js")

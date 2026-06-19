@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<title>Wissigstock — 3D map</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  :root { --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  header { padding: 12px 18px; border-bottom: 1px solid #e2e2dd; background: #fff; display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  header h1 { margin: 0; font-size: 17px; font-weight: 600; }
+  header a.back { color: var(--accent); text-decoration: none; font-size: 13px; }
+  header a.back:hover { text-decoration: underline; }
+  header .meta { color: var(--muted); font-size: 12.5px; }
+  #map { width: 100%; height: calc(100vh - 50px); }
+  @media (max-width: 600px) {
+    header { padding: 10px 12px; gap: 10px; }
+    header h1 { font-size: 15px; }
+    header .meta { display: none; }
+    #map { height: calc(100vh - 48px); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="wissigstock.html">← Back to hike</a>
+  <h1>Wissigstock — 3D</h1>
+  <span class="meta">SWISSIMAGE satellite on 3D terrain · right-click + drag to tilt &amp; rotate</span>
+</header>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="wissigstock.track.js"></script>
+<script src="../_assets/hike_3d.js"></script>
+<script>
+  initHike3DMap('map', {
+    trailhead: [8.4629, 46.846],
+    summit:    [8.50703, 46.84548],
+    peakName:  "Wissigstock",
+    peakElev:  2886,
+    trailheadName: "Rugghubelh\u00fctte SAC"
+  });
+</script>
+
+</body>
+</html>

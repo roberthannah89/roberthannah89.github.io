@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border add-sac
+.PHONY: help new new-gpx render validate serve weather inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -27,6 +27,7 @@ help:
 	@echo "  new            Scaffold a new hike directory (manual metadata)"
 	@echo "  new-gpx        Scaffold from existing GPX (auto-extracts stats)"
 	@echo "  render         Render all hike HTML pages"
+	@echo "  3d-previews    Generate static 3D-map preview JPEGs (headless Chromium; slow)"
 	@echo "  validate       Validate hike data without writing output"
 	@echo "  serve          Render then serve the site on localhost"
 	@echo ""
@@ -82,6 +83,12 @@ new-gpx:
 ## render : Render all hike HTML pages from data.json + GPX + templates
 render:
 	$(PYTHON) $(SCRIPTS)/render_hike.py
+
+# -----------------------------------------------------------------------------
+## 3d-previews : Screenshot each <slug>.3d.html to <slug>.3d-preview.jpg (slow).
+##             : Pass slug=foo (or "a b") to restrict to specific hikes.
+3d-previews:
+	$(PYTHON) $(SCRIPTS)/render_3d_previews.py $(if $(slug),--only $(slug))
 
 # -----------------------------------------------------------------------------
 ## validate : Validate hike data completeness and schema (no output written)
