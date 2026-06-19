@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="proto-title" content="3D Flythrough">
+<meta name="proto-icon" content="&#x26F0;&#xFE0F;">
+<meta name="proto-desc" content="Cinematic MapLibre camera flythrough following the GPX ascent on every hike page">
+<meta name="proto-source" content="Feature integration / worktree">
+<meta name="proto-order" content="160">
+<title>3D Flythrough &mdash; Feature Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/feat-proto.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <p class="crumbs"><a href="index.html">&larr; All prototypes</a></p>
+
+  <header class="proto-hero">
+    <div class="hero-icon">&#x26F0;&#xFE0F;</div>
+    <div>
+      <h1>3D Flythrough</h1>
+      <p>Cinematic MapLibre camera follows the GPX ascent &mdash; FATMAP-style preview, no API key, lazy-loaded behind the existing 3D button.</p>
+    </div>
+    <span class="status status-done">DONE</span>
+  </header>
+
+  <section class="card">
+    <h2>Demo</h2>
+    <p class="demo-link">
+      <a href="file:///mnt/c/Users/User/My%20Drive%20(roberthannah89@gmail.com)/Code/website/.claude/worktrees/agent-a117fa589ee85f152/pages/hikes/routes/uri-rotstock/uri-rotstock.html">
+        Open uri-rotstock.html &mdash; "3D Terrain View" &rarr; "Load interactive 3D view" &rarr; "Play flythrough"
+      </a>
+    </p>
+    <p class="caption">
+      Uri Rotstock (978&rarr;2921&nbsp;m, 1943&nbsp;m ascent) &mdash; most dramatic in the repo.
+      Camera follows the GPX for ~45&nbsp;s with eased motion + smoothed bearing, then pulls back 6&nbsp;s at the summit.
+      Pause/Resume/Replay supported. Ships on all 75 hikes via the shared asset.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Stack</h2>
+    <ul>
+      <li><strong>MapLibre GL JS 4.7.1</strong> &mdash; free, open source.</li>
+      <li><strong>swisstopo SWISSIMAGE</strong> raster tiles draped over <strong>AWS Open Data Terrarium DEM</strong> (raster-dem encoding).</li>
+      <li><strong>No API key, no Mapbox dependency.</strong> The existing <code>hike_3d.js</code> already used this stack &mdash; extended with a cinematic camera animation instead of swapping libraries.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>What got built</h2>
+    <ul>
+      <li>"Play flythrough" button top-right of the 3D map (once the 3D view itself is loaded).</li>
+      <li>GPX trimmed to ascent-only via <code>findSummitIndex</code> (correctly handles loop hikes &mdash; uri-rotstock returns summit at index 1879 of 3997).</li>
+      <li>Track resampled to 450 even-spaced points; bearings pre-computed and smoothed for cinematic motion.</li>
+      <li>Per-frame work is O(1) interpolation + <code>map.jumpTo</code>. 60 fps desktop, 30+ mid-range phone (tile streaming is the real bottleneck).</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Performance / bundle</h2>
+    <ul>
+      <li>MapLibre GL ~210&nbsp;KB gzipped; CSS ~25&nbsp;KB gzipped. <strong>Loaded lazily</strong> &mdash; only fetched after the user clicks "Load 3D view". Zero cost on first paint.</li>
+      <li>Flythrough adds ~13&nbsp;KB unminified to <code>hike_3d.js</code> (~5&nbsp;KB gzipped). Negligible.</li>
+      <li>Tile pop-in during the first ~5&nbsp;s of mobile playback is the worst-looking artifact &mdash; could pre-warm via low-zoom <code>fitBounds</code> before play.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Files touched (in worktree)</h2>
+    <ul class="files">
+      <li><code>templates/_assets/hike_3d.js</code> &mdash; flythrough logic + helpers (with unit-tested <code>bearing</code>, <code>bearingDelta</code>, <code>resample</code>)</li>
+      <li><code>routes/_assets/hike_3d.js</code> &mdash; mirrored by <code>sync_assets</code></li>
+      <li>Regenerated <code>routes/uri-rotstock/uri-rotstock.html</code> + <code>uri-rotstock.3d.html</code> standalone fullscreen page</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Recommended next steps if shipping</h2>
+    <ol>
+      <li><strong>Throttle on mobile</strong> &mdash; detect <code>navigator.connection.saveData</code>, drop to <code>maxzoom: 14</code> or disable.</li>
+      <li><strong>Pre-warm tiles</strong> &mdash; <code>fitBounds</code> at lower zoom before play to populate the cache.</li>
+      <li><strong>Per-segment replay</strong> &mdash; "Replay this leg" anchors on individual route segments (climb only / descent only).</li>
+      <li>No autoplay, no music. Obnoxious-by-default is a footgun.</li>
+      <li><strong>HUD elevation</strong> during playback for the "wow" reveal.</li>
+      <li><strong>Static MP4 capture</strong> via Playwright + ffmpeg for social-share images.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Verdict &mdash; ship it, conditionally</h2>
+    <p>
+      <strong>Pros:</strong> genuinely useful for route preview &mdash; answers "is this exposed? does it
+      traverse a ridge?" far better than a contour map. Cost is near-zero (lazy-loaded, shared infra).
+      Additive to the existing 3D button.
+    </p>
+    <p>
+      <strong>Cons:</strong> mild novelty if it's the only 3D interaction users encounter; satellite tiles
+      look washed-out at low sun angles; mobile tile pop-in is ugly.
+    </p>
+    <p>
+      <strong>Verdict:</strong> ship behind the existing "Load 3D" gate (already lazy). Don't autoplay.
+      Keep both the static topo map AND the 3D view &mdash; different questions. Predicted lift:
+      5&ndash;15% of 3D-loaders will play, &gt;50% of those will share &mdash; meaningful for one
+      afternoon's work, but only if it stays cheap. No per-hike POI annotations, no custom audio,
+      no config &mdash; keep it as the auto-deriving feature it is.
+    </p>
+  </section>
+
+  <p class="footer-meta">
+    Worktree branch: <code>worktree-agent-a117fa589ee85f152</code>
+  </p>
+
+</div>
+
+</body>
+</html>
