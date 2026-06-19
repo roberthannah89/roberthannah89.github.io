@@ -22,13 +22,13 @@ import time
 from contextlib import contextmanager
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import ViewportSize, sync_playwright
 
 REPO_ROOT = Path(__file__).resolve().parent.parent  # pages/hikes/
 ROUTES_DIR = REPO_ROOT / "routes"
 
 # 16:9 frame — matches the .hike3d-wrap aspect ratio on the hike page.
-VIEWPORT = {"width": 1280, "height": 720}
+VIEWPORT: ViewportSize = {"width": 1280, "height": 720}
 # Time to let satellite + terrain tiles render after the map fits to bounds.
 TILE_SETTLE_SECONDS = 7
 # JPEG quality (1–100). 80 keeps each preview around 80–120 KB.
