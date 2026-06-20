@@ -9,6 +9,9 @@
 <link rel="manifest" href="../../manifest.webmanifest">
 <meta name="theme-color" content="#0b0c10">
 <title>Chlingenstock (1927 m) -- Hike Plan</title>
+
+
+<link rel="canonical" href="https://hikes.example/chlingenstock/">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <link rel="stylesheet" href="../_assets/map_shared.css"/>
@@ -22,6 +25,12 @@
     <h1>Chlingenstock <span style="font-weight:400; opacity:.85;">1927 m</span></h1>
     <p>SAC T4+ · ~237 m gain · ~10.8 km one-way · ~5h round-trip</p>
   </div>
+  
+  
+  <aside class="hero-qr" aria-label="QR code to open this page on a phone">
+    <div id="qr" class="hero-qr-img" role="img" aria-label="QR code"></div>
+    <div class="hero-qr-cap">Scan to open on phone</div>
+  </aside>
 </header>
 
 <main>
@@ -275,6 +284,20 @@ window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback",
      See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
 <script src="../../local-config.js"></script>
 <script src="../_assets/transit_widget.js"></script>
+<script src="../_assets/qrcode.min.js"></script>
+<script>
+(function () {
+  var slot = document.getElementById("qr");
+  if (!slot || typeof qrcode === "undefined") return;
+  var canon = document.querySelector('link[rel="canonical"]');
+  var url = (canon && canon.href) || location.href;
+  var qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  slot.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  slot.title = url;
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');
