@@ -133,6 +133,7 @@ The first cabin to house visitors was built in 1846 and since then has been cont
     <a href="https://www.meteoblue.com/en/weather/week/47.24936961249966N9.343336068527574E"
        target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
+  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
 <section>
@@ -232,48 +233,10 @@ window.TRACK_STATS = {"ascent_m": 1351.0, "descent_m": 192.8000000000004, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 1.66, "end_m": 166.2, "length_m": 166.2, "n_points": 13, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 41.01, "end_m": 4287.7, "length_m": 4105.9, "n_points": 542, "source": "swisstopo", "start_m": 181.8, "t_grade": "T1"}, {"coverage_pct": 10.29, "end_m": 5324.1, "length_m": 1030.5, "n_points": 214, "source": "osm", "start_m": 4293.7, "t_grade": "T3"}, {"coverage_pct": 12.4, "end_m": 6567.5, "length_m": 1241.2, "n_points": 412, "source": "osm", "start_m": 5326.3, "t_grade": "T4"}, {"coverage_pct": 0.89, "end_m": 6697.4, "length_m": 89.4, "n_points": 4, "source": "osm", "start_m": 6608.0, "t_grade": "T3"}, {"coverage_pct": 3.46, "end_m": 7086.0, "length_m": 346.9, "n_points": 88, "source": "osm", "start_m": 6739.1, "t_grade": "T5"}, {"coverage_pct": 27.49, "end_m": 9839.3, "length_m": 2751.9, "n_points": 887, "source": "osm", "start_m": 7087.4, "t_grade": "T3"}, {"coverage_pct": 1.7, "end_m": 10011.1, "length_m": 169.8, "n_points": 12, "source": "osm", "start_m": 9841.3, "t_grade": "T1"}], "slug": "saentis", "stats": {"n_points": 2172, "osm_pct": 56.2, "swisstopo_pct": 42.7, "total_m": 10011.1, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
-<script src="../_assets/sw-register.js" defer></script>
-<script>
-/* "Save for offline" wiring. The button is hidden by default; we only
-   reveal it once the service worker is active (i.e. we're on https://
-   and SW registration succeeded). On file:// the button stays hidden.
-   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
-   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
-(function () {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
-  var btn = document.getElementById("offline-save-btn");
-  if (!btn) return;
-  navigator.serviceWorker.ready.then(function (reg) {
-    btn.hidden = false;
-    btn.addEventListener("click", function () {
-      var pageUrl = new URL(location.href);
-      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
-      var urls = [
-        pageUrl.href,
-        hereDir + "saentis.track.js",
-        hereDir + "saentis.gpx",
-        hereDir + "saentis.3d-preview.jpg",
-      ];
-      // Photos (cross-origin, allow-listed in the SW).
-      try {
-        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
-          if (el.tagName === "IMG" && el.src) urls.push(el.src);
-        });
-      } catch (_) {}
-      btn.disabled = true;
-      btn.textContent = "Saving…";
-      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
-      // We don't get a completion ack in this prototype — flip the label
-      // after a short delay so the user sees feedback. (A real impl would
-      // wait for a MessageChannel reply.)
-      setTimeout(function () {
-        btn.textContent = "✓ Saved";
-        btn.disabled = false;
-      }, 1500);
-    });
-  });
-})();
-</script>
+<!-- Optional site-local config (API keys etc). 404s harmlessly if absent.
+     See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
+<script src="../../local-config.js"></script>
+<script src="../_assets/transit_widget.js"></script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

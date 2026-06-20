@@ -176,6 +176,7 @@
     <a href="https://www.meteoblue.com/en/weather/week/46.92868N6.72478E"
        target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
+  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
 <section>
@@ -259,48 +260,10 @@ window.TRACK_STATS = {"ascent_m": 731.0, "descent_m": 504.6, "distance_km": 8.73
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 24.77, "end_m": 2251.8, "length_m": 2251.8, "n_points": 212, "source": "swisstopo", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 0.84, "end_m": 2336.6, "length_m": 76.7, "n_points": 12, "source": "osm", "start_m": 2259.9, "t_grade": "T4"}, {"coverage_pct": 5.94, "end_m": 2903.6, "length_m": 539.8, "n_points": 88, "source": "swisstopo", "start_m": 2363.7, "t_grade": "T1"}, {"coverage_pct": 6.88, "end_m": 3541.4, "length_m": 625.9, "n_points": 68, "source": "none", "start_m": 2915.5, "t_grade": "unknown"}, {"coverage_pct": 12.81, "end_m": 4715.5, "length_m": 1164.9, "n_points": 166, "source": "osm", "start_m": 3550.6, "t_grade": "T2"}, {"coverage_pct": 31.84, "end_m": 7616.2, "length_m": 2894.6, "n_points": 258, "source": "osm", "start_m": 4721.6, "t_grade": "T1"}, {"coverage_pct": 15.95, "end_m": 9092.5, "length_m": 1450.6, "n_points": 73, "source": "osm", "start_m": 7641.9, "t_grade": "T4"}], "slug": "le-soliat-creux-du-van", "stats": {"n_points": 877, "osm_pct": 61.4, "swisstopo_pct": 30.7, "total_m": 9092.5, "unknown_pct": 6.9}};
 </script>
 <script src="../_assets/hike_page.js"></script>
-<script src="../_assets/sw-register.js" defer></script>
-<script>
-/* "Save for offline" wiring. The button is hidden by default; we only
-   reveal it once the service worker is active (i.e. we're on https://
-   and SW registration succeeded). On file:// the button stays hidden.
-   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
-   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
-(function () {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
-  var btn = document.getElementById("offline-save-btn");
-  if (!btn) return;
-  navigator.serviceWorker.ready.then(function (reg) {
-    btn.hidden = false;
-    btn.addEventListener("click", function () {
-      var pageUrl = new URL(location.href);
-      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
-      var urls = [
-        pageUrl.href,
-        hereDir + "le-soliat-creux-du-van.track.js",
-        hereDir + "le-soliat-creux-du-van.gpx",
-        hereDir + "le-soliat-creux-du-van.3d-preview.jpg",
-      ];
-      // Photos (cross-origin, allow-listed in the SW).
-      try {
-        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
-          if (el.tagName === "IMG" && el.src) urls.push(el.src);
-        });
-      } catch (_) {}
-      btn.disabled = true;
-      btn.textContent = "Saving…";
-      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
-      // We don't get a completion ack in this prototype — flip the label
-      // after a short delay so the user sees feedback. (A real impl would
-      // wait for a MessageChannel reply.)
-      setTimeout(function () {
-        btn.textContent = "✓ Saved";
-        btn.disabled = false;
-      }, 1500);
-    });
-  });
-})();
-</script>
+<!-- Optional site-local config (API keys etc). 404s harmlessly if absent.
+     See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
+<script src="../../local-config.js"></script>
+<script src="../_assets/transit_widget.js"></script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

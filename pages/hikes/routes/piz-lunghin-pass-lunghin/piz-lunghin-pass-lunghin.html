@@ -137,6 +137,7 @@
     <a href="https://www.meteoblue.com/en/weather/week/46.41051N9.67027E"
        target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
+  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
 <section>
@@ -232,48 +233,10 @@ window.TRACK_STATS = {"ascent_m": 985.0, "descent_m": 1202.8000000000002, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 4.07, "end_m": 620.1, "length_m": 620.1, "n_points": 88, "source": "swisstopo", "start_m": 0.0, "t_grade": "T2/T3"}, {"coverage_pct": 28.96, "end_m": 5039.6, "length_m": 4415.5, "n_points": 1170, "source": "osm", "start_m": 624.1, "t_grade": "T2"}, {"coverage_pct": 5.17, "end_m": 5829.7, "length_m": 788.3, "n_points": 205, "source": "osm", "start_m": 5041.4, "t_grade": "T4"}, {"coverage_pct": 13.24, "end_m": 8469.6, "length_m": 2019.3, "n_points": 305, "source": "osm", "start_m": 6450.3, "t_grade": "T2"}, {"coverage_pct": 1.57, "end_m": 8725.9, "length_m": 238.8, "n_points": 22, "source": "swisstopo", "start_m": 8487.2, "t_grade": "T2/T3"}, {"coverage_pct": 1.7, "end_m": 8991.0, "length_m": 259.0, "n_points": 52, "source": "osm", "start_m": 8732.0, "t_grade": "T2"}, {"coverage_pct": 3.53, "end_m": 9539.1, "length_m": 538.7, "n_points": 73, "source": "swisstopo", "start_m": 9000.4, "t_grade": "T2/T3"}, {"coverage_pct": 20.17, "end_m": 12622.4, "length_m": 3076.4, "n_points": 582, "source": "osm", "start_m": 9545.9, "t_grade": "T2"}, {"coverage_pct": 3.27, "end_m": 13129.8, "length_m": 498.2, "n_points": 65, "source": "swisstopo", "start_m": 12631.6, "t_grade": "T2/T3"}, {"coverage_pct": 3.92, "end_m": 13730.5, "length_m": 597.5, "n_points": 130, "source": "osm", "start_m": 13133.0, "t_grade": "T1"}, {"coverage_pct": 1.82, "end_m": 14030.1, "length_m": 276.9, "n_points": 32, "source": "swisstopo", "start_m": 13753.3, "t_grade": "T2/T3"}, {"coverage_pct": 2.34, "end_m": 14393.7, "length_m": 357.4, "n_points": 79, "source": "osm", "start_m": 14036.3, "t_grade": "T1"}, {"coverage_pct": 0.64, "end_m": 14508.9, "length_m": 98.2, "n_points": 12, "source": "osm", "start_m": 14410.7, "t_grade": "T2"}, {"coverage_pct": 1.02, "end_m": 14693.8, "length_m": 155.6, "n_points": 18, "source": "osm", "start_m": 14538.1, "t_grade": "T1"}, {"coverage_pct": 0.84, "end_m": 14856.4, "length_m": 128.7, "n_points": 10, "source": "osm", "start_m": 14727.8, "t_grade": "T1"}, {"coverage_pct": 2.47, "end_m": 15248.9, "length_m": 376.6, "n_points": 36, "source": "swisstopo", "start_m": 14872.3, "t_grade": "T2/T3"}], "slug": "piz-lunghin-pass-lunghin", "stats": {"n_points": 2879, "osm_pct": 78.0, "swisstopo_pct": 16.7, "total_m": 15248.9, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
-<script src="../_assets/sw-register.js" defer></script>
-<script>
-/* "Save for offline" wiring. The button is hidden by default; we only
-   reveal it once the service worker is active (i.e. we're on https://
-   and SW registration succeeded). On file:// the button stays hidden.
-   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
-   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
-(function () {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
-  var btn = document.getElementById("offline-save-btn");
-  if (!btn) return;
-  navigator.serviceWorker.ready.then(function (reg) {
-    btn.hidden = false;
-    btn.addEventListener("click", function () {
-      var pageUrl = new URL(location.href);
-      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
-      var urls = [
-        pageUrl.href,
-        hereDir + "piz-lunghin-pass-lunghin.track.js",
-        hereDir + "piz-lunghin-pass-lunghin.gpx",
-        hereDir + "piz-lunghin-pass-lunghin.3d-preview.jpg",
-      ];
-      // Photos (cross-origin, allow-listed in the SW).
-      try {
-        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
-          if (el.tagName === "IMG" && el.src) urls.push(el.src);
-        });
-      } catch (_) {}
-      btn.disabled = true;
-      btn.textContent = "Saving…";
-      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
-      // We don't get a completion ack in this prototype — flip the label
-      // after a short delay so the user sees feedback. (A real impl would
-      // wait for a MessageChannel reply.)
-      setTimeout(function () {
-        btn.textContent = "✓ Saved";
-        btn.disabled = false;
-      }, 1500);
-    });
-  });
-})();
-</script>
+<!-- Optional site-local config (API keys etc). 404s harmlessly if absent.
+     See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
+<script src="../../local-config.js"></script>
+<script src="../_assets/transit_widget.js"></script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

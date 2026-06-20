@@ -85,6 +85,61 @@ footer a { color: #fff; }
 .transit-embed iframe { width: 100%; height: 100%; border: 0; }
 .transit-embed.empty { display: none; }
 .transit-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin: .4rem 0; }
+
+/* ---- Live transit widget (transport.opendata.ch) ----------------------- */
+.transit-widget { margin: .6rem 0 1.2rem; padding: .75rem .9rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; font-size: .9rem; }
+.transit-widget .tw-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .55rem; }
+.transit-widget .tw-head h3 { margin: 0; font-size: 1rem; }
+.transit-widget .tw-origin { display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); font-size: .8rem; }
+.transit-widget .tw-origin input { background: var(--soft); border: 1px solid var(--border); border-radius: 3px; color: var(--fg); font: inherit; padding: .15rem .4rem; width: 11ch; }
+.transit-widget .tw-origin input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.transit-widget .tw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+@media (max-width: 640px) { .transit-widget .tw-grid { grid-template-columns: 1fr; } }
+.transit-widget .tw-col-head { display: flex; align-items: baseline; gap: .5rem; margin-bottom: .3rem; flex-wrap: wrap; }
+.transit-widget .tw-col-label { font-weight: 600; color: var(--fg); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+.transit-widget .tw-col-route { color: var(--muted); font-size: .78rem; }
+.transit-widget .tw-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .25rem; }
+.transit-widget .tw-conn { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .5rem; padding: .35rem .5rem; background: var(--soft); border-left: 3px solid #48b848; border-radius: 3px; }
+.transit-widget .tw-conn--delayed { border-left-color: var(--accent); }
+.transit-widget .tw-conn--past { opacity: .45; border-left-color: var(--border); }
+.transit-widget .tw-time { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 600; }
+.transit-widget .tw-time--dep { color: var(--fg); }
+.transit-widget .tw-time--arr { color: var(--muted); text-align: right; font-weight: 500; }
+.transit-widget .tw-platform { font-size: .7rem; color: var(--muted); font-weight: 400; margin-left: .2rem; }
+.transit-widget .tw-delay { font-size: .7rem; color: var(--accent); font-weight: 600; margin-left: .2rem; }
+.transit-widget .tw-duration { font-size: .7rem; color: var(--muted); display: block; font-weight: 400; }
+.transit-widget .tw-route { display: flex; align-items: center; gap: .25rem; flex-wrap: wrap; font-size: .78rem; }
+.transit-widget .tw-leg { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .72rem; padding: .05rem .35rem; border: 1px solid var(--border); border-radius: 2px; background: var(--card); color: var(--muted); white-space: nowrap; }
+.transit-widget .tw-leg--train { color: #ff7777; border-color: #883333; }
+.transit-widget .tw-leg--bus   { color: #6ab6e8; border-color: #2f5f80; }
+.transit-widget .tw-leg--ship  { color: #6ec8a4; border-color: #2f7556; }
+.transit-widget .tw-leg--tram  { color: #c88de8; border-color: #6f3f88; }
+.transit-widget .tw-leg--cable { color: #e8c558; border-color: #886a2c; }
+.transit-widget .tw-leg-sep { color: var(--muted); font-size: .65rem; }
+.transit-widget .tw-transfers { color: var(--muted); margin-left: .15rem; }
+.transit-widget .tw-status, .transit-widget .tw-empty { color: var(--muted); font-size: .8rem; padding: .35rem .5rem; font-style: italic; }
+.transit-widget .tw-day-label { color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .1rem .5rem .35rem; list-style: none; }
+.transit-widget .tw-status--error { color: #ff8a8a; font-style: normal; }
+.transit-widget .tw-status--loading::after {
+  content: ""; display: inline-block; width: .6rem; height: .6rem; margin-left: .4rem;
+  border: 1.5px solid var(--border); border-top-color: var(--accent); border-radius: 50%;
+  animation: tw-spin .8s linear infinite; vertical-align: -1px;
+}
+@keyframes tw-spin { to { transform: rotate(360deg); } }
+.transit-widget .tw-foot { margin-top: .55rem; font-size: .72rem; color: var(--muted); }
+.transit-widget .tw-foot a { color: var(--muted); }
+.transit-widget .tw-pulse { display: inline-block; width: 6px; height: 6px; background: #48b848; border-radius: 50%; margin-right: .35rem; animation: tw-pulse 2s ease-in-out infinite; }
+@keyframes tw-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.transit-widget .tw-gmaps { margin-top: .55rem; border-top: 1px dashed var(--border); padding-top: .35rem; }
+.transit-widget .tw-gmaps > summary { font-size: .8rem; color: var(--muted); cursor: pointer; padding: .25rem 0; list-style: revert; }
+.transit-widget .tw-gmaps[open] > summary { color: var(--fg); }
+.transit-widget .tw-gmaps-body { margin-top: .5rem; }
+.transit-widget .tw-gmaps-frame { width: 100%; height: 450px; border: 1px solid var(--border); border-radius: 4px; display: block; }
+.transit-widget .tw-gmaps-note { font-size: .72rem; color: var(--muted); margin: .35rem 0 0; font-style: italic; }
+.transit-widget .tw-gmaps-setup { background: var(--soft); border-left: 3px solid var(--accent); padding: .6rem .8rem; border-radius: 0 4px 4px 0; font-size: .85rem; }
+.transit-widget .tw-gmaps-setup p { margin: .35rem 0; }
+.transit-widget .tw-gmaps-setup pre { background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: .5rem .65rem; font-size: .78rem; overflow-x: auto; margin: .4rem 0 0; }
+.transit-widget .tw-gmaps-setup code { background: var(--bg); padding: .05em .35em; border-radius: 2px; font-size: .8rem; }
 .getting-there .endpoint-block { margin: .8rem 0 1rem; padding: .6rem .9rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; }
 .getting-there .endpoint-block h3 { margin: 0 0 .3rem; font-size: 1rem; }
 .getting-there .endpoint-block .endpoint-elev { font-weight: 400; color: var(--muted); font-size: .9rem; }
@@ -278,7 +333,7 @@ footer a { color: #fff; }
   /* ---- Hide entire sections that have no useful printed content -------- */
   .photos-section, .map-section, .weather-section,
   /* Plus interactive widgets that sneak in elsewhere. */
-  .transit-actions, .transit-embed, .transit-embed iframe,
+  .transit-actions, .transit-embed, .transit-embed iframe, .transit-widget,
   .lightbox, .webcam-grid, .trip-reports, .trip-takeaways,
   footer {
     display: none !important;

@@ -132,6 +132,7 @@
     <a href="https://www.meteoblue.com/en/weather/week/46.92539N8.94819E"
        target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
+  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
 <section>
@@ -215,48 +216,10 @@ window.TRACK_STATS = {"ascent_m": 1117.0, "descent_m": 303.0999999999997, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 12.37, "end_m": 944.6, "length_m": 944.6, "n_points": 166, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 75.46, "end_m": 6709.3, "length_m": 5762.9, "n_points": 1248, "source": "osm", "start_m": 946.4, "t_grade": "T3"}, {"coverage_pct": 12.02, "end_m": 7636.7, "length_m": 918.1, "n_points": 291, "source": "swisstopo", "start_m": 6718.6, "t_grade": "T2/T3"}], "slug": "ortstock", "stats": {"n_points": 1705, "osm_pct": 87.8, "swisstopo_pct": 12.0, "total_m": 7636.7, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
-<script src="../_assets/sw-register.js" defer></script>
-<script>
-/* "Save for offline" wiring. The button is hidden by default; we only
-   reveal it once the service worker is active (i.e. we're on https://
-   and SW registration succeeded). On file:// the button stays hidden.
-   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
-   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
-(function () {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
-  var btn = document.getElementById("offline-save-btn");
-  if (!btn) return;
-  navigator.serviceWorker.ready.then(function (reg) {
-    btn.hidden = false;
-    btn.addEventListener("click", function () {
-      var pageUrl = new URL(location.href);
-      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
-      var urls = [
-        pageUrl.href,
-        hereDir + "ortstock.track.js",
-        hereDir + "ortstock.gpx",
-        hereDir + "ortstock.3d-preview.jpg",
-      ];
-      // Photos (cross-origin, allow-listed in the SW).
-      try {
-        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
-          if (el.tagName === "IMG" && el.src) urls.push(el.src);
-        });
-      } catch (_) {}
-      btn.disabled = true;
-      btn.textContent = "Saving…";
-      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
-      // We don't get a completion ack in this prototype — flip the label
-      // after a short delay so the user sees feedback. (A real impl would
-      // wait for a MessageChannel reply.)
-      setTimeout(function () {
-        btn.textContent = "✓ Saved";
-        btn.disabled = false;
-      }, 1500);
-    });
-  });
-})();
-</script>
+<!-- Optional site-local config (API keys etc). 404s harmlessly if absent.
+     See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
+<script src="../../local-config.js"></script>
+<script src="../_assets/transit_widget.js"></script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

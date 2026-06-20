@@ -137,6 +137,7 @@
     <a href="https://www.meteoblue.com/en/weather/week/46.48844N9.9565E"
        target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
+  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
 <section>
@@ -221,48 +222,10 @@ window.TRACK_STATS = {"ascent_m": 1009.0, "descent_m": 519.6999999999998, "dista
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 21.76, "end_m": 1804.0, "length_m": 1804.0, "n_points": 312, "source": "osm", "start_m": 0.0, "t_grade": "T1"}, {"coverage_pct": 21.95, "end_m": 3632.9, "length_m": 1820.2, "n_points": 228, "source": "swisstopo", "start_m": 1812.7, "t_grade": "T2/T3"}, {"coverage_pct": 12.47, "end_m": 4676.4, "length_m": 1034.0, "n_points": 119, "source": "osm", "start_m": 3642.5, "t_grade": "T1"}, {"coverage_pct": 41.28, "end_m": 8110.1, "length_m": 3422.6, "n_points": 568, "source": "osm", "start_m": 4687.4, "t_grade": "T2"}, {"coverage_pct": 2.14, "end_m": 8290.9, "length_m": 177.2, "n_points": 47, "source": "osm", "start_m": 8113.7, "t_grade": "T3"}], "slug": "piz-languard", "stats": {"n_points": 1274, "osm_pct": 77.6, "swisstopo_pct": 22.0, "total_m": 8290.9, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
-<script src="../_assets/sw-register.js" defer></script>
-<script>
-/* "Save for offline" wiring. The button is hidden by default; we only
-   reveal it once the service worker is active (i.e. we're on https://
-   and SW registration succeeded). On file:// the button stays hidden.
-   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
-   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
-(function () {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
-  var btn = document.getElementById("offline-save-btn");
-  if (!btn) return;
-  navigator.serviceWorker.ready.then(function (reg) {
-    btn.hidden = false;
-    btn.addEventListener("click", function () {
-      var pageUrl = new URL(location.href);
-      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
-      var urls = [
-        pageUrl.href,
-        hereDir + "piz-languard.track.js",
-        hereDir + "piz-languard.gpx",
-        hereDir + "piz-languard.3d-preview.jpg",
-      ];
-      // Photos (cross-origin, allow-listed in the SW).
-      try {
-        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
-          if (el.tagName === "IMG" && el.src) urls.push(el.src);
-        });
-      } catch (_) {}
-      btn.disabled = true;
-      btn.textContent = "Saving…";
-      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
-      // We don't get a completion ack in this prototype — flip the label
-      // after a short delay so the user sees feedback. (A real impl would
-      // wait for a MessageChannel reply.)
-      setTimeout(function () {
-        btn.textContent = "✓ Saved";
-        btn.disabled = false;
-      }, 1500);
-    });
-  });
-})();
-</script>
+<!-- Optional site-local config (API keys etc). 404s harmlessly if absent.
+     See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
+<script src="../../local-config.js"></script>
+<script src="../_assets/transit_widget.js"></script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');
