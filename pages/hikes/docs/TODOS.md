@@ -1,9 +1,9 @@
-# Ideas Backlog
+# TODOs
 
 Centralized list of features and improvements we've considered but haven't shipped.
 Each entry should answer: **what**, **why we'd want it**, **what it'd cost** (setup, money, complexity, performance), and **why we haven't done it yet**.
 
-Add new ideas at the top of the relevant section. When an idea ships, move it to the changelog / delete it.
+Add new todos at the top of the relevant section. When one ships, move it to the changelog / delete it.
 
 ---
 
@@ -46,5 +46,5 @@ Background: every hike page links to a per-hike 3D view powered by [MapLibre GL 
 ## How to use this doc
 
 - Skim before starting a new feature — chances are it's been thought about.
-- When closing an idea (shipped or rejected), record **what you decided and why** before deleting it.
-- If you're considering something not listed here, add it — even half-formed ideas. Future-you will thank present-you.
+- When closing a todo (shipped or rejected), record **what you decided and why** before deleting it.
+- If you're considering something not listed here, add it — even half-formed ones. Future-you will thank present-you.
