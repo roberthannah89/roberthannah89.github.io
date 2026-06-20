@@ -762,12 +762,11 @@
       { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
       { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
       { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
-      { id: 'webcams',   icon: '📷', label: 'Webcams' },
-      // Winter / avalanche-safety overlays
-      { id: 'avalanche', icon: '❄️', label: 'SLF avalanche bulletin (today)' },
+      { id: 'webcams',   icon: '📷', label: 'Webcams', defaultOn: true },
+      // Hazard overlays
+      { id: 'avalanche', icon: '⚠️', label: 'Avalanche (SLF bulletin + statutory hazard zones)' },
       { id: 'slope',     icon: '📐', label: 'Slope ≥30° (avalanche-critical)' },
-      { id: 'avazones',  icon: '⚠️', label: 'Statutory avalanche hazard zones' },
-      { id: 'snowline',  icon: '🌨️', label: 'Snow line (today)' },
+      { id: 'snow',      icon: '❄️', label: 'Snow & glaciers (permanent extent)' },
       // Planning / approach overlays
       { id: 'transit',   icon: '🚌', label: 'Public transport stops (SBB / PostBus)' },
       { id: 'parking',   icon: '🅿️', label: 'Trailhead parking (OSM)' },
@@ -853,15 +852,14 @@
   // Generic lazy-loaded overlay registry. Each entry has a factory returning
   // Promise<L.Layer>; the layer is cached on first activation and wantedById
   // tracks intent in case the user toggles off before the layer resolves.
-  // SLF, slope, transit, snow-line, drinking water, parking, hazard zones —
-  // all share this single add/remove machinery.
+  // Avalanche, slope, snow/glaciers, transit, drinking water, parking — all
+  // share this single add/remove machinery.
   var overlayLayers = {};   // id → L.Layer (resolved)
   var overlayWanted = {};   // id → boolean (latest user intent)
   var overlayFactories = {
-    avalanche: function () { return window.SlfLayer && window.SlfLayer.create(); },
+    avalanche: function () { return window.Overlays && window.Overlays.Avalanche.create(); },
     slope:     function () { return window.Overlays && window.Overlays.Slope.create(); },
-    avazones:  function () { return window.Overlays && window.Overlays.AvalancheZones.create(); },
-    snowline:  function () { return window.Overlays && window.Overlays.SnowLine.create(); },
+    snow:      function () { return window.Overlays && window.Overlays.SnowGlaciers.create(); },
     transit:   function () { return window.Overlays && window.Overlays.Transit.create(); },
     parking:   function () { return window.Overlays && window.Overlays.Parking.create(); },
     water:     function () { return window.Overlays && window.Overlays.DrinkingWater.create(); }
