@@ -8,16 +8,19 @@
    add to/remove from the map themselves; that's the caller's job so the
    add/remove can be tied to a toggle button.
 
-   PROTOTYPE STATUS — what's live vs. sample:
-   - Slope ≥30°        : LIVE WMS tile from geo.admin.ch (ch.swisstopo.hangneigung-ueber_30)
-   - Avalanche zones   : LIVE WMS tile from geo.admin.ch (ch.bab.schutzgebiete-lawinengefahrenzonen)
-   - Transit stops     : LIVE WMS tile from geo.admin.ch (ch.bav.haltestellen-oev)
-   - Drinking water    : LIVE Overpass API (OSM amenity=drinking_water)
-   - Parking           : LIVE Overpass API (OSM amenity=parking, fee=no preferred)
-   - Snow line ribbon  : DERIVED from window.WEATHER_CACHE freezing_level_max
-                         (median across all peaks for the selected day).
-                         This is not a real DEM-based isohypse — that would need
-                         raster contouring of a Swiss DEM. Honest banner instead.
+   Layer sources:
+   - Slope ≥30°        : WMTS tile from geo.admin.ch (ch.swisstopo.hangneigung-ueber_30)
+   - Avalanche         : SLF bulletin (winter-only, via SlfLayer) + BAFU statutory
+                         hazard zones WMS (ch.bafu.gefaehrdungskarte-lawinen).
+                         One toggle activates both — SLF renders nothing May–Oct.
+   - Transit stops     : WMS tile from geo.admin.ch (ch.bav.haltestellen-oev)
+   - Drinking water    : Overpass API (OSM amenity=drinking_water)
+   - Parking           : Overpass API (OSM amenity=parking, fee=no preferred)
+   - Snow & glaciers   : WMS tile from geo.admin.ch
+                         (ch.swisstopo.geologie-gletscherausdehnung).
+                         Year-round permanent snow/ice extent (GLAMOS). The
+                         per-peak ❄ badge driven by WeatherService gives the
+                         day-aware snow-line signal.
 
    Pages open via file://, so this file uses plain IIFE + window globals (no
    ES modules) and Overpass calls go through XMLHttpRequest with a fixed
@@ -105,13 +108,16 @@
     }
   };
 
-  /* ── 2. Statutory avalanche hazard zones ──────────── */
-  // Cantonal hazard maps — different from the daily SLF bulletin: these are
-  // permanent legal zones where buildings/roads have known exposure. Useful
-  // for planning approach/escape lines.
-  var AvalancheZones = {
+  /* ── 2. Avalanche (SLF bulletin + statutory hazard zones) ── */
+  // One toggle, two layers: the daily SLF bulletin (winter-only — empty
+  // regions array May–Oct, so renders nothing) and the permanent BAFU
+  // statutory hazard map (year-round). Both speak to the same planning
+  // question ("is this terrain avalanche-exposed?") so they share an icon.
+  // In summer the toggle effectively just shows the statutory zones, which
+  // is the right default for off-season planning.
+  var Avalanche = {
     create: function () {
-      var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
+      var zones = L.tileLayer.wms('https://wms.geo.admin.ch/', {
         layers: 'ch.bafu.gefaehrdungskarte-lawinen',
         format: 'image/png',
         transparent: true,
@@ -120,7 +126,14 @@
         crs: L.CRS.EPSG3857,
         attribution: '&copy; BAFU (Lawinen-Gefährdungskarte)'
       });
-      return Promise.resolve(layer);
+      // SlfLayer.create() lazy-loads slf-cache.js via a dynamic <script> tag
+      // and resolves to a Leaflet layer (empty in summer when the cache has
+      // 0 regions). Wrap both in a layerGroup so the registry treats this
+      // as a single overlay.
+      var slfP = (window.SlfLayer && window.SlfLayer.create()) || Promise.resolve(L.layerGroup());
+      return Promise.resolve(slfP).then(function (slfLayer) {
+        return L.layerGroup([zones, slfLayer]);
+      });
     }
   };
 
@@ -311,165 +324,36 @@
     return { create: create };
   })();
 
-  /* ── 6. Snow line ribbon ──────────────────────────── */
-  // Honest prototype: we don't have a DEM raster in the browser to draw a
-  // real isohypse contour, but the per-peak weather cache (schema=2) carries
-  // freezing_level_max per day. The "ribbon" is a fixed UI banner showing the
-  // current day's median freezing level + the count of peaks above it, plus a
-  // bright outline around peaks-above-line so the hazard is visible at a glance.
-  //
-  // create() returns a L.layerGroup that's mostly empty — the visible UI is a
-  // floating .snow-line-ribbon div appended to #map. Toggling the layer
-  // off removes the ribbon DOM and the marker highlighting.
-  //
-  // Day-aware: re-reads Filters.getState().weatherDay each refresh, so the
-  // forecast-day picker drives both the marker badge AND the ribbon number.
-  var SnowLine = (function () {
-    var ribbonEl = null;
-    var addedHighlight = false;
-
-    // Standard environmental lapse rate (matches scripts/config.py
-    // LAPSE_RATE_C_PER_KM). Used to estimate freezing level from peak temp
-    // when the weather cache predates schema=2 (no freezing_level_max field).
-    var LAPSE_RATE_C_PER_KM = 6.5;
-
-    function freezingLevelFor(r, dayIdx) {
-      if (!window.WeatherService) return null;
-      // Prefer the schema=2 field — that's an actual MeteoSwiss derivation.
-      var fl = window.WeatherService.freezingLevel(r.lat, r.lon, dayIdx);
-      if (fl != null) return fl;
-      // Fallback: derive from peak tempMax via dry-adiabatic lapse.
-      //   freezing_level = peak_elev + (peak_temp_C / 6.5) * 1000
-      // Negative tempMax means peak is below freezing → snow line dips below
-      // the peak (yields a value < peak_elev). The math still works.
-      var wx = window.WeatherService.getForPeak(r.lat, r.lon, dayIdx);
-      if (!wx || wx.tempMax == null || !r.alt) return null;
-      return r.alt + Math.round((wx.tempMax / LAPSE_RATE_C_PER_KM) * 1000);
-    }
-
-    function medianFreezingLevel(dayIdx) {
-      if (!window.WeatherService) return null;
-      var routes = window.SAC_ROUTES || [];
-      var values = [];
-      for (var i = 0; i < routes.length; i++) {
-        var r = routes[i];
-        if (!r.lat || !r.lon) continue;
-        var fl = freezingLevelFor(r, dayIdx);
-        if (fl != null && fl > 0) values.push(fl);
-      }
-      if (!values.length) return null;
-      values.sort(function (a, b) { return a - b; });
-      return Math.round(values[Math.floor(values.length / 2)]);
-    }
-
-    function peaksAbove(threshold) {
-      var routes = window.SAC_ROUTES || [];
-      var n = 0;
-      for (var i = 0; i < routes.length; i++) {
-        if (routes[i].alt && routes[i].alt > threshold) n++;
-      }
-      return n;
-    }
-
-    function dayLabel(dayIdx) {
-      if (!window.WeatherService) return '';
-      var days = window.WeatherService.getDayChoices();
-      var d = days[dayIdx || 0];
-      return d ? d.label : '';
-    }
-
-    function ensureRibbon(map) {
-      if (ribbonEl) return ribbonEl;
-      ribbonEl = document.createElement('div');
-      ribbonEl.className = 'snow-line-ribbon';
-      // Append into the map container so the ribbon sits in the map's z-stack
-      // and gets cleaned up if the map re-inits.
-      map.getContainer().appendChild(ribbonEl);
-      return ribbonEl;
-    }
-
-    function refresh(map) {
-      if (!ribbonEl) return;
-      var dayIdx = (window.Filters && window.Filters.getState().weatherDay) || 0;
-      var fl = medianFreezingLevel(dayIdx);
-      var label = dayLabel(dayIdx);
-      if (fl == null) {
-        ribbonEl.innerHTML = '<div class="snow-line-ribbon__head">❄️ Snow line</div>'
-          + '<div class="snow-line-ribbon__alt">no forecast</div>'
-          + '<div class="snow-line-ribbon__sub">run <code>make weather</code></div>';
-        return;
-      }
-      var nAbove = peaksAbove(fl);
-      // Hint changes based on whether the cache has freezing_level_max (schema=2)
-      // or we had to derive from tempMax + lapse rate. Probe one peak to decide.
-      var routes = window.SAC_ROUTES || [];
-      var probe = null;
-      for (var i = 0; i < routes.length; i++) {
-        if (routes[i].lat && routes[i].lon) {
-          probe = window.WeatherService.freezingLevel(routes[i].lat, routes[i].lon, dayIdx);
-          if (probe != null) break;
-        }
-      }
-      var hint = probe != null
-        ? 'median freezing-level from MeteoSwiss ICON-CH2 per peak'
-        : 'estimated from peak tempMax + lapse rate (6.5°C/km) — run <code>make weather</code> for direct ICON-CH2 values';
-      ribbonEl.innerHTML = '<div class="snow-line-ribbon__head">❄️ Snow line · ' + esc(label) + '</div>'
-        + '<div class="snow-line-ribbon__alt">' + fl + ' m</div>'
-        + '<div class="snow-line-ribbon__sub">' + nAbove + ' peaks above</div>'
-        + '<div class="snow-line-ribbon__hint">' + hint + '</div>';
-    }
-
-    // Filters.subscribe has no unsubscribe; we register exactly once per
-    // page load and guard the callback with `subscribedMap`, which is nulled
-    // on remove so the listener becomes a no-op when the layer is hidden.
-    var subscribedMap = null;
-    var subscribed = false;
-    function maybeSubscribe() {
-      if (subscribed) return;
-      subscribed = true;
-      if (window.Filters && window.Filters.subscribe) {
-        window.Filters.subscribe(function () {
-          if (subscribedMap && ribbonEl) refresh(subscribedMap);
-        });
-      }
-    }
-
-    function create() {
-      var group = L.layerGroup();
-
-      group.on('add', function (e) {
-        // e.target is the layerGroup; layers added via map.addLayer carry
-        // the map ref on the group itself.
-        var map = group._map || (e.target && e.target._map);
-        if (!map || !map.getContainer) return;
-        subscribedMap = map;
-        ensureRibbon(map);
-        document.body.classList.add('overlay-snowline-on');
-        refresh(map);
-        maybeSubscribe();
+  /* ── 6. Snow & glaciers (permanent snow extent) ──── */
+  // swisstopo's glacier-extent inventory (GLAMOS). Year-round visualisation
+  // of where there's permanent snow/ice — accurate in summer, conservative
+  // in winter (everything outside the glaciers can also accumulate snow,
+  // but the daily per-peak ❄ badge — driven by WeatherService.freezingLevel
+  // — already covers that signal). Replaced the prototype's snow-line
+  // ribbon, which was invisible in summer and confusing in winter.
+  var SnowGlaciers = {
+    create: function () {
+      var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
+        layers: 'ch.swisstopo.geologie-gletscherausdehnung',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.7,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        attribution: '&copy; swisstopo (Gletscherausdehnung / GLAMOS)'
       });
-
-      group.on('remove', function () {
-        if (ribbonEl && ribbonEl.parentNode) ribbonEl.parentNode.removeChild(ribbonEl);
-        ribbonEl = null;
-        subscribedMap = null;
-        document.body.classList.remove('overlay-snowline-on');
-      });
-
-      return Promise.resolve(group);
+      return Promise.resolve(layer);
     }
-
-    return { create: create };
-  })();
+  };
 
   /* ── Export ──────────────────────────────────────── */
 
   window.Overlays = {
     Slope: Slope,
-    AvalancheZones: AvalancheZones,
+    Avalanche: Avalanche,
     Transit: Transit,
     DrinkingWater: DrinkingWater,
     Parking: Parking,
-    SnowLine: SnowLine
+    SnowGlaciers: SnowGlaciers
   };
 })();
