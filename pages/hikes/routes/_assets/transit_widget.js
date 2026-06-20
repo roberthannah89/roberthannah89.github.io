@@ -423,6 +423,10 @@
       $outR.textContent = origin + " → " + outDest;
       $retR.textContent = retOrigin + " → " + origin;
       refresh();
+      // If the Google embed pane is open, refresh it with the new origin too.
+      // Iframe re-mount costs one quota call, only happens when both the user
+      // is looking at it AND just typed a new origin.
+      if ($gmaps && $gmaps.open) renderGmaps();
     });
     $origin.addEventListener("keydown", function (e) {
       if (e.key === "Enter") { e.preventDefault(); $origin.blur(); }
@@ -435,13 +439,10 @@
       refresh();
     });
 
-    // ---- Google Maps Embed pane (lazy: only mounts when user opens it) ----
+    // ---- Google Maps Embed pane (lazy: only renders when user opens it) ----
     var $gmaps = host.querySelector(".tw-gmaps");
     var $gmapsBody = host.querySelector("#tw-gmaps-body");
-    var gmapsMounted = false;
-    function mountGmaps() {
-      if (gmapsMounted) return;
-      gmapsMounted = true;
+    function renderGmaps() {
       var cfg = (window.HIKING_CONFIG || {});
       var key = cfg.googleMapsApiKey;
       if (!key) {
@@ -456,8 +457,9 @@
         return;
       }
       // Build the directions URL. Mode=transit gives departure times.
-      // Use lat,lng for precision (trailhead/end_point names may not geocode
-      // cleanly to the right stop).
+      // Use lat,lng for the destination (trailhead names sometimes geocode
+      // to the wrong stop). Origin stays as a text query so users can type
+      // any city name.
       var orig = encodeURIComponent(origin);
       var dest = trailhead.lat && trailhead.lon
         ? trailhead.lat + "," + trailhead.lon
@@ -471,13 +473,16 @@
         '<iframe class="tw-gmaps-frame" loading="lazy" allowfullscreen ' +
           'referrerpolicy="strict-origin-when-cross-origin" ' +
           'src="' + url + '"></iframe>' +
-        '<p class="tw-gmaps-note">Google Embed does not accept a departure ' +
-          'time — it always shows "leave now." For arrive-by-start-time, ' +
-          'use the SBB view above.</p>';
+        '<p class="tw-gmaps-note">' +
+          '<strong>' + escHtml(origin) + ' &rarr; ' + escHtml(trailhead.name) + '</strong> ' +
+          '&middot; change origin via the "From" input above &middot; ' +
+          'Google Embed does not accept a departure time so it always shows ' +
+          '"leave now" — use the SBB view above to anchor on your start time.' +
+        '</p>';
     }
     if ($gmaps) {
       $gmaps.addEventListener("toggle", function () {
-        if ($gmaps.open) mountGmaps();
+        if ($gmaps.open) renderGmaps();
       });
     }
 
