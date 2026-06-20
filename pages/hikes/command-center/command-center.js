@@ -763,7 +763,15 @@
       { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
       { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
       { id: 'webcams',   icon: '📷', label: 'Webcams' },
-      { id: 'avalanche', icon: '❄️', label: 'SLF avalanche bulletin' }
+      // Winter / avalanche-safety overlays
+      { id: 'avalanche', icon: '❄️', label: 'SLF avalanche bulletin (today)' },
+      { id: 'slope',     icon: '📐', label: 'Slope ≥30° (avalanche-critical)' },
+      { id: 'avazones',  icon: '⚠️', label: 'Statutory avalanche hazard zones' },
+      { id: 'snowline',  icon: '🌨️', label: 'Snow line (today)' },
+      // Planning / approach overlays
+      { id: 'transit',   icon: '🚌', label: 'Public transport stops (SBB / PostBus)' },
+      { id: 'parking',   icon: '🅿️', label: 'Trailhead parking (OSM)' },
+      { id: 'water',     icon: '💧', label: 'Drinking water (OSM)' }
     ];
 
     toggles.forEach(function (t) {
@@ -841,8 +849,45 @@
   }
 
   var webcamLayer = null;
-  var slfLayer = null;
-  var slfWanted = false;
+
+  // Generic lazy-loaded overlay registry. Each entry has a factory returning
+  // Promise<L.Layer>; the layer is cached on first activation and wantedById
+  // tracks intent in case the user toggles off before the layer resolves.
+  // SLF, slope, transit, snow-line, drinking water, parking, hazard zones —
+  // all share this single add/remove machinery.
+  var overlayLayers = {};   // id → L.Layer (resolved)
+  var overlayWanted = {};   // id → boolean (latest user intent)
+  var overlayFactories = {
+    avalanche: function () { return window.SlfLayer && window.SlfLayer.create(); },
+    slope:     function () { return window.Overlays && window.Overlays.Slope.create(); },
+    avazones:  function () { return window.Overlays && window.Overlays.AvalancheZones.create(); },
+    snowline:  function () { return window.Overlays && window.Overlays.SnowLine.create(); },
+    transit:   function () { return window.Overlays && window.Overlays.Transit.create(); },
+    parking:   function () { return window.Overlays && window.Overlays.Parking.create(); },
+    water:     function () { return window.Overlays && window.Overlays.DrinkingWater.create(); }
+  };
+
+  function toggleLazyOverlay(id, show) {
+    overlayWanted[id] = show;
+    if (show) {
+      if (overlayLayers[id]) {
+        map.addLayer(overlayLayers[id]);
+      } else {
+        var factory = overlayFactories[id];
+        if (!factory) return;
+        var p = factory();
+        if (!p || !p.then) return;
+        p.then(function (layer) {
+          overlayLayers[id] = layer;
+          if (overlayWanted[id]) map.addLayer(layer);
+        }).catch(function (err) {
+          console.warn('Overlay "' + id + '" failed to load:', err);
+        });
+      }
+    } else if (overlayLayers[id]) {
+      map.removeLayer(overlayLayers[id]);
+    }
+  }
 
   function toggleWeatherLayer(id, show) {
     if (id === 'hikes') {
@@ -867,24 +912,8 @@
       }
       return;
     }
-    if (id === 'avalanche') {
-      // SlfLayer.create() returns a Promise (it lazy-loads slf-cache.js via a
-      // dynamic <script> tag on first activation), so the add/remove pattern
-      // is async-aware. slfWanted tracks the latest intent in case the user
-      // toggles off before the cache finishes loading.
-      slfWanted = show;
-      if (show) {
-        if (slfLayer) {
-          map.addLayer(slfLayer);
-        } else if (window.SlfLayer) {
-          window.SlfLayer.create().then(function (layer) {
-            slfLayer = layer;
-            if (slfWanted) map.addLayer(slfLayer);
-          });
-        }
-      } else if (slfLayer) {
-        map.removeLayer(slfLayer);
-      }
+    if (overlayFactories[id]) {
+      toggleLazyOverlay(id, show);
       return;
     }
   }
