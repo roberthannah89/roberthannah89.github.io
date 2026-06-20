@@ -1073,22 +1073,6 @@
     }
 
     startInput.addEventListener("change", redraw);
-    // Mouse-wheel over the start-time input nudges by 10-minute increments
-    // (matches the input's step). Only active while the input is focused so
-    // accidental scrolls over the controls bar don't change planning state.
-    const STEP_MIN = 10, DAY_LAST_MIN = 23 * 60 + 50;
-    startInput.addEventListener("wheel", (e) => {
-      if (document.activeElement !== startInput) return;
-      e.preventDefault();
-      const [h, m] = (startInput.value || "10:00").split(":").map(Number);
-      const cur = h * 60 + m;
-      const delta = e.deltaY < 0 ? STEP_MIN : -STEP_MIN;  // wheel up = later
-      const next = Math.max(0, Math.min(DAY_LAST_MIN, cur + delta));
-      const hh = String(Math.floor(next / 60)).padStart(2, "0");
-      const mm = String(next % 60).padStart(2, "0");
-      startInput.value = `${hh}:${mm}`;
-      startInput.dispatchEvent(new Event("change", { bubbles: true }));
-    }, { passive: false });
     planning.onChange(() => { maybeShiftPastStart(); redraw(); });
     if (nowBtn) {
       nowBtn.addEventListener("click", () => {
