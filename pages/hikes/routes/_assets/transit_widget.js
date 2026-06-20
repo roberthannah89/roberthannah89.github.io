@@ -244,7 +244,11 @@
         '<span class="tw-pulse"></span> Live via ' +
         '<a href="https://transport.opendata.ch" target="_blank" rel="noopener">transport.opendata.ch</a>' +
         ' · cached 1 h · times in local Swiss time' +
-      "</div>";
+      "</div>" +
+      '<details class="tw-gmaps">' +
+        '<summary>Compare with Google Maps</summary>' +
+        '<div class="tw-gmaps-body" id="tw-gmaps-body"></div>' +
+      "</details>";
 
     var $origin = host.querySelector("#tw-origin");
     var $out    = host.querySelector("#tw-out");
@@ -430,6 +434,52 @@
       currentPlan = { startDate: e.detail.startDate, endDate: e.detail.endDate };
       refresh();
     });
+
+    // ---- Google Maps Embed pane (lazy: only mounts when user opens it) ----
+    var $gmaps = host.querySelector(".tw-gmaps");
+    var $gmapsBody = host.querySelector("#tw-gmaps-body");
+    var gmapsMounted = false;
+    function mountGmaps() {
+      if (gmapsMounted) return;
+      gmapsMounted = true;
+      var cfg = (window.HIKING_CONFIG || {});
+      var key = cfg.googleMapsApiKey;
+      if (!key) {
+        $gmapsBody.innerHTML =
+          '<div class="tw-gmaps-setup">' +
+            '<p><strong>Google Maps Embed needs an API key.</strong> ' +
+            'See <a href="../../docs/google-maps-embed-setup.md" target="_blank" rel="noopener">' +
+            'docs/google-maps-embed-setup.md</a> for the 5-minute setup.</p>' +
+            '<p>Once you have a key, drop it into <code>pages/hikes/local-config.js</code>:</p>' +
+            '<pre>window.HIKING_CONFIG = {\n  googleMapsApiKey: "AIza…"\n};</pre>' +
+          "</div>";
+        return;
+      }
+      // Build the directions URL. Mode=transit gives departure times.
+      // Use lat,lng for precision (trailhead/end_point names may not geocode
+      // cleanly to the right stop).
+      var orig = encodeURIComponent(origin);
+      var dest = trailhead.lat && trailhead.lon
+        ? trailhead.lat + "," + trailhead.lon
+        : encodeURIComponent(trailhead.name);
+      var url = "https://www.google.com/maps/embed/v1/directions" +
+        "?key=" + encodeURIComponent(key) +
+        "&origin=" + orig +
+        "&destination=" + dest +
+        "&mode=transit";
+      $gmapsBody.innerHTML =
+        '<iframe class="tw-gmaps-frame" loading="lazy" allowfullscreen ' +
+          'referrerpolicy="strict-origin-when-cross-origin" ' +
+          'src="' + url + '"></iframe>' +
+        '<p class="tw-gmaps-note">Google Embed does not accept a departure ' +
+          'time — it always shows "leave now." For arrive-by-start-time, ' +
+          'use the SBB view above.</p>';
+    }
+    if ($gmaps) {
+      $gmaps.addEventListener("toggle", function () {
+        if ($gmaps.open) mountGmaps();
+      });
+    }
 
     refresh();
     setInterval(refresh, REFRESH_MS);

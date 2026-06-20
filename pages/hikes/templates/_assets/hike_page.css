@@ -130,6 +130,16 @@ footer a { color: #fff; }
 .transit-widget .tw-foot a { color: var(--muted); }
 .transit-widget .tw-pulse { display: inline-block; width: 6px; height: 6px; background: #48b848; border-radius: 50%; margin-right: .35rem; animation: tw-pulse 2s ease-in-out infinite; }
 @keyframes tw-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.transit-widget .tw-gmaps { margin-top: .55rem; border-top: 1px dashed var(--border); padding-top: .35rem; }
+.transit-widget .tw-gmaps > summary { font-size: .8rem; color: var(--muted); cursor: pointer; padding: .25rem 0; list-style: revert; }
+.transit-widget .tw-gmaps[open] > summary { color: var(--fg); }
+.transit-widget .tw-gmaps-body { margin-top: .5rem; }
+.transit-widget .tw-gmaps-frame { width: 100%; height: 450px; border: 1px solid var(--border); border-radius: 4px; display: block; }
+.transit-widget .tw-gmaps-note { font-size: .72rem; color: var(--muted); margin: .35rem 0 0; font-style: italic; }
+.transit-widget .tw-gmaps-setup { background: var(--soft); border-left: 3px solid var(--accent); padding: .6rem .8rem; border-radius: 0 4px 4px 0; font-size: .85rem; }
+.transit-widget .tw-gmaps-setup p { margin: .35rem 0; }
+.transit-widget .tw-gmaps-setup pre { background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: .5rem .65rem; font-size: .78rem; overflow-x: auto; margin: .4rem 0 0; }
+.transit-widget .tw-gmaps-setup code { background: var(--bg); padding: .05em .35em; border-radius: 2px; font-size: .8rem; }
 .getting-there .endpoint-block { margin: .8rem 0 1rem; padding: .6rem .9rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; }
 .getting-there .endpoint-block h3 { margin: 0 0 .3rem; font-size: 1rem; }
 .getting-there .endpoint-block .endpoint-elev { font-weight: 400; color: var(--muted); font-size: .9rem; }

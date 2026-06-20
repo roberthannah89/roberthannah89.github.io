@@ -267,6 +267,9 @@ window.HIKE = {
 {% if sac_grade_segments %}window.SAC_GRADE_SEGMENTS = {{ sac_grade_segments | tojson }};{% endif %}
 </script>
 <script src="../_assets/hike_page.js"></script>
+<!-- Optional site-local config (API keys etc). 404s harmlessly if absent.
+     See pages/hikes/local-config.example.js + docs/google-maps-embed-setup.md -->
+<script src="../../local-config.js"></script>
 <script src="../_assets/transit_widget.js"></script>
 <script>
 (function () {
