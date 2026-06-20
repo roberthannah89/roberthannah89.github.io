@@ -225,7 +225,6 @@ WSL Institute for Snow and Avalanche Research publishes avalanche danger data.
 
 Relevant season: November–May. Above 2000m, check SLF bulletin before any alpine hike.
 
-- **Prototype:** [`prototypes/slf-avalanche.html`](prototypes/slf-avalanche.html)
 - **Integration idea:** Seasonal safety banner on hike pages for routes above 2000m. Link to SLF bulletin + WhiteRisk.
 
 ### Roundshot / Windy — Mountain Webcams
@@ -246,7 +245,6 @@ https://www.windy.com/webcams/
 
 - **Auth:** None (thumbnails may be blocked by CORS/hotlink protection)
 - **Browser pattern:** Use `<img>` with `onerror` fallback → link to live page
-- **Prototype:** [`prototypes/webcams.html`](prototypes/webcams.html)
 - **Integration idea:** Show nearest webcam link on hike pages to check conditions before departure. Practical approach is links, not embedded images, due to CORS.
 
 ---
