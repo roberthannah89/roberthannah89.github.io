@@ -6,6 +6,8 @@
 <link rel="icon" type="image/x-icon" href="../_assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="../_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="../_assets/favicon-512.png">
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#0b0c10">
 <title>Le Moleson (1995 m) -- Hike Plan</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
@@ -82,6 +84,9 @@
        aria-label="Download GPX track for Le Moleson">↓ Download GPX</a>
     <button type="button" id="waypoint-toggle" class="ms-layer-btn"
             aria-pressed="false" aria-label="Toggle waypoint and peak labels">Waypoints</button>
+    <button type="button" id="offline-save-btn" class="ms-layer-btn"
+            aria-label="Save this hike for offline use (requires the site to be served over HTTPS)"
+            hidden>⤓ Save for offline</button>
     <details class="info-popover">
       <summary class="info-icon" aria-label="Map attribution">i</summary>
       <div class="info-body">
@@ -229,6 +234,48 @@ window.TRACK_STATS = {"ascent_m": 955.0, "descent_m": 957.8, "distance_km": 11.5
 window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback", "segments": [{"coverage_pct": 21.93, "end_m": 2531.4, "length_m": 2531.4, "n_points": 504, "source": "osm", "start_m": 0.0, "t_grade": "T2"}, {"coverage_pct": 2.69, "end_m": 2843.8, "length_m": 310.7, "n_points": 52, "source": "osm", "start_m": 2533.1, "t_grade": "T1"}, {"coverage_pct": 38.27, "end_m": 7262.5, "length_m": 4416.9, "n_points": 645, "source": "osm", "start_m": 2845.6, "t_grade": "T2"}, {"coverage_pct": 35.54, "end_m": 11380.7, "length_m": 4102.2, "n_points": 480, "source": "swisstopo", "start_m": 7278.5, "t_grade": "T1"}, {"coverage_pct": 1.29, "end_m": 11542.4, "length_m": 149.3, "n_points": 18, "source": "osm", "start_m": 11393.1, "t_grade": "T2"}], "slug": "le-moleson", "stats": {"n_points": 1699, "osm_pct": 64.2, "swisstopo_pct": 35.5, "total_m": 11542.4, "unknown_pct": 0.0}};
 </script>
 <script src="../_assets/hike_page.js"></script>
+<script src="../_assets/sw-register.js" defer></script>
+<script>
+/* "Save for offline" wiring. The button is hidden by default; we only
+   reveal it once the service worker is active (i.e. we're on https://
+   and SW registration succeeded). On file:// the button stays hidden.
+   Pre-warms the per-hike assets — HTML, GPX, track, photos. Tiles are
+   not yet pre-warmed; see docs/design/offline.md §3 (b)/(c). */
+(function () {
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  var btn = document.getElementById("offline-save-btn");
+  if (!btn) return;
+  navigator.serviceWorker.ready.then(function (reg) {
+    btn.hidden = false;
+    btn.addEventListener("click", function () {
+      var pageUrl = new URL(location.href);
+      var hereDir = pageUrl.href.replace(/[^/]+$/, "");
+      var urls = [
+        pageUrl.href,
+        hereDir + "le-moleson.track.js",
+        hereDir + "le-moleson.gpx",
+        hereDir + "le-moleson.3d-preview.jpg",
+      ];
+      // Photos (cross-origin, allow-listed in the SW).
+      try {
+        document.querySelectorAll(".photo-grid img, a.lightbox img, header.hero").forEach(function (el) {
+          if (el.tagName === "IMG" && el.src) urls.push(el.src);
+        });
+      } catch (_) {}
+      btn.disabled = true;
+      btn.textContent = "Saving…";
+      reg.active && reg.active.postMessage({ type: "PREWARM", urls: urls });
+      // We don't get a completion ack in this prototype — flip the label
+      // after a short delay so the user sees feedback. (A real impl would
+      // wait for a MessageChannel reply.)
+      setTimeout(function () {
+        btn.textContent = "✓ Saved";
+        btn.disabled = false;
+      }, 1500);
+    });
+  });
+})();
+</script>
 <script>
 (function () {
   var loadBtn = document.getElementById('hike3d-load');

@@ -7,6 +7,8 @@
 <link rel="icon" type="image/x-icon" href="routes/_assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="routes/_assets/favicon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="routes/_assets/favicon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b0c10">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <link rel="stylesheet" href="routes/_assets/map_shared.css">
@@ -500,5 +502,6 @@
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
 <script>window.REGIONS_GJ = {{ regions_geojson | tojson }};</script>
 <script src="routes/_assets/index_page.js"></script>
+<script src="routes/_assets/sw-register.js" defer></script>
 </body>
 </html>

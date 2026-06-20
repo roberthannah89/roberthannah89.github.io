@@ -12,12 +12,17 @@
     osm:    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   };
 
+  // crossOrigin: "anonymous" on the swisstopo layers makes the service
+  // worker store tile responses at their real size (~7x smaller than
+  // opaque responses on Chrome). SwissTopo serves Access-Control-Allow-
+  // Origin: *, so this is free. OSM is left as-is — not in the SW cache
+  // allowlist, so opaque-padding doesn't apply.
   function makeLayers() {
     return {
-      color:  L.tileLayer(TILE_URLS.color,  { attribution: "&copy; swisstopo", maxZoom: 18 }),
-      grey:   L.tileLayer(TILE_URLS.grey,   { attribution: "&copy; swisstopo", maxZoom: 18 }),
-      trails: L.tileLayer(TILE_URLS.trails, { attribution: "&copy; swisstopo (Wanderwege)", maxZoom: 18 }),
-      aerial: L.tileLayer(TILE_URLS.aerial, { attribution: "&copy; swisstopo (SWISSIMAGE)", maxZoom: 19 }),
+      color:  L.tileLayer(TILE_URLS.color,  { attribution: "&copy; swisstopo", maxZoom: 18, crossOrigin: "anonymous" }),
+      grey:   L.tileLayer(TILE_URLS.grey,   { attribution: "&copy; swisstopo", maxZoom: 18, crossOrigin: "anonymous" }),
+      trails: L.tileLayer(TILE_URLS.trails, { attribution: "&copy; swisstopo (Wanderwege)", maxZoom: 18, crossOrigin: "anonymous" }),
+      aerial: L.tileLayer(TILE_URLS.aerial, { attribution: "&copy; swisstopo (SWISSIMAGE)", maxZoom: 19, crossOrigin: "anonymous" }),
       osm:    L.tileLayer(TILE_URLS.osm,    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }),
     };
   }

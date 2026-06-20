@@ -1,0 +1,33 @@
+{
+  "name": "Swiss Alps Hike Plans",
+  "short_name": "Hikes",
+  "description": "Hike plans, routes, weather and transit for the Swiss Alps. Works offline once a hike has been opened or explicitly saved.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0c10",
+  "theme_color": "#0b0c10",
+  "lang": "en",
+  "categories": ["travel", "navigation", "sports"],
+  "icons": [
+    {
+      "src": "./routes/_assets/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./routes/_assets/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./routes/_assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
