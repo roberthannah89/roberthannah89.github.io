@@ -118,6 +118,7 @@ footer a { color: #fff; }
 .transit-widget .tw-leg-sep { color: var(--muted); font-size: .65rem; }
 .transit-widget .tw-transfers { color: var(--muted); margin-left: .15rem; }
 .transit-widget .tw-status, .transit-widget .tw-empty { color: var(--muted); font-size: .8rem; padding: .35rem .5rem; font-style: italic; }
+.transit-widget .tw-day-label { color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .1rem .5rem .35rem; list-style: none; }
 .transit-widget .tw-status--error { color: #ff8a8a; font-style: normal; }
 .transit-widget .tw-status--loading::after {
   content: ""; display: inline-block; width: .6rem; height: .6rem; margin-left: .4rem;

@@ -59,6 +59,10 @@
     return get("year") + "-" + get("month") + "-" + get("day");
   }
   function todaySwissISO() { return dateInTZ(new Date(), SWISS_TZ); }
+  function tomorrowSwissISO() {
+    var d = new Date(); d.setUTCDate(d.getUTCDate() + 1);
+    return dateInTZ(d, SWISS_TZ);
+  }
 
   function fmtTime(iso) {
     if (!iso) return "--:--";
@@ -189,12 +193,15 @@
     "</li>";
   }
 
-  function renderList(el, conns, emptyMsg) {
+  function renderList(el, conns, emptyMsg, dayLabel) {
     if (!conns || !conns.length) {
       el.innerHTML = '<li class="tw-empty">' + escHtml(emptyMsg) + "</li>";
       return;
     }
-    el.innerHTML = conns.map(renderConnection).join("");
+    var head = dayLabel
+      ? '<li class="tw-day-label">' + escHtml(dayLabel) + "</li>"
+      : "";
+    el.innerHTML = head + conns.map(renderConnection).join("");
   }
 
   function setStatus(el, msg, kind) {
@@ -261,41 +268,60 @@
       setStatus($out, "Loading…", "loading");
       setStatus($ret, "Loading…", "loading");
 
-      var date = todaySwissISO();
+      var today = todaySwissISO();
+      var tomorrow = tomorrowSwissISO();
 
-      fetchConnections({
-        from: origin, to: outDest, date: date, limit: 4
-      }, function (err, data) {
-        if (err) { setStatus($out, "Live data unavailable — use SBB link below", "error"); return; }
-        var conns = (data.connections || []).filter(function (c) {
-          return c.from && c.from.departure && new Date(c.from.departure) >= new Date();
-        }).slice(0, 3);
-        renderList($out, conns, "No more outbound connections today");
-      });
+      // -- Outbound: next 3 still-bookable today; if none, roll to tomorrow. --
+      function loadOutbound(date, dayLabel) {
+        fetchConnections({
+          from: origin, to: outDest, date: date, limit: 6
+        }, function (err, data) {
+          if (err) { setStatus($out, "Live data unavailable — use SBB link below", "error"); return; }
+          var now = new Date();
+          var conns = (data.connections || []).filter(function (c) {
+            if (!c.from || !c.from.departure) return false;
+            if (c.from.departure.indexOf(date) !== 0) return false;
+            // For today, keep only future-bookable connections.
+            // For tomorrow, keep all (every train is bookable).
+            return dayLabel ? true : new Date(c.from.departure) >= now;
+          }).slice(0, 3);
+          if (!conns.length && date === today) {
+            // Nothing left today (e.g. late at night) → fall back to tomorrow.
+            loadOutbound(tomorrow, "Tomorrow");
+            return;
+          }
+          renderList($out, conns, "No connections found", dayLabel);
+        });
+      }
+      loadOutbound(today, null);
 
-      // For "last 3 returns," anchor the search at late evening with
-      // isArrivalTime=1 so the API returns connections that *arrive home by*
-      // that time. We show the latest 3 of today regardless of whether they
-      // have already departed — useful for planning a future visit. Past
-      // departures are dimmed.
-      fetchConnections({
-        from: retOrigin, to: origin, date: date,
-        time: String(LAST_RETURN_HOUR).padStart(2, "0") + ":00",
-        isArrivalTime: 1, limit: 6
-      }, function (err, data) {
-        if (err) { setStatus($ret, "Live data unavailable — use SBB link below", "error"); return; }
-        var todayPrefix = date;
-        var conns = (data.connections || []).filter(function (c) {
-          return c.from && c.from.departure && c.from.departure.indexOf(todayPrefix) === 0;
+      // -- Return: latest 3 of today; if none today, roll to tomorrow.
+      // For "last 3 returns" we anchor at late evening with isArrivalTime=1 so
+      // the API returns connections that *arrive home by* that time. Past
+      // departures get dimmed for today; tomorrow's all stay bright.
+      function loadReturn(date, dayLabel) {
+        fetchConnections({
+          from: retOrigin, to: origin, date: date,
+          time: String(LAST_RETURN_HOUR).padStart(2, "0") + ":00",
+          isArrivalTime: 1, limit: 6
+        }, function (err, data) {
+          if (err) { setStatus($ret, "Live data unavailable — use SBB link below", "error"); return; }
+          var conns = (data.connections || []).filter(function (c) {
+            return c.from && c.from.departure && c.from.departure.indexOf(date) === 0;
+          });
+          conns = conns.slice(-3);  // latest 3 of the day
+          var now = new Date();
+          conns.forEach(function (c) {
+            c._past = !dayLabel && new Date(c.from.departure) < now;
+          });
+          if (!conns.length && date === today) {
+            loadReturn(tomorrow, "Tomorrow");
+            return;
+          }
+          renderList($ret, conns, "No connections found", dayLabel);
         });
-        conns = conns.slice(-3);  // latest 3 of today
-        // Tag past departures so the renderer can dim them.
-        var now = new Date();
-        conns.forEach(function (c) {
-          c._past = new Date(c.from.departure) < now;
-        });
-        renderList($ret, conns, "No more return connections today");
-      });
+      }
+      loadReturn(today, null);
     }
 
     $origin.addEventListener("change", function () {
