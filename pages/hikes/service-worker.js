@@ -30,7 +30,7 @@
  * See docs/design/offline.md §8 for the phased plan.
  */
 
-const SW_VERSION = "v0-prototype-2026-06-19";
+const SW_VERSION = "v1-2026-06-19";
 const SHELL_CACHE = `hikes-shell-${SW_VERSION}`;
 const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 
@@ -52,13 +52,21 @@ const SHELL_ASSETS = [
   "./routes/_assets/favicon-512.png",
 ];
 
-// External origins we are willing to cache opaquely on first visit
-// (cache-first, never updated until SW_VERSION changes). Any request to
-// an origin NOT in this list is left to network-first.
+// External origins we are willing to cache on first visit (cache-first,
+// never updated until SW_VERSION changes). Any request to an origin NOT
+// in this list is left to network-first.
+//
+// SwissTopo tiles: cache-on-visit only — no pre-warm, no bbox sweep, no
+// new UI. Whatever the user pans/zooms over while online is what works
+// offline. This is the "you get what you looked at" model; it makes no
+// navigation promises the site can't keep (no GPS overlay, no off-route
+// alerts — for that, see the swisstopo deep-link). The L.tileLayer calls
+// in map_shared.js set crossOrigin: "anonymous" so responses are stored
+// at their real size instead of the ~7x opaque-response padding.
 const RUNTIME_HOST_ALLOWLIST = [
   "unpkg.com",                // leaflet (TODO: self-host then drop from here)
   "www.sac-cas.ch",           // hike photos
-  // "wmts.geo.admin.ch",     // SwissTopo tiles — re-enable when tile budget policy lands
+  "wmts.geo.admin.ch",        // SwissTopo tiles (all layers: topo/grey/trails/aerial)
 ];
 
 // URLs we never cache, even if same-origin (live data).
