@@ -132,6 +132,7 @@
     <a href="https://www.meteoblue.com/en/weather/week/{{ peak.lat }}N{{ peak.lon }}E"
        target="_blank" rel="noopener">Detailed forecast at meteoblue →</a>
   </p>
+  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
 <section>
@@ -174,7 +175,6 @@
 {%- set has_distinct_end = end_point is defined and end_point and end_point.name and end_point.name != trailhead.name %}
 <section class="getting-there">
   <h2>Getting There &amp; Back</h2>
-  <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
   <div class="endpoint-block">
     <h3>Start: {{ trailhead.name }}{% if trailhead.elev %} <span class="endpoint-elev">({{ trailhead.elev }} m)</span>{% endif %}</h3>
     <div class="transit-actions">

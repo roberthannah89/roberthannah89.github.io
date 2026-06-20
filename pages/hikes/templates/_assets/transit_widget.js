@@ -264,14 +264,107 @@
     $outR.textContent = origin + " → " + outDest;
     $retR.textContent = retOrigin + " → " + origin;
 
+    // The hike page broadcasts the planned start + end Date whenever the
+    // elevation profile's start-time / date / pace controls change. When we
+    // have a plan, anchor outbound at "arrive by start" and return at
+    // "depart on/after end". Without a plan, fall back to today/tomorrow.
+    var currentPlan = null;
+    var $head = host.querySelector(".tw-head h3");
+
+    // The elevation profile constructs its start/end Date objects in
+    // browser-local time (line ~769 of hike_page.js), so when the user picks
+    // "07:30" the Date's getHours()=7, getMinutes()=30 regardless of TZ.
+    // Match that convention here — read the Date's local components, not the
+    // Swiss wall-clock — so the header and SBB query agree with what the
+    // user selected.
+    function localTimeOnly(d) {
+      return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    }
+    function localISODate(d) {
+      return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+    }
+    function dayLabelFor(d) {
+      var iso = localISODate(d);
+      var now = new Date();
+      var todayISO = localISODate(now);
+      var t = new Date(now.getTime() + 86400000);
+      var tomorrowISO = localISODate(t);
+      if (iso === todayISO) return "today";
+      if (iso === tomorrowISO) return "tomorrow";
+      return new Intl.DateTimeFormat("en-GB", {
+        weekday: "short", day: "numeric", month: "short"
+      }).format(d);
+    }
+
     function refresh() {
       setStatus($out, "Loading…", "loading");
       setStatus($ret, "Loading…", "loading");
+      if (currentPlan && currentPlan.startDate && currentPlan.endDate) {
+        refreshPlanned(currentPlan);
+      } else {
+        refreshAuto();
+      }
+    }
 
+    function refreshPlanned(plan) {
+      var startDate = plan.startDate, endDate = plan.endDate;
+      var startISO = localISODate(startDate);
+      var endISO   = localISODate(endDate);
+      var startTime = localTimeOnly(startDate);
+      var endTime   = localTimeOnly(endDate);
+
+      if ($head) {
+        var dayLabel = dayLabelFor(startDate);
+        $head.textContent = "Public transport — " + dayLabel +
+          " · arrive " + startTime + ", leave " + endTime;
+      }
+
+      // Outbound: connections arriving at the trailhead on `startISO` no
+      // later than `startTime`. Strict date-prefix on the API response so
+      // adjacent-day connections (the API sometimes pads either side) can't
+      // leak in.
+      fetchConnections({
+        from: origin, to: outDest, date: startISO, time: startTime,
+        isArrivalTime: 1, limit: 8
+      }, function (err, data) {
+        if (err) { setStatus($out, "Live data unavailable — use SBB link below", "error"); return; }
+        var conns = (data.connections || []).filter(function (c) {
+          if (!c.to || !c.to.arrival) return false;
+          if (c.to.arrival.indexOf(startISO) !== 0) return false;
+          // Compare on the wire-format wall-clock string — avoids UTC drift.
+          return c.to.arrival.slice(11, 16) <= startTime;
+        });
+        conns.sort(function (a, b) { return a.to.arrival.localeCompare(b.to.arrival); });
+        conns = conns.slice(-3);
+        renderList($out, conns, "No connections arrive by " + startTime, null);
+      });
+
+      // Return: connections departing from end_point on `endISO` at or after
+      // `endTime`. Same strict date-prefix.
+      fetchConnections({
+        from: retOrigin, to: origin, date: endISO, time: endTime,
+        isArrivalTime: 0, limit: 8
+      }, function (err, data) {
+        if (err) { setStatus($ret, "Live data unavailable — use SBB link below", "error"); return; }
+        var conns = (data.connections || []).filter(function (c) {
+          if (!c.from || !c.from.departure) return false;
+          if (c.from.departure.indexOf(endISO) !== 0) return false;
+          return c.from.departure.slice(11, 16) >= endTime;
+        });
+        conns.sort(function (a, b) { return a.from.departure.localeCompare(b.from.departure); });
+        conns = conns.slice(0, 3);
+        renderList($ret, conns, "No connections depart after " + endTime, null);
+      });
+    }
+
+    function refreshAuto() {
+      if ($head) $head.textContent = "Public transport — today";
       var today = todaySwissISO();
       var tomorrow = tomorrowSwissISO();
 
-      // -- Outbound: next 3 still-bookable today; if none, roll to tomorrow. --
+      // Outbound: next 3 still-bookable today; if none, roll to tomorrow.
       function loadOutbound(date, dayLabel) {
         fetchConnections({
           from: origin, to: outDest, date: date, limit: 6
@@ -281,12 +374,9 @@
           var conns = (data.connections || []).filter(function (c) {
             if (!c.from || !c.from.departure) return false;
             if (c.from.departure.indexOf(date) !== 0) return false;
-            // For today, keep only future-bookable connections.
-            // For tomorrow, keep all (every train is bookable).
             return dayLabel ? true : new Date(c.from.departure) >= now;
           }).slice(0, 3);
           if (!conns.length && date === today) {
-            // Nothing left today (e.g. late at night) → fall back to tomorrow.
             loadOutbound(tomorrow, "Tomorrow");
             return;
           }
@@ -295,10 +385,7 @@
       }
       loadOutbound(today, null);
 
-      // -- Return: latest 3 of today; if none today, roll to tomorrow.
-      // For "last 3 returns" we anchor at late evening with isArrivalTime=1 so
-      // the API returns connections that *arrive home by* that time. Past
-      // departures get dimmed for today; tomorrow's all stay bright.
+      // Return: latest 3 of today anchored at LAST_RETURN_HOUR; roll to tomorrow if empty.
       function loadReturn(date, dayLabel) {
         fetchConnections({
           from: retOrigin, to: origin, date: date,
@@ -309,7 +396,7 @@
           var conns = (data.connections || []).filter(function (c) {
             return c.from && c.from.departure && c.from.departure.indexOf(date) === 0;
           });
-          conns = conns.slice(-3);  // latest 3 of the day
+          conns = conns.slice(-3);
           var now = new Date();
           conns.forEach(function (c) {
             c._past = !dayLabel && new Date(c.from.departure) < now;
@@ -335,6 +422,13 @@
     });
     $origin.addEventListener("keydown", function (e) {
       if (e.key === "Enter") { e.preventDefault(); $origin.blur(); }
+    });
+
+    // React to the elevation profile's start-time / date / pace changes.
+    document.addEventListener("hike-times-changed", function (e) {
+      if (!e || !e.detail || !e.detail.startDate || !e.detail.endDate) return;
+      currentPlan = { startDate: e.detail.startDate, endDate: e.detail.endDate };
+      refresh();
     });
 
     refresh();
