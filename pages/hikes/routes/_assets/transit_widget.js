@@ -17,10 +17,13 @@
   "use strict";
 
   var API = "https://transport.opendata.ch/v1";
-  var CACHE_PREFIX = "hike-transit:v1:";
+  // Bump cache version when wire format / param shape changes so stale entries
+  // from older builds are ignored on first load.
+  var CACHE_PREFIX = "hike-transit:v2:";
   var CACHE_TTL_MS = 60 * 60 * 1000;          // 1 h
   var REFRESH_MS   = 5 * 60 * 1000;           // re-poll while the page is open
-  var LAST_RETURN_HOUR = 21;                  // bias return search toward evening
+  var LAST_RETURN_HOUR = 21;                  // bias return search toward evening (Zurich time)
+  var SWISS_TZ = "Europe/Zurich";             // SBB timetables roll over at Swiss midnight
 
   var H = window.HIKE || {};
   var cfg = window.HIKING_CONFIG || {};
@@ -41,17 +44,30 @@
     catch (e) { /* ignore */ }
   }
 
-  function todayISO() {
-    var d = new Date();
-    return d.getFullYear() + "-" +
-      String(d.getMonth() + 1).padStart(2, "0") + "-" +
-      String(d.getDate()).padStart(2, "0");
+  // Format `d` as YYYY-MM-DD in the given IANA timezone. SBB calendars roll
+  // over at Swiss midnight, not at the visitor's local midnight, so always
+  // ask the API for Zurich's "today" — otherwise a visitor in e.g. New York
+  // before 18:00 EDT sees the *previous* Swiss day's already-departed trains.
+  function dateInTZ(d, tz) {
+    var parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit"
+    }).formatToParts(d);
+    var get = function (t) {
+      var p = parts.find(function (x) { return x.type === t; });
+      return p ? p.value : "";
+    };
+    return get("year") + "-" + get("month") + "-" + get("day");
   }
+  function todaySwissISO() { return dateInTZ(new Date(), SWISS_TZ); }
 
   function fmtTime(iso) {
     if (!iso) return "--:--";
     var d = new Date(iso);
-    return d.toLocaleTimeString("de-CH", { hour: "2-digit", minute: "2-digit" });
+    // Always render in Swiss local time — visitors planning a Swiss hike
+    // want to see the platform clock, not their home-timezone clock.
+    return d.toLocaleTimeString("de-CH", {
+      hour: "2-digit", minute: "2-digit", timeZone: SWISS_TZ
+    });
   }
 
   function fmtDuration(dur) {
@@ -245,7 +261,7 @@
       setStatus($out, "Loading…", "loading");
       setStatus($ret, "Loading…", "loading");
 
-      var date = todayISO();
+      var date = todaySwissISO();
 
       fetchConnections({
         from: origin, to: outDest, date: date, limit: 4
