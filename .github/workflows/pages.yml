@@ -31,6 +31,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r pages/hikes/requirements.txt
 
+      - name: Inject site-local config (API keys etc) from repo secrets
+        env:
+          GMAPS_KEY: ${{ secrets.GOOGLE_MAPS_EMBED_KEY }}
+        run: |
+          if [ -n "$GMAPS_KEY" ]; then
+            printf 'window.HIKING_CONFIG = { googleMapsApiKey: "%s" };\n' "$GMAPS_KEY" > pages/hikes/local-config.js
+            echo "Wrote pages/hikes/local-config.js (key value hidden)"
+          else
+            echo "GOOGLE_MAPS_EMBED_KEY secret not set — skipping local-config.js"
+            echo "(transit widget will show setup instructions in 'Compare with Google Maps' pane)"
+          fi
+
       - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
         run: cd pages/hikes && python scripts/fetch_weather.py
 
