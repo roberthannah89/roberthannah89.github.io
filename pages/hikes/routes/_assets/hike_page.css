@@ -288,6 +288,24 @@ footer a { color: #fff; }
 .trip-report ul { margin: .3rem 0 .3rem 1.2rem; padding: 0; }
 .trip-report li { font-size: .9rem; }
 .route-tooltip { background: rgba(255,255,255,0.95); border: 1px solid #444; border-radius: 3px; padding: 2px 6px; font-size: .85rem; font-weight: 600; color: #222; white-space: nowrap; }
+
+/* Hazard markers: emoji-in-pin rendered via L.divIcon. The accent border colour
+   comes from an inline style (set per-type in hike_page.js). Keep this layer
+   visually distinct from waypoint dots so hazards read at a glance even when
+   the basemap is busy. */
+.hazard-marker { background: transparent; border: 0; }
+.hazard-marker__pin {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; border: 2px solid #888;
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+  font-size: 16px; line-height: 1;
+}
+.hazard-marker__emoji { display: block; transform: translateY(-1px); }
+.hazard-popup { font-size: .9rem; max-width: 240px; }
+.hazard-popup strong { display: block; margin-bottom: .25rem; }
+.hazard-popup p { margin: 0; color: #333; }
+
 @media (max-width: 700px) {
   header.hero { height: 45vh; }
   header.hero h1 { font-size: 1.8rem; }

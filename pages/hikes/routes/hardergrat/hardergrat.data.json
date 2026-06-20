@@ -187,6 +187,50 @@
       "elev_m": 1918
     }
   ],
+  "hazards": [
+    {
+      "type": "stream",
+      "lat": 46.79970,
+      "lon": 7.94973,
+      "note": "Bach: Emme tributary crossing on lower forest track. Bridged; impassable only after heavy storms."
+    },
+    {
+      "type": "scree",
+      "lat": 46.78178,
+      "lon": 7.97057,
+      "note": "Loose scree on the steep grass-and-rubble rise to the Schnierenhörnli col."
+    },
+    {
+      "type": "exposed",
+      "lat": 46.76512,
+      "lon": 7.96809,
+      "note": "First fully exposed ridge section. Knife-edge grass arête with steep drops both sides — no fall zone."
+    },
+    {
+      "type": "cable",
+      "lat": 46.75069,
+      "lon": 7.94249,
+      "note": "Short fixed cable / chain on the rocky step before the Hardergrat summit ridge (~15 m)."
+    },
+    {
+      "type": "exposed",
+      "lat": 46.74225,
+      "lon": 7.92859,
+      "note": "Hardergrat summit ridge: long stretch of exposed grass ridge, slippery when wet."
+    },
+    {
+      "type": "scree",
+      "lat": 46.72641,
+      "lon": 7.90903,
+      "note": "Loose, eroded path on the steep descent off the Suggiture flank."
+    },
+    {
+      "type": "cableway",
+      "lat": 46.71200,
+      "lon": 7.87313,
+      "note": "Harder Kulm funicular: hike ends here; ride down to Interlaken Ost."
+    }
+  ],
   "end_point": {
     "name": "Harder Kulm",
     "elev": 1321
