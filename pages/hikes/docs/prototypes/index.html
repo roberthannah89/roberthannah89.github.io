@@ -229,65 +229,48 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">12 demos</span>
+  <span class="title-count">13 demos</span>
 </div>
 
 <!-- Card grid -->
 <div class="grid">
 
-  <a class="card" href="transport.html">
+  <a class="card" href="transit-widget-v2.html">
     <div class="card-thumb">
-      <img src="screenshots/transport.png" alt="Swiss Transit" loading="lazy">
+      <img src="screenshots/transit-widget-v2.png" alt="Transit Widget v2" loading="lazy">
     </div>
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">🚂</span>
-        <span class="card-title">Swiss Transit</span>
+        <span class="card-icon">🚆</span>
+        <span class="card-title">Transit Widget v2</span>
       </div>
-      <div class="card-desc">Live SBB/public transport connections and station search</div>
+      <div class="card-desc">Google-style connections list with SBB-colored line chips, per-leg durations, walking icons, and SBB deep-links</div>
       <span class="card-source">transport.opendata.ch</span>
     </div>
   </a>
 
-  <a class="card" href="trail-conditions.html">
-    <div class="card-thumb">
-      <img src="screenshots/trail-conditions.png" alt="Trail Conditions" loading="lazy">
-    </div>
+  <a class="card" href="feat-3d-flythrough.html">
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">⚠️</span>
-        <span class="card-title">Trail Conditions</span>
+        <span class="card-icon">⛰️</span>
+        <span class="card-title">3D Flythrough</span>
       </div>
-      <div class="card-desc">Trail status and closures across Swiss cantons with seasonal context</div>
-      <span class="card-source">SchweizMobil / Cantons</span>
+      <div class="card-desc">Cinematic MapLibre camera flythrough following the GPX ascent on every hike page</div>
+      <span class="card-source">Feature integration / worktree</span>
     </div>
   </a>
 
-  <a class="card" href="sac-huts.html">
+  <a class="card" href="feat-transport-widget.html">
     <div class="card-thumb">
-      <img src="screenshots/sac-huts.png" alt="SAC Alpine Huts" loading="lazy">
+      <img src="screenshots/feat-transport-widget.png" alt="Live Transport Widget" loading="lazy">
     </div>
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">🏔️</span>
-        <span class="card-title">SAC Alpine Huts</span>
+        <span class="card-icon">🚆</span>
+        <span class="card-title">Live Transport Widget</span>
       </div>
-      <div class="card-desc">Swiss Alpine Club huts with capacity, wardened season, and booking links</div>
-      <span class="card-source">SAC-CAS</span>
-    </div>
-  </a>
-
-  <a class="card" href="sac-grade-osm.html">
-    <div class="card-thumb">
-      <img src="screenshots/sac-grade-osm.png" alt="SAC T-grade segments (OSM)" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🥾</span>
-        <span class="card-title">SAC T-grade segments (OSM)</span>
-      </div>
-      <div class="card-desc">Per-segment T1–T6 along a GPX track from OSM sac_scale tags via Overpass</div>
-      <span class="card-source">OpenStreetMap (Overpass API)</span>
+      <div class="card-desc">Inline next-3 outbound + last-3 return connections via transport.opendata.ch, on every hike page</div>
+      <span class="card-source">Feature integration / worktree</span>
     </div>
   </a>
 
@@ -305,17 +288,17 @@
     </div>
   </a>
 
-  <a class="card" href="overpass-pois.html">
+  <a class="card" href="sac-grade-osm.html">
     <div class="card-thumb">
-      <img src="screenshots/overpass-pois.png" alt="OSM Points of Interest" loading="lazy">
+      <img src="screenshots/sac-grade-osm.png" alt="SAC T-grade segments (OSM)" loading="lazy">
     </div>
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">📍</span>
-        <span class="card-title">OSM Points of Interest</span>
+        <span class="card-icon">🥾</span>
+        <span class="card-title">SAC T-grade segments (OSM)</span>
       </div>
-      <div class="card-desc">Query OpenStreetMap for hiker POIs: water, huts, shelters, viewpoints, parking</div>
-      <span class="card-source">Overpass API</span>
+      <div class="card-desc">Per-segment T1–T6 along a GPX track from OSM sac_scale tags via Overpass</div>
+      <span class="card-source">OpenStreetMap (Overpass API)</span>
     </div>
   </a>
 
@@ -330,6 +313,34 @@
       </div>
       <div class="card-desc">Multi-model weather forecasts with elevation correction — no API key needed</div>
       <span class="card-source">Open-Meteo</span>
+    </div>
+  </a>
+
+  <a class="card" href="sac-huts.html">
+    <div class="card-thumb">
+      <img src="screenshots/sac-huts.png" alt="SAC Alpine Huts" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🏔️</span>
+        <span class="card-title">SAC Alpine Huts</span>
+      </div>
+      <div class="card-desc">Swiss Alpine Club huts with capacity, wardened season, and booking links</div>
+      <span class="card-source">SAC-CAS</span>
+    </div>
+  </a>
+
+  <a class="card" href="trail-conditions.html">
+    <div class="card-thumb">
+      <img src="screenshots/trail-conditions.png" alt="Trail Conditions" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">⚠️</span>
+        <span class="card-title">Trail Conditions</span>
+      </div>
+      <div class="card-desc">Trail status and closures across Swiss cantons with seasonal context</div>
+      <span class="card-source">SchweizMobil / Cantons</span>
     </div>
   </a>
 
@@ -375,31 +386,33 @@
     </div>
   </a>
 
-  <a class="card" href="feat-transport-widget.html">
+  <a class="card" href="overpass-pois.html">
     <div class="card-thumb">
-      <img src="screenshots/feat-transport-widget.png" alt="Live Transport Widget" loading="lazy">
+      <img src="screenshots/overpass-pois.png" alt="OSM Points of Interest" loading="lazy">
     </div>
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">🚆</span>
-        <span class="card-title">Live Transport Widget</span>
+        <span class="card-icon">📍</span>
+        <span class="card-title">OSM Points of Interest</span>
       </div>
-      <div class="card-desc">Inline next-3 outbound + last-3 return connections via transport.opendata.ch, on every hike page</div>
-      <span class="card-source">Feature integration / worktree</span>
+      <div class="card-desc">Query OpenStreetMap for hiker POIs: water, huts, shelters, viewpoints, parking</div>
+      <span class="card-source">Overpass API</span>
     </div>
   </a>
 
-  <a class="card" href="feat-3d-flythrough.html">
+  <a class="card" href="transport.html">
+    <div class="card-thumb">
+      <img src="screenshots/transport.png" alt="Swiss Transit" loading="lazy">
+    </div>
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">⛰️</span>
-        <span class="card-title">3D Flythrough</span>
+        <span class="card-icon">🚂</span>
+        <span class="card-title">Swiss Transit</span>
       </div>
-      <div class="card-desc">Cinematic MapLibre camera flythrough following the GPX ascent on every hike page</div>
-      <span class="card-source">Feature integration / worktree</span>
+      <div class="card-desc">Live SBB/public transport connections and station search</div>
+      <span class="card-source">transport.opendata.ch</span>
     </div>
   </a>
-
 
 </div>
 
