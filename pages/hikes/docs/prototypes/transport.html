@@ -110,14 +110,21 @@
 
   /* — Route selector — */
   .route-bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto;
+    grid-template-rows: auto auto;
     gap: 10px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     align-items: stretch;
   }
 
+  .route-bar .station-input.from { grid-column: 1; grid-row: 1; }
+  .route-bar .swap-btn            { grid-column: 2; grid-row: 1 / span 2; }
+  .route-bar .station-input.to    { grid-column: 3; grid-row: 1; }
+  .route-bar .station-input.via   { grid-column: 1 / span 3; grid-row: 2; }
+  .route-bar .btn-search          { grid-column: 4; grid-row: 1 / span 2; }
+
   .station-input {
-    flex: 1;
     position: relative;
   }
 
@@ -130,6 +137,7 @@
     letter-spacing: 1.5px;
     color: var(--text-muted);
     font-weight: 600;
+    pointer-events: none;
   }
 
   .station-input input {
@@ -137,7 +145,7 @@
     background: var(--flap-bg);
     border: 1px solid var(--flap-border);
     border-radius: 6px;
-    padding: 26px 14px 10px;
+    padding: 26px 36px 10px 14px;
     font-family: var(--font-mono);
     font-size: 15px;
     font-weight: 500;
@@ -150,13 +158,79 @@
     border-color: var(--amber-dim);
   }
 
-  .route-arrow {
-    display: flex;
-    align-items: center;
+  /* Tiny clear (×) inside each station input */
+  .station-input .clear-x {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
     color: var(--text-muted);
-    font-size: 20px;
-    padding-top: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: none;
+    transition: color 0.15s, background 0.15s;
   }
+  .station-input .clear-x:hover { color: var(--text-primary); background: var(--board-surface); }
+  .station-input.has-value .clear-x { display: block; }
+
+  /* Autocomplete dropdown */
+  .suggest {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--board-surface);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 50;
+    display: none;
+  }
+  .suggest[data-open="1"] { display: block; }
+  .suggest-item {
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-bottom: 1px solid var(--flap-border);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .suggest-item:last-child { border-bottom: none; }
+  .suggest-item:hover,
+  .suggest-item.active { background: var(--flap-bg); color: var(--amber); }
+  .suggest-item .sx-kind {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    align-self: center;
+  }
+  .suggest-empty { padding: 10px 14px; color: var(--text-muted); font-style: italic; font-size: 12px; }
+
+  /* Swap From↔To button */
+  .swap-btn {
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    cursor: pointer;
+    width: 42px;
+    transition: color 0.15s, border-color 0.15s, transform 0.25s;
+  }
+  .swap-btn:hover { color: var(--amber); border-color: var(--amber-dim); }
+  .swap-btn:active { transform: rotate(180deg); }
 
   .btn-search {
     align-self: stretch;
@@ -171,11 +245,73 @@
     cursor: pointer;
     letter-spacing: 0.3px;
     transition: background 0.15s, transform 0.1s;
-    margin-top: 0;
   }
 
   .btn-search:hover { background: #f0b840; }
   .btn-search:active { transform: scale(0.97); }
+
+  /* — When / Via row — */
+  .when-bar {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+    align-items: stretch;
+  }
+  .when-toggle {
+    display: inline-flex;
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .when-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+  .when-toggle button[aria-pressed="true"] {
+    background: var(--board-surface);
+    color: var(--amber);
+    box-shadow: inset 0 0 0 1px var(--amber-dim);
+  }
+  .when-bar input[type="date"],
+  .when-bar input[type="time"] {
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+    color-scheme: dark;
+  }
+  .when-bar input:focus { border-color: var(--amber-dim); }
+  .when-now {
+    background: transparent;
+    border: 1px dashed var(--flap-border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 0 14px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.15s, border-color 0.15s;
+    justify-self: end;
+  }
+  .when-now:hover { color: var(--amber); border-color: var(--amber-dim); }
 
   /* — Connections list — */
   .connections {
@@ -196,7 +332,21 @@
     animation: flap-in 0.35s cubic-bezier(0.22, 0.68, 0.36, 1) both;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
   }
+
+  .conn:hover { border-color: var(--amber-dim); background: #322d22; }
+  .conn.open { border-color: var(--amber-dim); }
+  .conn .conn-chevron {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    color: var(--text-muted);
+    font-size: 10px;
+    transition: transform 0.25s;
+  }
+  .conn.open .conn-chevron { transform: rotate(90deg); color: var(--amber); }
 
   .conn::before {
     content: '';
@@ -318,6 +468,92 @@
     margin-top: 4px;
   }
 
+  /* — Expanded connection details — */
+  .conn-detail {
+    grid-column: 1 / -1;
+    margin: 12px -18px -16px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--flap-border);
+    background: var(--board-surface);
+    display: none;
+    animation: detail-in 0.25s ease-out both;
+  }
+  .conn.open .conn-detail { display: block; }
+  @keyframes detail-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .leg {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 12px;
+    padding: 6px 0;
+    align-items: start;
+  }
+  .leg + .leg { border-top: 1px dashed var(--flap-border); }
+  .leg-times {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    text-align: right;
+  }
+  .leg-times .lt-arr { color: var(--text-muted); }
+  .leg-body { font-size: 13px; color: var(--text-primary); }
+  .leg-body .lb-from, .leg-body .lb-to {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+  .leg-body .lb-arrow { color: var(--text-muted); margin: 0 6px; }
+  .leg-body .lb-line {
+    display: inline-block;
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--board-bg);
+    border: 1px solid var(--flap-border);
+    color: var(--text-secondary);
+  }
+  .leg-body .lb-pf { color: var(--text-muted); font-size: 11px; margin-left: 6px; }
+  .leg-body .lb-dir { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+  .leg.transfer {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-style: italic;
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 4px 0;
+  }
+  .leg.walk .leg-body { color: var(--text-secondary); font-style: italic; }
+
+  /* — Earlier / Later pagination — */
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .pager button {
+    flex: 1;
+    background: var(--flap-bg);
+    border: 1px solid var(--flap-border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .pager button:hover { color: var(--amber); border-color: var(--amber-dim); }
+  .pager button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .pager button:disabled:hover { color: var(--text-secondary); border-color: var(--flap-border); }
+
   /* — States — */
   .state-msg {
     text-align: center;
@@ -379,13 +615,25 @@
   /* — Responsive — */
   @media (max-width: 560px) {
     .header-clock { display: none; }
-    .route-bar { flex-wrap: wrap; }
-    .route-arrow { display: none; }
-    .station-input { min-width: 100%; }
-    .btn-search { width: 100%; padding: 14px; }
+    .route-bar {
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto auto auto;
+    }
+    .route-bar .station-input.from { grid-column: 1; grid-row: 1; }
+    .route-bar .swap-btn            { grid-column: 2; grid-row: 1 / span 2; width: 42px; }
+    .route-bar .station-input.to    { grid-column: 1; grid-row: 2; }
+    .route-bar .station-input.via   { grid-column: 1 / span 2; grid-row: 3; }
+    .route-bar .btn-search          { grid-column: 1 / span 2; grid-row: 4; padding: 14px; }
+    .when-bar {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+    }
+    .when-toggle { grid-column: 1 / span 2; }
+    .when-now    { grid-column: 1 / span 2; padding: 10px; }
     .conn { grid-template-columns: 72px 1fr 72px; padding: 12px 14px; gap: 10px; }
     .conn-time { font-size: 18px; }
     .conn-arrive .conn-time { font-size: 16px; }
+    .conn-detail { margin: 12px -14px -12px; padding: 12px 14px; }
   }
 </style>
 </head>
@@ -402,20 +650,45 @@
   </div>
 
   <div class="route-bar">
-    <div class="station-input">
+    <div class="station-input from" data-field="from">
       <label>From</label>
-      <input type="text" id="from" value="Zürich HB">
+      <input type="text" id="from" value="Zürich HB" autocomplete="off" spellcheck="false">
+      <button type="button" class="clear-x" aria-label="Clear">×</button>
+      <div class="suggest" role="listbox"></div>
     </div>
-    <div class="route-arrow">→</div>
-    <div class="station-input">
+    <button type="button" class="swap-btn" id="swap" title="Swap From and To" aria-label="Swap from and to">⇅</button>
+    <div class="station-input to" data-field="to">
       <label>To</label>
-      <input type="text" id="to" value="Glarus">
+      <input type="text" id="to" value="Glarus" autocomplete="off" spellcheck="false">
+      <button type="button" class="clear-x" aria-label="Clear">×</button>
+      <div class="suggest" role="listbox"></div>
     </div>
     <button class="btn-search" id="search">Search</button>
+    <div class="station-input via" data-field="via">
+      <label>Via (optional)</label>
+      <input type="text" id="via" value="" autocomplete="off" spellcheck="false">
+      <button type="button" class="clear-x" aria-label="Clear">×</button>
+      <div class="suggest" role="listbox"></div>
+    </div>
+  </div>
+
+  <div class="when-bar">
+    <div class="when-toggle" role="tablist" aria-label="Time reference">
+      <button type="button" id="mode-dep" aria-pressed="true">Depart at</button>
+      <button type="button" id="mode-arr" aria-pressed="false">Arrive by</button>
+    </div>
+    <input type="date" id="date" aria-label="Date">
+    <input type="time" id="time" aria-label="Time">
+    <button type="button" class="when-now" id="now-btn">Now</button>
   </div>
 
   <div class="connections" id="connections">
     <div class="state-msg">Enter a destination and press Search</div>
+  </div>
+
+  <div class="pager" id="pager" hidden>
+    <button type="button" id="earlier">← Earlier</button>
+    <button type="button" id="later">Later →</button>
   </div>
 
   <div class="footer">
@@ -426,13 +699,28 @@
 
 <script>
 const API = 'https://transport.opendata.ch/v1';
-const $from = document.getElementById('from');
-const $to = document.getElementById('to');
-const $btn = document.getElementById('search');
-const $conn = document.getElementById('connections');
-const $clock = document.getElementById('clock');
-let refreshTimer = null;
 
+const $from   = document.getElementById('from');
+const $to     = document.getElementById('to');
+const $via    = document.getElementById('via');
+const $btn    = document.getElementById('search');
+const $swap   = document.getElementById('swap');
+const $conn   = document.getElementById('connections');
+const $clock  = document.getElementById('clock');
+const $date   = document.getElementById('date');
+const $time   = document.getElementById('time');
+const $modeDep = document.getElementById('mode-dep');
+const $modeArr = document.getElementById('mode-arr');
+const $nowBtn  = document.getElementById('now-btn');
+const $pager   = document.getElementById('pager');
+const $earlier = document.getElementById('earlier');
+const $later   = document.getElementById('later');
+
+let refreshTimer = null;
+let arriveBy = false;        // false = depart-at, true = arrive-by
+let lastConnections = [];
+
+// ——— Clock ———
 function updateClock() {
   const now = new Date();
   $clock.textContent = now.toLocaleTimeString('de-CH', {
@@ -442,12 +730,25 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// ——— Time helpers ———
+function swissParts(d) {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Zurich',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hour12: false
+  }).formatToParts(d).reduce((o, p) => (o[p.type] = p.value, o), {});
+}
+function setNow() {
+  const p = swissParts(new Date());
+  $date.value = `${p.year}-${p.month}-${p.day}`;
+  $time.value = `${p.hour}:${p.minute}`;
+}
 function fmtTime(iso) {
   if (!iso) return '--:--';
-  const d = new Date(iso);
-  return d.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
+  return new Date(iso).toLocaleTimeString('de-CH', {
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Zurich'
+  });
 }
-
 function fmtDuration(dur) {
   if (!dur) return '';
   const m = dur.match(/(\d+)d(\d+):(\d+):/);
@@ -455,104 +756,196 @@ function fmtDuration(dur) {
   const days = parseInt(m[1]);
   const hrs = parseInt(m[2]) + days * 24;
   const mins = parseInt(m[3]);
-  if (hrs > 0) return hrs + 'h ' + mins + 'm';
+  if (hrs > 0) return hrs + 'h ' + (mins ? mins + 'm' : '');
   return mins + ' min';
 }
+function fmtTransferWait(prevArrISO, nextDepISO) {
+  if (!prevArrISO || !nextDepISO) return '';
+  const wait = Math.round((new Date(nextDepISO) - new Date(prevArrISO)) / 60000);
+  if (wait <= 0) return '';
+  return wait + " min wait";
+}
 
-var TRANSPORT = {
+// ——— Transport classification ———
+const TRANSPORT = {
   train: { icon: '🚆', match: ['IC', 'IR', 'ICE', 'EC', 'RE', 'S', 'TGV', 'RJ', 'PE', 'EXT'] },
   bus:   { icon: '🚌', match: ['B', 'BUS', 'NFB', 'KB'] },
   ship:  { icon: '⛴',  match: ['BAT', 'FAE'] },
   tram:  { icon: '🚊', match: ['T', 'TRAM', 'NFT'] },
   cable: { icon: '🚡', match: ['GB', 'PB', 'FUN', 'SL', 'LB'] },
 };
-
 function classifyCategory(cat) {
   if (!cat) return { type: '', icon: '' };
-  var c = cat.toUpperCase();
-  for (var key in TRANSPORT) {
-    if (TRANSPORT[key].match.some(function(t) { return c === t || c.startsWith(t); })) {
+  const c = String(cat).toUpperCase();
+  for (const key in TRANSPORT) {
+    if (TRANSPORT[key].match.some(t => c === t || c.startsWith(t))) {
       return { type: key, icon: TRANSPORT[key].icon };
     }
   }
   return { type: '', icon: '' };
 }
-
 function legLabel(journey) {
-  var cat = (journey.category || '').trim();
-  var num = (journey.number || '').trim();
+  const cat = (journey.category || '').trim();
+  const num = (journey.number || '').trim();
   if (cat && num) return cat + ' ' + num;
   if (cat) return cat;
   if (journey.name) {
-    var clean = journey.name.trim();
+    const clean = journey.name.trim();
     if (!/^\d{5,}$/.test(clean)) return clean;
   }
   return 'Train';
 }
+function escHtml(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
+// ——— Render ———
 function renderConnections(data) {
-  if (!data.connections || data.connections.length === 0) {
+  lastConnections = data.connections || [];
+  if (!lastConnections.length) {
     $conn.innerHTML = '<div class="state-msg">No connections found</div>';
+    $pager.hidden = true;
     return;
   }
+  $pager.hidden = false;
 
-  $conn.innerHTML = data.connections.map(function(c) {
-    const depTime = fmtTime(c.from.departure);
-    const arrTime = fmtTime(c.to.arrival);
-    const platform = c.from.platform ? 'Pl. ' + c.from.platform : '';
-    const delay = c.from.delay && c.from.delay > 0 ? '+' + c.from.delay + "'" : '';
-    const isDelayed = c.from.delay && c.from.delay > 0;
+  $conn.innerHTML = lastConnections.map(function(c, idx) {
+    const depTime = fmtTime(c.from && c.from.departure);
+    const arrTime = fmtTime(c.to && c.to.arrival);
+    const platform = c.from && c.from.platform ? 'Pl. ' + c.from.platform : '';
+    const delay = c.from && c.from.delay > 0 ? "+" + c.from.delay + "'" : '';
+    const isDelayed = c.from && c.from.delay > 0;
     const duration = fmtDuration(c.duration);
 
-    var sections = c.sections || [];
-    var legs = [];
-    for (var i = 0; i < sections.length; i++) {
-      var s = sections[i];
+    const sections = c.sections || [];
+    const journeySections = sections.filter(s => s.journey);
+    const legBadges = sections.map(s => {
       if (s.journey) {
-        var info = classifyCategory(s.journey.category);
-        var label = legLabel(s.journey);
-        var icon = info.icon ? info.icon + ' ' : '';
-        legs.push('<span class="conn-badge ' + info.type + '">' + icon + label + '</span>');
-      } else if (s.walk) {
-        legs.push('<span class="conn-badge walk">🚶 Walk</span>');
+        const info = classifyCategory(s.journey.category);
+        const label = legLabel(s.journey);
+        const icon = info.icon ? info.icon + ' ' : '';
+        return '<span class="conn-badge ' + info.type + '">' + icon + escHtml(label) + '</span>';
       }
-    }
-    var transfers = sections.filter(function(s) { return s.journey; }).length;
-    var transferText = transfers <= 1 ? 'Direct' : (transfers - 1) + ' transfer' + (transfers > 2 ? 's' : '');
+      if (s.walk) return '<span class="conn-badge walk">🚶 Walk</span>';
+      return '';
+    }).filter(Boolean);
 
-    return '<div class="conn' + (isDelayed ? ' delayed' : '') + '">' +
+    const transfers = journeySections.length;
+    const transferText = transfers <= 1 ? 'Direct' :
+      (transfers - 1) + ' transfer' + (transfers > 2 ? 's' : '');
+
+    return '<div class="conn' + (isDelayed ? ' delayed' : '') + '" data-idx="' + idx + '">' +
+      '<span class="conn-chevron">▶</span>' +
       '<div class="conn-depart">' +
         '<div class="conn-time">' + depTime + '</div>' +
-        (platform ? '<div class="conn-platform">' + platform + '</div>' : '') +
+        (platform ? '<div class="conn-platform">' + escHtml(platform) + '</div>' : '') +
         (delay ? '<div class="conn-delay">' + delay + '</div>' : '') +
       '</div>' +
       '<div class="conn-middle">' +
-        '<div class="conn-route">' + legs.join('<span class="conn-arrow">▸</span>') + '</div>' +
+        '<div class="conn-route">' + legBadges.join('<span class="conn-arrow">▸</span>') + '</div>' +
         '<div class="conn-transfers"><span>' + transferText + '</span></div>' +
       '</div>' +
       '<div class="conn-arrive">' +
         '<div class="conn-time">' + arrTime + '</div>' +
         '<div class="conn-duration">' + duration + '</div>' +
       '</div>' +
+      renderDetail(c) +
     '</div>';
   }).join('');
 }
 
-function fetchConnections() {
-  var from = $from.value.trim();
-  var to = $to.value.trim();
+function renderDetail(c) {
+  const sections = c.sections || [];
+  const parts = [];
+  let prevArr = null;
+  sections.forEach(function(s, i) {
+    if (s.walk) {
+      const mins = s.walk.duration ? Math.round(s.walk.duration / 60) : null;
+      const txt = mins ? ('Walk · ' + mins + ' min') : 'Walk';
+      parts.push(
+        '<div class="leg walk">' +
+          '<div class="leg-times"></div>' +
+          '<div class="leg-body">🚶 ' + escHtml(txt) + '</div>' +
+        '</div>'
+      );
+      return;
+    }
+    if (!s.journey) return;
+
+    const dep = s.departure || {};
+    const arr = s.arrival || {};
+    const wait = fmtTransferWait(prevArr, dep.departure);
+    if (wait) {
+      parts.push('<div class="leg transfer">↪ ' + escHtml(wait) + ' at ' + escHtml((s.departure && s.departure.station && s.departure.station.name) || '') + '</div>');
+    }
+
+    const info = classifyCategory(s.journey.category);
+    const line = legLabel(s.journey);
+    const direction = s.journey.to ? 'towards ' + s.journey.to : '';
+    const depPf = dep.platform ? '<span class="lb-pf">Pl. ' + escHtml(dep.platform) + '</span>' : '';
+    const arrPf = arr.platform ? '<span class="lb-pf">Pl. ' + escHtml(arr.platform) + '</span>' : '';
+
+    parts.push(
+      '<div class="leg">' +
+        '<div class="leg-times">' +
+          '<div class="lt-dep">' + fmtTime(dep.departure) + '</div>' +
+          '<div class="lt-arr">' + fmtTime(arr.arrival) + '</div>' +
+        '</div>' +
+        '<div class="leg-body">' +
+          '<div>' +
+            '<span class="lb-from">' + escHtml((dep.station && dep.station.name) || '') + '</span>' + depPf +
+          '</div>' +
+          '<div>' +
+            '<span class="lb-arrow">↓</span>' +
+            '<span class="lb-line ' + info.type + '">' + (info.icon ? info.icon + ' ' : '') + escHtml(line) + '</span>' +
+            (direction ? '<span class="lb-dir"> · ' + escHtml(direction) + '</span>' : '') +
+          '</div>' +
+          '<div>' +
+            '<span class="lb-to">' + escHtml((arr.station && arr.station.name) || '') + '</span>' + arrPf +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+    prevArr = arr.arrival;
+  });
+  return '<div class="conn-detail">' + parts.join('') + '</div>';
+}
+
+// Expand/collapse rows
+$conn.addEventListener('click', function(e) {
+  const row = e.target.closest('.conn');
+  if (!row) return;
+  row.classList.toggle('open');
+});
+
+// ——— API call ———
+function fetchConnections(opts) {
+  opts = opts || {};
+  const from = $from.value.trim();
+  const to   = $to.value.trim();
+  const via  = $via.value.trim();
   if (!from || !to) return;
 
   $conn.innerHTML = '<div class="state-msg loading">Loading connections…</div>';
+  $pager.hidden = true;
 
-  var url = API + '/connections?from=' + encodeURIComponent(from) +
-    '&to=' + encodeURIComponent(to) + '&limit=6';
+  const params = ['from=' + encodeURIComponent(from), 'to=' + encodeURIComponent(to), 'limit=6'];
+  if (via) params.push('via[]=' + encodeURIComponent(via));
+  const date = opts.date || $date.value;
+  const time = opts.time || $time.value;
+  if (date) params.push('date=' + encodeURIComponent(date));
+  if (time) params.push('time=' + encodeURIComponent(time));
+  if (arriveBy) params.push('isArrivalTime=1');
 
-  var xhr = new XMLHttpRequest();
+  const url = API + '/connections?' + params.join('&');
+
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', url);
   xhr.onload = function() {
     if (xhr.status >= 200 && xhr.status < 300) {
-      renderConnections(JSON.parse(xhr.responseText));
+      try { renderConnections(JSON.parse(xhr.responseText)); }
+      catch (e) { $conn.innerHTML = '<div class="state-msg error">Bad response</div>'; }
     } else {
       $conn.innerHTML = '<div class="state-msg error">API returned ' + xhr.status + '</div>';
     }
@@ -563,13 +956,163 @@ function fetchConnections() {
   xhr.send();
 
   clearInterval(refreshTimer);
-  refreshTimer = setInterval(fetchConnections, 60000);
+  refreshTimer = setInterval(function() { fetchConnections(); }, 60000);
 }
 
-$btn.addEventListener('click', fetchConnections);
-$from.addEventListener('keydown', function(e) { if (e.key === 'Enter') fetchConnections(); });
-$to.addEventListener('keydown', function(e) { if (e.key === 'Enter') fetchConnections(); });
+// ——— Earlier / Later pagination ———
+function shiftSearchTime(deltaMin) {
+  if (!lastConnections.length) return;
+  const anchor = deltaMin < 0
+    ? lastConnections[0].from && lastConnections[0].from.departure
+    : lastConnections[lastConnections.length - 1].from && lastConnections[lastConnections.length - 1].from.departure;
+  if (!anchor) return;
+  const t = new Date(new Date(anchor).getTime() + deltaMin * 60000);
+  const p = swissParts(t);
+  $date.value = `${p.year}-${p.month}-${p.day}`;
+  $time.value = `${p.hour}:${p.minute}`;
+  // Earlier/Later always reads as "depart at" for predictable shifting
+  arriveBy = false;
+  syncModeButtons();
+  fetchConnections();
+}
+$earlier.addEventListener('click', () => shiftSearchTime(-30));
+$later.addEventListener('click',   () => shiftSearchTime(+1));
 
+// ——— Mode toggle (depart / arrive) ———
+function syncModeButtons() {
+  $modeDep.setAttribute('aria-pressed', arriveBy ? 'false' : 'true');
+  $modeArr.setAttribute('aria-pressed', arriveBy ? 'true' : 'false');
+}
+$modeDep.addEventListener('click', () => { if (arriveBy) { arriveBy = false; syncModeButtons(); fetchConnections(); } });
+$modeArr.addEventListener('click', () => { if (!arriveBy) { arriveBy = true;  syncModeButtons(); fetchConnections(); } });
+$nowBtn.addEventListener('click', () => {
+  setNow();
+  arriveBy = false;
+  syncModeButtons();
+  fetchConnections();
+});
+
+// ——— Swap From↔To ———
+$swap.addEventListener('click', () => {
+  const a = $from.value; $from.value = $to.value; $to.value = a;
+  syncClearVisibility($from); syncClearVisibility($to);
+  fetchConnections();
+});
+
+// ——— Search button + Enter ———
+$btn.addEventListener('click', () => fetchConnections());
+[$from, $to, $via, $date, $time].forEach(el => {
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') { closeAllSuggest(); fetchConnections(); } });
+});
+
+// ——— Station autocomplete ———
+// transport.opendata.ch /locations?query=… returns ranked station matches.
+// Debounce per-input; abort in-flight on each keystroke.
+const SUGGEST_DEBOUNCE_MS = 180;
+const STATION_KIND_LABEL = { station: 'STATION', poi: 'POI', address: 'ADDRESS' };
+
+document.querySelectorAll('.station-input').forEach(wrap => {
+  const input = wrap.querySelector('input');
+  const drop  = wrap.querySelector('.suggest');
+  const clear = wrap.querySelector('.clear-x');
+  let debounce = null;
+  let xhr = null;
+  let active = -1;
+
+  function setActive(i) {
+    const items = drop.querySelectorAll('.suggest-item');
+    items.forEach((el, idx) => el.classList.toggle('active', idx === i));
+    active = i;
+  }
+
+  function close() {
+    drop.removeAttribute('data-open');
+    drop.innerHTML = '';
+    active = -1;
+  }
+
+  function pick(name) {
+    input.value = name;
+    syncClearVisibility(input);
+    close();
+    input.focus();
+  }
+
+  input.addEventListener('input', () => {
+    syncClearVisibility(input);
+    const q = input.value.trim();
+    clearTimeout(debounce);
+    if (xhr) { xhr.abort(); xhr = null; }
+    if (q.length < 2) { close(); return; }
+
+    debounce = setTimeout(() => {
+      xhr = new XMLHttpRequest();
+      xhr.open('GET', API + '/locations?query=' + encodeURIComponent(q));
+      xhr.onload = function() {
+        if (xhr.status < 200 || xhr.status >= 300) { close(); return; }
+        let data;
+        try { data = JSON.parse(xhr.responseText); } catch (e) { close(); return; }
+        const items = (data.stations || []).filter(s => s && s.name).slice(0, 8);
+        if (!items.length) {
+          drop.innerHTML = '<div class="suggest-empty">No matches</div>';
+        } else {
+          drop.innerHTML = items.map((s, i) => {
+            const kind = STATION_KIND_LABEL[s.icon] || (s.id ? 'STATION' : '');
+            return '<div class="suggest-item" role="option" data-name="' + escHtml(s.name) + '" data-i="' + i + '">' +
+              '<span>' + escHtml(s.name) + '</span>' +
+              (kind ? '<span class="sx-kind">' + kind + '</span>' : '') +
+            '</div>';
+          }).join('');
+        }
+        drop.setAttribute('data-open', '1');
+        active = -1;
+      };
+      xhr.onerror = function() { close(); };
+      xhr.send();
+    }, SUGGEST_DEBOUNCE_MS);
+  });
+
+  input.addEventListener('keydown', e => {
+    if (!drop.hasAttribute('data-open')) return;
+    const items = drop.querySelectorAll('.suggest-item');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((active + 1) % items.length); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive((active - 1 + items.length) % items.length); }
+    else if (e.key === 'Enter') {
+      if (active >= 0) { e.preventDefault(); pick(items[active].dataset.name); }
+    } else if (e.key === 'Escape') { close(); }
+  });
+
+  drop.addEventListener('mousedown', e => {
+    const it = e.target.closest('.suggest-item');
+    if (it) { e.preventDefault(); pick(it.dataset.name); }
+  });
+
+  input.addEventListener('blur', () => setTimeout(close, 120));
+  clear.addEventListener('click', e => {
+    e.preventDefault();
+    input.value = '';
+    syncClearVisibility(input);
+    close();
+    input.focus();
+  });
+
+  syncClearVisibility(input);
+});
+
+function syncClearVisibility(input) {
+  input.closest('.station-input').classList.toggle('has-value', !!input.value.trim());
+}
+function closeAllSuggest() {
+  document.querySelectorAll('.suggest[data-open="1"]').forEach(d => {
+    d.removeAttribute('data-open');
+    d.innerHTML = '';
+  });
+}
+
+// ——— Init ———
+setNow();
+syncModeButtons();
 fetchConnections();
 </script>
 
