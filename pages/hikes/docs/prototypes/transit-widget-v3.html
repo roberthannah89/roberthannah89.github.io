@@ -97,6 +97,8 @@
   }
   .grow:hover { background: var(--hover); }
   .grow.selected { border-left-color: var(--selected-border); }
+  .grow.expanded { background: var(--hover); }
+  .grow.expanded .details-link { display: none; }
   .grow .icon-mode { color: var(--card-fg); margin-top: 2px; }
   .grow .icon-mode svg { width: 28px; height: 28px; }
   .grow .times { font-weight: 500; font-size: 1.05rem; line-height: 1.2; }
@@ -240,6 +242,41 @@
   }
   .tickets h3 { font-size: .98rem; font-weight: 600; margin: 0 0 .55rem; color: var(--card-fg); }
   .tickets-list { display: flex; flex-direction: column; gap: .2rem; font-size: .9rem; }
+
+  /* Inline expanded panel under a row */
+  .grow-expanded-panel {
+    grid-column: 1 / -1;
+    margin-top: .35rem;
+    padding-top: .25rem;
+    border-top: 1px solid var(--border);
+  }
+  .expanded-actions {
+    display: flex; gap: 1.5rem; align-items: center;
+    padding: .8rem 0 .25rem;
+    color: var(--card-fg);
+    font-size: .92rem;
+    font-weight: 500;
+  }
+  .expanded-actions a {
+    color: var(--card-fg); display: inline-flex; align-items: center; gap: .35rem;
+    cursor: pointer;
+  }
+  .expanded-actions a:hover { color: var(--link); text-decoration: none; }
+  .expanded-actions svg { width: 20px; height: 20px; }
+  .expanded-actions .add-cal-link { margin-left: auto; color: var(--link); }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #202124; color: #fff;
+    padding: .65rem 1.1rem; border-radius: 4px;
+    font-size: .9rem; font-weight: 500;
+    z-index: 9999;
+    transition: transform .25s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
   .empty, .loading, .err {
     padding: 2.5rem 1rem;
@@ -418,17 +455,18 @@
     }
 
     var toolbar = el('div', { class: 'gtoolbar' }, [
-      el('a', { href: '#', onclick: prevent }, [iconSpan(ICON_MOBILE), 'Send directions to your phone']),
-      el('a', { href: '#', onclick: function(e) { prevent(e); copyLink(); } }, [iconSpan(ICON_LINK), 'Copy link'])
+      el('span'),
+      el('a', { href: '#', onclick: function(e) { prevent(e); copyLink(); } },
+        [iconSpan(ICON_LINK), 'Copy link'])
     ]);
     card.appendChild(toolbar);
 
     connections.forEach(function(c, i) {
-      card.appendChild(renderRow(c, i === 0, function() { renderDetail(c); }));
+      card.appendChild(renderRow(c, i, i === state.expandedIdx));
     });
   }
 
-  function renderRow(c, isFirst, onClick) {
+  function renderRow(c, idx, isExpanded) {
     var transitSecs = (c.sections || []).filter(function(s) { return s.journey; });
     var firstJourney = transitSecs[0] && transitSecs[0].journey;
     var modeIcon = modeOf(firstJourney).icon;
@@ -452,84 +490,62 @@
       meta.appendChild(el('div', { class: 'walk' }, [iconSpan(ICON_WALK), walkMin + ' min']));
     }
 
-    return el('div', { class: 'grow' + (isFirst ? ' selected' : ''), onclick: onClick }, [
+    var noneExpanded = (state.expandedIdx === -1);
+    var showDetailsHint = (idx === 0 && noneExpanded);
+    var rowClass = 'grow'
+      + (isExpanded ? ' selected expanded' : '')
+      + ((!isExpanded && idx === 0 && noneExpanded) ? ' selected' : '');
+
+    var row = el('div', { class: rowClass }, [
       el('div', { class: 'icon-mode', html: modeIcon }),
       el('div', null, [
         el('div', { class: 'times' }, fmtTime(dep) + ' — ' + fmtTime(arr)),
         chipsRow,
         meta,
-        isFirst ? el('div', { class: 'details-link' }, el('a', { href: '#', onclick: prevent }, 'Details')) : null
+        showDetailsHint ? el('div', { class: 'details-link' }, 'Details') : null
       ]),
       el('div', { class: 'duration' }, fmtDur(totalSecs))
     ]);
+
+    if (isExpanded) row.appendChild(renderExpandedPanel(c));
+
+    row.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      state.expandedIdx = isExpanded ? -1 : idx;
+      renderList(lastConnections);
+    });
+
+    return row;
   }
 
-  // ===== Detail view =====
-  function renderDetail(c) {
-    var card = document.getElementById('gcard');
-    card.innerHTML = '';
-    var d = el('div', { class: 'detail' });
+  // ===== Expanded panel (inline detail) =====
+  function renderExpandedPanel(c) {
+    var panel = el('div', { class: 'grow-expanded-panel' });
 
-    d.appendChild(el('button', { class: 'detail-back', onclick: backToList }, [
-      el('span', { html: '&larr;', style: 'font-size:1.1rem' }),
-      'Back to results'
-    ]));
-
-    // Summary block (matches Image #2 top)
-    var dep = parseISO(c.from && c.from.departure);
-    var arr = parseISO(c.to && c.to.arrival);
-    var totalSecs = parseDur(c.duration);
-    var transitSecs = (c.sections || []).filter(function(s) { return s.journey; });
-
-    var titleRow = el('div', { class: 'detail-header-actions' }, [
-      el('div', null, [
-        el('div', { class: 'detail-times' }, fmtTime(dep) + ' — ' + fmtTime(arr)),
-        el('div', { class: 'detail-duration' }, '(' + fmtDur(totalSecs) + ')')
-      ]),
-      el('span', { class: 'grow-spacer' }),
-      iconSpan(ICON_MOBILE), iconSpan(ICON_SHARE), iconSpan(ICON_PRINT)
+    var actions = el('div', { class: 'expanded-actions' }, [
+      el('a', { href: '#', title: 'Share', onclick: function(e) { prevent(e); shareTrip(c); } },
+        [iconSpan(ICON_SHARE), 'Share']),
+      el('a', { href: '#', title: 'Print', onclick: function(e) { prevent(e); window.print(); } },
+        [iconSpan(ICON_PRINT), 'Print']),
+      el('a', { href: '#', class: 'add-cal-link', onclick: function(e) { prevent(e); downloadIcs(c); } },
+        [iconSpan(ICON_CALENDAR), 'Add to Calendar'])
     ]);
-    d.appendChild(titleRow);
+    panel.appendChild(actions);
 
-    var sumChips = el('div', { class: 'detail-chips' });
-    transitSecs.forEach(function(s, i) {
-      if (i > 0) sumChips.appendChild(chipSep());
-      sumChips.appendChild(chip(s.journey));
-    });
-    d.appendChild(sumChips);
+    panel.appendChild(renderTimeline(c));
 
-    if (dep) d.appendChild(el('div', { class: 'detail-from' },
-      fmtTime(dep) + ' from ' + (c.from.station && c.from.station.name || '')));
-    var firstSec = c.sections && c.sections[0];
-    if (firstSec && firstSec.walk) {
-      d.appendChild(el('div', { class: 'detail-walk' }, [
-        iconSpan(ICON_WALK),
-        Math.max(1, Math.round((firstSec.walk.duration || 60) / 60)) + ' min'
-      ]));
-    }
-
-    // Add to Calendar (visual stub)
-    d.appendChild(el('div', { class: 'add-cal' }, [iconSpan(ICON_CALENDAR), 'Add to Calendar']));
-
-    // Timeline
-    d.appendChild(renderTimeline(c));
-
-    // Tickets
     var tickets = el('div', { class: 'tickets' });
     tickets.appendChild(el('h3', null, 'Tickets and information'));
     var sbbHref = 'https://www.sbb.ch/en?stops[0].value=' +
       encodeURIComponent((c.from && c.from.station && c.from.station.name) || '') +
       '&stops[1].value=' +
       encodeURIComponent((c.to && c.to.station && c.to.station.name) || '');
-    var ticketsList = el('div', { class: 'tickets-list' }, [
-      el('div', null, el('a', { href: sbbHref, target: '_blank', rel: 'noopener' },
-        'Schweizerische Bundesbahnen — Buy tickets'))
-    ]);
-    tickets.appendChild(ticketsList);
-    d.appendChild(tickets);
+    tickets.appendChild(el('div', null,
+      el('a', { href: sbbHref, target: '_blank', rel: 'noopener' },
+        'Schweizerische Bundesbahnen \u2014 Buy tickets')));
+    panel.appendChild(tickets);
 
-    card.appendChild(d);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return panel;
   }
 
   function renderTimeline(c) {
@@ -615,18 +631,133 @@
 
   // ===== Wiring =====
   var lastConnections = null;
-  function backToList() { if (lastConnections) renderList(lastConnections); }
-  function copyLink() {
-    if (navigator.clipboard) navigator.clipboard.writeText(window.location.href);
+  var state = { expandedIdx: 0 };
+
+  function prevent(e) { if (e) { e.preventDefault(); e.stopPropagation(); } }
+
+  function buildShareLink() {
+    var from = document.getElementById('i-from').value;
+    var to   = document.getElementById('i-to').value;
+    var date = document.getElementById('i-date').value;
+    var time = document.getElementById('i-time').value;
+    return location.origin + location.pathname + '#'
+      + 'from=' + encodeURIComponent(from)
+      + '&to='   + encodeURIComponent(to)
+      + '&date=' + encodeURIComponent(date)
+      + '&time=' + encodeURIComponent(time);
   }
-  function prevent(e) { if (e) e.preventDefault(); }
+  function copyLink() {
+    var url = buildShareLink();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        function() { showToast('Link copied'); },
+        function() { fallbackCopy(url); }
+      );
+    } else {
+      fallbackCopy(url);
+    }
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('Link copied'); }
+    catch (e) { showToast('Could not copy'); }
+    document.body.removeChild(ta);
+  }
+  function shareTrip(c) {
+    var url = buildShareLink();
+    var fromName = (c.from && c.from.station && c.from.station.name) || '';
+    var toName = (c.to && c.to.station && c.to.station.name) || '';
+    if (navigator.share) {
+      navigator.share({
+        title: fromName + ' \u2192 ' + toName,
+        text: 'Transit trip',
+        url: url
+      }).catch(function() { copyLink(); });
+    } else {
+      copyLink();
+    }
+  }
+  function showToast(msg) {
+    var t = el('div', { class: 'toast' }, msg);
+    document.body.appendChild(t);
+    setTimeout(function() { t.classList.add('show'); }, 10);
+    setTimeout(function() {
+      t.classList.remove('show');
+      setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 300);
+    }, 1800);
+  }
+
+  function icsDate(d) {
+    if (!d) return '';
+    return '' + d.getUTCFullYear() + pad2(d.getUTCMonth() + 1) + pad2(d.getUTCDate())
+      + 'T' + pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + 'Z';
+  }
+  function icsEscape(t) {
+    return String(t || '').replace(/[\\;,]/g, function(m) { return '\\' + m; }).replace(/\n/g, '\\n');
+  }
+  function downloadIcs(c) {
+    var dep = parseISO(c.from && c.from.departure);
+    var arr = parseISO(c.to && c.to.arrival);
+    var fromName = (c.from && c.from.station && c.from.station.name) || '';
+    var toName = (c.to && c.to.station && c.to.station.name) || '';
+    var transitSecs = (c.sections || []).filter(function(s) { return s.journey; });
+    var chips = transitSecs.map(function(s) { return lineLabelOf(s.journey); }).join(' \u2192 ');
+    var totalSecs = parseDur(c.duration);
+    var desc = chips + ' (' + fmtDur(totalSecs) + ')';
+    var ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//hike//transit-widget-v3//EN',
+      'BEGIN:VEVENT',
+      'UID:' + (dep ? dep.getTime() : Date.now()) + '@hike-transit',
+      'DTSTAMP:' + icsDate(new Date()),
+      'DTSTART:' + icsDate(dep),
+      'DTEND:' + icsDate(arr),
+      'SUMMARY:' + icsEscape(fromName + ' \u2192 ' + toName),
+      'LOCATION:' + icsEscape(fromName),
+      'DESCRIPTION:' + icsEscape(desc),
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'trip-' + (dep ? dep.toISOString().slice(0,10) : 'transit') + '.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 0);
+  }
+
+  function parseHashIntoForm() {
+    if (!location.hash || location.hash.length < 2) return false;
+    var params = {};
+    location.hash.slice(1).split('&').forEach(function(p) {
+      var idx = p.indexOf('=');
+      if (idx > -1) params[p.slice(0, idx)] = decodeURIComponent(p.slice(idx + 1));
+    });
+    var any = false;
+    if (params.from) { document.getElementById('i-from').value = params.from; any = true; }
+    if (params.to)   { document.getElementById('i-to').value   = params.to;   any = true; }
+    if (params.date) { document.getElementById('i-date').value = params.date; any = true; }
+    if (params.time) { document.getElementById('i-time').value = params.time; any = true; }
+    return any;
+  }
+
   function doSearch() {
     var from = document.getElementById('i-from').value;
     var to   = document.getElementById('i-to').value;
     var date = document.getElementById('i-date').value;
     var time = document.getElementById('i-time').value;
     var card = document.getElementById('gcard');
-    card.innerHTML = '<div class="loading">Loading…</div>';
+    card.innerHTML = '<div class="loading">Loading\u2026</div>';
+    state.expandedIdx = 0;
     fetchConnections(from, to, date, time, function(err, data) {
       if (err) {
         card.innerHTML = '<div class="err">' + (err.message || 'Error') + '</div>';
@@ -641,11 +772,12 @@
     doSearch();
   });
 
-  // Default date/time = now
+  // Default date/time = now (unless hash overrides)
   var now = new Date();
   document.getElementById('i-date').value =
     now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate());
   document.getElementById('i-time').value = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+  parseHashIntoForm();
 
   doSearch();
 })();
