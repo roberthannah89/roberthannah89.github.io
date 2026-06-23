@@ -103,37 +103,12 @@
       "title_html": "<strong>Südwestgrat (von der Bocchetta di Cansgei)</strong>",
       "grade": "T5",
       "pill_class": "t5",
-      "bullets_html": [
-        "TODO: Step 1 description.",
-        "TODO: Step 2 description."
-      ],
       "source": "SAC Route Portal",
-      "notes_html": "<p>Von der Bocchetta di Cansgei zum Südwestgipfel vereinzelte Wegspuren und Steinmännchen sowie ein paar leichte Felsstufen (T3+). Der Verbindungsgrat zum Nordostgipfel ist dagegen luftig, ausgesetzt und zuletzt etwas kraxlig, also eher im Bereich T5 anzusiedeln.</p>"
+      "notes_html": "<p>Von der Bocchetta di Cansgei zum Südwestgipfel vereinzelte Wegspuren und Steinmännchen sowie ein paar leichte Felsstufen (T3+). Der Verbindungsgrat zum Nordostgipfel ist dagegen luftig, ausgesetzt und zuletzt etwas kraxlig, also eher im Bereich T5 anzusiedeln.</p>",
+      "bullets_html": []
     }
   ],
-  "getting_there": {
-    "by_pt_html": "TODO: SBB / PostBus connection description.",
-    "by_car_html": "TODO: Driving directions."
-  },
-  "day_plans": [
-    {
-      "title": "Day 1",
-      "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
-      ]
-    }
-  ],
-  "weather": {
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
-  },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Pizzo Alzasca</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
-  ],
   "scraped_waypoints": [
     {
       "name": "Bocchetta di Cansgéi",

@@ -97,37 +97,15 @@
       "title_html": "<strong>From Pass Lunghin</strong>",
       "grade": "T3",
       "pill_class": "t3",
-      "bullets_html": [
-        "TODO: Step 1 description.",
-        "TODO: Step 2 description."
-      ],
       "source": "SAC Route Portal",
-      "notes_html": "<p>The closer the summit, the stonier the trails. Nevertheless, the summit is easy to reach. Until Pass Lunghin the trail is marked white-red-white, the ascent from the col to the summit white-blue-white.</p>"
+      "notes_html": "<p>The closer the summit, the stonier the trails. Nevertheless, the summit is easy to reach. Until Pass Lunghin the trail is marked white-red-white, the ascent from the col to the summit white-blue-white.</p>",
+      "bullets_html": []
     }
   ],
   "getting_there": {
-    "by_pt_html": "<p><strong>Bus</strong> to <strong>Maloja, Posta</strong>.</p>",
-    "by_car_html": "TODO: Driving directions."
-  },
-  "day_plans": [
-    {
-      "title": "Day 1",
-      "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
-      ]
-    }
-  ],
-  "weather": {
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Maloja, Posta</strong>.</p>"
   },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Piz Lunghin Pass Lunghin</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
-  ],
   "scraped_waypoints": [
     {
       "name": "Pass Lunghin",

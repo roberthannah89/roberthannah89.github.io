@@ -97,37 +97,15 @@
       "title_html": "<strong>From Arolla via Plans de Bertol</strong>",
       "grade": "T4",
       "pill_class": "t4",
-      "bullets_html": [
-        "TODO: Step 1 description.",
-        "TODO: Step 2 description."
-      ],
       "source": "SAC Route Portal",
-      "notes_html": "<p>The last part of the ascent is marked with flags, the route changes depending on the conditions and the retreat of the glacier. Depending on the conditions, ice axe and possibly crampons may be necessary before the Col de Bertol (slope around 30° below the Col de Bertol), later in the season on rocky terrain.</p>"
+      "notes_html": "<p>The last part of the ascent is marked with flags, the route changes depending on the conditions and the retreat of the glacier. Depending on the conditions, ice axe and possibly crampons may be necessary before the Col de Bertol (slope around 30° below the Col de Bertol), later in the season on rocky terrain.</p>",
+      "bullets_html": []
     }
   ],
   "getting_there": {
-    "by_pt_html": "<p><strong>Bus</strong> to <strong>Arolla, Magine</strong>.</p>",
-    "by_car_html": "TODO: Driving directions."
-  },
-  "day_plans": [
-    {
-      "title": "Day 1",
-      "rows": [
-        [
-          "HH:MM",
-          "TODO: step description"
-        ]
-      ]
-    }
-  ],
-  "weather": {
-    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Arolla, Magine</strong>.</p>"
   },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "resources_html": [
-    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Cabane De Bertol Cas</a>",
-    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
-  ],
   "scraped_waypoints": [
     {
       "name": "Col de Bertol",
