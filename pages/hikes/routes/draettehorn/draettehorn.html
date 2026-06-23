@@ -62,7 +62,7 @@
 </section>
 
 <section class="map-section">
-  <h2>Route Map &amp; Elevation</h2>
+  <h2>Planning</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./draettehorn.gpx" download="draettehorn.gpx"
@@ -134,6 +134,41 @@
   </p>
   <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
+<section class="getting-there" aria-label="Getting there and back">
+  <div class="endpoint-row endpoint-row--two">
+  <div class="endpoint-block">
+    <h3>Start: Birg (Schilthornbahn) <span class="endpoint-elev">(2669 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  <div class="endpoint-block">
+    <h3>End: Grütschalp <span class="endpoint-elev">(1486 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link-end" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link-end" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<aside class="conditions-note" aria-label="Trail conditions">
+  <strong>Before you go:</strong> check
+  the
+  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
+</aside>
 
 <section>
   <h2>3D Terrain View</h2>
@@ -157,40 +192,6 @@
   <h3>Terrain &amp; safety</h3>
   <p>It is a long tour with a many metres of vertical height to negotiate, but without greater difficulties. There are some passages on scree which require sure-footedness. Easy scrambling is needed on Drättehorn and Hoganthorn (I). On the north-west side of Bietenlücke you will encounter snowfields until late into the summer.</p>
   <p class="attrib">Source: SAC Route Portal</p>
-</section>
-
-
-<aside class="conditions-note" aria-label="Trail conditions">
-  <strong>Before you go:</strong> check
-  the
-  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
-</aside>
-<section class="getting-there">
-  <h2>Getting There &amp; Back</h2>
-  <div class="endpoint-block">
-    <h3>Start: Birg (Schilthornbahn) <span class="endpoint-elev">(2669 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <span id="transit-origin"></span> to
-      <strong>Birg (Schilthornbahn)</strong>
-    </p>
-  </div>
-  <div class="endpoint-block">
-    <h3>End: Grütschalp <span class="endpoint-elev">(1486 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <strong>Grütschalp</strong> back to
-      <span id="transit-origin-end"></span>
-    </p>
-  </div>
 </section>
 
 
@@ -222,6 +223,8 @@
 window.HIKE = {
   summit: { lat: 46.58239, lon: 7.82383, elev: 2776, name: "Draettehorn" },
   trailhead: { lat: 46.5621, lon: 7.8575, name: "Birg (Schilthornbahn)",
+               sbb_url: "" },
+  end_point: { name: "Gr\u00fctschalp",
                sbb_url: "" },
   gpx_filename: "draettehorn.gpx",
   page_generated: "2026-06-19",

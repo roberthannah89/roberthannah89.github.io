@@ -76,7 +76,7 @@
 </section>
 
 <section class="map-section">
-  <h2>Route Map &amp; Elevation</h2>
+  <h2>Planning</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./torrone-alto.gpx" download="torrone-alto.gpx"
@@ -148,6 +148,30 @@
   </p>
   <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
+<section class="getting-there" aria-label="Getting there and back">
+  <div class="endpoint-row">
+  <div class="endpoint-block">
+    <h3>Start: Landarenca, Bergstation <span class="endpoint-elev">(1278 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  </div>
+  <p class="attrib">Route returns to <strong>Landarenca, Bergstation</strong>.</p>
+</section>
+
+
+<aside class="conditions-note" aria-label="Trail conditions">
+  <strong>Before you go:</strong> check
+  the
+  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
+</aside>
 
 <section>
   <h2>3D Terrain View</h2>
@@ -169,29 +193,6 @@
     <li>TODO: Step 2 description.</li>
   </ul>
   <p class="attrib">Source: SAC Route Portal</p>
-</section>
-
-
-<aside class="conditions-note" aria-label="Trail conditions">
-  <strong>Before you go:</strong> check
-  the
-  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
-</aside>
-<section class="getting-there">
-  <h2>Getting There &amp; Back</h2>
-  <div class="endpoint-block">
-    <h3>Start: Landarenca, Bergstation <span class="endpoint-elev">(1278 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <span id="transit-origin"></span> to
-      <strong>Landarenca, Bergstation</strong>
-    </p>
-  </div>
-  <p class="attrib">Route returns to <strong>Landarenca, Bergstation</strong>.</p>
 </section>
 
 

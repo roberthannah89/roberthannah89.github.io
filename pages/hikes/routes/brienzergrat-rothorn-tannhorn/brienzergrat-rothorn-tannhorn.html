@@ -112,7 +112,7 @@
 </section>
 
 <section class="map-section">
-  <h2>Route Map &amp; Elevation</h2>
+  <h2>Planning</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./brienzergrat-rothorn-tannhorn.gpx" download="brienzergrat-rothorn-tannhorn.gpx"
@@ -184,6 +184,44 @@
   </p>
   <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
+<section class="getting-there" aria-label="Getting there and back">
+  <div class="endpoint-row endpoint-row--two">
+  <div class="endpoint-block">
+    <h3>Start: Brienzer Rothorn, Bergstation <span class="endpoint-elev">(2251 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  <div class="endpoint-block">
+    <h3>End: Station Planalp <span class="endpoint-elev">(1350 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link-end" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link-end" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  </div>
+  <div class="transport-notes">
+    <p><strong>Cable car</strong> to <strong>Brienzer Rothorn, Bergstation</strong>.</p>
+  </div>
+</section>
+
+
+<aside class="conditions-note" aria-label="Trail conditions">
+  <strong>Before you go:</strong> check
+  the
+  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
+</aside>
 
 <section>
   <h2>3D Terrain View</h2>
@@ -206,43 +244,6 @@
   <h3>Terrain &amp; safety</h3>
   <p>Schlüsselstelle am gesamten Brienzergrat ist die ausgesetzte und mit einem Drahtseil entschärfte Passage beim Schärsax-Zahn kurz vor dem Tannhorn, je nach persönlichen Empfinden und den Verhältnissen ein oberes T4 / unteres T5. Bei Nässe werden die erdigen Wegspuren am Grat sehr rutschig; von einer Begehung ist dann abzuraten. Vorsicht: Bei der Tour über den ganzen Brienzergrat dürfen die physische Komponente (Distanz Brienzer Rothorn - Harder rund 20 km, zahlreiche Gegensteigungen!) und vor allem die Anforderungen an die Konzentrationsfähigkeit nicht unterschätzt werden, man bewegt sich über lange Strecken in exponiertem Gelände, das kaum Fehler verzeiht. Die Markierungen (rot-weiss / blau-weiss oder nicht markiert) haben in den letzten Jahren immer wieder mal gewechselt, die Route ist aber kaum zu verfehlen.</p>
   <p class="attrib">Source: SAC Route Portal</p>
-</section>
-
-
-<aside class="conditions-note" aria-label="Trail conditions">
-  <strong>Before you go:</strong> check
-  the
-  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
-</aside>
-<section class="getting-there">
-  <h2>Getting There &amp; Back</h2>
-  <div class="endpoint-block">
-    <h3>Start: Brienzer Rothorn, Bergstation <span class="endpoint-elev">(2251 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <span id="transit-origin"></span> to
-      <strong>Brienzer Rothorn, Bergstation</strong>
-    </p>
-  </div>
-  <div class="endpoint-block">
-    <h3>End: Station Planalp <span class="endpoint-elev">(1350 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <strong>Station Planalp</strong> back to
-      <span id="transit-origin-end"></span>
-    </p>
-  </div>
-  <div class="transport-notes">
-    <p><strong>Cable car</strong> to <strong>Brienzer Rothorn, Bergstation</strong>.</p>
-  </div>
 </section>
 
 
@@ -274,6 +275,8 @@
 window.HIKE = {
   summit: { lat: 46.77499, lon: 7.98462, elev: 2265, name: "Brienzergrat Rothorn Tannhorn" },
   trailhead: { lat: 46.7875, lon: 8.0391, name: "Brienzer Rothorn, Bergstation",
+               sbb_url: "" },
+  end_point: { name: "Station Planalp",
                sbb_url: "" },
   gpx_filename: "brienzergrat-rothorn-tannhorn.gpx",
   page_generated: "2026-06-19",

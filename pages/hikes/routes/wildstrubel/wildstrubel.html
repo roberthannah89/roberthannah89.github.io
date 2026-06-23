@@ -92,7 +92,7 @@
 </section>
 
 <section class="map-section">
-  <h2>Route Map &amp; Elevation</h2>
+  <h2>Planning</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./wildstrubel.gpx" download="wildstrubel.gpx"
@@ -164,6 +164,41 @@
   </p>
   <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
+<section class="getting-there" aria-label="Getting there and back">
+  <div class="endpoint-row endpoint-row--two">
+  <div class="endpoint-block">
+    <h3>Start: Wildstrubelhütte SAC <span class="endpoint-elev">(2788 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  <div class="endpoint-block">
+    <h3>End: Lenk, Simmenfälle <span class="endpoint-elev">(1105 m)</span></h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link-end" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link-end" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<aside class="conditions-note" aria-label="Trail conditions">
+  <strong>Before you go:</strong> check
+  the
+  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
+</aside>
 
 <section>
   <h2>3D Terrain View</h2>
@@ -187,40 +222,6 @@
   <h3>Terrain &amp; safety</h3>
   <p>Unten weiss-rot-weiss markiert, oben einige verblasste weiss-rot-weisse Markierungen. Gute Sicht wichtig. Steilflanke zum Flueseeli teilweise exponiert, einige Seilgeländer. Über eine kurze Felsstufe (ca. 3 m) auf ca. 2640 m braucht es die Hände, um darüberzukraxeln. Es lohnt sich, dort ein wenig nach dem besten Durchgang zu suchen. Am anspruchsvollsten dürfte die Steilflanke vom Flueseeli hinunter sein, weil sich dann die Müdigkeit bemerkbar macht.</p>
   <p class="attrib">Source: SAC Route Portal</p>
-</section>
-
-
-<aside class="conditions-note" aria-label="Trail conditions">
-  <strong>Before you go:</strong> check
-  the
-  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
-</aside>
-<section class="getting-there">
-  <h2>Getting There &amp; Back</h2>
-  <div class="endpoint-block">
-    <h3>Start: Wildstrubelhütte SAC <span class="endpoint-elev">(2788 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <span id="transit-origin"></span> to
-      <strong>Wildstrubelhütte SAC</strong>
-    </p>
-  </div>
-  <div class="endpoint-block">
-    <h3>End: Lenk, Simmenfälle <span class="endpoint-elev">(1105 m)</span></h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <strong>Lenk, Simmenfälle</strong> back to
-      <span id="transit-origin-end"></span>
-    </p>
-  </div>
 </section>
 
 
@@ -252,6 +253,8 @@
 window.HIKE = {
   summit: { lat: 46.40034, lon: 7.52863, elev: 3243, name: "Wildstrubel" },
   trailhead: { lat: 46.3829, lon: 7.4679, name: "Wildstrubelh\u00fctte SAC",
+               sbb_url: "" },
+  end_point: { name: "Lenk, Simmenf\u00e4lle",
                sbb_url: "" },
   gpx_filename: "wildstrubel.gpx",
   page_generated: "2026-06-06",

@@ -58,7 +58,7 @@
 </section>
 
 <section class="map-section">
-  <h2>Route Map &amp; Elevation</h2>
+  <h2>Planning</h2>
   <div class="map-controls">
     <button id="fitBtn" aria-label="Fit route to view">↻ Fit route</button>
     <a class="btn" id="gpxBtn" href="./{{ slug }}.gpx" download="{{ slug }}.gpx"
@@ -144,6 +144,66 @@
   <div id="transit-widget" class="transit-widget" aria-label="Live public-transport connections"></div>
 </section>
 
+{%- set has_distinct_end = end_point is defined and end_point and end_point.name and end_point.name != trailhead.name %}
+<section class="getting-there" aria-label="Getting there and back">
+  <div class="endpoint-row{% if has_distinct_end %} endpoint-row--two{% endif %}">
+  <div class="endpoint-block">
+    <h3>Start: {{ trailhead.name }}{% if trailhead.elev %} <span class="endpoint-elev">({{ trailhead.elev }} m)</span>{% endif %}</h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+{%- if has_distinct_end %}
+  <div class="endpoint-block">
+    <h3>End: {{ end_point.name }}{% if end_point.elev %} <span class="endpoint-elev">({{ end_point.elev }} m)</span>{% endif %}</h3>
+    <div class="transit-actions">
+      <a class="btn btn-icon" id="gmaps-drive-link-end" target="_blank" rel="noopener" title="Driving directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚗</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-icon" id="gmaps-transit-link-end" target="_blank" rel="noopener" title="Transit directions on Google Maps">
+        <span class="btn-emoji" aria-hidden="true">🚆</span><span class="btn-text">Google Maps</span>
+      </a>
+      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
+    </div>
+  </div>
+{%- endif %}
+  </div>
+{%- if not has_distinct_end %}
+  <p class="attrib">Route returns to <strong>{{ trailhead.name }}</strong>.</p>
+{%- endif %}
+{%- if getting_there is defined and getting_there and getting_there.get('transport_notes_html') %}
+  <div class="transport-notes">
+    {{ getting_there.transport_notes_html | safe }}
+  </div>
+{%- endif %}
+</section>
+
+{# Trail conditions — link out to SAC (no public closure API, so a deep-link is the
+   honest answer). If this hike has a SAC route source, link the per-route page (the
+   StatusAlert widget there is keyed to that route's SAC id). Always link the central
+   warnings list as a regional fallback. #}
+{%- set ns = namespace(sac_url=None) %}
+{%- if sources is defined and sources %}
+{%- for src in sources if 'sac-route-portal' in (src.url or '') %}
+  {%- if ns.sac_url is none %}{%- set ns.sac_url = src.url %}{%- endif %}
+{%- endfor %}
+{%- endif %}
+<aside class="conditions-note" aria-label="Trail conditions">
+  <strong>Before you go:</strong> check
+{%- if ns.sac_url %}
+  the <a href="{{ ns.sac_url }}" target="_blank" rel="noopener">SAC route page</a> for any active warning on this route, and the
+{%- else %}
+  the
+{%- endif %}
+  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
+</aside>
+
 <section>
   <h2>3D Terrain View</h2>
   <div id="hike3d-wrap" class="hike3d-wrap" aria-label="3D map of {{ peak.name }}">
@@ -180,64 +240,6 @@
 {%- endif %}
 </section>
 {%- endif %}
-
-{# Trail conditions — link out to SAC (no public closure API, so a deep-link is the
-   honest answer). If this hike has a SAC route source, link the per-route page (the
-   StatusAlert widget there is keyed to that route's SAC id). Always link the central
-   warnings list as a regional fallback. #}
-{%- set ns = namespace(sac_url=None) %}
-{%- if sources is defined and sources %}
-{%- for src in sources if 'sac-route-portal' in (src.url or '') %}
-  {%- if ns.sac_url is none %}{%- set ns.sac_url = src.url %}{%- endif %}
-{%- endfor %}
-{%- endif %}
-<aside class="conditions-note" aria-label="Trail conditions">
-  <strong>Before you go:</strong> check
-{%- if ns.sac_url %}
-  the <a href="{{ ns.sac_url }}" target="_blank" rel="noopener">SAC route page</a> for any active warning on this route, and the
-{%- else %}
-  the
-{%- endif %}
-  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
-</aside>
-
-{%- set has_distinct_end = end_point is defined and end_point and end_point.name and end_point.name != trailhead.name %}
-<section class="getting-there">
-  <h2>Getting There &amp; Back</h2>
-  <div class="endpoint-block">
-    <h3>Start: {{ trailhead.name }}{% if trailhead.elev %} <span class="endpoint-elev">({{ trailhead.elev }} m)</span>{% endif %}</h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <span id="transit-origin"></span> to
-      <strong>{{ trailhead.name }}</strong>
-    </p>
-  </div>
-{%- if has_distinct_end %}
-  <div class="endpoint-block">
-    <h3>End: {{ end_point.name }}{% if end_point.elev %} <span class="endpoint-elev">({{ end_point.elev }} m)</span>{% endif %}</h3>
-    <div class="transit-actions">
-      <a class="btn" id="gmaps-drive-link-end" target="_blank" rel="noopener">Google Maps (driving)</a>
-      <a class="btn" id="gmaps-transit-link-end" target="_blank" rel="noopener">Google Maps (transit)</a>
-      <a class="btn btn-primary" id="sbb-link-end" target="_blank" rel="noopener">SBB Timetable</a>
-    </div>
-    <p class="attrib">
-      Directions from <strong>{{ end_point.name }}</strong> back to
-      <span id="transit-origin-end"></span>
-    </p>
-  </div>
-{%- else %}
-  <p class="attrib">Route returns to <strong>{{ trailhead.name }}</strong>.</p>
-{%- endif %}
-{%- if getting_there is defined and getting_there and getting_there.get('transport_notes_html') %}
-  <div class="transport-notes">
-    {{ getting_there.transport_notes_html | safe }}
-  </div>
-{%- endif %}
-</section>
 
 {# Print-only field reference: GPS coordinates for trailhead, summit, and waypoints.
    Hidden on screen by default; revealed by the print stylesheet so a printed page is
@@ -279,8 +281,9 @@ window.HIKE = {
   summit: { lat: {{ peak.lat }}, lon: {{ peak.lon }}, elev: {{ peak.elev }}, name: {{ peak.name | tojson }} },
   trailhead: { lat: {{ trailhead.lat }}, lon: {{ trailhead.lon }}, name: {{ trailhead.name | tojson }},
                sbb_url: {{ trailhead.get('sbb_url', '') | tojson }} },
-{%- if end_point is defined and end_point and end_point.name and end_point.get('lat') is not none and end_point.get('lon') is not none %}
-  end_point: { lat: {{ end_point.lat }}, lon: {{ end_point.lon }}, name: {{ end_point.name | tojson }},
+{%- if end_point is defined and end_point and end_point.name %}
+  end_point: {
+    {%- if end_point.get('lat') is not none and end_point.get('lon') is not none %} lat: {{ end_point.lat }}, lon: {{ end_point.lon }},{% endif %} name: {{ end_point.name | tojson }},
                sbb_url: {{ end_point.get('sbb_url', '') | tojson }} },
 {%- endif %}
   gpx_filename: {{ (slug ~ '.gpx') | tojson }},

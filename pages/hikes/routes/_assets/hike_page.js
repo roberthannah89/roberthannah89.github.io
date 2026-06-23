@@ -10,7 +10,15 @@
 
   const cfg = (window.HIKING_CONFIG || {});
   const mapsKey = cfg.mapsApiKey || "";
-  const transitOrigin = cfg.defaultOrigin || "Zürich HB";
+  const TRANSIT_ORIGIN_KEY = "hike-transit:origin"; // shared with transit_widget.js
+  function readTransitOrigin() {
+    try {
+      const v = window.localStorage && window.localStorage.getItem(TRANSIT_ORIGIN_KEY);
+      if (v && typeof v === "string") return v;
+    } catch (e) { /* private mode */ }
+    return cfg.defaultOrigin || "Zürich HB";
+  }
+  let transitOrigin = readTransitOrigin();
 
   // Populate the print-only page URL (must run before any early-return so the
   // printed copy points back to the live page even if Leaflet failed to load).
@@ -160,20 +168,72 @@
   if (gpxBtn) gpxBtn.href = GPX_FILENAME;
 
   // ---- Shared planning state (date selection across daily forecast tiles and hourly overlay) ----
+  // Date helpers anchored to Europe/Zurich. The Open-Meteo forecast is queried with
+  // timezone=Europe/Zurich, so its day-keyed responses use Zurich-local dates — using the
+  // browser's local date would mismatch for users (or headless browsers) outside that zone,
+  // which would leave the "your day" highlight off until something is clicked.
+  function zurichNowParts() {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Europe/Zurich",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", hour12: false,
+    }).formatToParts(new Date());
+    const get = t => parts.find(p => p.type === t).value;
+    return { y: get("year"), m: get("month"), d: get("day"), h: parseInt(get("hour"), 10) };
+  }
   function todayIsoLocal() {
-    const d = new Date();
-    return d.getFullYear() + "-" +
-      String(d.getMonth() + 1).padStart(2, "0") + "-" +
-      String(d.getDate()).padStart(2, "0");
+    const { y, m, d } = zurichNowParts();
+    return `${y}-${m}-${d}`;
+  }
+  // After 5pm Zurich time, today's hike is unlikely — default the planner to tomorrow so
+  // the highlighted tile and hourly weather reflect the next realistic day. The start-time
+  // input keeps its 10:00 default (set on the <input>) in both cases.
+  function defaultPlanningDate() {
+    const { y, m, d, h } = zurichNowParts();
+    if (h < 17) return `${y}-${m}-${d}`;
+    const dt = new Date(Date.UTC(+y, +m - 1, +d));
+    dt.setUTCDate(dt.getUTCDate() + 1);
+    return dt.getUTCFullYear() + "-" +
+      String(dt.getUTCMonth() + 1).padStart(2, "0") + "-" +
+      String(dt.getUTCDate()).padStart(2, "0");
+  }
+  // Persist the planner's date + start time across pages so users hopping between hikes
+  // keep their plan. Stored dates in the past are discarded so a forgotten plan from days
+  // ago doesn't override today's sensible default.
+  const STORE_DATE = "hikes:planning:date";
+  const STORE_TIME = "hikes:planning:time";
+  function safeStorage() {
+    try { return window.localStorage; } catch (e) { return null; }
+  }
+  function loadStoredDate() {
+    const s = safeStorage(); if (!s) return null;
+    let iso; try { iso = s.getItem(STORE_DATE); } catch (e) { return null; }
+    if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return null;
+    if (iso < todayIsoLocal()) return null;
+    return iso;
+  }
+  function saveStoredDate(iso) {
+    const s = safeStorage(); if (!s) return;
+    try { s.setItem(STORE_DATE, iso); } catch (e) { /* quota / disabled — ignore */ }
+  }
+  function loadStoredTime() {
+    const s = safeStorage(); if (!s) return null;
+    let t; try { t = s.getItem(STORE_TIME); } catch (e) { return null; }
+    return /^\d{2}:\d{2}$/.test(t) ? t : null;
+  }
+  function saveStoredTime(t) {
+    const s = safeStorage(); if (!s) return;
+    try { s.setItem(STORE_TIME, t); } catch (e) { /* ignore */ }
   }
   const planning = (function () {
     const params = new URLSearchParams(location.search);
-    let selectedDate = params.get("date") || todayIsoLocal();
+    let selectedDate = params.get("date") || loadStoredDate() || defaultPlanningDate();
+    saveStoredDate(selectedDate);
     const listeners = [];
     function syncUrl(iso) {
       try {
         const url = new URL(location.href);
-        if (iso === todayIsoLocal()) url.searchParams.delete("date");
+        if (iso === defaultPlanningDate()) url.searchParams.delete("date");
         else url.searchParams.set("date", iso);
         if (url.toString() !== location.href) history.replaceState({}, "", url);
       } catch (e) { /* old browser — silently skip URL sync */ }
@@ -183,6 +243,7 @@
       setDate(iso) {
         if (!iso || iso === selectedDate) return;
         selectedDate = iso;
+        saveStoredDate(iso);
         syncUrl(iso);
         listeners.forEach(fn => { try { fn(iso); } catch (e) { /* noop */ } });
       },
@@ -288,26 +349,56 @@
               String(dt.getMinutes()).padStart(2, "0"),
       };
     }
-    // Maps "classic" URL — same one Google Maps' share button emits — which
-    // unlike the api=1 format DOES support date/time/ttype params for transit.
-    // dirflg: r=transit, d=driving, w=walking. ttype: arr=arrival, dep=departure.
-    function mapsUrl(saddr, daddr, mode, anchor) {
-      const dirflg = mode === "transit" ? "r" : (mode === "walking" ? "w" : "d");
-      let url = `https://www.google.com/maps?saddr=${enc(saddr)}&daddr=${enc(daddr)}&dirflg=${dirflg}`;
-      if (anchor && anchor.dt && mode === "transit") {
-        const dt = localDT(anchor.dt);
-        url += `&ttype=${anchor.type}&date=${dt.date}&time=${dt.time}`;
+    // Resolve an endpoint to a Google-Maps-friendly address string.
+    // Prefer "lat,lon" (unambiguous, avoids geocoding the wrong stop) and
+    // fall back to a GPX-track point (the trailhead is the first track
+    // sample, the end point is the last) so hikes whose data.json lacks an
+    // explicit end lat/lon (e.g. pizol's "Pizolhütte, Bergstation") still
+    // emit a coordinate-based URL rather than a free-text station name that
+    // Google might geocode wrong. The bare name is the last-ditch fallback.
+    function pointAddr(p, fallbackPt) {
+      if (p && typeof p.lat === "number" && typeof p.lon === "number") {
+        return `${p.lat},${p.lon}`;
       }
-      return url;
+      if (fallbackPt && fallbackPt.length >= 2 &&
+          typeof fallbackPt[0] === "number" && typeof fallbackPt[1] === "number") {
+        return `${fallbackPt[0]},${fallbackPt[1]}`;
+      }
+      return (p && p.name) || "";
     }
-    // SBB's public timetable URL accepts von/nach + date/time + zeit (an/ab).
-    function sbbUrl(von, nach, anchor) {
-      let url = `https://www.sbb.ch/en?von=${enc(von)}&nach=${enc(nach)}`;
-      if (anchor && anchor.dt) {
-        const dt = localDT(anchor.dt);
-        url += `&date=${dt.date}&time=${dt.time}&zeit=${anchor.type === "arr" ? "an" : "ab"}`;
-      }
-      return url;
+    const trackStart = (TRACK && TRACK.length) ? TRACK[0] : null;
+    const trackEnd   = (TRACK && TRACK.length) ? TRACK[TRACK.length - 1] : null;
+    // Google Maps documented `/maps/dir/?api=1` URL — pre-fills origin,
+    // destination, and travel mode reliably across browsers/regions. We
+    // moved off the classic `?saddr=&daddr=&dirflg=` URL because Google has
+    // been progressively dropping support for it (the end-point lat/lon
+    // saddr stopped resolving to a directions panel in recent rollouts).
+    // Time anchoring isn't supported by api=1; for time-anchored transit
+    // planning, the live transit widget above is the source of truth.
+    function mapsUrl(origin, destination, mode) {
+      const travelmode = mode === "transit" ? "transit"
+                       : mode === "walking" ? "walking"
+                       : "driving";
+      const qp = new URLSearchParams();
+      qp.set("api", "1");
+      qp.set("origin", origin);
+      qp.set("destination", destination);
+      qp.set("travelmode", travelmode);
+      return "https://www.google.com/maps/dir/?" + qp.toString();
+    }
+    // SBB legacy timetable URL — the `/buying/pages/fahrplan/fahrplan.xhtml`
+    // endpoint pre-fills von (from) and nach (to) reliably. This is the
+    // same format SAC's route portal hands us in `trailhead.sbb_url` (we
+    // prefer that exact URL when present and only synthesise this one as a
+    // fallback). We deliberately omit date/time params — adding them to
+    // this URL breaks the pre-fill, and SBB's modern SPA URL with `stops[]`
+    // params no longer pre-fills anything at all.
+    function sbbUrl(von, nach) {
+      const qp = new URLSearchParams();
+      qp.set("language", "en");
+      qp.set("von", von);
+      qp.set("nach", nach);
+      return "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?" + qp.toString();
     }
     const gmapsDrive      = document.getElementById("gmaps-drive-link");
     const gmapsTransit    = document.getElementById("gmaps-transit-link");
@@ -320,33 +411,40 @@
     if (TRAILHEAD && originLabel)   originLabel.textContent   = transitOrigin;
     if (END_POINT && originLabelEnd) originLabelEnd.textContent = transitOrigin;
 
+    let lastStart = null, lastEnd = null;
     function update(startDate, endDate) {
+      lastStart = startDate; lastEnd = endDate;
       if (TRAILHEAD) {
-        const dest = `${TRAILHEAD.lat},${TRAILHEAD.lon}`;
-        const arrAnchor = startDate ? { type: "arr", dt: startDate } : null;
-        if (gmapsDrive)   gmapsDrive.href   = mapsUrl(transitOrigin, dest, "driving", null);
-        if (gmapsTransit) gmapsTransit.href = mapsUrl(transitOrigin, dest, "transit", arrAnchor);
+        const dest = pointAddr(TRAILHEAD, trackStart);
+        if (gmapsDrive)   gmapsDrive.href   = mapsUrl(transitOrigin, dest, "driving");
+        if (gmapsTransit) gmapsTransit.href = mapsUrl(transitOrigin, dest, "transit");
+        // Prefer the SAC-scraped sbb_url when present — it's the canonical
+        // pre-filled legacy URL the SAC route portal hands us, and adding
+        // synthesised params (time / different shape) tends to break it.
         if (sbbLink) {
-          sbbLink.href = arrAnchor
-            ? sbbUrl(transitOrigin, TRAILHEAD.name, arrAnchor)
-            : (TRAILHEAD.sbb_url || sbbUrl(transitOrigin, TRAILHEAD.name, null));
+          sbbLink.href = TRAILHEAD.sbb_url || sbbUrl(transitOrigin, TRAILHEAD.name);
         }
       }
       if (END_POINT) {
-        const origin = `${END_POINT.lat},${END_POINT.lon}`;
-        const depAnchor = endDate ? { type: "dep", dt: endDate } : null;
-        if (gmapsDriveEnd)   gmapsDriveEnd.href   = mapsUrl(origin, transitOrigin, "driving", null);
-        if (gmapsTransitEnd) gmapsTransitEnd.href = mapsUrl(origin, transitOrigin, "transit", depAnchor);
+        const origin = pointAddr(END_POINT, trackEnd);
+        if (gmapsDriveEnd)   gmapsDriveEnd.href   = mapsUrl(origin, transitOrigin, "driving");
+        if (gmapsTransitEnd) gmapsTransitEnd.href = mapsUrl(origin, transitOrigin, "transit");
         if (sbbLinkEnd) {
-          sbbLinkEnd.href = depAnchor
-            ? sbbUrl(END_POINT.name, transitOrigin, depAnchor)
-            : (END_POINT.sbb_url || sbbUrl(END_POINT.name, transitOrigin, null));
+          sbbLinkEnd.href = END_POINT.sbb_url || sbbUrl(END_POINT.name, transitOrigin);
         }
       }
     }
     update(null, null);
     document.addEventListener("hike-times-changed", e => {
       update(e.detail && e.detail.startDate, e.detail && e.detail.endDate);
+    });
+    document.addEventListener("hike-origin-changed", e => {
+      const v = e.detail && e.detail.origin;
+      if (!v) return;
+      transitOrigin = v;
+      if (originLabel)    originLabel.textContent    = transitOrigin;
+      if (originLabelEnd) originLabelEnd.textContent = transitOrigin;
+      update(lastStart, lastEnd);
     });
   }
   setupTransit();
@@ -797,6 +895,14 @@
     const badgesEl   = document.getElementById("elev-hour-badges");
     const overlayG   = document.getElementById("elev-hour-overlay");
     if (!controlsEl || !startInput || !badgesEl || !overlayG) return;
+
+    // Restore the start time from the last hike page the user looked at. Programmatic
+    // mutations of startInput.value elsewhere in this function route through setStartTime
+    // so the stored value stays in sync.
+    const storedTime = loadStoredTime();
+    if (storedTime) startInput.value = storedTime;
+    saveStoredTime(startInput.value);
+    function setStartTime(v) { startInput.value = v; saveStoredTime(v); }
     if (!TRACK || TRACK.length < 2) return;
     controlsEl.hidden = false;
     function toIsoDate(d) {
@@ -1100,7 +1206,11 @@
       }
       // Tell the transit links about the freshly computed start/end so they
       // can rebuild their URLs with arrival_time (Maps trip to trailhead) and
-      // departure_time (Maps return from end point).
+      // departure_time (Maps return from end point). Also publish to a global
+      // so late-loading listeners (e.g. transit_widget.js, which is parsed
+      // *after* this script and so misses the synchronous initial dispatch)
+      // can read the current plan at their own mount time.
+      window.HIKE_PLAN = { startDate, endDate };
       document.dispatchEvent(new CustomEvent("hike-times-changed", {
         detail: { startDate, endDate },
       }));
@@ -1125,10 +1235,10 @@
       let m = Math.ceil(d.getMinutes() / 15) * 15;
       if (m === 60) { d.setHours(d.getHours() + 1); m = 0; }
       d.setMinutes(m, 0, 0);
-      startInput.value = String(d.getHours()).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+      setStartTime(String(d.getHours()).padStart(2, "0") + ":" + String(m).padStart(2, "0"));
     }
 
-    startInput.addEventListener("change", redraw);
+    startInput.addEventListener("change", () => { saveStoredTime(startInput.value); redraw(); });
     planning.onChange(() => { maybeShiftPastStart(); redraw(); });
     if (nowBtn) {
       nowBtn.addEventListener("click", () => {
@@ -1136,7 +1246,7 @@
         let m = Math.ceil(d.getMinutes() / 15) * 15;
         if (m === 60) { d.setHours(d.getHours() + 1); m = 0; }
         d.setMinutes(m, 0, 0);
-        startInput.value = String(d.getHours()).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+        setStartTime(String(d.getHours()).padStart(2, "0") + ":" + String(m).padStart(2, "0"));
         planning.setDate(toIsoDate(d));
         redraw();
       });
