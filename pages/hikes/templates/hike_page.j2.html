@@ -177,6 +177,26 @@
 </section>
 {%- endif %}
 
+{# Trail conditions — link out to SAC (no public closure API, so a deep-link is the
+   honest answer). If this hike has a SAC route source, link the per-route page (the
+   StatusAlert widget there is keyed to that route's SAC id). Always link the central
+   warnings list as a regional fallback. #}
+{%- set ns = namespace(sac_url=None) %}
+{%- if sources is defined and sources %}
+{%- for src in sources if 'sac-route-portal' in (src.url or '') %}
+  {%- if ns.sac_url is none %}{%- set ns.sac_url = src.url %}{%- endif %}
+{%- endfor %}
+{%- endif %}
+<aside class="conditions-note" aria-label="Trail conditions">
+  <strong>Before you go:</strong> check
+{%- if ns.sac_url %}
+  the <a href="{{ ns.sac_url }}" target="_blank" rel="noopener">SAC route page</a> for any active warning on this route, and the
+{%- else %}
+  the
+{%- endif %}
+  <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/situation-warnings/" target="_blank" rel="noopener">SAC situation warnings</a> for closures in your region.
+</aside>
+
 {%- set has_distinct_end = end_point is defined and end_point and end_point.name and end_point.name != trailhead.name %}
 <section class="getting-there">
   <h2>Getting There &amp; Back</h2>
