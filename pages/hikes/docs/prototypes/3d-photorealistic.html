@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Zindlenspitz — 3D photorealistic vs MapLibre</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="proto-title" content="3D Photorealistic Tiles (Google) — comparison">
+  <meta name="proto-icon" content="&#x26F0;&#xFE0F;">
+  <meta name="proto-desc" content="Side-by-side: current MapLibre + swisstopo SWISSIMAGE vs Google Photorealistic 3D Tiles via Cesium. Needs a Google Maps Platform API key to enable the right pane.">
+  <meta name="proto-source" content="Google Maps Platform — Map Tiles API + CesiumJS">
+  <meta name="proto-order" content="150">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <style>
+    :root { --pad: 14px; --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; --border: #e2e2dd; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+    header { padding: var(--pad) 20px; border-bottom: 1px solid var(--border); background: #fff; }
+    h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    p.sub { margin: 0; color: var(--muted); font-size: 13px; }
+    p.sub a, p.sub code { color: var(--accent); font-size: 12.5px; }
+    p.sub code { background: #f5f3ec; padding: 1px 5px; border-radius: 3px; }
+
+    /* Key bar */
+    .keybar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 20px; background: #fff8e1; border-bottom: 1px solid #f0dfa0;
+      font-size: 13px;
+    }
+    .keybar.has-key { background: #f1f8f1; border-color: #c8e0c8; }
+    .keybar label { font-weight: 500; }
+    .keybar input {
+      flex: 1; padding: 5px 8px; font: inherit; font-size: 13px;
+      border: 1px solid #ccc; border-radius: 4px; max-width: 480px;
+    }
+    .keybar button {
+      padding: 5px 14px; font: inherit; font-size: 13px;
+      background: var(--accent); color: #fff; border: 0; border-radius: 4px; cursor: pointer;
+    }
+    .keybar button.secondary { background: #888; }
+    .keybar small { color: var(--muted); }
+
+    /* Comparison panes */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 175px);
+    }
+    @media (max-width: 800px) {
+      .comparison { grid-template-columns: 1fr; height: auto; }
+      .pane { height: 60vh; }
+    }
+    .pane {
+      position: relative;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .pane:last-child { border-right: 0; }
+    .pane-label {
+      position: absolute; top: 12px; left: 12px;
+      z-index: 5;
+      background: rgba(255,255,255,0.94);
+      padding: 5px 11px; border-radius: 4px;
+      font-size: 12px; font-weight: 600;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+    .pane-cost {
+      position: absolute; bottom: 10px; left: 12px;
+      z-index: 5;
+      background: rgba(255,255,255,0.94);
+      padding: 4px 9px; border-radius: 4px;
+      font-size: 11px; color: var(--muted);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+    #maplibre-map, #cesium-container { width: 100%; height: 100%; }
+    .pane-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #fdfcf6; color: var(--muted); text-align: center;
+      padding: 24px;
+      font-size: 14px;
+    }
+    .pane-placeholder strong { color: var(--fg); }
+    .pane-placeholder small { font-size: 12px; margin-top: 14px; line-height: 1.5; max-width: 320px; }
+    .pane-placeholder small code { background: #efeee8; padding: 1px 4px; border-radius: 3px; }
+    .pane-error {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(253, 245, 245, 0.97);
+      color: #842;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px; text-align: center; font-size: 13px;
+      z-index: 6;
+    }
+    .pane-error strong { color: #b00; font-size: 14px; }
+    .pane-error pre { font-size: 11.5px; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #eaccca; max-width: 90%; overflow: auto; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>3D bake-off — current MapLibre vs Google Photorealistic 3D Tiles</h1>
+    <p class="sub">
+      Same view (Zindlenspitz) rendered two ways. Left: free MapLibre on swisstopo SWISSIMAGE + AWS Terrarium DEM (shipping today on every hike page). Right: Cesium + Google's photogrammetric 3D mesh — needs a <a href="https://developers.google.com/maps/documentation/tile/3d-tiles-overview" target="_blank" rel="noopener">Map Tiles API</a> key, billing card required.
+    </p>
+  </header>
+
+  <div class="keybar" id="keybar">
+    <label for="gkey">Google Maps Platform API key (Map Tiles enabled):</label>
+    <input id="gkey" type="password" autocomplete="off" placeholder="AIzaSy…">
+    <button id="load-btn">Load right pane</button>
+    <button id="clear-btn" class="secondary" hidden>Clear</button>
+    <small>Stored in <code>localStorage</code> (per-browser).</small>
+  </div>
+
+  <div class="comparison">
+    <div class="pane">
+      <div class="pane-label">MapLibre + swisstopo SWISSIMAGE (current)</div>
+      <div class="pane-cost">Free · no API key · DEM resolution ~30 m</div>
+      <div id="maplibre-map"></div>
+    </div>
+    <div class="pane">
+      <div class="pane-label">Cesium + Google Photorealistic 3D Tiles</div>
+      <div class="pane-cost">$5 / 1k tile loads after 10k/mo free · photogrammetric mesh</div>
+      <div id="cesium-host"><div class="pane-placeholder" id="cesium-placeholder">
+        <strong>Paste an API key above to load this pane.</strong>
+        <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. Free tier covers 10,000 tile loads / month; beyond that it's $5 per additional 1,000.</small>
+      </div></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
+  <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+  <script>
+    const TRAILHEAD = [8.9303, 47.0851];
+    const SUMMIT    = [8.95987, 47.07627];
+    const CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
+
+    // ========== Left pane: MapLibre ==========
+    const ml = new maplibregl.Map({
+      container: 'maplibre-map',
+      style: {
+        version: 8,
+        sources: {
+          swissimage: {
+            type: 'raster',
+            tiles: ['https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg'],
+            tileSize: 256, maxzoom: 19, attribution: '© swisstopo'
+          },
+          terrarium: {
+            type: 'raster-dem',
+            tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+            tileSize: 256, maxzoom: 15, encoding: 'terrarium',
+            attribution: 'Terrain: Mapzen / AWS Open Data'
+          }
+        },
+        layers: [{ id: 'satellite', type: 'raster', source: 'swissimage' }],
+        terrain: { source: 'terrarium', exaggeration: 1.5 },
+        sky: { 'sky-color': '#9fc8ec', 'horizon-color': '#dfe7ed', 'fog-color': '#dfe7ed', 'fog-ground-blend': 0.5 }
+      },
+      center: CENTER,
+      zoom: 13,
+      pitch: 70,
+      bearing: 35,
+      maxPitch: 85
+    });
+    ml.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+    ml.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-right');
+
+    ml.on('load', () => {
+      const coords = (window.TRACK || []).map(p => [p[1], p[0]]);
+      if (coords.length) {
+        ml.addSource('track', {
+          type: 'geojson',
+          data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: coords } }
+        });
+        ml.addLayer({
+          id: 'track-casing', type: 'line', source: 'track',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#1a1a1a', 'line-width': 6, 'line-opacity': 0.45 }
+        });
+        ml.addLayer({
+          id: 'track-line', type: 'line', source: 'track',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#e74c3c', 'line-width': 3.5 }
+        });
+      }
+      new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD)
+        .setPopup(new maplibregl.Popup().setText('Trailhead — Wägitalersee P. 932')).addTo(ml);
+      new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT)
+        .setPopup(new maplibregl.Popup().setText('Zindlenspitz — 2111 m')).addTo(ml);
+    });
+
+    // ========== Right pane: Cesium + Google Photorealistic 3D Tiles ==========
+    const STORAGE_KEY = 'proto:google-tiles:key';
+    const $keybar = document.getElementById('keybar');
+    const $gkey = document.getElementById('gkey');
+    const $load = document.getElementById('load-btn');
+    const $clear = document.getElementById('clear-btn');
+    const $cesiumHost = document.getElementById('cesium-host');
+
+    let viewer = null;
+
+    function showPlaceholder() {
+      $cesiumHost.innerHTML =
+        '<div class="pane-placeholder">' +
+        '<strong>Paste an API key above to load this pane.</strong>' +
+        '<small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. ' +
+        'Free tier covers 10,000 tile loads / month; beyond that it&rsquo;s $5 per additional 1,000.</small>' +
+        '</div>';
+    }
+    function showError(title, body) {
+      const safe = (s) => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+      $cesiumHost.innerHTML =
+        '<div id="cesium-container"></div>' +
+        '<div class="pane-error"><strong>' + safe(title) + '</strong>' +
+        '<pre>' + safe(body) + '</pre>' +
+        '<small>Common causes: Map Tiles API not enabled on the project; HTTP referrer restriction blocking <code>file://</code> or this origin; billing not enabled.</small>' +
+        '</div>';
+    }
+
+    async function loadCesium(apiKey) {
+      $cesiumHost.innerHTML = '<div id="cesium-container"></div>';
+      try {
+        viewer = new Cesium.Viewer('cesium-container', {
+          baseLayer: false,
+          baseLayerPicker: false,
+          timeline: false,
+          animation: false,
+          geocoder: false,
+          sceneModePicker: false,
+          navigationHelpButton: false,
+          homeButton: false,
+          infoBox: false,
+          selectionIndicator: false,
+          globe: false
+        });
+        viewer.scene.skyAtmosphere.show = true;
+
+        const tileset = await Cesium.createGooglePhotorealistic3DTileset({ key: apiKey });
+        viewer.scene.primitives.add(tileset);
+
+        viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(8.94, 47.06, 5500),
+          orientation: {
+            heading: Cesium.Math.toRadians(20),
+            pitch:   Cesium.Math.toRadians(-30),
+            roll:    0
+          }
+        });
+
+        // Overlay GPX track on the photorealistic mesh (clamps to mesh surface)
+        const coords = (window.TRACK || []).flatMap(p => [p[1], p[0]]);
+        if (coords.length) {
+          viewer.entities.add({
+            name: 'GPX Track',
+            polyline: {
+              positions: Cesium.Cartesian3.fromDegreesArray(coords),
+              width: 4,
+              material: new Cesium.PolylineOutlineMaterialProperty({
+                color: Cesium.Color.fromCssColorString('#e74c3c'),
+                outlineWidth: 1.5,
+                outlineColor: Cesium.Color.BLACK.withAlpha(0.6)
+              }),
+              clampToGround: true
+            }
+          });
+        }
+        viewer.entities.add({
+          name: 'Trailhead',
+          position: Cesium.Cartesian3.fromDegrees(TRAILHEAD[0], TRAILHEAD[1]),
+          point: { pixelSize: 12, color: Cesium.Color.fromCssColorString('#27ae60'), outlineColor: Cesium.Color.WHITE, outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
+          label: { text: 'Trailhead', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
+        });
+        viewer.entities.add({
+          name: 'Zindlenspitz',
+          position: Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1]),
+          point: { pixelSize: 12, color: Cesium.Color.fromCssColorString('#c0392b'), outlineColor: Cesium.Color.WHITE, outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
+          label: { text: 'Zindlenspitz 2111 m', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
+        });
+        $keybar.classList.add('has-key');
+        $clear.hidden = false;
+        $load.textContent = 'Reload';
+      } catch (err) {
+        showError('Could not load Google Photorealistic 3D Tiles', err && err.message ? err.message : String(err));
+      }
+    }
+
+    function setKey(key) {
+      try { localStorage.setItem(STORAGE_KEY, key); } catch (e) {}
+      loadCesium(key);
+    }
+    function clearKey() {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      if (viewer) { try { viewer.destroy(); } catch (e) {} viewer = null; }
+      $gkey.value = '';
+      $keybar.classList.remove('has-key');
+      $clear.hidden = true;
+      $load.textContent = 'Load right pane';
+      showPlaceholder();
+    }
+
+    $load.addEventListener('click', () => {
+      const k = $gkey.value.trim();
+      if (!k) return;
+      setKey(k);
+    });
+    $clear.addEventListener('click', clearKey);
+    $gkey.addEventListener('keydown', (e) => { if (e.key === 'Enter') $load.click(); });
+
+    // Auto-load from localStorage on page open
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        $gkey.value = saved;
+        setKey(saved);
+      }
+    } catch (e) {}
+  </script>
+</body>
+</html>
