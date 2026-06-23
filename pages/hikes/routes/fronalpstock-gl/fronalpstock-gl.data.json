@@ -150,5 +150,15 @@
     "name": "Habergschwänd, Bergstation",
     "elev": 1278
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-gl-683/mountain-hiking/ab-natufreundehaus-fronalp-mit-abstieg-nach-habergschwaend-filzbach-6749/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-gl-683/mountain-hiking/"
+    }
+  ]
 }

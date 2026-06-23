@@ -173,5 +173,15 @@
     "name": "Pizolhütte, Bergstation",
     "elev": 2226
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizol-1405/mountain-hiking/von-gigerwald-durchs-tersol-abstieg-zur-pizolhuette-6790/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizol-1405/mountain-hiking/"
+    }
+  ]
 }

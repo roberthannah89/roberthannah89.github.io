@@ -120,5 +120,15 @@
     "name": "Bettmeralp",
     "elev": 1922
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/traverse-eggishorn-bettmerhorn-4255/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/"
+    }
+  ]
 }

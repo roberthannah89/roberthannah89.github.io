@@ -139,5 +139,15 @@
       "description": "On weekdays Grandvillard can also be reached by bus from Bulle. Compared to the train you save 40 min."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vanil-noir-2132/mountain-hiking/grandvillard-vanil-noir-1630/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vanil-noir-2132/mountain-hiking/"
+    }
+  ]
 }

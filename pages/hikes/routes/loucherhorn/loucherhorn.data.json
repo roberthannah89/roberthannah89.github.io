@@ -119,5 +119,15 @@
       "description": "Postautohaltestelle, Ausgangspunkt für Variante 2: Aufstieg von Bönigen."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/loucherhorn-1071/mountain-hiking/ostflanke-4193/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/loucherhorn-1071/mountain-hiking/"
+    }
+  ]
 }

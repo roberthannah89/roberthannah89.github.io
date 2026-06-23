@@ -162,5 +162,15 @@
       "elev_m": 782
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rophaien-1524/mountain-hiking/von-flueelen-ueber-franzen-6289/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rophaien-1524/mountain-hiking/"
+    }
+  ]
 }

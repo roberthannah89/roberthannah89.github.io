@@ -162,5 +162,15 @@
       "elev_m": 2546
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/first-kandersteg-629/mountain-hiking/ueberschreitung-zum-bunderspitz-allmegrat-6251/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/first-kandersteg-629/mountain-hiking/"
+    }
+  ]
 }

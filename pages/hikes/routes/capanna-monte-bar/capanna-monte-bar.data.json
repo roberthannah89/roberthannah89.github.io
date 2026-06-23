@@ -123,5 +123,15 @@
       "elev_m": 1275
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-monte-bar-2147000180/mountain-hiking/von-albumo-di-corticiasca-2502/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-monte-bar-2147000180/mountain-hiking/"
+    }
+  ]
 }

@@ -131,5 +131,15 @@
     "name": "Gamplüt, Bergstation",
     "elev": 1349
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/joechliturm-973/mountain-hiking/traverse-joechliturm-naedliger-1098/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/joechliturm-973/mountain-hiking/"
+    }
+  ]
 }

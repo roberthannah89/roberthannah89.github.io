@@ -123,5 +123,15 @@
       "description": "Wird nur der Rautispitz via Geisskappel bestiegen, ist die Tour eine Stunde kürzer, Schwierigkeit T3+. Besteigt man den Rautispitz via die längere, aber landschaftlich lohnende Route Grapplistafel – Rautialp, beschränken sich die Schwierigkeiten auf T2."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/vom-obersee-ueber-geisskappel-und-den-rautispitz-5353/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/"
+    }
+  ]
 }

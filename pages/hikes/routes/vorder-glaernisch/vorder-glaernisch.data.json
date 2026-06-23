@@ -112,5 +112,15 @@
     "name": "Klöntal, Rhodannenberg",
     "elev": 850
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glaernisch-794/mountain-hiking/traverse-from-schwaendi-to-kloentalersee-1369/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glaernisch-794/mountain-hiking/"
+    }
+  ]
 }

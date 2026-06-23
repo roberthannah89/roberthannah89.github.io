@@ -137,5 +137,15 @@
     "name": "Sinsgäu (Oberrickenbach), Bergstation",
     "elev": 1640
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hoh-brisen-241/mountain-hiking/ueberschreitung-brisen-von-westen-nach-sueden-2538/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hoh-brisen-241/mountain-hiking/"
+    }
+  ]
 }

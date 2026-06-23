@@ -169,5 +169,15 @@
       "elev_m": 1843
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-beverin-168/mountain-hiking/vom-glaspass-durch-die-westflanke-5374/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-beverin-168/mountain-hiking/"
+    }
+  ]
 }

@@ -110,5 +110,15 @@
       "description": "Starting point of the variant"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/south-west-face-4058/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/"
+    }
+  ]
 }

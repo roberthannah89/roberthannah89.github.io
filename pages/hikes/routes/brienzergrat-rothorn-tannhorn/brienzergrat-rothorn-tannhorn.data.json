@@ -173,5 +173,15 @@
     "name": "Station Planalp",
     "elev": 1350
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tannhorn-1933/mountain-hiking/brienzergrat-ueberschreitung-erster-teil-rothorn-tannhorn-5239/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tannhorn-1933/mountain-hiking/"
+    }
+  ]
 }

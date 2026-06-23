@@ -112,5 +112,15 @@
       "elev_m": 3264
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-bertol-cas-2147000031/mountain-hiking/from-arolla-via-plans-de-bertol-246/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-bertol-cas-2147000031/mountain-hiking/"
+    }
+  ]
 }

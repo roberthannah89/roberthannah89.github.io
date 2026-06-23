@@ -420,9 +420,32 @@ def build_display_quick_facts(
     grade: str,
     routes: list[dict] | None = None,
     hike_sources: list[dict] | None = None,
+    index_card: dict | None = None,
 ) -> list[list[str]]:
     """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
+
+    # Insert Region + Canton rows from index_card right after the Trailhead row
+    # (or appended if no Trailhead row is present). They orient the reader on
+    # where the hike is before the per-route stats below.
+    if index_card:
+        region = index_card.get("region")
+        canton = index_card.get("canton")
+        new_rows = []
+        if region:
+            new_rows.append(["Region", region])
+        if canton:
+            new_rows.append(["Canton", canton])
+        if new_rows:
+            insert_at = None
+            for i, item in enumerate(facts):
+                if len(item) == 2 and isinstance(item[0], str) and item[0].strip().lower() == "trailhead":
+                    insert_at = i + 1
+                    break
+            if insert_at is not None:
+                facts[insert_at:insert_at] = new_rows
+            else:
+                facts.extend(new_rows)
 
     # Add difficulty if grade is available
     if grade:
@@ -671,6 +694,7 @@ def augment_hike_data(data: dict, gpx_stats: dict[str, float], hike_dir: Path) -
         hero.get("grade", ""),
         data.get("routes"),
         data.get("sources"),
+        data.get("index_card"),
     )
     _build_transport_notes(data)
     _filter_todo_sections(data)

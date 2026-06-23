@@ -113,5 +113,15 @@
     "name": "Rifugio Al Legn",
     "elev": 1785
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gridone-monte-limidario-4112/mountain-hiking/rasa-gridone-rifugio-al-legn-1011/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gridone-monte-limidario-4112/mountain-hiking/"
+    }
+  ]
 }

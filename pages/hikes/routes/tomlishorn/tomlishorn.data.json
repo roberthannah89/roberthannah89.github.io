@@ -140,5 +140,15 @@
     "name": "Pilatus Kulm, Bergstation",
     "elev": 2118
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/alter-tomliweg-807/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/"
+    }
+  ]
 }

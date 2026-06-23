@@ -160,5 +160,15 @@
       "description": "Popular inn at the entrance of Creux du Van, open from April to mid-December. More information at www.ferme-robert.ch"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-soliat-creux-du-van-4041/mountain-hiking/on-the-dos-d-ane-4867/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-soliat-creux-du-van-4041/mountain-hiking/"
+    }
+  ]
 }

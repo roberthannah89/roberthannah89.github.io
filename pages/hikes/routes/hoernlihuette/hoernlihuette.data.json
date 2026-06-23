@@ -127,5 +127,15 @@
       "description": "Ausgangspunkt der Variante."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hoernlihuette-2147000136/mountain-hiking/von-schwarzsee-260/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hoernlihuette-2147000136/mountain-hiking/"
+    }
+  ]
 }

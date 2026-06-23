@@ -167,5 +167,15 @@
       "elev_m": 1875
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rochers-de-naye-1283/mountain-hiking/rundtour-rochers-de-naye-von-les-cases-41400/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rochers-de-naye-1283/mountain-hiking/"
+    }
+  ]
 }

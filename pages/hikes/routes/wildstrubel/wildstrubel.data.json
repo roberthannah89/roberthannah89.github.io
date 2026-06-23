@@ -140,5 +140,15 @@
     "name": "Lenk, Simmenfälle",
     "elev": 1105
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildstrubel-lenkerstrubel-2218/mountain-hiking/von-der-wildstrubelhuette-ueber-den-tierbergsattel-5149/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildstrubel-lenkerstrubel-2218/mountain-hiking/"
+    }
+  ]
 }

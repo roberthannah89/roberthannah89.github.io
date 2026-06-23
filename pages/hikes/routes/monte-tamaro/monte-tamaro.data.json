@@ -106,5 +106,15 @@
     "name": "Indemini, Paese",
     "elev": 980
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/monte-tamaro-and-monte-gambarogno-1014/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/"
+    }
+  ]
 }

@@ -173,5 +173,15 @@
     "name": "Frutigen",
     "elev": 779
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fromberghore-682/mountain-hiking/1-etappe-niesengrat-vom-niesen-zum-maeggisserehore-4523/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fromberghore-682/mountain-hiking/"
+    }
+  ]
 }

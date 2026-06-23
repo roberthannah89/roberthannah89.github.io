@@ -149,5 +149,15 @@
     "name": "Rifugio Barone",
     "elev": 2172
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-barone-143/mountain-hiking/aufstieg-von-norden-abstieg-nach-sueden-4451/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-barone-143/mountain-hiking/"
+    }
+  ]
 }

@@ -144,5 +144,15 @@
       "elev_m": 2684
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wissigstock-2238/mountain-hiking/nordgrat-von-der-rugghubelhuette-sac-3840/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wissigstock-2238/mountain-hiking/"
+    }
+  ]
 }

@@ -118,5 +118,15 @@
     "name": "Amden Niederschlag, Bergstation",
     "elev": 1289
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/speer-1839/mountain-hiking/from-wolzenalp-on-the-north-ridge-1368/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/speer-1839/mountain-hiking/"
+    }
+  ]
 }

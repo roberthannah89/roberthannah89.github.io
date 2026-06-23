@@ -146,5 +146,15 @@
     "name": "Morgins",
     "elev": 1294
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pointe-de-bellevue-158/mountain-hiking/de-muraz-par-le-versant-e-40130/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pointe-de-bellevue-158/mountain-hiking/"
+    }
+  ]
 }

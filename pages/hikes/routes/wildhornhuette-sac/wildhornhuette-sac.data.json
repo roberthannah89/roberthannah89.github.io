@@ -137,5 +137,15 @@
       "elev_m": 1584
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildhornhuette-sac-2147000293/mountain-hiking/lenk-iffigenalp-wildhornhuette-sac-460/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildhornhuette-sac-2147000293/mountain-hiking/"
+    }
+  ]
 }

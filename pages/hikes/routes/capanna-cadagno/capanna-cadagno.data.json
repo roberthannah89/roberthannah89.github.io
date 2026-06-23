@@ -101,5 +101,15 @@
       "elev_m": 1850
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-cadagno-2147000052/mountain-hiking/from-piora-1708/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-cadagno-2147000052/mountain-hiking/"
+    }
+  ]
 }

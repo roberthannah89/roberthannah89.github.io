@@ -121,5 +121,15 @@
       "description": "A col, which is passed on the variant."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/schafweg-mythenmatt-and-rot-graetli-4136/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/"
+    }
+  ]
 }

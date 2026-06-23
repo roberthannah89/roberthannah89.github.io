@@ -155,5 +155,15 @@
       "description": "Passage pour accéder au petit hameau de Taney (pensions et auberges), situé au bord d'un lac sans écoulement, d'une trentaine de mètres de profondeur; site pittoresque placé sous la protection du canton."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-grammont-821/mountain-hiking/par-l-arete-se-40657/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-grammont-821/mountain-hiking/"
+    }
+  ]
 }

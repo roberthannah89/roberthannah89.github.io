@@ -136,5 +136,15 @@
     "name": "Prato",
     "elev": 742
   },
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-campo-tencia-291/mountain-hiking/from-capanna-campo-tencia-cas-via-pizzo-campo-tencia-to-prato-1019/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-campo-tencia-291/mountain-hiking/"
+    }
+  ]
 }
