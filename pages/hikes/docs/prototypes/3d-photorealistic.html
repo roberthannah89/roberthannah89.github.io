@@ -130,6 +130,10 @@
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
   <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+  <!-- Optional: same local-config.js the transit widget already consumes. CI injects this from
+       the GOOGLE_MAPS_EMBED_KEY secret on deploy. Locally, copy local-config.example.js → local-config.js.
+       The onerror swallow keeps things working when the file isn't present. -->
+  <script src="../../local-config.js" onerror="void 0"></script>
   <script>
     const TRAILHEAD = [8.9303, 47.0851];
     const SUMMIT    = [8.95987, 47.07627];
@@ -307,14 +311,37 @@
     $clear.addEventListener('click', clearKey);
     $gkey.addEventListener('keydown', (e) => { if (e.key === 'Enter') $load.click(); });
 
-    // Auto-load from localStorage on page open
+    // Resolution order on page open:
+    //   1. window.HIKING_CONFIG.googleMapsApiKey (CI-injected from GOOGLE_MAPS_EMBED_KEY,
+    //      or locally via pages/hikes/local-config.js) — same key the transit widget uses.
+    //   2. localStorage (per-browser paste from a previous visit).
+    //   3. Nothing — show the placeholder asking for a paste.
+    let initialKey = '';
+    let initialSource = '';
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        $gkey.value = saved;
-        setKey(saved);
+      if (window.HIKING_CONFIG && window.HIKING_CONFIG.googleMapsApiKey) {
+        initialKey = window.HIKING_CONFIG.googleMapsApiKey;
+        initialSource = 'config';
+      } else {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) { initialKey = saved; initialSource = 'storage'; }
       }
     } catch (e) {}
+    if (initialKey) {
+      $gkey.value = initialKey;
+      if (initialSource === 'config') {
+        // Don't persist a CI/config-provided key into per-browser localStorage —
+        // it should travel with the deploy, not with the browser.
+        $keybar.querySelector('small').innerHTML =
+          'Auto-loaded from <code>local-config.js</code>.';
+        loadCesium(initialKey);
+        $keybar.classList.add('has-key');
+        $clear.hidden = false;
+        $load.textContent = 'Reload';
+      } else {
+        setKey(initialKey);
+      }
+    }
   </script>
 </body>
 </html>

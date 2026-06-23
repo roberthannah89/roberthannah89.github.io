@@ -53,6 +53,10 @@ ul li { margin-bottom: .25rem; }
 footer { background: #1a2a4a; color: #cbd2e3; padding: 2rem 1.5rem; font-size: .9rem; }
 footer a { color: #fff; }
 .attrib { font-size: .8rem; color: var(--muted); margin-top: .4rem; }
+.conditions-note { margin: 1.2rem 0 1.5rem; padding: .55rem .85rem; background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; font-size: .9rem; color: var(--muted); }
+.conditions-note strong { color: var(--fg); }
+.conditions-note a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.conditions-note a:hover { text-decoration: underline; }
 .forecast-more { font-size: .78rem; margin: .25rem 0 .1rem; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 .forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: .35rem; margin: .4rem 0 .15rem; }
