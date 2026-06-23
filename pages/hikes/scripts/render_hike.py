@@ -355,9 +355,15 @@ def difficulty_blurb(grade: str) -> str:
     return DIFFICULTY_BLURBS.get(grade, "Check the route notes below for terrain and commitment level.")
 
 
-def _source_to_link(source: str) -> str:
+def _source_to_link(source: str, hike_sources: list[dict] | None = None) -> str:
     """Convert a source string to HTML hyperlinks, handling multiple sources."""
     import re
+    # If source is already a pre-formatted anchor (the SAC v2 scraper stores
+    # the hike's specific route URL this way), pass it through untouched —
+    # otherwise we'd nest it inside another <a> pointing at the generic site.
+    s = source.lstrip()
+    if s.startswith("<a ") or s.startswith("<a\t"):
+        return source
     # If source contains a URL in parentheses (e.g., "hikr.org (https://...)"), use that
     url_match = re.search(r'\((https?://[^)]+)\)', source)
     if url_match:
@@ -378,10 +384,25 @@ def _source_to_link(source: str) -> str:
 
         # Try to find a matching URL from the map
         url = None
-        for keyword, base_url in SOURCE_URL_MAP.items():
-            if keyword.lower() in part.lower():
-                url = base_url
-                break
+        # Prefer the hike's own source URLs (e.g. its specific SAC route page)
+        # over the generic SOURCE_URL_MAP fallback. Route entries beat peak.
+        if hike_sources:
+            best_name = None
+            for s in hike_sources:
+                name = (s.get("name") or "").lower()
+                if part.lower() in name and s.get("url"):
+                    # Prefer "(route)" over "(peak)" if both match.
+                    is_route = "(route)" in name
+                    if best_name is None or (is_route and "(route)" not in best_name):
+                        url = s.get("url")
+                        best_name = name
+                        if is_route:
+                            break
+        if not url:
+            for keyword, base_url in SOURCE_URL_MAP.items():
+                if keyword.lower() in part.lower():
+                    url = base_url
+                    break
 
         if url:
             links.append(f'<a href="{url}" target="_blank" rel="noopener">{part}</a>')
@@ -398,6 +419,7 @@ def build_display_quick_facts(
     quick_facts: list[list[str]],
     grade: str,
     routes: list[dict] | None = None,
+    hike_sources: list[dict] | None = None,
 ) -> list[list[str]]:
     """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
@@ -430,7 +452,7 @@ def build_display_quick_facts(
             # Convert sources to hyperlinks
             source_links = []
             for source in sorted(unique_sources):
-                link = _source_to_link(source)
+                link = _source_to_link(source, hike_sources)
                 source_links.append(link)
             sources_html = "; ".join(source_links)
             facts.append(["Route sources", sources_html])
@@ -648,6 +670,7 @@ def augment_hike_data(data: dict, gpx_stats: dict[str, float], hike_dir: Path) -
         data.get("quick_facts") or [],
         hero.get("grade", ""),
         data.get("routes"),
+        data.get("sources"),
     )
     _build_transport_notes(data)
     _filter_todo_sections(data)
