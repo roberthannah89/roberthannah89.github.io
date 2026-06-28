@@ -10,6 +10,7 @@
   <meta name="proto-source" content="Google Maps Platform — Map Tiles API + CesiumJS">
   <meta name="proto-order" content="150">
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
   <style>
     :root { --pad: 14px; --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; --border: #e2e2dd; }
     * { box-sizing: border-box; }
@@ -19,6 +20,26 @@
     p.sub { margin: 0; color: var(--muted); font-size: 13px; }
     p.sub a, p.sub code { color: var(--accent); font-size: 12.5px; }
     p.sub code { background: #f5f3ec; padding: 1px 5px; border-radius: 3px; }
+
+    /* Mode toggle */
+    .modebar {
+      display: flex; gap: 0; align-items: stretch;
+      padding: 8px 20px; background: #f0eee6; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 7px 12px;
+      background: #fff; color: var(--muted); border: 1px solid var(--border);
+      font: inherit; font-size: 13px; cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mode-btn:first-child { border-radius: 4px 0 0 4px; }
+    .mode-btn:last-child { border-radius: 0 4px 4px 0; border-left: 0; }
+    .mode-btn.active {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .mode-btn:hover:not(.active) { background: #fafaf6; color: var(--fg); }
 
     /* Key bar */
     .keybar {
@@ -56,7 +77,7 @@
       font-size: 11px; color: var(--muted);
       box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
-    #cesium-host, #cesium-container { width: 100%; height: 100%; }
+    #map-host, #cesium-container, #maplibre-map { width: 100%; height: 100%; }
     .pane-placeholder {
       width: 100%; height: 100%;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -81,11 +102,16 @@
 </head>
 <body>
   <header>
-    <h1>Zindlenspitz — Google Photorealistic 3D Tiles (Cesium)</h1>
+    <h1>Zindlenspitz — 3D prototype</h1>
     <p class="sub">
-      Photogrammetric 3D mesh of the Wägital amphitheater via Google's <a href="https://developers.google.com/maps/documentation/tile/3d-tiles-overview" target="_blank" rel="noopener">Map Tiles API</a>, rendered with CesiumJS. GPX track in red. Right-click + drag to tilt, scroll to zoom. Needs a Google Maps Platform API key (billing card required).
+      Toggle between Google's photogrammetric 3D mesh (Cesium) and the current MapLibre + swisstopo SWISSIMAGE + DEM. GPX track in red on both. Cesium needs a Google Maps Platform key (billing card required).
     </p>
   </header>
+
+  <div class="modebar">
+    <button class="mode-btn" id="mode-cesium" data-mode="cesium">🛰 Photorealistic (Cesium + Google)</button>
+    <button class="mode-btn" id="mode-maplibre" data-mode="maplibre">🗺 Satellite + DEM (MapLibre + swisstopo)</button>
+  </div>
 
   <div class="keybar" id="keybar">
     <label for="gkey">Google Maps Platform API key (Map Tiles enabled):</label>
@@ -96,14 +122,15 @@
   </div>
 
   <div class="pane">
-    <div class="pane-cost">$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh</div>
-    <div id="cesium-host"><div class="pane-placeholder" id="cesium-placeholder">
+    <div class="pane-cost" id="pane-cost">$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh</div>
+    <div id="map-host"><div class="pane-placeholder" id="placeholder">
       <strong>Paste an API key above to load the 3D mesh.</strong>
       <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. Free tier covers <strong>1,000 sessions</strong> / month (a session = one page load, valid 3 hours of panning/zooming). Beyond the free tier it's $6 per additional 1,000.</small>
     </div></div>
   </div>
 
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
   <!-- Optional: same local-config.js the transit widget already consumes. CI injects this from
        the GOOGLE_MAPS_EMBED_KEY secret on deploy. Locally, copy local-config.example.js → local-config.js.
@@ -114,60 +141,83 @@
     const SUMMIT    = [8.95987, 47.07627];
     const CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
 
-    // ========== Cesium + Google Photorealistic 3D Tiles ==========
-    const STORAGE_KEY = 'proto:google-tiles:key';
+    const KEY_STORAGE  = 'proto:google-tiles:key';
+    const MODE_STORAGE = 'proto:3d-mode';
+
     const $keybar = document.getElementById('keybar');
-    const $gkey = document.getElementById('gkey');
-    const $load = document.getElementById('load-btn');
-    const $clear = document.getElementById('clear-btn');
-    const $cesiumHost = document.getElementById('cesium-host');
+    const $gkey   = document.getElementById('gkey');
+    const $load   = document.getElementById('load-btn');
+    const $clear  = document.getElementById('clear-btn');
+    const $host   = document.getElementById('map-host');
+    const $cost   = document.getElementById('pane-cost');
+    const $modeCesium   = document.getElementById('mode-cesium');
+    const $modeMaplibre = document.getElementById('mode-maplibre');
 
-    let viewer = null;
+    let cesiumViewer = null;
+    let mlMap = null;
+    let apiKey = '';
+    let currentMode = 'cesium';
 
+    // ===== UI helpers =====
     function showPlaceholder() {
-      $cesiumHost.innerHTML =
+      $host.innerHTML =
         '<div class="pane-placeholder">' +
-        '<strong>Paste an API key above to load this pane.</strong>' +
+        '<strong>Paste an API key above to load the 3D mesh.</strong>' +
         '<small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. ' +
-        'Free tier covers <strong>1,000 sessions</strong> / month (a session = one page load, valid 3 hours of panning/zooming). Beyond the free tier it&rsquo;s $6 per additional 1,000.</small>' +
+        'Free tier covers <strong>1,000 sessions</strong> / month. Beyond that it&rsquo;s $6 per additional 1,000.</small>' +
         '</div>';
     }
     function showError(title, body) {
       const safe = (s) => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-      $cesiumHost.innerHTML =
+      $host.innerHTML =
         '<div id="cesium-container"></div>' +
         '<div class="pane-error"><strong>' + safe(title) + '</strong>' +
         '<pre>' + safe(body) + '</pre>' +
-        '<small>Common causes: Map Tiles API not enabled on the project; HTTP referrer restriction blocking <code>file://</code> or this origin; billing not enabled.</small>' +
+        '<small>Common causes: Map Tiles API not enabled on the project; HTTP referrer restriction; billing not enabled.</small>' +
         '</div>';
     }
+    function teardown() {
+      if (cesiumViewer) { try { cesiumViewer.destroy(); } catch (e) {} cesiumViewer = null; }
+      if (mlMap)        { try { mlMap.remove();         } catch (e) {} mlMap = null; }
+      $host.innerHTML = '';
+    }
+    function updateModeUI() {
+      $modeCesium.classList.toggle('active',   currentMode === 'cesium');
+      $modeMaplibre.classList.toggle('active', currentMode === 'maplibre');
+      $keybar.style.display = currentMode === 'cesium' ? '' : 'none';
+      $cost.innerHTML = currentMode === 'cesium'
+        ? '$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh'
+        : 'Free · no API key · swisstopo SWISSIMAGE + ~30 m DEM';
+    }
 
-    async function loadCesium(apiKey) {
-      $cesiumHost.innerHTML = '<div id="cesium-container"></div>';
+    // ===== Cesium engine =====
+    async function loadCesium() {
+      if (!apiKey) { showPlaceholder(); return; }
+      $host.innerHTML = '<div id="cesium-container"></div>';
       try {
-        viewer = new Cesium.Viewer('cesium-container', {
-          baseLayer: false,
-          baseLayerPicker: false,
-          timeline: false,
-          animation: false,
-          geocoder: false,
-          sceneModePicker: false,
-          navigationHelpButton: false,
-          homeButton: false,
-          infoBox: false,
-          selectionIndicator: false,
+        cesiumViewer = new Cesium.Viewer('cesium-container', {
+          baseLayer: false, baseLayerPicker: false,
+          timeline: false, animation: false, geocoder: false,
+          sceneModePicker: false, navigationHelpButton: false,
+          homeButton: false, infoBox: false, selectionIndicator: false,
           globe: false
         });
-        viewer.scene.skyAtmosphere.show = true;
+        cesiumViewer.scene.skyAtmosphere.show = true;
 
-        // CesiumJS 1.122 signature is (key: string), not (options: { key }).
-        // Passing an object stringifies to "[object Object]" and Google returns 400.
+        // ===== Quality: render at native pixel density, cap at 2× to spare older GPUs =====
+        cesiumViewer.useBrowserRecommendedResolution = false;
+        cesiumViewer.resolutionScale = Math.min(window.devicePixelRatio || 1, 2);
+        if (cesiumViewer.scene.postProcessStages && cesiumViewer.scene.postProcessStages.fxaa) {
+          cesiumViewer.scene.postProcessStages.fxaa.enabled = true;
+        }
+
         const tileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
-        viewer.scene.primitives.add(tileset);
+        // Lower screen-space error = sharper LOD (default 16; 8 is a good middle ground).
+        // Billing is per-session not per-tile so this doesn't add cost.
+        tileset.maximumScreenSpaceError = 8;
+        cesiumViewer.scene.primitives.add(tileset);
 
-        // Looking down on the Zindlenspitz amphitheater from a low oblique.
-        // 2500 m altitude over CENTER frames trailhead + summit.
-        viewer.camera.setView({
+        cesiumViewer.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(CENTER[0], CENTER[1] - 0.015, 2500),
           orientation: {
             heading: Cesium.Math.toRadians(35),
@@ -176,10 +226,9 @@
           }
         });
 
-        // Overlay GPX track on the photorealistic mesh (clamps to mesh surface)
         const coords = (window.TRACK || []).flatMap(p => [p[1], p[0]]);
         if (coords.length) {
-          viewer.entities.add({
+          cesiumViewer.entities.add({
             name: 'GPX Track',
             polyline: {
               positions: Cesium.Cartesian3.fromDegreesArray(coords),
@@ -193,13 +242,13 @@
             }
           });
         }
-        viewer.entities.add({
+        cesiumViewer.entities.add({
           name: 'Trailhead',
           position: Cesium.Cartesian3.fromDegrees(TRAILHEAD[0], TRAILHEAD[1]),
           point: { pixelSize: 12, color: Cesium.Color.fromCssColorString('#27ae60'), outlineColor: Cesium.Color.WHITE, outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
           label: { text: 'Trailhead', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
         });
-        viewer.entities.add({
+        cesiumViewer.entities.add({
           name: 'Zindlenspitz',
           position: Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1]),
           point: { pixelSize: 12, color: Cesium.Color.fromCssColorString('#c0392b'), outlineColor: Cesium.Color.WHITE, outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
@@ -213,20 +262,74 @@
       }
     }
 
+    // ===== MapLibre engine =====
+    function loadMapLibre() {
+      $host.innerHTML = '<div id="maplibre-map"></div>';
+      mlMap = new maplibregl.Map({
+        container: 'maplibre-map',
+        style: {
+          version: 8,
+          sources: {
+            swissimage: {
+              type: 'raster',
+              tiles: ['https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg'],
+              tileSize: 256, maxzoom: 19, attribution: '© swisstopo'
+            },
+            terrarium: {
+              type: 'raster-dem',
+              tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+              tileSize: 256, maxzoom: 15, encoding: 'terrarium',
+              attribution: 'Terrain: Mapzen / AWS Open Data'
+            }
+          },
+          layers: [{ id: 'satellite', type: 'raster', source: 'swissimage' }],
+          terrain: { source: 'terrarium', exaggeration: 1.5 },
+          sky: { 'sky-color': '#9fc8ec', 'horizon-color': '#dfe7ed', 'fog-color': '#dfe7ed', 'fog-ground-blend': 0.5 }
+        },
+        center: CENTER, zoom: 13, pitch: 70, bearing: 35, maxPitch: 85
+      });
+      mlMap.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+      mlMap.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-right');
+      mlMap.on('load', () => {
+        const coords = (window.TRACK || []).map(p => [p[1], p[0]]);
+        if (coords.length) {
+          mlMap.addSource('track', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: coords } } });
+          mlMap.addLayer({ id: 'track-casing', type: 'line', source: 'track', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#1a1a1a', 'line-width': 6, 'line-opacity': 0.45 } });
+          mlMap.addLayer({ id: 'track-line',   type: 'line', source: 'track', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#e74c3c', 'line-width': 3.5 } });
+        }
+        new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD).setPopup(new maplibregl.Popup().setText('Trailhead — Wägitalersee P. 932')).addTo(mlMap);
+        new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT).setPopup(new maplibregl.Popup().setText('Zindlenspitz — 2111 m')).addTo(mlMap);
+      });
+    }
+
+    // ===== Mode switching =====
+    function applyMode(mode) {
+      currentMode = mode;
+      try { localStorage.setItem(MODE_STORAGE, mode); } catch (e) {}
+      teardown();
+      updateModeUI();
+      if (mode === 'cesium') loadCesium();
+      else                   loadMapLibre();
+    }
+
+    $modeCesium.addEventListener('click', () => applyMode('cesium'));
+    $modeMaplibre.addEventListener('click', () => applyMode('maplibre'));
+
+    // ===== Key controls =====
     function setKey(key) {
-      try { localStorage.setItem(STORAGE_KEY, key); } catch (e) {}
-      loadCesium(key);
+      apiKey = key;
+      try { localStorage.setItem(KEY_STORAGE, key); } catch (e) {}
+      if (currentMode === 'cesium') loadCesium();
     }
     function clearKey() {
-      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-      if (viewer) { try { viewer.destroy(); } catch (e) {} viewer = null; }
+      try { localStorage.removeItem(KEY_STORAGE); } catch (e) {}
+      apiKey = '';
       $gkey.value = '';
       $keybar.classList.remove('has-key');
       $clear.hidden = true;
       $load.textContent = 'Load';
-      showPlaceholder();
+      if (currentMode === 'cesium') { teardown(); showPlaceholder(); }
     }
-
     $load.addEventListener('click', () => {
       const k = $gkey.value.trim();
       if (!k) return;
@@ -235,37 +338,31 @@
     $clear.addEventListener('click', clearKey);
     $gkey.addEventListener('keydown', (e) => { if (e.key === 'Enter') $load.click(); });
 
-    // Resolution order on page open:
-    //   1. window.HIKING_CONFIG.googleMapsApiKey (CI-injected from GOOGLE_MAPS_EMBED_KEY,
-    //      or locally via pages/hikes/local-config.js) — same key the transit widget uses.
-    //   2. localStorage (per-browser paste from a previous visit).
-    //   3. Nothing — show the placeholder asking for a paste.
-    let initialKey = '';
-    let initialSource = '';
+    // ===== Initial state =====
+    try { currentMode = localStorage.getItem(MODE_STORAGE) || 'cesium'; } catch (e) {}
+
+    let keySource = '';
     try {
       if (window.HIKING_CONFIG && window.HIKING_CONFIG.googleMapsApiKey) {
-        initialKey = window.HIKING_CONFIG.googleMapsApiKey;
-        initialSource = 'config';
+        apiKey = window.HIKING_CONFIG.googleMapsApiKey;
+        keySource = 'config';
       } else {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) { initialKey = saved; initialSource = 'storage'; }
+        const saved = localStorage.getItem(KEY_STORAGE);
+        if (saved) { apiKey = saved; keySource = 'storage'; }
       }
     } catch (e) {}
-    if (initialKey) {
-      $gkey.value = initialKey;
-      if (initialSource === 'config') {
-        // Don't persist a CI/config-provided key into per-browser localStorage —
-        // it should travel with the deploy, not with the browser.
-        $keybar.querySelector('small').innerHTML =
-          'Auto-loaded from <code>local-config.js</code>.';
-        loadCesium(initialKey);
-        $keybar.classList.add('has-key');
-        $clear.hidden = false;
-        $load.textContent = 'Reload';
-      } else {
-        setKey(initialKey);
+    if (apiKey) {
+      $gkey.value = apiKey;
+      $keybar.classList.add('has-key');
+      $clear.hidden = false;
+      $load.textContent = 'Reload';
+      if (keySource === 'config') {
+        $keybar.querySelector('small').innerHTML = 'Auto-loaded from <code>local-config.js</code>.';
       }
     }
+    updateModeUI();
+    if (currentMode === 'cesium') loadCesium();
+    else                          loadMapLibre();
   </script>
 </body>
 </html>
