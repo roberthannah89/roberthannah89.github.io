@@ -240,7 +240,9 @@
         });
         viewer.scene.skyAtmosphere.show = true;
 
-        const tileset = await Cesium.createGooglePhotorealistic3DTileset({ key: apiKey });
+        // CesiumJS 1.122 signature is (key: string), not (options: { key }).
+        // Passing an object stringifies to "[object Object]" and Google returns 400.
+        const tileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
         viewer.scene.primitives.add(tileset);
 
         viewer.camera.setView({
