@@ -189,17 +189,25 @@
         });
         cesiumViewer.scene.skyAtmosphere.show = true;
 
-        // ===== Quality: render at native pixel density, cap at 2× to spare older GPUs =====
+        // ===== Quality: native pixel density on HiDPI displays, no double-scaling. =====
+        // useBrowserRecommendedResolution=false makes Cesium internally multiply the
+        // backing buffer by devicePixelRatio. Earlier code ALSO set resolutionScale to
+        // devicePixelRatio — which squared it (dpr=3 → 9× CSS pixels). Don't compound.
         cesiumViewer.useBrowserRecommendedResolution = false;
-        cesiumViewer.resolutionScale = Math.min(window.devicePixelRatio || 1, 2);
+        // FXAA is cheap and helps ridge edges; always on.
         if (cesiumViewer.scene.postProcessStages && cesiumViewer.scene.postProcessStages.fxaa) {
           cesiumViewer.scene.postProcessStages.fxaa.enabled = true;
         }
 
         const tileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
-        // Lower screen-space error = sharper LOD (default 16; 8 is a good middle ground).
-        // Billing is per-session not per-tile so this doesn't add cost.
-        tileset.maximumScreenSpaceError = 8;
+        // Tile density: default screen-space error is 16. Halving it to 8 loads ~4×
+        // more tiles — sharp on desktop, brutal on cellular. Apply only on big screens
+        // with non-cellular connection signal.
+        const isPhoneClass = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+                             window.matchMedia('(max-width: 900px)').matches;
+        if (!isPhoneClass) {
+          tileset.maximumScreenSpaceError = 8;
+        }
         cesiumViewer.scene.primitives.add(tileset);
 
         const coords = (window.TRACK || []).flatMap(p => [p[1], p[0]]);
