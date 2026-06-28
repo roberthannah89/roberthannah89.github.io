@@ -114,6 +114,31 @@ cantons.forEach(function (c) {
 
 /* ------------- filtering ------------- */
 var activeFilters = { grade: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
+
+/* Restore filter state from URL hash before wiring click handlers — so the
+   initial render reflects #g=alpine&di=long etc. Day-picker restore happens
+   later in boot, once buildMapDayBtns has materialized the buttons. */
+var URL_STATE = (window.IndexUrlSync && window.IndexUrlSync.readFromUrl()) || {};
+Object.keys(URL_STATE).forEach(function (k) {
+  if (k === 'weatherDay') return;
+  if (URL_STATE[k] && activeFilters.hasOwnProperty(k)) activeFilters[k] = URL_STATE[k];
+});
+
+function syncFilterButtons() {
+  document.querySelectorAll(".filter-group").forEach(function (group) {
+    var key = group.dataset.filter;
+    var val = activeFilters[key] || 'all';
+    group.querySelectorAll(".filter-btn").forEach(function (b) {
+      b.classList.toggle('active', b.dataset.value === val);
+    });
+  });
+}
+
+function persistUrl() {
+  if (window.IndexUrlSync) window.IndexUrlSync.writeToUrl(activeFilters, mapDayActive);
+  updateResetVisibility();
+}
+
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
   group.addEventListener("click", function (e) {
@@ -122,6 +147,7 @@ document.querySelectorAll(".filter-group").forEach(function (group) {
     group.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
     btn.classList.add("active");
     activeFilters[key] = btn.dataset.value;
+    persistUrl();
     applyFilters();
   });
 });
@@ -342,6 +368,7 @@ function setMapDay(dayIdx) {
   if (clusterGroup) clusterGroup.refreshClusters();
   renderCardStrips();
   updateCardWeather();
+  persistUrl();
   applyFilters();
 }
 
@@ -451,8 +478,74 @@ function highlightMarker(i, on) {
 }
 
 /* ------------- boot ------------- */
+/* Region/canton filter buttons are injected by JS earlier in this file —
+   syncFilterButtons() needs to run AFTER them so the URL-restored "active"
+   state actually lands on the right buttons. */
+if (URL_STATE.weatherDay != null) mapDayActive = URL_STATE.weatherDay;
 buildMapDayBtns();
+syncFilterButtons();
 renderCardStrips();
 updateCardWeather();
+/* If we restored a non-default weatherDay, the marker icons built above were
+   for day 0 — refresh now that mapDayActive is correct. */
+if (mapDayActive !== 0) refreshMarkerIcons();
+mountToolbarButtons();
+updateResetVisibility();
 applyFilters();
+
+/* ------------- Reset / Share toolbar buttons ------------- */
+function mountToolbarButtons() {
+  var filtersEl = document.getElementById('filters');
+  if (!filtersEl || filtersEl.querySelector('.toolbar-actions')) return;
+  var wrap = document.createElement('div');
+  wrap.className = 'toolbar-actions';
+  wrap.style.cssText = 'display:flex; gap:.5rem; align-items:center; margin-left:auto;';
+
+  var resetBtn = document.createElement('button');
+  resetBtn.id = 'resetBtn';
+  resetBtn.className = 'filter-btn';
+  resetBtn.textContent = 'Reset';
+  resetBtn.title = 'Clear filters';
+  resetBtn.style.display = 'none';
+  resetBtn.onclick = function () {
+    /* Wipe the hash and reload so every per-filter state recalcs from
+       defaults (rather than partially-clearing in place). */
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    window.location.reload();
+  };
+
+  var shareBtn = document.createElement('button');
+  shareBtn.className = 'filter-btn';
+  shareBtn.textContent = 'Share';
+  shareBtn.title = 'Copy this view’s URL';
+  shareBtn.onclick = function () {
+    var url = window.location.href;
+    var done = function () {
+      var orig = shareBtn.textContent;
+      shareBtn.textContent = 'Copied';
+      setTimeout(function () { shareBtn.textContent = orig; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  };
+
+  wrap.appendChild(resetBtn);
+  wrap.appendChild(shareBtn);
+  filtersEl.appendChild(wrap);
+}
+
+function updateResetVisibility() {
+  var btn = document.getElementById('resetBtn');
+  if (!btn) return;
+  btn.style.display = (window.IndexUrlSync && window.IndexUrlSync.hasHash()) ? '' : 'none';
+}
 })();
