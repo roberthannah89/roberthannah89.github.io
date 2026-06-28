@@ -43,6 +43,35 @@ function gradeColor(g) {
   return GRADE_COLORS[n] || GRADE_COLORS[1];
 }
 
+/* WeatherService.getForPeak keys the cache by `lat.toFixed(3),lon.toFixed(3)`,
+   so a hike whose summit coords are even ~110 m from the cached SAC peak
+   misses. That's how 16 hikes ended up forecast-less and produced count-only
+   clusters that read like overflow next to weather-pill neighbors.
+   Fuzzy-match each hike once to the nearest cache entry within ~1 km and
+   stash the matched key on the hike object for subsequent lookups. */
+const WX_FUZZY_MAX_DEG2 = 0.000081;  /* ≈ 1 km² in deg² at Swiss latitudes */
+function getWxForHike(h, day) {
+  if (!WX || !h) return null;
+  var exact = WX.getForPeak(h.lat, h.lon, day);
+  if (exact) return exact;
+  if (h._wxKey === null) return null;  /* sentinel: already tried, no match */
+  if (h._wxKey === undefined) {
+    var cache = window.WEATHER_CACHE || {};
+    var bestKey = null, bestD2 = Infinity;
+    var cosLat = Math.cos(h.lat * Math.PI / 180);
+    Object.keys(cache).forEach(function (k) {
+      var p = k.split(',');
+      var lat = parseFloat(p[0]), lon = parseFloat(p[1]);
+      var dLat = lat - h.lat;
+      var dLon = (lon - h.lon) * cosLat;
+      var d2 = dLat * dLat + dLon * dLon;
+      if (d2 < bestD2) { bestD2 = d2; bestKey = [lat, lon]; }
+    });
+    h._wxKey = (bestKey && bestD2 < WX_FUZZY_MAX_DEG2) ? bestKey : null;
+  }
+  return h._wxKey ? WX.getForPeak(h._wxKey[0], h._wxKey[1], day) : null;
+}
+
 /* ------------- cards ------------- */
 var grid = document.getElementById("grid");
 HIKES.forEach(function (h, i) {
@@ -114,6 +143,40 @@ cantons.forEach(function (c) {
 
 /* ------------- filtering ------------- */
 var activeFilters = { grade: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
+
+/* Restore filter state from URL hash before wiring click handlers — so the
+   initial render reflects #g=alpine&di=long etc. Day-picker restore happens
+   later in boot, once buildMapDayBtns has materialized the buttons. */
+var URL_STATE = (window.IndexUrlSync && window.IndexUrlSync.readFromUrl()) || {};
+Object.keys(URL_STATE).forEach(function (k) {
+  if (k === 'weatherDay') return;
+  if (URL_STATE[k] && activeFilters.hasOwnProperty(k)) activeFilters[k] = URL_STATE[k];
+});
+
+function syncFilterButtons() {
+  document.querySelectorAll(".filter-group").forEach(function (group) {
+    var key = group.dataset.filter;
+    var val = activeFilters[key] || 'all';
+    group.querySelectorAll(".filter-btn").forEach(function (b) {
+      b.classList.toggle('active', b.dataset.value === val);
+    });
+  });
+}
+
+function persistUrl() {
+  if (window.IndexUrlSync) window.IndexUrlSync.writeToUrl(activeFilters, mapDayActive, layerState);
+  updateResetVisibility();
+}
+
+/* Webcam + SLF avalanche overlay state (mirrors CC's bottom-bar toggles). */
+var layerState = {
+  webcams:   !!URL_STATE.webcams,
+  avalanche: !!URL_STATE.avalanche,
+};
+var webcamLayerInstance = null;   /* lazily created on first activation */
+var slfLayerInstance = null;
+var slfPending = false;
+
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
   group.addEventListener("click", function (e) {
@@ -122,6 +185,7 @@ document.querySelectorAll(".filter-group").forEach(function (group) {
     group.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
     btn.classList.add("active");
     activeFilters[key] = btn.dataset.value;
+    persistUrl();
     applyFilters();
   });
 });
@@ -149,7 +213,7 @@ function updateCardWeather() {
     var idx = parseInt(card.dataset.idx, 10);
     var h = HIKES[idx];
     if (!h) return;
-    var wx = WX.getForPeak(h.lat, h.lon, mapDayActive);
+    var wx = getWxForHike(h, mapDayActive);
     if (!wx) return;
     card.dataset.wx = wxCategory(wx.code);
     if (wx.tempMax != null) card.dataset.temp = Math.round(wx.tempMax);
@@ -251,7 +315,7 @@ function dominantClusterWeather(cluster) {
   cluster.getAllChildMarkers().forEach(function (m) {
     var h = m._hike;
     if (!h) return;
-    var wx = WX.getForPeak(h.lat, h.lon, mapDayActive);
+    var wx = getWxForHike(h, mapDayActive);
     if (!wx) return;
     var cat = WX.skyCategory(wx.code);
     if (cat) counts[cat] = (counts[cat] || 0) + 1;
@@ -328,7 +392,7 @@ function refreshMarkerIcons() {
   HIKES.forEach(function (h, i) {
     var m = markers[i];
     if (!m) return;
-    var wx = WX ? WX.getForPeak(h.lat, h.lon, mapDayActive) : null;
+    var wx = WX ? getWxForHike(h, mapDayActive) : null;
     m.setIcon(makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev));
   });
 }
@@ -342,6 +406,7 @@ function setMapDay(dayIdx) {
   if (clusterGroup) clusterGroup.refreshClusters();
   renderCardStrips();
   updateCardWeather();
+  persistUrl();
   applyFilters();
 }
 
@@ -394,7 +459,7 @@ function renderCardStrips() {
     var html = '';
     var anyData = false;
     choices.forEach(function (c, dIdx) {
-      var wx = WX.getForPeak(h.lat, h.lon, dIdx);
+      var wx = getWxForHike(h, dIdx);
       if (wx) anyData = true;
       var icon = wx ? WX.weatherIcon(wx.code) : '·';
       var label = wx ? WX.weatherLabel(wx.code) : '';
@@ -413,7 +478,7 @@ function renderCardStrips() {
 var missingForecast = [];
 HIKES.forEach(function (h, i) {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
-  var wx = WX ? WX.getForPeak(h.lat, h.lon, mapDayActive) : null;
+  var wx = WX ? getWxForHike(h, mapDayActive) : null;
   if (!wx) missingForecast.push(h.name);
   var m = L.marker([h.lat, h.lon], {
     icon: makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev),
@@ -451,8 +516,130 @@ function highlightMarker(i, on) {
 }
 
 /* ------------- boot ------------- */
+/* Region/canton filter buttons are injected by JS earlier in this file —
+   syncFilterButtons() needs to run AFTER them so the URL-restored "active"
+   state actually lands on the right buttons. */
+if (URL_STATE.weatherDay != null) mapDayActive = URL_STATE.weatherDay;
 buildMapDayBtns();
+syncFilterButtons();
 renderCardStrips();
 updateCardWeather();
+/* If we restored a non-default weatherDay, the marker icons built above were
+   for day 0 — refresh now that mapDayActive is correct. */
+if (mapDayActive !== 0) refreshMarkerIcons();
+mountToolbarButtons();
+updateResetVisibility();
 applyFilters();
+
+/* ------------- Layer toggles (webcams / avalanche) ------------- */
+function setWebcams(on) {
+  layerState.webcams = !!on;
+  if (on) {
+    if (!webcamLayerInstance && window.WebcamLayer) {
+      webcamLayerInstance = window.WebcamLayer.create();
+    }
+    if (webcamLayerInstance) map.addLayer(webcamLayerInstance);
+  } else if (webcamLayerInstance) {
+    map.removeLayer(webcamLayerInstance);
+  }
+  persistUrl();
+}
+function setAvalanche(on) {
+  layerState.avalanche = !!on;
+  if (on) {
+    if (slfLayerInstance) {
+      map.addLayer(slfLayerInstance);
+    } else if (!slfPending && window.SlfLayer) {
+      slfPending = true;
+      window.SlfLayer.create().then(function (layer) {
+        slfPending = false;
+        slfLayerInstance = layer;
+        /* User may have toggled off again while loading; respect current state. */
+        if (layerState.avalanche) map.addLayer(slfLayerInstance);
+      }).catch(function (err) {
+        slfPending = false;
+        console.warn('[hikes] SLF layer failed to load:', err);
+      });
+    }
+  } else if (slfLayerInstance) {
+    map.removeLayer(slfLayerInstance);
+  }
+  persistUrl();
+}
+
+/* ------------- Reset / Share / Layer toolbar buttons ------------- */
+function mountToolbarButtons() {
+  var filtersEl = document.getElementById('filters');
+  if (!filtersEl || filtersEl.querySelector('.toolbar-actions')) return;
+  var wrap = document.createElement('div');
+  wrap.className = 'toolbar-actions';
+  wrap.style.cssText = 'display:flex; gap:.5rem; align-items:center; margin-left:auto;';
+
+  function makeToggle(label, title, on, handler) {
+    var b = document.createElement('button');
+    b.className = 'filter-btn' + (on ? ' active' : '');
+    b.textContent = label;
+    b.title = title;
+    b.onclick = function () {
+      var nowOn = !b.classList.contains('active');
+      b.classList.toggle('active', nowOn);
+      handler(nowOn);
+    };
+    return b;
+  }
+
+  var webcamBtn = makeToggle('📷 Webcams', 'Show Windy webcams', layerState.webcams, setWebcams);
+  var slfBtn    = makeToggle('❄️ Avalanche', 'Show SLF avalanche bulletin (winter only)', layerState.avalanche, setAvalanche);
+
+  var resetBtn = document.createElement('button');
+  resetBtn.id = 'resetBtn';
+  resetBtn.className = 'filter-btn';
+  resetBtn.textContent = 'Reset';
+  resetBtn.title = 'Clear filters';
+  resetBtn.style.display = 'none';
+  resetBtn.onclick = function () {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    window.location.reload();
+  };
+
+  var shareBtn = document.createElement('button');
+  shareBtn.className = 'filter-btn';
+  shareBtn.textContent = 'Share';
+  shareBtn.title = 'Copy this view’s URL';
+  shareBtn.onclick = function () {
+    var url = window.location.href;
+    var done = function () {
+      var orig = shareBtn.textContent;
+      shareBtn.textContent = 'Copied';
+      setTimeout(function () { shareBtn.textContent = orig; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  };
+
+  wrap.appendChild(webcamBtn);
+  wrap.appendChild(slfBtn);
+  wrap.appendChild(resetBtn);
+  wrap.appendChild(shareBtn);
+  filtersEl.appendChild(wrap);
+
+  /* If URL state had layers on, materialise them now that the map exists. */
+  if (layerState.webcams)   setWebcams(true);
+  if (layerState.avalanche) setAvalanche(true);
+}
+
+function updateResetVisibility() {
+  var btn = document.getElementById('resetBtn');
+  if (!btn) return;
+  btn.style.display = (window.IndexUrlSync && window.IndexUrlSync.hasHash()) ? '' : 'none';
+}
 })();
