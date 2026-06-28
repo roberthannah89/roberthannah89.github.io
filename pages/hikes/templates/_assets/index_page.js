@@ -1,7 +1,18 @@
 // Index page runtime. Reads hike data from window.HIKES (set inline by the template).
+//
+// Weather comes from window.WEATHER_CACHE (pre-baked by `make weather` →
+// command-center/weather-cache.js), accessed through window.WeatherService.
+// Same data source as Command Center — the two pages can't drift on forecast
+// content, model, or schema.
 (function () {
 "use strict";
 const HIKES = window.HIKES || [];
+const WX = window.WeatherService;
+/* Wire window.WEATHER_CACHE into WeatherService's module-private store now —
+   getForPeak() / getDayChoices() return empty until this runs. The [] arg is
+   the per-peak route list CC uses for warmup; we don't need it here, the
+   cache is already keyed by lat,lon. */
+if (WX) WX.init([]);
 
 /* ------------- helpers ------------- */
 function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
@@ -15,22 +26,22 @@ function parseHours(s) {
   const m2 = String(s).match(/([\d.]+)/);
   return m2 ? parseFloat(m2[1]) : NaN;
 }
-function wmoIcon(code) {
-  if (code === 0) return ["☀️", "Clear"];
-  if (code === 1) return ["🌤️", "Mostly clear"];
-  if (code === 2) return ["⛅", "Partly cloudy"];
-  if (code === 3) return ["☁️", "Overcast"];
-  if (code === 45 || code === 48) return ["🌫️", "Fog"];
-  if (code >= 51 && code <= 57) return ["🌦️", "Drizzle"];
-  if (code >= 61 && code <= 67) return ["🌧️", "Rain"];
-  if (code >= 71 && code <= 77) return ["🌨️", "Snow"];
-  if (code >= 80 && code <= 82) return ["🌧️", "Showers"];
-  if (code === 85 || code === 86) return ["🌨️", "Snow showers"];
-  if (code >= 95) return ["⛈️", "Thunderstorm"];
-  return ["·", ""];
-}
 function fmtDow(s) { return new Date(s + "T00:00").toLocaleDateString(undefined, { weekday: "short" }); }
 function escAttr(s) { return String(s).replace(/"/g, "&quot;"); }
+
+/* Grade colours — matches command-center.js GRADE_COLORS so markers on both
+   pages tint identically. */
+const GRADE_COLORS = {
+  1: '#5cbf6a', 2: '#5cbf6a',
+  3: '#e8a832',
+  4: '#d97333',
+  5: '#cc3333',
+  6: '#8844cc',
+};
+function gradeColor(g) {
+  const n = parseInt(String(g || 'T1').replace('T', ''), 10) || 1;
+  return GRADE_COLORS[n] || GRADE_COLORS[1];
+}
 
 /* ------------- cards ------------- */
 var grid = document.getElementById("grid");
@@ -68,7 +79,7 @@ HIKES.forEach(function (h, i) {
         '</span>' +
       '</div>' +
       (h.canton ? '<div class="canton-row"><span class="canton-tag">' + h.canton + '</span></div>' : '') +
-      '<div class="weather-strip loading" data-hike="' + i + '"></div>' +
+      '<div class="weather-strip" data-hike="' + i + '"></div>' +
     '</div>';
   card.addEventListener("mouseenter", function () { highlightMarker(i, true); });
   card.addEventListener("mouseleave", function () { highlightMarker(i, false); });
@@ -103,6 +114,40 @@ cantons.forEach(function (c) {
 
 /* ------------- filtering ------------- */
 var activeFilters = { grade: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
+
+/* Restore filter state from URL hash before wiring click handlers — so the
+   initial render reflects #g=alpine&di=long etc. Day-picker restore happens
+   later in boot, once buildMapDayBtns has materialized the buttons. */
+var URL_STATE = (window.IndexUrlSync && window.IndexUrlSync.readFromUrl()) || {};
+Object.keys(URL_STATE).forEach(function (k) {
+  if (k === 'weatherDay') return;
+  if (URL_STATE[k] && activeFilters.hasOwnProperty(k)) activeFilters[k] = URL_STATE[k];
+});
+
+function syncFilterButtons() {
+  document.querySelectorAll(".filter-group").forEach(function (group) {
+    var key = group.dataset.filter;
+    var val = activeFilters[key] || 'all';
+    group.querySelectorAll(".filter-btn").forEach(function (b) {
+      b.classList.toggle('active', b.dataset.value === val);
+    });
+  });
+}
+
+function persistUrl() {
+  if (window.IndexUrlSync) window.IndexUrlSync.writeToUrl(activeFilters, mapDayActive, layerState);
+  updateResetVisibility();
+}
+
+/* Webcam + SLF avalanche overlay state (mirrors CC's bottom-bar toggles). */
+var layerState = {
+  webcams:   !!URL_STATE.webcams,
+  avalanche: !!URL_STATE.avalanche,
+};
+var webcamLayerInstance = null;   /* lazily created on first activation */
+var slfLayerInstance = null;
+var slfPending = false;
+
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
   group.addEventListener("click", function (e) {
@@ -111,6 +156,7 @@ document.querySelectorAll(".filter-group").forEach(function (group) {
     group.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
     btn.classList.add("active");
     activeFilters[key] = btn.dataset.value;
+    persistUrl();
     applyFilters();
   });
 });
@@ -122,19 +168,26 @@ function gradeMatch(g, filter) {
   if (filter === "alpine") return g >= 4;
   return true;
 }
-function wxCategory(icon) {
-  if (icon === "☀️" || icon === "🌤️") return "good";
-  if (icon === "⛅" || icon === "☁️" || icon === "🌫️") return "ok";
-  return "bad";
+/* Sky → 3-bucket weather filter category. Uses WeatherService.skyCategory so
+   the page stays consistent with CC's "Sky" filter buckets — this page's
+   3-bucket good/ok/bad is a coarser collapse of the 6 CC categories. */
+function wxCategory(code) {
+  if (!WX) return null;
+  var sky = WX.skyCategory(code);
+  if (sky === 'clear') return 'good';
+  if (sky === 'partly-cloudy' || sky === 'cloudy') return 'ok';
+  return 'bad';  /* rain / snow / storm */
 }
 function updateCardWeather() {
+  if (!WX) return;
   document.querySelectorAll(".card").forEach(function (card) {
     var idx = parseInt(card.dataset.idx, 10);
-    var wd = weatherByHike[idx];
-    if (wd && wd[mapDayActive]) {
-      card.dataset.wx = wxCategory(wd[mapDayActive].icon);
-      card.dataset.temp = wd[mapDayActive].tmax;
-    }
+    var h = HIKES[idx];
+    if (!h) return;
+    var wx = WX.getForPeak(h.lat, h.lon, mapDayActive);
+    if (!wx) return;
+    card.dataset.wx = wxCategory(wx.code);
+    if (wx.tempMax != null) card.dataset.temp = Math.round(wx.tempMax);
   });
 }
 function applyFilters() {
@@ -212,60 +265,106 @@ function cantonColor(canton) {
 
 var markers = [];
 var latlngs = [];
-var weatherByHike = [];
-var mapDayActive = 1;
+var mapDayActive = 0;  /* default to Today — matches CC */
 
-/* Cluster pill — count + dominant weather + average temp of contained markers.
-   Mirrors the command-center pattern so behaviour matches across the site. */
+/* Cluster pill — count + dominant sky + average temp of contained markers.
+   Mirrors command-center.js's dominantClusterWeather, but built off
+   WeatherService instead of per-marker `_wx` so it stays correct after
+   day-picker changes without needing manual recomputation. */
+var SKY_TINTS = {
+  'clear':         { bg: 'rgba(232, 168, 50, 0.85)',  border: '#e8a832', color: '#1a1810' },
+  'partly-cloudy': { bg: 'rgba(168, 152, 120, 0.85)', border: '#a89878', color: '#1a1810' },
+  'cloudy':        { bg: 'rgba(60, 60, 70, 0.85)',    border: '#6a6a78', color: '#f0e8d8' },
+  'rain':          { bg: 'rgba(80, 130, 200, 0.85)',  border: '#5082c8', color: '#f0e8d8' },
+  'snow':          { bg: 'rgba(220, 230, 240, 0.85)', border: '#dce6f0', color: '#1a1810' },
+  'storm':         { bg: 'rgba(180, 60, 60, 0.85)',   border: '#b43c3c', color: '#f0e8d8' },
+};
+
 function dominantClusterWeather(cluster) {
-  var counts = {};
-  var tempSum = 0, tempN = 0, topEmoji = null, topCount = 0;
+  if (!WX || !WX.skyCategory || !WX.SKY_CATEGORIES) return null;
+  var counts = {}, tempSum = 0, tempN = 0;
   cluster.getAllChildMarkers().forEach(function (m) {
-    var w = m._wx;
-    if (!w) return;
-    if (w.icon && w.icon !== '·') {
-      counts[w.icon] = (counts[w.icon] || 0) + 1;
-      if (counts[w.icon] > topCount) { topCount = counts[w.icon]; topEmoji = w.icon; }
-    }
-    if (typeof w.tmax === 'number' && !isNaN(w.tmax)) { tempSum += w.tmax; tempN++; }
+    var h = m._hike;
+    if (!h) return;
+    var wx = WX.getForPeak(h.lat, h.lon, mapDayActive);
+    if (!wx) return;
+    var cat = WX.skyCategory(wx.code);
+    if (cat) counts[cat] = (counts[cat] || 0) + 1;
+    if (typeof wx.tempMax === 'number') { tempSum += wx.tempMax; tempN++; }
   });
+  var best = null, max = 0;
+  Object.keys(counts).forEach(function (k) {
+    if (counts[k] > max) { best = k; max = counts[k]; }
+  });
+  if (!best) return null;
+  var defn = WX.SKY_CATEGORIES.find(function (c) { return c.key === best; });
   return {
-    emoji: topEmoji,
-    temp: tempN ? Math.round(tempSum / tempN) : null,
+    tint: SKY_TINTS[best],
+    emoji: defn ? defn.icon : '',
+    temp: tempN ? (tempSum / tempN) : null,
   };
 }
 
 var clusterGroup = L.markerClusterGroup({
   maxClusterRadius: 45,
-  disableClusteringAtZoom: 11,
+  disableClusteringAtZoom: 13,
   spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
   chunkedLoading: true,
   iconCreateFunction: function (cluster) {
     var count = cluster.getChildCount();
     var info = dominantClusterWeather(cluster);
-    var html = '<div>'
-      + '<span class="cl-n">' + count + '</span>'
-      + (info.emoji ? '<span class="cl-wx">' + info.emoji + '</span>' : '')
-      + (info.temp !== null ? '<span class="cl-t">' + info.temp + '°</span>' : '')
-      + '</div>';
+    var style = info && info.tint
+      ? 'background:' + info.tint.bg + ';border-color:' + info.tint.border + ';color:' + info.tint.color
+      : '';
+    var emoji = info && info.emoji ? info.emoji : '';
+    var tempStr = info && info.temp !== null ? Math.round(info.temp) + '°' : '';
     return L.divIcon({
-      html: html,
+      html: '<div style="' + style + '">'
+        + '<span class="cl-n">' + count + '</span>'
+        + (emoji ? '<span class="cl-wx">' + emoji + '</span>' : '')
+        + (tempStr ? '<span class="cl-t">' + tempStr + '</span>' : '')
+        + '</div>',
       className: 'marker-cluster',
-      iconSize: null,
+      iconSize: L.point(64, 28),
     });
   },
 });
 map.addLayer(clusterGroup);
 
-function makeWeatherPin(emoji, temp) {
-  var inner = (emoji && emoji !== '·')
-    ? '<span class="hm-icon">' + emoji + '</span><span class="hm-temp">' + temp + '°</span>'
-    : '<span class="hm-icon" style="opacity:.3">📍</span>';
+/* Marker icon — CC's two-mode style.
+   Every hike here has a built page in this repo, so the ★ has-page badge
+   would apply to 100% of markers — we drop it entirely (no information).
+   The ❄ above-freezing pip is kept; it varies per peak/day. */
+function makeMarkerIcon(color, wx, summitElev) {
+  var aboveFreezing = !!(summitElev && wx && wx.freezingLevel != null && summitElev > wx.freezingLevel);
+  var frzCls = aboveFreezing ? ' hike-marker--above-freezing' : '';
+  if (wx && wx.code != null) {
+    var emoji = WX ? WX.weatherIcon(wx.code) : '';
+    var tempStr = (wx.tempMax != null) ? Math.round(wx.tempMax) + '°' : '';
+    var temp = tempStr ? '<span class="hike-marker__temp">' + tempStr + '</span>' : '';
+    return L.divIcon({
+      className: '',
+      html: '<div class="hike-marker hike-marker--wx' + frzCls + '" style="border-color:' + color + ';background:' + color + '22">'
+          + '<span class="hike-marker__wx">' + emoji + '</span>' + temp + '</div>',
+      iconSize: [40, 28],
+      iconAnchor: [20, 14],
+    });
+  }
   return L.divIcon({
     className: '',
-    html: '<div class="hm-pin">' + inner + '</div>',
-    iconSize: null, iconAnchor: [28, 20], popupAnchor: [0, -26],
+    html: '<div class="hike-marker hike-marker--dot' + frzCls + '" style="background:' + color + '"></div>',
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+  });
+}
+
+function refreshMarkerIcons() {
+  HIKES.forEach(function (h, i) {
+    var m = markers[i];
+    if (!m) return;
+    var wx = WX ? WX.getForPeak(h.lat, h.lon, mapDayActive) : null;
+    m.setIcon(makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev));
   });
 }
 
@@ -274,38 +373,89 @@ function setMapDay(dayIdx) {
   document.querySelectorAll('.map-day-btn').forEach(function (btn, i) {
     btn.classList.toggle('active', i === dayIdx);
   });
-  HIKES.forEach(function (h, i) {
-    var m = markers[i];
-    if (!m) return;
-    var wd = weatherByHike[i];
-    if (!wd || !wd[dayIdx]) return;
-    m._wx = wd[dayIdx];
-    m.setIcon(makeWeatherPin(wd[dayIdx].icon, wd[dayIdx].tmax));
-  });
+  refreshMarkerIcons();
   if (clusterGroup) clusterGroup.refreshClusters();
+  renderCardStrips();
   updateCardWeather();
+  persistUrl();
   applyFilters();
 }
 
-function updateMapDayBtns(dates) {
+function buildMapDayBtns() {
   var bar = document.getElementById('mapDayBtns');
   if (!bar) return;
   bar.innerHTML = '';
-  dates.forEach(function (date, i) {
+  if (!WX) {
+    var msg = document.createElement('button');
+    msg.className = 'map-day-btn';
+    msg.disabled = true;
+    msg.style.opacity = '.5';
+    msg.textContent = 'No forecast — run `make weather`';
+    bar.appendChild(msg);
+    return;
+  }
+  var choices = WX.getDayChoices();
+  if (!choices.length) {
+    var none = document.createElement('button');
+    none.className = 'map-day-btn';
+    none.disabled = true;
+    none.style.opacity = '.5';
+    none.textContent = 'No forecast available';
+    bar.appendChild(none);
+    return;
+  }
+  choices.forEach(function (c, i) {
     var btn = document.createElement('button');
     btn.className = 'map-day-btn' + (i === mapDayActive ? ' active' : '');
-    var label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : fmtDow(date);
-    btn.textContent = label + ' · ' + new Date(date + 'T00:00').toLocaleDateString(undefined, {month:'short', day:'numeric'});
+    btn.textContent = c.label;
     btn.onclick = function () { setMapDay(i); };
     bar.appendChild(btn);
   });
 }
 
+/* Per-card weather strip — one column per forecast day. Re-renders on
+   day-picker change so the active day stays visually marked. */
+function renderCardStrips() {
+  if (!WX) {
+    document.querySelectorAll('.weather-strip').forEach(function (strip) {
+      strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
+    });
+    return;
+  }
+  var choices = WX.getDayChoices();
+  HIKES.forEach(function (h, i) {
+    var strip = document.querySelector('.weather-strip[data-hike="' + i + '"]');
+    if (!strip) return;
+    if (h.lat == null || h.lon == null) { strip.innerHTML = ''; return; }
+    var html = '';
+    var anyData = false;
+    choices.forEach(function (c, dIdx) {
+      var wx = WX.getForPeak(h.lat, h.lon, dIdx);
+      if (wx) anyData = true;
+      var icon = wx ? WX.weatherIcon(wx.code) : '·';
+      var label = wx ? WX.weatherLabel(wx.code) : '';
+      var tmax = (wx && wx.tempMax != null) ? Math.round(wx.tempMax) + '°' : '–';
+      var activeCls = dIdx === mapDayActive ? ' active' : '';
+      html += '<div class="wx' + activeCls + '" title="' + escAttr(label) + '">' +
+        '<div class="dow">' + fmtDow(c.date) + '</div>' +
+        '<div class="icon">' + icon + '</div>' +
+        '<div class="tmax">' + tmax + '</div>' +
+      '</div>';
+    });
+    strip.innerHTML = anyData ? html : '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
+  });
+}
+
+var missingForecast = [];
 HIKES.forEach(function (h, i) {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
+  var wx = WX ? WX.getForPeak(h.lat, h.lon, mapDayActive) : null;
+  if (!wx) missingForecast.push(h.name);
   var m = L.marker([h.lat, h.lon], {
-    icon: makeWeatherPin('·', ''),
+    icon: makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev),
   });
+  m._hike = h;
+  m._idx = i;
   var popup =
     (h.photo ? '<img src="' + escAttr(h.photo) + '" alt="">' : '') +
     '<div class="pop-name">' + h.name + '</div>' +
@@ -324,6 +474,10 @@ if (latlngs.length) {
 }
 window.addEventListener('resize', function () { map.invalidateSize(); });
 
+if (missingForecast.length) {
+  console.warn('[hikes] ' + missingForecast.length + ' hike(s) without forecast data:', missingForecast);
+}
+
 function highlightMarker(i, on) {
   var m = markers[i];
   if (!m) return;
@@ -332,98 +486,131 @@ function highlightMarker(i, on) {
   if (on) m.bringToFront();
 }
 
-/* ------------- weather ------------- */
-var WX_CACHE_KEY = "hikes_wx_v1";
-var WX_CACHE_TTL = 60 * 60 * 1000;
+/* ------------- boot ------------- */
+/* Region/canton filter buttons are injected by JS earlier in this file —
+   syncFilterButtons() needs to run AFTER them so the URL-restored "active"
+   state actually lands on the right buttons. */
+if (URL_STATE.weatherDay != null) mapDayActive = URL_STATE.weatherDay;
+buildMapDayBtns();
+syncFilterButtons();
+renderCardStrips();
+updateCardWeather();
+/* If we restored a non-default weatherDay, the marker icons built above were
+   for day 0 — refresh now that mapDayActive is correct. */
+if (mapDayActive !== 0) refreshMarkerIcons();
+mountToolbarButtons();
+updateResetVisibility();
+applyFilters();
 
-function wxCacheLoad() {
-  try {
-    var raw = sessionStorage.getItem(WX_CACHE_KEY);
-    if (!raw) return null;
-    var parsed = JSON.parse(raw);
-    if (Date.now() - parsed.ts > WX_CACHE_TTL) return null;
-    return parsed.data;
-  } catch(e) { return null; }
-}
-function wxCacheSave(data) {
-  try { sessionStorage.setItem(WX_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data })); } catch(e) {}
-}
-
-function applyWeatherData(allDays) {
-  var datesSet = false;
-  allDays.forEach(function (days, i) {
-    var strip = document.querySelector('.weather-strip[data-hike="' + i + '"]');
-    if (!strip) return;
-    if (!days) {
-      strip.classList.remove("loading");
-      strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>';
-      return;
+/* ------------- Layer toggles (webcams / avalanche) ------------- */
+function setWebcams(on) {
+  layerState.webcams = !!on;
+  if (on) {
+    if (!webcamLayerInstance && window.WebcamLayer) {
+      webcamLayerInstance = window.WebcamLayer.create();
     }
-    var html = "";
-    for (var d = 0; d < 7; d++) {
-      var code = days.weather_code[d];
-      var tmax = Math.round(days.temperature_2m_max[d]);
-      var iconLabel = wmoIcon(code);
-      var icon = iconLabel[0], label = iconLabel[1];
-      var date = days.time[d];
-      html += '<div class="wx" title="' + label + '">' +
-        '<div class="dow">' + fmtDow(date) + '</div>' +
-        '<div class="icon">' + icon + '</div>' +
-        '<div class="tmax">' + tmax + '°</div>' +
-      '</div>';
-      if (!weatherByHike[i]) weatherByHike[i] = {};
-      weatherByHike[i][d] = { icon: icon, label: label, tmax: tmax };
-      if (d === mapDayActive && markers[i]) {
-        markers[i]._wx = weatherByHike[i][d];
-        markers[i].setIcon(makeWeatherPin(icon, tmax));
-      }
-    }
-    strip.classList.remove("loading");
-    strip.innerHTML = html;
-    if (!datesSet) { updateMapDayBtns(days.time); datesSet = true; }
-  });
-  if (clusterGroup) clusterGroup.refreshClusters();
-  updateCardWeather();
-  applyFilters();
+    if (webcamLayerInstance) map.addLayer(webcamLayerInstance);
+  } else if (webcamLayerInstance) {
+    map.removeLayer(webcamLayerInstance);
+  }
+  persistUrl();
 }
-
-function loadWeather() {
-  var cached = wxCacheLoad();
-  if (cached) { applyWeatherData(cached); return; }
-
-  var indexed = [];
-  HIKES.forEach(function (h, i) { if (h.lat != null && h.lon != null) indexed.push({ h: h, i: i }); });
-  if (!indexed.length) return;
-
-  var lats = indexed.map(function (x) { return x.h.lat; }).join(",");
-  var lons = indexed.map(function (x) { return x.h.lon; }).join(",");
-  var elevs = indexed.map(function (x) { return x.h.summitElev || ""; }).join(",");
-  var url = "https://api.open-meteo.com/v1/forecast?latitude=" + lats + "&longitude=" + lons
-    + "&elevation=" + elevs
-    + "&daily=weather_code,temperature_2m_max&timezone=Europe%2FZurich&forecast_days=7";
-
-  HIKES.forEach(function (h, i) {
-    if (h.lat == null || h.lon == null) {
-      var strip = document.querySelector('.weather-strip[data-hike="' + i + '"]');
-      if (strip) { strip.classList.remove("loading"); strip.innerHTML = ""; }
-    }
-  });
-
-  fetch(url)
-    .then(function (r) { return r.json(); })
-    .then(function (j) {
-      var results = Array.isArray(j) ? j : [j];
-      var allDays = HIKES.map(function () { return null; });
-      results.forEach(function (res, ri) { allDays[indexed[ri].i] = res.daily; });
-      wxCacheSave(allDays);
-      applyWeatherData(allDays);
-    })
-    .catch(function () {
-      indexed.forEach(function (x) {
-        var strip = document.querySelector('.weather-strip[data-hike="' + x.i + '"]');
-        if (strip) { strip.classList.remove("loading"); strip.innerHTML = '<div class="wx" style="grid-column:1/-1">forecast unavailable</div>'; }
+function setAvalanche(on) {
+  layerState.avalanche = !!on;
+  if (on) {
+    if (slfLayerInstance) {
+      map.addLayer(slfLayerInstance);
+    } else if (!slfPending && window.SlfLayer) {
+      slfPending = true;
+      window.SlfLayer.create().then(function (layer) {
+        slfPending = false;
+        slfLayerInstance = layer;
+        /* User may have toggled off again while loading; respect current state. */
+        if (layerState.avalanche) map.addLayer(slfLayerInstance);
+      }).catch(function (err) {
+        slfPending = false;
+        console.warn('[hikes] SLF layer failed to load:', err);
       });
-    });
+    }
+  } else if (slfLayerInstance) {
+    map.removeLayer(slfLayerInstance);
+  }
+  persistUrl();
 }
-loadWeather();
+
+/* ------------- Reset / Share / Layer toolbar buttons ------------- */
+function mountToolbarButtons() {
+  var filtersEl = document.getElementById('filters');
+  if (!filtersEl || filtersEl.querySelector('.toolbar-actions')) return;
+  var wrap = document.createElement('div');
+  wrap.className = 'toolbar-actions';
+  wrap.style.cssText = 'display:flex; gap:.5rem; align-items:center; margin-left:auto;';
+
+  function makeToggle(label, title, on, handler) {
+    var b = document.createElement('button');
+    b.className = 'filter-btn' + (on ? ' active' : '');
+    b.textContent = label;
+    b.title = title;
+    b.onclick = function () {
+      var nowOn = !b.classList.contains('active');
+      b.classList.toggle('active', nowOn);
+      handler(nowOn);
+    };
+    return b;
+  }
+
+  var webcamBtn = makeToggle('📷 Webcams', 'Show Windy webcams', layerState.webcams, setWebcams);
+  var slfBtn    = makeToggle('❄️ Avalanche', 'Show SLF avalanche bulletin (winter only)', layerState.avalanche, setAvalanche);
+
+  var resetBtn = document.createElement('button');
+  resetBtn.id = 'resetBtn';
+  resetBtn.className = 'filter-btn';
+  resetBtn.textContent = 'Reset';
+  resetBtn.title = 'Clear filters';
+  resetBtn.style.display = 'none';
+  resetBtn.onclick = function () {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    window.location.reload();
+  };
+
+  var shareBtn = document.createElement('button');
+  shareBtn.className = 'filter-btn';
+  shareBtn.textContent = 'Share';
+  shareBtn.title = 'Copy this view’s URL';
+  shareBtn.onclick = function () {
+    var url = window.location.href;
+    var done = function () {
+      var orig = shareBtn.textContent;
+      shareBtn.textContent = 'Copied';
+      setTimeout(function () { shareBtn.textContent = orig; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  };
+
+  wrap.appendChild(webcamBtn);
+  wrap.appendChild(slfBtn);
+  wrap.appendChild(resetBtn);
+  wrap.appendChild(shareBtn);
+  filtersEl.appendChild(wrap);
+
+  /* If URL state had layers on, materialise them now that the map exists. */
+  if (layerState.webcams)   setWebcams(true);
+  if (layerState.avalanche) setAvalanche(true);
+}
+
+function updateResetVisibility() {
+  var btn = document.getElementById('resetBtn');
+  if (!btn) return;
+  btn.style.display = (window.IndexUrlSync && window.IndexUrlSync.hasHash()) ? '' : 'none';
+}
 })();

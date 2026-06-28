@@ -1,6 +1,6 @@
 # Hikes page harmonization — design
 
-**Status:** Draft, 2026-06-28
+**Status:** Phases 1, 2, 3, 5 shipped on 2026-06-28. Phase 4 (side panel) deferred — pulling in CC's side panel requires extracting ~120 lines of theme-coupled CSS (`.panel-*`, `.grade-badge`, `.popup-*`, `.day-card`, …) into a shared file scoped to its own CSS variables. Worth doing, just bigger than the original estimate; tracked as a follow-up.
 
 ## Goal
 

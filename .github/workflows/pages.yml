@@ -61,11 +61,13 @@ jobs:
           fi
 
       - uses: actions/setup-python@v5
+        if: steps.scope.outputs.needs_render == 'true'
         with:
           python-version: "3.12"
           cache: pip
 
       - name: Install dependencies
+        if: steps.scope.outputs.needs_render == 'true'
         run: pip install -r pages/hikes/requirements.txt
 
       - name: Inject site-local config (API keys etc) from repo secrets
@@ -81,6 +83,7 @@ jobs:
           fi
 
       - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
+        if: steps.scope.outputs.needs_render == 'true'
         run: cd pages/hikes && python scripts/fetch_weather.py
 
       - name: Validate hike file completeness
