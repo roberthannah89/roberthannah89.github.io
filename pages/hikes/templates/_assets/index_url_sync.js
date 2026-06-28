@@ -25,20 +25,25 @@
     time:       'tm',
     route:      'rt',
     weatherDay: 'd',
+    /* Layer toggles — encoded as 1 when on; absent when off. */
+    webcams:    'wc',
+    avalanche:  'av',
   };
   var REV_MAP = {};
   Object.keys(KEY_MAP).forEach(function (k) { REV_MAP[KEY_MAP[k]] = k; });
 
-  function encode(activeFilters, mapDayActive) {
+  function encode(activeFilters, mapDayActive, layers) {
     var parts = [];
     Object.keys(KEY_MAP).forEach(function (k) {
-      if (k === 'weatherDay') return;
+      if (k === 'weatherDay' || k === 'webcams' || k === 'avalanche') return;
       var v = activeFilters[k];
       if (v && v !== 'all') parts.push(KEY_MAP[k] + '=' + encodeURIComponent(v));
     });
     if (typeof mapDayActive === 'number' && mapDayActive !== 0) {
       parts.push(KEY_MAP.weatherDay + '=' + mapDayActive);
     }
+    if (layers && layers.webcams)  parts.push(KEY_MAP.webcams   + '=1');
+    if (layers && layers.avalanche) parts.push(KEY_MAP.avalanche + '=1');
     return parts.join('&');
   }
 
@@ -55,6 +60,8 @@
       if (key === 'weatherDay') {
         var n = parseInt(raw, 10);
         if (!isNaN(n)) out.weatherDay = n;
+      } else if (key === 'webcams' || key === 'avalanche') {
+        out[key] = raw === '1' || raw === 'true';
       } else {
         out[key] = raw;
       }
@@ -62,8 +69,8 @@
     return out;
   }
 
-  function writeToUrl(activeFilters, mapDayActive) {
-    var hash = encode(activeFilters, mapDayActive);
+  function writeToUrl(activeFilters, mapDayActive, layers) {
+    var hash = encode(activeFilters, mapDayActive, layers);
     var current = window.location.hash.replace(/^#/, '');
     if (current === hash) return;
     /* replaceState (not pushState) so back-button doesn't traverse every filter

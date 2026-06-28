@@ -135,9 +135,18 @@ function syncFilterButtons() {
 }
 
 function persistUrl() {
-  if (window.IndexUrlSync) window.IndexUrlSync.writeToUrl(activeFilters, mapDayActive);
+  if (window.IndexUrlSync) window.IndexUrlSync.writeToUrl(activeFilters, mapDayActive, layerState);
   updateResetVisibility();
 }
+
+/* Webcam + SLF avalanche overlay state (mirrors CC's bottom-bar toggles). */
+var layerState = {
+  webcams:   !!URL_STATE.webcams,
+  avalanche: !!URL_STATE.avalanche,
+};
+var webcamLayerInstance = null;   /* lazily created on first activation */
+var slfLayerInstance = null;
+var slfPending = false;
 
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
@@ -493,13 +502,65 @@ mountToolbarButtons();
 updateResetVisibility();
 applyFilters();
 
-/* ------------- Reset / Share toolbar buttons ------------- */
+/* ------------- Layer toggles (webcams / avalanche) ------------- */
+function setWebcams(on) {
+  layerState.webcams = !!on;
+  if (on) {
+    if (!webcamLayerInstance && window.WebcamLayer) {
+      webcamLayerInstance = window.WebcamLayer.create();
+    }
+    if (webcamLayerInstance) map.addLayer(webcamLayerInstance);
+  } else if (webcamLayerInstance) {
+    map.removeLayer(webcamLayerInstance);
+  }
+  persistUrl();
+}
+function setAvalanche(on) {
+  layerState.avalanche = !!on;
+  if (on) {
+    if (slfLayerInstance) {
+      map.addLayer(slfLayerInstance);
+    } else if (!slfPending && window.SlfLayer) {
+      slfPending = true;
+      window.SlfLayer.create().then(function (layer) {
+        slfPending = false;
+        slfLayerInstance = layer;
+        /* User may have toggled off again while loading; respect current state. */
+        if (layerState.avalanche) map.addLayer(slfLayerInstance);
+      }).catch(function (err) {
+        slfPending = false;
+        console.warn('[hikes] SLF layer failed to load:', err);
+      });
+    }
+  } else if (slfLayerInstance) {
+    map.removeLayer(slfLayerInstance);
+  }
+  persistUrl();
+}
+
+/* ------------- Reset / Share / Layer toolbar buttons ------------- */
 function mountToolbarButtons() {
   var filtersEl = document.getElementById('filters');
   if (!filtersEl || filtersEl.querySelector('.toolbar-actions')) return;
   var wrap = document.createElement('div');
   wrap.className = 'toolbar-actions';
   wrap.style.cssText = 'display:flex; gap:.5rem; align-items:center; margin-left:auto;';
+
+  function makeToggle(label, title, on, handler) {
+    var b = document.createElement('button');
+    b.className = 'filter-btn' + (on ? ' active' : '');
+    b.textContent = label;
+    b.title = title;
+    b.onclick = function () {
+      var nowOn = !b.classList.contains('active');
+      b.classList.toggle('active', nowOn);
+      handler(nowOn);
+    };
+    return b;
+  }
+
+  var webcamBtn = makeToggle('📷 Webcams', 'Show Windy webcams', layerState.webcams, setWebcams);
+  var slfBtn    = makeToggle('❄️ Avalanche', 'Show SLF avalanche bulletin (winter only)', layerState.avalanche, setAvalanche);
 
   var resetBtn = document.createElement('button');
   resetBtn.id = 'resetBtn';
@@ -508,8 +569,6 @@ function mountToolbarButtons() {
   resetBtn.title = 'Clear filters';
   resetBtn.style.display = 'none';
   resetBtn.onclick = function () {
-    /* Wipe the hash and reload so every per-filter state recalcs from
-       defaults (rather than partially-clearing in place). */
     history.replaceState(null, '', window.location.pathname + window.location.search);
     window.location.reload();
   };
@@ -538,9 +597,15 @@ function mountToolbarButtons() {
     }
   };
 
+  wrap.appendChild(webcamBtn);
+  wrap.appendChild(slfBtn);
   wrap.appendChild(resetBtn);
   wrap.appendChild(shareBtn);
   filtersEl.appendChild(wrap);
+
+  /* If URL state had layers on, materialise them now that the map exists. */
+  if (layerState.webcams)   setWebcams(true);
+  if (layerState.avalanche) setAvalanche(true);
 }
 
 function updateResetVisibility() {

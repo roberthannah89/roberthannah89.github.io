@@ -490,11 +490,17 @@
 <script src="routes/_assets/map_shared.js"></script>
 <script src="command-center/weather-cache.js"></script>
 <script src="command-center/weather.js"></script>
+<script src="command-center/webcams_windy_data.js"></script>
+<script src="command-center/webcams.js"></script>
+<!-- slf-layer.js lazy-loads slf-cache.js from the current page dir; for this
+     page that path is wrong, so eagerly load the cache here instead. -->
+<script src="command-center/slf-cache.js"></script>
+<script src="command-center/slf-layer.js"></script>
 <script>window.HIKES = {{ hikes | tojson }};</script>
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
 <script>window.REGIONS_GJ = {{ regions_geojson | tojson }};</script>
-<script src="routes/_assets/index_url_sync.js?v=h1"></script>
-<script src="routes/_assets/index_page.js?v=h2"></script>
+<script src="routes/_assets/index_url_sync.js?v=h2"></script>
+<script src="routes/_assets/index_page.js?v=h3"></script>
 <script src="routes/_assets/sw-register.js" defer></script>
 </body>
 </html>
