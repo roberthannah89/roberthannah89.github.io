@@ -4,6 +4,11 @@
 
   var map, clusterGroup;
   var allMarkers = [];
+  // Reference-city markers — not hikes, not filtered, not clustered. Added
+  // directly to the map in their own layer group so the toggle simply
+  // add/removes the group without touching the hike pipeline.
+  var cityMarkers = [];
+  var cityLayer = null;
 
   // Zoom at/above which permanent name labels show. Below it the tooltips are
   // unbound entirely (not just CSS-hidden) so Leaflet does zero per-marker
@@ -207,6 +212,9 @@
         ? Math.round(wx.tempMax) + '°' : '';
       m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr, m._hasPage, aboveFreezing));
     });
+    // Reference-city pills track the same Day selection so they're directly
+    // comparable to the hike markers around them.
+    refreshCityMarkers();
   }
 
   // Build the metadata line for a POI ("T3 · 800m · 3h ↑ · 2700m") based on
@@ -316,6 +324,88 @@
     allMarkers.forEach(function (m) {
       if (!m._filtered) clusterGroup.addLayer(m);
     });
+  }
+
+  /* ── Reference cities ──────────────────────────────── */
+  // Major Swiss cities rendered as a separate, non-clustered, non-filtered
+  // layer purely so the user can eyeball forecast cache values against
+  // MeteoSwiss/Google for a known location.
+
+  function makeCityIcon(wxIcon, tempStr) {
+    var temp = tempStr ? '<span class="city-marker__temp">' + tempStr + '</span>' : '';
+    var wx = wxIcon ? '<span class="city-marker__wx">' + wxIcon + '</span>' : '<span class="city-marker__wx">—</span>';
+    return L.divIcon({
+      className: '',
+      html: '<div class="city-marker">' + wx + temp + '</div>',
+      iconSize: [44, 24],
+      iconAnchor: [22, 12]
+    });
+  }
+
+  function createCityMarkers() {
+    var cities = window.CITIES || [];
+    if (!cities.length) return;
+    cityLayer = L.layerGroup();
+    cities.forEach(function (city) {
+      var marker = L.marker([city.lat, city.lon], {
+        icon: makeCityIcon(null, null),
+        // Render above hike markers so the reference pill is never buried
+        // by a same-cell hike — cities are sparse enough that this is fine.
+        zIndexOffset: 1000
+      });
+      marker._city = city;
+      marker.bindTooltip(city.name, {
+        permanent: true,
+        interactive: false,
+        direction: 'top',
+        offset: [0, -10],
+        className: 'city-tooltip'
+      });
+      marker.on('click', function () { openCityPopup(city, marker); });
+      cityMarkers.push(marker);
+      cityLayer.addLayer(marker);
+    });
+  }
+
+  function refreshCityMarkers() {
+    if (!cityMarkers.length) return;
+    var dayIdx = Filters.getState().weatherDay;
+    cityMarkers.forEach(function (m) {
+      var c = m._city;
+      var wx = WeatherService.getForPeak(c.lat, c.lon, dayIdx);
+      var emoji = wx ? WeatherService.weatherIcon(wx.code) : null;
+      var tempStr = wx && wx.tempMax != null ? Math.round(wx.tempMax) + '°' : '';
+      m.setIcon(makeCityIcon(emoji, tempStr));
+    });
+  }
+
+  function openCityPopup(city, marker) {
+    var dayIdx = Filters.getState().weatherDay;
+    var wx = WeatherService.getForPeak(city.lat, city.lon, dayIdx);
+    var html = '<div class="popup-name">🏙️ ' + esc(city.name) + '</div>';
+    html += '<div class="popup-meta">' + (city.alt || '—') + ' m · reference point</div>';
+    if (wx) {
+      var dayLabel = WeatherService.formatDayLabel(wx.date);
+      html += '<div class="popup-weather">';
+      html += WeatherService.weatherIcon(wx.code) + ' ' + dayLabel + ': ';
+      html += WeatherService.weatherLabel(wx.code);
+      html += ', ' + Math.round(wx.tempMax) + '°C';
+      if (wx.precip > 0) html += ', ' + wx.precip.toFixed(1) + 'mm';
+      html += ', 💨 ' + Math.round(wx.windMax) + ' km/h';
+      html += '</div>';
+    } else {
+      html += '<div class="popup-weather">No forecast cached — run <code>make weather</code></div>';
+    }
+    // Direct link to MeteoSwiss's location forecast so the user can verify the
+    // cached value against the source they actually trust.
+    var meteo = 'https://www.meteoswiss.admin.ch/#tab=forecast-map'
+      + '&lat=' + city.lat + '&lon=' + city.lon + '&zoom=9';
+    html += '<div class="popup-links">'
+      + '<a href="' + meteo + '" target="_blank" rel="noopener">MeteoSwiss ↗</a>'
+      + '</div>';
+    if (marker.getPopup()) marker.setPopupContent(html);
+    else marker.bindPopup(html, { maxWidth: 280 });
+    marker.openPopup();
   }
 
   // Mapping from sky category to cluster fill/border/text colors.
@@ -762,6 +852,7 @@
       { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
       { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
       { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
+      { id: 'cities',    icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
       { id: 'webcams',   icon: '📷', label: 'Webcams', defaultOn: true },
       // Hazard overlays
       { id: 'avalanche', icon: '⚠️', label: 'Avalanche (SLF bulletin + statutory hazard zones)' },
@@ -901,6 +992,12 @@
       Filters.setState('hasPage', show ? true : null);
       return;
     }
+    if (id === 'cities') {
+      if (!cityLayer) return;
+      if (show) map.addLayer(cityLayer);
+      else map.removeLayer(cityLayer);
+      return;
+    }
     if (id === 'webcams') {
       if (show) {
         if (!webcamLayer && window.WebcamLayer) webcamLayer = window.WebcamLayer.create();
@@ -974,6 +1071,8 @@
       Filters.loadState(window.UrlSync.readFromUrl());
     }
     createMarkers(routes);
+    createCityMarkers();
+    if (cityLayer) map.addLayer(cityLayer);
 
     buildFilterBar();
     buildWeatherToggles();

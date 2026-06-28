@@ -9,6 +9,7 @@ from pathlib import Path
 
 HIKES_ROOT = Path(__file__).resolve().parent.parent
 SAC_ROUTES_JS = HIKES_ROOT / "guides" / "sac-routes.js"
+CITIES_JS = HIKES_ROOT / "command-center" / "cities.js"
 OUTPUT = HIKES_ROOT / "command-center" / "weather-cache.js"
 
 BATCH_SIZE = 40
@@ -32,6 +33,19 @@ MODEL = "meteoswiss_icon_ch2"
 def load_sac_routes():
     text = SAC_ROUTES_JS.read_text(encoding="utf-8")
     json_str = text.split("=", 1)[1].strip().rstrip(";")
+    return json.loads(json_str)
+
+
+def load_cities():
+    """Read window.CITIES from cities.js so the city list has a single source
+    of truth shared with the client. Same JSON-after-`=` shape as sac-routes.js."""
+    if not CITIES_JS.exists():
+        return []
+    text = CITIES_JS.read_text(encoding="utf-8")
+    # Strip JS line comments before the assignment so they don't confuse the
+    # naive `split("=", 1)` parser used by load_sac_routes.
+    after_eq = text.split("window.CITIES", 1)[1]
+    json_str = after_eq.split("=", 1)[1].strip().rstrip(";")
     return json.loads(json_str)
 
 
@@ -124,6 +138,19 @@ def main():
     routes = load_sac_routes()
     peaks = unique_peaks(routes)
     print(f"Found {len(peaks)} unique peaks from {len(routes)} SAC routes")
+
+    # Reference cities — same cache, same lat/lon keying. Lets the client
+    # render city weather pills using WeatherService.getForPeak unchanged.
+    cities = load_cities()
+    seen = {f"{p['lat']:.3f},{p['lon']:.3f}" for p in peaks}
+    for c in cities:
+        key = f"{c['lat']:.3f},{c['lon']:.3f}"
+        if key in seen:
+            continue
+        seen.add(key)
+        peaks.append({"lat": c["lat"], "lon": c["lon"], "alt": c.get("alt", 0)})
+    if cities:
+        print(f"  + {len(cities)} reference cities → {len(peaks)} total coordinates")
 
     cache = {}
     batches = [peaks[i:i + BATCH_SIZE] for i in range(0, len(peaks), BATCH_SIZE)]

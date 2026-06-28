@@ -788,6 +788,53 @@ html, body {
    FIRST-CLICK REGRESSION GUARD comment in command-center.js (createMarkers). */
 .leaflet-tooltip-pane { pointer-events: none; }
 
+/* Reference-city markers (Zürich, Geneva, Zermatt, …). Squared corners and a
+   cool slate border read as "not a hike" against the warm, round, grade-tinted
+   hike pills. Sit above hike markers via zIndexOffset (see createCityMarkers). */
+.city-marker {
+  box-sizing: border-box;
+  width: 44px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1.5px solid #7a96c4;
+  background: rgba(20, 28, 44, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.city-marker__wx {
+  font-size: 12px;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.6));
+}
+.city-marker__temp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: #cfe0ff;
+  line-height: 1;
+}
+
+/* Permanent city-name label above each city marker — always visible at every
+   zoom (cities are sparse, ~12 total, so they never crowd the map). */
+.leaflet-tooltip.city-tooltip {
+  background: rgba(20, 28, 44, 0.85);
+  color: #cfe0ff;
+  border: 1px solid #7a96c4;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.leaflet-tooltip.city-tooltip::before { display: none; }
+
 /* Hover tooltip — peak/hut name + optional metadata line */
 .leaflet-tooltip.hike-tooltip {
   background: rgba(26, 24, 16, 0.95);
