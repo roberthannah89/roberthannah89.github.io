@@ -11,6 +11,8 @@
 <meta name="theme-color" content="#0b0c10">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <link rel="stylesheet" href="routes/_assets/map_shared.css">
 <style>
   :root {
@@ -349,6 +351,26 @@
   .hm-icon { font-size: 1rem; line-height: 1; }
   .hm-temp { font-size: .72rem; color: #e8e8ea; font-weight: 600; }
 
+  /* Marker clusters — same pill aesthetic as .hm-pin, with count + dominant weather */
+  .marker-cluster { background: transparent !important; border: none !important; }
+  .marker-cluster > div {
+    background: var(--bg-soft, #14161c);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 10px;
+    padding: 3px 7px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    color: #e8e8ea;
+    line-height: 1;
+    font-family: inherit;
+  }
+  .marker-cluster .cl-n { font-size: .78rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .marker-cluster .cl-wx { font-size: 1rem; }
+  .marker-cluster .cl-t { font-size: .7rem; opacity: .85; font-variant-numeric: tabular-nums; }
+
   /* Highlighted nav link for the command center — the headline interactive
      feature of the site. Solid dark pill with a slowly rotating conic-gradient
      border. @property is required for the CSS-variable angle to animate. */
@@ -496,6 +518,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="routes/_assets/swiss_border.js"></script>
 <script src="routes/_assets/map_shared.js"></script>
 <script>window.HIKES = {{ hikes | tojson }};</script>

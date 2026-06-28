@@ -182,8 +182,8 @@ function applyFilters() {
     var idx = parseInt(card.dataset.idx, 10);
     var m = markers[idx];
     if (m) {
-      if (ok) m.addTo(map);
-      else map.removeLayer(m);
+      if (ok) clusterGroup.addLayer(m);
+      else clusterGroup.removeLayer(m);
     }
   });
   document.getElementById("empty").style.display = visible ? "none" : "block";
@@ -215,6 +215,49 @@ var latlngs = [];
 var weatherByHike = [];
 var mapDayActive = 1;
 
+/* Cluster pill — count + dominant weather + average temp of contained markers.
+   Mirrors the command-center pattern so behaviour matches across the site. */
+function dominantClusterWeather(cluster) {
+  var counts = {};
+  var tempSum = 0, tempN = 0, topEmoji = null, topCount = 0;
+  cluster.getAllChildMarkers().forEach(function (m) {
+    var w = m._wx;
+    if (!w) return;
+    if (w.icon && w.icon !== '·') {
+      counts[w.icon] = (counts[w.icon] || 0) + 1;
+      if (counts[w.icon] > topCount) { topCount = counts[w.icon]; topEmoji = w.icon; }
+    }
+    if (typeof w.tmax === 'number' && !isNaN(w.tmax)) { tempSum += w.tmax; tempN++; }
+  });
+  return {
+    emoji: topEmoji,
+    temp: tempN ? Math.round(tempSum / tempN) : null,
+  };
+}
+
+var clusterGroup = L.markerClusterGroup({
+  maxClusterRadius: 45,
+  disableClusteringAtZoom: 11,
+  spiderfyOnMaxZoom: true,
+  showCoverageOnHover: false,
+  chunkedLoading: true,
+  iconCreateFunction: function (cluster) {
+    var count = cluster.getChildCount();
+    var info = dominantClusterWeather(cluster);
+    var html = '<div>'
+      + '<span class="cl-n">' + count + '</span>'
+      + (info.emoji ? '<span class="cl-wx">' + info.emoji + '</span>' : '')
+      + (info.temp !== null ? '<span class="cl-t">' + info.temp + '°</span>' : '')
+      + '</div>';
+    return L.divIcon({
+      html: html,
+      className: 'marker-cluster',
+      iconSize: null,
+    });
+  },
+});
+map.addLayer(clusterGroup);
+
 function makeWeatherPin(emoji, temp) {
   var inner = (emoji && emoji !== '·')
     ? '<span class="hm-icon">' + emoji + '</span><span class="hm-temp">' + temp + '°</span>'
@@ -236,8 +279,10 @@ function setMapDay(dayIdx) {
     if (!m) return;
     var wd = weatherByHike[i];
     if (!wd || !wd[dayIdx]) return;
+    m._wx = wd[dayIdx];
     m.setIcon(makeWeatherPin(wd[dayIdx].icon, wd[dayIdx].tmax));
   });
+  if (clusterGroup) clusterGroup.refreshClusters();
   updateCardWeather();
   applyFilters();
 }
@@ -268,7 +313,7 @@ HIKES.forEach(function (h, i) {
     (h.grade ? '<div style="margin:.2rem 0;"><span class="pill ' + h.gradeClass + '">' + h.grade + '</span></div>' : '') +
     '<a href="' + h.href + '">View plan →</a>';
   m.bindPopup(popup);
-  m.addTo(map);
+  clusterGroup.addLayer(m);
   markers.push(m);
   latlngs.push([h.lat, h.lon]);
 });
@@ -328,12 +373,16 @@ function applyWeatherData(allDays) {
       '</div>';
       if (!weatherByHike[i]) weatherByHike[i] = {};
       weatherByHike[i][d] = { icon: icon, label: label, tmax: tmax };
-      if (d === mapDayActive && markers[i]) markers[i].setIcon(makeWeatherPin(icon, tmax));
+      if (d === mapDayActive && markers[i]) {
+        markers[i]._wx = weatherByHike[i][d];
+        markers[i].setIcon(makeWeatherPin(icon, tmax));
+      }
     }
     strip.classList.remove("loading");
     strip.innerHTML = html;
     if (!datesSet) { updateMapDayBtns(days.time); datesSet = true; }
   });
+  if (clusterGroup) clusterGroup.refreshClusters();
   updateCardWeather();
   applyFilters();
 }
