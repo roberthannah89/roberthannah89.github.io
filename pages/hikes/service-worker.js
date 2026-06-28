@@ -30,7 +30,7 @@
  * See docs/design/offline.md §8 for the phased plan.
  */
 
-const SW_VERSION = "v2-2026-06-28";
+const SW_VERSION = "v3-2026-06-28-cluster";
 const SHELL_CACHE = `hikes-shell-${SW_VERSION}`;
 const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 
