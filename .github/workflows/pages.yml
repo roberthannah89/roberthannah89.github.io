@@ -22,6 +22,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # need previous commit for the change-scope diff
+
+      - name: Detect change scope
+        id: scope
+        run: |
+          # Schedule + workflow_dispatch always rebuild (weather refresh / explicit trigger).
+          if [ "${{ github.event_name }}" != "push" ]; then
+            echo "needs_render=true" >> $GITHUB_OUTPUT
+            echo "Trigger: ${{ github.event_name }} — full build"
+            exit 0
+          fi
+          base="${{ github.event.before }}"
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            echo "needs_render=true" >> $GITHUB_OUTPUT
+            echo "No base ref — defaulting to full build"
+            exit 0
+          fi
+          changed=$(git diff --name-only "$base" HEAD 2>/dev/null || true)
+          if [ -z "$changed" ]; then
+            echo "needs_render=false" >> $GITHUB_OUTPUT
+            echo "No diff — skipping render"
+            exit 0
+          fi
+          echo "Changed since $base:"; echo "$changed" | sed 's/^/  /'
+          # Paths that DO NOT require re-rendering hike pages:
+          #   * gallery / API-docs prototypes  — committed HTML, no template build
+          #   * workflow + READMEs              — meta files
+          skippable='^(pages/hikes/docs/|\.github/|README|\.gitignore$)'
+          render_needed=$(echo "$changed" | grep -vE "$skippable" || true)
+          if [ -z "$render_needed" ]; then
+            echo "needs_render=false" >> $GITHUB_OUTPUT
+            echo "Result: docs/prototype-only — skipping hike-page render (~1-2 min saved)"
+          else
+            echo "needs_render=true" >> $GITHUB_OUTPUT
+            echo "Result: substantive change — running full build"
+          fi
 
       - uses: actions/setup-python@v5
         with:
@@ -47,12 +84,15 @@ jobs:
         run: cd pages/hikes && python scripts/fetch_weather.py
 
       - name: Validate hike file completeness
+        if: steps.scope.outputs.needs_render == 'true'
         run: cd pages/hikes && python scripts/validate_hike_files.py
 
       - name: Validate hike data
+        if: steps.scope.outputs.needs_render == 'true'
         run: cd pages/hikes && python scripts/render_hike.py --validate-only
 
       - name: Render hike pages
+        if: steps.scope.outputs.needs_render == 'true'
         run: cd pages/hikes && python scripts/render_hike.py
 
       - name: Upload site
