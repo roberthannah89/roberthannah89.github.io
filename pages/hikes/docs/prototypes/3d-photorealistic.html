@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Zindlenspitz — 3D photorealistic vs MapLibre</title>
+  <title>Zindlenspitz — 3D photorealistic (Google Map Tiles + Cesium)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="proto-title" content="3D Photorealistic Tiles (Google) — comparison">
+  <meta name="proto-title" content="3D Photorealistic Tiles (Google + Cesium)">
   <meta name="proto-icon" content="&#x26F0;&#xFE0F;">
-  <meta name="proto-desc" content="Side-by-side: current MapLibre + swisstopo SWISSIMAGE vs Google Photorealistic 3D Tiles via Cesium. Needs a Google Maps Platform API key to enable the right pane.">
+  <meta name="proto-desc" content="Photogrammetric 3D mesh of the Alps via Google Map Tiles rendered with CesiumJS. GPX track + trailhead/summit pins draped on the mesh. Needs a Google Maps Platform API key (Map Tiles API enabled).">
   <meta name="proto-source" content="Google Maps Platform — Map Tiles API + CesiumJS">
   <meta name="proto-order" content="150">
-  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <style>
     :root { --pad: 14px; --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; --border: #e2e2dd; }
@@ -40,29 +39,14 @@
     .keybar button.secondary { background: #888; }
     .keybar small { color: var(--muted); }
 
-    /* Comparison panes */
-    .comparison {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      height: calc(100vh - 175px);
-    }
-    @media (max-width: 800px) {
-      .comparison { grid-template-columns: 1fr; height: auto; }
-      .pane { height: 60vh; }
-    }
+    /* Map pane */
     .pane {
       position: relative;
-      border-right: 1px solid var(--border);
+      height: calc(100vh - 175px);
       overflow: hidden;
     }
-    .pane:last-child { border-right: 0; }
-    .pane-label {
-      position: absolute; top: 12px; left: 12px;
-      z-index: 5;
-      background: rgba(255,255,255,0.94);
-      padding: 5px 11px; border-radius: 4px;
-      font-size: 12px; font-weight: 600;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    @media (max-width: 800px) {
+      .pane { height: 70vh; }
     }
     .pane-cost {
       position: absolute; bottom: 10px; left: 12px;
@@ -72,7 +56,7 @@
       font-size: 11px; color: var(--muted);
       box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
-    #maplibre-map, #cesium-host, #cesium-container { width: 100%; height: 100%; }
+    #cesium-host, #cesium-container { width: 100%; height: 100%; }
     .pane-placeholder {
       width: 100%; height: 100%;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -97,37 +81,28 @@
 </head>
 <body>
   <header>
-    <h1>3D bake-off — current MapLibre vs Google Photorealistic 3D Tiles</h1>
+    <h1>Zindlenspitz — Google Photorealistic 3D Tiles (Cesium)</h1>
     <p class="sub">
-      Same view (Zindlenspitz) rendered two ways. Left: free MapLibre on swisstopo SWISSIMAGE + AWS Terrarium DEM (shipping today on every hike page). Right: Cesium + Google's photogrammetric 3D mesh — needs a <a href="https://developers.google.com/maps/documentation/tile/3d-tiles-overview" target="_blank" rel="noopener">Map Tiles API</a> key, billing card required.
+      Photogrammetric 3D mesh of the Wägital amphitheater via Google's <a href="https://developers.google.com/maps/documentation/tile/3d-tiles-overview" target="_blank" rel="noopener">Map Tiles API</a>, rendered with CesiumJS. GPX track in red. Right-click + drag to tilt, scroll to zoom. Needs a Google Maps Platform API key (billing card required).
     </p>
   </header>
 
   <div class="keybar" id="keybar">
     <label for="gkey">Google Maps Platform API key (Map Tiles enabled):</label>
     <input id="gkey" type="password" autocomplete="off" placeholder="AIzaSy…">
-    <button id="load-btn">Load right pane</button>
+    <button id="load-btn">Load</button>
     <button id="clear-btn" class="secondary" hidden>Clear</button>
     <small>Stored in <code>localStorage</code> (per-browser).</small>
   </div>
 
-  <div class="comparison">
-    <div class="pane">
-      <div class="pane-label">MapLibre + swisstopo SWISSIMAGE (current)</div>
-      <div class="pane-cost">Free · no API key · DEM resolution ~30 m</div>
-      <div id="maplibre-map"></div>
-    </div>
-    <div class="pane">
-      <div class="pane-label">Cesium + Google Photorealistic 3D Tiles</div>
-      <div class="pane-cost">$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh</div>
-      <div id="cesium-host"><div class="pane-placeholder" id="cesium-placeholder">
-        <strong>Paste an API key above to load this pane.</strong>
-        <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. Free tier covers <strong>1,000 sessions</strong> / month (a session = one page load, valid 3 hours of panning/zooming). Beyond the free tier it's $6 per additional 1,000.</small>
-      </div></div>
-    </div>
+  <div class="pane">
+    <div class="pane-cost">$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh</div>
+    <div id="cesium-host"><div class="pane-placeholder" id="cesium-placeholder">
+      <strong>Paste an API key above to load the 3D mesh.</strong>
+      <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. Free tier covers <strong>1,000 sessions</strong> / month (a session = one page load, valid 3 hours of panning/zooming). Beyond the free tier it's $6 per additional 1,000.</small>
+    </div></div>
   </div>
 
-  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
   <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
   <!-- Optional: same local-config.js the transit widget already consumes. CI injects this from
@@ -139,62 +114,7 @@
     const SUMMIT    = [8.95987, 47.07627];
     const CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
 
-    // ========== Left pane: MapLibre ==========
-    const ml = new maplibregl.Map({
-      container: 'maplibre-map',
-      style: {
-        version: 8,
-        sources: {
-          swissimage: {
-            type: 'raster',
-            tiles: ['https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg'],
-            tileSize: 256, maxzoom: 19, attribution: '© swisstopo'
-          },
-          terrarium: {
-            type: 'raster-dem',
-            tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
-            tileSize: 256, maxzoom: 15, encoding: 'terrarium',
-            attribution: 'Terrain: Mapzen / AWS Open Data'
-          }
-        },
-        layers: [{ id: 'satellite', type: 'raster', source: 'swissimage' }],
-        terrain: { source: 'terrarium', exaggeration: 1.5 },
-        sky: { 'sky-color': '#9fc8ec', 'horizon-color': '#dfe7ed', 'fog-color': '#dfe7ed', 'fog-ground-blend': 0.5 }
-      },
-      center: CENTER,
-      zoom: 13,
-      pitch: 70,
-      bearing: 35,
-      maxPitch: 85
-    });
-    ml.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
-    ml.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-right');
-
-    ml.on('load', () => {
-      const coords = (window.TRACK || []).map(p => [p[1], p[0]]);
-      if (coords.length) {
-        ml.addSource('track', {
-          type: 'geojson',
-          data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: coords } }
-        });
-        ml.addLayer({
-          id: 'track-casing', type: 'line', source: 'track',
-          layout: { 'line-join': 'round', 'line-cap': 'round' },
-          paint: { 'line-color': '#1a1a1a', 'line-width': 6, 'line-opacity': 0.45 }
-        });
-        ml.addLayer({
-          id: 'track-line', type: 'line', source: 'track',
-          layout: { 'line-join': 'round', 'line-cap': 'round' },
-          paint: { 'line-color': '#e74c3c', 'line-width': 3.5 }
-        });
-      }
-      new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD)
-        .setPopup(new maplibregl.Popup().setText('Trailhead — Wägitalersee P. 932')).addTo(ml);
-      new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT)
-        .setPopup(new maplibregl.Popup().setText('Zindlenspitz — 2111 m')).addTo(ml);
-    });
-
-    // ========== Right pane: Cesium + Google Photorealistic 3D Tiles ==========
+    // ========== Cesium + Google Photorealistic 3D Tiles ==========
     const STORAGE_KEY = 'proto:google-tiles:key';
     const $keybar = document.getElementById('keybar');
     const $gkey = document.getElementById('gkey');
@@ -245,8 +165,8 @@
         const tileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
         viewer.scene.primitives.add(tileset);
 
-        // Match the MapLibre side: looking down on the Zindlenspitz amphitheater
-        // from a low oblique. 2500 m altitude over CENTER frames trailhead + summit.
+        // Looking down on the Zindlenspitz amphitheater from a low oblique.
+        // 2500 m altitude over CENTER frames trailhead + summit.
         viewer.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(CENTER[0], CENTER[1] - 0.015, 2500),
           orientation: {
@@ -303,7 +223,7 @@
       $gkey.value = '';
       $keybar.classList.remove('has-key');
       $clear.hidden = true;
-      $load.textContent = 'Load right pane';
+      $load.textContent = 'Load';
       showPlaceholder();
     }
 
