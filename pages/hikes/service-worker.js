@@ -30,9 +30,22 @@
  * See docs/design/offline.md §8 for the phased plan.
  */
 
-const SW_VERSION = "v1-2026-06-21";
+const SW_VERSION = "v2-2026-06-28";
 const SHELL_CACHE = `hikes-shell-${SW_VERSION}`;
 const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
+
+// Same-origin paths that update server-side on a schedule (GitHub Actions
+// re-fetches and redeploys every 3 hours). These MUST be network-first so
+// the page sees the latest forecast/bulletin dates when online; cache-first
+// would freeze them into SHELL_CACHE forever (until SW_VERSION bumps),
+// which is what shipped in v1 and caused phones to show stale dates in the
+// Command Center weather filter. Falls back to cache when offline.
+// See docs/design/offline.md §4 "Never cache" — the design always called
+// for network-first here; this list is the implementation.
+const NETWORK_FIRST_SUFFIXES = [
+  "/command-center/weather-cache.js",
+  "/command-center/slf-cache.js",
+];
 
 // Files that must be present for the site to render at all. Listed
 // relative to the SW scope (/pages/hikes/). Kept short and conservative:
@@ -110,6 +123,15 @@ self.addEventListener("fetch", (event) => {
   // Live data → never intercept.
   if (NEVER_CACHE_HOSTS.includes(url.hostname)) return;
 
+  // Same-origin scheduled-update file? Network-first against SHELL_CACHE.
+  // Page still works offline (cache fallback) but online visits always see
+  // the latest weather/avalanche data.
+  if (url.origin === self.location.origin &&
+      NETWORK_FIRST_SUFFIXES.some((s) => url.pathname.endsWith(s))) {
+    event.respondWith(networkFirst(req, SHELL_CACHE));
+    return;
+  }
+
   // Same-origin shell hit? Cache-first against SHELL_CACHE.
   if (url.origin === self.location.origin) {
     event.respondWith(cacheFirst(req, SHELL_CACHE));
@@ -138,6 +160,19 @@ async function cacheFirst(req, cacheName) {
     return fresh;
   } catch (err) {
     // Genuinely offline and not cached. Let the page handle the failure.
+    throw err;
+  }
+}
+
+async function networkFirst(req, cacheName) {
+  const cache = await caches.open(cacheName);
+  try {
+    const fresh = await fetch(req);
+    if (fresh && fresh.ok) cache.put(req, fresh.clone());
+    return fresh;
+  } catch (err) {
+    const cached = await cache.match(req, { ignoreSearch: false });
+    if (cached) return cached;
     throw err;
   }
 }
