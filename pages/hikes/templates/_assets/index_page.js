@@ -43,6 +43,35 @@ function gradeColor(g) {
   return GRADE_COLORS[n] || GRADE_COLORS[1];
 }
 
+/* WeatherService.getForPeak keys the cache by `lat.toFixed(3),lon.toFixed(3)`,
+   so a hike whose summit coords are even ~110 m from the cached SAC peak
+   misses. That's how 16 hikes ended up forecast-less and produced count-only
+   clusters that read like overflow next to weather-pill neighbors.
+   Fuzzy-match each hike once to the nearest cache entry within ~1 km and
+   stash the matched key on the hike object for subsequent lookups. */
+const WX_FUZZY_MAX_DEG2 = 0.000081;  /* ≈ 1 km² in deg² at Swiss latitudes */
+function getWxForHike(h, day) {
+  if (!WX || !h) return null;
+  var exact = WX.getForPeak(h.lat, h.lon, day);
+  if (exact) return exact;
+  if (h._wxKey === null) return null;  /* sentinel: already tried, no match */
+  if (h._wxKey === undefined) {
+    var cache = window.WEATHER_CACHE || {};
+    var bestKey = null, bestD2 = Infinity;
+    var cosLat = Math.cos(h.lat * Math.PI / 180);
+    Object.keys(cache).forEach(function (k) {
+      var p = k.split(',');
+      var lat = parseFloat(p[0]), lon = parseFloat(p[1]);
+      var dLat = lat - h.lat;
+      var dLon = (lon - h.lon) * cosLat;
+      var d2 = dLat * dLat + dLon * dLon;
+      if (d2 < bestD2) { bestD2 = d2; bestKey = [lat, lon]; }
+    });
+    h._wxKey = (bestKey && bestD2 < WX_FUZZY_MAX_DEG2) ? bestKey : null;
+  }
+  return h._wxKey ? WX.getForPeak(h._wxKey[0], h._wxKey[1], day) : null;
+}
+
 /* ------------- cards ------------- */
 var grid = document.getElementById("grid");
 HIKES.forEach(function (h, i) {
@@ -184,7 +213,7 @@ function updateCardWeather() {
     var idx = parseInt(card.dataset.idx, 10);
     var h = HIKES[idx];
     if (!h) return;
-    var wx = WX.getForPeak(h.lat, h.lon, mapDayActive);
+    var wx = getWxForHike(h, mapDayActive);
     if (!wx) return;
     card.dataset.wx = wxCategory(wx.code);
     if (wx.tempMax != null) card.dataset.temp = Math.round(wx.tempMax);
@@ -286,7 +315,7 @@ function dominantClusterWeather(cluster) {
   cluster.getAllChildMarkers().forEach(function (m) {
     var h = m._hike;
     if (!h) return;
-    var wx = WX.getForPeak(h.lat, h.lon, mapDayActive);
+    var wx = getWxForHike(h, mapDayActive);
     if (!wx) return;
     var cat = WX.skyCategory(wx.code);
     if (cat) counts[cat] = (counts[cat] || 0) + 1;
@@ -363,7 +392,7 @@ function refreshMarkerIcons() {
   HIKES.forEach(function (h, i) {
     var m = markers[i];
     if (!m) return;
-    var wx = WX ? WX.getForPeak(h.lat, h.lon, mapDayActive) : null;
+    var wx = WX ? getWxForHike(h, mapDayActive) : null;
     m.setIcon(makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev));
   });
 }
@@ -430,7 +459,7 @@ function renderCardStrips() {
     var html = '';
     var anyData = false;
     choices.forEach(function (c, dIdx) {
-      var wx = WX.getForPeak(h.lat, h.lon, dIdx);
+      var wx = getWxForHike(h, dIdx);
       if (wx) anyData = true;
       var icon = wx ? WX.weatherIcon(wx.code) : '·';
       var label = wx ? WX.weatherLabel(wx.code) : '';
@@ -449,7 +478,7 @@ function renderCardStrips() {
 var missingForecast = [];
 HIKES.forEach(function (h, i) {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
-  var wx = WX ? WX.getForPeak(h.lat, h.lon, mapDayActive) : null;
+  var wx = WX ? getWxForHike(h, mapDayActive) : null;
   if (!wx) missingForecast.push(h.name);
   var m = L.marker([h.lat, h.lon], {
     icon: makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev),
