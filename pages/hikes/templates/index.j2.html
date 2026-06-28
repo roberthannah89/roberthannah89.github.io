@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <link rel="stylesheet" href="routes/_assets/map_shared.css">
+<link rel="stylesheet" href="command-center/marker-pill.css">
 <style>
   :root {
     --bg: #0b0c10;
@@ -209,13 +210,12 @@
   .weather-strip .wx .dow { font-size: .65rem; opacity: .75; }
   .weather-strip .wx .icon { font-size: 1.1rem; line-height: 1.1; margin: 1px 0; }
   .weather-strip .wx .tmax { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
-  .weather-strip.loading { color: var(--fg-dim); font-size: .72rem; align-items: center; }
-  .weather-strip.loading::before {
-    content: "loading forecast…";
-    grid-column: 1 / -1;
-    text-align: center;
-    align-self: center;
+  /* Highlight the day cell matching the map's current Day picker. */
+  .weather-strip .wx.active {
+    background: rgba(255, 92, 92, 0.08);
+    border-radius: 4px;
   }
+  .weather-strip .wx.active .dow { opacity: 1; color: var(--accent); }
 
   .meta { text-align: center; color: var(--fg-dim); font-size: .78rem; margin: 1.5rem 0 0; }
   .legend {
@@ -334,42 +334,9 @@
   }
   .map-day-btn:hover { background: var(--bg-soft-2); }
   .map-day-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  /* Weather pin markers inside Leaflet */
-  .hm-pin {
-    background: var(--bg-soft, #14161c);
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 8px;
-    padding: 2px 6px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    cursor: pointer;
-  }
-  .hm-icon { font-size: 1rem; line-height: 1; }
-  .hm-temp { font-size: .72rem; color: #e8e8ea; font-weight: 600; }
-
-  /* Marker clusters — same pill aesthetic as .hm-pin, with count + dominant weather */
-  .marker-cluster { background: transparent !important; border: none !important; }
-  .marker-cluster > div {
-    background: var(--bg-soft, #14161c);
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 10px;
-    padding: 3px 7px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    color: #e8e8ea;
-    line-height: 1;
-    font-family: inherit;
-  }
-  .marker-cluster .cl-n { font-size: .78rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .marker-cluster .cl-wx { font-size: 1rem; }
-  .marker-cluster .cl-t { font-size: .7rem; opacity: .85; font-variant-numeric: tabular-nums; }
+  /* Hike markers (.hike-marker--wx pill / .hike-marker--dot) and marker
+     clusters (.marker-cluster) are styled by command-center/marker-pill.css
+     so this page and the Command Center stay visually in sync. */
 
   /* Highlighted nav link for the command center — the headline interactive
      feature of the site. Solid dark pill with a slowly rotating conic-gradient
@@ -521,10 +488,12 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="routes/_assets/swiss_border.js"></script>
 <script src="routes/_assets/map_shared.js"></script>
+<script src="command-center/weather-cache.js"></script>
+<script src="command-center/weather.js"></script>
 <script>window.HIKES = {{ hikes | tojson }};</script>
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
 <script>window.REGIONS_GJ = {{ regions_geojson | tojson }};</script>
-<script src="routes/_assets/index_page.js"></script>
+<script src="routes/_assets/index_page.js?v=h1"></script>
 <script src="routes/_assets/sw-register.js" defer></script>
 </body>
 </html>
