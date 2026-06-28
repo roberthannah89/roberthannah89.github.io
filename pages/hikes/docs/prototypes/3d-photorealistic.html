@@ -15,29 +15,26 @@
     :root { --pad: 14px; --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4; --accent: #c0392b; --border: #e2e2dd; }
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
-    header { padding: var(--pad) 20px; border-bottom: 1px solid var(--border); background: #fff; }
-    h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
-    p.sub { margin: 0; color: var(--muted); font-size: 13px; }
-    p.sub a, p.sub code { color: var(--accent); font-size: 12.5px; }
-    p.sub code { background: #f5f3ec; padding: 1px 5px; border-radius: 3px; }
+    header { display: none; }  /* minimal UI — map is full-screen */
 
-    /* Mode toggle */
+    /* Mode toggle — floating overlay, top-right of the map */
     .modebar {
+      position: absolute; top: 12px; right: 12px; z-index: 6;
       display: flex; gap: 0; align-items: stretch;
-      padding: 8px 20px; background: #f0eee6; border-bottom: 1px solid var(--border);
-      font-size: 13px;
+      background: rgba(255,255,255,0.94);
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      overflow: hidden;
+      font-size: 12px;
     }
     .mode-btn {
-      flex: 1;
-      padding: 7px 12px;
-      background: #fff; color: var(--muted); border: 1px solid var(--border);
-      font: inherit; font-size: 13px; cursor: pointer;
+      padding: 6px 10px;
+      background: transparent; color: var(--muted); border: 0;
+      font: inherit; font-size: 12px; cursor: pointer;
       transition: background 0.15s, color 0.15s;
     }
-    .mode-btn:first-child { border-radius: 4px 0 0 4px; }
-    .mode-btn:last-child { border-radius: 0 4px 4px 0; border-left: 0; }
     .mode-btn.active {
-      background: var(--accent); color: #fff; border-color: var(--accent);
+      background: var(--accent); color: #fff;
     }
     .mode-btn:hover:not(.active) { background: #fafaf6; color: var(--fg); }
 
@@ -60,14 +57,11 @@
     .keybar button.secondary { background: #888; }
     .keybar small { color: var(--muted); }
 
-    /* Map pane */
+    /* Map pane — full viewport */
     .pane {
       position: relative;
-      height: calc(100vh - 175px);
+      height: 100vh;
       overflow: hidden;
-    }
-    @media (max-width: 800px) {
-      .pane { height: 70vh; }
     }
     .pane-cost {
       position: absolute; top: 10px; left: 12px;
@@ -103,19 +97,7 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Zindlenspitz — 3D prototype</h1>
-    <p class="sub">
-      Toggle between Google's photogrammetric 3D mesh (Cesium) and the current MapLibre + swisstopo SWISSIMAGE + DEM. GPX track in red on both. Cesium needs a Google Maps Platform key (billing card required).
-    </p>
-  </header>
-
-  <div class="modebar">
-    <button class="mode-btn" id="mode-cesium" data-mode="cesium">🛰 Photorealistic (Cesium + Google)</button>
-    <button class="mode-btn" id="mode-maplibre" data-mode="maplibre">🗺 Satellite + DEM (MapLibre + swisstopo)</button>
-  </div>
-
-  <div class="keybar" id="keybar">
+  <div class="keybar" id="keybar" hidden>
     <label for="gkey">Google Maps Platform API key (Map Tiles enabled):</label>
     <input id="gkey" type="password" autocomplete="off" placeholder="AIzaSy…">
     <button id="load-btn">Load</button>
@@ -124,10 +106,13 @@
   </div>
 
   <div class="pane">
-    <div class="pane-cost" id="pane-cost">$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh</div>
+    <div class="modebar">
+      <button class="mode-btn" id="mode-cesium" data-mode="cesium">🛰 Photorealistic</button>
+      <button class="mode-btn" id="mode-maplibre" data-mode="maplibre">🗺 Satellite</button>
+    </div>
     <div id="map-host"><div class="pane-placeholder" id="placeholder">
-      <strong>Paste an API key above to load the 3D mesh.</strong>
-      <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong> → create a Maps Platform key. Free tier covers <strong>1,000 sessions</strong> / month (a session = one page load, valid 3 hours of panning/zooming). Beyond the free tier it's $6 per additional 1,000.</small>
+      <strong>Paste an API key to load the 3D mesh.</strong>
+      <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong>. Free tier: <strong>1,000 sessions</strong>/mo. Beyond: $6/1k.</small>
     </div></div>
   </div>
 
@@ -151,7 +136,6 @@
     const $load   = document.getElementById('load-btn');
     const $clear  = document.getElementById('clear-btn');
     const $host   = document.getElementById('map-host');
-    const $cost   = document.getElementById('pane-cost');
     const $modeCesium   = document.getElementById('mode-cesium');
     const $modeMaplibre = document.getElementById('mode-maplibre');
 
@@ -186,10 +170,9 @@
     function updateModeUI() {
       $modeCesium.classList.toggle('active',   currentMode === 'cesium');
       $modeMaplibre.classList.toggle('active', currentMode === 'maplibre');
-      $keybar.style.display = currentMode === 'cesium' ? '' : 'none';
-      $cost.innerHTML = currentMode === 'cesium'
-        ? '$6 / 1k <em>sessions</em> after 1k/mo free · 3-hour session token · photogrammetric mesh'
-        : 'Free · no API key · swisstopo SWISSIMAGE + ~30 m DEM';
+      // Keybar is only relevant in Cesium mode AND only when there's no key yet.
+      // Once a key is loaded (auto or pasted), get out of the way and show the map.
+      $keybar.hidden = (currentMode !== 'cesium') || !!apiKey;
     }
 
     // ===== Cesium engine =====
@@ -340,15 +323,16 @@
     function setKey(key) {
       apiKey = key;
       try { localStorage.setItem(KEY_STORAGE, key); } catch (e) {}
+      updateModeUI();
       if (currentMode === 'cesium') loadCesium();
     }
     function clearKey() {
       try { localStorage.removeItem(KEY_STORAGE); } catch (e) {}
       apiKey = '';
       $gkey.value = '';
-      $keybar.classList.remove('has-key');
       $clear.hidden = true;
       $load.textContent = 'Load';
+      updateModeUI();
       if (currentMode === 'cesium') { teardown(); showPlaceholder(); }
     }
     $load.addEventListener('click', () => {
@@ -374,14 +358,13 @@
     } catch (e) {}
     if (apiKey) {
       $gkey.value = apiKey;
-      $keybar.classList.add('has-key');
       $clear.hidden = false;
       $load.textContent = 'Reload';
       if (keySource === 'config') {
         $keybar.querySelector('small').innerHTML = 'Auto-loaded from <code>local-config.js</code>.';
       }
     }
-    updateModeUI();
+    updateModeUI();  // Keybar stays hidden when apiKey is set; visible only when user needs to paste.
     if (currentMode === 'cesium') loadCesium();
     else                          loadMapLibre();
   </script>
