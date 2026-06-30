@@ -79,6 +79,46 @@
       font-size: 14px;
     }
     .pane-placeholder strong { color: var(--fg); }
+    /* Click-to-activate static preview (Cesium) */
+    .preview-host {
+      width: 100%; height: 100%; position: relative;
+      background: #d8e3d0;
+      cursor: pointer;
+    }
+    .preview-img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+    }
+    .preview-img.missing { display: none; }
+    .preview-host.no-img {
+      background: linear-gradient(135deg, #6b8e63 0%, #4a6b46 50%, #2d3f2c 100%);
+    }
+    .preview-activate {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px;
+      color: #fff; font-size: 18px; font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      transition: background 0.15s;
+    }
+    .preview-host:hover .preview-activate { background: rgba(0,0,0,0.15); }
+    .preview-activate .play-circle {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      transition: transform 0.15s;
+    }
+    .preview-host:hover .preview-activate .play-circle { transform: scale(1.06); }
+    .preview-activate .play-circle::after {
+      content: ''; display: block;
+      width: 0; height: 0;
+      border: 12px solid transparent;
+      border-left: 20px solid var(--accent);
+      margin-left: 5px;
+    }
+    .preview-activate .label { margin-top: 8px; font-size: 14px; font-weight: 500; }
+    .preview-activate .label small { display: block; font-size: 11px; opacity: 0.8; font-weight: 400; margin-top: 2px; }
     .pane-placeholder small { font-size: 12px; margin-top: 14px; line-height: 1.5; max-width: 320px; }
     .pane-placeholder small code { background: #efeee8; padding: 1px 4px; border-radius: 3px; }
     .pane-error {
@@ -137,6 +177,8 @@
     let mlMap = null;
     let apiKey = '';
     let currentMode = 'cesium';
+    let cesiumActivated = false;  // false until user clicks the static-preview overlay
+    let savedCameraState = null;  // last camera state across mode swaps, for sync
     // Quality tiers, low → high:
     //   'eco':   no HiDPI (browser-recommended) + SSE 24 — older laptops, weak GPUs
     //   'fast':  ~4K render cap + SSE 12 — default, good on most modern hardware
@@ -173,6 +215,73 @@
       cesiumTileset = null;
       if (mlMap)        { try { mlMap.remove();         } catch (e) {} mlMap = null; }
       $host.innerHTML = '';
+    }
+
+    // ===== Camera state shared between modes =====
+    // We unify Cesium + MapLibre cameras into { lng, lat, distance, heading, pitch }
+    // so toggling between them preserves the viewer's vantage point.
+    function distanceToZoom(distance, lat) {
+      // Convert a viewing distance (m) to a MapLibre Mercator zoom level so the
+      // same area fills the same fraction of the viewport.
+      const c = 40075016.686 * Math.cos(lat * Math.PI / 180);
+      return Math.log2((window.innerWidth * c) / (256 * distance));
+    }
+    function zoomToDistance(zoom, lat) {
+      const c = 40075016.686 * Math.cos(lat * Math.PI / 180);
+      return (window.innerWidth * c) / (256 * Math.pow(2, zoom));
+    }
+    function captureCesiumCamera() {
+      if (!cesiumViewer) return null;
+      const cam = cesiumViewer.camera;
+      const w = cesiumViewer.canvas.clientWidth  || window.innerWidth;
+      const h = cesiumViewer.canvas.clientHeight || window.innerHeight;
+      const center = cam.pickEllipsoid(new Cesium.Cartesian2(w / 2, h / 2));
+      if (!center) return null;
+      const carto = Cesium.Cartographic.fromCartesian(center);
+      const distance = Cesium.Cartesian3.distance(cam.position, center);
+      return {
+        lng: Cesium.Math.toDegrees(carto.longitude),
+        lat: Cesium.Math.toDegrees(carto.latitude),
+        distance: distance,
+        heading: Cesium.Math.toDegrees(cam.heading),
+        pitch:   Cesium.Math.toDegrees(cam.pitch)   // negative looking down
+      };
+    }
+    function captureMapLibreCamera() {
+      if (!mlMap) return null;
+      const c = mlMap.getCenter();
+      return {
+        lng: c.lng,
+        lat: c.lat,
+        distance: zoomToDistance(mlMap.getZoom(), c.lat),
+        heading: mlMap.getBearing(),
+        // MapLibre pitch is 0 = top-down, 60 = oblique. Cesium pitch is -90 = top-down,
+        // 0 = horizon. Convert MapLibre → Cesium-like negative angle.
+        pitch: -(90 - mlMap.getPitch())
+      };
+    }
+    function applyToCesiumCamera(state) {
+      if (!cesiumViewer || !state) return;
+      cesiumViewer.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(state.lng, state.lat, 0),
+        orientation: {
+          heading: Cesium.Math.toRadians(state.heading || 0),
+          pitch:   Cesium.Math.toRadians(state.pitch ?? -50),
+          roll: 0
+        }
+      });
+      // Pull back by `distance` along the camera's backward vector
+      cesiumViewer.camera.moveBackward(state.distance || 5000);
+    }
+    function applyToMapLibreCamera(state) {
+      if (!mlMap || !state) return;
+      mlMap.jumpTo({
+        center: [state.lng, state.lat],
+        zoom: distanceToZoom(state.distance || 5000, state.lat),
+        bearing: state.heading || 0,
+        // Cesium pitch (negative, -90..0) → MapLibre (0..90)
+        pitch: Math.max(0, Math.min(85, 90 + (state.pitch || -50)))
+      });
     }
     function updateModeUI() {
       $modeCesium.classList.toggle('active',   currentMode === 'cesium');
@@ -213,8 +322,40 @@
     }
 
     // ===== Cesium engine =====
+    function showCesiumPreview() {
+      // Click-to-activate gate: don't burn a Map Tiles session until the user opts in.
+      // Preview image lives at routes/<slug>/photoreal-preview.jpg. If missing, the
+      // <img> stays hidden via onerror and we fall back to a gradient.
+      $host.innerHTML =
+        '<div class="preview-host" id="preview-host">' +
+          '<img class="preview-img" src="../../routes/' + hikeSlug +
+            '/photoreal-preview.jpg" onerror="this.classList.add(\'missing\');' +
+            'this.parentElement.classList.add(\'no-img\');">' +
+          '<div class="preview-activate">' +
+            '<div class="play-circle"></div>' +
+            '<div class="label">Load photorealistic 3D' +
+              '<small>Uses 1 Map Tiles session (3-hour token)</small>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      document.getElementById('preview-host').addEventListener('click', () => {
+        cesiumActivated = true;
+        loadCesiumReal();
+      });
+    }
+
     async function loadCesium() {
       if (!apiKey) { showPlaceholder(); return; }
+      // First-time Cesium load in this session → show static preview unless the
+      // user has already activated (toggling back from MapLibre, etc).
+      if (!cesiumActivated && !savedCameraState) {
+        showCesiumPreview();
+        return;
+      }
+      return loadCesiumReal();
+    }
+
+    async function loadCesiumReal() {
       $host.innerHTML = '<div id="cesium-container"></div>';
       try {
         cesiumViewer = new Cesium.Viewer('cesium-container', {
@@ -266,27 +407,28 @@
           label: { text: 'End', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
         });
 
-        // Frame the whole hike: compute a bounding sphere across the track +
-        // trailhead + summit, then fly to it with a low-oblique look. range =
-        // 2.5× sphere radius pulls the camera back so the entire track fits
-        // with comfortable margin around it.
-        const framingPoints = [
-          ...((window.TRACK || []).map(p => Cesium.Cartesian3.fromDegrees(p[1], p[0]))),
-          Cesium.Cartesian3.fromDegrees(TRAILHEAD[0], TRAILHEAD[1]),
-          Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1])
-        ];
-        const sphere = Cesium.BoundingSphere.fromPoints(framingPoints);
-        // Pull the camera back to ~5× the bounding-sphere radius and tilt closer to
-        // bird's-eye so the entire hike sits in the initial viewport with margin.
-        // Previously 2.5× radius @ -40° pitch was too close — track filled most of FOV.
-        cesiumViewer.camera.flyToBoundingSphere(sphere, {
-          duration: 0,
-          offset: new Cesium.HeadingPitchRange(
-            Cesium.Math.toRadians(35),
-            Cesium.Math.toRadians(-50),
-            Math.max(sphere.radius * 5, 5000)
-          )
-        });
+        // If toggling in from MapLibre, restore vantage point. Otherwise auto-frame
+        // the whole hike: compute a bounding sphere across the track + start + end,
+        // fly to it with a low-oblique look.
+        if (savedCameraState) {
+          applyToCesiumCamera(savedCameraState);
+          savedCameraState = null;
+        } else {
+          const framingPoints = [
+            ...((window.TRACK || []).map(p => Cesium.Cartesian3.fromDegrees(p[1], p[0]))),
+            Cesium.Cartesian3.fromDegrees(TRAILHEAD[0], TRAILHEAD[1]),
+            Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1])
+          ];
+          const sphere = Cesium.BoundingSphere.fromPoints(framingPoints);
+          cesiumViewer.camera.flyToBoundingSphere(sphere, {
+            duration: 0,
+            offset: new Cesium.HeadingPitchRange(
+              Cesium.Math.toRadians(35),
+              Cesium.Math.toRadians(-50),
+              Math.max(sphere.radius * 5, 5000)
+            )
+          });
+        }
       } catch (err) {
         showError('Could not load Google Photorealistic 3D Tiles', err && err.message ? err.message : String(err));
       }
@@ -330,9 +472,11 @@
         new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD).setPopup(new maplibregl.Popup().setText('Start')).addTo(mlMap);
         new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT).setPopup(new maplibregl.Popup().setText('End')).addTo(mlMap);
 
-        // Auto-frame to the whole track + endpoints. 80px padding leaves margin
-        // around the bounds; pitch/bearing preserved so the oblique 3D look stays.
-        if (coords.length) {
+        // Auto-frame to the whole track + endpoints, unless restoring from Cesium.
+        if (savedCameraState) {
+          applyToMapLibreCamera(savedCameraState);
+          savedCameraState = null;
+        } else if (coords.length) {
           const b = coords.reduce((acc, c) => acc.extend(c),
             new maplibregl.LngLatBounds(coords[0], coords[0]));
           b.extend(TRAILHEAD); b.extend(SUMMIT);
@@ -343,6 +487,11 @@
 
     // ===== Mode switching =====
     function applyMode(mode) {
+      // Capture the outgoing engine's vantage point so the incoming engine can
+      // restore it (same lookAt, distance, heading, pitch).
+      savedCameraState = currentMode === 'cesium'
+        ? captureCesiumCamera()
+        : captureMapLibreCamera();
       currentMode = mode;
       try { localStorage.setItem(MODE_STORAGE, mode); } catch (e) {}
       teardown();
