@@ -73,6 +73,19 @@
       max-width: 320px;
     }
     .pane-cost em { font-style: normal; font-weight: 600; }
+
+    /* Quality toggle — bottom-right of the map (bottom-left has Cesium attribution) */
+    .quality-btn {
+      position: absolute; bottom: 12px; right: 12px; z-index: 6;
+      background: rgba(255,255,255,0.94);
+      border: 0; border-radius: 14px;
+      padding: 5px 12px;
+      font: inherit; font-size: 11.5px; font-weight: 500;
+      color: var(--fg); cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .quality-btn:hover { background: #fff; }
+
     #map-host, #cesium-container, #maplibre-map { width: 100%; height: 100%; }
     .pane-placeholder {
       width: 100%; height: 100%;
@@ -110,6 +123,7 @@
       <button class="mode-btn" id="mode-cesium" data-mode="cesium">🛰 Photorealistic</button>
       <button class="mode-btn" id="mode-maplibre" data-mode="maplibre">🗺 Satellite</button>
     </div>
+    <button class="quality-btn" id="quality-btn" hidden>⚡ Fast</button>
     <div id="map-host"><div class="pane-placeholder" id="placeholder">
       <strong>Paste an API key to load the 3D mesh.</strong>
       <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong>. Free tier: <strong>1,000 sessions</strong>/mo. Beyond: $6/1k.</small>
@@ -128,8 +142,9 @@
     const SUMMIT    = [8.95987, 47.07627];
     const CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
 
-    const KEY_STORAGE  = 'proto:google-tiles:key';
-    const MODE_STORAGE = 'proto:3d-mode';
+    const KEY_STORAGE     = 'proto:google-tiles:key';
+    const MODE_STORAGE    = 'proto:3d-mode';
+    const QUALITY_STORAGE = 'proto:3d-quality';
 
     const $keybar = document.getElementById('keybar');
     const $gkey   = document.getElementById('gkey');
@@ -138,11 +153,14 @@
     const $host   = document.getElementById('map-host');
     const $modeCesium   = document.getElementById('mode-cesium');
     const $modeMaplibre = document.getElementById('mode-maplibre');
+    const $qualityBtn   = document.getElementById('quality-btn');
 
     let cesiumViewer = null;
+    let cesiumTileset = null;
     let mlMap = null;
     let apiKey = '';
     let currentMode = 'cesium';
+    let currentQuality = 'fast';  // 'fast' (4K cap, SSE=12) or 'sharp' (native, SSE=8)
 
     // ===== UI helpers =====
     function showPlaceholder() {
@@ -164,6 +182,7 @@
     }
     function teardown() {
       if (cesiumViewer) { try { cesiumViewer.destroy(); } catch (e) {} cesiumViewer = null; }
+      cesiumTileset = null;
       if (mlMap)        { try { mlMap.remove();         } catch (e) {} mlMap = null; }
       $host.innerHTML = '';
     }
@@ -173,6 +192,35 @@
       // Keybar is only relevant in Cesium mode AND only when there's no key yet.
       // Once a key is loaded (auto or pasted), get out of the way and show the map.
       $keybar.hidden = (currentMode !== 'cesium') || !!apiKey;
+      // Quality button only meaningful in Cesium mode (MapLibre has no comparable lever).
+      $qualityBtn.hidden = (currentMode !== 'cesium');
+      $qualityBtn.textContent = currentQuality === 'sharp' ? '🎨 Sharp' : '⚡ Fast';
+      $qualityBtn.title = currentQuality === 'sharp'
+        ? 'Sharp: full HiDPI render, dense tiles. Click for Fast.'
+        : 'Fast: ~4K render cap, lighter tiles. Click for Sharp.';
+    }
+
+    // ===== Cesium quality knobs =====
+    function applyCesiumQuality() {
+      if (!cesiumViewer) return;
+      cesiumViewer.useBrowserRecommendedResolution = false;
+      if (currentQuality === 'sharp') {
+        cesiumViewer.resolutionScale = 1;  // full native HiDPI
+        if (cesiumTileset) cesiumTileset.maximumScreenSpaceError = 8;
+      } else {
+        // 'fast' — cap effective render width at 4K to spare high-DPR displays.
+        const dpr = window.devicePixelRatio || 1;
+        const targetMaxWidth = 3840;
+        const fullWidth = window.innerWidth * dpr;
+        cesiumViewer.resolutionScale = fullWidth > targetMaxWidth ? targetMaxWidth / fullWidth : 1;
+        if (cesiumTileset) cesiumTileset.maximumScreenSpaceError = 12;
+      }
+    }
+    function setQuality(quality) {
+      currentQuality = quality;
+      try { localStorage.setItem(QUALITY_STORAGE, quality); } catch (e) {}
+      updateModeUI();
+      applyCesiumQuality();
     }
 
     // ===== Cesium engine =====
@@ -189,34 +237,16 @@
         });
         cesiumViewer.scene.skyAtmosphere.show = true;
 
-        // ===== Quality: native pixel density on HiDPI displays, capped at ~4K. =====
-        // useBrowserRecommendedResolution=false → Cesium multiplies the backing buffer
-        // by devicePixelRatio. On a 5K Retina (innerWidth 2560 × dpr 2 = 5120-wide
-        // canvas, ~14 M px/frame), that's 7× the GPU work of a 1080p monitor — way
-        // past the point of visible diminishing returns. Cap effective render width
-        // at ~4K; above that the resolutionScale brings it down.
-        cesiumViewer.useBrowserRecommendedResolution = false;
-        const dpr = window.devicePixelRatio || 1;
-        const targetMaxWidth = 3840;  // 4K UHD width
-        const fullWidth = window.innerWidth * dpr;
-        if (fullWidth > targetMaxWidth) {
-          cesiumViewer.resolutionScale = targetMaxWidth / fullWidth;
-        }
         // FXAA is cheap and helps ridge edges; always on.
         if (cesiumViewer.scene.postProcessStages && cesiumViewer.scene.postProcessStages.fxaa) {
           cesiumViewer.scene.postProcessStages.fxaa.enabled = true;
         }
 
-        const tileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
-        // Tile density: default screen-space error is 16. Halving it to 8 loads ~4×
-        // more tiles — sharp on desktop, brutal on cellular. Apply only on big screens
-        // with non-cellular connection signal.
-        const isPhoneClass = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
-                             window.matchMedia('(max-width: 900px)').matches;
-        if (!isPhoneClass) {
-          tileset.maximumScreenSpaceError = 8;
-        }
-        cesiumViewer.scene.primitives.add(tileset);
+        cesiumTileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
+        cesiumViewer.scene.primitives.add(cesiumTileset);
+
+        // Apply the user's selected quality (Fast caps at ~4K + SSE 12; Sharp = native + SSE 8)
+        applyCesiumQuality();
 
         const coords = (window.TRACK || []).flatMap(p => [p[1], p[0]]);
         if (coords.length) {
@@ -257,12 +287,15 @@
           Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1])
         ];
         const sphere = Cesium.BoundingSphere.fromPoints(framingPoints);
+        // Pull the camera back to ~5× the bounding-sphere radius and tilt closer to
+        // bird's-eye so the entire hike sits in the initial viewport with margin.
+        // Previously 2.5× radius @ -40° pitch was too close — track filled most of FOV.
         cesiumViewer.camera.flyToBoundingSphere(sphere, {
           duration: 0,
           offset: new Cesium.HeadingPitchRange(
             Cesium.Math.toRadians(35),
-            Cesium.Math.toRadians(-40),
-            Math.max(sphere.radius * 2.5, 2500)
+            Cesium.Math.toRadians(-50),
+            Math.max(sphere.radius * 5, 5000)
           )
         });
         $keybar.classList.add('has-key');
@@ -334,6 +367,9 @@
 
     $modeCesium.addEventListener('click', () => applyMode('cesium'));
     $modeMaplibre.addEventListener('click', () => applyMode('maplibre'));
+    $qualityBtn.addEventListener('click', () => {
+      setQuality(currentQuality === 'sharp' ? 'fast' : 'sharp');
+    });
 
     // ===== Key controls =====
     function setKey(key) {
@@ -361,6 +397,7 @@
 
     // ===== Initial state =====
     try { currentMode = localStorage.getItem(MODE_STORAGE) || 'cesium'; } catch (e) {}
+    try { currentQuality = localStorage.getItem(QUALITY_STORAGE) || 'fast'; } catch (e) {}
 
     let keySource = '';
     try {
