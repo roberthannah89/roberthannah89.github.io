@@ -166,6 +166,9 @@
     // Used by the hike-page iframe embed where the parent already gates the load
     // behind its own rainbow-button click.
     const autoActivate = _params.get('activate') === '1';
+    // ?capture=1 — snapshot-friendly mode: Sharp quality, less top-down pitch
+    // (-30° vs the default -50°), no chrome. Used by scripts/snapshot_3d_previews.py.
+    const captureMode = _params.get('capture') === '1';
 
     // Resolved post-track-load from TRACK[0] and TRACK[last]. [lon, lat].
     let TRAILHEAD = [0, 0];
@@ -427,12 +430,15 @@
             Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1])
           ];
           const sphere = Cesium.BoundingSphere.fromPoints(framingPoints);
+          // Capture mode uses a less top-down pitch (-30°) for more cinematic
+          // preview thumbnails. Live view keeps the -50° default which frames
+          // longer hikes better.
           cesiumViewer.camera.flyToBoundingSphere(sphere, {
             duration: 0,
             offset: new Cesium.HeadingPitchRange(
               Cesium.Math.toRadians(35),
-              Cesium.Math.toRadians(-50),
-              Math.max(sphere.radius * 5, 5000)
+              Cesium.Math.toRadians(captureMode ? -30 : -50),
+              Math.max(sphere.radius * (captureMode ? 6 : 5), 5000)
             )
           });
         }
@@ -518,6 +524,10 @@
     // ===== Initial state =====
     try { currentMode = localStorage.getItem(MODE_STORAGE) || 'cesium'; } catch (e) {}
     try { currentQuality = localStorage.getItem(QUALITY_STORAGE) || 'fast'; } catch (e) {}
+    if (captureMode) {
+      currentMode = 'cesium';
+      currentQuality = 'sharp';
+    }
 
     // Key resolution: 1) window.HIKING_CONFIG.googleMapsApiKey (CI-injected from
     // GOOGLE_MAPS_EMBED_KEY into local-config.js, or local copy), 2) localStorage
@@ -550,6 +560,12 @@
       SUMMIT    = [b[1], b[0]];
       CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
       return true;
+    }
+
+    // In capture mode, hide all overlay UI so the snapshot has just the map.
+    if (captureMode) {
+      $modeCesium.parentElement.style.display = 'none';
+      $qualityBtn.style.display = 'none';
     }
 
     updateModeUI();
