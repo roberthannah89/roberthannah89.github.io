@@ -216,7 +216,11 @@
       <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib"><a href="{{ slug }}.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
+  <p class="attrib">
+    <a href="{{ slug }}.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
+    &nbsp;·&nbsp;
+    <a href="/pages/hikes/docs/prototypes/3d-photorealistic.html?hike={{ slug }}" target="_blank" rel="noopener">🛰 Try photorealistic 3D (beta) ↗</a>
+  </p>
 </section>
 
 {%- set route = (routes | first) if routes else None %}
