@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Zindlenspitz — 3D photorealistic (Google Map Tiles + Cesium)</title>
+  <title>3D photorealistic — Google Map Tiles + Cesium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="proto-title" content="3D Photorealistic Tiles (Google + Cesium)">
   <meta name="proto-icon" content="&#x26F0;&#xFE0F;">
-  <meta name="proto-desc" content="Photogrammetric 3D mesh of the Alps via Google Map Tiles rendered with CesiumJS. GPX track + trailhead/summit pins draped on the mesh. Needs a Google Maps Platform API key (Map Tiles API enabled).">
+  <meta name="proto-desc" content="Photogrammetric 3D mesh of the Alps via Google Map Tiles rendered with CesiumJS. GPX track + start/end pins draped on the mesh. Works for any hike via ?hike=<slug>. Needs a Google Maps Platform API key (Map Tiles API enabled).">
   <meta name="proto-source" content="Google Maps Platform — Map Tiles API + CesiumJS">
   <meta name="proto-order" content="150">
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -108,19 +108,24 @@
 
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
   <!-- Optional: same local-config.js the transit widget already consumes. CI injects this from
        the GOOGLE_MAPS_EMBED_KEY secret on deploy. Locally, copy local-config.example.js → local-config.js.
        The onerror swallow keeps things working when the file isn't present. -->
   <script src="../../local-config.js" onerror="void 0"></script>
   <script>
-    const TRAILHEAD = [8.9303, 47.0851];
-    const SUMMIT    = [8.95987, 47.07627];
-    const CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
-
     const KEY_STORAGE     = 'proto:google-tiles:key';
     const MODE_STORAGE    = 'proto:3d-mode';
     const QUALITY_STORAGE = 'proto:3d-quality';
+    const DEFAULT_HIKE    = 'zindlenspitz';
+
+    // Read ?hike=slug from URL; sanitize to lowercase + digits/dashes only.
+    const hikeSlug = (new URLSearchParams(location.search).get('hike') || DEFAULT_HIKE)
+                      .toLowerCase().replace(/[^a-z0-9-]/g, '');
+
+    // Resolved post-track-load from TRACK[0] and TRACK[last]. [lon, lat].
+    let TRAILHEAD = [0, 0];
+    let SUMMIT    = [0, 0];
+    let CENTER    = [0, 0];
 
     const $host         = document.getElementById('map-host');
     const $modeCesium   = document.getElementById('mode-cesium');
@@ -132,7 +137,18 @@
     let mlMap = null;
     let apiKey = '';
     let currentMode = 'cesium';
-    let currentQuality = 'fast';  // 'fast' (4K cap, SSE=12) or 'sharp' (native, SSE=8)
+    // Quality tiers, low → high:
+    //   'eco':   no HiDPI (browser-recommended) + SSE 24 — older laptops, weak GPUs
+    //   'fast':  ~4K render cap + SSE 12 — default, good on most modern hardware
+    //   'sharp': native HiDPI + SSE 8 — best on a strong desktop GPU
+    let currentQuality = 'fast';
+    const QUALITY_ORDER = ['eco', 'fast', 'sharp'];
+    const QUALITY_LABELS = { eco: '🐢 Eco', fast: '⚡ Fast', sharp: '🎨 Sharp' };
+    const QUALITY_TITLES = {
+      eco:   'Eco: no HiDPI render, sparse tiles. Click for Fast.',
+      fast:  'Fast: ~4K render cap, balanced tiles. Click for Sharp.',
+      sharp: 'Sharp: full HiDPI, dense tiles. Click for Eco.'
+    };
 
     // ===== UI helpers =====
     function showPlaceholder() {
@@ -163,21 +179,25 @@
       $modeMaplibre.classList.toggle('active', currentMode === 'maplibre');
       // Quality button only meaningful in Cesium mode (MapLibre has no comparable lever).
       $qualityBtn.hidden = (currentMode !== 'cesium');
-      $qualityBtn.textContent = currentQuality === 'sharp' ? '🎨 Sharp' : '⚡ Fast';
-      $qualityBtn.title = currentQuality === 'sharp'
-        ? 'Sharp: full HiDPI render, dense tiles. Click for Fast.'
-        : 'Fast: ~4K render cap, lighter tiles. Click for Sharp.';
+      $qualityBtn.textContent = QUALITY_LABELS[currentQuality] || QUALITY_LABELS.fast;
+      $qualityBtn.title = QUALITY_TITLES[currentQuality] || QUALITY_TITLES.fast;
     }
 
     // ===== Cesium quality knobs =====
     function applyCesiumQuality() {
       if (!cesiumViewer) return;
-      cesiumViewer.useBrowserRecommendedResolution = false;
-      if (currentQuality === 'sharp') {
+      if (currentQuality === 'eco') {
+        // No HiDPI render; let the browser upscale. Sparse tiles to spare cellular.
+        cesiumViewer.useBrowserRecommendedResolution = true;
+        cesiumViewer.resolutionScale = 1;
+        if (cesiumTileset) cesiumTileset.maximumScreenSpaceError = 24;
+      } else if (currentQuality === 'sharp') {
+        cesiumViewer.useBrowserRecommendedResolution = false;
         cesiumViewer.resolutionScale = 1;  // full native HiDPI
         if (cesiumTileset) cesiumTileset.maximumScreenSpaceError = 8;
       } else {
-        // 'fast' — cap effective render width at 4K to spare high-DPR displays.
+        // 'fast' — native HiDPI but cap effective render width at 4K.
+        cesiumViewer.useBrowserRecommendedResolution = false;
         const dpr = window.devicePixelRatio || 1;
         const targetMaxWidth = 3840;
         const fullWidth = window.innerWidth * dpr;
@@ -234,16 +254,16 @@
           });
         }
         cesiumViewer.entities.add({
-          name: 'Trailhead',
+          name: 'Start',
           position: Cesium.Cartesian3.fromDegrees(TRAILHEAD[0], TRAILHEAD[1]),
           point: { pixelSize: 12, color: Cesium.Color.fromCssColorString('#27ae60'), outlineColor: Cesium.Color.WHITE, outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
-          label: { text: 'Trailhead', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
+          label: { text: 'Start', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
         });
         cesiumViewer.entities.add({
-          name: 'Zindlenspitz',
+          name: 'End',
           position: Cesium.Cartesian3.fromDegrees(SUMMIT[0], SUMMIT[1]),
           point: { pixelSize: 12, color: Cesium.Color.fromCssColorString('#c0392b'), outlineColor: Cesium.Color.WHITE, outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
-          label: { text: 'Zindlenspitz 2111 m', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
+          label: { text: 'End', font: '12px sans-serif', pixelOffset: new Cesium.Cartesian2(0, -18), fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 3, style: Cesium.LabelStyle.FILL_AND_OUTLINE, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY }
         });
 
         // Frame the whole hike: compute a bounding sphere across the track +
@@ -307,8 +327,8 @@
           mlMap.addLayer({ id: 'track-casing', type: 'line', source: 'track', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#1a1a1a', 'line-width': 6, 'line-opacity': 0.45 } });
           mlMap.addLayer({ id: 'track-line',   type: 'line', source: 'track', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#e74c3c', 'line-width': 3.5 } });
         }
-        new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD).setPopup(new maplibregl.Popup().setText('Trailhead — Wägitalersee P. 932')).addTo(mlMap);
-        new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT).setPopup(new maplibregl.Popup().setText('Zindlenspitz — 2111 m')).addTo(mlMap);
+        new maplibregl.Marker({ color: '#27ae60' }).setLngLat(TRAILHEAD).setPopup(new maplibregl.Popup().setText('Start')).addTo(mlMap);
+        new maplibregl.Marker({ color: '#c0392b' }).setLngLat(SUMMIT).setPopup(new maplibregl.Popup().setText('End')).addTo(mlMap);
 
         // Auto-frame to the whole track + endpoints. 80px padding leaves margin
         // around the bounds; pitch/bearing preserved so the oblique 3D look stays.
@@ -334,7 +354,9 @@
     $modeCesium.addEventListener('click', () => applyMode('cesium'));
     $modeMaplibre.addEventListener('click', () => applyMode('maplibre'));
     $qualityBtn.addEventListener('click', () => {
-      setQuality(currentQuality === 'sharp' ? 'fast' : 'sharp');
+      const idx = QUALITY_ORDER.indexOf(currentQuality);
+      const next = QUALITY_ORDER[(idx + 1) % QUALITY_ORDER.length];
+      setQuality(next);
     });
 
     // ===== Initial state =====
@@ -353,9 +375,36 @@
       }
     } catch (e) {}
 
+    // Dynamically load the requested hike's track.js, then init the engine.
+    // Track files set window.TRACK = [[lat, lon, ele], ...].
+    function loadTrack(slug) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = '../../routes/' + slug + '/' + slug + '.track.js';
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('No track data for hike "' + slug + '"'));
+        document.head.appendChild(s);
+      });
+    }
+    function deriveEndpoints() {
+      const T = window.TRACK || [];
+      if (!T.length) return false;
+      const a = T[0], b = T[T.length - 1];
+      TRAILHEAD = [a[1], a[0]];  // track is [lat, lon, ele] → [lon, lat]
+      SUMMIT    = [b[1], b[0]];
+      CENTER    = [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2];
+      return true;
+    }
+
     updateModeUI();
-    if (currentMode === 'cesium') loadCesium();
-    else                          loadMapLibre();
+    loadTrack(hikeSlug).then(() => {
+      if (!deriveEndpoints()) throw new Error('Track file loaded but window.TRACK is empty');
+      document.title = '3D photorealistic — ' + hikeSlug;
+      if (currentMode === 'cesium') loadCesium();
+      else                          loadMapLibre();
+    }).catch((err) => {
+      showError('Could not load hike data', err.message + '\n\nTry ?hike=zindlenspitz or ?hike=federispitz.');
+    });
   </script>
 </body>
 </html>
