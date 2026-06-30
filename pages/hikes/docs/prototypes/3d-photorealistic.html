@@ -159,8 +159,13 @@
     const DEFAULT_HIKE    = 'zindlenspitz';
 
     // Read ?hike=slug from URL; sanitize to lowercase + digits/dashes only.
-    const hikeSlug = (new URLSearchParams(location.search).get('hike') || DEFAULT_HIKE)
+    const _params = new URLSearchParams(location.search);
+    const hikeSlug = (_params.get('hike') || DEFAULT_HIKE)
                       .toLowerCase().replace(/[^a-z0-9-]/g, '');
+    // ?activate=1 — skip the click-to-activate gate and go straight to Cesium.
+    // Used by the hike-page iframe embed where the parent already gates the load
+    // behind its own rainbow-button click.
+    const autoActivate = _params.get('activate') === '1';
 
     // Resolved post-track-load from TRACK[0] and TRACK[last]. [lon, lat].
     let TRAILHEAD = [0, 0];
@@ -347,11 +352,13 @@
     async function loadCesium() {
       if (!apiKey) { showPlaceholder(); return; }
       // First-time Cesium load in this session → show static preview unless the
-      // user has already activated (toggling back from MapLibre, etc).
-      if (!cesiumActivated && !savedCameraState) {
+      // user has already activated (toggling back from MapLibre, etc) or the
+      // ?activate=1 URL param skips the gate (hike-page iframe embed).
+      if (!cesiumActivated && !savedCameraState && !autoActivate) {
         showCesiumPreview();
         return;
       }
+      cesiumActivated = true;  // so further toggles don't show the gate again
       return loadCesiumReal();
     }
 
