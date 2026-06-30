@@ -1,0 +1,142 @@
+{
+  "slug": "blueemlisalphuette-sac",
+  "page": {
+    "title": "Blueemlisalphuette Sac (2835 m) -- Hike Plan",
+    "generated": "2026-06-29",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Blueemlisalphuette Sac",
+    "elev": 2835,
+    "lat": 46.51009,
+    "lon": 7.77166
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Bern",
+    "distance": "8.0 km",
+    "gain": "1266 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Oeschinensee, upper station",
+    "elev": 1683,
+    "lat": 46.5023,
+    "lon": 7.6972
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1526480938_367290200master_923aa3df5c.jpg",
+    "subtitle_html": "Oeschinensee, upper station -> Blueemlisalphuette Sac -- <span class=\"pill t2\">SAC T2</span> | ~1266 m gain | ~8.0 km | ~3h30",
+    "grade": "T2",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2835 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Oeschinensee, upper station"
+    ],
+    [
+      "Distance",
+      "8.0 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1266 m"
+    ],
+    [
+      "Elevation range",
+      "1604-2835 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1526480938_367290200master_5450547bd8.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1526480938_367290200master_5450547bd8.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1628059618_571391350master_0f131539fc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1628059618_571391350master_0f131539fc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/a/csm_1534697983_2044191581master_44201326ca.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/a/csm_1534697983_2044191581master_44201326ca.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/f/csm_1536679776_1309497655master_fad8d6dd97.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/f/csm_1536679776_1309497655master_fad8d6dd97.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1536679836_1575598823master_ac3ad11100.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1536679836_1575598823master_ac3ad11100.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/c/csm_1536679833_1706435816master_b8c0ecaf9e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/c/csm_1536679833_1706435816master_b8c0ecaf9e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1536679828_694683108master_a26cc0d8ab.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1536679828_694683108master_a26cc0d8ab.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.5023,
+      "lon": 7.6972,
+      "label": "Oeschinensee, upper station (1683 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.509956899647705,
+      "lon": 7.771553357165342,
+      "label": "Blueemlisalphuette Sac (2835 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From the top station of the Kandersteg–Oeschinen cableway.</strong>",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [
+        "5:30 hrs from Kandersteg train station."
+      ],
+      "source": "SAC Route Portal"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Train</strong> to <strong>Oeschinensee, upper station</strong>.</p>"
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "scraped_waypoints": [
+    {
+      "name": "Kandersteg, train station",
+      "elev_m": 1170,
+      "description": "Alternative starting point."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

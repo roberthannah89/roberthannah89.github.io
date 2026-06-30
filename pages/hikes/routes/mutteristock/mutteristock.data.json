@@ -1,0 +1,154 @@
+{
+  "slug": "mutteristock",
+  "page": {
+    "title": "Mutteristock (2294 m) -- Hike Plan",
+    "generated": "2026-06-29",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Mutteristock",
+    "elev": 2294,
+    "lat": 47.04871,
+    "lon": 8.9428
+  },
+  "index_card": {
+    "region": "Northern Alps",
+    "canton": "Schwyz",
+    "distance": "8.1 km",
+    "gain": "1376 m",
+    "time": "~4h",
+    "route_type": "loop"
+  },
+  "trailhead": {
+    "name": "Wägitalersee, Hinterbruch",
+    "elev": 917,
+    "lat": 47.0666,
+    "lon": 8.9135
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1568896205_27224008master_dd5029bd7c.jpg",
+    "subtitle_html": "Wägitalersee, Hinterbruch -> Mutteristock -- <span class=\"pill t4\">SAC T4</span> | ~1376 m gain | ~8.1 km | ~4h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>If on the way to Mutteristock you hike past Lufthütte, you will never guess what the small, unobtrusive building hides in the cellar: the entrance to a 1300 metre-long cave system spreading out under the Rederten alp. The whole area has more and even larger caves. With more than five kilometres explored, Lachenstockhöhle is the largest cave of Wägital.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2294 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Wägitalersee, Hinterbruch"
+    ],
+    [
+      "Distance",
+      "8.1 km (loop)"
+    ],
+    [
+      "Total ascent",
+      "~1376 m"
+    ],
+    [
+      "Elevation range",
+      "917-2293 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1568896205_27224008master_b1330e2f02.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1568896205_27224008master_b1330e2f02.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/2/csm_1568896205_1112374638master_8ff1b3e0ac.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/2/csm_1568896205_1112374638master_8ff1b3e0ac.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/3/csm_1568896205_817588693master_29cfd046e4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/3/csm_1568896205_817588693master_29cfd046e4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/b/csm_1568896205_1435747820master_e4c9d2d502.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/b/csm_1568896205_1435747820master_e4c9d2d502.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/6/csm_1568896205_798529666master_9e1bddd251.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/6/csm_1568896205_798529666master_9e1bddd251.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1555492585_868256232master_f7740c2922.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1555492585_868256232master_f7740c2922.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1568896205_1154704680master_6ab29d2989.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1568896205_1154704680master_6ab29d2989.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/5/csm_1568896214_1576232633master_1b7bbacda4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/5/csm_1568896214_1576232633master_1b7bbacda4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/0/csm_1568896215_963990155master_808b1c402b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/0/csm_1568896215_963990155master_808b1c402b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/c/csm_1555492585_676463016master_144170b2ac.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/c/csm_1555492585_676463016master_144170b2ac.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 47.0666,
+      "lon": 8.9135,
+      "label": "Wägitalersee, Hinterbruch (917 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 47.048637279360676,
+      "lon": 8.94294936544997,
+      "label": "Mutteristock (2293 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Mutteristock from Wägitalersee</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Hinterbruch – Mutteri 2 h Mutteri – Mutteristock 1 h 30 min Mutteristock – Hinterbruch 2 h 30 min"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Ascending to Mutteristock requires the use of your hands to scramble the various obstacles. There are a number of (unexposed) variants to choose from. The descent is on two rock barriers, which offer good holds. As there is a lot of loose gravel on the ground, the risk of falling rock is to be considered. It can be caused by the many ibex roaming the steep terrain.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Wägitalersee, Hinterbruch</strong>.</p>"
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

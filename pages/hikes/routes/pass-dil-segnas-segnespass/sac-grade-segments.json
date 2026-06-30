@@ -1,0 +1,31 @@
+{
+  "slug": "pass-dil-segnas-segnespass",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 235.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 80,
+      "coverage_pct": 6.42,
+      "length_m": 235.9
+    },
+    {
+      "start_m": 238.1,
+      "end_m": 3674.6,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 922,
+      "coverage_pct": 93.52,
+      "length_m": 3436.5
+    }
+  ],
+  "stats": {
+    "total_m": 3674.6,
+    "n_points": 1002,
+    "osm_pct": 99.9,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 0.0
+  }
+}

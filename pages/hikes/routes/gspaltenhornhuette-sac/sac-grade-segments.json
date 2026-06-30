@@ -1,0 +1,67 @@
+{
+  "slug": "gspaltenhornhuette-sac",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 121.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 19,
+      "coverage_pct": 1.8,
+      "length_m": 121.4
+    },
+    {
+      "start_m": 129.3,
+      "end_m": 257.9,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 18,
+      "coverage_pct": 1.9,
+      "length_m": 128.6
+    },
+    {
+      "start_m": 266.7,
+      "end_m": 6306.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 1232,
+      "coverage_pct": 89.43,
+      "length_m": 6039.7
+    },
+    {
+      "start_m": 6329.4,
+      "end_m": 6439.3,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 10,
+      "coverage_pct": 1.63,
+      "length_m": 109.9
+    },
+    {
+      "start_m": 6448.0,
+      "end_m": 6546.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 30,
+      "coverage_pct": 1.46,
+      "length_m": 98.9
+    },
+    {
+      "start_m": 6547.8,
+      "end_m": 6753.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 49,
+      "coverage_pct": 3.05,
+      "length_m": 205.9
+    }
+  ],
+  "stats": {
+    "total_m": 6753.7,
+    "n_points": 1358,
+    "osm_pct": 96.2,
+    "swisstopo_pct": 1.5,
+    "unknown_pct": 1.6
+  }
+}

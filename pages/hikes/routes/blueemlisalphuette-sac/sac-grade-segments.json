@@ -1,0 +1,112 @@
+{
+  "slug": "blueemlisalphuette-sac",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 28.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 4,
+      "coverage_pct": 0.35,
+      "length_m": 28.2
+    },
+    {
+      "start_m": 43.6,
+      "end_m": 352.2,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 33,
+      "coverage_pct": 3.87,
+      "length_m": 308.6
+    },
+    {
+      "start_m": 362.0,
+      "end_m": 497.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 9,
+      "coverage_pct": 1.7,
+      "length_m": 135.2
+    },
+    {
+      "start_m": 508.3,
+      "end_m": 952.8,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 46,
+      "coverage_pct": 5.57,
+      "length_m": 444.5
+    },
+    {
+      "start_m": 968.1,
+      "end_m": 1048.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 7,
+      "coverage_pct": 1.01,
+      "length_m": 80.5
+    },
+    {
+      "start_m": 1068.6,
+      "end_m": 1338.7,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 22,
+      "coverage_pct": 3.39,
+      "length_m": 270.1
+    },
+    {
+      "start_m": 1365.4,
+      "end_m": 1850.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 110,
+      "coverage_pct": 6.08,
+      "length_m": 484.7
+    },
+    {
+      "start_m": 1854.5,
+      "end_m": 2929.3,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 214,
+      "coverage_pct": 13.48,
+      "length_m": 1074.8
+    },
+    {
+      "start_m": 2930.2,
+      "end_m": 3312.3,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 103,
+      "coverage_pct": 4.79,
+      "length_m": 382.1
+    },
+    {
+      "start_m": 3315.1,
+      "end_m": 7752.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 1157,
+      "coverage_pct": 55.66,
+      "length_m": 4437.3
+    },
+    {
+      "start_m": 7754.0,
+      "end_m": 7972.8,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 39,
+      "coverage_pct": 2.74,
+      "length_m": 218.8
+    }
+  ],
+  "stats": {
+    "total_m": 7972.8,
+    "n_points": 1744,
+    "osm_pct": 91.4,
+    "swisstopo_pct": 7.3,
+    "unknown_pct": 0.0
+  }
+}

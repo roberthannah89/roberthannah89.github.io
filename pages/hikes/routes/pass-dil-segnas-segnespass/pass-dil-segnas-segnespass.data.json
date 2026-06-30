@@ -1,0 +1,116 @@
+{
+  "slug": "pass-dil-segnas-segnespass",
+  "page": {
+    "title": "Pass Dil Segnas Segnespass (2628 m) -- Hike Plan",
+    "generated": "2026-06-29",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Pass Dil Segnas Segnespass",
+    "elev": 2628,
+    "lat": 46.90197,
+    "lon": 9.22455
+  },
+  "index_card": {
+    "region": "Eastern Switzerland",
+    "canton": "Glarus",
+    "distance": "3.7 km",
+    "gain": "1108 m",
+    "time": "~2h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Nideren / Tschinglen, Bergstation",
+    "elev": 1517,
+    "lat": 46.9058,
+    "lon": 9.1935
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1597332947_1553101085master_1afca2d0ca.jpg",
+    "subtitle_html": "Nideren / Tschinglen, Bergstation -> Pass Dil Segnas Segnespass -- <span class=\"pill t3\">SAC T3</span> | ~1108 m gain | ~3.7 km | ~2h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Rund 1100 strenge Höhenmeter: Der Aufstieg von der Bergstation der Tschinglenbahn zum Segnespass ist nicht geschenkt. Als besonders abwechslungsreich darf man ihn auch nicht bezeichnen. Doch landschaftlich hat er viel zu bieten: Die Umgebung ist eindrücklich, die Geologie sehr sehenswert.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2628 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Nideren / Tschinglen, Bergstation"
+    ],
+    [
+      "Distance",
+      "3.7 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1108 m"
+    ],
+    [
+      "Elevation range",
+      "1517-2627 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1597332947_1553101085master_04199c650f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1597332947_1553101085master_04199c650f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/7/csm_1597332947_120659279master_c28e87e1b3.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/7/csm_1597332947_120659279master_c28e87e1b3.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1597332947_2058246780master_d017769d2a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1597332947_2058246780master_d017769d2a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1597332948_451180558master_7b4ed72a6c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1597332948_451180558master_7b4ed72a6c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.9058,
+      "lon": 9.1935,
+      "label": "Nideren / Tschinglen, Bergstation (1517 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.902149545414915,
+      "lon": 9.22462096201135,
+      "label": "Pass Dil Segnas Segnespass (2627 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Von Tschinglen</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Der weiss-rot-weiss markierte Weg quert im unteren Teil (Biflen) etwas abschüssige Wiesen. Ab 2350 m gerölliges und teils rutschiges Wegtrassee.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Cable car</strong> to <strong>Nideren / Tschinglen, Bergstation</strong>.</p>"
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}
