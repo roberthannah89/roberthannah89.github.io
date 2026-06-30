@@ -38,24 +38,8 @@
     }
     .mode-btn:hover:not(.active) { background: #fafaf6; color: var(--fg); }
 
-    /* Key bar */
-    .keybar {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 20px; background: #fff8e1; border-bottom: 1px solid #f0dfa0;
-      font-size: 13px;
-    }
-    .keybar.has-key { background: #f1f8f1; border-color: #c8e0c8; }
-    .keybar label { font-weight: 500; }
-    .keybar input {
-      flex: 1; padding: 5px 8px; font: inherit; font-size: 13px;
-      border: 1px solid #ccc; border-radius: 4px; max-width: 480px;
-    }
-    .keybar button {
-      padding: 5px 14px; font: inherit; font-size: 13px;
-      background: var(--accent); color: #fff; border: 0; border-radius: 4px; cursor: pointer;
-    }
-    .keybar button.secondary { background: #888; }
-    .keybar small { color: var(--muted); }
+    /* (Keybar removed — key auto-loads from window.HIKING_CONFIG / local-config.js.
+       To paste a key manually: localStorage.setItem('proto:google-tiles:key', 'AIzaSy…')) */
 
     /* Map pane — full viewport */
     .pane {
@@ -110,14 +94,6 @@
   </style>
 </head>
 <body>
-  <div class="keybar" id="keybar" hidden>
-    <label for="gkey">Google Maps Platform API key (Map Tiles enabled):</label>
-    <input id="gkey" type="password" autocomplete="off" placeholder="AIzaSy…">
-    <button id="load-btn">Load</button>
-    <button id="clear-btn" class="secondary" hidden>Clear</button>
-    <small>Stored in <code>localStorage</code> (per-browser).</small>
-  </div>
-
   <div class="pane">
     <div class="modebar">
       <button class="mode-btn" id="mode-cesium" data-mode="cesium">🛰 Photorealistic</button>
@@ -146,11 +122,7 @@
     const MODE_STORAGE    = 'proto:3d-mode';
     const QUALITY_STORAGE = 'proto:3d-quality';
 
-    const $keybar = document.getElementById('keybar');
-    const $gkey   = document.getElementById('gkey');
-    const $load   = document.getElementById('load-btn');
-    const $clear  = document.getElementById('clear-btn');
-    const $host   = document.getElementById('map-host');
+    const $host         = document.getElementById('map-host');
     const $modeCesium   = document.getElementById('mode-cesium');
     const $modeMaplibre = document.getElementById('mode-maplibre');
     const $qualityBtn   = document.getElementById('quality-btn');
@@ -189,9 +161,6 @@
     function updateModeUI() {
       $modeCesium.classList.toggle('active',   currentMode === 'cesium');
       $modeMaplibre.classList.toggle('active', currentMode === 'maplibre');
-      // Keybar is only relevant in Cesium mode AND only when there's no key yet.
-      // Once a key is loaded (auto or pasted), get out of the way and show the map.
-      $keybar.hidden = (currentMode !== 'cesium') || !!apiKey;
       // Quality button only meaningful in Cesium mode (MapLibre has no comparable lever).
       $qualityBtn.hidden = (currentMode !== 'cesium');
       $qualityBtn.textContent = currentQuality === 'sharp' ? '🎨 Sharp' : '⚡ Fast';
@@ -298,9 +267,6 @@
             Math.max(sphere.radius * 5, 5000)
           )
         });
-        $keybar.classList.add('has-key');
-        $clear.hidden = false;
-        $load.textContent = 'Reload';
       } catch (err) {
         showError('Could not load Google Photorealistic 3D Tiles', err && err.message ? err.message : String(err));
       }
@@ -371,53 +337,23 @@
       setQuality(currentQuality === 'sharp' ? 'fast' : 'sharp');
     });
 
-    // ===== Key controls =====
-    function setKey(key) {
-      apiKey = key;
-      try { localStorage.setItem(KEY_STORAGE, key); } catch (e) {}
-      updateModeUI();
-      if (currentMode === 'cesium') loadCesium();
-    }
-    function clearKey() {
-      try { localStorage.removeItem(KEY_STORAGE); } catch (e) {}
-      apiKey = '';
-      $gkey.value = '';
-      $clear.hidden = true;
-      $load.textContent = 'Load';
-      updateModeUI();
-      if (currentMode === 'cesium') { teardown(); showPlaceholder(); }
-    }
-    $load.addEventListener('click', () => {
-      const k = $gkey.value.trim();
-      if (!k) return;
-      setKey(k);
-    });
-    $clear.addEventListener('click', clearKey);
-    $gkey.addEventListener('keydown', (e) => { if (e.key === 'Enter') $load.click(); });
-
     // ===== Initial state =====
     try { currentMode = localStorage.getItem(MODE_STORAGE) || 'cesium'; } catch (e) {}
     try { currentQuality = localStorage.getItem(QUALITY_STORAGE) || 'fast'; } catch (e) {}
 
-    let keySource = '';
+    // Key resolution: 1) window.HIKING_CONFIG.googleMapsApiKey (CI-injected from
+    // GOOGLE_MAPS_EMBED_KEY into local-config.js, or local copy), 2) localStorage
+    // override (set via DevTools: localStorage.setItem('proto:google-tiles:key', '…')).
     try {
       if (window.HIKING_CONFIG && window.HIKING_CONFIG.googleMapsApiKey) {
         apiKey = window.HIKING_CONFIG.googleMapsApiKey;
-        keySource = 'config';
       } else {
         const saved = localStorage.getItem(KEY_STORAGE);
-        if (saved) { apiKey = saved; keySource = 'storage'; }
+        if (saved) apiKey = saved;
       }
     } catch (e) {}
-    if (apiKey) {
-      $gkey.value = apiKey;
-      $clear.hidden = false;
-      $load.textContent = 'Reload';
-      if (keySource === 'config') {
-        $keybar.querySelector('small').innerHTML = 'Auto-loaded from <code>local-config.js</code>.';
-      }
-    }
-    updateModeUI();  // Keybar stays hidden when apiKey is set; visible only when user needs to paste.
+
+    updateModeUI();
     if (currentMode === 'cesium') loadCesium();
     else                          loadMapLibre();
   </script>
