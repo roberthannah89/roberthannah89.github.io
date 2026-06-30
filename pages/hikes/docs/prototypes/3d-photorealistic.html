@@ -189,11 +189,19 @@
         });
         cesiumViewer.scene.skyAtmosphere.show = true;
 
-        // ===== Quality: native pixel density on HiDPI displays, no double-scaling. =====
-        // useBrowserRecommendedResolution=false makes Cesium internally multiply the
-        // backing buffer by devicePixelRatio. Earlier code ALSO set resolutionScale to
-        // devicePixelRatio — which squared it (dpr=3 → 9× CSS pixels). Don't compound.
+        // ===== Quality: native pixel density on HiDPI displays, capped at ~4K. =====
+        // useBrowserRecommendedResolution=false → Cesium multiplies the backing buffer
+        // by devicePixelRatio. On a 5K Retina (innerWidth 2560 × dpr 2 = 5120-wide
+        // canvas, ~14 M px/frame), that's 7× the GPU work of a 1080p monitor — way
+        // past the point of visible diminishing returns. Cap effective render width
+        // at ~4K; above that the resolutionScale brings it down.
         cesiumViewer.useBrowserRecommendedResolution = false;
+        const dpr = window.devicePixelRatio || 1;
+        const targetMaxWidth = 3840;  // 4K UHD width
+        const fullWidth = window.innerWidth * dpr;
+        if (fullWidth > targetMaxWidth) {
+          cesiumViewer.resolutionScale = targetMaxWidth / fullWidth;
+        }
         // FXAA is cheap and helps ridge edges; always on.
         if (cesiumViewer.scene.postProcessStages && cesiumViewer.scene.postProcessStages.fxaa) {
           cesiumViewer.scene.postProcessStages.fxaa.enabled = true;
