@@ -5,6 +5,10 @@ This is a Swiss Alps hiking website with interactive Leaflet.js maps, dynamicall
 
 > **Read the docs first.** Before changing anything non-trivial, skim the linked docs in the [Documentation Map](#documentation-map) below. They contain critical schema, workflow, and troubleshooting details that are NOT duplicated here.
 
+## Shipping changes
+
+This is a solo repo — **do not open pull requests**. When you finish work in a worktree, commit and push directly to `main` (fast-forward from your branch's HEAD is fine). No draft PRs, no review branches. If you're in a worktree, exit and clean it up once the commits are on `main`.
+
 ## Quick Reference
 
 - **Python venv:** `~/venvs/dev/bin/python`
