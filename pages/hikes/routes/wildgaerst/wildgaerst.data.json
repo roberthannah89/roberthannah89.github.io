@@ -169,5 +169,15 @@
       "elev_m": 2635
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildgaerst-2214/mountain-hiking/ueber-grossi-chrinne-und-wart-6258/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildgaerst-2214/mountain-hiking/"
+    }
+  ]
 }

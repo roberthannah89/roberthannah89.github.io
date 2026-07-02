@@ -116,5 +116,15 @@
       "elev_m": 2351
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/sparrhorn-sparrhoru-1836/mountain-hiking/s-grat-2209/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/sparrhorn-sparrhoru-1836/mountain-hiking/"
+    }
+  ]
 }
