@@ -23,7 +23,8 @@
     "name": "Nideren / Tschinglen, Bergstation",
     "elev": 1517,
     "lat": 46.9058,
-    "lon": 9.1935
+    "lon": 9.1935,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Elm+Tschinglenalp"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1597332947_1553101085master_1afca2d0ca.jpg",

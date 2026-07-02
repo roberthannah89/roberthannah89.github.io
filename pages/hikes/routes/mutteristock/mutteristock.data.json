@@ -23,7 +23,8 @@
     "name": "Wägitalersee, Hinterbruch",
     "elev": 917,
     "lat": 47.0666,
-    "lon": 8.9135
+    "lon": 8.9135,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Innerthal%2C+Gemeindeplatz"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/e/csm_1568896205_27224008master_dd5029bd7c.jpg",

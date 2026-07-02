@@ -70,6 +70,7 @@ class ScrapedRoute:
     departure_transport: str | None = None  # "Bus" / "Train" / "Cable car" / etc.
     end_name: str | None = None         # set only when distinct from departure
     end_elev_m: int | None = None
+    sbb_url: str | None = None          # SAC-provided SBB timetable deep-link for the departure
     terrain_html: str | None = None     # "Difficulty / Material" section — terrain/safety notes
     segments: list[str] = field(default_factory=list)   # per-leg "A → B, T3, 2 Std. 45 Min." strings
     waypoints: list[dict] = field(default_factory=list) # [{name, elev_m, description}]
@@ -142,6 +143,23 @@ def _parse_departure(raw: str) -> tuple[str | None, int | None]:
             cleaned = cleaned.split(cut, 1)[0]
     cleaned = cleaned.strip(" ,;")
     return (cleaned or None), None
+
+
+def _extract_sbb_url(soup: BeautifulSoup) -> str | None:
+    """First href on the page pointing at SBB's legacy timetable endpoint.
+
+    SAC renders one such link per route page — the pre-filled `?nach=<Station>`
+    is the *nearest actual SBB station* (e.g. planurahuette-sac's trailhead is
+    "Tierfehd" but the SBB link points to "Linthal", which is the closest
+    station and 1 km down the road). Without this, the transit widget falls
+    back to a synthesised link using the trailhead name, which fuzzy-matches
+    to random towns abroad for non-station trailheads.
+    """
+    a = soup.find("a", href=re.compile(r"^https?://www\.sbb\.ch/[^\"']*fahrplan\.xhtml"))
+    if not isinstance(a, Tag):
+        return None
+    href = a.get("href")
+    return href.strip() if isinstance(href, str) and href.strip() else None
 
 
 def _detect_transport(soup: BeautifulSoup, dd_text: str | None) -> str | None:
@@ -443,6 +461,8 @@ def scrape(html: str) -> ScrapedRoute:
     if raw_end:
         res.end_name, res.end_elev_m = _parse_departure(raw_end)
 
+    res.sbb_url = _extract_sbb_url(soup)
+
     # Per-leg time breakdown — the cleanest source for "what does the route do".
     raw_time = _dt_dd_lookup(soup, "Time") or ""
     res.segments = _parse_time_breakdown(raw_time)
@@ -559,6 +579,15 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
     if sr.departure_elev_m and (data.get("trailhead") or {}).get("elev") in (None, 0):
         data["trailhead"]["elev"] = sr.departure_elev_m
         changed.append("trailhead.elev")
+
+    # Trailhead SBB deep-link (nearest actual station; e.g. "Tierfehd" trailhead
+    # → nach=Linthal). Populate whenever missing — even if it's currently ""
+    # rather than a TODO placeholder, since the empty string is the default in
+    # the scaffolded data.json and is what causes the transit widget's SBB
+    # button to fall back to a name-based lookup that fuzzy-matches wrong.
+    if sr.sbb_url and not (data.get("trailhead") or {}).get("sbb_url"):
+        data["trailhead"]["sbb_url"] = sr.sbb_url
+        changed.append("trailhead.sbb_url")
 
     # Intro / description
     if sr.description_html:

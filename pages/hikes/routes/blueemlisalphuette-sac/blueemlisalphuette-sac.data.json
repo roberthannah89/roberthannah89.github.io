@@ -23,7 +23,8 @@
     "name": "Oeschinensee, upper station",
     "elev": 1683,
     "lat": 46.5023,
-    "lon": 7.6972
+    "lon": 7.6972,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Oeschinen+%28Bergstation%29"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1526480938_367290200master_923aa3df5c.jpg",
