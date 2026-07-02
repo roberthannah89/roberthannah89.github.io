@@ -19,6 +19,22 @@
   --grade-t4: #d07030;
   --grade-t5: #cc3333;
   --grade-t6: #8844cc;
+
+  /* Marker-popup theming — consumed by routes/_assets/hike_popup.css so the
+     small window opened by a marker click matches the gallery-page popup. */
+  --popup-bg: var(--board-surface);
+  --popup-border: var(--flap-border);
+  --popup-fg: var(--text-primary);
+  --popup-fg-dim: var(--text-secondary);
+  --popup-accent: var(--amber);
+  --popup-accent-fg: var(--board-bg);
+  --popup-font: var(--font-display);
+  --popup-mono: var(--font-mono);
+  --popup-grade-t1: var(--grade-t1);
+  --popup-grade-t3: var(--grade-t3);
+  --popup-grade-t4: var(--grade-t4);
+  --popup-grade-t5: var(--grade-t5);
+  --popup-grade-t6: var(--grade-t6);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -587,67 +603,10 @@ html, body {
 }
 
 /* --- Leaflet Overrides --- */
-.leaflet-popup-content-wrapper {
-  background: var(--board-surface) !important;
-  color: var(--text-primary) !important;
-  border: 1px solid var(--flap-border) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
-}
-
-.leaflet-popup-tip {
-  background: var(--board-surface) !important;
-  border: 1px solid var(--flap-border) !important;
-  border-top: none !important;
-  border-left: none !important;
-}
-
-.leaflet-popup-content {
-  margin: 12px 16px !important;
-  font-family: var(--font-display) !important;
-  font-size: 13px !important;
-  line-height: 1.5 !important;
-  min-width: 220px !important;
-}
-
-.popup-name {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.popup-meta {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.popup-weather {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-secondary);
-  padding: 6px 0;
-  border-top: 1px solid var(--flap-border);
-  margin-top: 6px;
-}
-
-.popup-expand {
-  display: block;
-  margin-top: 8px;
-  padding: 6px 10px;
-  background: var(--amber);
-  color: var(--board-bg);
-  border: none;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  width: 100%;
-}
-
-.popup-expand:hover { background: #f0b840; }
+/* Marker-popup styling (.leaflet-popup-*, .popup-name, .popup-meta,
+   .popup-weather, .popup-open-page, .popup-expand) lives in
+   routes/_assets/hike_popup.css — shared with the gallery page so both
+   popups render identically. */
 
 .leaflet-control-zoom a {
   background: var(--board-surface) !important;
