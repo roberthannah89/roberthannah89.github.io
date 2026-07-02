@@ -23,7 +23,8 @@
     "name": "Wasserauen, Bahnhof",
     "elev": 1683,
     "lat": 47.2649,
-    "lon": 9.423
+    "lon": 9.423,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Wasserauen"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1535451627_613093224master_ccd15853e9.jpg",

@@ -23,7 +23,8 @@
     "name": "Kandersteg, train station",
     "elev": 1170,
     "lat": 46.4952,
-    "lon": 7.6717
+    "lon": 7.6717,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Kandersteg"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1523951760_1626472946master_31915ea766.jpg",

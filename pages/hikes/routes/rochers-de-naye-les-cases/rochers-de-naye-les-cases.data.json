@@ -23,7 +23,8 @@
     "name": "Les Cases, Bahnhof",
     "elev": 2041,
     "lat": 46.4318,
-    "lon": 6.9761
+    "lon": 6.9761,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Les+Cases"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/e/csm_1679565777_838589651master_5ddb944b01.jpg",

@@ -23,7 +23,8 @@
     "name": "Capanna Campo Tencia CAS",
     "elev": 2139,
     "lat": 46.4441,
-    "lon": 8.7325
+    "lon": 8.7325,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Prato%2C+Ponte"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1597763065_204440270master_ad255354cc.jpg",

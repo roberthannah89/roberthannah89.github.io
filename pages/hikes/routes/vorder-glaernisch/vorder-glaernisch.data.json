@@ -23,7 +23,8 @@
     "name": "Schwändi b. Schwanden GL, Post",
     "elev": 701,
     "lat": 47.0057,
-    "lon": 9.0667
+    "lon": 9.0667,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Schw%C3%A4ndi+b.+Schwanden+GL%2C+Post"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1555341147_1526623915master_ec13579328.jpg",

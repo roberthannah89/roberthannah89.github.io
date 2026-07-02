@@ -23,7 +23,8 @@
     "name": "Selamatt, Bergstation",
     "elev": 1385,
     "lat": 47.1826,
-    "lon": 9.2964
+    "lon": 9.2964,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Alp+Sellamatt"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/1/csm_1625577175_1554383181master_5d48ef3be5.jpg",

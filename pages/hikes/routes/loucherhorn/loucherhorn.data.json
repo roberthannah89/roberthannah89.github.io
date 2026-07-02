@@ -23,7 +23,8 @@
     "name": "Schynige Platte",
     "elev": 1970,
     "lat": 46.6519,
-    "lon": 7.9107
+    "lon": 7.9107,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Schynige+Platte"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1557316954_557517573master_4e8ddcda36.jpg",

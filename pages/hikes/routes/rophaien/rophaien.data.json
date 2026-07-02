@@ -23,7 +23,8 @@
     "name": "Flüelen Gruonbach",
     "elev": 461,
     "lat": 46.9154,
-    "lon": 8.6251
+    "lon": 8.6251,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Fl%C3%BCelen%2C+Gruonbach"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1587574405_1774423476master_b4ed13afc9.jpg",

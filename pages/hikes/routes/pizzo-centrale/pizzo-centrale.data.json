@@ -23,7 +23,8 @@
     "name": "Gotthard Hospiz / Passhöhe",
     "elev": 2091,
     "lat": 46.5555,
-    "lon": 8.5669
+    "lon": 8.5669,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gotthard+Passh%C3%B6he"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/4/csm_1522064556_1355825414master_49009342f4.jpg",

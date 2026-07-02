@@ -23,7 +23,8 @@
     "name": "Marguns, summit station",
     "elev": 2271,
     "lat": 46.5165,
-    "lon": 9.8253
+    "lon": 9.8253,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Marguns+%28Val+Saluver%29"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/8/csm_1554380769_1376079489master_ccc41c5132.jpg",

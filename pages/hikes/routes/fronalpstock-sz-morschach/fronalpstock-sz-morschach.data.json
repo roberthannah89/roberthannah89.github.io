@@ -23,7 +23,8 @@
     "name": "Morschach Talstation",
     "elev": 798,
     "lat": 46.9901,
-    "lon": 8.6382
+    "lon": 8.6382,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Morschach%2C+Luftseilbahn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1554823064_441906616master_8b8f6c30a8.jpg",

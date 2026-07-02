@@ -23,7 +23,8 @@
     "name": "Brunni SZ, Talstation LBH",
     "elev": 1098,
     "lat": 47.042,
-    "lon": 8.7033
+    "lon": 8.7033,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Brunni+SZ%2C+Talstation+LBH"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/0/csm_1555759263_476626866master_19c4042342.jpg",

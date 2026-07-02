@@ -23,7 +23,8 @@
     "name": "Gigerwald, Restaurant",
     "elev": 1230,
     "lat": 46.9136,
-    "lon": 9.4004
+    "lon": 9.4004,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gigerwald%2C+Restaurant"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1625589755_1990656765master_fe0320cf5f.jpg",

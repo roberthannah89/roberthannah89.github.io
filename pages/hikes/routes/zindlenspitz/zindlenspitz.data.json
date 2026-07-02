@@ -23,7 +23,8 @@
     "name": "Wägitalersee, P. 932",
     "elev": 931,
     "lat": 47.0851,
-    "lon": 8.9303
+    "lon": 8.9303,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Innerthal%2C+Gemeindeplatz"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/1/csm_1569561893_1384925870master_e1b71b8e12.jpg",

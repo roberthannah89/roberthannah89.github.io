@@ -23,7 +23,8 @@
     "name": "Landarenca, Bergstation",
     "elev": 1278,
     "lat": 46.3187,
-    "lon": 9.1108
+    "lon": 9.1108,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Selma%2C+al+Pont"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/5/csm_1574961210_522544106master_f9cfca526b.jpg",

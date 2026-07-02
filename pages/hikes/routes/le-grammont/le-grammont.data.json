@@ -23,7 +23,8 @@
     "name": "Miex, Le Flon",
     "elev": 1046,
     "lat": 46.3379,
-    "lon": 6.8517
+    "lon": 6.8517,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Miex%2C+Le+Flon"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1633967067_1577793563master_cc3e9045dc.jpg",

@@ -23,7 +23,8 @@
     "name": "Fürenalpbahn, Talstation",
     "elev": 1081,
     "lat": 46.8019,
-    "lon": 8.4493
+    "lon": 8.4493,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Engelberg%2C+F%C3%BCrenalpbahn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1518962531_1549736502master_710fba899c.jpg",

@@ -23,7 +23,8 @@
     "name": "Allmenalp, Bergstation",
     "elev": 1723,
     "lat": 46.4923,
-    "lon": 7.6498
+    "lon": 7.6498,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Allmenalp"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1594129703_1571925540master_56fc648be2.jpg",

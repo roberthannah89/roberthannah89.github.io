@@ -23,7 +23,8 @@
     "name": "Arth, Klostermatt",
     "elev": 416,
     "lat": 47.0698,
-    "lon": 8.5277
+    "lon": 8.5277,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Arth%2C+Klostermatt"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/a/csm_1579265478_2138156769master_ead64ae679.jpg",

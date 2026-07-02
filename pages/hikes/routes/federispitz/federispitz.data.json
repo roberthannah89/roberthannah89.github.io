@@ -23,7 +23,8 @@
     "name": "Ziegelbrücke",
     "elev": 425,
     "lat": 47.1352,
-    "lon": 9.0984
+    "lon": 9.0984,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Ziegelbr%C3%BCcke"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/d/csm_1600773357_1628023830master_7c674b3653.jpg",

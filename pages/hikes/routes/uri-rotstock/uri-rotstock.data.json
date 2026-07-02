@@ -23,7 +23,8 @@
     "name": "St. Jakob (Isenthal)",
     "elev": 978,
     "lat": 46.9017,
-    "lon": 8.5228
+    "lon": 8.5228,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=St.+Jakob+%28Isenthal%29"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1595577397_963890579master_53aaa5a9a9.jpg",

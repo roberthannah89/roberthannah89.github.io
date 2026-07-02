@@ -23,7 +23,8 @@
     "name": "Beatenberg Talstation Niderhornbahn",
     "elev": 1123,
     "lat": 46.6908,
-    "lon": 7.7652
+    "lon": 7.7652,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Beatenberg%2C+Station"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/c/csm_1685949681_164584913master_6678745607.jpg",

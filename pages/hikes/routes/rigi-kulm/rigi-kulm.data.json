@@ -23,7 +23,8 @@
     "name": "Seebodenalp, Bergstation",
     "elev": 1791,
     "lat": 47.0567,
-    "lon": 8.4861
+    "lon": 8.4861,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=K%C3%BCssnacht+am+Rigi+%28Talstation%29"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1513783829_370894793master_089ff5ee6f.jpg",

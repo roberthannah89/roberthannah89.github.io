@@ -23,7 +23,8 @@
     "name": "Arolla, Magine",
     "elev": 1968,
     "lat": 46.0216,
-    "lon": 7.4817
+    "lon": 7.4817,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Arolla%2C+Magine"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/b/csm_1658409190_64528589master_1d848ac80d.jpg",

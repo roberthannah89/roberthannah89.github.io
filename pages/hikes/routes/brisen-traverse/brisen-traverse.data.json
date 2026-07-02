@@ -23,7 +23,8 @@
     "name": "Brändlen, Bergstation",
     "elev": 1178,
     "lat": 46.9036,
-    "lon": 8.4076
+    "lon": 8.4076,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Wolfenschiessen%2C+Zelgli"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/0/csm_1535206856_719384120master_0adddb0f8b.jpg",

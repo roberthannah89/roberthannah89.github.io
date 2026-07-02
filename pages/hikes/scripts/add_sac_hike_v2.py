@@ -334,6 +334,19 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[5/5] Patching {data_path.name} with scraped metadata")
         changed = patch_data_json(data_path, scraped, replace_todo_only=True)
         print(f"      patched {len(changed)} field(s): {', '.join(changed) if changed else '(none)'}")
+        # SBB deep-link sanity check. Missing sbb_url means the transit widget's
+        # SBB button falls back to a name-based lookup, which fuzzy-matches to
+        # random towns abroad for non-station trailheads (see planurahuette-sac:
+        # trailhead "Tierfehd" was matched to "Tierp, Sweden" until we scraped
+        # the SAC-provided ?nach=Linthal link). Warn so the operator knows to
+        # eyeball this hike's transit widget after render.
+        if not scraped.sbb_url:
+            print(
+                "      ⚠ SAC page has no SBB link — trailhead is likely a hut "
+                "or cable-car station with no rail service. The transit widget "
+                "will fall back to synthesising a URL from the trailhead name; "
+                "verify the SBB button resolves to a sensible station."
+            )
 
     # Final: render
     if not args.no_render:
