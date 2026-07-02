@@ -23,7 +23,8 @@
     "name": "Belalp",
     "elev": 2095,
     "lat": 46.3717,
-    "lon": 7.9743
+    "lon": 7.9743,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Belalp"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1527057723_787027202master_82b00bfefa.jpg",

@@ -23,7 +23,8 @@
     "name": "Nätschen, Bahnhof",
     "elev": 1824,
     "lat": 46.642,
-    "lon": 8.6106
+    "lon": 8.6106,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=N%C3%A4tschen"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1630674766_2137243796master_eb8710bde2.jpg",

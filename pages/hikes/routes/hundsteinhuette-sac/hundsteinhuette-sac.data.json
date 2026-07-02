@@ -23,7 +23,8 @@
     "name": "Stauberen, Bergstation",
     "elev": 1746,
     "lat": 47.2608,
-    "lon": 9.4536
+    "lon": 9.4536,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Stauberen"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1577974125_1825716274master_dc77483581.jpg",
