@@ -1,0 +1,134 @@
+/* Shared hike-marker popup styles.
+
+   Paired with routes/_assets/hike_popup.js. Both files are loaded on the
+   gallery page (pages/hikes/index.html) and the command-center map so the
+   popup rendered when you click a marker is visually identical on both.
+
+   Colors and fonts are driven by CSS custom properties that each host page
+   defines on :root:
+     --popup-bg              popup surface
+     --popup-border          popup border
+     --popup-fg              primary text
+     --popup-fg-dim          secondary text (meta line, weather)
+     --popup-accent          accent (grade badge, buttons, links)
+     --popup-accent-fg       text on the accent button
+     --popup-font            display font
+     --popup-mono            mono font (weather, meta)
+     --popup-grade-t1..t6    grade-badge backgrounds
+
+   The fallbacks below keep the popup readable if a host page forgets to
+   set one of these vars. */
+
+.leaflet-popup-content-wrapper {
+  background: var(--popup-bg, #14161c) !important;
+  color: var(--popup-fg, #e8e8ea) !important;
+  border: 1px solid var(--popup-border, #23262e) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--popup-bg, #14161c) !important;
+  border: 1px solid var(--popup-border, #23262e) !important;
+  border-top: none !important;
+  border-left: none !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px !important;
+  font-family: var(--popup-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  min-width: 220px !important;
+}
+
+.popup-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--popup-fg, #e8e8ea);
+}
+
+.popup-meta {
+  font-size: 12px;
+  color: var(--popup-fg-dim, #a0a4ad);
+  margin-bottom: 6px;
+}
+
+.popup-weather {
+  font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
+  font-size: 11px;
+  color: var(--popup-fg-dim, #a0a4ad);
+  padding: 6px 0;
+  border-top: 1px solid var(--popup-border, #23262e);
+  margin-top: 6px;
+}
+
+/* Grade badge — small colored pill next to the name. Grade colours match the
+   marker dot colour so the two are directly comparable. */
+.popup-name .grade-badge {
+  display: inline-block;
+  font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  color: #fff;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.popup-name .grade-badge.t1,
+.popup-name .grade-badge.t2 { background: var(--popup-grade-t1, #2d8a4e); }
+.popup-name .grade-badge.t3 { background: var(--popup-grade-t3, #c8a020); }
+.popup-name .grade-badge.t4 { background: var(--popup-grade-t4, #d07030); }
+.popup-name .grade-badge.t5 { background: var(--popup-grade-t5, #cc3333); }
+.popup-name .grade-badge.t6 { background: var(--popup-grade-t6, #8844cc); }
+
+/* Direct link to the built hike page. Present on gallery-page popups (every
+   marker there has a built page) and on command-center popups whose marker
+   matches a built page via SidePanel.matchingHike. */
+.popup-open-page {
+  display: block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: var(--popup-accent, #e8a832);
+  color: var(--popup-accent-fg, #1a1810);
+  border: none;
+  border-radius: 4px;
+  font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.popup-open-page:hover { filter: brightness(1.08); text-decoration: none; }
+
+/* "Expand details" button — command-center only (no side panel on the gallery
+   page). Rendered below the Open-hike-page link when both are present. */
+.popup-expand {
+  display: block;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--popup-accent, #e8a832);
+  border: 1px solid var(--popup-accent, #e8a832);
+  border-radius: 4px;
+  font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}
+
+.popup-expand:hover {
+  background: var(--popup-accent, #e8a832);
+  color: var(--popup-accent-fg, #1a1810);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--popup-fg-dim, #a0a4ad);
+}

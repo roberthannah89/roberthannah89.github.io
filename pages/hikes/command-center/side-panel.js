@@ -121,7 +121,7 @@
             + 'border-bottom:2px solid var(--amber);text-decoration:none;cursor:pointer">'
             + '<div style="position:absolute;inset:0;'
             +   'background:linear-gradient(to top,rgba(0,0,0,.6) 0,rgba(0,0,0,.1) 40%,rgba(0,0,0,.4) 100%);"></div>'
-            + '<div style="position:absolute;top:10px;right:10px;'
+            + '<div style="position:absolute;top:10px;left:10px;'
             +   'background:var(--amber,#ffb000);color:#000;font-weight:700;'
             +   'padding:6px 12px;border-radius:4px;font-size:13px;letter-spacing:0.4px;'
             +   'box-shadow:0 2px 4px rgba(0,0,0,0.3);">'

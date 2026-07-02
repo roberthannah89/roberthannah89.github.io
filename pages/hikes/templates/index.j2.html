@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <link rel="stylesheet" href="routes/_assets/map_shared.css">
 <link rel="stylesheet" href="command-center/marker-pill.css">
+<link rel="stylesheet" href="routes/_assets/hike_popup.css">
 <style>
   :root {
     --bg: #0b0c10;
@@ -24,6 +25,24 @@
     --fg-dim: #a0a4ad;
     --accent: #ff5c5c;
     --border: #23262e;
+
+    /* Popup theming for hike_popup.css — matches the command-center popup so
+       the little window opened by a marker click looks the same on both pages.
+       Grade badge colours match the marker dot colours (see GRADE_COLORS in
+       routes/_assets/index_page.js). */
+    --popup-bg: var(--bg-soft);
+    --popup-border: var(--border);
+    --popup-fg: var(--fg);
+    --popup-fg-dim: var(--fg-dim);
+    --popup-accent: var(--accent);
+    --popup-accent-fg: #1a1810;
+    --popup-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --popup-mono: "IBM Plex Mono", "Courier New", monospace;
+    --popup-grade-t1: #5cbf6a;
+    --popup-grade-t3: #e8a832;
+    --popup-grade-t4: #d97333;
+    --popup-grade-t5: #cc3333;
+    --popup-grade-t6: #8844cc;
   }
   * { box-sizing: border-box; }
   html, body { background: var(--bg); }
@@ -62,26 +81,8 @@
     background: var(--bg-soft);
     margin-bottom: 1.25rem;
   }
-  .leaflet-popup-content-wrapper {
-    background: var(--bg-soft);
-    color: var(--fg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-  .leaflet-popup-tip { background: var(--bg-soft); }
-  .leaflet-popup-content { margin: .5rem .65rem; font-size: .85rem; }
-  .leaflet-popup-content img {
-    width: 100%;
-    height: 90px;
-    object-fit: cover;
-    border-radius: 6px;
-    display: block;
-    margin-bottom: .35rem;
-  }
-  .leaflet-popup-content .pop-name { font-weight: 600; color: var(--fg); }
-  .leaflet-popup-content a { color: var(--accent); text-decoration: none; }
-  .leaflet-popup-content a:hover { text-decoration: underline; }
-  .leaflet-container a.leaflet-popup-close-button { color: var(--fg-dim); }
+  /* Marker-popup styling lives in routes/_assets/hike_popup.css — shared with
+     the command-center map so both popups render identically. */
 
   /* Filters */
   .filters { margin: 0 0 1.25rem; }
@@ -502,7 +503,8 @@
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
 <script>window.REGIONS_GJ = {{ regions_geojson | tojson }};</script>
 <script src="routes/_assets/index_url_sync.js?v=h2"></script>
-<script src="routes/_assets/index_page.js?v=h4"></script>
+<script src="routes/_assets/hike_popup.js"></script>
+<script src="routes/_assets/index_page.js?v=h5"></script>
 <script src="routes/_assets/sw-register.js" defer></script>
 </body>
 </html>

@@ -445,40 +445,49 @@
     };
   }
 
-  function openPopup(poi, marker) {
-    var grade = Filters.bestGrade(poi);
-    var gc = Filters.gradeNum(grade) <= 2 ? 't1' : 't' + Filters.gradeNum(grade);
-    var dayIdx = Filters.getState().weatherDay;
-    var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
-
-    var html = '<div class="popup-name"><span class="grade-badge ' + gc + '">' + grade + '</span> ' + esc(poi.name) + '</div>';
-    html += '<div class="popup-meta">' + (poi.alt || '—') + ' m';
-
+  /* Build the metadata line shown under the name in the popup. Kept short —
+     the popup is a peek; the side panel is the deep-dive. */
+  function popupMetaLine(poi) {
+    var parts = [];
+    parts.push((poi.alt || '—') + ' m');
     if (poi.routes && poi.routes.length > 0) {
       var r = poi.routes[0];
-      if (r.gain) html += ' · ' + r.gain + ' m gain';
-      if (r.time_up) html += ' · ↑ ' + formatTime(r.time_up);
+      if (r.gain) parts.push(r.gain + ' m gain');
+      if (r.time_up) parts.push('↑ ' + formatTime(r.time_up));
     }
-    html += '</div>';
+    return parts.join(' · ');
+  }
 
-    if (wx) {
-      var dayLabel = WeatherService.formatDayLabel(wx.date);
-      html += '<div class="popup-weather">';
-      html += WeatherService.weatherIcon(wx.code) + ' ' + dayLabel + ': ';
-      html += WeatherService.weatherLabel(wx.code);
-      html += ', ' + Math.round(wx.tempMax) + '°C';
-      if (wx.precip > 0) html += ', ' + wx.precip.toFixed(1) + 'mm';
-      html += ', 💨 ' + Math.round(wx.windMax) + ' km/h';
-      if (wx.freezingLevel != null) {
-        var above = poi.alt && poi.alt > wx.freezingLevel;
-        html += '<br>❄️ Snow line: ' + wx.freezingLevel + ' m';
-        if (above) html += ' <strong>(peak above)</strong>';
-      }
-      html += '</div>';
-    }
+  function openPopup(poi, marker) {
+    var dayIdx = Filters.getState().weatherDay;
+    var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
+    /* If a built hike page matches this POI, surface a direct link in the
+       popup so users can jump straight to it without opening the side panel
+       first. Reuses SidePanel.matchingHike so we stay in sync with the
+       panel-hero link logic. */
+    var hike = (window.SidePanel && SidePanel.matchingHike)
+      ? SidePanel.matchingHike(poi) : null;
 
-    html += '<button class="popup-expand" type="button">Expand details ▸</button>';
+    var html = window.HikePopup.build({
+      name: poi.name,
+      grade: Filters.bestGrade(poi),
+      metaLine: popupMetaLine(poi),
+      weather: wx ? {
+        code: wx.code,
+        tempMax: wx.tempMax,
+        precip: wx.precip,
+        windMax: wx.windMax,
+        freezingLevel: wx.freezingLevel,
+        date: wx.date,
+        peakAlt: poi.alt,
+      } : null,
+      hikeHref: hike ? '../' + hike.href : null,
+      showExpand: true,
+    });
 
+    /* Popup rebind pattern is load-bearing — see the FIRST-CLICK REGRESSION
+       GUARD comment above bindMarkerTooltips(). Always reuse the existing
+       popup via setPopupContent(); only bindPopup() on the first open. */
     if (marker.getPopup()) {
       marker.setPopupContent(html);
     } else {

@@ -475,6 +475,41 @@ function renderCardStrips() {
   });
 }
 
+/* Compose the popup meta line ("2136 m · 1622 m gain · 21.0 km · ~7h") from
+   whichever HIKES fields are populated. Kept short — the popup is a peek,
+   not the full spec. */
+function buildHikeMetaLine(h) {
+  var parts = [];
+  if (h.elev) parts.push(h.elev);
+  if (h.gain) parts.push(h.gain + ' gain');
+  if (h.distance) parts.push(h.distance);
+  if (h.time) parts.push(h.time);
+  return parts.join(' · ');
+}
+
+/* Build popup HTML for a hike using the currently selected forecast day.
+   Called on every marker click (rather than at bind time) so the weather
+   block reflects mapDayActive after the user switches days. */
+function buildHikePopupHtml(h) {
+  var wx = WX ? getWxForHike(h, mapDayActive) : null;
+  return window.HikePopup.build({
+    name: h.name,
+    grade: h.grade,
+    metaLine: buildHikeMetaLine(h),
+    weather: wx ? {
+      code: wx.code,
+      tempMax: wx.tempMax,
+      precip: wx.precip,
+      windMax: wx.windMax,
+      freezingLevel: wx.freezingLevel,
+      date: wx.date,
+      peakAlt: h.summitElev,
+    } : null,
+    hikeHref: h.href,
+    showExpand: false,
+  });
+}
+
 var missingForecast = [];
 HIKES.forEach(function (h, i) {
   if (h.lat == null || h.lon == null) { markers.push(null); return; }
@@ -485,13 +520,20 @@ HIKES.forEach(function (h, i) {
   });
   m._hike = h;
   m._idx = i;
-  var popup =
-    (h.photo ? '<img src="' + escAttr(h.photo) + '" alt="">' : '') +
-    '<div class="pop-name">' + h.name + '</div>' +
-    (h.canton ? '<div style="font-size:.78rem;color:#a0a4ad;margin:.1rem 0 .2rem;">' + h.canton + '</div>' : '') +
-    (h.grade ? '<div style="margin:.2rem 0;"><span class="pill ' + h.gradeClass + '">' + h.grade + '</span></div>' : '') +
-    '<a href="' + h.href + '">View plan →</a>';
-  m.bindPopup(popup);
+  /* Every marker on this page has a built page (HIKES only contains rendered
+     hikes) — the popup links to it directly. No expand button: there's no
+     side panel here, so the popup is the peek and the hike page is the
+     deep-dive.
+
+     Bind the popup on click rather than up-front so the weather block picks
+     up the currently selected forecast day. Mirrors CC's openPopup pattern
+     (getPopup/setPopupContent for re-clicks). */
+  m.on('click', function () {
+    var html = buildHikePopupHtml(h);
+    if (m.getPopup()) m.setPopupContent(html);
+    else m.bindPopup(html);
+    m.openPopup();
+  });
   clusterGroup.addLayer(m);
   markers.push(m);
   latlngs.push([h.lat, h.lon]);
