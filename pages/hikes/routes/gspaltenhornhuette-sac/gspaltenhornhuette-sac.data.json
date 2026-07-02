@@ -112,5 +112,15 @@
       "description": "Irgendwie erinnert dieses Haus an Grimms Märchen. Es ist klein, putzig und lebt von lieblich hindrappierten Details im Innern. Natürlich ist hier nicht Rotkäppchen zu Hause, sondern ein Hüttenwartpaar, das sein Handwerk versteht. Hier ist man willkommen und fühlt sich sofort zu Hause – auch wenn dieses eher einfach eingerichtet ist. Geschlafen wird auf dem Dachstock, was ebenso zur Romantik des Gesamterlebnisses beiträgt. Die Rotstockhütte gehört dem Skiclub Stechelberg, bietet 41 Schlafplätze und ist ab Mitte Juni bis Mitte Oktober bewartet."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gspaltenhornhuette-sac-2147000127/mountain-hiking/von-muerren-via-rotstockhuette-und-ueber-die-sefinafurgga-40630/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gspaltenhornhuette-sac-2147000127/mountain-hiking/"
+    }
+  ]
 }

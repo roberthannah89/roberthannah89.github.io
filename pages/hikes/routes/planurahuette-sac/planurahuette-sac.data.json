@@ -165,5 +165,15 @@
       "description": "The stretch from Linthal railway station/ Tierfehd car park to Hintersand can be covered with the Alpine Taxi Alpentaxi Vollenweider 079 /770 34 86 alpentaxi@taxivollenweider.ch. Time saving about 1:30 hrs."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/from-tierfehd-via-ober-sand-370/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/planurahuette-sac-2147000207/mountain-hiking/"
+    }
+  ]
 }

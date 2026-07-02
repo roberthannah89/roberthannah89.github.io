@@ -124,5 +124,15 @@
       "description": "Hierher auch direkt aus dem Rheintal: ab Sax ca. 2:30 Std, ab Nasseel ca. 2 Std."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "All photos: SAC Route Portal",
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hundsteinhuette-sac-2147000138/mountain-hiking/von-der-bergstation-stauberen-2313/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hundsteinhuette-sac-2147000138/mountain-hiking/"
+    }
+  ]
 }
