@@ -146,7 +146,31 @@
     </div></div>
   </div>
 
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
+  <!-- Cesium loader with CDN fallback chain. cesium.com is sometimes blocked
+       by ad blockers or corporate proxies; unpkg / jsdelivr almost always work.
+       Sets window.__cesiumReady to a Promise that resolves once Cesium is
+       defined on window. loadCesiumReal() awaits it before calling any Cesium.* API. -->
+  <script>
+  (function () {
+    var CDNS = [
+      'https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js',
+      'https://unpkg.com/cesium@1.122/Build/Cesium/Cesium.js',
+      'https://cdn.jsdelivr.net/npm/cesium@1.122/Build/Cesium/Cesium.js'
+    ];
+    window.__cesiumReady = new Promise(function (resolve, reject) {
+      var i = 0;
+      (function tryNext() {
+        if (typeof window.Cesium !== 'undefined') return resolve();
+        if (i >= CDNS.length) return reject(new Error('Cesium failed to load from all CDNs (cesium.com, unpkg, jsdelivr). An ad blocker or network filter is likely blocking it.'));
+        var s = document.createElement('script');
+        s.src = CDNS[i++];
+        s.onload = function () { typeof window.Cesium !== 'undefined' ? resolve() : tryNext(); };
+        s.onerror = tryNext;
+        document.head.appendChild(s);
+      })();
+    });
+  })();
+  </script>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <!-- Optional: same local-config.js the transit widget already consumes. CI injects this from
        the GOOGLE_MAPS_EMBED_KEY secret on deploy. Locally, copy local-config.example.js → local-config.js.
@@ -368,6 +392,7 @@
     async function loadCesiumReal() {
       $host.innerHTML = '<div id="cesium-container"></div>';
       try {
+        await window.__cesiumReady;
         cesiumViewer = new Cesium.Viewer('cesium-container', {
           baseLayer: false, baseLayerPicker: false,
           timeline: false, animation: false, geocoder: false,
