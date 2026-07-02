@@ -99,5 +99,37 @@ def validate_hike_files() -> int:
         return 1
 
 
+_GENERIC_SAC_ROUTE_SOURCES = (
+    '<tr><th>Route sources</th><td><a href="https://www.sac-cas.ch/"'
+)
+
+
+def validate_no_generic_sac_links() -> int:
+    """Fail if any hike's rendered HTML links to the generic SAC portal.
+
+    A generic ``href="https://www.sac-cas.ch/"`` in the Route sources cell
+    means the hike is missing its top-level ``sources`` array, so the render
+    fell back to ``SOURCE_URL_MAP``. The pipeline (``add_sac_hike_v2.py``)
+    is supposed to populate ``sources`` — see ``_ensure_sources`` there.
+    """
+    offenders = []
+    for hike_dir in sorted(HIKES_DIR.iterdir()):
+        if not hike_dir.is_dir() or hike_dir.name.startswith("_"):
+            continue
+        html = hike_dir / f"{hike_dir.name}.html"
+        if html.exists() and _GENERIC_SAC_ROUTE_SOURCES in html.read_text(encoding="utf-8"):
+            offenders.append(hike_dir.name)
+    if offenders:
+        print()
+        print(f"❌ {len(offenders)} hike(s) link to the generic SAC portal instead of the specific route page:")
+        for name in offenders:
+            print(f"   - {name}")
+        print("   Add a top-level `sources` array to the data.json (see any working -sac hike) and re-render.")
+        return 1
+    return 0
+
+
 if __name__ == "__main__":
-    sys.exit(validate_hike_files())
+    rc = validate_hike_files()
+    rc |= validate_no_generic_sac_links()
+    sys.exit(rc)

@@ -63,6 +63,35 @@ def _is_route_url(url: str) -> bool:
     return bool(_ROUTE_TRAIL_RE.search(path))
 
 
+def _peak_url_from_route_url(route_url: str) -> str:
+    """Strip the trailing route slug to get the peak (`.../mountain-hiking/`) URL."""
+    normalized = route_url.rstrip("/") + "/"
+    return re.sub(r"[^/]+/$", "", normalized)
+
+
+def _ensure_sources(data_path: Path, route_url: str, peak_url: str) -> None:
+    """Add (route) + (peak) entries to the top-level ``sources`` array.
+
+    ``scrape_sac_route_page`` reads ``sources`` to attach the specific SAC
+    route link to ``routes[0].source``, and ``render_hike`` uses it for the
+    Route sources cell and the trail-conditions callout. Without this both
+    fall back to the generic ``https://www.sac-cas.ch/`` portal.
+    """
+    data = json.loads(data_path.read_text(encoding="utf-8"))
+    existing = list(data.get("sources") or [])
+    names = [(s.get("name") or "").lower() for s in existing]
+    if not any("route" in n and "peak" not in n for n in names):
+        existing.append({"name": "SAC Route Portal (route)", "url": route_url})
+    if not any("peak" in n for n in names):
+        existing.append({"name": "SAC Route Portal (peak)", "url": peak_url})
+    if existing != (data.get("sources") or []):
+        data["sources"] = existing
+        data_path.write_text(
+            json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+        print(f"      wrote sources: (route) + (peak) into {data_path.name}")
+
+
 def _peak_id_from_any_url(url: str) -> int:
     """Extract the peak ID from either a peak URL (.../<slug>-<id>/mountain-hiking/)
     or a route URL (.../<slug>-<id>/mountain-hiking/<route-slug>-<route-id>/).
@@ -328,6 +357,8 @@ def main(argv: list[str] | None = None) -> int:
         )
     else:
         print(f"[4/5] {data_path.name} already exists — keeping it")
+
+    _ensure_sources(data_path, route_url, _peak_url_from_route_url(route_url))
 
     # Step 5: Patch with scraped data
     if scraped:
