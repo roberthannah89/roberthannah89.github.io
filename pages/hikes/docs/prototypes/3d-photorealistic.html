@@ -409,6 +409,10 @@
 
         cesiumTileset = await Cesium.createGooglePhotorealistic3DTileset(apiKey);
         cesiumViewer.scene.primitives.add(cesiumTileset);
+        // Expose to Playwright for scripts/snapshot_3d_previews.py (readiness
+        // check + render-loop freeze + attribution hide before the screenshot).
+        window.cesiumViewer = cesiumViewer;
+        window.cesiumTileset = cesiumTileset;
 
         // Apply the user's selected quality (Fast caps at ~4K + SSE 12; Sharp = native + SSE 8)
         applyCesiumQuality();
