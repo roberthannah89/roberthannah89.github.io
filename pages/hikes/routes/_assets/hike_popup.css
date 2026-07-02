@@ -42,20 +42,26 @@
   min-width: 220px !important;
 }
 
-.popup-name {
+/* All content rules are scoped to `.leaflet-popup-content .popup-*` so they
+   beat routes/_assets/map_shared.css's `.leaflet-popup-content a` (spec 0,1,1)
+   — otherwise the .popup-open-page link inherits map_shared's red anchor
+   color and, on the gallery page where --popup-accent is also red, the text
+   ends up the same colour as the button background and reads as blank. */
+
+.leaflet-popup-content .popup-name {
   font-size: 15px;
   font-weight: 700;
   margin-bottom: 4px;
   color: var(--popup-fg, #e8e8ea);
 }
 
-.popup-meta {
+.leaflet-popup-content .popup-meta {
   font-size: 12px;
   color: var(--popup-fg-dim, #a0a4ad);
   margin-bottom: 6px;
 }
 
-.popup-weather {
+.leaflet-popup-content .popup-weather {
   font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
   font-size: 11px;
   color: var(--popup-fg-dim, #a0a4ad);
@@ -66,7 +72,7 @@
 
 /* Grade badge — small colored pill next to the name. Grade colours match the
    marker dot colour so the two are directly comparable. */
-.popup-name .grade-badge {
+.leaflet-popup-content .popup-name .grade-badge {
   display: inline-block;
   font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
   font-size: 11px;
@@ -78,17 +84,17 @@
   margin-right: 2px;
 }
 
-.popup-name .grade-badge.t1,
-.popup-name .grade-badge.t2 { background: var(--popup-grade-t1, #2d8a4e); }
-.popup-name .grade-badge.t3 { background: var(--popup-grade-t3, #c8a020); }
-.popup-name .grade-badge.t4 { background: var(--popup-grade-t4, #d07030); }
-.popup-name .grade-badge.t5 { background: var(--popup-grade-t5, #cc3333); }
-.popup-name .grade-badge.t6 { background: var(--popup-grade-t6, #8844cc); }
+.leaflet-popup-content .popup-name .grade-badge.t1,
+.leaflet-popup-content .popup-name .grade-badge.t2 { background: var(--popup-grade-t1, #2d8a4e); }
+.leaflet-popup-content .popup-name .grade-badge.t3 { background: var(--popup-grade-t3, #c8a020); }
+.leaflet-popup-content .popup-name .grade-badge.t4 { background: var(--popup-grade-t4, #d07030); }
+.leaflet-popup-content .popup-name .grade-badge.t5 { background: var(--popup-grade-t5, #cc3333); }
+.leaflet-popup-content .popup-name .grade-badge.t6 { background: var(--popup-grade-t6, #8844cc); }
 
 /* Direct link to the built hike page. Present on gallery-page popups (every
    marker there has a built page) and on command-center popups whose marker
    matches a built page via SidePanel.matchingHike. */
-.popup-open-page {
+.leaflet-popup-content .popup-open-page {
   display: block;
   margin-top: 8px;
   padding: 6px 10px;
@@ -104,11 +110,11 @@
   cursor: pointer;
 }
 
-.popup-open-page:hover { filter: brightness(1.08); text-decoration: none; }
+.leaflet-popup-content .popup-open-page:hover { filter: brightness(1.08); text-decoration: none; }
 
 /* "Expand details" button — command-center only (no side panel on the gallery
    page). Rendered below the Open-hike-page link when both are present. */
-.popup-expand {
+.leaflet-popup-content .popup-expand {
   display: block;
   margin-top: 6px;
   padding: 6px 10px;
@@ -124,7 +130,7 @@
   width: 100%;
 }
 
-.popup-expand:hover {
+.leaflet-popup-content .popup-expand:hover {
   background: var(--popup-accent, #e8a832);
   color: var(--popup-accent-fg, #1a1810);
 }
