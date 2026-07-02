@@ -1,0 +1,119 @@
+{
+  "slug": "sparrhorn-sparrhoru",
+  "page": {
+    "title": "Sparrhorn Sparrhoru (3020 m) -- Hike Plan",
+    "generated": "2026-07-01",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Sparrhorn Sparrhoru",
+    "elev": 3020,
+    "lat": 46.40436,
+    "lon": 7.9841
+  },
+  "index_card": {
+    "region": "Valais Alps",
+    "canton": "Valais",
+    "distance": "5.0 km",
+    "gain": "930 m",
+    "time": "~2h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Belalp",
+    "elev": 2095,
+    "lat": 46.3717,
+    "lon": 7.9743
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1527057723_787027202master_82b00bfefa.jpg",
+    "subtitle_html": "Belalp -> Sparrhorn Sparrhoru -- <span class=\"pill t2\">SAC T2</span> | ~930 m gain | ~5.0 km | ~2h30",
+    "grade": "T2",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3020 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t2\">T2</span>"
+    ],
+    [
+      "Trailhead",
+      "Belalp"
+    ],
+    [
+      "Distance",
+      "5.0 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~930 m"
+    ],
+    [
+      "Elevation range",
+      "2095-3019 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1527057723_787027202master_d854adbfdc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1527057723_787027202master_d854adbfdc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/7/csm_1528455342_18139674master_f274c5863c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/7/csm_1528455342_18139674master_f274c5863c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/3/csm_1527057725_132870546master_fc006756a9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/3/csm_1527057725_132870546master_fc006756a9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1527057727_1106122657master_80f1c65a89.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1527057727_1106122657master_80f1c65a89.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.3717,
+      "lon": 7.9743,
+      "label": "Belalp (2095 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.40435535975076,
+      "lon": 7.984096793919747,
+      "label": "Sparrhorn Sparrhoru (3019 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>S-Grat</strong>",
+      "grade": "T2",
+      "pill_class": "t2",
+      "bullets_html": [],
+      "source": "SAC Route Portal"
+    }
+  ],
+  "getting_there": {},
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "scraped_waypoints": [
+    {
+      "name": "Tyndalldenkmal",
+      "elev_m": 2351
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

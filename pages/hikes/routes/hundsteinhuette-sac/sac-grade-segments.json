@@ -1,0 +1,22 @@
+{
+  "slug": "hundsteinhuette-sac",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 4791.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 968,
+      "coverage_pct": 100.0,
+      "length_m": 4791.2
+    }
+  ],
+  "stats": {
+    "total_m": 4791.2,
+    "n_points": 968,
+    "osm_pct": 100.0,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 0.0
+  }
+}
