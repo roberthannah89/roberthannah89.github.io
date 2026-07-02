@@ -173,12 +173,11 @@
   <div id="hike3d-wrap" class="hike3d-wrap" aria-label="3D map of Piz Languard">
     <img class="hike3d-preview" src="piz-languard.3d-preview.jpg" alt="Preview of the 3D map showing the route across Piz Languard" loading="lazy" onerror="this.style.display='none'">
     <button class="hike3d-load btn-cc" id="hike3d-load" type="button">
-      <span class="hike3d-load-icon" aria-hidden="true">⛰</span>
-      <span class="hike3d-load-text">Load interactive 3D view</span>
-      <span class="hike3d-load-sub">SWISSIMAGE satellite · terrain DEM · GPX overlay</span>
+      <span class="hike3d-load-icon" aria-hidden="true">🛰</span>
+      <span class="hike3d-load-text">Load photorealistic 3D</span>
+      <span class="hike3d-load-sub">Google Photorealistic 3D Tiles · Cesium · GPX overlay</span>
     </button>
   </div>
-  <p class="attrib"><a href="piz-languard.3d.html" target="_blank" rel="noopener">Open fullscreen ↗</a></p>
 </section>
 <section>
   <h2>Route Details</h2>
@@ -217,7 +216,7 @@
 window.HIKE = {
   summit: { lat: 46.48844, lon: 9.9565, elev: 3262, name: "Piz Languard" },
   trailhead: { lat: 46.4847, lon: 9.95, name: "Alp Languard (Pontresina)",
-               sbb_url: "" },
+               sbb_url: "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en\u0026von=\u0026nach=Alp+Languard" },
   gpx_filename: "piz-languard.gpx",
   page_generated: "2026-06-06",
   pipeline_constants: {"lapse_rate_c_per_km": 6.5, "naismith_ascent_mh": 600.0, "naismith_speed_kmh": 5.0},
@@ -240,26 +239,21 @@ window.SAC_GRADE_SEGMENTS = {"method": "hybrid-osm-primary-swisstlm3d-fallback",
   if (!loadBtn) return;
   loadBtn.addEventListener('click', function () {
     var wrap = document.getElementById('hike3d-wrap');
-    wrap.classList.add('loading');
-    var ml = document.createElement('script');
-    ml.src = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js';
-    ml.onload = function () {
-      var s = document.createElement('script');
-      s.src = '../_assets/hike_3d.js';
-      s.onload = function () {
-        wrap.innerHTML = '<div id="hike3d-map" style="width:100%;height:100%;"></div>';
-        wrap.classList.add('loaded');
-        initHike3DMap('hike3d-map', {
-          trailhead: [window.HIKE.trailhead.lon, window.HIKE.trailhead.lat],
-          summit:    [window.HIKE.summit.lon,    window.HIKE.summit.lat],
-          peakName:  window.HIKE.summit.name,
-          peakElev:  window.HIKE.summit.elev,
-          trailheadName: window.HIKE.trailhead.name
-        });
-      };
-      document.body.appendChild(s);
-    };
-    document.body.appendChild(ml);
+    wrap.classList.add('loaded');
+    // Embed the prototype directly. It carries the full feature set:
+    //   - mode toggle (🛰 Photorealistic / 🗺 Satellite)
+    //   - quality toggle (🐢 Eco / ⚡ Fast / 🎨 Sharp)
+    //   - camera sync between modes
+    //   - auto-framing from track bounding sphere
+    // ?activate=1 skips the prototype's own preview gate since the rainbow
+    // button above is the gate for this hike page.
+    var iframe = document.createElement('iframe');
+    iframe.src = '/pages/hikes/docs/prototypes/3d-photorealistic.html?hike=piz-languard&activate=1';
+    iframe.title = '3D photorealistic map of Piz Languard';
+    iframe.style.cssText = 'width:100%;height:100%;border:0;display:block;';
+    iframe.setAttribute('loading', 'lazy');
+    wrap.innerHTML = '';
+    wrap.appendChild(iframe);
   });
 })();
 </script>

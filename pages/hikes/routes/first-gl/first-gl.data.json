@@ -23,7 +23,8 @@
     "name": "Brunnenberg, Bergstation",
     "elev": 1095,
     "lat": 46.97,
-    "lon": 9.0227
+    "lon": 9.0227,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Luchsingen-H%C3%A4tzingen"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/9/csm_1596556786_1026402706master_1ea3cfebb4.jpg",

@@ -23,7 +23,8 @@
     "name": "Alpe Foppa (top station)",
     "elev": 1574,
     "lat": 46.1154,
-    "lon": 8.8901
+    "lon": 8.8901,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Alpe+Foppa"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1515490379_361521516master_728554f3e9.jpg",

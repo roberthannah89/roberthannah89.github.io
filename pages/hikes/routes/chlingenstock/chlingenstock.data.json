@@ -23,7 +23,8 @@
     "name": "Chlingenstock / Klingenstock, Bergstation",
     "elev": 1927,
     "lat": 46.957,
-    "lon": 8.6759
+    "lon": 8.6759,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Stoos+SZ"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1590142929_1398182490master_0536ee8e5d.jpg",

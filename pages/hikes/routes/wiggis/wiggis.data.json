@@ -23,7 +23,8 @@
     "name": "Obersee",
     "elev": 991,
     "lat": 47.0881,
-    "lon": 9.0203
+    "lon": 9.0203,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=N%C3%A4fels-Mollis%2C+Bahnhof"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_fa5dd77cda.jpg",

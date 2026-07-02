@@ -23,7 +23,8 @@
     "name": "Gitschenen, Bergstation",
     "elev": 1538,
     "lat": 46.9003,
-    "lon": 8.5003
+    "lon": 8.5003,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gitschenen"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1513345440_707849656master_96f61d1bbc.jpg",

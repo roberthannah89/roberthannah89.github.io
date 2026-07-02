@@ -23,7 +23,8 @@
     "name": "Piora, Bergstation",
     "elev": 1793,
     "lat": 46.5273,
-    "lon": 8.6725
+    "lon": 8.6725,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Piora"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_bd8da2aae5.jpg",

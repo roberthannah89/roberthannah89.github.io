@@ -23,7 +23,8 @@
     "name": "Eggishorn, summit station",
     "elev": 2926,
     "lat": 46.4313,
-    "lon": 8.0943
+    "lon": 8.0943,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Eggishorn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/2/csm_1559329510_496326394master_040452f7e0.jpg",

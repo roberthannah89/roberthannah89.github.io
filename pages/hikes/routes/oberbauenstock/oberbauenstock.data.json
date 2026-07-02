@@ -23,7 +23,8 @@
     "name": "Alp Weid (UR)",
     "elev": 1289,
     "lat": 46.9522,
-    "lon": 8.5699
+    "lon": 8.5699,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Seelisberg%2C+Geissweg"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_1d6dd3817b.jpg",

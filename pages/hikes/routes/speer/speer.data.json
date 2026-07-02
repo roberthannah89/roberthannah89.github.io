@@ -23,7 +23,8 @@
     "name": "Wolzenalp",
     "elev": 1115,
     "lat": 47.2287,
-    "lon": 9.1533
+    "lon": 9.1533,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Rietbach"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1534161003_1779348565master_d6c57625d3.jpg",

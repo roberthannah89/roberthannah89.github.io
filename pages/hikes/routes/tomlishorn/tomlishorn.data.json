@@ -23,7 +23,8 @@
     "name": "Eigenthal, Eigenthalerhof",
     "elev": 1017,
     "lat": 47.0099,
-    "lon": 8.2101
+    "lon": 8.2101,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Eigenthal%2C+Eigenthalerhof"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/5/csm_1658912198_1111779650master_be64ca0bf3.jpg",

@@ -23,7 +23,8 @@
     "name": "Naturfreundehaus Fronalp",
     "elev": 1389,
     "lat": 47.0711,
-    "lon": 9.0912
+    "lon": 9.0912,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Filzbach%2C+Sportzentrum"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/b/csm_1598785653_1573382624master_18b2890b40.jpg",

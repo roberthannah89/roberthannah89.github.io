@@ -23,7 +23,8 @@
     "name": "Lauenen, Geltenhorn",
     "elev": 1241,
     "lat": 46.4245,
-    "lon": 7.3219
+    "lon": 7.3219,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Lauenen+b.+Gstaad%2C+Geltenhorn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/3/csm_1530711976_285904067master_e7afbb31f9.jpg",

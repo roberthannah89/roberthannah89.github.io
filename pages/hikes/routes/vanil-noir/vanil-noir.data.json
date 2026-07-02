@@ -23,7 +23,8 @@
     "name": "Grandvillard/ Villars-sous-Mont, Bahnhof",
     "elev": 1995,
     "lat": 46.5355,
-    "lon": 7.1426
+    "lon": 7.1426,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Villars-sous-Mont"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/a/csm_1523178709_18845553master_2f524d473f.jpg",

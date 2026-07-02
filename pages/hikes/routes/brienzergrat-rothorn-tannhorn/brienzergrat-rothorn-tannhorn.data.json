@@ -23,7 +23,8 @@
     "name": "Brienzer Rothorn, Bergstation",
     "elev": 2251,
     "lat": 46.7875,
-    "lon": 8.0391
+    "lon": 8.0391,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Brienzer+Rothorn"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1700578576_1907799144master_bd4f7b7b43.jpg",

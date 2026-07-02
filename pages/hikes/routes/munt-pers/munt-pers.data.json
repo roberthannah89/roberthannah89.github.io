@@ -23,7 +23,8 @@
     "name": "Diavolezza, summit station",
     "elev": 2972,
     "lat": 46.4119,
-    "lon": 9.965
+    "lon": 9.965,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Diavolezza"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/5/csm_1555592380_831539785master_083f62ccd0.jpg",

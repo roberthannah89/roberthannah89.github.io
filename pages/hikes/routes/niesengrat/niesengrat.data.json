@@ -23,7 +23,8 @@
     "name": "Niesen Bergstation",
     "elev": 2397,
     "lat": 46.6042,
-    "lon": 7.6049
+    "lon": 7.6049,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Niesen+Kulm"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1570656551_979390224master_e1d8eafd9f.jpg",

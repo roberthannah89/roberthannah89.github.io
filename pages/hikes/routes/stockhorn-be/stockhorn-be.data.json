@@ -23,7 +23,8 @@
     "name": "Oberstocken BE",
     "elev": 693,
     "lat": 46.7175,
-    "lon": 7.5538
+    "lon": 7.5538,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Oberstocken%2C+Kreuzgasse"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/1/csm_1570037732_1074421514master_7e6fe637e3.jpg",
