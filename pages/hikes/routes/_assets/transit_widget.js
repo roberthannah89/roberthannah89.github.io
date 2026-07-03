@@ -544,8 +544,22 @@
     var trailhead = H.trailhead, endPoint = H.end_point;
     if (!trailhead || !trailhead.name) { host.style.display = "none"; return; }
 
-    var outDest = trailhead.name;
-    var retOrigin = (endPoint && endPoint.name) ? endPoint.name : trailhead.name;
+    // Prefer the SAC-scraped SBB station over the display name for API queries.
+    // Many trailhead names ("Tierfehd", "Capanna Alzasca CAS", "Holzegg, summit
+    // station") aren't in SBB's timetable system — transport.opendata.ch either
+    // returns nothing or rolls the query forward to a random date, leaving the
+    // outbound card stuck on "Loading…". The scraped sbb_url has ?nach=<Station>
+    // set to the *actual* nearest station (Linthal, Linescio, Holzegg), which
+    // is what we want to feed the API.
+    function stationFromSbbUrl(url) {
+      if (!url) return null;
+      var m = /[?&]nach=([^&]+)/.exec(url);
+      if (!m) return null;
+      try { return decodeURIComponent(m[1].replace(/\+/g, " ")); } catch (e) { return null; }
+    }
+    var outDest = stationFromSbbUrl(trailhead.sbb_url) || trailhead.name;
+    var retOrigin = (endPoint && (stationFromSbbUrl(endPoint.sbb_url) || endPoint.name))
+                    || outDest;
 
     host.innerHTML =
       '<div class="tw-head">' +
