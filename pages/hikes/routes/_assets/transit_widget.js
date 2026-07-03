@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/transit_widget.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 // Live Swiss public-transport widget for hike pages — v3 (Google-Maps style).
 //
 // Renders an "Outbound" and "Return" card. Each card holds a small list of

@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/hike_popup.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 /* Shared hike marker popup.
 
    Renders the small window shown when you click a hike marker on either the

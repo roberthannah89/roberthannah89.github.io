@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/index_url_sync.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 /* URL state sync for the Hikes index page — persists filter state to the URL
  * hash so views are bookmarkable and shareable. Mirrors command-center/url-sync
  * but with the Hikes-page filter keys.

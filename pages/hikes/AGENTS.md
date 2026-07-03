@@ -11,7 +11,11 @@
 - **Never directly ingest data files (GPX, JSON, CSV, etc.) into conversation context.** Always use project scripts to process them (`parse_gpx`, `compute_gpx_stats`, `make new-gpx`, `make render`). Reading data files inline wastes time and tokens — the scripts exist so you don't have to.
 - **Never pass inline Python to Bash for data processing.** If a script doesn't exist for what you need, create one in `scripts/` first, then call it. All data transformations should be maintainable, reusable scripts.
 - **Keep files organized.** Route-specific files (SAC JSON, GPX, data.json, HTML) go in `routes/<slug>/`. Scripts go in `scripts/`. Docs go in `docs/`. Never dump files in the repo root. If you see misplaced files, move them proactively.
-- Never hand-edit generated `.html` or `.track.js` — re-run `make render`.
+- Never hand-edit generated files — re-run `make render` after editing the source. Generated files carry a `GENERATED FROM …` banner:
+  - `routes/<slug>/<slug>.html` ← `templates/hike_page.j2.html` + `<slug>.data.json`
+  - `routes/<slug>/<slug>.track.js` ← GPX
+  - `routes/_assets/*.{js,css}` ← `templates/_assets/*` (any edit here is silently reverted by CI's `make render`)
+  - `index.html`, `guides/difficulty.html`, `guides/_nav.js` ← their `.j2.html` templates
 - **Never hardcode shared constants in individual scripts.** Physical constants (earth radius, lapse rate), algorithm parameters (Naismith's rule, elevation smoothing), default text (disclaimer, weather sources), and lookup tables (source URLs, difficulty blurbs) all live in `scripts/config.py`. Import from there — do not duplicate values across files.
 - **Pages are opened via `file://` protocol** — `fetch()` and `XMLHttpRequest` will silently fail. Data files that JS needs at runtime must be loaded via `<script>` tags setting globals (e.g. `swiss_border.js` sets `window.SWISS_BORDER`), never fetched. Keep data in separate `.js` files — don't inline large blobs into code files.
 - **Maps share construction via `map_shared.js`.** All map features (layers, fullscreen, Swiss border) belong in `addLayerControl` so every map gets them automatically. Never add map features in individual page scripts — put them in the shared code so improvements propagate to all maps. Every template with a map must include `swiss_border.js` before `map_shared.js`.

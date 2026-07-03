@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/hike_3d.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 /* MapLibre 3D map init shared by the inline section on each hike page and
    the standalone <slug>.3d.html page. Free tiles only: swisstopo SWISSIMAGE
    (satellite) + AWS Open Data Terrarium DEM (terrain). No API key. */

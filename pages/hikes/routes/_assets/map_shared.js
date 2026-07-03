@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/map_shared.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 // Shared map utilities — tile layers, layer switcher, fullscreen control.
 // Loaded before page-specific map scripts. Exposes window.MapShared.
 (function () {

@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/hike_page.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 // Shared hike-page runtime. Reads per-hike data from window.HIKE (set inline by the page).
 (function () {
   "use strict";

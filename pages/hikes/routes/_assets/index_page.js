@@ -1,3 +1,6 @@
+// GENERATED FROM ../../templates/_assets/index_page.js — edit the template, not this file.
+// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
+
 // Index page runtime. Reads hike data from window.HIKES (set inline by the template).
 //
 // Weather comes from window.WEATHER_CACHE (pre-baked by `make weather` →

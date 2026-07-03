@@ -9,6 +9,26 @@ This is a Swiss Alps hiking website with interactive Leaflet.js maps, dynamicall
 
 This is a solo repo — **do not open pull requests**. When you finish work in a worktree, commit and push directly to `main` (fast-forward from your branch's HEAD is fine). No draft PRs, no review branches. If you're in a worktree, exit and clean it up once the commits are on `main`.
 
+## Bug-fix policy
+
+When the user flags an issue on one page (e.g. "the transit widget on planurahuette-sac is broken"):
+
+1. **Fix it on that page.**
+2. **Sweep every other page in the same class** — the same bug almost never affects only the reported page. Grep, run, or query the schema to find every instance and fix them all in one go. If the fix lives in a template or shared script, that sweep is free.
+3. **Add prevention so a new page can't reintroduce it.** Options in decreasing order of strength: a schema constraint, a validation script that fails the pre-commit hook or CI, a template guard, a scaffolding default, or (last resort) a documented rule in `AGENTS.md` / `pages/hikes/CLAUDE.md`. Don't rely on the next agent remembering.
+
+Example — the transit widget on planurahuette-sac showed "Loading…" forever because the widget queried `trailhead.name` (`Tierfehd`, not an SBB station) instead of the scraped `sbb_url`'s `?nach=` param (`Linthal`). The fix belongs in `pages/hikes/templates/_assets/transit_widget.js` — that one edit propagates to every hike on `make render` (step 2). Prevention: `scripts/render_hike.py` `sync_assets` now prepends a `GENERATED FROM ../../templates/_assets/…` banner to every runtime file, so a future agent editing `pages/hikes/routes/_assets/foo.js` sees the warning before wasting a commit (step 3).
+
+## Templates vs. runtime for shared assets
+
+`pages/hikes/routes/_assets/` is **generated**. `sync_assets` in `scripts/render_hike.py` overwrites it from `pages/hikes/templates/_assets/` on every `make render` (locally AND on CI). If you edit a runtime `.js` or `.css` file directly:
+
+- Your local commit will include the edit (git sees a diff).
+- The pre-commit hook runs `make render`, which reverts your edit in the working tree but leaves the staged version alone — so the commit ships with orphaned content.
+- CI runs `make render` again on deploy, silently reverting your fix in the deployed artifact.
+
+**Always edit `pages/hikes/templates/_assets/…`.** The runtime files carry a `GENERATED FROM …` banner as a reminder.
+
 ## Quick Reference
 
 - **Python venv:** `~/venvs/dev/bin/python`

@@ -865,6 +865,11 @@ def sync_assets(root: Path) -> tuple[int, int]:
 
     Returns (n_copied, n_total). The shared CSS + JS live in the skill repo so
     edits propagate to all hikes on the next render.
+
+    JS/CSS files get a "GENERATED" banner prepended so anyone reading the
+    runtime copy sees they should edit templates/_assets/ instead.
+    A prior transit-widget bug shipped only to routes/_assets/ and was
+    silently reverted by CI's next `make render` — the banner is the guard.
     """
     import shutil
     src_dir = ASSETS_DIR
@@ -879,11 +884,33 @@ def sync_assets(root: Path) -> tuple[int, int]:
             continue
         total += 1
         dst = dst_dir / src.name
-        if (not dst.exists()
-                or dst.stat().st_size != src.stat().st_size
-                or dst.read_bytes() != src.read_bytes()):
-            shutil.copy2(src, dst)
-            copied += 1
+        ext = src.suffix.lower()
+        if ext == ".js":
+            banner = (
+                f"// GENERATED FROM ../../templates/_assets/{src.name} — edit the template, not this file.\n"
+                f"// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).\n\n"
+            )
+            payload = banner.encode() + src.read_bytes()
+            if not dst.exists() or dst.read_bytes() != payload:
+                dst.write_bytes(payload)
+                shutil.copystat(src, dst)
+                copied += 1
+        elif ext == ".css":
+            banner = (
+                f"/* GENERATED FROM ../../templates/_assets/{src.name} — edit the template, not this file.\n"
+                f"   scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI). */\n\n"
+            )
+            payload = banner.encode() + src.read_bytes()
+            if not dst.exists() or dst.read_bytes() != payload:
+                dst.write_bytes(payload)
+                shutil.copystat(src, dst)
+                copied += 1
+        else:
+            if (not dst.exists()
+                    or dst.stat().st_size != src.stat().st_size
+                    or dst.read_bytes() != src.read_bytes()):
+                shutil.copy2(src, dst)
+                copied += 1
     return copied, total
 
 
