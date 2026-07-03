@@ -23,7 +23,8 @@
     "name": "Capanna Alzasca CAS",
     "elev": 1733,
     "lat": 46.2712,
-    "lon": 8.5892
+    "lon": 8.5892,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Linescio%2C+di+Dentro"
   },
   "hero": {
     "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1588747109_647216865master_71711c3f11.jpg",

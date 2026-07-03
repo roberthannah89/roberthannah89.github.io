@@ -47,6 +47,7 @@ from fetch_sac_route_v2 import (
     _route_id_from_url,
     _wgs84_to_lv95,
 )
+from nearest_sbb_station import nearest_station, sbb_deep_link
 from new_hike import enrich_gpx_elevation, orient_gpx_to_trailhead, parse_gpx, scaffold_hike
 from scrape_sac_route_page import fetch_html, patch_data_json, scrape
 
@@ -365,19 +366,27 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[5/5] Patching {data_path.name} with scraped metadata")
         changed = patch_data_json(data_path, scraped, replace_todo_only=True)
         print(f"      patched {len(changed)} field(s): {', '.join(changed) if changed else '(none)'}")
-        # SBB deep-link sanity check. Missing sbb_url means the transit widget's
-        # SBB button falls back to a name-based lookup, which fuzzy-matches to
-        # random towns abroad for non-station trailheads (see planurahuette-sac:
-        # trailhead "Tierfehd" was matched to "Tierp, Sweden" until we scraped
-        # the SAC-provided ?nach=Linthal link). Warn so the operator knows to
-        # eyeball this hike's transit widget after render.
-        if not scraped.sbb_url:
-            print(
-                "      ⚠ SAC page has no SBB link — trailhead is likely a hut "
-                "or cable-car station with no rail service. The transit widget "
-                "will fall back to synthesising a URL from the trailhead name; "
-                "verify the SBB button resolves to a sensible station."
-            )
+        # SBB deep-link fallback. When SAC doesn't emit an SBB link (~5% of
+        # pages — huts, summit stations, and other non-standard trailheads),
+        # patch_data_json leaves trailhead.sbb_url unset. Without it the widget
+        # falls back to a name-based lookup, which fuzzy-matches to random
+        # towns abroad ("Tierfehd" → "Tierp, Sweden"). Look up the nearest
+        # actual SBB station by trailhead coordinates instead — search.ch's
+        # geo API returns real station names in distance order, and even for
+        # hut trailheads that's a much better default than the raw name.
+        data = json.loads(data_path.read_text(encoding="utf-8"))
+        th = data.get("trailhead") or {}
+        if not th.get("sbb_url") and th.get("lat") and th.get("lon"):
+            print("      SAC page had no SBB link — falling back to nearest-station lookup")
+            name = nearest_station(th["lat"], th["lon"])
+            if name:
+                th["sbb_url"] = sbb_deep_link(name)
+                data["trailhead"] = th
+                data_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                                     encoding="utf-8")
+                print(f"      → nearest station: {name}")
+            else:
+                print("      ⚠ nearest-station lookup returned nothing; leaving sbb_url unset")
 
     # Final: render
     if not args.no_render:
