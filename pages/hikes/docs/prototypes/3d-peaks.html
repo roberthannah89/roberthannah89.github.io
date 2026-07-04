@@ -6,7 +6,7 @@
 <title>3D Peak Labels — Zindlenspitz</title>
 <meta name="proto-title" content="3D Peak Labels (nearby named peaks)">
 <meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
-<meta name="proto-desc" content="Named peaks within 10 km of the Zindlenspitz route, labeled on the 3D SWISSIMAGE terrain. Filter by elevation and Wikipedia-notable to control label density. Data from OpenStreetMap (Overpass API).">
+<meta name="proto-desc" content="Named peaks within 10 km of the Zindlenspitz route, rendered as terrain-aware symbol labels over the 3D SWISSIMAGE view. Filter by elevation and Wikipedia-notable to control density; MapLibre auto-culls overlapping labels. Data from OpenStreetMap.">
 <meta name="proto-source" content="OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM">
 <meta name="proto-order" content="140">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -30,7 +30,6 @@
 
   #map { width: 100%; height: calc(100vh - 44px); position: relative; }
 
-  /* Filter panel — floating overlay, top-right */
   .panel {
     position: absolute; top: 12px; right: 12px; z-index: 5;
     background: var(--panel);
@@ -45,9 +44,7 @@
     margin: 0 0 8px; font-size: 12.5px; font-weight: 600;
     color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px;
   }
-  .panel .presets {
-    display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap;
-  }
+  .panel .presets { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
   .preset-btn {
     flex: 1 1 auto;
     background: #f0efea; color: var(--fg); border: 1px solid var(--border);
@@ -56,9 +53,7 @@
     transition: background 0.15s, border-color 0.15s;
   }
   .preset-btn:hover { background: #e6e5df; }
-  .preset-btn.active {
-    background: var(--accent); color: #fff; border-color: var(--accent);
-  }
+  .preset-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
   .panel .row { margin-bottom: 10px; }
   .panel .row label { display: block; margin-bottom: 4px; font-size: 12px; color: var(--muted); }
@@ -72,63 +67,6 @@
     margin-top: 8px;
   }
   .panel .status strong { color: var(--fg); font-weight: 600; }
-
-  /* Peak marker + label styling */
-  .peak-marker {
-    width: 8px; height: 8px;
-    background: #fff;
-    border: 1.5px solid #333;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
-  }
-  .peak-marker.summit {
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-color: #fff;
-    box-shadow: 0 0 0 1.5px rgba(192,57,43,0.5);
-  }
-  .peak-label {
-    position: absolute;
-    transform: translate(-50%, calc(-100% - 6px));
-    background: rgba(255,255,255,0.92);
-    color: var(--fg);
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    pointer-events: none;
-    text-shadow: 0 0 2px rgba(255,255,255,0.9);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-    letter-spacing: 0.1px;
-    line-height: 1.4;
-  }
-  .peak-label .ele {
-    color: var(--muted);
-    font-size: 10px;
-    margin-left: 4px;
-  }
-  .peak-label.tier1 {
-    font-size: 12.5px; font-weight: 600;
-    background: rgba(255,255,255,0.96);
-  }
-  .peak-label.tier2 {
-    font-size: 11.5px; font-weight: 500;
-  }
-  .peak-label.tier3 {
-    font-size: 10.5px; font-weight: 400;
-    background: rgba(255,255,255,0.85);
-  }
-  .peak-marker.tier1 {
-    width: 10px; height: 10px;
-    border-color: #111; border-width: 2px;
-  }
-  .peak-marker.tier3 {
-    width: 6px; height: 6px;
-    border-width: 1px;
-  }
 
   @media (max-width: 640px) {
     header { padding: 8px 12px; }
@@ -144,7 +82,7 @@
 <header>
   <a class="back" href="index.html">← Prototypes</a>
   <h1>3D Peaks — Zindlenspitz</h1>
-  <span class="meta">Named peaks within 10 km of the route · SWISSIMAGE on Terrarium DEM · right-click + drag to tilt</span>
+  <span class="meta">Named peaks within 10 km · SWISSIMAGE on Terrarium DEM · symbol-layer labels (terrain-aware, auto-decluttered)</span>
 </header>
 
 <div id="map">
@@ -185,14 +123,48 @@
   var TRAILHEAD = [8.9303, 47.0851];
   var SUMMIT    = [8.95987, 47.07627];
   var SUMMIT_NAME = "Zindlenspitz";
-  var SUMMIT_ELE  = 2111;
 
   var PEAKS = (window.ROUTE_PEAKS && window.ROUTE_PEAKS.peaks) || [];
+
+  // Precompute tier + wikidata bool per peak so filter expressions can key off them.
+  function tierFor(peak) {
+    var ele = peak.ele || 0;
+    var notable = !!peak.wikidata;
+    if (ele >= 2500 || (ele >= 2000 && notable)) return 1;
+    if (ele >= 1800 || notable) return 2;
+    return 3;
+  }
+
+  function toGeoJSON(peaks) {
+    return {
+      type: "FeatureCollection",
+      features: peaks
+        .filter(function (p) { return p.ele != null; })
+        .map(function (p) {
+          return {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [p.lon, p.lat] },
+            properties: {
+              name: p.name,
+              ele: p.ele,
+              tier: tierFor(p),
+              wd: !!p.wikidata,
+              isSummit: p.name === SUMMIT_NAME
+            }
+          };
+        })
+    };
+  }
+
+  var PEAKS_FC = toGeoJSON(PEAKS);
 
   var map = new maplibregl.Map({
     container: "map",
     style: {
       version: 8,
+      // Glyphs for the symbol layer text — OpenMapTiles' public font server
+      // (demotiles.maplibre.org lacks Open Sans Regular).
+      glyphs: "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
       sources: {
         swissimage: {
           type: "raster",
@@ -219,8 +191,8 @@
   map.addControl(new maplibregl.FullscreenControl(), "top-left");
   map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
 
-  // --- Track + endpoint markers -------------------------------------------
   map.on("load", function () {
+    // --- Track ---
     var src = window.TRACK || [];
     if (src.length) {
       var coords = src.map(function (p) { return [p[1], p[0]]; });
@@ -240,7 +212,7 @@
       });
       var lons = coords.map(function (c) { return c[0]; });
       var lats = coords.map(function (c) { return c[1]; });
-      var pad = 0.03; // extra padding so nearby peaks fit
+      var pad = 0.03;
       var bounds = [
         [Math.min.apply(null, lons) - pad, Math.min.apply(null, lats) - pad],
         [Math.max.apply(null, lons) + pad, Math.max.apply(null, lats) + pad]
@@ -250,79 +222,105 @@
     new maplibregl.Marker({ color: "#27ae60" }).setLngLat(TRAILHEAD)
       .setPopup(new maplibregl.Popup().setText("Trailhead"))
       .addTo(map);
+
+    // --- Peaks: GeoJSON source + circle dots + symbol labels ---
+    // Symbol layers project through terrain and auto-cull overlapping labels.
+    map.addSource("peaks", { type: "geojson", data: PEAKS_FC });
+
+    map.addLayer({
+      id: "peaks-dot",
+      type: "circle",
+      source: "peaks",
+      paint: {
+        "circle-radius": [
+          "case",
+          ["==", ["get", "isSummit"], true], 6,
+          ["==", ["get", "tier"], 1], 4.5,
+          ["==", ["get", "tier"], 2], 3.5,
+          2.5
+        ],
+        "circle-color": [
+          "case",
+          ["==", ["get", "isSummit"], true], "#c0392b",
+          "#ffffff"
+        ],
+        "circle-stroke-color": [
+          "case",
+          ["==", ["get", "isSummit"], true], "#ffffff",
+          "#222222"
+        ],
+        "circle-stroke-width": [
+          "case",
+          ["==", ["get", "isSummit"], true], 2,
+          ["==", ["get", "tier"], 1], 1.5,
+          1.2
+        ]
+      }
+    });
+
+    map.addLayer({
+      id: "peaks-label",
+      type: "symbol",
+      source: "peaks",
+      layout: {
+        "text-field": ["concat", ["get", "name"], "  ", ["to-string", ["round", ["get", "ele"]]], " m"],
+        "text-font": ["Open Sans Regular"],
+        "text-size": [
+          "case",
+          ["==", ["get", "tier"], 1], 13,
+          ["==", ["get", "tier"], 2], 11.5,
+          10
+        ],
+        "text-anchor": "bottom",
+        "text-offset": [0, -0.6],
+        "text-allow-overlap": false,
+        "text-optional": true,
+        // Higher elevation = smaller sort key = higher rendering priority when culling.
+        "symbol-sort-key": ["-", 5000, ["get", "ele"]]
+      },
+      paint: {
+        "text-color": "#1a1a1a",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.8,
+        "text-halo-blur": 0.5
+      }
+    });
+
+    applyFilter();
   });
 
-  // Render peaks as soon as the map instance exists — no wait for tiles.
-  // maplibregl.Marker only needs the map handle, not a loaded style.
-  map.once("styledata", renderPeaks);
+  // --- Filter --------------------------------------------------------------
+  var totalCount = PEAKS_FC.features.length;
 
-  // --- Peak markers -------------------------------------------------------
-  var peakMarkers = [];  // maplibregl.Marker instances
-
-  function tierFor(peak) {
-    // Tier 1: high & wikidata (visually loud). Tier 2: default. Tier 3: low & unknown (visually quiet).
-    var ele = peak.ele || 0;
-    var notable = !!peak.wikidata;
-    if (ele >= 2500 || (ele >= 2000 && notable)) return 1;
-    if (ele >= 1800 || notable) return 2;
-    return 3;
-  }
-
-  function makeMarkerEl(peak) {
-    var wrap = document.createElement("div");
-    wrap.style.position = "relative";
-
-    var tier = tierFor(peak);
-    var isSummit = peak.name === SUMMIT_NAME;
-
-    var dot = document.createElement("div");
-    dot.className = "peak-marker tier" + tier + (isSummit ? " summit" : "");
-    wrap.appendChild(dot);
-
-    var label = document.createElement("div");
-    label.className = "peak-label tier" + tier;
-    var eleTxt = peak.ele != null ? '<span class="ele">' + Math.round(peak.ele) + " m</span>" : "";
-    label.innerHTML = escapeHtml(peak.name) + eleTxt;
-    wrap.appendChild(label);
-
-    return wrap;
-  }
-
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
-    });
-  }
-
-  function clearMarkers() {
-    peakMarkers.forEach(function (m) { m.remove(); });
-    peakMarkers = [];
-  }
-
-  function renderPeaks() {
-    clearMarkers();
+  function currentFilter() {
     var minEle = parseInt(document.getElementById("ele-slider").value, 10);
     var wdOnly = document.getElementById("wd-toggle").checked;
-
-    var filtered = PEAKS.filter(function (p) {
-      if (p.ele == null) return false;   // drop untagged elevations
-      if (p.ele < minEle) return false;
-      if (wdOnly && !p.wikidata) return false;
-      return true;
-    });
-
-    filtered.forEach(function (p) {
-      var m = new maplibregl.Marker({ element: makeMarkerEl(p), anchor: "center" })
-        .setLngLat([p.lon, p.lat])
-        .addTo(map);
-      peakMarkers.push(m);
-    });
-
-    document.getElementById("shown-count").textContent = filtered.length;
-    document.getElementById("total-count").textContent = PEAKS.length;
+    var parts = [">=", ["get", "ele"], minEle];
+    if (wdOnly) {
+      return ["all", parts, ["==", ["get", "wd"], true]];
+    }
+    return parts;
   }
 
-  // --- Controls -----------------------------------------------------------
+  function countMatching() {
+    var minEle = parseInt(document.getElementById("ele-slider").value, 10);
+    var wdOnly = document.getElementById("wd-toggle").checked;
+    return PEAKS_FC.features.filter(function (f) {
+      if (f.properties.ele < minEle) return false;
+      if (wdOnly && !f.properties.wd) return false;
+      return true;
+    }).length;
+  }
+
+  function applyFilter() {
+    if (!map.getLayer("peaks-label")) return;
+    var f = currentFilter();
+    map.setFilter("peaks-dot", f);
+    map.setFilter("peaks-label", f);
+    document.getElementById("shown-count").textContent = countMatching();
+    document.getElementById("total-count").textContent = totalCount;
+  }
+
   var PRESETS = {
     famous: { minEle: 2500, wd: false },
     high:   { minEle: 2000, wd: false },
@@ -337,7 +335,7 @@
     document.getElementById("ele-val").textContent = p.minEle + " m";
     document.getElementById("wd-toggle").checked = p.wd;
     setActivePreset(key);
-    renderPeaks();
+    applyFilter();
   }
 
   function setActivePreset(key) {
@@ -352,17 +350,16 @@
 
   document.getElementById("ele-slider").addEventListener("input", function (e) {
     document.getElementById("ele-val").textContent = e.target.value + " m";
-    setActivePreset(null);   // manual change deselects preset
-    renderPeaks();
+    setActivePreset(null);
+    applyFilter();
   });
 
   document.getElementById("wd-toggle").addEventListener("change", function () {
     setActivePreset(null);
-    renderPeaks();
+    applyFilter();
   });
 
-  // Initial status while map loads
-  document.getElementById("total-count").textContent = PEAKS.length;
+  document.getElementById("total-count").textContent = totalCount;
 })();
 </script>
 
