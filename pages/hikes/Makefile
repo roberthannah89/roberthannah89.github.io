@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx render validate serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
+.PHONY: help new new-gpx render validate check-stations serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -29,6 +29,7 @@ help:
 	@echo "  render         Render all hike HTML pages"
 	@echo "  3d-previews    Generate static 3D-map preview JPEGs (headless Chromium; slow)"
 	@echo "  validate       Validate hike data without writing output"
+	@echo "  check-stations Verify every hike's SBB station names resolve on opendata.ch"
 	@echo "  serve          Render then serve the site on localhost"
 	@echo ""
 	@echo "Command-center data:"
@@ -99,6 +100,11 @@ render:
 validate:
 	$(PYTHON) $(SCRIPTS)/validate_hike_files.py
 	$(PYTHON) $(SCRIPTS)/render_hike.py --validate-only
+
+# -----------------------------------------------------------------------------
+## check-stations : Verify every hike's SBB station names resolve on opendata.ch
+check-stations:
+	$(PYTHON) $(SCRIPTS)/check_sbb_stations.py
 
 # -----------------------------------------------------------------------------
 ## serve : Render then serve the site locally (open http://localhost:$(port)/)

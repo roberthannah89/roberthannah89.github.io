@@ -414,6 +414,21 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print("\n[render] skipped — run `make render` when ready")
 
+    # Confirm the SBB station names resolve on opendata.ch — one API call
+    # per station via /v1/connections. Catches the case where SAC scraped a
+    # display name ("Habergschwänd, Bergstation") or nearest-station picked
+    # a nearby-but-non-existent stop; the widget would then silently show
+    # "No connections found". Failure prints details but doesn't abort —
+    # the hike is on disk and the user can fix the names in data.json.
+    print(f"\n[check] verifying SBB stations for {slug}")
+    rc = subprocess.run(
+        [sys.executable, str(REPO_ROOT / "scripts" / "check_sbb_stations.py"), "--slug", slug],
+        cwd=str(REPO_ROOT),
+    ).returncode
+    if rc != 0:
+        print(f"      ⚠ station-check reported issues (see above); "
+              f"the transit widget may show 'No connections found'.")
+
     print(f"\nDone: routes/{slug}/")
     return 0
 

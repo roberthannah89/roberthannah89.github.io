@@ -30,6 +30,17 @@ When adding a new data field, UI element, or page feature: **apply it to every h
 
 If a field truly can't apply to every page (e.g. a mountain-hut endpoint has no nearby SBB station), make the absence explicit in the schema (`nullable` or omitted rather than an empty string) and handle the missing case gracefully in the consuming code (widget, template).
 
+## Validating transit-widget station names
+
+Every hike's `trailhead.sbb_url` and `end_point.sbb_url` carries a `?nach=<Station>` param that the transit widget feeds to `transport.opendata.ch`. If the station name doesn't resolve on SBB (typo, display name, "Habergschwänd, Bergstation" instead of "Habergschwänd"), the widget silently shows "No connections found" — the failure mode is invisible unless you actually look at each hike page.
+
+Run `make check-stations` (or `python scripts/check_sbb_stations.py`) to audit every hike:
+- One `/v1/connections` call per unique station name (~100 stations across 84 hikes)
+- Results cached at `pages/hikes/scripts/.sbb-stations-cache.json` (gitignored) so re-runs finish in seconds
+- Exits non-zero on any failure — safe to wire into pre-commit or CI
+
+`scripts/add_sac_hike_v2.py` runs this check automatically for the new slug after scaffolding. If a new hike's station name won't resolve, you'll see the warning at creation time and can fix `data.json` before shipping.
+
 ## Templates vs. runtime for shared assets
 
 `pages/hikes/routes/_assets/` is **generated**. `sync_assets` in `scripts/render_hike.py` overwrites it from `pages/hikes/templates/_assets/` on every `make render` (locally AND on CI). If you edit a runtime `.js` or `.css` file directly:
