@@ -1,0 +1,175 @@
+{
+  "slug": "monte-bigorio",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 132.5,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 21,
+      "coverage_pct": 1.31,
+      "length_m": 132.5
+    },
+    {
+      "start_m": 136.6,
+      "end_m": 320.6,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 29,
+      "coverage_pct": 1.82,
+      "length_m": 184.0
+    },
+    {
+      "start_m": 327.5,
+      "end_m": 3320.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 503,
+      "coverage_pct": 29.64,
+      "length_m": 2993.0
+    },
+    {
+      "start_m": 3331.5,
+      "end_m": 3516.5,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 13,
+      "coverage_pct": 1.83,
+      "length_m": 185.0
+    },
+    {
+      "start_m": 3557.4,
+      "end_m": 4593.6,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 28,
+      "coverage_pct": 10.26,
+      "length_m": 1036.2
+    },
+    {
+      "start_m": 4634.5,
+      "end_m": 5101.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 38,
+      "coverage_pct": 4.63,
+      "length_m": 467.4
+    },
+    {
+      "start_m": 5142.4,
+      "end_m": 5659.4,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 15,
+      "coverage_pct": 5.12,
+      "length_m": 517.1
+    },
+    {
+      "start_m": 5709.2,
+      "end_m": 6598.7,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 94,
+      "coverage_pct": 8.81,
+      "length_m": 889.5
+    },
+    {
+      "start_m": 6603.1,
+      "end_m": 6843.9,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 30,
+      "coverage_pct": 2.38,
+      "length_m": 240.7
+    },
+    {
+      "start_m": 6856.5,
+      "end_m": 7484.8,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 111,
+      "coverage_pct": 6.22,
+      "length_m": 628.3
+    },
+    {
+      "start_m": 7489.6,
+      "end_m": 8308.2,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 198,
+      "coverage_pct": 8.11,
+      "length_m": 818.7
+    },
+    {
+      "start_m": 8315.7,
+      "end_m": 8530.7,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 32,
+      "coverage_pct": 2.13,
+      "length_m": 215.0
+    },
+    {
+      "start_m": 8540.1,
+      "end_m": 8912.2,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 41,
+      "coverage_pct": 3.68,
+      "length_m": 372.0
+    },
+    {
+      "start_m": 8919.2,
+      "end_m": 9053.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 22,
+      "coverage_pct": 1.33,
+      "length_m": 134.0
+    },
+    {
+      "start_m": 9062.3,
+      "end_m": 9112.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 12,
+      "coverage_pct": 0.5,
+      "length_m": 50.2
+    },
+    {
+      "start_m": 9120.2,
+      "end_m": 9428.3,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 46,
+      "coverage_pct": 3.05,
+      "length_m": 308.1
+    },
+    {
+      "start_m": 9438.2,
+      "end_m": 9726.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 33,
+      "coverage_pct": 2.86,
+      "length_m": 288.8
+    },
+    {
+      "start_m": 9755.7,
+      "end_m": 10098.2,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 59,
+      "coverage_pct": 3.39,
+      "length_m": 342.5
+    }
+  ],
+  "stats": {
+    "total_m": 10098.2,
+    "n_points": 1325,
+    "osm_pct": 48.7,
+    "swisstopo_pct": 31.7,
+    "unknown_pct": 16.7
+  }
+}

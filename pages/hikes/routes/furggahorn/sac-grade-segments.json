@@ -1,0 +1,40 @@
+{
+  "slug": "furggahorn",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1235.3,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 142,
+      "coverage_pct": 18.03,
+      "length_m": 1235.3
+    },
+    {
+      "start_m": 1237.4,
+      "end_m": 6119.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 745,
+      "coverage_pct": 71.25,
+      "length_m": 4882.5
+    },
+    {
+      "start_m": 6150.1,
+      "end_m": 6852.6,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 31,
+      "coverage_pct": 10.25,
+      "length_m": 702.5
+    }
+  ],
+  "stats": {
+    "total_m": 6852.6,
+    "n_points": 918,
+    "osm_pct": 0.0,
+    "swisstopo_pct": 89.3,
+    "unknown_pct": 10.3
+  }
+}

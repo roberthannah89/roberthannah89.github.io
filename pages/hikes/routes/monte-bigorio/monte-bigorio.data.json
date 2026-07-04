@@ -1,0 +1,190 @@
+{
+  "slug": "monte-bigorio",
+  "page": {
+    "title": "Monte Bigorio (1183 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Monte Bigorio",
+    "elev": 1183,
+    "lat": 46.09008,
+    "lon": 8.95016
+  },
+  "index_card": {
+    "region": "Ticino",
+    "canton": "Ticino",
+    "distance": "10.1 km",
+    "gain": "780 m",
+    "time": "~3h30",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Camignolo di Fuori",
+    "elev": 436,
+    "lat": 46.1031,
+    "lon": 8.9349,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Camignolo%2C+Sotto"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1586446520_1542646348master_c0a828f833.jpg",
+    "subtitle_html": "Camignolo di Fuori -> Monte Bigorio -- <span class=\"pill t3\">SAC T3</span> | ~780 m gain | ~10.1 km | ~3h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Alpin ist die Kette des Monte Bigorio gewiss nicht, aber eindeutig mehr als einfaches Spaziergelände. Auf dieser Tour überschreiten wir sämtliche Erhebungen der Krete, und zwar von Norden nach Süden – also stets mit der Sonne im Gesicht.</p>\n<p>Das grosse Busterminal von Tesserete befindet sich beim ehemaligen Bahnhof am südlichen Dorfende.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>1183 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Camignolo di Fuori"
+    ],
+    [
+      "Distance",
+      "10.1 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~780 m"
+    ],
+    [
+      "Elevation range",
+      "436-1182 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1586446520_1542646348master_d266d4edb4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1586446520_1542646348master_d266d4edb4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/5/csm_1586446520_743713106master_322711be00.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/5/csm_1586446520_743713106master_322711be00.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/9/csm_1586446519_608813636master_3c07db63ab.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/9/csm_1586446519_608813636master_3c07db63ab.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/5/csm_1586446519_1179260604master_7c99140864.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/5/csm_1586446519_1179260604master_7c99140864.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/9/csm_1586447284_321263952master_6cdded8935.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/9/csm_1586447284_321263952master_6cdded8935.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1586447284_261566712master_12d1463eaf.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1586447284_261566712master_12d1463eaf.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1586446510_1000517716master_663bf35b65.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1586446510_1000517716master_663bf35b65.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1586447284_2119795118master_54175ced95.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1586447284_2119795118master_54175ced95.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1586446509_138513219master_456cff48a0.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1586446509_138513219master_456cff48a0.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1586446509_72560524master_822f00fa3e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1586446509_72560524master_822f00fa3e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.1031,
+      "lon": 8.9349,
+      "label": "Camignolo di Fuori (436 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.08939255271767,
+      "lon": 8.950373437260101,
+      "label": "Monte Bigorio (1182 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung von Norden nach Süden</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Kaum technische Schwierigkeiten, nirgends ausgesetzt, aber zwischen Gola di Lago und Condra über weite Strecken weglos auf teils felsigem Untergrund.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Camignolo di Fuori</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Monte Bigorio</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-bigorio-9559/mountain-hiking/ueberschreitung-von-norden-nach-sueden-6193/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-bigorio-9559/mountain-hiking/"
+    }
+  ],
+  "end_point": {
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Tesserete%2C+Stazione",
+    "name": "Tesserete",
+    "elev": 552
+  },
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

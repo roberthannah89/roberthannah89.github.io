@@ -1,0 +1,179 @@
+{
+  "slug": "piz-d-agnel",
+  "page": {
+    "title": "Piz d'Agnel (3204 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Piz d'Agnel",
+    "elev": 3204,
+    "lat": 46.51131,
+    "lon": 9.70226
+  },
+  "index_card": {
+    "region": "Graubünden",
+    "canton": "Graubünden",
+    "distance": "5.3 km",
+    "gain": "1241 m",
+    "time": "~3h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Alp Flix,Tigias",
+    "elev": 1975,
+    "lat": 46.5217,
+    "lon": 9.6553,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Sur+GR+Alp+Flix%2C+Tigias+Hotel"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1603816327_1100237474master_eccb0ec769.jpg",
+    "subtitle_html": "Alp Flix,Tigias -> Piz D Agnel -- <span class=\"pill t4\">SAC T4</span> | ~1241 m gain | ~5.3 km | ~3h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Alp Flix with its overwhelming diversity of plant life is a hiking destination in its own right. For those who not only want to enjoy the beauty of the high moor landscape, but wish to climb an attractive mountain, Piz d’Agnel is their first choice. The ascent is demanding, but exciting and rewarded by a splendid panorama.</p>\n<p>This summit with an equally splendid view as Piz d’Agnel can be added with reasonable effort, starting from Fuorcla da Flix. T3, 1½ h, 250 metres of vertical height.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3204 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Alp Flix,Tigias"
+    ],
+    [
+      "Distance",
+      "5.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1241 m"
+    ],
+    [
+      "Elevation range",
+      "1975-3204 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1603816327_1100237474master_4f90e73603.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1603816327_1100237474master_4f90e73603.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/b/csm_1603816271_1064189400master_c6a2141d26.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/b/csm_1603816271_1064189400master_c6a2141d26.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1603816271_231418098master_b0ebf8eaeb.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1603816271_231418098master_b0ebf8eaeb.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/7/csm_1603816271_414751897master_be2a9ff7e1.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/7/csm_1603816271_414751897master_be2a9ff7e1.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/6/csm_1536328164_477117727master_4dc1bd3ddc.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/6/csm_1536328164_477117727master_4dc1bd3ddc.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/d/csm_1536328164_709272678master_33bf7212f8.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/d/csm_1536328164_709272678master_33bf7212f8.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1536328509_1814675290master_546230ab12.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1536328509_1814675290master_546230ab12.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/f/csm_1603817001_446433563master_2405b5d95b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/f/csm_1603817001_446433563master_2405b5d95b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.5217,
+      "lon": 9.6553,
+      "label": "Alp Flix,Tigias (1975 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.51133547501926,
+      "lon": 9.702256905968083,
+      "label": "Piz D Agnel (3204 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>From Alp Flix</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Alp da Flix - P. 2741 - Piz d’Agnel: 3–4 h Piz d’Agnel - P. 2741 - Alp da Flix: 2–3 h"
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>The grade of difficulty is for the passages below Fuorcla d'Agnel and the ascent on the ridge (steep schrofen, exposed talus). The rest is T3+.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Alp Flix,Tigias</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Piz D Agnel</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-dagnel-11/mountain-hiking/from-alp-flix-2386/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-dagnel-11/mountain-hiking/"
+    }
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Julier, La Veduta",
+      "elev_m": 2237,
+      "description": "End-point of the variant"
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

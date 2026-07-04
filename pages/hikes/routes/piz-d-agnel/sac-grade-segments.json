@@ -1,0 +1,67 @@
+{
+  "slug": "piz-d-agnel",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 25.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 5,
+      "coverage_pct": 0.47,
+      "length_m": 25.2
+    },
+    {
+      "start_m": 29.8,
+      "end_m": 1724.7,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 253,
+      "coverage_pct": 31.73,
+      "length_m": 1694.9
+    },
+    {
+      "start_m": 1758.2,
+      "end_m": 2417.3,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 19,
+      "coverage_pct": 12.34,
+      "length_m": 659.1
+    },
+    {
+      "start_m": 2421.8,
+      "end_m": 3915.1,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 171,
+      "coverage_pct": 27.96,
+      "length_m": 1493.3
+    },
+    {
+      "start_m": 3918.9,
+      "end_m": 4710.4,
+      "t_grade": "T4",
+      "source": "osm",
+      "n_points": 184,
+      "coverage_pct": 14.82,
+      "length_m": 791.5
+    },
+    {
+      "start_m": 4715.2,
+      "end_m": 5341.0,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 166,
+      "coverage_pct": 11.72,
+      "length_m": 625.7
+    }
+  ],
+  "stats": {
+    "total_m": 5341.0,
+    "n_points": 798,
+    "osm_pct": 86.7,
+    "swisstopo_pct": 0.0,
+    "unknown_pct": 12.3
+  }
+}

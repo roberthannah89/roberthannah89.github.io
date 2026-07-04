@@ -1,0 +1,161 @@
+{
+  "slug": "furggahorn",
+  "page": {
+    "title": "Furggahorn (2726 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Furggahorn",
+    "elev": 2726,
+    "lat": 46.77562,
+    "lon": 9.7252
+  },
+  "index_card": {
+    "region": "Arosa",
+    "canton": "Graubünden",
+    "distance": "6.9 km",
+    "gain": "1108 m",
+    "time": "~3h",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Arosa",
+    "elev": 1741,
+    "lat": 46.7829,
+    "lon": 9.6788,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Arosa%2C+Bahnhof"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1629981597_820364914master_8cb147e385.jpg",
+    "subtitle_html": "Arosa -> Furggahorn -- <span class=\"pill t4\">SAC T4</span> | ~1108 m gain | ~6.9 km | ~3h",
+    "grade": "T4",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Das im Sommer eher selten bestiegene Furggahorn bietet ähnliche Vorzüge wie die umliegenden Gipfelziele: einen kurzen, unmarkierten und nicht allzu schwierigen Gipfelaufstieg und ein formidables Panorama. Der Gipfel lässt sich ideal mit einer Passwanderung zwischen dem Landwassertal (Davos) und dem Schanfigg (Arosa) kombinieren. Und wer schon mal oben ist und genug Zeit und Kondition mitbringt, wird den einen oder anderen Nachbargipfel wie das Schwarzhorn oder die Tiejer Flue gleich auch noch \"mitnehmen\".</p>\n<p>Die Zeitangaben und die Höhenmeter beziehen sich auf die Tour Arosa - Furrgahorn retour.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2726 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t4\">T4</span>"
+    ],
+    [
+      "Trailhead",
+      "Arosa"
+    ],
+    [
+      "Distance",
+      "6.9 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~1108 m"
+    ],
+    [
+      "Elevation range",
+      "1614-2725 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1629981597_820364914master_53b5442294.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1629981597_820364914master_53b5442294.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/f/csm_1629981597_2047416561master_0299fca07f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/f/csm_1629981597_2047416561master_0299fca07f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/3/csm_1629981597_1308726419master_3398b286a7.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/3/csm_1629981597_1308726419master_3398b286a7.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1629981597_336571034master_376f6185e4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1629981597_336571034master_376f6185e4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1631524044_436167047master_1c4642f98b.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1631524044_436167047master_1c4642f98b.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.7829,
+      "lon": 9.6788,
+      "label": "Arosa (1741 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.775613212910805,
+      "lon": 9.725181339859798,
+      "label": "Furggahorn (2725 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Von Arosa über den Südhang</strong>",
+      "grade": "T4",
+      "pill_class": "t4",
+      "bullets_html": [
+        "Die Zeitangaben und die Höhenmeter beziehen sich auf die Tour Arosa - Furrgahorn retour. Beim Abstieg nach Arosa rund 120 Hm. Gegenanstieg zum Bahnhof! Furggahorn - Maienfelder Furgga - Davos Frauenkrich (Variante): rund 2:30 Std. und 1500 Hm Abstieg."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Schuttiger und oben steiler Gipfelaufstieg mit Wegspuren, Rest problemlos auf guten Bergwanderwegen.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Arosa</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Furggahorn</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/furggahorn-705/mountain-hiking/von-arosa-ueber-den-suedhang-40635/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/furggahorn-705/mountain-hiking/"
+    }
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Davos Frauenkirch, Bahnhof",
+      "elev_m": 1504,
+      "description": "Endpunkt der Variante."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}
