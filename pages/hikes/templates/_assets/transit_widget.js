@@ -291,19 +291,107 @@
     return "" + d.getUTCFullYear() + pad2(d.getUTCMonth() + 1) + pad2(d.getUTCDate())
       + "T" + pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + "Z";
   }
+
+  // Emoji per mode — stand-in for the on-page colored chip icon in the
+  // plain-text calendar description ("🚡 SL613 › 🚌 430 › 🚆 IC906").
+  var MODE_EMOJI = {
+    train: "🚆", bus: "🚌", tram: "🚊", ship: "⛴️", cable: "🚡", walk: "🚶"
+  };
+  function modeEmoji(j) { return MODE_EMOJI[modeOf(j).kind] || "🚆"; }
+  function firstJourney(c) {
+    var s = (c.sections || []).find(function (x) { return x.journey; });
+    return s && s.journey;
+  }
+
+  // Line label for the calendar description. Mirrors the on-page chip so the
+  // description reads like the widget row — same "SL613 › 430 › IC906" chain,
+  // just with emoji instead of colored icons. Strips SBB's zero-padded IDs
+  // ("000613" → "613") since the padding looks ugly in plain text; buses and
+  // trams show just the route number ("430") the way the yellow chip does.
+  function humanLineLabel(j) {
+    if (!j) return "";
+    var cat = (j.category || "").trim();
+    var num = (j.number || "").trim().replace(/^0+(?=\d)/, "");
+    var kind = modeOf(j).kind;
+    if (kind === "bus" || kind === "tram") return num || cat || (j.name || "").trim();
+    if (cat && num) return cat + num;
+    return cat || (j.name || "").trim() || "";
+  }
+
+  // Text summary of a connection for the calendar description. Mirrors the
+  // widget row layout: time range + total duration, route, chip chain with
+  // emoji, then the "HH:MM from <station>" footer.
+  function tripSummaryText(c) {
+    var fromName = (c.from && c.from.station && c.from.station.name) || "";
+    var toName   = (c.to   && c.to.station   && c.to.station.name)   || "";
+    var totalDur = fmtDur(parseDurSecs(c.duration));
+    var depTime  = c.from && c.from.departure ? fmtTime(c.from.departure) : "";
+    var arrTime  = c.to   && c.to.arrival     ? fmtTime(c.to.arrival)     : "";
+    var fromPlatform = c.from && c.from.platform;
+
+    var lines = [];
+    var head = depTime && arrTime ? depTime + " — " + arrTime : "";
+    if (head && totalDur) head += " · " + totalDur;
+    if (head) lines.push(head);
+    else if (totalDur) lines.push(totalDur);
+    if (fromName && toName) lines.push(fromName + " → " + toName);
+
+    var chips = (c.sections || [])
+      .filter(function (s) { return s.journey || s.walk; })
+      .map(function (s) {
+        if (s.walk) {
+          var wmin = Math.max(1, Math.round((s.walk.duration || 60) / 60));
+          return "🚶 " + wmin + " min";
+        }
+        var label = humanLineLabel(s.journey);
+        return modeEmoji(s.journey) + (label ? " " + label : "");
+      })
+      .join(" › ");
+    if (chips) { lines.push(""); lines.push(chips); }
+
+    if (depTime && fromName) {
+      var footer = depTime + " from " + fromName;
+      if (fromPlatform) footer += " · Pl. " + fromPlatform;
+      lines.push(""); lines.push(footer);
+    }
+
+    return lines.join("\n");
+  }
+
+  // Google Maps transit-mode directions link for the whole trip. Google
+  // routes on its own timetable but the origin/destination match what the
+  // user is planning, so it's a useful comparison / fallback.
+  function gmapsTransitUrl(c) {
+    var from = c.from && c.from.station && c.from.station.name;
+    var to   = c.to   && c.to.station   && c.to.station.name;
+    if (!from || !to) return null;
+    var qp = new URLSearchParams();
+    qp.set("api", "1");
+    qp.set("origin", from);
+    qp.set("destination", to);
+    qp.set("travelmode", "transit");
+    return "https://www.google.com/maps/dir/?" + qp.toString();
+  }
+
   function gcalUrl(c) {
     var dep = c.from && c.from.departure && new Date(c.from.departure);
     var arr = c.to   && c.to.arrival    && new Date(c.to.arrival);
     var fromName = (c.from && c.from.station && c.from.station.name) || "";
     var toName   = (c.to   && c.to.station   && c.to.station.name)   || "";
-    var legs = (c.sections || []).filter(function (s) { return s.journey; })
-      .map(function (s) { return lineLabelOf(s.journey); }).join(" → ");
+    var j0 = firstJourney(c);
+
+    var desc = tripSummaryText(c);
+    var links = [];
     var sbb = sbbDeepLink(c);
-    var desc = legs + " (" + fmtDur(parseDurSecs(c.duration)) + ")" +
-      (sbb ? "\n\nTimetable: " + sbb : "");
+    if (sbb)  links.push("🎫 Timetable: " + sbb);
+    var gmap = gmapsTransitUrl(c);
+    if (gmap) links.push("🗺️ Google Maps: " + gmap);
+    if (links.length) desc += "\n\n" + links.join("\n");
+
+    var title = (j0 ? modeEmoji(j0) + " " : "") + fromName + " → " + toName;
     var qp = new URLSearchParams();
     qp.set("action", "TEMPLATE");
-    qp.set("text", fromName + " → " + toName);
+    qp.set("text", title);
     if (dep && arr) qp.set("dates", gcalStamp(dep) + "/" + gcalStamp(arr));
     qp.set("location", fromName);
     qp.set("details", desc);
