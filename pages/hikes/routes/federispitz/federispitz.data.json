@@ -171,7 +171,8 @@
     "name": "Weesen, See",
     "elev": 423,
     "lat": 47.1361,
-    "lon": 9.0596
+    "lon": 9.0596,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Weesen%2C+See"
   },
   "photos_attrib_html": "All photos: SAC Route Portal"
 }

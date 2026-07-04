@@ -172,7 +172,8 @@
   ],
   "end_point": {
     "name": "Frutigen",
-    "elev": 779
+    "elev": 779,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Frutigen"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

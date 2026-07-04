@@ -112,7 +112,10 @@
   ],
   "end_point": {
     "name": "Rifugio Al Legn",
-    "elev": 1785
+    "elev": 1785,
+    "lat": 46.12220556276268,
+    "lon": 8.66706490962741,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Brissago%2C+Piodina+Paese"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

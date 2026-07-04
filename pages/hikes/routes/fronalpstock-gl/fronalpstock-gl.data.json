@@ -149,7 +149,10 @@
   ],
   "end_point": {
     "name": "Habergschwänd, Bergstation",
-    "elev": 1278
+    "elev": 1278,
+    "lat": 47.10417149175046,
+    "lon": 9.124911363654874,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Habergschw%C3%A4nd"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

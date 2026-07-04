@@ -110,7 +110,8 @@
   ],
   "end_point": {
     "name": "Grütschalp",
-    "elev": 1486
+    "elev": 1486,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gr%C3%BCtschalp"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

@@ -105,7 +105,10 @@
   ],
   "end_point": {
     "name": "Ober Musenalp",
-    "elev": 1755
+    "elev": 1755,
+    "lat": 46.92888750655849,
+    "lon": 8.443413028276352,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Niederrickenbach+Dorf"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

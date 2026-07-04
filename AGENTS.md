@@ -19,6 +19,17 @@ When the user flags an issue on one page (e.g. "the transit widget on planurahue
 
 Example — the transit widget on planurahuette-sac showed "Loading…" forever because the widget queried `trailhead.name` (`Tierfehd`, not an SBB station) instead of the scraped `sbb_url`'s `?nach=` param (`Linthal`). The fix belongs in `pages/hikes/templates/_assets/transit_widget.js` — that one edit propagates to every hike on `make render` (step 2). Prevention: `scripts/render_hike.py` `sync_assets` now prepends a `GENERATED FROM ../../templates/_assets/…` banner to every runtime file, so a future agent editing `pages/hikes/routes/_assets/foo.js` sees the warning before wasting a commit (step 3).
 
+## New-feature policy
+
+When adding a new data field, UI element, or page feature: **apply it to every hike, not just the one you're working on.** The site's promise is that all hikes look and behave alike — a feature that ships to 3 pages and not the other 82 is worse than not shipping it, because it creates a two-tier experience and users can't tell why. Concretely:
+
+1. **Data fields** — backfill via a script under `scripts/` (see `backfill_endpoint_sbb.py` for the pattern: v1 JSON when authoritative, computed default when not). Don't hand-edit one `data.json` and move on.
+2. **Scraper additions** — if you extract a new field from SAC, also **re-run the scraper across all existing hikes** (`scripts/rescrape_all_sac.py` batches this) so old hikes catch up. Requires a fresh SAC cookie — refresh via the Cookie-Editor workflow in `pages/hikes/AGENTS.md` if needed.
+3. **Template additions** — automatic via `make render`. Verify by running it and diffing the rendered output.
+4. **Pipeline changes** — update `add_sac_hike_v2.py` so new hikes get the field for free, and update the JSON schema in `templates/hike_data.schema.json` so the field is documented (and required if it should always be present).
+
+If a field truly can't apply to every page (e.g. a mountain-hut endpoint has no nearby SBB station), make the absence explicit in the schema (`nullable` or omitted rather than an empty string) and handle the missing case gracefully in the consuming code (widget, template).
+
 ## Templates vs. runtime for shared assets
 
 `pages/hikes/routes/_assets/` is **generated**. `sync_assets` in `scripts/render_hike.py` overwrites it from `pages/hikes/templates/_assets/` on every `make render` (locally AND on CI). If you edit a runtime `.js` or `.css` file directly:

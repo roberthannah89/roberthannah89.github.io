@@ -137,6 +137,7 @@
     "name": "Säntis, Bergstation",
     "elev": 2502,
     "lat": 47.2563,
-    "lon": 9.3185
+    "lon": 9.3185,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=S%C3%A4ntis"
   }
 }

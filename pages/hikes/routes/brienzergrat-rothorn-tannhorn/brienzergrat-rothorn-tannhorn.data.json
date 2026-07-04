@@ -172,7 +172,8 @@
   ],
   "end_point": {
     "name": "Station Planalp",
-    "elev": 1350
+    "elev": 1350,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Planalp"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

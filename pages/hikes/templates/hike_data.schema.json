@@ -130,10 +130,13 @@
     },
     "end_point": {
       "type": "object",
-      "description": "Set when a route is a traverse (start != end). Surfaced in the Endpoints section.",
+      "description": "Set when a route is a traverse (start != end). Surfaced in the Endpoints section. Point-to-point hikes should populate sbb_url (via add_sac_hike_v2 or scripts/backfill_endpoint_sbb.py) so the transit widget's Return card queries the right station — falling back to end_point.name (e.g. 'Habergschwänd, Bergstation') sends a non-station string to opendata.ch and returns 0 connections.",
       "properties": {
-        "name": { "type": "string" },
-        "elev": { "type": ["number", "null"] }
+        "name":    { "type": "string" },
+        "elev":    { "type": ["number", "null"] },
+        "lat":     { "type": ["number", "null"], "description": "Endpoint latitude (from GPX end when SAC doesn't specify)." },
+        "lon":     { "type": ["number", "null"], "description": "Endpoint longitude (from GPX end when SAC doesn't specify)." },
+        "sbb_url": { "type": "string", "description": "SAC-provided or nearest-station SBB timetable deep-link for the arrival side. Consumed by the transit widget's Return card. May be absent for mountain-hut endpoints with no nearby SBB station (widget falls back to trailhead station)." }
       }
     },
     "intro_html":      { "type": "string" },

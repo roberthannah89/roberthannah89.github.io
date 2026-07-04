@@ -220,6 +220,7 @@
     "name": "Harder Kulm",
     "elev": 1321,
     "lat": 46.6976,
-    "lon": 7.8523
+    "lon": 7.8523,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Harder+Kulm"
   }
 }

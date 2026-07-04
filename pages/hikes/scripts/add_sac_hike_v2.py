@@ -377,7 +377,7 @@ def main(argv: list[str] | None = None) -> int:
         data = json.loads(data_path.read_text(encoding="utf-8"))
         th = data.get("trailhead") or {}
         if not th.get("sbb_url") and th.get("lat") and th.get("lon"):
-            print("      SAC page had no SBB link — falling back to nearest-station lookup")
+            print("      SAC page had no departure SBB link — falling back to nearest-station lookup")
             name = nearest_station(th["lat"], th["lon"])
             if name:
                 th["sbb_url"] = sbb_deep_link(name)
@@ -386,7 +386,26 @@ def main(argv: list[str] | None = None) -> int:
                                      encoding="utf-8")
                 print(f"      → nearest station: {name}")
             else:
-                print("      ⚠ nearest-station lookup returned nothing; leaving sbb_url unset")
+                print("      ⚠ nearest-station lookup returned nothing; leaving trailhead.sbb_url unset")
+
+        # Same fallback for the arrival side of point-to-point routes.
+        # When SAC didn't emit a second SBB link (or we couldn't extract it),
+        # snap end_point.sbb_url to the nearest station on the endpoint
+        # coordinates — the widget's Return card needs a real station name,
+        # not the display name "Habergschwänd, Bergstation".
+        data = json.loads(data_path.read_text(encoding="utf-8"))
+        ep = data.get("end_point")
+        if ep and not ep.get("sbb_url") and ep.get("lat") and ep.get("lon"):
+            print("      SAC page had no arrival SBB link — falling back to nearest-station lookup")
+            name = nearest_station(ep["lat"], ep["lon"])
+            if name:
+                ep["sbb_url"] = sbb_deep_link(name)
+                data["end_point"] = ep
+                data_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                                     encoding="utf-8")
+                print(f"      → nearest end-point station: {name}")
+            else:
+                print("      ⚠ nearest-station lookup returned nothing; leaving end_point.sbb_url unset")
 
     # Final: render
     if not args.no_render:

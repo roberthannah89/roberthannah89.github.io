@@ -136,7 +136,8 @@
   ],
   "end_point": {
     "name": "Sinsgäu (Oberrickenbach), Bergstation",
-    "elev": 1640
+    "elev": 1640,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Oberrickenbach%2C+Talstat.+LFCH"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

@@ -117,7 +117,8 @@
   ],
   "end_point": {
     "name": "Amden Niederschlag, Bergstation",
-    "elev": 1289
+    "elev": 1289,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Niederschlag"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

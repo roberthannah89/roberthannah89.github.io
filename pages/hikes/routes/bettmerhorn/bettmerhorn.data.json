@@ -119,7 +119,8 @@
   ],
   "end_point": {
     "name": "Bettmeralp",
-    "elev": 1922
+    "elev": 1922,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Bettmeralp"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

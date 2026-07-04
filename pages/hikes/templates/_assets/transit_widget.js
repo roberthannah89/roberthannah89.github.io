@@ -558,8 +558,15 @@
       try { return decodeURIComponent(m[1].replace(/\+/g, " ")); } catch (e) { return null; }
     }
     var outDest = stationFromSbbUrl(trailhead.sbb_url) || trailhead.name;
-    var retOrigin = (endPoint && (stationFromSbbUrl(endPoint.sbb_url) || endPoint.name))
-                    || outDest;
+    // Return origin: only use endPoint's sbb_url — NEVER endPoint.name for the
+    // API query. Display names ("Habergschwänd, Bergstation", "Rifugio Barone")
+    // aren't SBB stations; fed to opendata.ch they return 0 connections and
+    // the Return card shows "No connections found" for hikes where transit
+    // clearly exists (see backfill_endpoint_sbb.py for the data-side backfill).
+    // If sbb_url is missing (mountain-hut endpoints with no nearby station,
+    // e.g. pizzo-barone), fall back to outDest — the hiker walks back to the
+    // trailhead and Return shows "trailhead → home".
+    var retOrigin = stationFromSbbUrl((endPoint || {}).sbb_url) || outDest;
 
     host.innerHTML =
       '<div class="tw-head">' +

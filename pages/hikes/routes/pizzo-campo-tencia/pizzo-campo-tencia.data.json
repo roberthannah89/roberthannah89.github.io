@@ -135,7 +135,10 @@
   ],
   "end_point": {
     "name": "Prato",
-    "elev": 742
+    "elev": 742,
+    "lat": 46.39506643512681,
+    "lon": 8.655453627813891,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Prato%2C+Ponte"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

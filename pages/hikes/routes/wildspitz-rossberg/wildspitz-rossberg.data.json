@@ -157,7 +157,10 @@
   ],
   "end_point": {
     "name": "Sattel-Aegeri, Bahnhof",
-    "elev": 769
+    "elev": 769,
+    "lat": 47.08156362415434,
+    "lon": 8.633864817972594,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Sattel"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

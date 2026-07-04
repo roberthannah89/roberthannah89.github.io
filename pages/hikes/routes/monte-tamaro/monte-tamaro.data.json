@@ -105,7 +105,8 @@
   ],
   "end_point": {
     "name": "Indemini, Paese",
-    "elev": 980
+    "elev": 980,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Indemini%2C+Paese"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

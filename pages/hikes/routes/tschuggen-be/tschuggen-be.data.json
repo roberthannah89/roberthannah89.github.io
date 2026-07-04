@@ -110,7 +110,8 @@
   ],
   "end_point": {
     "name": "Kleine Scheidegg",
-    "elev": 2061
+    "elev": 2061,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Kleine+Scheidegg"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

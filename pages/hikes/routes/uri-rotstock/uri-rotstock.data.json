@@ -169,7 +169,8 @@
   ],
   "end_point": {
     "name": "Isenthal, Post",
-    "elev": 770
+    "elev": 770,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Isenthal%2C+Post"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [

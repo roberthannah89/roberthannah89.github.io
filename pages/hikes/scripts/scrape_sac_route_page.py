@@ -71,6 +71,7 @@ class ScrapedRoute:
     end_name: str | None = None         # set only when distinct from departure
     end_elev_m: int | None = None
     sbb_url: str | None = None          # SAC-provided SBB timetable deep-link for the departure
+    sbb_url_arrival: str | None = None  # SAC-provided SBB deep-link for the arrival (point-to-point only)
     terrain_html: str | None = None     # "Difficulty / Material" section — terrain/safety notes
     segments: list[str] = field(default_factory=list)   # per-leg "A → B, T3, 2 Std. 45 Min." strings
     waypoints: list[dict] = field(default_factory=list) # [{name, elev_m, description}]
@@ -145,21 +146,36 @@ def _parse_departure(raw: str) -> tuple[str | None, int | None]:
     return (cleaned or None), None
 
 
-def _extract_sbb_url(soup: BeautifulSoup) -> str | None:
-    """First href on the page pointing at SBB's legacy timetable endpoint.
+def _extract_sbb_urls(soup: BeautifulSoup) -> list[str]:
+    """Every href on the page pointing at SBB's legacy timetable endpoint,
+    in page order.
 
-    SAC renders one such link per route page — the pre-filled `?nach=<Station>`
-    is the *nearest actual SBB station* (e.g. planurahuette-sac's trailhead is
-    "Tierfehd" but the SBB link points to "Linthal", which is the closest
-    station and 1 km down the road). Without this, the transit widget falls
-    back to a synthesised link using the trailhead name, which fuzzy-matches
-    to random towns abroad for non-station trailheads.
+    SAC emits one link per public-transport section: a round-trip route has a
+    single "Public transport" section (departure only); a point-to-point route
+    has two sections in order — departure then arrival — each with its own
+    pre-filled ``?nach=<Station>`` link. The station names are the *nearest
+    actual SBB stops*, which is exactly what the transit widget's opendata.ch
+    query needs (e.g. planurahuette-sac's trailhead is "Tierfehd" but the
+    departure link points to "Linthal", 1 km down the road).
+
+    Returns [] if no SBB links are present.
     """
-    a = soup.find("a", href=re.compile(r"^https?://www\.sbb\.ch/[^\"']*fahrplan\.xhtml"))
-    if not isinstance(a, Tag):
-        return None
-    href = a.get("href")
-    return href.strip() if isinstance(href, str) and href.strip() else None
+    hrefs: list[str] = []
+    seen: set[str] = set()
+    for a in soup.find_all("a", href=re.compile(r"^https?://www\.sbb\.ch/[^\"']*fahrplan\.xhtml")):
+        if not isinstance(a, Tag):
+            continue
+        href = a.get("href")
+        if not isinstance(href, str):
+            continue
+        href = href.strip()
+        # SAC sometimes renders the same link twice (once in the dl-row, once
+        # in an inline text link with the station name). Dedupe by full URL so
+        # we don't mistake that for a two-endpoint route.
+        if href and href not in seen:
+            seen.add(href)
+            hrefs.append(href)
+    return hrefs
 
 
 def _detect_transport(soup: BeautifulSoup, dd_text: str | None) -> str | None:
@@ -461,7 +477,14 @@ def scrape(html: str) -> ScrapedRoute:
     if raw_end:
         res.end_name, res.end_elev_m = _parse_departure(raw_end)
 
-    res.sbb_url = _extract_sbb_url(soup)
+    sbb_urls = _extract_sbb_urls(soup)
+    res.sbb_url = sbb_urls[0] if sbb_urls else None
+    # A second link means a distinct arrival station (point-to-point route).
+    # Only populate when we also parsed a distinct end_name — otherwise the
+    # second link is likely an unrelated variant (e.g. a "print this page"
+    # timetable duplicate we didn't catch in _extract_sbb_urls' dedupe).
+    if len(sbb_urls) > 1 and res.end_name:
+        res.sbb_url_arrival = sbb_urls[1]
 
     # Per-leg time breakdown — the cleanest source for "what does the route do".
     raw_time = _dt_dd_lookup(soup, "Time") or ""
@@ -588,6 +611,17 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
     if sr.sbb_url and not (data.get("trailhead") or {}).get("sbb_url"):
         data["trailhead"]["sbb_url"] = sr.sbb_url
         changed.append("trailhead.sbb_url")
+
+    # End_point SBB deep-link (arrival side of point-to-point routes).
+    # SAC editors curate this per route — e.g. augstmatthorn's arrival is
+    # "Harder Kulm" (funicular top), fronalpstock-gl's is "Habergschwänd"
+    # (cable-car top). The transit widget's Return card queries opendata.ch
+    # with this station — without it, the fallback to end_point.name
+    # ("Habergschwänd, Bergstation" etc.) returns 0 connections because the
+    # display name isn't SBB's canonical station identifier.
+    if sr.sbb_url_arrival and (data.get("end_point") or {}).get("sbb_url") in (None, ""):
+        data.setdefault("end_point", {})["sbb_url"] = sr.sbb_url_arrival
+        changed.append("end_point.sbb_url")
 
     # Intro / description
     if sr.description_html:

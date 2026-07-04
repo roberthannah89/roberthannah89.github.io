@@ -117,7 +117,8 @@
   ],
   "end_point": {
     "name": "Stockhütte",
-    "elev": 1277
+    "elev": 1277,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Stockh%C3%BCtte+%28Bergstation%29"
   },
   "photos_attrib_html": "All photos: SAC Route Portal",
   "sources": [
