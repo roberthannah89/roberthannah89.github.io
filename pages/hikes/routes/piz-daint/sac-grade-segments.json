@@ -1,0 +1,58 @@
+{
+  "slug": "piz-daint",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 4009.1,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 652,
+      "coverage_pct": 43.24,
+      "length_m": 4009.1
+    },
+    {
+      "start_m": 4015.3,
+      "end_m": 4625.5,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 115,
+      "coverage_pct": 6.58,
+      "length_m": 610.1
+    },
+    {
+      "start_m": 4629.2,
+      "end_m": 4782.6,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 50,
+      "coverage_pct": 1.66,
+      "length_m": 153.5
+    },
+    {
+      "start_m": 4792.2,
+      "end_m": 8080.2,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 460,
+      "coverage_pct": 35.47,
+      "length_m": 3288.0
+    },
+    {
+      "start_m": 8094.8,
+      "end_m": 9270.7,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 138,
+      "coverage_pct": 12.68,
+      "length_m": 1175.9
+    }
+  ],
+  "stats": {
+    "total_m": 9270.7,
+    "n_points": 1415,
+    "osm_pct": 85.3,
+    "swisstopo_pct": 14.3,
+    "unknown_pct": 0.0
+  }
+}

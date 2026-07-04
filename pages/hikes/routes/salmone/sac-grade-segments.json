@@ -1,0 +1,58 @@
+{
+  "slug": "salmone",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 3806.6,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 637,
+      "coverage_pct": 36.0,
+      "length_m": 3806.6
+    },
+    {
+      "start_m": 3810.4,
+      "end_m": 4183.3,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 89,
+      "coverage_pct": 3.53,
+      "length_m": 372.9
+    },
+    {
+      "start_m": 4187.6,
+      "end_m": 4402.1,
+      "t_grade": "T4+",
+      "source": "swisstopo",
+      "n_points": 40,
+      "coverage_pct": 2.03,
+      "length_m": 214.4
+    },
+    {
+      "start_m": 4409.3,
+      "end_m": 7293.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 414,
+      "coverage_pct": 27.27,
+      "length_m": 2884.1
+    },
+    {
+      "start_m": 7297.9,
+      "end_m": 10574.1,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 509,
+      "coverage_pct": 30.98,
+      "length_m": 3276.1
+    }
+  ],
+  "stats": {
+    "total_m": 10574.1,
+    "n_points": 1689,
+    "osm_pct": 97.8,
+    "swisstopo_pct": 2.0,
+    "unknown_pct": 0.0
+  }
+}

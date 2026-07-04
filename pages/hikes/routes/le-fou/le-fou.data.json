@@ -1,0 +1,197 @@
+{
+  "slug": "le-fou",
+  "page": {
+    "title": "Le Fou (2609 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Le Fou",
+    "elev": 2609,
+    "lat": 46.12365,
+    "lon": 7.27258
+  },
+  "index_card": {
+    "region": "Wallis",
+    "canton": "Valais",
+    "distance": "10.3 km",
+    "gain": "926 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "La Tzoumaz, Maison de la Forêt",
+    "elev": 1720,
+    "lat": 46.1319,
+    "lon": 7.247,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=La+Tzoumaz%2C+Maison+de+la+For%C3%AAt"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/2/csm_1606403882_1639148464master_42b5a0d6ac.jpg",
+    "subtitle_html": "La Tzoumaz, Maison de la Forêt -> Le Fou -- <span class=\"pill t3\">SAC T3</span> | ~926 m gain | ~10.3 km | ~3h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Des Mayens de Riddes, la montée passe par la crête de Mounin dans une zone de tranquillité. La traversée sur le lac des Vaux se déroule par le versant, sur un sentier étroit. La descente aux Mayens de Riddes par le chemin rive gauche du vallon de Chassoure, via le col des Mines.</p>\n<p>Georges Sanga, active alpinist in both summer and winter, is the author of several ski tour and alpine hiking guides and an editor of the swisstopo ski tour maps. His passion for the mountains, and mountain photography, takes him to every corner of Switzerland.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2609 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "La Tzoumaz, Maison de la Forêt"
+    ],
+    [
+      "Distance",
+      "10.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~926 m"
+    ],
+    [
+      "Elevation range",
+      "1720-2609 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/2/csm_1606403882_1639148464master_3201d752bf.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/2/csm_1606403882_1639148464master_3201d752bf.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/d/csm_1606403839_1940163664master_651e780636.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/d/csm_1606403839_1940163664master_651e780636.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/9/csm_1606403806_259743723master_cba6ced43f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/9/csm_1606403806_259743723master_cba6ced43f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1606403775_891363455master_023c8ef692.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1606403775_891363455master_023c8ef692.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1606403690_245044300master_5f40dbcc24.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1606403690_245044300master_5f40dbcc24.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/8/csm_1606403663_2117345520master_75843cc0ad.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/8/csm_1606403663_2117345520master_75843cc0ad.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/4/csm_1606403585_787710159master_9c90895f43.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/4/csm_1606403585_787710159master_9c90895f43.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/3/csm_1606403540_2036219451master_05a8612955.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/3/csm_1606403540_2036219451master_05a8612955.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1606403613_1712998745master_9d4b3b6db6.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1606403613_1712998745master_9d4b3b6db6.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/9/csm_1606403482_991272087master_5a8dca57eb.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/9/csm_1606403482_991272087master_5a8dca57eb.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/8/csm_1606403446_26762795master_9c62e3a518.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/8/csm_1606403446_26762795master_9c62e3a518.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1606403332_728548777master_bb139f98ca.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1606403332_728548777master_bb139f98ca.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.1319,
+      "lon": 7.247,
+      "label": "La Tzoumaz, Maison de la Forêt (1720 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.123698786612835,
+      "lon": 7.272599459053004,
+      "label": "Le Fou (2609 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>De la Tzoumaz par la crête NW</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>La montée est raide à la crête de Mounin, la suivre jusqu’au sommet. Traversée sur le lac des Vaux par un sentier très étroit, par endroits délicat. La fin de la descente est facile. Cheminement dans un cadre alpin.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>La Tzoumaz, Maison de la Forêt</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Le Fou</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-fou-10762/mountain-hiking/de-la-tzoumaz-par-la-crete-nw-7176/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/le-fou-10762/mountain-hiking/"
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

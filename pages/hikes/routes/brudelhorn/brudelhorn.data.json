@@ -1,0 +1,167 @@
+{
+  "slug": "brudelhorn",
+  "page": {
+    "title": "Brudelhorn (2790 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Brudelhorn",
+    "elev": 2790,
+    "lat": 46.46767,
+    "lon": 8.3112
+  },
+  "index_card": {
+    "region": "Wallis",
+    "canton": "Valais",
+    "distance": "14.0 km",
+    "gain": "870 m",
+    "time": "~4h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Ladstafel",
+    "elev": 1923,
+    "lat": 46.4775,
+    "lon": 8.3689,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Ladstafel"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1519240103_1431979030master_19cd29034c.jpg",
+    "subtitle_html": "Ladstafel -> Brudelhorn -- <span class=\"pill t3\">SAC T3</span> | ~870 m gain | ~14.0 km | ~4h",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Die Hänge des Brudelhorns bieten nicht nur schöne Skiabfahrten, sondern auch abwechslungsreiche Wandermöglichkeiten. In der Urgesteinslandschaft eingebettete, kleine Bergseen, sprudelnde Bergbäche oder feuchtere Flecken mit Wollgras sorgen für reizvolle Anblicke. Sobald man die häufig begangene Aufstiegsroute vom Nufenenpass her verlässt, teilt man sich die Pfade meist nur noch mit umherziehenden Schafen.</p>\n<p>Vom Brudelhorn aus erreicht man nach P. 2659 gegen Süden fast durchgehend über Blockschutt die noch etwas höheren Gipfel der Ritzberge. Abstieg entweder am Distelsee vorbei zur Nufenenpassstrasse oder über die Ritzfurgge und die Moränenhänge des Merezebachgletschers hinunter bis Chäller und weiter nach Geschinen oder Münster. Brudelhorn – P. 2659 – Ritzberge (P. 2860) 1 Std., Ritzberge (P. 2860) – Ritzfurgge – Chäller – Geschinen 3 Std. 30 Min., T4.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2790 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Ladstafel"
+    ],
+    [
+      "Distance",
+      "14.0 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~870 m"
+    ],
+    [
+      "Elevation range",
+      "1339-2790 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1519240103_1431979030master_bafdb832c6.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1519240103_1431979030master_bafdb832c6.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1544722786_31485215master_5b223d7602.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1544722786_31485215master_5b223d7602.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1519240115_223455920master_2111d3569d.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1519240115_223455920master_2111d3569d.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1544722786_2097905868master_29de9db679.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1544722786_2097905868master_29de9db679.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1544722786_386401218master_e3ab1fea3e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1544722786_386401218master_e3ab1fea3e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.4775,
+      "lon": 8.3689,
+      "label": "Ladstafel (1923 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.467610673351004,
+      "lon": 8.311203833585521,
+      "label": "Brudelhorn (2790 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung Ladstafel – Geschinen</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Markierte Bergwege. Abschnittweise Schrofengelände, Blockschutt und Geröll. Im Abstieg zwischen Distelgrat und Follebode undeutliche Wegspur.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Ladstafel</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Brudelhorn</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/brudelhorn-248/mountain-hiking/ueberschreitung-ladstafel-geschinen-1288/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/brudelhorn-248/mountain-hiking/"
+    }
+  ],
+  "end_point": {
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Geschinen",
+    "name": "Geschinen, railway station",
+    "elev": 1340
+  },
+  "scraped_waypoints": [
+    {
+      "name": "Münster VS",
+      "elev_m": 1359,
+      "description": "Endpunkt der Variante."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

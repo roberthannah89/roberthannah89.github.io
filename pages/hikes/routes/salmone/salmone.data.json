@@ -1,0 +1,198 @@
+{
+  "slug": "salmone",
+  "page": {
+    "title": "Salmone (2017 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Salmone",
+    "elev": 2017,
+    "lat": 46.20952,
+    "lon": 8.70696
+  },
+  "index_card": {
+    "region": "Ticino",
+    "canton": "Ticino",
+    "distance": "10.6 km",
+    "gain": "773 m",
+    "time": "~3h30",
+    "route_type": "out-and-back"
+  },
+  "trailhead": {
+    "name": "Capanna Alpe da Canaa",
+    "elev": 1842,
+    "lat": 46.2495,
+    "lon": 8.6355,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gresso"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1601730035_954406629master_02658f01bc.jpg",
+    "subtitle_html": "Capanna Alpe da Canaa -> Salmone -- <span class=\"pill t3\">SAC T3</span> | ~773 m gain | ~10.6 km | ~3h30",
+    "grade": "T3",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Mit dieser Etappe führt uns die Via Alta Vallemaggia allmählich in die Welt der Bäume zurück. Ausserordentlich vielfältige Wälder prägen die Wegstrecke, zwischen Canaa und Passo della Maggia durchstreifen wir sogar ein Gebiet, das wegen seiner Buchenwälder im Jahr 2021 ins Unesco-Welterbe aufgenommenwurde: das Valle di Lodano. Die Route kommt dann am Passo della Garina vorbei (bekannt aus Max Frischs «Holozän») und endet auf dem Salmone. Eine Etappe, die auf einem Gipfel endet? Ja, denn in den nächsten Jahren soll dort eine neue Hütte entstehen. Bis es soweit ist, müssen wir vom Salmone noch hinab – am schnellsten, in eineinhalb Stunden, geht das westwärts, nach Auressio.</p>\n<p>Vom Passo della Maggia die allerersten Felsen links, südseitig umgehen und gleich dahinter zum Grat hinauf. Man folgt nun dem mit Felsen durchsetzten, mal breiten, mal schmalen Grat mit einigen kurzweiligen Kraxelstellen – da und dort mit Wegspuren, aber keinem durchgehenden Weg (anders als von der Landeskarte suggeriert). Der Aufstieg durch die grasige Südseite des Grats ist hingegen kaum zu empfehlen, da mühsam und abschüssig. Beim Gipfelaufschwung weicht man dann doch noch leicht nach links aus und erreicht den höchsten Punkt über eine breite Rinne. T4, hin und zurück 50 Min.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2017 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3</span>"
+    ],
+    [
+      "Trailhead",
+      "Capanna Alpe da Canaa"
+    ],
+    [
+      "Distance",
+      "10.6 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~773 m"
+    ],
+    [
+      "Elevation range",
+      "1073-2016 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1601730035_954406629master_fb6402081c.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1601730035_954406629master_fb6402081c.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/7/csm_1601730764_1029057477master_68ecf9fc3a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/7/csm_1601730764_1029057477master_68ecf9fc3a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/c/csm_1601730035_1463845155master_191e9c9151.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/c/csm_1601730035_1463845155master_191e9c9151.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1601730034_1898290519master_cede35d193.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1601730034_1898290519master_cede35d193.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/d/csm_1601730034_243581222master_d3d7b3b857.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/d/csm_1601730034_243581222master_d3d7b3b857.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/f/csm_1601730021_1885957193master_ddab09e8fd.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/f/csm_1601730021_1885957193master_ddab09e8fd.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/4/csm_1601730021_1840388019master_673df830b9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/4/csm_1601730021_1840388019master_673df830b9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1601730021_242636512master_dbdb418a33.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1601730021_242636512master_dbdb418a33.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1601966674_500074575master_57758511e6.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1601966674_500074575master_57758511e6.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/9/csm_1601966674_1817731121master_fc9b7d6851.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/9/csm_1601966674_1817731121master_fc9b7d6851.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/9/csm_1601730022_2041553723master_560cc1b2fe.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/9/csm_1601730022_2041553723master_560cc1b2fe.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.2495,
+      "lon": 8.6355,
+      "label": "Capanna Alpe da Canaa (1842 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.233565860651076,
+      "lon": 8.658732478542454,
+      "label": "Salmone (2016 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Von der Capanna Alpe Canaa (VAVM 16)</strong>",
+      "grade": "T3",
+      "pill_class": "t3",
+      "bullets_html": [
+        "Capanna Alpe Canaa – Madone 1 Std. 45 Min.",
+        "Madone – Passo della Garina 1 Std. 30 Min.",
+        "Passo della Garina – Salmone 1 Std. 45 Min."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Keine besonderen Schwierigkeiten. Am Madone kurz weiss-blau-weiss markiert, aber auch dort nicht über T3. Der Abstieg von Pino zum Passo della Garina ist undeutlich, die Markierungen spärlich, stellenweise verliert sich das Wegtrassee – wer das Gelände und die Wegspuren am Boden entziffern kann, ist dort im Vorteil.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "TODO: SBB / PostBus connection description.",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Salmone</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/salmone-4059/mountain-hiking/von-der-capanna-alpe-canaa-vavm-16-5460/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/salmone-4059/mountain-hiking/"
+    }
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Passo della Bassa",
+      "elev_m": 1804
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

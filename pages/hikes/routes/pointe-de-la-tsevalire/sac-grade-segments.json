@@ -1,0 +1,112 @@
+{
+  "slug": "pointe-de-la-tsevalire",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1120.1,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 116,
+      "coverage_pct": 6.09,
+      "length_m": 1120.1
+    },
+    {
+      "start_m": 1138.5,
+      "end_m": 1372.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 31,
+      "coverage_pct": 1.27,
+      "length_m": 233.9
+    },
+    {
+      "start_m": 1379.5,
+      "end_m": 4379.2,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 388,
+      "coverage_pct": 16.32,
+      "length_m": 2999.6
+    },
+    {
+      "start_m": 4383.6,
+      "end_m": 4528.0,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 25,
+      "coverage_pct": 0.79,
+      "length_m": 144.4
+    },
+    {
+      "start_m": 4533.6,
+      "end_m": 4945.7,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 53,
+      "coverage_pct": 2.24,
+      "length_m": 412.0
+    },
+    {
+      "start_m": 4954.6,
+      "end_m": 7831.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 402,
+      "coverage_pct": 15.65,
+      "length_m": 2877.3
+    },
+    {
+      "start_m": 7837.7,
+      "end_m": 10703.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 358,
+      "coverage_pct": 15.59,
+      "length_m": 2866.0
+    },
+    {
+      "start_m": 10711.1,
+      "end_m": 10893.4,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 31,
+      "coverage_pct": 0.99,
+      "length_m": 182.3
+    },
+    {
+      "start_m": 10905.1,
+      "end_m": 16414.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 554,
+      "coverage_pct": 29.97,
+      "length_m": 5509.3
+    },
+    {
+      "start_m": 16425.3,
+      "end_m": 17688.2,
+      "t_grade": "T1",
+      "source": "swisstopo",
+      "n_points": 115,
+      "coverage_pct": 6.87,
+      "length_m": 1262.9
+    },
+    {
+      "start_m": 17691.0,
+      "end_m": 18382.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 100,
+      "coverage_pct": 3.76,
+      "length_m": 691.3
+    }
+  ],
+  "stats": {
+    "total_m": 18382.3,
+    "n_points": 2173,
+    "osm_pct": 67.0,
+    "swisstopo_pct": 31.5,
+    "unknown_pct": 1.0
+  }
+}

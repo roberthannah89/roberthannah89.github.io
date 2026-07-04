@@ -1,0 +1,167 @@
+{
+  "slug": "piz-daint",
+  "page": {
+    "title": "Piz Daint (2948 m) -- Hike Plan",
+    "generated": "2026-07-04",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Piz Daint",
+    "elev": 2948,
+    "lat": 46.61873,
+    "lon": 10.2909
+  },
+  "index_card": {
+    "region": "Graubünden",
+    "canton": "Graubünden",
+    "distance": "9.3 km",
+    "gain": "814 m",
+    "time": "~3h",
+    "route_type": "point-to-point"
+  },
+  "trailhead": {
+    "name": "Süsom Givè (Passhöhe Ofenpass)",
+    "elev": 2148,
+    "lat": 46.6397,
+    "lon": 10.2925,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=S%C3%BCsom+Giv%C3%A8+%28Passh%C3%B6he%29"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1556136431_1547012914master_fd43124fa9.jpg",
+    "subtitle_html": "Süsom Givè (Passhöhe Ofenpass) -> Piz Daint -- <span class=\"pill t3\">SAC T3+</span> | ~814 m gain | ~9.3 km | ~3h",
+    "grade": "T3+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Piz Daint heisst so viel wie «innere Spitze», der Piz Dora daneben ist die «äussere Spitze». Schlichte Namen für interessante Gipfel mit schönen Routen. Der Piz Daint ist auf seinem Normalweg sehr einfach zu besteigen, und die Aussicht über das ganze Münstertal und über Gebiete des Nationalparks ist herrlich. Eindrücklich sind die vielen Erosionsformen im Dolomitgestein, die man unterwegs beobachten kann und deren Gebilde die Phantasie anregen.</p>\n<p>Kurzwanderung auf einen schönen Aussichtspunkt, die man beispielsweise auch nach einer langen Anreise noch unternehmen kann. Vom Ofenpass südlich um den Jalet bis Davo Plattas, dann rechts durch die Südflanke im Zickzack auf den Gipfel. Abstieg in einem Bogen über Westen und Norden zum Ofenpass. Ganze Route weiss-rot-weiss markiert. 1 Std. Aufstieg, 45 Min. Abstieg, T2.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>2948 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t3\">T3+</span>"
+    ],
+    [
+      "Trailhead",
+      "Süsom Givè (Passhöhe Ofenpass)"
+    ],
+    [
+      "Distance",
+      "9.3 km (out-and-back)"
+    ],
+    [
+      "Total ascent",
+      "~814 m"
+    ],
+    [
+      "Elevation range",
+      "1680-2947 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1556136431_1547012914master_2128b4b11f.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1556136431_1547012914master_2128b4b11f.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1556136432_9869907master_c087150580.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1556136432_9869907master_c087150580.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1519722979_601051286master_78e3021de4.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1519722979_601051286master_78e3021de4.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/f/csm_1519722983_1216260444master_7c9fb443b9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/f/csm_1519722983_1216260444master_7c9fb443b9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1556136432_1777305194master_2d954866c5.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1556136432_1777305194master_2d954866c5.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.6397,
+      "lon": 10.2925,
+      "label": "Süsom Givè (Passhöhe Ofenpass) (2148 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.61847199545258,
+      "lon": 10.291042810978174,
+      "label": "Piz Daint (2947 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung Westgrat – Südgrat</strong>",
+      "grade": "T3+",
+      "pill_class": "t3",
+      "bullets_html": [
+        "TODO: Step 1 description.",
+        "TODO: Step 2 description."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Bei der hier beschriebenen Überschreitung des Piz Daint muss man gegen Süden über einen steilen, rutschigen Weg absteigen. Die ganze Route ist weiss-rot-weiss markiert. Wer vom Gipfel den gleichen Weg zum Ofenpass zurückgeht, bewegt sich nur im Grad T3–.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Süsom Givè (Passhöhe Ofenpass)</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Piz Daint</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-daint-480/mountain-hiking/ueberschreitung-westgrat-suedgrat-1346/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-daint-480/mountain-hiking/"
+    }
+  ],
+  "end_point": {
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Tschierv%2C+Biosfera",
+    "name": "Tschierv, Biosfera",
+    "elev": 1680
+  },
+  "scraped_waypoints": [
+    {
+      "name": "Taunter Pizza",
+      "elev_m": 2682,
+      "description": "Sattel, der im Abstieg passiert wird."
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}

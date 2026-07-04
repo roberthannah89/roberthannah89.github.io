@@ -1,0 +1,184 @@
+{
+  "slug": "wistaetthorn",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 1362.0,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 209,
+      "coverage_pct": 8.09,
+      "length_m": 1362.0
+    },
+    {
+      "start_m": 1370.6,
+      "end_m": 1911.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 71,
+      "coverage_pct": 3.21,
+      "length_m": 540.4
+    },
+    {
+      "start_m": 1917.6,
+      "end_m": 3071.4,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 182,
+      "coverage_pct": 6.85,
+      "length_m": 1153.8
+    },
+    {
+      "start_m": 3089.1,
+      "end_m": 3853.7,
+      "t_grade": "T1",
+      "source": "osm",
+      "n_points": 64,
+      "coverage_pct": 4.54,
+      "length_m": 764.6
+    },
+    {
+      "start_m": 3860.4,
+      "end_m": 4655.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 84,
+      "coverage_pct": 4.72,
+      "length_m": 794.6
+    },
+    {
+      "start_m": 4659.2,
+      "end_m": 4778.5,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 10,
+      "coverage_pct": 0.71,
+      "length_m": 119.2
+    },
+    {
+      "start_m": 4790.5,
+      "end_m": 5302.9,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 56,
+      "coverage_pct": 3.04,
+      "length_m": 512.4
+    },
+    {
+      "start_m": 5311.1,
+      "end_m": 6151.3,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 94,
+      "coverage_pct": 4.99,
+      "length_m": 840.2
+    },
+    {
+      "start_m": 6168.3,
+      "end_m": 8842.3,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 315,
+      "coverage_pct": 15.89,
+      "length_m": 2674.0
+    },
+    {
+      "start_m": 8886.9,
+      "end_m": 11836.4,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 74,
+      "coverage_pct": 17.52,
+      "length_m": 2949.5
+    },
+    {
+      "start_m": 11882.2,
+      "end_m": 13622.5,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 273,
+      "coverage_pct": 10.34,
+      "length_m": 1740.3
+    },
+    {
+      "start_m": 13627.6,
+      "end_m": 13741.8,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 24,
+      "coverage_pct": 0.68,
+      "length_m": 114.3
+    },
+    {
+      "start_m": 13747.3,
+      "end_m": 13830.3,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 24,
+      "coverage_pct": 0.49,
+      "length_m": 83.0
+    },
+    {
+      "start_m": 13835.5,
+      "end_m": 14072.2,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 49,
+      "coverage_pct": 1.41,
+      "length_m": 236.7
+    },
+    {
+      "start_m": 14074.9,
+      "end_m": 14492.0,
+      "t_grade": "T3",
+      "source": "osm",
+      "n_points": 93,
+      "coverage_pct": 2.48,
+      "length_m": 417.1
+    },
+    {
+      "start_m": 14501.3,
+      "end_m": 15639.9,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 181,
+      "coverage_pct": 6.76,
+      "length_m": 1138.5
+    },
+    {
+      "start_m": 15644.2,
+      "end_m": 15704.8,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 10,
+      "coverage_pct": 0.36,
+      "length_m": 60.6
+    },
+    {
+      "start_m": 15709.3,
+      "end_m": 16698.7,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 157,
+      "coverage_pct": 5.88,
+      "length_m": 989.4
+    },
+    {
+      "start_m": 16705.8,
+      "end_m": 16833.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 28,
+      "coverage_pct": 0.76,
+      "length_m": 127.5
+    }
+  ],
+  "stats": {
+    "total_m": 16833.2,
+    "n_points": 1998,
+    "osm_pct": 61.4,
+    "swisstopo_pct": 11.8,
+    "unknown_pct": 25.5
+  }
+}

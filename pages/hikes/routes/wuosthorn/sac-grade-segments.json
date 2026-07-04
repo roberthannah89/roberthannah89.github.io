@@ -1,0 +1,58 @@
+{
+  "slug": "wuosthorn",
+  "method": "hybrid-osm-primary-swisstlm3d-fallback",
+  "segments": [
+    {
+      "start_m": 0.0,
+      "end_m": 330.0,
+      "t_grade": "T2/T3",
+      "source": "swisstopo",
+      "n_points": 41,
+      "coverage_pct": 5.77,
+      "length_m": 330.0
+    },
+    {
+      "start_m": 334.3,
+      "end_m": 2071.2,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 203,
+      "coverage_pct": 30.35,
+      "length_m": 1736.8
+    },
+    {
+      "start_m": 2078.2,
+      "end_m": 2463.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 93,
+      "coverage_pct": 6.74,
+      "length_m": 385.5
+    },
+    {
+      "start_m": 2466.7,
+      "end_m": 4166.7,
+      "t_grade": "T2",
+      "source": "osm",
+      "n_points": 263,
+      "coverage_pct": 29.71,
+      "length_m": 1700.0
+    },
+    {
+      "start_m": 4212.6,
+      "end_m": 5722.6,
+      "t_grade": "unknown",
+      "source": "none",
+      "n_points": 46,
+      "coverage_pct": 26.39,
+      "length_m": 1510.1
+    }
+  ],
+  "stats": {
+    "total_m": 5722.6,
+    "n_points": 646,
+    "osm_pct": 66.8,
+    "swisstopo_pct": 5.8,
+    "unknown_pct": 26.4
+  }
+}
