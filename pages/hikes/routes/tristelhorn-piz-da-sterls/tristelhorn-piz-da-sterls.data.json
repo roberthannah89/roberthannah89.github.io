@@ -1,0 +1,181 @@
+{
+  "slug": "tristelhorn-piz-da-sterls",
+  "page": {
+    "title": "Tristelhorn / Piz da Sterls (3078 m) -- Hike Plan",
+    "generated": "2026-07-05",
+    "year": 2026
+  },
+  "peak": {
+    "name": "Tristelhorn / Piz da Sterls",
+    "elev": 3078,
+    "lat": 46.90196,
+    "lon": 9.31645
+  },
+  "index_card": {
+    "region": "Graubünden",
+    "canton": "Graubünden",
+    "distance": "15.0 km",
+    "gain": "860 m",
+    "time": "~4h30",
+    "route_type": "loop"
+  },
+  "trailhead": {
+    "name": "Fidaz, Bargis",
+    "elev": 1549,
+    "lat": 46.8542,
+    "lon": 9.3265,
+    "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Fidaz%2C+Bargis"
+  },
+  "hero": {
+    "image_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1576604313_1058671912master_bb4ca6a6a0.jpg",
+    "subtitle_html": "Fidaz, Bargis -> Tristelhorn / Piz da Sterls -- <span class=\"pill t5\">SAC T5+</span> | ~860 m gain | ~15.0 km | ~4h30",
+    "grade": "T5+",
+    "auto_subtitle": true
+  },
+  "intro_html": "<p>Auf unserer Bündner Aufstiegsroute heisst der Gipfel «Piz da Sterls », also «Rinderspitz». Vom lateinischen «sterilis», unfruchtbar, soll das abstammen. Erst an der Schlüsselstelle, dem Gipfelaufbau, erklärt sich der deutsche Bergname. Gleich den kunstvoll geschichteten Heulagern, den Tristen, ist dem Tristelhorn ein keckes Türmchen aufgesetzt. Bis man allerdings den kurzen Schritt im 3. Grad zum höchsten Punkt wagen kann, steigt man durch wildes Schuttgelände in einer der abgeschiedensten Ecken der Ostschweiz. Wer sich dann doch nicht traut: Auch ohne den Gipfelkopf bleibt die Runde eine grossartige Alpinwanderung – vorausgesetzt, man ist ausdauernd, trittsicher und schwindelfrei!</p>\n<p>Der Grat Tristelhorn – Piz Sax kann an verschiedenen Stellen nach Süden verlassen werden. Erstmals vom Plateau westlich des Tristelhorns dem Südgrat entlang bzw. etwas westlich davon nach Surcruns zu P. 2106 der Hauptroute. T4 – T5, 2 Std. kürzer als Hauptroute. Ein anderer Abstieg bietet sich aus dem «Sattel» ca. 2685 m vor dem Piz Sax an; weglos ebenfalls über Surcruns zu P. 2106, T4, 1 Std. kürzer.</p>",
+  "quick_facts": [
+    [
+      "Summit elevation",
+      "<strong>3078 m</strong>"
+    ],
+    [
+      "SAC grade",
+      "<span class=\"pill t5\">T5+</span>"
+    ],
+    [
+      "Trailhead",
+      "Fidaz, Bargis"
+    ],
+    [
+      "Distance",
+      "15.0 km (loop)"
+    ],
+    [
+      "Total ascent",
+      "~860 m"
+    ],
+    [
+      "Elevation range",
+      "1535-3077 m"
+    ]
+  ],
+  "photos": [
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1576604313_1058671912master_acfb338779.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1576604313_1058671912master_acfb338779.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1576604314_635354484master_59bf23742a.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1576604314_635354484master_59bf23742a.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1706537516_1999029608master_971f8846d1.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1706537516_1999029608master_971f8846d1.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1576604314_1208491751master_2c12bb9337.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1576604314_1208491751master_2c12bb9337.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1576604313_203257457master_c6094c0dae.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1576604313_203257457master_c6094c0dae.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1576604822_1300426977master_b1dd7304f9.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1576604822_1300426977master_b1dd7304f9.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/0/csm_1576604237_1025079475master_584fb1d190.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/0/csm_1576604237_1025079475master_584fb1d190.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    },
+    {
+      "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/4/csm_1576603341_1377924669master_85414e673e.jpg",
+      "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/4/csm_1576603341_1377924669master_85414e673e.jpg",
+      "alt": "Route photo (SAC)",
+      "caption_html": ""
+    }
+  ],
+  "waypoints": [
+    {
+      "lat": 46.8542,
+      "lon": 9.3265,
+      "label": "Fidaz, Bargis (1549 m)",
+      "kind": "start"
+    },
+    {
+      "lat": 46.9013651580509,
+      "lon": 9.317304619345874,
+      "label": "Tristelhorn / Piz da Sterls (3077 m)",
+      "kind": "summit"
+    }
+  ],
+  "routes": [
+    {
+      "title_html": "<strong>Überschreitung Tristelhorn - Piz Sax</strong>",
+      "grade": "T5+",
+      "pill_class": "t5",
+      "bullets_html": [
+        "Bargis – Lavadignas – P. 3074 – Tristelhorn: 4 – 5 Std.",
+        "Tristelhorn – Piz Sax: 1½ – 2 Std.",
+        "Piz Sax – Trinser Furgga – La Rusna – Bargis: 2½ Std.",
+        "Der Grat Tristelhorn – Piz Sax kann an verschiedenen Stellen nach Süden verlassen werden. Erstmals vom Plateau westlich des Tristelhorns dem Südgrat entlang bzw. etwas westlich davon nach Surcruns zu P. 2106 der Hauptroute. T4 – T5, 2 Std. kürzer als Hauptroute. Ein anderer Abstieg bietet sich aus dem «Sattel» ca. 2685 m vor dem Piz Sax an; weglos ebenfalls über Surcruns zu P. 2106, T4, 1 Std. kürzer."
+      ],
+      "source": "SAC Route Portal",
+      "notes_html": "<p>Die Schlüsselstelle liegt am erwähnten Gipfelkopf; der Kletterzug ist für Grossgewachsene etwas einfacher. Der Grat vom Tristelhorn zum Piz Sax hat einige brüchige, sehr exponierte Stellen (T5+, I), die im Abstieg bewältigt werden müssen. Die Tour kann an mehreren Stellen abgekürzt werden, was den Anspruch an die Kondition etwas mindert.</p>"
+    }
+  ],
+  "getting_there": {
+    "by_pt_html": "<p><strong>Bus</strong> to <strong>Fidaz, Bargis</strong>.</p>",
+    "by_car_html": "TODO: Driving directions."
+  },
+  "day_plans": [
+    {
+      "title": "Day 1",
+      "rows": [
+        [
+          "HH:MM",
+          "TODO: step description"
+        ]
+      ]
+    }
+  ],
+  "weather": {
+    "season_html": "TODO: e.g. <strong>July-September</strong> is best; avoid after fresh snow."
+  },
+  "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
+  "resources_html": [
+    "<a href=\"TODO: SAC route URL\">SAC Route Portal -- Tristelhorn / Piz da Sterls</a>",
+    "<a href=\"TODO: SwissTopo map URL\">SwissTopo map</a>"
+  ],
+  "sources": [
+    {
+      "name": "SAC Route Portal (route)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tristelhorn-piz-da-sterls-2031/mountain-hiking/ueberschreitung-tristelhorn-piz-sax-4400/"
+    },
+    {
+      "name": "SAC Route Portal (peak)",
+      "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tristelhorn-piz-da-sterls-2031/mountain-hiking/"
+    }
+  ],
+  "scraped_waypoints": [
+    {
+      "name": "Piz Sax",
+      "elev_m": 2795
+    }
+  ],
+  "photos_attrib_html": "All photos: SAC Route Portal"
+}
