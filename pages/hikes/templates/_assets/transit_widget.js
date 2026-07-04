@@ -319,8 +319,10 @@
   }
 
   // Text summary of a connection for the calendar description. Mirrors the
-  // widget row layout: time range + total duration, route, chip chain with
-  // emoji, then the "HH:MM from <station>" footer.
+  // full expanded panel from the widget: header (time range, duration, route),
+  // chip chain with emoji, then a station-by-station timeline showing every
+  // leg's mode, line, direction, duration, intermediate stops, and platform —
+  // i.e. everything the user sees when they tap "Details" on a row.
   function tripSummaryText(c) {
     var fromName = (c.from && c.from.station && c.from.station.name) || "";
     var toName   = (c.to   && c.to.station   && c.to.station.name)   || "";
@@ -329,14 +331,22 @@
     var arrTime  = c.to   && c.to.arrival     ? fmtTime(c.to.arrival)     : "";
     var fromPlatform = c.from && c.from.platform;
 
+    // Indent so leg bodies sit under the station name (HH:MM + 2 spaces = 7).
+    var INDENT = "       ";
+
     var lines = [];
+
+    // ---- Header block ----------------------------------------------------
     var head = depTime && arrTime ? depTime + " — " + arrTime : "";
     if (head && totalDur) head += " · " + totalDur;
+    if (fromPlatform)     head += " · Pl. " + fromPlatform;
     if (head) lines.push(head);
     else if (totalDur) lines.push(totalDur);
     if (fromName && toName) lines.push(fromName + " → " + toName);
 
-    var chips = (c.sections || [])
+    // ---- Chip chain (mode emoji + line label per leg) --------------------
+    var sections = (c.sections || []);
+    var transitChips = sections
       .filter(function (s) { return s.journey || s.walk; })
       .map(function (s) {
         if (s.walk) {
@@ -347,12 +357,53 @@
         return modeEmoji(s.journey) + (label ? " " + label : "");
       })
       .join(" › ");
-    if (chips) { lines.push(""); lines.push(chips); }
+    if (transitChips) { lines.push(""); lines.push(transitChips); }
 
-    if (depTime && fromName) {
-      var footer = depTime + " from " + fromName;
-      if (fromPlatform) footer += " · Pl. " + fromPlatform;
-      lines.push(""); lines.push(footer);
+    // ---- Station-by-station timeline -------------------------------------
+    if (sections.length) {
+      lines.push("");
+      var lastIdx = sections.length - 1;
+      sections.forEach(function (s, i) {
+        var depDate = s.departure && s.departure.departure;
+        var depName = (s.departure && s.departure.station && s.departure.station.name) || "";
+        var arrDate = s.arrival && s.arrival.arrival;
+        var arrName = (s.arrival && s.arrival.station && s.arrival.station.name) || "";
+
+        // Departure-station row: "HH:MM  Station"
+        var stationLine = (depDate ? fmtTime(depDate) : "     ") + "  " + depName;
+        if (i === 0) stationLine = (depDate ? fmtTime(depDate) : "     ") + "  ▶ " + depName;
+        lines.push(stationLine);
+
+        // Leg body row
+        if (s.walk) {
+          var wmin = Math.max(1, Math.round((s.walk.duration || 60) / 60));
+          var walkLine = INDENT + "🚶 Walk";
+          if (depName && arrName && depName !== arrName) walkLine += " → " + arrName;
+          walkLine += "  (about " + wmin + " min)";
+          lines.push(walkLine);
+        } else if (s.journey) {
+          var j = s.journey;
+          var label = humanLineLabel(j);
+          var dir = (j.to && j.to.trim()) || arrName || "";
+          var legLine = INDENT + modeEmoji(j) + (label ? " " + label : "");
+          if (dir) legLine += " → " + dir;
+
+          var extras = [];
+          var d = fmtDur(legDurSecs(s));
+          if (d) extras.push(d);
+          var stops = (j.passList && j.passList.length) ? (j.passList.length - 2) : null;
+          if (stops === 0) extras.push("non-stop");
+          else if (stops != null && stops > 0) extras.push(stops + " stop" + (stops === 1 ? "" : "s"));
+          if (s.departure && s.departure.platform) extras.push("Pl. " + s.departure.platform);
+          if (extras.length) legLine += "  (" + extras.join(" · ") + ")";
+          lines.push(legLine);
+        }
+
+        // Final arrival row after the last section
+        if (i === lastIdx) {
+          lines.push((arrDate ? fmtTime(arrDate) : "     ") + "  🏁 " + arrName);
+        }
+      });
     }
 
     return lines.join("\n");
