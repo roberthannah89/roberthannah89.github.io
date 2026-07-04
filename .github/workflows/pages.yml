@@ -76,9 +76,14 @@ jobs:
           echo "Weather bucket: $KEY"
 
   # ─── weather (parallel with render) ─────────────────────────────────────
-  # Refreshes MeteoSwiss ICON-CH2 forecasts. First push of each 3-hour
-  # bucket (or the scheduled cron at xx:15) does the ~6-min real fetch;
-  # subsequent builds in the same bucket restore in ~5s.
+  # Refresh keeps critical path off push builds:
+  #   * schedule / workflow_dispatch on cache-miss  → fetch fresh (~6 min).
+  #   * cache-hit                                    → reuse in ~5 s.
+  #   * push on cache-miss                           → skip fetch; ship
+  #     whatever weather-cache.js is already checked in (up to ~3 h old,
+  #     since the cron at xx:15 refreshes every bucket). The ~6-min fetch
+  #     is intentionally kept off the deploy critical path — pushes ship
+  #     code changes fast, and the cron handles weather refresh async.
   weather:
     needs: plan
     runs-on: ubuntu-latest
@@ -92,19 +97,33 @@ jobs:
           path: pages/hikes/command-center/weather-cache.js
           key: ${{ needs.plan.outputs.weather_key }}
 
+      - name: Decide whether to fetch fresh weather
+        id: decide
+        run: |
+          if [ "${{ steps.weather-cache.outputs.cache-hit }}" = "true" ]; then
+            echo "fetch=false" >> $GITHUB_OUTPUT
+            echo "Cache hit — reusing bucket ${{ needs.plan.outputs.weather_key }}"
+          elif [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "fetch=true" >> $GITHUB_OUTPUT
+            echo "Cache miss on ${{ github.event_name }} — refreshing weather"
+          else
+            echo "fetch=false" >> $GITHUB_OUTPUT
+            echo "Cache miss on push — reusing committed weather-cache.js (next cron xx:15 refreshes)"
+          fi
+
       - uses: actions/setup-python@v5
-        if: steps.weather-cache.outputs.cache-hit != 'true'
+        if: steps.decide.outputs.fetch == 'true'
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: pages/hikes/requirements.txt
 
       - name: Install dependencies
-        if: steps.weather-cache.outputs.cache-hit != 'true'
+        if: steps.decide.outputs.fetch == 'true'
         run: pip install -r pages/hikes/requirements.txt
 
       - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
-        if: steps.weather-cache.outputs.cache-hit != 'true'
+        if: steps.decide.outputs.fetch == 'true'
         run: cd pages/hikes && python scripts/fetch_weather.py
 
       - name: Upload weather cache
