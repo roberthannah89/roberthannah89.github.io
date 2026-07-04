@@ -37,8 +37,15 @@
   <!-- Map -->
   <div id="map"></div>
 
-  <!-- Back-to-hikes link (top right, above side-panel z-index when panel is closed) -->
-  <a id="back-to-hikes" href="../index.html">← Hikes</a>
+  <!-- Top-left controls (back link + chrome toggle) -->
+  <div id="top-left-controls">
+    <a id="back-to-hikes" href="../index.html">← Hikes</a>
+    <!-- Toggles body.chrome-hidden — hides #filter-bar and #bottom-bar so the
+         map reads clean while active filters keep applying. See wireChromeToggle
+         in command-center.js. -->
+    <button id="chrome-toggle" type="button" aria-pressed="false"
+            title="Hide filter controls (filters stay applied)">🎛️</button>
+  </div>
 
   <!-- Filter bar (top left) -->
   <div id="filter-bar"></div>

@@ -151,16 +151,6 @@
         if (window.HikePopup && HikePopup.bindCarousel) {
           HikePopup.bindCarousel(el);
         }
-        // Hide filter/bottom bar while a photo popup is open — see the
-        // body.popup-photos-open rule in command-center.css for why we can't
-        // just win on z-index.
-        if (el.querySelector('.popup-carousel')) {
-          document.body.classList.add('popup-photos-open');
-        }
-      });
-
-      marker.on('popupclose', function () {
-        document.body.classList.remove('popup-photos-open');
       });
 
       allMarkers.push(marker);
@@ -930,6 +920,22 @@
     });
   }
 
+  // Chrome toggle — hides #filter-bar and #bottom-bar via body.chrome-hidden.
+  // The filter STATE is untouched (Filters.setState is never called from
+  // here), so any active grade/duration/day-picker/etc. filters stay applied
+  // while the bars are out of view. Purely a display toggle.
+  function wireChromeToggle() {
+    var btn = document.getElementById('chrome-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var hidden = document.body.classList.toggle('chrome-hidden');
+      btn.setAttribute('aria-pressed', hidden ? 'true' : 'false');
+      btn.title = hidden
+        ? 'Show filter controls'
+        : 'Hide filter controls (filters stay applied)';
+    });
+  }
+
   // Share button — copy current URL (including hash state) to clipboard.
   // file:// pages don't get navigator.clipboard, so fall back to a textarea+execCommand.
   function wireShareButton() {
@@ -1106,6 +1112,7 @@
     buildWeatherToggles();
     wireResetButton();
     wireShareButton();
+    wireChromeToggle();
 
     SidePanel.init(document.getElementById('side-panel'));
 

@@ -73,12 +73,20 @@ html, body {
   max-width: calc(100% - 180px);
 }
 
-/* --- Back-to-hikes link (top left, above filter bar) --- */
-#back-to-hikes {
+/* --- Top-left controls (back link + chrome toggle) --- */
+/* z-index sits above the filter bar (800) so the chrome toggle stays
+   clickable when it's the one that hid the filter bar. */
+#top-left-controls {
   position: absolute;
   top: 12px;
   left: 12px;
-  z-index: 800;
+  z-index: 810;
+  display: flex;
+  gap: 4px;
+  align-items: stretch;
+}
+
+#back-to-hikes {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
@@ -92,9 +100,34 @@ html, body {
   backdrop-filter: blur(8px);
   white-space: nowrap;
   transition: color 0.15s ease, border-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
 }
 #back-to-hikes:hover {
   color: var(--text-primary);
+  border-color: var(--amber);
+}
+
+/* Toggle for hiding the filter bar / bottom bar so the map reads clean.
+   Filters stay applied — this only affects the chrome. */
+#chrome-toggle {
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 6px;
+  cursor: pointer;
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+#chrome-toggle:hover { border-color: var(--amber); }
+#chrome-toggle[aria-pressed="true"] {
+  background: rgba(232, 168, 50, 0.18);
   border-color: var(--amber);
 }
 
@@ -633,15 +666,12 @@ html, body {
    routes/_assets/hike_popup.css — shared with the gallery page so both
    popups render identically. */
 
-/* When a marker popup with photos is open we hide the top filter bar and the
-   bottom bar so nothing sits over the carousel. They're both stacking
-   contexts anchored to the root, above the map-pane's transformed context —
-   z-index alone can't push the popup above them, so we take the noisy chrome
-   out of the way instead. Restored the moment the popup closes.
-   (The corner controls — back-to-hikes, reset, share, zoom — stay put so the
-   user can still navigate away without dismissing the popup first.) */
-body.popup-photos-open #filter-bar,
-body.popup-photos-open #bottom-bar {
+/* User-driven hide of the filter bar / bottom bar via #chrome-toggle. The
+   underlying filters keep applying — this is a display-only toggle so the
+   map reads clean while you pan around. Corner controls (back link, chrome
+   toggle itself, zoom) stay visible. */
+body.chrome-hidden #filter-bar,
+body.chrome-hidden #bottom-bar {
   display: none;
 }
 
