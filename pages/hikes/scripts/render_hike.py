@@ -991,6 +991,33 @@ def _index_photo_url(data: dict) -> str:
     return url
 
 
+# Popup carousel shows a handful of photos; cap the list so hikes.js stays small.
+POPUP_PHOTO_COUNT = 8
+POPUP_PHOTO_WIDTH = 400
+
+
+def _popup_photo_urls(data: dict) -> list[str]:
+    """Pick up to POPUP_PHOTO_COUNT photo URLs at popup-appropriate width.
+
+    Used by the map popup carousel on both the gallery page and command
+    center. Deduplicated so the same shot doesn't appear twice.
+    """
+    photos = data.get("photos") or []
+    urls: list[str] = []
+    seen: set[str] = set()
+    for p in photos[:POPUP_PHOTO_COUNT]:
+        url = p.get("url") or ""
+        if not url:
+            continue
+        sized = _resize_photo_url(url, POPUP_PHOTO_WIDTH) if "width=" in url else url
+        key = sized.split("?", 1)[0]
+        if key in seen:
+            continue
+        seen.add(key)
+        urls.append(sized)
+    return urls
+
+
 def build_index_hikes(data_files: list[Path],
                       results: list[RenderResult]) -> list[dict]:
     """Build the HIKES list for the index page from per-hike data + GPX stats.
@@ -1071,6 +1098,7 @@ def build_index_hikes(data_files: list[Path],
             "lon": peak.get("lon"),
             "summitElev": peak.get("elev", ""),
             "photo": _index_photo_url(d),
+            "photos": _popup_photo_urls(d),
             "sac_peak_id": sac_peak_id,
             "sac_route_id": sac_route_id,
             "trailhead": trailhead,

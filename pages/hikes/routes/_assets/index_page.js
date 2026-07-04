@@ -495,10 +495,12 @@ function buildHikeMetaLine(h) {
    block reflects mapDayActive after the user switches days. */
 function buildHikePopupHtml(h) {
   var wx = WX ? getWxForHike(h, mapDayActive) : null;
+  var photos = (h.photos && h.photos.length) ? h.photos : (h.photo ? [h.photo] : []);
   return window.HikePopup.build({
     name: h.name,
     grade: h.grade,
     metaLine: buildHikeMetaLine(h),
+    photos: photos,
     weather: wx ? {
       code: wx.code,
       tempMax: wx.tempMax,
@@ -536,6 +538,12 @@ HIKES.forEach(function (h, i) {
     if (m.getPopup()) m.setPopupContent(html);
     else m.bindPopup(html);
     m.openPopup();
+  });
+  m.on('popupopen', function (e) {
+    var el = e.popup.getElement();
+    if (el && window.HikePopup && HikePopup.bindCarousel) {
+      HikePopup.bindCarousel(el);
+    }
   });
   clusterGroup.addLayer(m);
   markers.push(m);
