@@ -62,16 +62,26 @@ html, body {
 }
 
 /* --- Filter Bar --- */
+/* Single horizontal row that scrolls when the pill collection outgrows the
+   viewport width (temp buckets, extra day picker items, etc.), so the bar
+   never wraps onto a second line and obscures the map underneath. Scrollbar
+   is hidden by design — the pills themselves are the affordance. */
 #filter-bar {
   position: absolute;
   top: 12px;
   left: 12px;
+  right: 12px;
   z-index: 800;
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
-  max-width: calc(100% - 180px);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+#filter-bar::-webkit-scrollbar { display: none; }
+#filter-bar > * { flex-shrink: 0; }
 
 /* --- Back-to-hikes + chrome-toggle (first pills inside #filter-bar) ---
    They sit inline with the filter pills at the very start of the row. */
@@ -799,21 +809,13 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
 @media (max-width: 768px) {
   #side-panel { width: 100%; }
 
-  /* Top filter bar: single horizontal scrolling strip. Grade + time pills sit
-     at the left edge so the scroll affordance is discoverable at rest. */
+  /* Base rule already gives us the single-row scroll. On mobile the strip
+     stretches edge-to-edge with a bit of side padding for the scroll gutter. */
   #filter-bar {
     left: 0;
     right: 0;
-    max-width: none;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
     padding: 0 8px;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
   }
-  #filter-bar::-webkit-scrollbar { display: none; }
-  #filter-bar > * { flex-shrink: 0; }
 
   /* Bottom bar: wrap to multiple rows so every toggle (weather layers, map
      switcher) is visible at rest. Horizontal scrolling here hides the
