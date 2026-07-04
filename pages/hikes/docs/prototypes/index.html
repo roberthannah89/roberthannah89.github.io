@@ -229,22 +229,33 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">15 demos</span>
+  <span class="title-count">16 demos</span>
 </div>
 
 <!-- Card grid -->
 <div class="grid">
 
+  <a class="card" href="3d-peaks.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🏔️</span>
+        <span class="card-title">3D Peak Labels (nearby named peaks)</span>
+      </div>
+      <div class="card-desc">Named peaks within 10 km of the Zindlenspitz route, labeled on the 3D SWISSIMAGE terrain. Filter by elevation and Wikipedia-notable to control label density. Data from OpenStreetMap (Overpass API).</div>
+      <span class="card-source">OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM</span>
+    </div>
+  </a>
+
   <a class="card" href="3d-photorealistic.html">
     <div class="card-thumb">
-      <img src="screenshots/3d-photorealistic.png" alt="3D Photorealistic Tiles (Google) — comparison" loading="lazy">
+      <img src="screenshots/3d-photorealistic.png" alt="3D Photorealistic Tiles (Google + Cesium)" loading="lazy">
     </div>
     <div class="card-body">
       <div class="card-header">
         <span class="card-icon">⛰️</span>
-        <span class="card-title">3D Photorealistic Tiles (Google) — comparison</span>
+        <span class="card-title">3D Photorealistic Tiles (Google + Cesium)</span>
       </div>
-      <div class="card-desc">Side-by-side: current MapLibre + swisstopo SWISSIMAGE vs Google Photorealistic 3D Tiles via Cesium. Needs a Google Maps Platform API key to enable the right pane.</div>
+      <div class="card-desc">Photogrammetric 3D mesh of the Alps via Google Map Tiles rendered with CesiumJS. GPX track + start/end pins draped on the mesh. Works for any hike via ?hike=&lt;slug&gt;. Needs a Google Maps Platform API key (Map Tiles API enabled).</div>
       <span class="card-source">Google Maps Platform — Map Tiles API + CesiumJS</span>
     </div>
   </a>

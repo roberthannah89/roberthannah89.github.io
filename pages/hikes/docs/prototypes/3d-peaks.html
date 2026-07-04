@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Peak Labels — Zindlenspitz</title>
+<meta name="proto-title" content="3D Peak Labels (nearby named peaks)">
+<meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
+<meta name="proto-desc" content="Named peaks within 10 km of the Zindlenspitz route, labeled on the 3D SWISSIMAGE terrain. Filter by elevation and Wikipedia-notable to control label density. Data from OpenStreetMap (Overpass API).">
+<meta name="proto-source" content="OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM">
+<meta name="proto-order" content="140">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  :root {
+    --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4;
+    --accent: #c0392b; --border: #e2e2dd;
+    --panel: rgba(255,255,255,0.94);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+
+  header {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    background: #fff; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 15px; font-weight: 600; }
+  header a.back { color: var(--accent); text-decoration: none; font-size: 12.5px; }
+  header a.back:hover { text-decoration: underline; }
+  header .meta { color: var(--muted); font-size: 12px; margin-left: auto; }
+
+  #map { width: 100%; height: calc(100vh - 44px); position: relative; }
+
+  /* Filter panel — floating overlay, top-right */
+  .panel {
+    position: absolute; top: 12px; right: 12px; z-index: 5;
+    background: var(--panel);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    padding: 12px 14px;
+    font-size: 12.5px;
+    min-width: 240px;
+    max-width: 300px;
+  }
+  .panel h2 {
+    margin: 0 0 8px; font-size: 12.5px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .panel .presets {
+    display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .preset-btn {
+    flex: 1 1 auto;
+    background: #f0efea; color: var(--fg); border: 1px solid var(--border);
+    padding: 5px 8px; border-radius: 4px;
+    font: inherit; font-size: 11.5px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .preset-btn:hover { background: #e6e5df; }
+  .preset-btn.active {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+
+  .panel .row { margin-bottom: 10px; }
+  .panel .row label { display: block; margin-bottom: 4px; font-size: 12px; color: var(--muted); }
+  .panel .row .val { color: var(--fg); font-weight: 600; }
+  .panel input[type=range] { width: 100%; margin: 0; }
+  .panel .toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .panel .toggle input { margin: 0; cursor: pointer; }
+  .panel .status {
+    font-size: 11.5px; color: var(--muted);
+    padding-top: 8px; border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .panel .status strong { color: var(--fg); font-weight: 600; }
+
+  /* Peak marker + label styling */
+  .peak-marker {
+    width: 8px; height: 8px;
+    background: #fff;
+    border: 1.5px solid #333;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .peak-marker.summit {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-color: #fff;
+    box-shadow: 0 0 0 1.5px rgba(192,57,43,0.5);
+  }
+  .peak-label {
+    position: absolute;
+    transform: translate(-50%, calc(-100% - 6px));
+    background: rgba(255,255,255,0.92);
+    color: var(--fg);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    pointer-events: none;
+    text-shadow: 0 0 2px rgba(255,255,255,0.9);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    letter-spacing: 0.1px;
+    line-height: 1.4;
+  }
+  .peak-label .ele {
+    color: var(--muted);
+    font-size: 10px;
+    margin-left: 4px;
+  }
+  .peak-label.tier1 {
+    font-size: 12.5px; font-weight: 600;
+    background: rgba(255,255,255,0.96);
+  }
+  .peak-label.tier2 {
+    font-size: 11.5px; font-weight: 500;
+  }
+  .peak-label.tier3 {
+    font-size: 10.5px; font-weight: 400;
+    background: rgba(255,255,255,0.85);
+  }
+  .peak-marker.tier1 {
+    width: 10px; height: 10px;
+    border-color: #111; border-width: 2px;
+  }
+  .peak-marker.tier3 {
+    width: 6px; height: 6px;
+    border-width: 1px;
+  }
+
+  @media (max-width: 640px) {
+    header { padding: 8px 12px; }
+    header .meta { display: none; }
+    .panel { top: 8px; right: 8px; left: 8px; min-width: 0; max-width: none; }
+  }
+</style>
+<script data-goatcounter="https://roberthannah89.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<header>
+  <a class="back" href="index.html">← Prototypes</a>
+  <h1>3D Peaks — Zindlenspitz</h1>
+  <span class="meta">Named peaks within 10 km of the route · SWISSIMAGE on Terrarium DEM · right-click + drag to tilt</span>
+</header>
+
+<div id="map">
+  <div class="panel">
+    <h2>Filter</h2>
+    <div class="presets" id="presets">
+      <button class="preset-btn" data-preset="famous">Famous</button>
+      <button class="preset-btn active" data-preset="high">Above 2000m</button>
+      <button class="preset-btn" data-preset="mid">Above 1500m</button>
+      <button class="preset-btn" data-preset="all">All</button>
+    </div>
+
+    <div class="row">
+      <label>Minimum elevation: <span class="val" id="ele-val">2000 m</span></label>
+      <input id="ele-slider" type="range" min="500" max="3000" step="50" value="2000">
+    </div>
+
+    <label class="toggle row">
+      <input type="checkbox" id="wd-toggle">
+      <span>Only Wikipedia-notable peaks</span>
+    </label>
+
+    <div class="status">
+      Showing <strong id="shown-count">–</strong> of <strong id="total-count">–</strong> peaks
+      <br>
+      <span style="font-size:10.5px">10 km buffer · OpenStreetMap data</span>
+    </div>
+  </div>
+</div>
+
+<script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+<script src="../../routes/zindlenspitz/proto-peaks.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var TRAILHEAD = [8.9303, 47.0851];
+  var SUMMIT    = [8.95987, 47.07627];
+  var SUMMIT_NAME = "Zindlenspitz";
+  var SUMMIT_ELE  = 2111;
+
+  var PEAKS = (window.ROUTE_PEAKS && window.ROUTE_PEAKS.peaks) || [];
+
+  var map = new maplibregl.Map({
+    container: "map",
+    style: {
+      version: 8,
+      sources: {
+        swissimage: {
+          type: "raster",
+          tiles: ["https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg"],
+          tileSize: 256, maxzoom: 19,
+          attribution: "&copy; swisstopo"
+        },
+        terrarium: {
+          type: "raster-dem",
+          tiles: ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+          tileSize: 256, maxzoom: 15, encoding: "terrarium",
+          attribution: "Terrain: Mapzen / AWS Open Data"
+        }
+      },
+      layers: [{ id: "satellite", type: "raster", source: "swissimage" }],
+      terrain: { source: "terrarium", exaggeration: 1.5 },
+      sky: { "sky-color": "#9fc8ec", "horizon-color": "#dfe7ed", "fog-color": "#dfe7ed", "fog-ground-blend": 0.5 }
+    },
+    center: [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2],
+    zoom: 12, pitch: 65, bearing: 35, maxPitch: 85, hash: false
+  });
+
+  map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-left");
+  map.addControl(new maplibregl.FullscreenControl(), "top-left");
+  map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
+
+  // --- Track + endpoint markers -------------------------------------------
+  map.on("load", function () {
+    var src = window.TRACK || [];
+    if (src.length) {
+      var coords = src.map(function (p) { return [p[1], p[0]]; });
+      map.addSource("track", {
+        type: "geojson",
+        data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: coords } }
+      });
+      map.addLayer({
+        id: "track-casing", type: "line", source: "track",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: { "line-color": "#1a1a1a", "line-width": 6, "line-opacity": 0.45 }
+      });
+      map.addLayer({
+        id: "track-line", type: "line", source: "track",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: { "line-color": "#e74c3c", "line-width": 3.5 }
+      });
+      var lons = coords.map(function (c) { return c[0]; });
+      var lats = coords.map(function (c) { return c[1]; });
+      var pad = 0.03; // extra padding so nearby peaks fit
+      var bounds = [
+        [Math.min.apply(null, lons) - pad, Math.min.apply(null, lats) - pad],
+        [Math.max.apply(null, lons) + pad, Math.max.apply(null, lats) + pad]
+      ];
+      map.fitBounds(bounds, { padding: 40, pitch: 60, bearing: 35, duration: 0 });
+    }
+    new maplibregl.Marker({ color: "#27ae60" }).setLngLat(TRAILHEAD)
+      .setPopup(new maplibregl.Popup().setText("Trailhead"))
+      .addTo(map);
+  });
+
+  // Render peaks as soon as the map instance exists — no wait for tiles.
+  // maplibregl.Marker only needs the map handle, not a loaded style.
+  map.once("styledata", renderPeaks);
+
+  // --- Peak markers -------------------------------------------------------
+  var peakMarkers = [];  // maplibregl.Marker instances
+
+  function tierFor(peak) {
+    // Tier 1: high & wikidata (visually loud). Tier 2: default. Tier 3: low & unknown (visually quiet).
+    var ele = peak.ele || 0;
+    var notable = !!peak.wikidata;
+    if (ele >= 2500 || (ele >= 2000 && notable)) return 1;
+    if (ele >= 1800 || notable) return 2;
+    return 3;
+  }
+
+  function makeMarkerEl(peak) {
+    var wrap = document.createElement("div");
+    wrap.style.position = "relative";
+
+    var tier = tierFor(peak);
+    var isSummit = peak.name === SUMMIT_NAME;
+
+    var dot = document.createElement("div");
+    dot.className = "peak-marker tier" + tier + (isSummit ? " summit" : "");
+    wrap.appendChild(dot);
+
+    var label = document.createElement("div");
+    label.className = "peak-label tier" + tier;
+    var eleTxt = peak.ele != null ? '<span class="ele">' + Math.round(peak.ele) + " m</span>" : "";
+    label.innerHTML = escapeHtml(peak.name) + eleTxt;
+    wrap.appendChild(label);
+
+    return wrap;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+
+  function clearMarkers() {
+    peakMarkers.forEach(function (m) { m.remove(); });
+    peakMarkers = [];
+  }
+
+  function renderPeaks() {
+    clearMarkers();
+    var minEle = parseInt(document.getElementById("ele-slider").value, 10);
+    var wdOnly = document.getElementById("wd-toggle").checked;
+
+    var filtered = PEAKS.filter(function (p) {
+      if (p.ele == null) return false;   // drop untagged elevations
+      if (p.ele < minEle) return false;
+      if (wdOnly && !p.wikidata) return false;
+      return true;
+    });
+
+    filtered.forEach(function (p) {
+      var m = new maplibregl.Marker({ element: makeMarkerEl(p), anchor: "center" })
+        .setLngLat([p.lon, p.lat])
+        .addTo(map);
+      peakMarkers.push(m);
+    });
+
+    document.getElementById("shown-count").textContent = filtered.length;
+    document.getElementById("total-count").textContent = PEAKS.length;
+  }
+
+  // --- Controls -----------------------------------------------------------
+  var PRESETS = {
+    famous: { minEle: 2500, wd: false },
+    high:   { minEle: 2000, wd: false },
+    mid:    { minEle: 1500, wd: false },
+    all:    { minEle: 500,  wd: false }
+  };
+
+  function applyPreset(key) {
+    var p = PRESETS[key];
+    if (!p) return;
+    document.getElementById("ele-slider").value = p.minEle;
+    document.getElementById("ele-val").textContent = p.minEle + " m";
+    document.getElementById("wd-toggle").checked = p.wd;
+    setActivePreset(key);
+    renderPeaks();
+  }
+
+  function setActivePreset(key) {
+    document.querySelectorAll(".preset-btn").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.preset === key);
+    });
+  }
+
+  document.querySelectorAll(".preset-btn").forEach(function (b) {
+    b.addEventListener("click", function () { applyPreset(b.dataset.preset); });
+  });
+
+  document.getElementById("ele-slider").addEventListener("input", function (e) {
+    document.getElementById("ele-val").textContent = e.target.value + " m";
+    setActivePreset(null);   // manual change deselects preset
+    renderPeaks();
+  });
+
+  document.getElementById("wd-toggle").addEventListener("change", function () {
+    setActivePreset(null);
+    renderPeaks();
+  });
+
+  // Initial status while map loads
+  document.getElementById("total-count").textContent = PEAKS.length;
+})();
+</script>
+
+</body>
+</html>
