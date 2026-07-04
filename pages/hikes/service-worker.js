@@ -37,7 +37,7 @@
 //   - every commit bumps SW_VERSION → shell-cache invalidates on deploy
 //   - scheduled cron rebuilds (no new commit) do NOT churn the cache
 // Never edit this literal by hand — it will be overwritten on next render.
-const SW_VERSION = "20260704-d230a9b5";
+const SW_VERSION = "20260704-7a63ae18";
 const SHELL_CACHE = `hikes-shell-${SW_VERSION}`;
 const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 
