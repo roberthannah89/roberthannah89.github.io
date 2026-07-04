@@ -73,6 +73,31 @@ html, body {
   max-width: calc(100% - 180px);
 }
 
+/* --- Back-to-hikes link (top right) --- */
+#back-to-hikes {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 800;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: var(--amber);
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+#back-to-hikes:hover {
+  color: var(--text-primary);
+  border-color: var(--amber);
+}
+
 .filter-group {
   display: flex;
   align-items: center;
@@ -806,6 +831,10 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   }
 
   #bottom-bar { bottom: 12px; }
+
+  /* Nudge filter-bar down so it clears the back-to-hikes link (which stays
+     pinned top-right at the same 12px top offset). */
+  #filter-bar { top: 44px; }
 }
 
 /* --- Webcam markers --- */
