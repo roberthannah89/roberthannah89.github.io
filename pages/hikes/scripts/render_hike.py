@@ -860,6 +860,58 @@ def probe_urls(data_files: Iterable[Path], max_workers: int = 16) -> bool:
 ####################################################################################################################################
 
 
+def bump_sw_version() -> str | None:
+    """Rewrite ``pages/hikes/service-worker.js``'s ``SW_VERSION`` string with a
+    value derived from the current git HEAD short SHA + UTC date.
+
+    Bumping SW_VERSION invalidates the browser's ``hikes-shell-<version>``
+    Cache Storage entry, so every visitor pulls the new shell (index.html,
+    hike_page.js, transit_widget.js, …) on their next visit. The pre-2026-07
+    workflow relied on a maintainer remembering to hand-bump the literal on
+    every deploy; when they forgot (as on the 2026-06-28 → 2026-07-03 cycle),
+    users kept seeing the pre-fix transit widget for a week.
+
+    Using the HEAD SHA means:
+      - every code-change commit bumps SW_VERSION → fresh shell on deploy
+      - 3-hourly scheduled cron rebuilds do NOT change the SHA and do NOT
+        churn the shell cache (so returning users don't re-download the
+        shell every 3 hours for nothing)
+
+    Silently no-ops when not in a git repo or when the file/marker is
+    missing — the fallback string in the file itself is fine for offline
+    dev opens.
+    """
+    import subprocess
+    sw_path = REPO_ROOT / "service-worker.js"
+    if not sw_path.exists():
+        return None
+    try:
+        sha = subprocess.check_output(
+            ["git", "-C", str(REPO_ROOT), "rev-parse", "--short=8", "HEAD"],
+            stderr=subprocess.DEVNULL,
+        ).decode().strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    if not sha:
+        return None
+    # Include a date prefix so cache keys are also human-sortable in DevTools
+    from datetime import datetime, timezone
+    date = datetime.now(timezone.utc).strftime("%Y%m%d")
+    version = f"{date}-{sha}"
+    text = sw_path.read_text(encoding="utf-8")
+    new_text = re.sub(
+        r'^const SW_VERSION = "[^"]*";',
+        f'const SW_VERSION = "{version}";',
+        text,
+        count=1,
+        flags=re.MULTILINE,
+    )
+    if new_text == text:
+        return None
+    sw_path.write_text(new_text, encoding="utf-8")
+    return version
+
+
 def sync_assets(root: Path) -> tuple[int, int]:
     """Copy templates/_assets/* to <root>/_assets/ if changed.
 
@@ -1277,6 +1329,10 @@ def main(argv: list[str] | None = None) -> int:
     copied, total = sync_assets(args.root)
     if total:
         print(f"[assets] {copied}/{total} file(s) updated in {args.root}/_assets/")
+
+    sw_version = bump_sw_version()
+    if sw_version:
+        print(f"[sw] SW_VERSION → {sw_version}  (shell cache will refresh on next visit)")
 
     # Incremental: skip hikes whose <slug>.html is newer than its inputs.
     # Templates/_assets changes affect every hike, so a single new template

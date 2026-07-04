@@ -30,7 +30,14 @@
  * See docs/design/offline.md §8 for the phased plan.
  */
 
-const SW_VERSION = "v4-2026-06-28-cities";
+// SW_VERSION is rewritten in place by scripts/render_hike.py on every
+// `make render` (locally and on CI) — the value here is a fallback for
+// the case someone opens the file before running render. The rewrite
+// keys off the git HEAD short SHA so:
+//   - every commit bumps SW_VERSION → shell-cache invalidates on deploy
+//   - scheduled cron rebuilds (no new commit) do NOT churn the cache
+// Never edit this literal by hand — it will be overwritten on next render.
+const SW_VERSION = "20260704-56471ddf";
 const SHELL_CACHE = `hikes-shell-${SW_VERSION}`;
 const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 

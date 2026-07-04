@@ -1,6 +1,3 @@
-// GENERATED FROM ../../templates/_assets/sw-register.js — edit the template, not this file.
-// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).
-
 /* Service Worker registrar — safe to include from any page in the hike
  * site. Bails out (with a one-line console note) when the page is opened
  * from file:// or in a browser without SW support. On https:// it
