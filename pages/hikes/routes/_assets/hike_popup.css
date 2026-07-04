@@ -73,6 +73,70 @@
   margin-top: 6px;
 }
 
+/* Photo carousel — shown when opts.photos is supplied. The arrows sit on top
+   of the image and appear on hover; the counter overlays the bottom-right so
+   the user can tell at a glance whether there are more shots to page through. */
+.leaflet-popup-content .popup-carousel {
+  position: relative;
+  margin: 8px -4px 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--popup-border, #23262e);
+  aspect-ratio: 4 / 3;
+}
+
+.leaflet-popup-content .popup-carousel__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.leaflet-popup-content .popup-carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease, background 0.12s ease;
+}
+
+.leaflet-popup-content .popup-carousel:hover .popup-carousel__nav,
+.leaflet-popup-content .popup-carousel:focus-within .popup-carousel__nav {
+  opacity: 1;
+}
+
+.leaflet-popup-content .popup-carousel__nav:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.leaflet-popup-content .popup-carousel__nav--prev { left: 4px; }
+.leaflet-popup-content .popup-carousel__nav--next { right: 4px; }
+
+.leaflet-popup-content .popup-carousel__count {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-family: var(--popup-mono, "IBM Plex Mono", "Courier New", monospace);
+  font-size: 10px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
 /* Grade badge — small colored pill next to the name. Grade colours match the
    marker dot colour so the two are directly comparable. */
 .leaflet-popup-content .popup-name .grade-badge {

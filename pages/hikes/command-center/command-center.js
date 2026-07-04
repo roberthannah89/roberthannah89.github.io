@@ -148,6 +148,9 @@
             SidePanel.open(poi);
           };
         }
+        if (window.HikePopup && HikePopup.bindCarousel) {
+          HikePopup.bindCarousel(el);
+        }
       });
 
       allMarkers.push(marker);
@@ -468,10 +471,16 @@
     var hike = (window.SidePanel && SidePanel.matchingHike)
       ? SidePanel.matchingHike(poi) : null;
 
+    // Photos only exist for POIs that match a built hike page — HIKES carries
+     // the full carousel URL list; SAC_ROUTES does not.
+    var photos = hike && hike.photos && hike.photos.length
+      ? hike.photos
+      : (hike && hike.photo ? [hike.photo] : []);
     var html = window.HikePopup.build({
       name: poi.name,
       grade: Filters.bestGrade(poi),
       metaLine: popupMetaLine(poi),
+      photos: photos,
       weather: wx ? {
         code: wx.code,
         tempMax: wx.tempMax,
