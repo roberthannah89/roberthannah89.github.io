@@ -718,11 +718,14 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
         changed.append(f"scraped_waypoints (+{len(sr.waypoints)})")
 
     # End point — record as a top-level field for downstream rendering.
-    if sr.end_name and not data.get("end_point"):
-        data["end_point"] = {
-            "name": sr.end_name,
-            "elev": sr.end_elev_m,
-        }
+    # Note: end_point may already exist with just sbb_url from the arrival-URL
+    # branch above; merge name/elev in rather than skip when the dict is present
+    # but incomplete.
+    if sr.end_name and not (data.get("end_point") or {}).get("name"):
+        ep = data.setdefault("end_point", {})
+        ep["name"] = sr.end_name
+        if sr.end_elev_m is not None:
+            ep["elev"] = sr.end_elev_m
         changed.append("end_point")
 
     # Route type — derive from the scraped data, don't trust the scaffold default.

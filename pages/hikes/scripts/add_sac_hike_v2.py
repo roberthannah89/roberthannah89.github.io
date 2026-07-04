@@ -257,15 +257,16 @@ def main(argv: list[str] | None = None) -> int:
         route_url = _resolve_peak_url_to_route_url(args.url, peak_id)
         print(f"      → {route_url}")
 
-    # Derive slug from peak name if the user didn't pass one.
-    slug = args.slug
-    if not slug:
-        db = _load_routes_db()
-        peak = next((p for p in db if p.get("id") == peak_id), None)
-        if not peak:
-            sys.exit(f"ERROR: peak {peak_id} not in {ROUTES_DB} — pass --slug explicitly.")
-        slug = _slug_from_peak_name(peak["name"])
-        print(f"[0/5] Slug derived from peak name '{peak['name']}' → '{slug}'")
+    # Look up the peak in the routes DB — we need its canonical name for the
+    # scaffold (and, if the user didn't pass --slug, to derive the slug too).
+    db = _load_routes_db()
+    peak = next((p for p in db if p.get("id") == peak_id), None)
+    if not peak:
+        sys.exit(f"ERROR: peak {peak_id} not in {ROUTES_DB} — add it or pass --slug explicitly.")
+    peak_name = peak["name"]
+    slug = args.slug or _slug_from_peak_name(peak_name)
+    if not args.slug:
+        print(f"[0/5] Slug derived from peak name '{peak_name}' → '{slug}'")
 
     out_dir = REPO_ROOT / "routes" / slug
     data_path = out_dir / f"{slug}.data.json"
@@ -344,7 +345,7 @@ def main(argv: list[str] | None = None) -> int:
         gpx_data = parse_gpx(gpx_path)
         scaffold_hike(
             slug=slug,
-            name=slug.replace("-", " ").title(),  # placeholder; the page title comes from data
+            name=peak_name,
             region=args.region,
             canton=canton,
             grade=grade,
