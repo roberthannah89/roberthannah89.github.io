@@ -633,6 +633,12 @@ html, body {
    routes/_assets/hike_popup.css — shared with the gallery page so both
    popups render identically. */
 
+/* Marker popup (with its photo carousel) floats above the filter bar and
+   bottom bar so photos aren't clipped when the marker sits under one of
+   those overlays. Kept below #side-panel (z-index 900) so the panel still
+   wins when both are open. Leaflet's default popup-pane z-index is ~700. */
+.leaflet-popup-pane { z-index: 850; }
+
 .leaflet-control-zoom a {
   background: var(--board-surface) !important;
   color: var(--text-primary) !important;
