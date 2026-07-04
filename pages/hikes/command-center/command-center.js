@@ -151,6 +151,16 @@
         if (window.HikePopup && HikePopup.bindCarousel) {
           HikePopup.bindCarousel(el);
         }
+        // Hide filter/bottom bar while a photo popup is open — see the
+        // body.popup-photos-open rule in command-center.css for why we can't
+        // just win on z-index.
+        if (el.querySelector('.popup-carousel')) {
+          document.body.classList.add('popup-photos-open');
+        }
+      });
+
+      marker.on('popupclose', function () {
+        document.body.classList.remove('popup-photos-open');
       });
 
       allMarkers.push(marker);
