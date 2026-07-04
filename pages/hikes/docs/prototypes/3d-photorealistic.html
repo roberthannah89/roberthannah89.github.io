@@ -70,6 +70,43 @@
     }
     .quality-btn:hover { background: #fff; }
 
+    /* Zoom buttons — mid-right, stacked. Discoverable +/- since mouse-wheel isn't
+       obvious to touch users and desktop users often expect them. */
+    .zoombar {
+      position: absolute; top: 50%; right: 12px; transform: translateY(-50%);
+      z-index: 6;
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.94);
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .zoom-btn {
+      width: 32px; height: 32px;
+      background: transparent; color: var(--fg); border: 0;
+      font: inherit; font-size: 18px; line-height: 1; font-weight: 500;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .zoom-btn + .zoom-btn { border-top: 1px solid rgba(0,0,0,0.08); }
+    .zoom-btn:hover { background: #fafaf6; }
+    .zoom-btn:active { background: #ecece5; }
+
+    /* Controls hint — bottom-center, auto-fades after first interaction. */
+    .controls-hint {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      z-index: 5;
+      background: rgba(0,0,0,0.55); color: #fff;
+      padding: 5px 12px; border-radius: 12px;
+      font-size: 11px; letter-spacing: .01em;
+      pointer-events: none;
+      transition: opacity .4s ease;
+    }
+    .controls-hint.hidden { opacity: 0; }
+    @media (max-width: 600px) {
+      .controls-hint { font-size: 10px; padding: 4px 9px; }
+    }
+
     #map-host, #cesium-container, #maplibre-map { width: 100%; height: 100%; }
     .pane-placeholder {
       width: 100%; height: 100%;
@@ -140,6 +177,11 @@
       <button class="mode-btn" id="mode-maplibre" data-mode="maplibre">🗺 Satellite</button>
     </div>
     <button class="quality-btn" id="quality-btn" hidden>⚡ Fast</button>
+    <div class="zoombar" id="zoombar" hidden>
+      <button class="zoom-btn" id="zoom-in"  type="button" aria-label="Zoom in"  title="Zoom in">+</button>
+      <button class="zoom-btn" id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+    </div>
+    <div class="controls-hint" id="controls-hint" hidden>drag to look · scroll to zoom · Ctrl+drag to tilt</div>
     <div id="map-host"><div class="pane-placeholder" id="placeholder">
       <strong>Paste an API key to load the 3D mesh.</strong>
       <small>Get one at <code>console.cloud.google.com</code> → enable <strong>Map Tiles API</strong>. Free tier: <strong>1,000 sessions</strong>/mo. Beyond: $6/1k.</small>
@@ -203,6 +245,10 @@
     const $modeCesium   = document.getElementById('mode-cesium');
     const $modeMaplibre = document.getElementById('mode-maplibre');
     const $qualityBtn   = document.getElementById('quality-btn');
+    const $zoombar      = document.getElementById('zoombar');
+    const $zoomIn       = document.getElementById('zoom-in');
+    const $zoomOut      = document.getElementById('zoom-out');
+    const $controlsHint = document.getElementById('controls-hint');
 
     let cesiumViewer = null;
     let cesiumTileset = null;
@@ -322,6 +368,31 @@
       $qualityBtn.hidden = (currentMode !== 'cesium');
       $qualityBtn.textContent = QUALITY_LABELS[currentQuality] || QUALITY_LABELS.fast;
       $qualityBtn.title = QUALITY_TITLES[currentQuality] || QUALITY_TITLES.fast;
+      // Zoom buttons only in Cesium mode — MapLibre has its own native +/- controls.
+      $zoombar.hidden = (currentMode !== 'cesium');
+      $controlsHint.hidden = (currentMode !== 'cesium');
+    }
+
+    // ===== Cesium zoom buttons =====
+    // Zoom in/out by moving the camera along its view vector by 40% of the current
+    // distance to the tileset surface under the screen center. Matches the feel of
+    // one wheel notch on desktop.
+    function cesiumZoom(factor) {
+      if (!cesiumViewer) return;
+      const scene = cesiumViewer.scene;
+      const cam = scene.camera;
+      const w = cesiumViewer.canvas.clientWidth  || window.innerWidth;
+      const h = cesiumViewer.canvas.clientHeight || window.innerHeight;
+      const center = new Cesium.Cartesian2(w / 2, h / 2);
+      // Try tileset first (photorealistic mesh), then ellipsoid as fallback.
+      let target = scene.pickPosition ? scene.pickPosition(center) : null;
+      if (!target) target = cam.pickEllipsoid(center);
+      const distance = target
+        ? Cesium.Cartesian3.distance(cam.position, target)
+        : (cam.positionCartographic ? Math.max(cam.positionCartographic.height, 500) : 5000);
+      const amount = distance * factor;
+      if (amount > 0) cam.moveForward(amount);   // zoom in
+      else            cam.moveBackward(-amount); // zoom out
     }
 
     // ===== Cesium quality knobs =====
@@ -397,9 +468,15 @@
           baseLayer: false, baseLayerPicker: false,
           timeline: false, animation: false, geocoder: false,
           sceneModePicker: false, navigationHelpButton: false,
-          homeButton: false, infoBox: false, selectionIndicator: false,
-          globe: false
+          homeButton: false, infoBox: false, selectionIndicator: false
         });
+        // Hide the globe but keep it — with globe:false in the constructor Cesium
+        // sets rotateEventTypes/translateEventTypes to null (no pivot to orbit
+        // around), so left-drag pan and Ctrl+drag tilt silently no-op. Keeping the
+        // globe present but invisible lets ScreenSpaceCameraController wire up the
+        // full drag set while the photorealistic tileset renders unobscured.
+        cesiumViewer.scene.globe.show = false;
+        cesiumViewer.scene.globe.depthTestAgainstTerrain = false;
         cesiumViewer.scene.skyAtmosphere.show = true;
 
         // FXAA is cheap and helps ridge edges; always on.
@@ -549,6 +626,21 @@
       const next = QUALITY_ORDER[(idx + 1) % QUALITY_ORDER.length];
       setQuality(next);
     });
+    $zoomIn .addEventListener('click', () => { cesiumZoom( 0.4); dismissControlsHint(); });
+    $zoomOut.addEventListener('click', () => { cesiumZoom(-0.4); dismissControlsHint(); });
+
+    // Fade the controls hint out after the first real interaction so it doesn't
+    // clutter the map forever. Auto-dismisses after 8s if the user never touches it.
+    let controlsHintDismissed = false;
+    function dismissControlsHint() {
+      if (controlsHintDismissed) return;
+      controlsHintDismissed = true;
+      $controlsHint.classList.add('hidden');
+    }
+    ['wheel', 'pointerdown'].forEach(evt =>
+      document.addEventListener(evt, dismissControlsHint, { once: true, passive: true })
+    );
+    setTimeout(dismissControlsHint, 8000);
 
     // ===== Initial state =====
     try { currentMode = localStorage.getItem(MODE_STORAGE) || 'cesium'; } catch (e) {}
@@ -595,6 +687,8 @@
     if (captureMode) {
       $modeCesium.parentElement.style.display = 'none';
       $qualityBtn.style.display = 'none';
+      $zoombar.style.display = 'none';
+      $controlsHint.style.display = 'none';
     }
 
     updateModeUI();
