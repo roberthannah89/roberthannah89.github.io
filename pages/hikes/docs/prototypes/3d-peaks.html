@@ -6,7 +6,7 @@
 <title>3D Peak Labels — Zindlenspitz</title>
 <meta name="proto-title" content="3D Peak Labels (nearby named peaks)">
 <meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
-<meta name="proto-desc" content="Named peaks within 10 km of the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Default shows main summits (Wikipedia-notable, ~113); the emoji toggle expands to every named peak. Data from OpenStreetMap.">
+<meta name="proto-desc" content="Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Default shows main summits within 10 km (~113); the pill toggle expands to every named peak in Switzerland (~7,500). Data from OpenStreetMap.">
 <meta name="proto-source" content="OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM">
 <meta name="proto-order" content="140">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -44,6 +44,8 @@
     transition: background 0.15s;
   }
   .peaks-toggle:hover { background: #ffffff; }
+  .peaks-toggle.active { background: var(--accent); color: #fff; }
+  .peaks-toggle.active .count { color: rgba(255,255,255,0.85); }
   .peaks-toggle .icon { font-size: 16px; line-height: 1; }
   .peaks-toggle .count {
     color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums;
@@ -63,19 +65,20 @@
 <header>
   <a class="back" href="index.html">← Prototypes</a>
   <h1>3D Peaks — Zindlenspitz</h1>
-  <span class="meta">Named peaks within 10 km · SWISSIMAGE on Terrarium DEM · click the pill to show all peaks</span>
+  <span class="meta">SWISSIMAGE on Terrarium DEM · click the pill to sweep every named peak in Switzerland onto the map</span>
 </header>
 
 <div id="map">
-  <button class="peaks-toggle" id="peaks-toggle" title="Toggle: main summits ↔ every named peak">
+  <button class="peaks-toggle" id="peaks-toggle" title="Toggle: nearby main summits ↔ every named peak in Switzerland">
     <span class="icon" id="toggle-icon">&#x1F3D4;&#xFE0F;</span>
-    <span id="toggle-label">Main summits</span>
+    <span id="toggle-label">Nearby peaks</span>
     <span class="count" id="toggle-count">—</span>
   </button>
 </div>
 
 <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
 <script src="../../routes/zindlenspitz/proto-peaks.js"></script>
+<script src="../../routes/zindlenspitz/proto-swiss-peaks.js"></script>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 (function () {
@@ -90,38 +93,57 @@
   // hiker's sense.
   var SPOT_ELE = /^P\.?\s*\d/;
 
-  var PEAKS_ALL = (window.ROUTE_PEAKS && window.ROUTE_PEAKS.peaks || [])
-    .filter(function (p) { return p.ele != null && !SPOT_ELE.test(p.name); });
-
-  // "main" = has a Wikidata article. Best free proxy for Hauptgipfel
-  // in the absence of prominence data.
-  function tierFor(peak) {
-    var ele = peak.ele || 0;
-    var notable = !!peak.wikidata;
+  function tierFor(ele, notable) {
+    ele = ele || 0;
     if (ele >= 2500 || (ele >= 2000 && notable)) return 1;
     if (ele >= 1800 || notable) return 2;
     return 3;
   }
 
-  function toFeatures(peaks) {
-    return peaks.map(function (p) {
+  // Nearby feed — the 10 km buffer around this route. proto-peaks.js uses
+  // long tag names (`name`, `ele`, `wikidata`, …).
+  var NEARBY = (window.ROUTE_PEAKS && window.ROUTE_PEAKS.peaks || [])
+    .filter(function (p) { return p.ele != null && !SPOT_ELE.test(p.name); })
+    .filter(function (p) { return !!p.wikidata; });  // "main summits" only
+
+  // Swiss-wide feed — proto-swiss-peaks.js uses compact keys (n/e/y/x/w).
+  var SWISS = ((window.SWISS_PEAKS && window.SWISS_PEAKS.peaks) || [])
+    .filter(function (p) { return p.e != null; });
+
+  function nearbyFeatures() {
+    return NEARBY.map(function (p) {
       return {
         type: "Feature",
         geometry: { type: "Point", coordinates: [p.lon, p.lat] },
         properties: {
           name: p.name,
           ele: p.ele,
-          tier: tierFor(p),
-          wd: !!p.wikidata,
+          tier: tierFor(p.ele, !!p.wikidata),
           isSummit: p.name === SUMMIT_NAME
         }
       };
     });
   }
 
-  var PEAKS_FC = { type: "FeatureCollection", features: toFeatures(PEAKS_ALL) };
-  var COUNT_MAIN = PEAKS_ALL.filter(function (p) { return !!p.wikidata; }).length;
-  var COUNT_ALL  = PEAKS_ALL.length;
+  function swissFeatures() {
+    return SWISS.map(function (p) {
+      return {
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [p.x, p.y] },
+        properties: {
+          name: p.n,
+          ele: p.e,
+          tier: tierFor(p.e, !!p.w),
+          isSummit: p.n === SUMMIT_NAME
+        }
+      };
+    });
+  }
+
+  var FC_NEARBY = { type: "FeatureCollection", features: nearbyFeatures() };
+  var FC_SWISS  = { type: "FeatureCollection", features: swissFeatures() };
+  var COUNT_NEARBY = FC_NEARBY.features.length;
+  var COUNT_SWISS  = FC_SWISS.features.length;
 
   var map = new maplibregl.Map({
     container: "map",
@@ -185,7 +207,7 @@
       .setPopup(new maplibregl.Popup().setText("Trailhead"))
       .addTo(map);
 
-    map.addSource("peaks", { type: "geojson", data: PEAKS_FC });
+    map.addSource("peaks", { type: "geojson", data: FC_NEARBY });
 
     map.addLayer({
       id: "peaks-dot",
@@ -252,39 +274,36 @@
   });
 
   // --- Toggle ------------------------------------------------------------
-  // Two modes: "main" (Wikidata-linked ~113) or "all" (~127). Default = main.
-  var mode = "main";
+  // Two modes: "nearby" (main summits within 10 km, default) or "swiss"
+  // (every named peak in Switzerland). Swaps the source's data on toggle.
+  var mode = "nearby";
   var btn = document.getElementById("peaks-toggle");
   var iconEl = document.getElementById("toggle-icon");
   var labelEl = document.getElementById("toggle-label");
   var countEl = document.getElementById("toggle-count");
 
   function applyMode() {
-    // "main" filters to Wikidata-notable peaks; "all" uses an always-true
-    // expression (`has ele`, which every feature has — we filtered by it
-    // upstream). Passing `null` to setFilter throws in some MapLibre 4.x
-    // builds and breaks unrelated layers.
-    var filter = mode === "main" ? ["==", ["get", "wd"], true] : ["has", "ele"];
-    if (map.getLayer("peaks-dot")) map.setFilter("peaks-dot", filter);
-    if (map.getLayer("peaks-label")) map.setFilter("peaks-label", filter);
-    if (mode === "main") {
+    var src = map.getSource("peaks");
+    if (src) src.setData(mode === "nearby" ? FC_NEARBY : FC_SWISS);
+    if (mode === "nearby") {
       iconEl.innerHTML = "&#x1F3D4;&#xFE0F;";   // 🏔️
-      labelEl.textContent = "Main summits";
-      countEl.textContent = COUNT_MAIN;
+      labelEl.textContent = "Nearby peaks";
+      countEl.textContent = COUNT_NEARBY;
+      btn.classList.remove("active");
     } else {
       iconEl.innerHTML = "&#x26F0;&#xFE0F;";    // ⛰️
-      labelEl.textContent = "All peaks";
-      countEl.textContent = COUNT_ALL;
+      labelEl.textContent = "All Swiss peaks";
+      countEl.textContent = COUNT_SWISS.toLocaleString();
+      btn.classList.add("active");
     }
   }
 
   btn.addEventListener("click", function () {
-    mode = mode === "main" ? "all" : "main";
+    mode = mode === "nearby" ? "swiss" : "nearby";
     applyMode();
   });
 
-  // Initial count while map loads
-  countEl.textContent = COUNT_MAIN;
+  countEl.textContent = COUNT_NEARBY;
 })();
 </script>
 
