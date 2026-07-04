@@ -807,10 +807,9 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
 @media (max-width: 768px) {
   #side-panel { width: 100%; }
 
-  /* Top + bottom bars: single horizontal scrolling strip instead of wrapping.
-     Without this the filter groups stack vertically and eat the whole screen. */
-  #filter-bar,
-  #bottom-bar {
+  /* Top filter bar: single horizontal scrolling strip. Grade + time pills sit
+     at the left edge so the scroll affordance is discoverable at rest. */
+  #filter-bar {
     left: 0;
     right: 0;
     max-width: none;
@@ -821,16 +820,25 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
-  #filter-bar::-webkit-scrollbar,
-  #bottom-bar::-webkit-scrollbar { display: none; }
+  #filter-bar::-webkit-scrollbar { display: none; }
+  #filter-bar > * { flex-shrink: 0; }
 
-  /* Keep each pill group intact while the parent scrolls. */
-  #filter-bar > *,
-  #bottom-bar > * {
-    flex-shrink: 0;
+  /* Bottom bar: wrap to multiple rows so every toggle (weather layers, map
+     switcher, share) is visible at rest. Horizontal scrolling here hides the
+     weather toggles behind the wide map-layer bar and isn't discoverable. */
+  #bottom-bar {
+    left: 0;
+    right: 0;
+    max-width: none;
+    padding: 0 8px;
+    bottom: 12px;
+    row-gap: 6px;
   }
 
-  #bottom-bar { bottom: 12px; }
+  /* Compact the map-layer bar so it doesn't overflow its own row. */
+  .ms-layer-bar { padding: 2px 3px; }
+  .ms-layer-bar::before { padding: 0 4px; }
+  .ms-layer-btn { padding: 4px 7px; font-size: 10px; }
 
   /* Nudge filter-bar down so it clears the back-to-hikes link (which stays
      pinned top-right at the same 12px top offset). */
