@@ -321,12 +321,13 @@
     return cat || (j.name || "").trim() || "";
   }
 
-  // Text summary of a connection for the calendar description. Mirrors the
+  // HTML summary of a connection for the calendar description. Mirrors the
   // full expanded panel from the widget: header (time range, duration, route),
   // chip chain with emoji, then a station-by-station timeline showing every
-  // leg's mode, line, direction, duration, intermediate stops, and platform —
-  // i.e. everything the user sees when they tap "Details" on a row.
-  function tripSummaryText(c) {
+  // leg's mode, line, direction, duration, intermediate stops, and platform.
+  // Google Calendar's TEMPLATE URL accepts HTML in the details param, which
+  // gets us clickable <a> links and preserved layout via <br>/&nbsp;.
+  function tripSummaryHtml(c) {
     var fromName = (c.from && c.from.station && c.from.station.name) || "";
     var toName   = (c.to   && c.to.station   && c.to.station.name)   || "";
     var totalDur = fmtDur(parseDurSecs(c.duration));
@@ -334,18 +335,22 @@
     var arrTime  = c.to   && c.to.arrival     ? fmtTime(c.to.arrival)     : "";
     var fromPlatform = c.from && c.from.platform;
 
-    // Indent so leg bodies sit under the station name (HH:MM + 2 spaces = 7).
-    var INDENT = "       ";
+    // HTML collapses whitespace runs, so use &nbsp; for the indent under
+    // each station name. Time column is 5 chars — five nbsp keeps a blank
+    // time cell aligned when the API omits a timestamp.
+    var INDENT = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    var TIME_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    function e(s) { return escHtml(s || ""); }
 
     var lines = [];
 
     // ---- Header block ----------------------------------------------------
-    var head = depTime && arrTime ? depTime + " — " + arrTime : "";
-    if (head && totalDur) head += " · " + totalDur;
-    if (fromPlatform)     head += " · Pl. " + fromPlatform;
-    if (head) lines.push(head);
-    else if (totalDur) lines.push(totalDur);
-    if (fromName && toName) lines.push(fromName + " → " + toName);
+    var head = depTime && arrTime ? e(depTime) + " — " + e(arrTime) : "";
+    if (head && totalDur) head += " · " + e(totalDur);
+    if (fromPlatform)     head += " · Pl. " + e(fromPlatform);
+    if (head) lines.push("<b>" + head + "</b>");
+    else if (totalDur) lines.push("<b>" + e(totalDur) + "</b>");
+    if (fromName && toName) lines.push(e(fromName) + " → " + e(toName));
 
     // ---- Chip chain (mode emoji + line label per leg) --------------------
     var sections = (c.sections || []);
@@ -357,7 +362,7 @@
           return "🚶 " + wmin + " min";
         }
         var label = humanLineLabel(s.journey);
-        return modeEmoji(s.journey) + (label ? " " + label : "");
+        return modeEmoji(s.journey) + (label ? " " + e(label) : "");
       })
       .join(" › ");
     if (transitChips) { lines.push(""); lines.push(transitChips); }
@@ -373,23 +378,23 @@
         var arrName = (s.arrival && s.arrival.station && s.arrival.station.name) || "";
 
         // Departure-station row: "HH:MM  Station"
-        var stationLine = (depDate ? fmtTime(depDate) : "     ") + "  " + depName;
-        if (i === 0) stationLine = (depDate ? fmtTime(depDate) : "     ") + "  ▶ " + depName;
+        var tcell = depDate ? e(fmtTime(depDate)) : TIME_BLANK;
+        var stationLine = tcell + "&nbsp;&nbsp;" + (i === 0 ? "▶ " : "") + e(depName);
         lines.push(stationLine);
 
         // Leg body row
         if (s.walk) {
           var wmin = Math.max(1, Math.round((s.walk.duration || 60) / 60));
           var walkLine = INDENT + "🚶 Walk";
-          if (depName && arrName && depName !== arrName) walkLine += " → " + arrName;
-          walkLine += "  (about " + wmin + " min)";
+          if (depName && arrName && depName !== arrName) walkLine += " → " + e(arrName);
+          walkLine += " (about " + wmin + " min)";
           lines.push(walkLine);
         } else if (s.journey) {
           var j = s.journey;
           var label = humanLineLabel(j);
           var dir = (j.to && j.to.trim()) || arrName || "";
-          var legLine = INDENT + modeEmoji(j) + (label ? " " + label : "");
-          if (dir) legLine += " → " + dir;
+          var legLine = INDENT + modeEmoji(j) + (label ? " " + e(label) : "");
+          if (dir) legLine += " → " + e(dir);
 
           var extras = [];
           var d = fmtDur(legDurSecs(s));
@@ -398,18 +403,23 @@
           if (stops === 0) extras.push("non-stop");
           else if (stops != null && stops > 0) extras.push(stops + " stop" + (stops === 1 ? "" : "s"));
           if (s.departure && s.departure.platform) extras.push("Pl. " + s.departure.platform);
-          if (extras.length) legLine += "  (" + extras.join(" · ") + ")";
+          if (extras.length) legLine += " (" + e(extras.join(" · ")) + ")";
           lines.push(legLine);
         }
 
         // Final arrival row after the last section
         if (i === lastIdx) {
-          lines.push((arrDate ? fmtTime(arrDate) : "     ") + "  🏁 " + arrName);
+          var atcell = arrDate ? e(fmtTime(arrDate)) : TIME_BLANK;
+          lines.push(atcell + "&nbsp;&nbsp;🏁 " + e(arrName));
         }
       });
     }
 
-    return lines.join("\n");
+    return lines.join("<br>");
+  }
+
+  function linkHtml(href, text) {
+    return '<a href="' + escHtml(href) + '">' + escHtml(text) + "</a>";
   }
 
   // Google Maps transit-mode directions link for the whole trip. Google
@@ -434,13 +444,13 @@
     var toName   = (c.to   && c.to.station   && c.to.station.name)   || "";
     var j0 = firstJourney(c);
 
-    var desc = tripSummaryText(c);
+    var desc = tripSummaryHtml(c);
     var links = [];
     var sbb = sbbDeepLink(c);
-    if (sbb)  links.push("🎫 Timetable: " + sbb);
+    if (sbb)  links.push("🎫 " + linkHtml(sbb,  "Timetable (SBB / search.ch)"));
     var gmap = gmapsTransitUrl(c);
-    if (gmap) links.push("🗺️ Google Maps: " + gmap);
-    if (links.length) desc += "\n\n" + links.join("\n");
+    if (gmap) links.push("🗺️ " + linkHtml(gmap, "Google Maps directions"));
+    if (links.length) desc += "<br><br>" + links.join("<br>");
 
     var title = (j0 ? modeEmoji(j0) + " " : "") + fromName + " → " + toName;
     var qp = new URLSearchParams();
