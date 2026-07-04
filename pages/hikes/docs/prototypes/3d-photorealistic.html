@@ -17,26 +17,25 @@
     html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
     header { display: none; }  /* minimal UI — map is full-screen */
 
-    /* Mode toggle — floating overlay, top-right of the map */
+    /* Mode toggle — floating overlay, top-right of the map. Transparent so it
+       doesn't obscure the tileset; each button has its own subtle backdrop. */
     .modebar {
       position: absolute; top: 12px; right: 12px; z-index: 6;
-      display: flex; gap: 0; align-items: stretch;
-      background: rgba(255,255,255,0.94);
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      overflow: hidden;
+      display: flex; gap: 4px; align-items: stretch;
       font-size: 12px;
     }
     .mode-btn {
       padding: 6px 10px;
-      background: transparent; color: var(--muted); border: 0;
+      background: rgba(0,0,0,0.35); color: rgba(255,255,255,0.85);
+      border: 0; border-radius: 4px;
       font: inherit; font-size: 12px; cursor: pointer;
+      backdrop-filter: blur(4px);
       transition: background 0.15s, color 0.15s;
     }
     .mode-btn.active {
       background: var(--accent); color: #fff;
     }
-    .mode-btn:hover:not(.active) { background: #fafaf6; color: var(--fg); }
+    .mode-btn:hover:not(.active) { background: rgba(0,0,0,0.55); color: #fff; }
 
     /* (Keybar removed — key auto-loads from window.HIKING_CONFIG / local-config.js.
        To paste a key manually: localStorage.setItem('proto:google-tiles:key', 'AIzaSy…')) */
@@ -70,27 +69,16 @@
     }
     .quality-btn:hover { background: #fff; }
 
-    /* Zoom buttons — mid-right, stacked. Discoverable +/- since mouse-wheel isn't
-       obvious to touch users and desktop users often expect them. */
-    .zoombar {
-      position: absolute; top: 50%; right: 12px; transform: translateY(-50%);
-      z-index: 6;
-      display: flex; flex-direction: column;
-      background: rgba(255,255,255,0.94);
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      overflow: hidden;
+    /* Cesium's bottom credits strip renders on an opaque white background by
+       default — make it transparent so the mesh shows through underneath the
+       small "CESIUM ion · Google Maps" attribution. */
+    .cesium-viewer-bottom, .cesium-widget-credits {
+      background: transparent !important;
     }
-    .zoom-btn {
-      width: 32px; height: 32px;
-      background: transparent; color: var(--fg); border: 0;
-      font: inherit; font-size: 18px; line-height: 1; font-weight: 500;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+    .cesium-widget-credits, .cesium-widget-credits * {
+      color: rgba(255,255,255,0.85) !important;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     }
-    .zoom-btn + .zoom-btn { border-top: 1px solid rgba(0,0,0,0.08); }
-    .zoom-btn:hover { background: #fafaf6; }
-    .zoom-btn:active { background: #ecece5; }
 
     /* Controls hint — bottom-center, auto-fades after first interaction. */
     .controls-hint {
@@ -177,10 +165,6 @@
       <button class="mode-btn" id="mode-maplibre" data-mode="maplibre">🗺 Satellite</button>
     </div>
     <button class="quality-btn" id="quality-btn" hidden>⚡ Fast</button>
-    <div class="zoombar" id="zoombar" hidden>
-      <button class="zoom-btn" id="zoom-in"  type="button" aria-label="Zoom in"  title="Zoom in">+</button>
-      <button class="zoom-btn" id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button>
-    </div>
     <div class="controls-hint" id="controls-hint" hidden>drag to look · scroll to zoom · Ctrl+drag to tilt</div>
     <div id="map-host"><div class="pane-placeholder" id="placeholder">
       <strong>Paste an API key to load the 3D mesh.</strong>
@@ -245,9 +229,6 @@
     const $modeCesium   = document.getElementById('mode-cesium');
     const $modeMaplibre = document.getElementById('mode-maplibre');
     const $qualityBtn   = document.getElementById('quality-btn');
-    const $zoombar      = document.getElementById('zoombar');
-    const $zoomIn       = document.getElementById('zoom-in');
-    const $zoomOut      = document.getElementById('zoom-out');
     const $controlsHint = document.getElementById('controls-hint');
 
     let cesiumViewer = null;
@@ -368,31 +349,8 @@
       $qualityBtn.hidden = (currentMode !== 'cesium');
       $qualityBtn.textContent = QUALITY_LABELS[currentQuality] || QUALITY_LABELS.fast;
       $qualityBtn.title = QUALITY_TITLES[currentQuality] || QUALITY_TITLES.fast;
-      // Zoom buttons only in Cesium mode — MapLibre has its own native +/- controls.
-      $zoombar.hidden = (currentMode !== 'cesium');
+      // Controls hint only in Cesium mode — MapLibre has its own affordances.
       $controlsHint.hidden = (currentMode !== 'cesium');
-    }
-
-    // ===== Cesium zoom buttons =====
-    // Zoom in/out by moving the camera along its view vector by 40% of the current
-    // distance to the tileset surface under the screen center. Matches the feel of
-    // one wheel notch on desktop.
-    function cesiumZoom(factor) {
-      if (!cesiumViewer) return;
-      const scene = cesiumViewer.scene;
-      const cam = scene.camera;
-      const w = cesiumViewer.canvas.clientWidth  || window.innerWidth;
-      const h = cesiumViewer.canvas.clientHeight || window.innerHeight;
-      const center = new Cesium.Cartesian2(w / 2, h / 2);
-      // Try tileset first (photorealistic mesh), then ellipsoid as fallback.
-      let target = scene.pickPosition ? scene.pickPosition(center) : null;
-      if (!target) target = cam.pickEllipsoid(center);
-      const distance = target
-        ? Cesium.Cartesian3.distance(cam.position, target)
-        : (cam.positionCartographic ? Math.max(cam.positionCartographic.height, 500) : 5000);
-      const amount = distance * factor;
-      if (amount > 0) cam.moveForward(amount);   // zoom in
-      else            cam.moveBackward(-amount); // zoom out
     }
 
     // ===== Cesium quality knobs =====
@@ -626,9 +584,6 @@
       const next = QUALITY_ORDER[(idx + 1) % QUALITY_ORDER.length];
       setQuality(next);
     });
-    $zoomIn .addEventListener('click', () => { cesiumZoom( 0.4); dismissControlsHint(); });
-    $zoomOut.addEventListener('click', () => { cesiumZoom(-0.4); dismissControlsHint(); });
-
     // Fade the controls hint out after the first real interaction so it doesn't
     // clutter the map forever. Auto-dismisses after 8s if the user never touches it.
     let controlsHintDismissed = false;
@@ -687,7 +642,6 @@
     if (captureMode) {
       $modeCesium.parentElement.style.display = 'none';
       $qualityBtn.style.display = 'none';
-      $zoombar.style.display = 'none';
       $controlsHint.style.display = 'none';
     }
 
