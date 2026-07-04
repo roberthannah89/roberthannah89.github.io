@@ -115,7 +115,7 @@
     // top of it so the call-to-action is unmissable rather than relying on
     // the user noticing the small caption strip at the bottom.
     if (hike) {
-      html += '<a class="panel-hero" href="../' + hike.href + '" '
+      html += '<a class="panel-hero" href="../' + hike.href + '" target="_blank" rel="noopener" '
             + 'style="display:block;position:relative;height:170px;margin:-1rem -1rem 0;'
             + 'background:#222 center/cover no-repeat url(\'' + esc(hike.photo) + '\');'
             + 'border-bottom:2px solid var(--amber);text-decoration:none;cursor:pointer">'
