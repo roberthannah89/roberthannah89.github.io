@@ -37,18 +37,15 @@
   <!-- Map -->
   <div id="map"></div>
 
-  <!-- Top-left controls (back link + chrome toggle) -->
-  <div id="top-left-controls">
-    <a id="back-to-hikes" href="../index.html">← Hikes</a>
-    <!-- Toggles body.chrome-hidden — hides #filter-bar and #bottom-bar so the
-         map reads clean while active filters keep applying. See wireChromeToggle
-         in command-center.js. -->
+  <!-- Filter bar (top left). Starts with an in-row back link (←) and a
+       chrome toggle (🎛️) so they sit inline with the filter pills instead
+       of stacking on their own row. Filter groups themselves are populated
+       by buildFilterBar() via appendChild after these two. -->
+  <div id="filter-bar">
+    <a id="back-to-hikes" href="../index.html" title="Back to hikes">←</a>
     <button id="chrome-toggle" type="button" aria-pressed="false"
             title="Hide filter controls (filters stay applied)">🎛️</button>
   </div>
-
-  <!-- Filter bar (top left) -->
-  <div id="filter-bar"></div>
 
   <!-- Bottom-left horizontal strip: POI toggles · map switcher · destinations · forecast meta -->
   <div id="bottom-bar">
@@ -59,8 +56,6 @@
       <!-- Clears all filters + URL hash; visible whenever a filter is active -->
       <button id="filter-reset" type="button" title="Reset all filters" hidden>Reset</button>
     </div>
-    <!-- Copy the current URL (with hash state) to clipboard -->
-    <button id="share-link" type="button" title="Copy link to this view">Share</button>
     <!-- .ms-layer-bar moves in here via JS after MapShared adds it -->
     <div id="forecast-meta"></div>
   </div>

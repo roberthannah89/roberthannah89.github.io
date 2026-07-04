@@ -540,33 +540,33 @@
     // Grade — multi-select. Icon-only (SAC trail markers); no label needed.
     // No "Any" button: empty selection means any.
     bar.appendChild(filterGroup('', [
-      { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'grades', value: ['T1-2'] },
-      { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'grades', value: ['T3'] },
-      { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'grades', value: ['T4'] },
-      { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'grades', value: ['T5'] },
-      { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'grades', value: ['T6'] }
+      { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'grades', value: ['T1-2'], title: 'SAC T1–T2 · hiking / mountain hiking, well-marked paths' },
+      { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'grades', value: ['T3'],   title: 'SAC T3 · demanding mountain hiking, exposed sections, sure-footedness needed' },
+      { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'grades', value: ['T4'],   title: 'SAC T4 · alpine hiking, some scrambling and route-finding' },
+      { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'grades', value: ['T5'],   title: 'SAC T5 · demanding alpine hiking, exposed scrambling' },
+      { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'grades', value: ['T6'],   title: 'SAC T6 · difficult alpine hiking, roped climbing sections' }
     ], true));
 
     // Duration — single-select; "h" suffix carries the meaning, no label.
     bar.appendChild(filterGroup('', [
-      { label: '≤3h', key: 'duration', value: 'short' },
-      { label: '3-5h', key: 'duration', value: 'medium' },
-      { label: '5h+', key: 'duration', value: 'long' }
+      { label: '≤3h',  key: 'duration', value: 'short',  title: 'Duration ≤ 3 h moving time' },
+      { label: '3-5h', key: 'duration', value: 'medium', title: 'Duration 3–5 h moving time' },
+      { label: '5h+',  key: 'duration', value: 'long',   title: 'Duration 5 h or more moving time' }
     ]));
 
     // Peak elevation
     bar.appendChild(filterGroup('elev', [
-      { label: '≤2000', key: 'elevation', value: 'low' },
-      { label: '2-2.5k', key: 'elevation', value: 'mid' },
-      { label: '2.5k+', key: 'elevation', value: 'high' }
+      { label: '≤2000',  key: 'elevation', value: 'low',  title: 'Peak elevation ≤ 2000 m' },
+      { label: '2-2.5k', key: 'elevation', value: 'mid',  title: 'Peak elevation 2000–2500 m' },
+      { label: '2.5k+',  key: 'elevation', value: 'high', title: 'Peak elevation ≥ 2500 m' }
     ]));
 
     // Vertical gain
     bar.appendChild(filterGroup('gain', [
-      { label: '≤500', key: 'gain', value: 'easy' },
-      { label: '500-1k', key: 'gain', value: 'mod' },
-      { label: '1-1.5k', key: 'gain', value: 'hard' },
-      { label: '1.5k+', key: 'gain', value: 'epic' }
+      { label: '≤500',   key: 'gain', value: 'easy', title: 'Vertical gain ≤ 500 m' },
+      { label: '500-1k', key: 'gain', value: 'mod',  title: 'Vertical gain 500–1000 m' },
+      { label: '1-1.5k', key: 'gain', value: 'hard', title: 'Vertical gain 1000–1500 m' },
+      { label: '1.5k+',  key: 'gain', value: 'epic', title: 'Vertical gain ≥ 1500 m' }
     ], /* multiSelect */ true));
 
     // Season — single toggle. Hides routes whose heuristic season window
@@ -614,17 +614,17 @@
 
     var lbl = document.createElement('span');
     lbl.className = 'filter-label filter-label--icon';
-    lbl.title = 'Show';
+    lbl.title = 'What each marker shows on the map';
     lbl.innerHTML = LABEL_ICONS.show;
     group.appendChild(lbl);
 
     var options = [
-      { key: 'weather', label: '⛅' , title: 'Weather (marker)' },
-      { key: 'name',    label: 'Name', title: 'Name' },
-      { key: 'grade',   label: 'T', title: 'Grade (T1-T6)' },
-      { key: 'gain',    label: '↑m', title: 'Vertical gain' },
-      { key: 'time',    label: 'h',  title: 'Time up' },
-      { key: 'alt',     label: 'alt',title: 'Peak altitude' }
+      { key: 'weather', label: '⛅' , title: 'Colour markers by weather (rainy / cloudy / sunny) for the selected day' },
+      { key: 'name',    label: 'Name', title: 'Show peak / route name on the marker' },
+      { key: 'grade',   label: 'T',    title: 'Show SAC grade (T1–T6) on the marker' },
+      { key: 'gain',    label: '↑m',   title: 'Show vertical gain (m) on the marker' },
+      { key: 'time',    label: 'h',    title: 'Show estimated moving time (h) on the marker' },
+      { key: 'alt',     label: 'alt',  title: 'Show peak altitude (m) on the marker' }
     ];
 
     var current = (Filters.getState().display || []).slice();
@@ -678,10 +678,10 @@
 
     // Temperature — single-select; "°" suffix carries the meaning, no label.
     bar.appendChild(filterGroup('', [
-      { label: '>0°', key: 'tempMin', value: 0 },
-      { label: '>5°', key: 'tempMin', value: 5 },
-      { label: '>10°', key: 'tempMin', value: 10 },
-      { label: '>15°', key: 'tempMin', value: 15 }
+      { label: '>0°',  key: 'tempMin', value: 0,  title: 'Forecast max temperature above 0 °C' },
+      { label: '>5°',  key: 'tempMin', value: 5,  title: 'Forecast max temperature above 5 °C' },
+      { label: '>10°', key: 'tempMin', value: 10, title: 'Forecast max temperature above 10 °C' },
+      { label: '>15°', key: 'tempMin', value: 15, title: 'Forecast max temperature above 15 °C' }
     ], false, 'weather'));
   }
 
@@ -699,6 +699,7 @@
       var btn = document.createElement('button');
       btn.className = 'filter-btn' + (active ? ' weather-active' : '');
       btn.textContent = d.label;
+      btn.title = 'Show weather for ' + (d.title || d.label);
       btn.addEventListener('click', function () {
         group.querySelectorAll('.filter-btn').forEach(function (b) {
           b.classList.remove('weather-active');
@@ -760,6 +761,11 @@
     gain: '📈',
     show: '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 6 Q6 1.5 11 6 Q6 10.5 1 6 Z"/><circle cx="6" cy="6" r="1.6" fill="currentColor"/></svg>'
   };
+  var LABEL_TITLES = {
+    elev: 'Peak elevation',
+    gain: 'Vertical gain',
+    show: 'What each marker shows on the map'
+  };
 
   function filterGroup(label, options, multiSelect, style) {
     var group = document.createElement('div');
@@ -774,7 +780,7 @@
       lbl.className = 'filter-label';
       if (LABEL_ICONS[label]) {
         lbl.classList.add('filter-label--icon');
-        lbl.title = label.charAt(0).toUpperCase() + label.slice(1);
+        lbl.title = LABEL_TITLES[label] || (label.charAt(0).toUpperCase() + label.slice(1));
         lbl.innerHTML = LABEL_ICONS[label];
       } else {
         lbl.textContent = label;
@@ -813,10 +819,11 @@
       btn.className = 'filter-btn';
       if (opt.icon) {
         btn.innerHTML = opt.icon;
-        btn.title = opt.label;
+        btn.title = opt.title || opt.label;
         btn.classList.add('filter-btn--icon');
       } else {
         btn.textContent = opt.label;
+        if (opt.title) btn.title = opt.title;
       }
       if (isActive(opt)) btn.classList.add(activeClass);
 
@@ -920,56 +927,30 @@
     });
   }
 
-  // Chrome toggle — hides #filter-bar and #bottom-bar via body.chrome-hidden.
-  // The filter STATE is untouched (Filters.setState is never called from
-  // here), so any active grade/duration/day-picker/etc. filters stay applied
-  // while the bars are out of view. Purely a display toggle.
+  // Chrome toggle — hides filter groups + the bottom bar via body.chrome-hidden
+  // so the map reads clean while active filters keep applying (filter STATE is
+  // untouched — Filters.setState is never called here). The back arrow and
+  // the toggle itself stay visible so the user can bring the chrome back.
+  // Persists across reloads via localStorage.
+  var CHROME_HIDDEN_KEY = 'cc.chromeHidden';
   function wireChromeToggle() {
     var btn = document.getElementById('chrome-toggle');
     if (!btn) return;
-    btn.addEventListener('click', function () {
-      var hidden = document.body.classList.toggle('chrome-hidden');
+    function apply(hidden) {
+      document.body.classList.toggle('chrome-hidden', hidden);
       btn.setAttribute('aria-pressed', hidden ? 'true' : 'false');
       btn.title = hidden
         ? 'Show filter controls'
         : 'Hide filter controls (filters stay applied)';
-    });
-  }
-
-  // Share button — copy current URL (including hash state) to clipboard.
-  // file:// pages don't get navigator.clipboard, so fall back to a textarea+execCommand.
-  function wireShareButton() {
-    var btn = document.getElementById('share-link');
-    if (!btn) return;
+    }
+    var initial = false;
+    try { initial = localStorage.getItem(CHROME_HIDDEN_KEY) === '1'; } catch (e) {}
+    apply(initial);
     btn.addEventListener('click', function () {
-      var url = window.location.href;
-      var done = function () {
-        var prev = btn.textContent;
-        btn.textContent = 'Copied';
-        btn.classList.add('copied');
-        setTimeout(function () {
-          btn.textContent = prev;
-          btn.classList.remove('copied');
-        }, 1200);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(done, function () { fallbackCopy(url); done(); });
-      } else {
-        fallbackCopy(url);
-        done();
-      }
+      var hidden = !document.body.classList.contains('chrome-hidden');
+      apply(hidden);
+      try { localStorage.setItem(CHROME_HIDDEN_KEY, hidden ? '1' : '0'); } catch (e) {}
     });
-  }
-
-  function fallbackCopy(text) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); } catch (e) { /* swallow */ }
-    document.body.removeChild(ta);
   }
 
   var webcamLayer = null;
@@ -1111,7 +1092,6 @@
     buildFilterBar();
     buildWeatherToggles();
     wireResetButton();
-    wireShareButton();
     wireChromeToggle();
 
     SidePanel.init(document.getElementById('side-panel'));

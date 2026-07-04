@@ -64,7 +64,7 @@ html, body {
 /* --- Filter Bar --- */
 #filter-bar {
   position: absolute;
-  top: 40px;
+  top: 12px;
   left: 12px;
   z-index: 800;
   display: flex;
@@ -73,62 +73,47 @@ html, body {
   max-width: calc(100% - 180px);
 }
 
-/* --- Top-left controls (back link + chrome toggle) --- */
-/* z-index sits above the filter bar (800) so the chrome toggle stays
-   clickable when it's the one that hid the filter bar. */
-#top-left-controls {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 810;
-  display: flex;
-  gap: 4px;
-  align-items: stretch;
-}
-
-#back-to-hikes {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  color: var(--amber);
-  background: rgba(26, 24, 16, 0.92);
-  border: 1px solid var(--flap-border);
-  border-radius: 4px;
-  padding: 3px 7px;
-  text-decoration: none;
-  backdrop-filter: blur(8px);
-  white-space: nowrap;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  display: inline-flex;
-  align-items: center;
-}
-#back-to-hikes:hover {
-  color: var(--text-primary);
-  border-color: var(--amber);
-}
-
-/* Toggle for hiding the filter bar / bottom bar so the map reads clean.
-   Filters stay applied — this only affects the chrome. */
+/* --- Back-to-hikes + chrome-toggle (first pills inside #filter-bar) ---
+   They sit inline with the filter pills at the very start of the row. */
+#back-to-hikes,
 #chrome-toggle {
-  font-size: 12px;
-  line-height: 1;
-  padding: 3px 6px;
-  cursor: pointer;
-  background: rgba(26, 24, 16, 0.92);
-  border: 1px solid var(--flap-border);
-  border-radius: 4px;
-  color: var(--text-primary);
-  backdrop-filter: blur(8px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--amber);
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  padding: 0 9px;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-#chrome-toggle:hover { border-color: var(--amber); }
+#back-to-hikes:hover,
+#chrome-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--amber);
+}
+#chrome-toggle {
+  font-size: 14px;   /* the emoji renders smaller than mono text at 13px */
+  padding: 0 7px;
+}
 #chrome-toggle[aria-pressed="true"] {
   background: rgba(232, 168, 50, 0.18);
   border-color: var(--amber);
+}
+
+/* When the toggle is pressed, hide every filter-group child of #filter-bar
+   plus the whole #bottom-bar — the back arrow and chrome toggle stay
+   visible so the user can bring the chrome back. Filters keep applying. */
+body.chrome-hidden #filter-bar > .filter-group,
+body.chrome-hidden #bottom-bar {
+  display: none;
 }
 
 .filter-group {
@@ -383,32 +368,6 @@ html, body {
   color: var(--amber);
 }
 #filter-reset[hidden] { display: none; }
-
-/* Share button — copies window.location.href to clipboard. Sits as its own
-   pill in the bottom bar (not nested in #route-counter) so the counter stays
-   focused on counts + reset. Always visible: any view is shareable. */
-#share-link {
-  padding: 6px 12px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-secondary);
-  background: rgba(26, 24, 16, 0.92);
-  border: 1px solid var(--flap-border);
-  border-radius: 6px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.15s;
-}
-#share-link:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-}
-#share-link.copied {
-  border-color: var(--amber);
-  color: var(--amber);
-}
 
 /* --- Side Panel --- */
 #side-panel {
@@ -666,15 +625,6 @@ html, body {
    routes/_assets/hike_popup.css — shared with the gallery page so both
    popups render identically. */
 
-/* User-driven hide of the filter bar / bottom bar via #chrome-toggle. The
-   underlying filters keep applying — this is a display-only toggle so the
-   map reads clean while you pan around. Corner controls (back link, chrome
-   toggle itself, zoom) stay visible. */
-body.chrome-hidden #filter-bar,
-body.chrome-hidden #bottom-bar {
-  display: none;
-}
-
 .leaflet-control-zoom a {
   background: var(--board-surface) !important;
   color: var(--text-primary) !important;
@@ -866,7 +816,7 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   #filter-bar > * { flex-shrink: 0; }
 
   /* Bottom bar: wrap to multiple rows so every toggle (weather layers, map
-     switcher, share) is visible at rest. Horizontal scrolling here hides the
+     switcher) is visible at rest. Horizontal scrolling here hides the
      weather toggles behind the wide map-layer bar and isn't discoverable. */
   #bottom-bar {
     left: 0;
