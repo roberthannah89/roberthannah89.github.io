@@ -18,8 +18,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  # ─── plan ───────────────────────────────────────────────────────────────
+  # Cheap job: figure out (a) whether hike pages need re-rendering and
+  # (b) which 3-hour weather bucket we're in. Fans out to weather + render.
+  plan:
     runs-on: ubuntu-latest
+    outputs:
+      needs_render: ${{ steps.scope.outputs.needs_render }}
+      weather_key: ${{ steps.bucket.outputs.key }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,12 +66,6 @@ jobs:
             echo "Result: substantive change — running full build"
           fi
 
-      # ===== Weather cache (cuts ~6 min off most builds) =====
-      # MeteoSwiss ICON-CH2 only refreshes every 3 hours, so we cache the
-      # generated weather-cache.js with a 3-hour-bucket key. The first push of
-      # each bucket (or the scheduled cron at xx:15) does the real fetch; every
-      # subsequent build in the same bucket restores in ~5s. ALWAYS runs (even
-      # on prototype-only pushes) so we don't ship the days-old committed copy.
       - name: Compute 3-hour weather bucket
         id: bucket
         run: |
@@ -75,22 +75,119 @@ jobs:
           echo "key=$KEY" >> $GITHUB_OUTPUT
           echo "Weather bucket: $KEY"
 
+  # ─── weather (parallel with render) ─────────────────────────────────────
+  # Refreshes MeteoSwiss ICON-CH2 forecasts. First push of each 3-hour
+  # bucket (or the scheduled cron at xx:15) does the ~6-min real fetch;
+  # subsequent builds in the same bucket restore in ~5s.
+  weather:
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Restore weather cache
         id: weather-cache
         uses: actions/cache@v4
         with:
           path: pages/hikes/command-center/weather-cache.js
-          key: ${{ steps.bucket.outputs.key }}
+          key: ${{ needs.plan.outputs.weather_key }}
 
       - uses: actions/setup-python@v5
-        if: steps.scope.outputs.needs_render == 'true' || steps.weather-cache.outputs.cache-hit != 'true'
+        if: steps.weather-cache.outputs.cache-hit != 'true'
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: pages/hikes/requirements.txt
 
       - name: Install dependencies
-        if: steps.scope.outputs.needs_render == 'true' || steps.weather-cache.outputs.cache-hit != 'true'
+        if: steps.weather-cache.outputs.cache-hit != 'true'
         run: pip install -r pages/hikes/requirements.txt
+
+      - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
+        if: steps.weather-cache.outputs.cache-hit != 'true'
+        run: cd pages/hikes && python scripts/fetch_weather.py
+
+      - name: Upload weather cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: weather-cache
+          path: pages/hikes/command-center/weather-cache.js
+          if-no-files-found: error
+          retention-days: 1
+
+  # ─── render (parallel with weather) ─────────────────────────────────────
+  # Regenerates hike pages, gallery, and guides from templates + data.
+  # Skipped entirely for docs/prototype-only pushes (see plan.needs_render).
+  render:
+    needs: plan
+    if: needs.plan.outputs.needs_render == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pages/hikes/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r pages/hikes/requirements.txt
+
+      - name: Validate hike file completeness
+        run: cd pages/hikes && python scripts/validate_hike_files.py
+
+      - name: Validate hike data
+        run: cd pages/hikes && python scripts/render_hike.py --validate-only
+
+      - name: Render hike pages
+        run: cd pages/hikes && python scripts/render_hike.py
+
+      # Upload only the generated files. Least common ancestor is
+      # `pages/hikes/`, so download into `pages/hikes/` to restore paths.
+      - name: Upload rendered site
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-site
+          path: |
+            pages/hikes/routes/**/*.html
+            pages/hikes/routes/**/*.track.js
+            pages/hikes/routes/_assets/**
+            pages/hikes/index.html
+            pages/hikes/guides/difficulty.html
+            pages/hikes/guides/_nav.js
+          if-no-files-found: error
+          retention-days: 1
+
+  # ─── deploy ─────────────────────────────────────────────────────────────
+  # Fans in: checkout the tree, overlay fresh weather + rendered artifacts,
+  # inject secret-derived config, ship to GitHub Pages.
+  deploy:
+    needs: [plan, weather, render]
+    # `render` may be skipped on docs-only pushes — allow that but require weather to succeed.
+    if: |
+      always()
+      && needs.weather.result == 'success'
+      && (needs.render.result == 'success' || needs.render.result == 'skipped')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download weather cache
+        uses: actions/download-artifact@v4
+        with:
+          name: weather-cache
+          path: pages/hikes/command-center/
+
+      - name: Download rendered site
+        if: needs.plan.outputs.needs_render == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: rendered-site
+          path: pages/hikes/
 
       - name: Inject site-local config (API keys etc) from repo secrets
         env:
@@ -104,33 +201,10 @@ jobs:
             echo "(transit widget will show setup instructions in 'Compare with Google Maps' pane)"
           fi
 
-      - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
-        if: steps.weather-cache.outputs.cache-hit != 'true'
-        run: cd pages/hikes && python scripts/fetch_weather.py
-
-      - name: Validate hike file completeness
-        if: steps.scope.outputs.needs_render == 'true'
-        run: cd pages/hikes && python scripts/validate_hike_files.py
-
-      - name: Validate hike data
-        if: steps.scope.outputs.needs_render == 'true'
-        run: cd pages/hikes && python scripts/render_hike.py --validate-only
-
-      - name: Render hike pages
-        if: steps.scope.outputs.needs_render == 'true'
-        run: cd pages/hikes && python scripts/render_hike.py
-
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
