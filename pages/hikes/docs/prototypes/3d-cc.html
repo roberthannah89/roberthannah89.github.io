@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Command Center prototype (2D ↔ 3D toggle)</title>
+<meta name="proto-title" content="3D Command Center (2D↔3D toggle)">
+<meta name="proto-icon" content="&#x1F5FA;&#xFE0F;">
+<meta name="proto-desc" content="Prototype merging the hikes catalogue with the 3D trails+peaks view via a live mode toggle. Filter state, viewport, and selection survive the swap. 2D = Leaflet with grade-colored hike markers and clustering; 3D = MapLibre with satellite + terrain, SAC T1–T6 trails, peak database. localStorage remembers the last mode.">
+<meta name="proto-source" content="Leaflet + swisstopo · MapLibre GL + SWISSIMAGE + Terrarium DEM · OSM Overpass">
+<meta name="proto-order" content="120">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- MarkerCluster -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- MapLibre -->
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+<!-- Prototype styles -->
+<link rel="stylesheet" href="3d-cc/3d-cc.css">
+
+<script data-goatcounter="https://roberthannah89.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<header class="cc3d-header">
+  <a class="back" href="index.html">← Prototypes</a>
+  <h1>3D Command Center prototype</h1>
+  <span class="cc3d-help">Shift+3 to toggle · localStorage remembers the last mode</span>
+  <div class="cc3d-modebar">
+    <button id="mode-2d" type="button" title="2D map (Leaflet)">2D</button>
+    <button id="mode-3d" type="button" title="3D terrain (MapLibre)">3D</button>
+  </div>
+</header>
+
+<div id="map-wrap">
+  <div id="map"></div>
+
+  <!-- Filter bar -->
+  <div id="filter-bar" class="cc3d-map-overlay"></div>
+
+  <!-- Right-side layer toggles -->
+  <div id="right-toggles" class="cc3d-map-overlay">
+    <button id="trails-toggle" class="cc3d-layer-btn active" type="button" title="SAC T1–T6 trails (3D only)">
+      🥾 Trails <small>3D only</small>
+    </button>
+    <button id="slope-toggle" class="cc3d-layer-btn" type="button" title="Slope ≥ 30° (2D only)">
+      ⛰ Slope 30°+ <small>2D only</small>
+    </button>
+  </div>
+
+  <!-- Route counter -->
+  <div id="route-count" class="cc3d-map-overlay">Loading…</div>
+
+  <!-- Banner slot -->
+  <div id="banner" class="cc3d-map-overlay" hidden></div>
+
+  <!-- Loading overlay -->
+  <div id="loading-overlay" hidden>
+    <div class="cc3d-spinner"></div>
+  </div>
+</div>
+
+<!-- Data — SAC_ROUTES for the POIs, CH_PEAKS for the 3D peak database -->
+<script src="../../routes/_assets/swiss_border.js"></script>
+<script src="../../guides/sac-routes.js"></script>
+<script src="3d-trails/ch-peaks.js"></script>
+
+<!-- 3d-cc app modules -->
+<script src="3d-cc/renderer.js"></script>
+<script src="3d-cc/renderer-leaflet.js"></script>
+<script src="3d-cc/renderer-maplibre.js"></script>
+<script src="3d-cc/3d-cc.js"></script>
+
+</body>
+</html>

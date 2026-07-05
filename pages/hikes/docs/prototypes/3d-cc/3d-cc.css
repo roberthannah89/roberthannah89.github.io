@@ -1,0 +1,220 @@
+/* 3d-cc prototype styles.
+ *
+ * Two layout modes (2D / 3D) share the same map container. Both use the
+ * same header bar with the mode toggle. Filter bar sits top-left of the
+ * map. Slope + trails buttons sit top-right stacked.
+ */
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color: #171a1f; background: #f6f6f4;
+}
+
+/* ---------- Header ---------- */
+header.cc3d-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 14px;
+  background: #fff; border-bottom: 1px solid #e2e2dd;
+  font-size: 12.5px;
+}
+header.cc3d-header .back {
+  color: #c0392b; text-decoration: none; font-size: 12.5px;
+}
+header.cc3d-header .back:hover { text-decoration: underline; }
+header.cc3d-header h1 { margin: 0; font-size: 14px; font-weight: 600; }
+
+.cc3d-modebar {
+  display: inline-flex; border: 1px solid #d0cec7;
+  border-radius: 6px; overflow: hidden; margin-left: auto;
+}
+.cc3d-modebar button {
+  background: #fff; border: 0; padding: 6px 12px;
+  font: inherit; font-size: 12px; cursor: pointer;
+  color: #6b7078;
+  border-right: 1px solid #d0cec7;
+}
+.cc3d-modebar button:last-child { border-right: 0; }
+.cc3d-modebar button.active {
+  background: #171a1f; color: #f6f6f4; font-weight: 600;
+}
+.cc3d-modebar button:hover:not(.active) { background: #f4f2eb; color: #171a1f; }
+
+.cc3d-help {
+  color: #6b7078; font-size: 11px;
+}
+
+/* ---------- Map ---------- */
+#map-wrap {
+  position: relative;
+  width: 100%; height: calc(100vh - 44px);
+  overflow: hidden;
+}
+#map {
+  position: absolute; inset: 0;
+  background: #b8d0dc;
+}
+
+/* MapLibre chrome tweaks */
+.maplibregl-ctrl-attrib.maplibregl-compact { background: rgba(255,255,255,0.85); }
+.maplibregl-ctrl-scale {
+  background: rgba(255,255,255,0.75) !important;
+  color: #171a1f !important;
+  border-color: #171a1f !important;
+}
+/* Ensure MapLibre containers stretch */
+.maplibregl-map { width: 100%; height: 100%; }
+/* Ensure Leaflet containers stretch */
+.leaflet-container { width: 100%; height: 100%; }
+
+/* ---------- Overlay UI in the map area ---------- */
+.cc3d-map-overlay {
+  position: absolute; z-index: 500; pointer-events: none;
+}
+.cc3d-map-overlay > * { pointer-events: auto; }
+
+/* Filter bar (top-left) */
+#filter-bar {
+  top: 12px; left: 12px;
+  display: inline-flex; gap: 8px; align-items: center;
+  background: rgba(255,255,255,0.94); border-radius: 8px;
+  padding: 6px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.cc3d-filter-group { display: inline-flex; gap: 4px; }
+.cc3d-chip {
+  font: inherit; font-size: 12px;
+  padding: 4px 9px;
+  background: #eeece5; color: #171a1f;
+  border: 1px solid transparent; border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cc3d-chip:hover { border-color: #c9c9c1; }
+.cc3d-chip.active { background: #171a1f; color: #f6f6f4; }
+.cc3d-chip--reset {
+  background: transparent; color: #6b7078; border-color: #d0cec7;
+}
+.cc3d-chip--reset:hover { color: #171a1f; }
+
+/* Right-side layer toggles (slope, trails) */
+#right-toggles {
+  top: 12px; right: 12px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.cc3d-layer-btn {
+  background: rgba(255,255,255,0.94);
+  border: 0; border-radius: 6px;
+  padding: 6px 10px;
+  font: inherit; font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  min-width: 84px;
+  text-align: left;
+  color: #171a1f;
+}
+.cc3d-layer-btn:hover { background: #fff; }
+.cc3d-layer-btn.active {
+  background: #c0392b; color: #fff;
+}
+.cc3d-layer-btn.cc3d-disabled { opacity: 0.5; }
+.cc3d-layer-btn small { display: block; font-size: 10px; color: #6b7078; }
+.cc3d-layer-btn.active small { color: rgba(255,255,255,0.85); }
+
+/* Route counter (bottom-left) */
+#route-count {
+  bottom: 12px; left: 12px;
+  background: rgba(255,255,255,0.94);
+  border-radius: 6px; padding: 4px 10px;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* Banner (bottom-center) */
+#banner {
+  bottom: 12px; left: 50%; transform: translateX(-50%);
+  background: rgba(20,22,26,0.9); color: #f4f0e8;
+  padding: 8px 14px; border-radius: 6px;
+  font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  max-width: 500px;
+}
+
+/* Loading */
+#loading-overlay {
+  position: absolute; inset: 0; z-index: 999;
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+#loading-overlay[hidden] { display: none; }
+#banner[hidden] { display: none; }
+#loading-overlay .cc3d-spinner {
+  width: 42px; height: 42px;
+  border: 4px solid rgba(23,26,31,0.15);
+  border-top-color: #c0392b;
+  border-radius: 50%;
+  animation: cc3d-spin 0.8s linear infinite;
+}
+@keyframes cc3d-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Hike marker (Leaflet mode) — subset from marker-pill.css ---------- */
+.hike-marker {
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  border: 2px solid #fff;
+}
+.hike-marker--dot { width: 12px; height: 12px; }
+.hike-marker--wx {
+  width: 40px; height: 28px;
+  border-radius: 14px;
+  font-size: 12px; font-weight: 600;
+  gap: 3px; padding: 2px 6px;
+  color: #171a1f;
+}
+.hike-marker__wx { font-size: 13px; line-height: 1; }
+.hike-marker__temp { font-size: 11px; font-variant-numeric: tabular-nums; }
+.hike-marker--has-page { border-color: #e8a832; }
+.hike-marker--above-freezing::after {
+  content: '❄️'; position: absolute;
+  font-size: 9px;
+  bottom: -6px; right: -6px;
+}
+
+.marker-cluster { background: transparent; }
+.marker-cluster > div {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 4px; padding: 3px 8px;
+  border-radius: 14px;
+  background: #eeece5; border: 1.5px solid #3a3428;
+  font-size: 11px; font-weight: 600;
+  color: #171a1f;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.marker-cluster .cl-wx { font-size: 12px; }
+.marker-cluster .cl-t { font-variant-numeric: tabular-nums; }
+
+/* Hike tooltip (Leaflet permanent labels) */
+.hike-tooltip {
+  background: rgba(255,255,255,0.9); border: 1px solid #d0cec7;
+  border-radius: 4px; padding: 2px 6px;
+  font-size: 11px; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.hike-tooltip .hike-tt__name { font-weight: 600; }
+.hike-tooltip .hike-tt__meta { color: #6b7078; margin-left: 6px; font-size: 10.5px; }
+.hike-tooltip::before { display: none; }  /* No arrow */
+
+/* Belt-and-braces piece of the first-click regression guard (mirrors
+   command-center.css). If you edit this, read the FIRST-CLICK REGRESSION
+   GUARD comment in renderer-leaflet.js's bindMarkerTooltips first. */
+.leaflet-tooltip-pane { pointer-events: none; }
+
+/* Hide labels below LABEL_ZOOM (body.zoom-labels class is toggled by
+   updateLabelVisibility). Default: labels present but display: none. */
+body:not(.zoom-labels) .hike-tooltip { display: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+  #filter-bar { max-width: calc(100vw - 24px); overflow-x: auto; }
+  .cc3d-help { display: none; }
+}
