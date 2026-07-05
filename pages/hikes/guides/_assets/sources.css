@@ -1,0 +1,282 @@
+/* Sources & credits page — visual layout for the credits grid,
+   provider tiles, and photographer/author cards. */
+
+.sources-wrap { max-width: 1120px; }
+
+/* --------------------------------------------------------------- HERO */
+.sources-hero {
+  position: relative;
+  margin: 0 -1.25rem 2.4rem;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  background: var(--bg-soft);
+  isolation: isolate;
+}
+.sources-hero img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: .55;
+}
+.sources-hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11,12,16,.15) 0%, rgba(11,12,16,.85) 100%);
+  z-index: 1;
+}
+.sources-hero-body {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.6rem 1.6rem 1.4rem;
+  z-index: 2;
+}
+.sources-hero-body h1 { margin: 0 0 .5rem; font-size: 2.4rem; }
+.sources-hero-body .lede { margin: 0; max-width: 700px; }
+.hero-credit {
+  position: absolute; right: .9rem; top: .8rem; z-index: 2;
+  font-size: .8rem; color: var(--fg);
+  background: rgba(11,12,16,.55);
+  padding: .3rem .55rem; border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+.hero-credit a { color: var(--fg); border-bottom-color: rgba(232,232,234,.3); }
+.hero-credit a:hover { border-bottom-color: var(--accent); }
+
+/* --------------------------------------------------------------- TOC */
+.sources-toc {
+  display: flex; flex-wrap: wrap;
+  gap: .35rem .6rem;
+  padding: .8rem 1rem;
+  margin: 0 0 2rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .88rem;
+}
+.sources-toc a {
+  color: var(--fg-dim);
+  padding: .15rem .5rem;
+  border-radius: 4px;
+  border-bottom: none;
+}
+.sources-toc a:hover { color: var(--fg); background: var(--bg-soft-2); border-bottom: none; }
+
+/* --------------------------------------------------------------- SECTIONS */
+.credits-section { margin: 3rem 0; }
+.credits-section h2 {
+  display: flex; align-items: baseline; gap: .5rem;
+  font-size: 1.6rem;
+}
+.credits-section h2 .section-count {
+  font-size: .85rem; font-weight: 400;
+  color: var(--fg-dim); letter-spacing: 0;
+  border-bottom: 0;
+}
+.credits-section > p { max-width: 780px; }
+
+/* ------------------------------------------------- PHOTOGRAPHER GRID */
+.credit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0 .8rem;
+}
+.credit-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform .15s ease, border-color .15s ease;
+  display: flex; flex-direction: column;
+}
+.credit-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--fg-dim);
+}
+.credit-card a { color: inherit; border-bottom: none; }
+.credit-card-photo {
+  aspect-ratio: 4 / 3;
+  background: var(--bg-soft-2) center/cover no-repeat;
+  border-bottom: 1px solid var(--border);
+}
+.credit-card-body { padding: .7rem .85rem .8rem; }
+.credit-card-name {
+  font-weight: 600; color: var(--fg);
+  margin: 0 0 .15rem;
+  font-size: .96rem;
+  line-height: 1.25;
+}
+.credit-card-meta {
+  font-size: .78rem; color: var(--fg-dim);
+  margin: 0;
+}
+.credit-card-meta .count { color: var(--accent); font-weight: 600; }
+.credit-tail {
+  font-size: .88rem; color: var(--fg-dim);
+  margin-top: 1.2rem;
+}
+.credit-tail .name {
+  display: inline-block;
+  margin: 0 .2rem 0 0;
+  padding: .12rem .5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .8rem;
+  color: var(--fg);
+}
+
+/* ------------------------------------------------- ROUTE AUTHOR GRID */
+.author-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.author-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.author-portrait {
+  flex: 0 0 auto;
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  background: var(--bg-soft-2) center/cover no-repeat;
+  border: 1px solid var(--border);
+}
+.author-body { min-width: 0; }
+.author-name {
+  font-weight: 600; color: var(--fg);
+  margin: 0 0 .1rem;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.author-count {
+  font-size: .78rem; color: var(--fg-dim);
+  margin: 0 0 .35rem;
+}
+.author-count .count { color: var(--accent); font-weight: 600; }
+.author-bio {
+  font-size: .82rem; color: var(--fg-dim);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------- PROVIDER GRID */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.provider {
+  display: flex; flex-direction: column;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.provider-visual {
+  aspect-ratio: 16 / 9;
+  background: var(--bg-soft-2) center/cover no-repeat;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--fg-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .78rem;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.provider-body { padding: .9rem 1rem 1.1rem; }
+.provider-body h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.provider-body h3 a { color: var(--fg); border-bottom-color: transparent; }
+.provider-body h3 a:hover { border-bottom-color: var(--accent); }
+.provider-body p { margin: .3rem 0; font-size: .88rem; line-height: 1.55; color: var(--fg-dim); }
+.provider-body p strong { color: var(--fg); }
+.provider-how { font-size: .78rem; opacity: .85; }
+.provider-how code { font-size: .74rem; padding: 0 .3em; }
+.provider-support { margin-top: .5rem !important; }
+.provider-support a { font-size: .84rem; }
+
+/* Text-only placeholders for providers without a natural visual — use a
+   subtle gradient with the provider mark rendered typographically. */
+.provider-visual-sac       { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%); color: #fff; font-weight: 700; }
+.provider-visual-sac::after       { content: "SAC Route Portal"; }
+.provider-visual-gadm      { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color: #fff; font-weight: 700; }
+.provider-visual-gadm::after      { content: "GADM · Swiss boundary"; }
+.provider-visual-schweizmobil { background: linear-gradient(135deg, #eab308 0%, #b45309 100%); color: #fff; font-weight: 700; }
+.provider-visual-schweizmobil::after { content: "Wanderland"; }
+.provider-visual-openmeteo { background: linear-gradient(135deg, #0e7490 0%, #075985 100%); color: #fff; font-weight: 700; }
+.provider-visual-openmeteo::after { content: "Open-Meteo"; }
+.provider-visual-meteoswiss{ background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: #fff; font-weight: 700; }
+.provider-visual-meteoswiss::after{ content: "MeteoSwiss"; }
+.provider-visual-meteoblue { background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%); color: #fff; font-weight: 700; }
+.provider-visual-meteoblue::after { content: "Meteoblue"; }
+.provider-visual-windy     { background: linear-gradient(135deg, #0891b2 0%, #164e63 100%); color: #fff; font-weight: 700; }
+.provider-visual-windy::after     { content: "Windy webcams + radar"; }
+.provider-visual-slf       { background: linear-gradient(135deg, #64748b 0%, #334155 100%); color: #fff; font-weight: 700; }
+.provider-visual-slf::after       { content: "SLF · WhiteRisk"; }
+.provider-visual-sbb       { background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%); color: #fff; font-weight: 700; }
+.provider-visual-sbb::after       { content: "SBB timetables"; }
+.provider-visual-opendata  { background: linear-gradient(135deg, #059669 0%, #064e3b 100%); color: #fff; font-weight: 700; }
+.provider-visual-opendata::after  { content: "transport.opendata.ch"; }
+.provider-visual-searchch  { background: linear-gradient(135deg, #f97316 0%, #9a3412 100%); color: #fff; font-weight: 700; }
+.provider-visual-searchch::after  { content: "search.ch"; }
+.provider-visual-google    { background: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #fbbc05 75%, #ea4335 100%); color: #fff; font-weight: 700; }
+.provider-visual-google::after    { content: "Maps + Calendar"; }
+.provider-visual-rega      { background: linear-gradient(135deg, #b91c1c 0%, #450a0a 100%); color: #fff; font-weight: 700; }
+.provider-visual-rega::after      { content: "Rega 1414"; }
+.provider-visual-mutterkuh { background: linear-gradient(135deg, #78350f 0%, #431407 100%); color: #fff; font-weight: 700; }
+.provider-visual-mutterkuh::after { content: "Mutterkuh Schweiz"; }
+.provider-visual-vtg       { background: linear-gradient(135deg, #365314 0%, #1a2e05 100%); color: #fff; font-weight: 700; }
+.provider-visual-vtg::after       { content: "VTG shooting bulletin"; }
+.provider-visual-leaflet   { background: linear-gradient(135deg, #16a34a 0%, #14532d 100%); color: #fff; font-weight: 700; }
+.provider-visual-leaflet::after   { content: "Leaflet"; }
+.provider-visual-maplibre  { background: linear-gradient(135deg, #a855f7 0%, #581c87 100%); color: #fff; font-weight: 700; }
+.provider-visual-maplibre::after  { content: "MapLibre GL"; }
+.provider-visual-goatcounter { background: linear-gradient(135deg, #14b8a6 0%, #134e4a 100%); color: #fff; font-weight: 700; }
+.provider-visual-goatcounter::after { content: "GoatCounter"; }
+#cesium-visual             { background: linear-gradient(135deg, #0284c7 0%, #075985 60%, #0f172a 100%); color: #fff; font-weight: 700; }
+#cesium-visual::after      { content: "Cesium · Google 3D Tiles"; }
+
+/* --------------------------------------------------------------- SUPPORT + CONTACT */
+.support-section ul, .support-list { padding-left: 1.4rem; }
+.support-list li { margin: .55rem 0; }
+.contact-section {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+}
+.contact-line { font-size: 1.1rem; }
+.contact-note { font-size: .85rem; color: var(--fg-dim); margin-top: 1rem; }
+
+/* --------------------------------------------------------------- FRESHNESS FOOTER */
+.freshness {
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+  font-size: .8rem;
+  color: var(--fg-dim);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------- RESPONSIVE */
+@media (max-width: 600px) {
+  .sources-hero { aspect-ratio: 4 / 3; margin: 0 -.75rem 1.8rem; }
+  .sources-hero-body h1 { font-size: 1.6rem; }
+  .sources-hero-body .lede { font-size: .95rem; }
+  .credit-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .author-card { flex-direction: column; }
+  .author-portrait { width: 72px; height: 72px; }
+  .provider-grid { grid-template-columns: 1fr; }
+}

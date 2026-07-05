@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx render validate check-stations serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
+.PHONY: help new new-gpx render credits validate check-stations serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -86,8 +86,13 @@ new-gpx:
 
 # -----------------------------------------------------------------------------
 ## render : Render all hike HTML pages from data.json + GPX + templates
-render:
+render: credits
 	$(PYTHON) $(SCRIPTS)/render_hike.py
+
+# -----------------------------------------------------------------------------
+## credits : Regenerate guides/sources-credits.js from all data.json files
+credits:
+	$(PYTHON) $(SCRIPTS)/gen_credits.py
 
 # -----------------------------------------------------------------------------
 ## 3d-previews : Screenshot each <slug>.3d.html to <slug>.3d-preview.jpg (slow).

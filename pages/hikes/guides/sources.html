@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="../routes/_assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../routes/_assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../routes/_assets/favicon-512.png">
+<title>Sources &amp; credits — Swiss Alps hiking</title>
+<meta name="guide-label" content="Sources">
+<meta name="guide-card-title" content="Sources &amp; credits">
+<meta name="guide-card-desc" content="Where every route, photo, forecast, tile, and timetable on this site comes from — with proper credit to the photographers, authors, and organizations behind them.">
+<meta name="guide-order" content="60">
+<link rel="stylesheet" href="_assets/guide.css">
+<link rel="stylesheet" href="_assets/sources.css">
+<script data-goatcounter="https://roberthannah89.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap sources-wrap">
+  <p class="crumbs">
+    <a href="/">Rob Hannah</a><span class="sep">/</span><a href="../index.html">Hikes</a><span class="sep">/</span>Sources &amp; credits
+  </p>
+
+  <header class="sources-hero">
+    <img id="hero-photo" alt="" loading="lazy">
+    <div class="sources-hero-body">
+      <h1>Sources &amp; credits</h1>
+      <p class="lede">
+        Every hike page on this site stitches together data from many authoritative sources —
+        photos, route descriptions, GPX geometry, elevations, tiles, weather, avalanche bulletins,
+        and transit timetables. Here they all are, with credit to the people and organizations
+        who make the underlying data.
+      </p>
+    </div>
+    <div class="hero-credit" id="hero-credit"></div>
+  </header>
+
+  <nav class="sources-toc">
+    <a href="#photographers">Photographers</a>
+    <a href="#route-authors">Route authors</a>
+    <a href="#trail-maps">Trails &amp; maps</a>
+    <a href="#terrain-3d">Terrain &amp; 3D</a>
+    <a href="#weather">Weather</a>
+    <a href="#avalanche">Avalanche</a>
+    <a href="#transit">Transit</a>
+    <a href="#safety">Safety &amp; rescue</a>
+    <a href="#libraries">Libraries</a>
+    <a href="#support">How to support</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ===================================================================
+       PHOTOGRAPHERS
+       =================================================================== -->
+  <section id="photographers" class="credits-section">
+    <h2>
+      <span aria-hidden="true">📸</span>
+      Photographers
+      <span class="section-count" id="ph-count"></span>
+    </h2>
+    <p>
+      Every photo on this site was taken by a
+      <a href="https://www.sac-cas.ch/en/" target="_blank" rel="noopener">Swiss Alpine Club</a>
+      member and contributed to the
+      <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener">SAC Route Portal</a>.
+      Photographers retain full copyright; credit appears per photo on every hike page.
+      Photos are hotlinked from SAC's CDN — SAC serves the bytes, this site just references them
+      in context.
+    </p>
+    <div class="credit-grid" id="photo-grid"></div>
+    <p id="photo-tail" class="credit-tail"></p>
+  </section>
+
+  <!-- ===================================================================
+       ROUTE AUTHORS
+       =================================================================== -->
+  <section id="route-authors" class="credits-section">
+    <h2>
+      <span aria-hidden="true">✍️</span>
+      Route authors
+      <span class="section-count" id="ra-count"></span>
+    </h2>
+    <p>
+      Route descriptions, difficulty ratings, terrain notes, and segment timings are written by
+      SAC contributors — freelance photographers, mountain guides, guidebook authors — and
+      published on the SAC Route Portal. Their bios come directly from SAC's author sidebar.
+    </p>
+    <div class="author-grid" id="author-grid"></div>
+  </section>
+
+  <!-- ===================================================================
+       TRAILS & MAPS
+       =================================================================== -->
+  <section id="trail-maps" class="credits-section">
+    <h2><span aria-hidden="true">🗺</span> Trails &amp; base maps</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual" style="background-image: url('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/13/4295/2870.jpeg');"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a></h3>
+          <p>National topographic maps (WMTS tiles), the 3D elevation API, the Wanderwege trail network with SAC grading, canton polygons, and hillshade / slope overlays. The single most-relied-on data source on this site after SAC.</p>
+          <p class="provider-how"><small>Live tiles from <code>wmts.geo.admin.ch</code>; build-time API calls to <code>api3.geo.admin.ch</code>.</small></p>
+          <p class="provider-support"><a href="https://shop.swisstopo.admin.ch/" target="_blank" rel="noopener">→ Buy maps in the swisstopo shop</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual" style="background-image: url('https://tile.openstreetmap.org/13/4295/2870.png');"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a></h3>
+          <p>Alternate base tile layer, plus <a href="https://overpass-api.de/" target="_blank" rel="noopener">Overpass</a> queries for the peak catalog and per-trail SAC scale (<code>sac_scale</code>, <code>trail_visibility</code>) used by the difficulty guide. Every hut, peak, water point, and POI in the Command Center comes from OSM.</p>
+          <p class="provider-how"><small>Live tiles from <code>tile.openstreetmap.org</code>; build-time Overpass queries.</small></p>
+          <p class="provider-support"><a href="https://www.openstreetmap.org/user/new" target="_blank" rel="noopener">→ Contribute an edit to OSM</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-sac"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener">SAC Route Portal</a></h3>
+          <p>Primary source for every hike — route geometry (via the SAC layer API), difficulty grades, ascent/descent times, waypoints, terrain notes, per-photo captions, and route-author biographies.</p>
+          <p class="provider-how"><small>Cookie-gated; scraped at build time via <code>scripts/scrape_sac_route_page.py</code>.</small></p>
+          <p class="provider-support"><a href="https://www.sac-cas.ch/en/the-sac/join-the-sac/" target="_blank" rel="noopener">→ Join the SAC</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-gadm"></div>
+        <div class="provider-body">
+          <h3><a href="https://gadm.org/" target="_blank" rel="noopener">GADM</a></h3>
+          <p>The Swiss national boundary polygon used to clip and shade maps. Downloaded once, bundled into <code>swiss_border.js</code>, then served locally forever.</p>
+          <p class="provider-how"><small>One-off build-time download from <code>geodata.ucdavis.edu</code>.</small></p>
+          <p class="provider-support"><a href="https://gadm.org/data.html" target="_blank" rel="noopener">→ GADM data page</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-schweizmobil"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.schweizmobil.ch/en/hiking-in-switzerland" target="_blank" rel="noopener">SchweizMobil (Wanderland)</a></h3>
+          <p>National / regional / local hiking route badges shown in the difficulty guide, plus outbound links to Wanderland's route pages.</p>
+          <p class="provider-how"><small>Hotlinked badge SVGs from <code>images.schweizmobil.ch</code>.</small></p>
+          <p class="provider-support"><a href="https://www.schweizmobil.ch/en/support-us" target="_blank" rel="noopener">→ Support SchweizMobil</a></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       TERRAIN & 3D
+       =================================================================== -->
+  <section id="terrain-3d" class="credits-section">
+    <h2><span aria-hidden="true">⛰</span> Terrain &amp; 3D</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual" id="cesium-visual"></div>
+        <div class="provider-body">
+          <h3>
+            <a href="https://cesium.com/" target="_blank" rel="noopener">CesiumJS</a> +
+            <a href="https://developers.google.com/maps/documentation/tile/3d-tiles-overview" target="_blank" rel="noopener">Google Photorealistic 3D Tiles</a>
+          </h3>
+          <p>The "Load photorealistic 3D" view on each hike page. Cesium renders the browser-side globe; Google supplies the photogrammetric mesh (the same 3D data behind Google Earth). Requires a user-supplied Google Maps Platform key.</p>
+          <p class="provider-how"><small>Loaded in-browser inside an iframe; keyed access to <code>tile.googleapis.com</code>.</small></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual" style="background-image: url('https://s3.amazonaws.com/elevation-tiles-prod/terrarium/12/2147/1435.png');"></div>
+        <div class="provider-body">
+          <h3><a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles (Terrarium)</a></h3>
+          <p>Global 30 m DEM served as PNG heightmap tiles, used as the terrain source in the photorealistic 3D prototype. Free public dataset hosted by AWS as part of the Open Data program.</p>
+          <p class="provider-how"><small>Hotlinked from <code>s3.amazonaws.com/elevation-tiles-prod</code> inside the 3D prototype.</small></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       WEATHER
+       =================================================================== -->
+  <section id="weather" class="credits-section">
+    <h2><span aria-hidden="true">☁️</span> Weather</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-openmeteo"></div>
+        <div class="provider-body">
+          <h3><a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></h3>
+          <p>The 7-day peak forecast on every hike page. Open-Meteo serves MeteoSwiss's ICON-CH2 / ICON-CH1 models to the public for free, no key required — one of the most generous public data services in existence for the alpine forecasting world.</p>
+          <p class="provider-how"><small>Live browser fetch from <code>api.open-meteo.com</code>; also cached daily for the Command Center.</small></p>
+          <p class="provider-support"><a href="https://open-meteo.com/en/pricing" target="_blank" rel="noopener">→ Donate or subscribe</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-meteoswiss"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">MeteoSwiss</a></h3>
+          <p>The upstream numerical models (ICON-CH2 / ICON-CH1) behind Open-Meteo, plus outbound links from every hike page and the weather guide to their hazards, föhn index, and inversion forecasts.</p>
+          <p class="provider-how"><small>Data reaches this site indirectly via Open-Meteo; direct outbound links for hazards and specialised forecasts.</small></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-meteoblue"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.meteoblue.com/" target="_blank" rel="noopener">Meteoblue</a></h3>
+          <p>Deep-linked "detailed forecast" button on each hike page (uses the peak's lat/lon), and the multi-model comparison links in the weather guide.</p>
+          <p class="provider-how"><small>Outbound links only — no data is fetched from Meteoblue.</small></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-windy"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.windy.com/" target="_blank" rel="noopener">Windy.com</a></h3>
+          <p>Nearby webcam thumbnails around each peak (via the Windy Webcams v3 API), plus outbound links to Windy's rain radar. Thumbnails are hotlinked from Windy's own image proxy.</p>
+          <p class="provider-how"><small>Build-time API fetch → cached list; runtime thumbnails hotlinked from <code>imgproxy.windy.com</code>.</small></p>
+          <p class="provider-support"><a href="https://api.windy.com/" target="_blank" rel="noopener">→ Windy API</a></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       AVALANCHE
+       =================================================================== -->
+  <section id="avalanche" class="credits-section">
+    <h2><span aria-hidden="true">❄️</span> Avalanche</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-slf"></div>
+        <div class="provider-body">
+          <h3>
+            <a href="https://www.slf.ch/" target="_blank" rel="noopener">SLF</a> /
+            <a href="https://whiterisk.ch/" target="_blank" rel="noopener">WhiteRisk</a>
+          </h3>
+          <p>The daily national avalanche bulletin — danger polygons, ratings, snow surface descriptions — shown as an overlay in the Command Center. Data follows the EAWS CAAML v6.0 standard.</p>
+          <p class="provider-how"><small>Scheduled daily fetch from <code>aws.slf.ch</code> (winter-only; empty May–Oct).</small></p>
+          <p class="provider-support"><a href="https://www.slf.ch/en/about-the-slf/" target="_blank" rel="noopener">→ About SLF</a></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       TRANSIT
+       =================================================================== -->
+  <section id="transit" class="credits-section">
+    <h2><span aria-hidden="true">🚆</span> Transit</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-sbb"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.sbb.ch/" target="_blank" rel="noopener">SBB</a></h3>
+          <p>Deep-linked timetables on every hike page — trailhead station and (for point-to-point routes) the arrival station too. URLs are pre-computed at build time from SAC-scraped station names.</p>
+          <p class="provider-how"><small>Outbound deep-links; no data pulled at runtime.</small></p>
+          <p class="provider-support"><a href="https://www.sbb.ch/en/travelcards-and-tickets/railpasses/ga.html" target="_blank" rel="noopener">→ Buy a GA / Half-Fare card</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-opendata"></div>
+        <div class="provider-body">
+          <h3><a href="https://transport.opendata.ch/" target="_blank" rel="noopener">transport.opendata.ch</a></h3>
+          <p>Live connection lookups and station autocomplete for the "Getting There" transit widget on every hike page. Free, keyless wrapper over SBB / search.ch data operated by opendata.ch.</p>
+          <p class="provider-how"><small>Live browser fetch from <code>transport.opendata.ch</code>.</small></p>
+          <p class="provider-support"><a href="https://opendata.ch/" target="_blank" rel="noopener">→ opendata.ch</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-searchch"></div>
+        <div class="provider-body">
+          <h3><a href="https://timetable.search.ch/" target="_blank" rel="noopener">search.ch timetable</a></h3>
+          <p>Per-row deep-links from the transit widget — search.ch accepts more precise time-anchoring parameters than SBB's own URL scheme.</p>
+          <p class="provider-how"><small>Outbound links only.</small></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-google"></div>
+        <div class="provider-body">
+          <h3><a href="https://maps.google.com/" target="_blank" rel="noopener">Google Maps</a> &amp; <a href="https://calendar.google.com/" target="_blank" rel="noopener">Calendar</a></h3>
+          <p>Driving / transit directions to the trailhead, and "Add to Google Calendar" for chosen transit legs.</p>
+          <p class="provider-how"><small>Outbound links only; the optional embedded Google Map needs a user-supplied API key.</small></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SAFETY & RESCUE
+       =================================================================== -->
+  <section id="safety" class="credits-section">
+    <h2><span aria-hidden="true">🚁</span> Safety &amp; rescue</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-rega"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.rega.ch/" target="_blank" rel="noopener">Rega</a></h3>
+          <p>Referenced throughout the gear &amp; safety guide — the Rega app, emergency number 1414, and the accident statistics that anchor the whole safety section.</p>
+          <p class="provider-support"><a href="https://www.rega.ch/en/support-rega/patron" target="_blank" rel="noopener">→ Become a Rega patron (CHF 40/year)</a></p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-mutterkuh"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.mutterkuh.ch/" target="_blank" rel="noopener">Mutterkuh Schweiz</a></h3>
+          <p>Suckler-cow safety guidance in the gear guide — how to behave around cattle and mother cows in the pasture.</p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-vtg"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.vtg.admin.ch/" target="_blank" rel="noopener">VTG / Swiss Armed Forces</a></h3>
+          <p>The military-shooting-range bulletin (referenced in the safety guide) so you can check whether a training range is active on the day of your hike.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       LIBRARIES
+       =================================================================== -->
+  <section id="libraries" class="credits-section">
+    <h2><span aria-hidden="true">📚</span> Software libraries</h2>
+    <div class="provider-grid">
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-leaflet"></div>
+        <div class="provider-body">
+          <h3><a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a> + <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank" rel="noopener">Leaflet.markercluster</a></h3>
+          <p>The main map on the index, every hike page, and the Command Center. Simple, well-documented, dependency-free — the reason the maps just work.</p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-maplibre"></div>
+        <div class="provider-body">
+          <h3><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a></h3>
+          <p>WebGL-accelerated vector maps used for the 3D hike view and the peak viewer. Open-source fork of Mapbox GL kept community-driven.</p>
+        </div>
+      </article>
+
+      <article class="provider">
+        <div class="provider-visual provider-visual-goatcounter"></div>
+        <div class="provider-body">
+          <h3><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a></h3>
+          <p>Privacy-friendly page-view counter on every page. No cookies, no personal data collected, no ads.</p>
+          <p class="provider-support"><a href="https://www.goatcounter.com/contribute" target="_blank" rel="noopener">→ Support GoatCounter</a></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       HOW TO SUPPORT
+       =================================================================== -->
+  <section id="support" class="credits-section support-section">
+    <h2><span aria-hidden="true">💛</span> How to support the sources</h2>
+    <p>If this site is useful, the single most valuable thing you can do is support the organizations that publish the underlying data. In rough order of "how much they contribute to what you're using here":</p>
+    <ul class="support-list">
+      <li><strong>Join the <a href="https://www.sac-cas.ch/en/the-sac/join-the-sac/" target="_blank" rel="noopener">Swiss Alpine Club (SAC)</a></strong> — every route, photo, and description on this site started as SAC member work. Membership funds hut maintenance, rescue, and the route portal itself.</li>
+      <li><strong>Buy from the <a href="https://shop.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo shop</a></strong> — the paper 1:25 000 maps, the Swiss Map Mobile app subscription, or their guidebooks. swisstopo's public API is generously open; supporting the shop keeps that possible.</li>
+      <li><strong>Become a <a href="https://www.rega.ch/en/support-rega/patron" target="_blank" rel="noopener">Rega patron</a></strong> (CHF 40/year) — covers your own potential rescue, and keeps Swiss air-rescue independent of insurance politics.</li>
+      <li><strong>Contribute to <a href="https://www.openstreetmap.org/user/new" target="_blank" rel="noopener">OpenStreetMap</a></strong> — fix a mislabeled trail, add a fountain, tag a hut. The peak catalog and trail grading here depend on OSM data.</li>
+      <li><strong>Donate to <a href="https://open-meteo.com/en/pricing" target="_blank" rel="noopener">Open-Meteo</a></strong> — the free weather API powering the forecasts on every hike page.</li>
+    </ul>
+  </section>
+
+  <!-- ===================================================================
+       CONTACT
+       =================================================================== -->
+  <section id="contact" class="credits-section contact-section">
+    <h2><span aria-hidden="true">✉️</span> Contact</h2>
+    <p>
+      Rights-holder, photographer, or SAC contributor and want something changed or removed?
+      Author, provider, or data-source I've missed?
+      Just want to say hello?
+    </p>
+    <p class="contact-line">
+      Email <a href="mailto:RobertHannah89@gmail.com">RobertHannah89@gmail.com</a>.
+    </p>
+    <p class="contact-note">
+      This is a personal, non-commercial site. Takedown requests are handled the same day they arrive.
+    </p>
+  </section>
+
+  <p class="freshness">
+    The photographer and route-author lists on this page are regenerated on every build from
+    <code>routes/*/*.data.json</code> by
+    <a href="https://github.com/roberthannah89/roberthannah89.github.io/blob/main/pages/hikes/scripts/gen_credits.py" target="_blank" rel="noopener"><code>scripts/gen_credits.py</code></a>.
+    The rest of the catalog is maintained by hand — <a href="mailto:RobertHannah89@gmail.com">email me</a> if you spot a source I use but forgot to credit.
+  </p>
+</div>
+
+<script src="sources-credits.js"></script>
+<script src="_assets/sources.js"></script>
+</body>
+</html>

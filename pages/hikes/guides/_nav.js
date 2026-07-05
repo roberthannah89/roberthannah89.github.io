@@ -1,5 +1,5 @@
 (function(){
-var pages=[{"path": "command-center/index.html", "label": "Command center"}, {"path": "guides/planning.html", "label": "Planning"}, {"path": "guides/difficulty.html", "label": "Trails & grades"}, {"path": "guides/weather.html", "label": "Weather"}, {"path": "guides/gear.html", "label": "Gear & safety"}];
+var pages=[{"path": "command-center/index.html", "label": "Command center"}, {"path": "guides/planning.html", "label": "Planning"}, {"path": "guides/difficulty.html", "label": "Trails & grades"}, {"path": "guides/weather.html", "label": "Weather"}, {"path": "guides/gear.html", "label": "Gear & safety"}, {"path": "guides/sources.html", "label": "Sources"}];
 function buildLinksHTML(){
   var cur=location.pathname;
   var parts=[];
