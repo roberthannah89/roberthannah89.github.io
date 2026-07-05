@@ -46,6 +46,7 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | `make_swiss_boundary.py` | One-shot generator: download GADM boundary → simplify → write `swiss_border.js`. Re-run only if boundary data needs regenerating |
 | `fetch_windy_webcams.py` | Windy Webcams API → `command-center/webcams_windy_data.js`. Re-run when refreshing the webcam list |
 | `render_proto_index.py` | Auto-generate `docs/prototypes/index.html` from `proto-*` meta tags in each prototype HTML |
+| `build_ch_peaks.py` | One-shot Peak Viewer pipeline: Overpass `natural=peak` → canton/region point-in-polygon → SAC route fuzzy join → nearest hut → `docs/prototypes/peak-viewer/ch-peaks.js`. See [`docs/prototypes/peak-viewer-DESIGN.md`](prototypes/peak-viewer-DESIGN.md) |
 
 ---
 

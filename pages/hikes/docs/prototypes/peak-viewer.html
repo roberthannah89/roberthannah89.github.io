@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peak Viewer — every peak in Switzerland, in 3D</title>
+<meta name="proto-title" content="Peak Viewer (3D + filterable database)">
+<meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
+<meta name="proto-desc" content="Every named peak in Switzerland from OpenStreetMap, joined with SAC route grades and nearest huts. Side-by-side Cesium 3D view with Google Photorealistic tiles and a filterable, sortable database. Click a peak → the camera flies to it.">
+<meta name="proto-source" content="OpenStreetMap · geo.admin.ch · SAC suissealpine · Google Photorealistic 3D Tiles">
+<meta name="proto-order" content="130">
+
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<link href="peak-viewer/peak-viewer.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="layout" id="layout">
+  <!-- 3D pane -->
+  <div class="scene" id="scene">
+    <div id="cesium-container"></div>
+
+    <!-- Overlay: status (top-left) -->
+    <div class="over over-status" id="over-status">
+      <div class="over-title">Peak Viewer</div>
+      <strong id="peak-count-total">Loading…</strong>
+      <span class="stat"><b id="peak-count-filtered">—</b> match your filters</span>
+    </div>
+
+    <!-- Overlay: selected peak (top-right) -->
+    <div class="over over-peak" id="over-peak" hidden>
+      <div class="over-title">Selected</div>
+      <div class="peak-name-row">
+        <strong id="sel-name"></strong>
+        <span class="stat" id="sel-ele"></span>
+      </div>
+      <div class="stat" id="sel-loc"></div>
+      <div class="stat" id="sel-sac" hidden></div>
+      <div class="stat" id="sel-hut"></div>
+      <div class="sel-actions">
+        <a id="sel-wiki" href="#" target="_blank" rel="noopener" hidden>Wikipedia ↗</a>
+        <button type="button" id="sel-fly" class="link-btn">Fly here</button>
+        <button type="button" id="sel-deselect" class="link-btn muted" aria-label="Deselect">✕</button>
+      </div>
+    </div>
+
+    <!-- Compass (bottom-right) -->
+    <button type="button" class="compass" id="compass" title="Reset heading to north">
+      <span id="compass-arrow">↑</span><strong>N</strong>
+    </button>
+
+    <!-- Attribution + banner slot -->
+    <div class="banner" id="banner" hidden></div>
+
+    <!-- Edge tab (visible when panel collapsed) -->
+    <button type="button" class="edge-tab" id="edge-tab" onclick="PeakViewer.togglePanel()" aria-label="Show peak database">
+      <span class="caret">◀</span> <strong>Peaks</strong> <span class="count-lbl" id="edge-count">—</span>
+    </button>
+  </div>
+
+  <!-- Right panel -->
+  <div class="panel-right" id="panel">
+    <div class="panel-header">
+      <h2>Peaks</h2>
+      <span class="count"><b id="panel-filtered">—</b> shown · <span id="panel-total">—</span> total</span>
+      <select id="sort-select" title="Sort">
+        <option value="ele-desc">Elevation ↓</option>
+        <option value="name-asc">Name A–Z</option>
+        <option value="prom-desc">Prominence ↓</option>
+        <option value="canton-asc">Canton</option>
+      </select>
+      <button type="button" class="min-btn" onclick="PeakViewer.togglePanel()" aria-label="Minimize database">
+        <span aria-hidden="true">▶</span> Minimize
+      </button>
+    </div>
+
+    <div class="filter-row">
+      <label class="search">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-5-5"/>
+        </svg>
+        <input type="search" id="search-input" placeholder="Search peaks…" autocomplete="off">
+      </label>
+
+      <div class="range-row" id="elev-range">
+        <span class="range-label">Elevation</span>
+        <span class="range-vals"><span id="elev-min-val">400</span> – <span id="elev-max-val">4634</span> m</span>
+        <div class="range-track">
+          <input type="range" id="elev-min" min="400" max="4634" step="50" value="400" aria-label="Min elevation">
+          <input type="range" id="elev-max" min="400" max="4634" step="50" value="4634" aria-label="Max elevation">
+        </div>
+      </div>
+
+      <div class="chip-group" id="chip-toggles">
+        <button type="button" class="chip outline" data-toggle="notable" title="Has a Wikipedia article">Notable ★</button>
+        <button type="button" class="chip outline" data-toggle="hikeable" title="Has an SAC route">Hikeable</button>
+      </div>
+
+      <div class="chip-group" id="chip-grades" hidden>
+        <span class="chip-group-label">Grade:</span>
+        <button type="button" class="chip outline" data-grade="T1">T1</button>
+        <button type="button" class="chip outline" data-grade="T2">T2</button>
+        <button type="button" class="chip outline" data-grade="T3">T3</button>
+        <button type="button" class="chip outline" data-grade="T4">T4</button>
+        <button type="button" class="chip outline" data-grade="T5">T5</button>
+        <button type="button" class="chip outline" data-grade="T6">T6</button>
+      </div>
+
+      <details class="canton-details">
+        <summary>Canton <span class="chip-count" id="canton-count-lbl"></span></summary>
+        <div class="chip-group" id="chip-cantons"></div>
+      </details>
+    </div>
+
+    <div class="card-list" id="card-list" role="listbox" aria-label="Peaks"></div>
+  </div>
+</div>
+
+<!-- Optional local-config.js (git-ignored) with window.HIKING_CONFIG.googleMapsApiKey -->
+<script src="../../local-config.js" onerror="void 0"></script>
+
+<!-- Cesium loader with CDN fallback chain -->
+<script>
+(function () {
+  var CDNS = [
+    'https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js',
+    'https://unpkg.com/cesium@1.122/Build/Cesium/Cesium.js',
+    'https://cdn.jsdelivr.net/npm/cesium@1.122/Build/Cesium/Cesium.js'
+  ];
+  window.__cesiumReady = new Promise(function (resolve, reject) {
+    var i = 0;
+    (function tryNext() {
+      if (typeof window.Cesium !== 'undefined') return resolve();
+      if (i >= CDNS.length) return reject(new Error('Cesium failed to load from all CDNs.'));
+      var s = document.createElement('script');
+      s.src = CDNS[i++];
+      s.onload = function () { typeof window.Cesium !== 'undefined' ? resolve() : tryNext(); };
+      s.onerror = tryNext;
+      document.head.appendChild(s);
+    })();
+  });
+})();
+</script>
+
+<!-- Peak data. GENERATED FROM overpass-peaks.json by scripts/build_ch_peaks.py -->
+<script src="peak-viewer/ch-peaks.js" onerror="void 0"></script>
+
+<!-- App logic -->
+<script src="peak-viewer/peak-viewer.js"></script>
+</body>
+</html>

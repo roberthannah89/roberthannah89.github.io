@@ -64,6 +64,20 @@ DEFAULT_DISCLAIMER = (
 )
 
 # ---------------------------------------------------------------------------
+# Peak Viewer prototype (scripts/build_ch_peaks.py)
+# ---------------------------------------------------------------------------
+# Public Overpass instance. Kumi.systems is faster than the default main-
+# instance and slightly more permissive with long-running queries.
+OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter"
+
+# How close an OSM peak must be to a SAC summit for the join to consider it.
+SAC_JOIN_DISTANCE_M = 100
+
+# Fuzzy name-match ratio (0..1). Below this we treat the pair as different
+# peaks even if they're within SAC_JOIN_DISTANCE_M metres.
+SAC_JOIN_NAME_THRESHOLD = 0.7
+
+# ---------------------------------------------------------------------------
 # SLF avalanche bulletin (EAWS CAAML V6.0 GeoJSON endpoint)
 # ---------------------------------------------------------------------------
 # Live GeoJSON: features carry merged region polygons + dangerRatings.
