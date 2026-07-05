@@ -123,6 +123,46 @@ body.chrome-hidden #bottom-bar {
   display: none;
 }
 
+/* Cross-page filters banner (hike_map/url_sync.js#mountCrossPageBanner).
+   Absolutely positioned like #filter-bar — #app is a flex row, so a
+   normal-flow sibling here would steal width from #map. Hidden by default;
+   the JS toggles display:'' / 'none' as invisible keys come and go. */
+#hm-cross-page-banner {
+  display: none;
+  position: absolute;
+  top: 54px;
+  left: 12px;
+  right: 12px;
+  z-index: 790;
+  background: var(--board-bg);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  backdrop-filter: blur(8px);
+}
+#hm-cross-page-banner code {
+  color: var(--amber);
+  font-size: 11px;
+}
+#hm-cross-page-banner .hm-banner-clear {
+  margin-left: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--flap-border);
+  border-radius: 4px;
+  padding: 1px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+#hm-cross-page-banner .hm-banner-clear:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
 .filter-group {
   display: flex;
   align-items: center;

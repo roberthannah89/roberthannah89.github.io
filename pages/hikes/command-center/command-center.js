@@ -24,7 +24,7 @@
     get: function (lat, lon, dayIndex) {
       var wx = wxLookup.get(lat, lon, dayIndex);
       if (!wx) return null;
-      var showWeather = (Filters.getState().display || []).indexOf('weather') !== -1;
+      var showWeather = (Filters.getState().dp || []).indexOf('weather') !== -1;
       return showWeather ? wx : { freezingLevel: wx.freezingLevel };
     }
   };
@@ -79,7 +79,7 @@
     // markerWxLookup gating wrapper used for marker icons.
     clusterGroup = window.HikeMap.ClusterGroupFactory({
       wxLookup: wxLookup,
-      dayIndexGetter: function () { return Filters.getState().weatherDay; },
+      dayIndexGetter: function () { return Filters.getState().d; },
     });
     map.addLayer(clusterGroup);
 
@@ -95,20 +95,20 @@
     routes.forEach(function (poi) {
       if (!poi.lat || !poi.lon) return;
 
-      // Precompute the fields markerFactory.makeIcon reads directly off the
-      // POI (it doesn't know about Filters or SidePanel):
+      // Precompute the fields markerFactory.makeIcon (and toMatchable, below)
+      // read directly off the POI:
       //   grade   — best (hardest) grade across routes, drives border colour.
       //   hasPage — amber ★ badge for POIs whose hike has a built page here.
       //             Reuses SidePanel.matchingHike so we don't drift from the
-      //             panel's link logic. Filters.matchesHasPage still reads
-      //             poi._hasPage, so both names are set.
+      //             panel's link logic. toMatchable() reads this cached value
+      //             rather than recomputing matchingHike() per filter pass.
       poi.grade = Filters.bestGrade(poi);
       var hasPage = !!(window.SidePanel && SidePanel.matchingHike && SidePanel.matchingHike(poi));
       poi._hasPage = hasPage;
       poi.hasPage = hasPage;
 
       var marker = L.marker([poi.lat, poi.lon], {
-        icon: markerFactory.makeIcon(poi, Filters.getState().weatherDay)
+        icon: markerFactory.makeIcon(poi, Filters.getState().d)
       });
 
       marker._poi = poi;
@@ -167,7 +167,7 @@
   // selected forecast day regardless of that toggle (markerWxLookup passes
   // `freezingLevel` through untouched).
   function refreshMarkerIcons() {
-    var dayIdx = Filters.getState().weatherDay;
+    var dayIdx = Filters.getState().d;
     allMarkers.forEach(function (m) {
       m.setIcon(markerFactory.makeIcon(m._poi, dayIdx));
     });
@@ -220,7 +220,7 @@
   // LABEL_ZOOM nothing is bound, so this is a cheap no-op; the current Display
   // state is applied when bindMarkerTooltips() runs on zoom-in.
   function refreshMarkerTooltips() {
-    var display = Filters.getState().display || [];
+    var display = Filters.getState().dp || [];
     allMarkers.forEach(function (m) {
       var tip = m.getTooltip();
       if (tip) tip.setContent(tooltipContent(m._poi, display));
@@ -234,7 +234,7 @@
   // unbind below it, leaving the overview as plain markers with no tooltip DOM.
 
   function bindMarkerTooltips() {
-    var display = Filters.getState().display || [];
+    var display = Filters.getState().dp || [];
     allMarkers.forEach(function (m) {
       if (m.getTooltip()) return;
       // ⚠️ FIRST-CLICK REGRESSION GUARD (do not change without reading):
@@ -328,7 +328,7 @@
 
   function refreshCityMarkers() {
     if (!cityMarkers.length) return;
-    var dayIdx = Filters.getState().weatherDay;
+    var dayIdx = Filters.getState().d;
     cityMarkers.forEach(function (m) {
       var c = m._city;
       var wx = wxLookup.get(c.lat, c.lon, dayIdx);
@@ -339,7 +339,7 @@
   }
 
   function openCityPopup(city, marker) {
-    var dayIdx = Filters.getState().weatherDay;
+    var dayIdx = Filters.getState().d;
     var wx = wxLookup.get(city.lat, city.lon, dayIdx);
     var html = '<div class="popup-name">🏙️ ' + esc(city.name) + '</div>';
     html += '<div class="popup-meta">' + (city.alt || '—') + ' m · reference point</div>';
@@ -381,7 +381,7 @@
   }
 
   function openPopup(poi, marker) {
-    var dayIdx = Filters.getState().weatherDay;
+    var dayIdx = Filters.getState().d;
     var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
     /* If a built hike page matches this POI, surface a direct link in the
        popup so users can jump straight to it without opening the side panel
@@ -459,33 +459,34 @@
     // Grade — multi-select. Icon-only (SAC trail markers); no label needed.
     // No "Any" button: empty selection means any.
     bar.appendChild(filterGroup('', [
-      { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'grades', value: ['T1-2'], title: 'SAC T1–T2 · hiking / mountain hiking, well-marked paths' },
-      { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'grades', value: ['T3'],   title: 'SAC T3 · demanding mountain hiking, exposed sections, sure-footedness needed' },
-      { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'grades', value: ['T4'],   title: 'SAC T4 · alpine hiking, some scrambling and route-finding' },
-      { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'grades', value: ['T5'],   title: 'SAC T5 · demanding alpine hiking, exposed scrambling' },
-      { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'grades', value: ['T6'],   title: 'SAC T6 · difficult alpine hiking, roped climbing sections' }
+      { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'g', value: ['T1', 'T2'], title: 'SAC T1–T2 · hiking / mountain hiking, well-marked paths' },
+      { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'g', value: ['T3'],   title: 'SAC T3 · demanding mountain hiking, exposed sections, sure-footedness needed' },
+      { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'g', value: ['T4'],   title: 'SAC T4 · alpine hiking, some scrambling and route-finding' },
+      { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'g', value: ['T5'],   title: 'SAC T5 · demanding alpine hiking, exposed scrambling' },
+      { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'g', value: ['T6'],   title: 'SAC T6 · difficult alpine hiking, roped climbing sections' }
     ], true));
 
-    // Duration — single-select; "h" suffix carries the meaning, no label.
+    // Time (moving time, canonical key `tm` — was `duration`) — single-select;
+    // "h" suffix carries the meaning, no label.
     bar.appendChild(filterGroup('', [
-      { label: '≤3h',  key: 'duration', value: 'short',  title: 'Duration ≤ 3 h moving time' },
-      { label: '3-5h', key: 'duration', value: 'medium', title: 'Duration 3–5 h moving time' },
-      { label: '5h+',  key: 'duration', value: 'long',   title: 'Duration 5 h or more moving time' }
+      { label: '≤3h',  key: 'tm', value: 'short', title: 'Duration ≤ 3 h moving time' },
+      { label: '3-5h', key: 'tm', value: 'mid',   title: 'Duration 3–5 h moving time' },
+      { label: '5h+',  key: 'tm', value: 'long',  title: 'Duration 5 h or more moving time' }
     ]));
 
     // Peak elevation
     bar.appendChild(filterGroup('elev', [
-      { label: '≤2000',  key: 'elevation', value: 'low',  title: 'Peak elevation ≤ 2000 m' },
-      { label: '2-2.5k', key: 'elevation', value: 'mid',  title: 'Peak elevation 2000–2500 m' },
-      { label: '2.5k+',  key: 'elevation', value: 'high', title: 'Peak elevation ≥ 2500 m' }
+      { label: '≤2000',  key: 'el', value: 'low',  title: 'Peak elevation ≤ 2000 m' },
+      { label: '2-2.5k', key: 'el', value: 'mid',  title: 'Peak elevation 2000–2500 m' },
+      { label: '2.5k+',  key: 'el', value: 'high', title: 'Peak elevation ≥ 2500 m' }
     ]));
 
     // Vertical gain
     bar.appendChild(filterGroup('gain', [
-      { label: '≤500',   key: 'gain', value: 'easy', title: 'Vertical gain ≤ 500 m' },
-      { label: '500-1k', key: 'gain', value: 'mod',  title: 'Vertical gain 500–1000 m' },
-      { label: '1-1.5k', key: 'gain', value: 'hard', title: 'Vertical gain 1000–1500 m' },
-      { label: '1.5k+',  key: 'gain', value: 'epic', title: 'Vertical gain ≥ 1500 m' }
+      { label: '≤500',   key: 'gn', value: 'easy', title: 'Vertical gain ≤ 500 m' },
+      { label: '500-1k', key: 'gn', value: 'mod',  title: 'Vertical gain 500–1000 m' },
+      { label: '1-1.5k', key: 'gn', value: 'hard', title: 'Vertical gain 1000–1500 m' },
+      { label: '1.5k+',  key: 'gn', value: 'epic', title: 'Vertical gain ≥ 1500 m' }
     ], /* multiSelect */ true));
 
     // Season — single toggle. Hides routes whose heuristic season window
@@ -513,12 +514,12 @@
               + ') · estimated from altitude + grade';
     btn.innerHTML = '<span class="season-icon">🍂</span>';
 
-    if (Filters.getState().inSeasonNow === true) btn.classList.add('active');
+    if (Filters.getState().sn === true) btn.classList.add('active');
 
     btn.addEventListener('click', function () {
       var was = btn.classList.contains('active');
       btn.classList.toggle('active');
-      Filters.setState('inSeasonNow', was ? null : true);
+      Filters.setState('sn', was ? null : true);
     });
     group.appendChild(btn);
     return group;
@@ -546,7 +547,7 @@
       { key: 'alt',     label: 'alt',  title: 'Show peak altitude (m) on the marker' }
     ];
 
-    var current = (Filters.getState().display || []).slice();
+    var current = (Filters.getState().dp || []).slice();
     // Initialise the CSS-driven name visibility from restored state. The
     // name span lives in every tooltip; this class hides it instantly.
     document.body.classList.toggle('display-name-off', current.indexOf('name') === -1);
@@ -565,7 +566,7 @@
         group.querySelectorAll('.filter-btn--display.active').forEach(function (b) {
           selected.push(b.getAttribute('data-display'));
         });
-        Filters.setState('display', selected);
+        Filters.setState('dp', selected);
         if (opt.key === 'name') {
           // Pure CSS toggle — no per-marker work.
           document.body.classList.toggle('display-name-off', !nowActive);
@@ -602,9 +603,9 @@
 
     window.HikeMap.DayPicker.mount({
       container: '#hm-day-slot',
-      initial: Filters.getState().weatherDay,
+      initial: Filters.getState().d,
       onChange: function (i) {
-        Filters.setState('weatherDay', i);
+        Filters.setState('d', i);
         refreshMarkerIcons();
       },
     });
@@ -612,12 +613,13 @@
     // Sky condition — multi-select icon buttons
     bar.appendChild(skyFilterGroup());
 
-    // Temperature — single-select; "°" suffix carries the meaning, no label.
+    // Temperature (canonical key `t` — was `tempMin`) — single-select; "°"
+    // suffix carries the meaning, no label.
     bar.appendChild(filterGroup('', [
-      { label: '>0°',  key: 'tempMin', value: 0,  title: 'Forecast max temperature above 0 °C' },
-      { label: '>5°',  key: 'tempMin', value: 5,  title: 'Forecast max temperature above 5 °C' },
-      { label: '>10°', key: 'tempMin', value: 10, title: 'Forecast max temperature above 10 °C' },
-      { label: '>15°', key: 'tempMin', value: 15, title: 'Forecast max temperature above 15 °C' }
+      { label: '>0°',  key: 't', value: 0,  title: 'Forecast max temperature above 0 °C' },
+      { label: '>5°',  key: 't', value: 5,  title: 'Forecast max temperature above 5 °C' },
+      { label: '>10°', key: 't', value: 10, title: 'Forecast max temperature above 10 °C' },
+      { label: '>15°', key: 't', value: 15, title: 'Forecast max temperature above 15 °C' }
     ], false, 'weather'));
   }
 
@@ -631,7 +633,7 @@
     var keys = WeatherService.SKY_CATEGORIES.map(function (c) { return c.key; });
 
     function refresh() {
-      var sel = Filters.getState().sky;
+      var sel = Filters.getState().sk;
       var threshold = sel ? keys.indexOf(sel) : -1;
       group.querySelectorAll('.filter-btn--sky').forEach(function (b, idx) {
         b.classList.toggle('weather-active', threshold !== -1 && idx <= threshold);
@@ -648,8 +650,8 @@
       btn.setAttribute('data-sky', cat.key);
       btn.innerHTML = '<span class="sky-icon">' + cat.icon + '</span>';
       btn.addEventListener('click', function () {
-        var current = Filters.getState().sky;
-        Filters.setState('sky', current === cat.key ? null : cat.key);
+        var current = Filters.getState().sk;
+        Filters.setState('sk', current === cat.key ? null : cat.key);
         refresh();
       });
       group.appendChild(btn);
@@ -702,21 +704,24 @@
     // (every option in a multi-select group writes into the same state slot,
     // so we read the first option's key once).
     var multiKey = multiSelect && options.length ? options[0].key : null;
-    // Some multi-select groups (grades) carry the bucket label in opt.value[0]
-    // instead of opt.value. Detect once.
-    function valueOf(opt) {
-      return Array.isArray(opt.value) ? opt.value[0] : opt.value;
+    // The T1-2 grade button represents TWO real grade values at once — its
+    // opt.value is an array (['T1','T2']) rather than a scalar. The matcher's
+    // `inSet` does plain membership checks against poi.grade (a single 'T1'..
+    // 'T6' string), so both values must actually land in state[multiKey], not
+    // just a literal 'T1-2' placeholder — see valuesOf()/the click handler below.
+    function valuesOf(opt) {
+      return Array.isArray(opt.value) ? opt.value : [opt.value];
     }
 
     // Decide whether a given option should start active based on restored state.
-    // - Multi-select: button active iff its value is in state[multiKey].
+    // - Multi-select: button active iff ALL of its values are in state[multiKey].
     // - Single-select: button active iff state[opt.key] equals opt.value.
     function isActive(opt) {
       if (multiSelect) {
         var arr = s[multiKey];
         if (!arr) return false;
         if (typeof arr === 'string') arr = [arr];  // tolerate legacy single-string state from old URLs
-        return arr.indexOf(valueOf(opt)) !== -1;
+        return valuesOf(opt).every(function (v) { return arr.indexOf(v) !== -1; });
       }
       return s[opt.key] === opt.value;
     }
@@ -737,13 +742,13 @@
       btn.addEventListener('click', function () {
         if (multiSelect) {
           // Multi-select: toggle this button, then collect all active values
-          // and write them to state[multiKey] (e.g. 'grades' or 'gain').
+          // and write them to state[multiKey] (e.g. 'g' or 'gn').
           // Empty selection = any (no Any button needed).
           btn.classList.toggle(activeClass);
           var active = [];
           group.querySelectorAll('.filter-btn').forEach(function (b, i) {
             if (b.classList.contains(activeClass)) {
-              active.push(valueOf(options[i]));
+              active = active.concat(valuesOf(options[i]));
             }
           });
           Filters.setState(multiKey, active);
@@ -760,8 +765,10 @@
             btn.classList.add(activeClass);
             Filters.setState(opt.key, opt.value);
           }
-          // Re-render marker icons when the weather day changes
-          if (opt.key === 'weatherDay') refreshMarkerIcons();
+          // Re-render marker icons when the weather day changes (the day
+          // picker itself is mounted via HikeMap.DayPicker, not this
+          // function — this guard is dead in practice, kept for parity).
+          if (opt.key === 'd') refreshMarkerIcons();
         }
       });
 
@@ -781,9 +788,9 @@
     // Tooltip visibility is handled entirely by the filter-bar "Show" pills
     // (display-name-off + meta presence collapse) — no separate Names toggle.
     var toggles = [
-      { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'showHikes', defaultOn: true },
-      { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'showHuts',  defaultOn: true },
-      { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hasPage',   defaultOn: false },
+      { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'h',  defaultOn: true },
+      { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'u',  defaultOn: true },
+      { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hp', defaultOn: false },
       { id: 'cities',    icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
       { id: 'webcams',   icon: '📷', label: 'Webcams', defaultOn: true },
       // Hazard overlays
@@ -902,16 +909,16 @@
 
   function toggleWeatherLayer(id, show) {
     if (id === 'hikes') {
-      Filters.setState('showHikes', show);
+      Filters.setState('h', show);
       return;
     }
     if (id === 'huts') {
-      Filters.setState('showHuts', show);
+      Filters.setState('u', show);
       return;
     }
     if (id === 'haspage') {
       // Off-state is null (no filter), not false — see hasPage state semantics.
-      Filters.setState('hasPage', show ? true : null);
+      Filters.setState('hp', show ? true : null);
       return;
     }
     if (id === 'cities') {
@@ -971,6 +978,45 @@
     return d.innerHTML;
   }
 
+  /* ── Shared filter engine adapter ──────────────────── */
+
+  // SAC POI → matchablePoi (the shape HikeMap.FilterMatcher understands).
+  // Flattens routes[] to the hardest route's own grade/gain/time so every
+  // bucketed field (tm/el/gn) describes the SAME route, not a mix of maxima
+  // across different routes. hasPage reuses the value createMarkers() already
+  // computed via SidePanel.matchingHike (poi.hasPage) rather than
+  // recomputing it on every filter pass.
+  function toMatchable(poi) {
+    var bestRoute = (poi.routes || []).reduce(function (a, b) {
+      return (a && parseInt(a.grade[1], 10) > parseInt(b.grade[1], 10)) ? a : b;
+    }, null);
+    // SAC grades carry an optional +/- modifier ('T4+', 'T3-', ...) that the
+    // grade filter buttons don't expose individually (only bare 'T1'..'T6').
+    // Strip it for matching so a T4+/T4- route still matches the T4 button —
+    // mirrors the old Filters.gradeNum(), which parseInt()'d past the
+    // trailing +/- for the same reason. Display elsewhere (popups, tooltips,
+    // side panel) still reads poi.grade/route.grade directly and keeps the
+    // modifier.
+    function stripGradeMod(g) { return g ? g.replace(/[+-]$/, '') : g; }
+    return {
+      name: poi.name, lat: poi.lat, lon: poi.lon,
+      grade: bestRoute ? stripGradeMod(bestRoute.grade) : null,
+      alt: poi.alt,
+      gain: bestRoute ? bestRoute.gain : null,
+      // r.time_up is minutes-to-summit (see formatTime()/popupMetaLine() above,
+      // both already read this field — there is no `duration_min` in the SAC
+      // data).
+      timeH: bestRoute && bestRoute.time_up ? bestRoute.time_up / 60 : null,
+      region: null, canton: null, routeType: null,  // CC data doesn't include these — index-only concerns
+      hasPage: !!poi.hasPage,
+      // SAC POIs carry `type: 'hut'|'summit'|'traverse'` (there is no `kind`
+      // field) — only 'hut' is a hut for filtering purposes; everything else
+      // (summit, traverse) is a 'hike'.
+      poiKind: poi.type === 'hut' ? 'hut' : 'hike',
+      raw: poi,
+    };
+  }
+
   /* ── Boot ──────────────────────────────────────────── */
 
   function boot() {
@@ -982,16 +1028,34 @@
       if (loadingText) loadingText.textContent = msg;
     }
 
+    // Canonical shared filter store + matcher (hike_map/filter_store.js,
+    // filter_matcher.js). Defaults merged under the URL-restored state cover
+    // the fields the old per-page `state` object used to default (weather day
+    // 0, hikes/huts shown, weather-pill display on) — FilterStore itself has
+    // no notion of defaults, it only holds what's handed to it.
+    // window.__hmStore / __hmMatcher are the Phase F transitional shim so
+    // command-center/filters.js (and side-panel.js) can keep calling
+    // Filters.* without every call site talking to the store directly —
+    // removed in Phase G.
+    var store = window.HikeMap.FilterStore({
+      keys: ['g', 'tm', 'el', 'gn', 'd', 'sk', 't', 'sn', 'h', 'u', 'hp', 'dp', 'wc', 'av'],
+      initial: Object.assign({ h: true, u: true, d: 0, dp: ['weather'] }, window.HikeMap.UrlSync.readFromUrl()),
+    });
+    var matcher = window.HikeMap.FilterMatcher.factory({ wxLookup: wxLookup });
+    window.__hmStore = store;
+    window.__hmMatcher = matcher;
+    window.HikeMap.UrlSync.bind({ store: store });
+    window.HikeMap.UrlSync.mountCrossPageBanner({
+      store: store,
+      uiKeys: store.keys,
+      container: '#hm-cross-page-banner',
+    });
+
     status('Initializing map...');
     initMap();
 
     status('Creating ' + routes.length + ' route markers...');
-    Filters.init(allMarkers, document.getElementById('route-count'), refreshCluster);
-    // Restore filter state from URL hash BEFORE building the filter UI so the
-    // buttons reflect the restored state instead of all showing "Any" active.
-    if (window.UrlSync && Filters.loadState) {
-      Filters.loadState(window.UrlSync.readFromUrl());
-    }
+    Filters.init(allMarkers, document.getElementById('route-count'), refreshCluster, toMatchable);
     createMarkers(routes);
     createCityMarkers();
     if (cityLayer) map.addLayer(cityLayer);

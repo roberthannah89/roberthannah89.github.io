@@ -52,6 +52,11 @@
             title="Hide filter controls (filters stay applied)">🎛️</button>
   </div>
 
+  <!-- Cross-page filters banner (hike_map/url_sync.js#mountCrossPageBanner) —
+       shown only when the URL hash carries filter keys this page's UI doesn't
+       render (e.g. a hash minted on the index page's region/canton filters). -->
+  <div id="hm-cross-page-banner"></div>
+
   <!-- Bottom-left horizontal strip: POI toggles · map switcher · destinations · forecast meta -->
   <div id="bottom-bar">
     <!-- POI / layer toggles (Hikes, SAC huts, Webcams, Names) -->
@@ -106,7 +111,9 @@
 <script src="../templates/_assets/hike_map/marker_factory.js"></script>
 <script src="../templates/_assets/hike_map/cluster_group.js"></script>
 <script src="season.js"></script>
-<script src="url-sync.js"></script>
+<script src="../templates/_assets/hike_map/filter_store.js"></script>
+<script src="../templates/_assets/hike_map/filter_matcher.js"></script>
+<script src="../templates/_assets/hike_map/url_sync.js"></script>
 <script src="filters.js"></script>
 <script src="../routes/_assets/hike_popup.js"></script>
 <script src="side-panel.js"></script>

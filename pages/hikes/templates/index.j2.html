@@ -85,6 +85,34 @@
      the command-center map so both popups render identically. Marker cluster
      colors and pill styling live in routes/_assets/hike_map/marker_pill.css. */
 
+  /* Cross-page filters banner (hike_map/url_sync.js#mountCrossPageBanner).
+     Plain block element — this page is normal document flow (unlike CC's
+     floating overlay bar), so it just sits above #map. Hidden by default;
+     JS toggles display as invisible keys come and go. */
+  #hm-cross-page-banner {
+    display: none;
+    margin: 0 0 .75rem;
+    padding: .5rem .8rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .8rem;
+    color: var(--fg-dim);
+  }
+  #hm-cross-page-banner code { color: var(--accent); font-size: .76rem; }
+  #hm-cross-page-banner .hm-banner-clear {
+    margin-left: .5rem;
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: .1rem .6rem;
+    font-family: inherit;
+    font-size: .76rem;
+    cursor: pointer;
+  }
+  #hm-cross-page-banner .hm-banner-clear:hover { border-color: var(--accent); color: var(--accent); }
+
   /* Filters */
   .filters { margin: 0 0 1.25rem; }
   .filter-group {
@@ -392,69 +420,63 @@
     <button class="hm-day-btn" disabled style="opacity:.5">Loading forecast…</button>
   </div>
 </div>
+<!-- Cross-page filters banner (hike_map/url_sync.js#mountCrossPageBanner) —
+     shown only when the URL hash carries filter keys this page's UI doesn't
+     render (e.g. a hash minted on Command Center's sky/temp/season filters). -->
+<div id="hm-cross-page-banner"></div>
 <div id="map" aria-label="Map of all hikes"></div>
 
   <div class="filters" id="filters">
-    <div class="filter-group" data-filter="grade" role="group" aria-label="Filter by difficulty">
+    <!-- Grade is multi-select (canonical key `g`, same semantics as Command
+         Center's grade filter) — no "All" button; empty selection = any. -->
+    <div class="filter-group" data-filter="g" data-multi="true" role="group" aria-label="Filter by difficulty">
       <span class="filter-label">Difficulty</span>
-      <button class="filter-btn active" data-value="all">All</button>
-      <button class="filter-btn" data-value="easy">T1–T2 · Easy</button>
-      <button class="filter-btn" data-value="demanding">T3 · Demanding</button>
-      <button class="filter-btn" data-value="alpine">T4+ · Alpine</button>
+      <button class="filter-btn" data-value="T1,T2">T1–T2</button>
+      <button class="filter-btn" data-value="T3">T3</button>
+      <button class="filter-btn" data-value="T4">T4</button>
+      <button class="filter-btn" data-value="T5">T5</button>
+      <button class="filter-btn" data-value="T6">T6</button>
     </div>
-    <div class="filter-group" data-filter="region" role="group" aria-label="Filter by region">
+    <div class="filter-group" data-filter="r" role="group" aria-label="Filter by region">
       <span class="filter-label">Region</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <!-- region buttons injected by JS -->
     </div>
-    <div class="filter-group" data-filter="canton" role="group" aria-label="Filter by canton">
+    <div class="filter-group" data-filter="c" role="group" aria-label="Filter by canton">
       <span class="filter-label">Canton</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <!-- canton buttons injected by JS -->
     </div>
-    <div class="filter-group" data-filter="weather" role="group" aria-label="Filter by weather">
-      <span class="filter-label">Weather</span>
-      <button class="filter-btn active" data-value="all">Any</button>
-      <button class="filter-btn" data-value="good">☀️ Clear</button>
-      <button class="filter-btn" data-value="ok">⛅ OK</button>
-      <button class="filter-btn" data-value="bad">🌧️ Poor</button>
-    </div>
-    <div class="filter-group" data-filter="dist" role="group" aria-label="Filter by distance">
+    <div class="filter-group" data-filter="di" role="group" aria-label="Filter by distance">
       <span class="filter-label">Distance</span>
       <button class="filter-btn active" data-value="all">Any</button>
-      <button class="filter-btn" data-value="short">≤ 10 km</button>
-      <button class="filter-btn" data-value="medium">11–15 km</button>
+      <button class="filter-btn" data-value="short">≤ 8 km</button>
+      <button class="filter-btn" data-value="mid">8–15 km</button>
       <button class="filter-btn" data-value="long">&gt; 15 km</button>
     </div>
-    <div class="filter-group" data-filter="gain" role="group" aria-label="Filter by elevation gain">
+    <div class="filter-group" data-filter="gn" role="group" aria-label="Filter by elevation gain">
       <span class="filter-label">Elev. gain</span>
       <button class="filter-btn active" data-value="all">Any</button>
-      <button class="filter-btn" data-value="gentle">≤ 700 m</button>
-      <button class="filter-btn" data-value="moderate">701–1300 m</button>
-      <button class="filter-btn" data-value="strenuous">&gt; 1300 m</button>
+      <button class="filter-btn" data-value="easy">≤ 500 m</button>
+      <button class="filter-btn" data-value="mod">500–1000 m</button>
+      <button class="filter-btn" data-value="hard">1000–1500 m</button>
+      <button class="filter-btn" data-value="epic">&gt; 1500 m</button>
     </div>
-    <div class="filter-group" data-filter="temp" role="group" aria-label="Filter by temperature">
-      <span class="filter-label">Temperature</span>
-      <button class="filter-btn active" data-value="all">Any</button>
-      <button class="filter-btn" data-value="cold">&lt; 5°</button>
-      <button class="filter-btn" data-value="cool">5–15°</button>
-      <button class="filter-btn" data-value="warm">&gt; 15°</button>
-    </div>
-    <div class="filter-group" data-filter="elev" role="group" aria-label="Filter by summit elevation">
+    <div class="filter-group" data-filter="el" role="group" aria-label="Filter by summit elevation">
       <span class="filter-label">Summit</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="low">≤ 2000 m</button>
-      <button class="filter-btn" data-value="mid">2001–2500 m</button>
+      <button class="filter-btn" data-value="mid">2000–2500 m</button>
       <button class="filter-btn" data-value="high">&gt; 2500 m</button>
     </div>
-    <div class="filter-group" data-filter="time" role="group" aria-label="Filter by hike time">
+    <div class="filter-group" data-filter="tm" role="group" aria-label="Filter by hike time">
       <span class="filter-label">Hike time</span>
       <button class="filter-btn active" data-value="all">Any</button>
-      <button class="filter-btn" data-value="short">≤ 4 h</button>
-      <button class="filter-btn" data-value="medium">4–7 h</button>
-      <button class="filter-btn" data-value="long">&gt; 7 h</button>
+      <button class="filter-btn" data-value="short">≤ 3 h</button>
+      <button class="filter-btn" data-value="mid">3–5 h</button>
+      <button class="filter-btn" data-value="long">&gt; 5 h</button>
     </div>
-    <div class="filter-group" data-filter="route" role="group" aria-label="Filter by route type">
+    <div class="filter-group" data-filter="rt" role="group" aria-label="Filter by route type">
       <span class="filter-label">Route type</span>
       <button class="filter-btn active" data-value="all">Any</button>
       <button class="filter-btn" data-value="loop">Loop</button>
@@ -494,7 +516,9 @@
 <script>window.HIKES = {{ hikes | tojson }};</script>
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
 <script>window.REGIONS_GJ = {{ regions_geojson | tojson }};</script>
-<script src="routes/_assets/index_url_sync.js?v=h2"></script>
+<script src="routes/_assets/hike_map/filter_store.js"></script>
+<script src="routes/_assets/hike_map/filter_matcher.js"></script>
+<script src="routes/_assets/hike_map/url_sync.js"></script>
 <script src="routes/_assets/hike_popup.js"></script>
 <script src="routes/_assets/index_page.js?v=h5"></script>
 <script src="routes/_assets/sw-register.js" defer></script>

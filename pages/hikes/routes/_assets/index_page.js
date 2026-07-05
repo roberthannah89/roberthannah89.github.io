@@ -37,9 +37,21 @@ var markerFactory = window.HikeMap.MarkerFactory({
   showFreezing: true,
 });
 
+/* Canonical shared filter store + matcher (hike_map/filter_store.js,
+   filter_matcher.js, url_sync.js). Index doesn't mount CC's Filters shim —
+   region/canton/grade/etc. buttons are page-owned and write to `store`
+   directly. Weather (sk) and temperature (t) have no UI here (design intent:
+   see docs/superpowers/specs/2026-07-05-cc-index-engine-unification-design.md)
+   but still apply if replayed via a cross-page URL from Command Center. */
+var store = window.HikeMap.FilterStore({
+  keys: ['g', 'r', 'c', 'rt', 'di', 'tm', 'el', 'gn', 'd', 'wc', 'av'],
+  initial: window.HikeMap.UrlSync.readFromUrl(),
+});
+var matcher = window.HikeMap.FilterMatcher.factory({ wxLookup: wxLookup });
+window.HikeMap.UrlSync.bind({ store: store });
+
 /* ------------- helpers ------------- */
 function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
-function gradeNum(g) { const m = String(g).match(/T(\d)/); return m ? parseInt(m[1], 10) : 0; }
 function parseNum(s) { const m = String(s || "").match(/([\d.]+)/); return m ? parseFloat(m[1]) : NaN; }
 function parseHours(s) {
   if (!s) return NaN;
@@ -52,6 +64,31 @@ function parseHours(s) {
 function fmtDow(s) { return new Date(s + "T00:00").toLocaleDateString(undefined, { weekday: "short" }); }
 function escAttr(s) { return String(s).replace(/"/g, "&quot;"); }
 
+/* HIKES entry → matchablePoi. Every hike here has a built page (this page
+   only ever lists rendered hikes) and is always poiKind 'hike' (no huts on
+   the index page). summitElev is the raw numeric peak elevation (h.elev is
+   the pre-formatted "2136 m" display string). */
+function hikeToMatchable(h) {
+  return {
+    name: h.name, lat: h.lat, lon: h.lon,
+    // Grades can carry a +/- modifier ('T4+', 'T3-', ...) that the grade
+    // filter buttons don't expose individually (only bare T1-2/T3/T4/T5/T6)
+    // — strip it so a T4+/T4- hike still matches the T4 button. Display
+    // elsewhere (card pill, popup) still reads h.grade directly.
+    grade: h.grade ? h.grade.replace(/[+-]$/, "") : h.grade,
+    region: (h.region || "").toLowerCase(),
+    canton: (h.canton || "").toLowerCase(),
+    routeType: (h.route_type || "").toLowerCase(),
+    alt: h.summitElev,
+    gain: parseNum(h.gain),
+    timeH: parseHours(h.time),
+    distance: parseNum(h.distance),
+    hasPage: true,
+    poiKind: "hike",
+    raw: h,
+  };
+}
+
 /* ------------- cards ------------- */
 var grid = document.getElementById("grid");
 HIKES.forEach(function (h, i) {
@@ -59,14 +96,6 @@ HIKES.forEach(function (h, i) {
   card.className = "card";
   card.href = h.href;
   card.dataset.idx = i;
-  card.dataset.grade = gradeNum(h.grade);
-  card.dataset.region = (h.region || "").toLowerCase();
-  card.dataset.canton = (h.canton || "").toLowerCase();
-  card.dataset.dist = parseNum(h.distance);
-  card.dataset.gain = parseNum(h.gain);
-  card.dataset.elev = parseNum(h.elev);
-  card.dataset.timeH = parseHours(h.time);
-  card.dataset.route = (h.route_type || "").toLowerCase();
   card.innerHTML =
     '<div class="photo-wrap">' +
       (h.photo ? '<img src="' + escAttr(h.photo) + '" alt="' + escAttr(h.name) + '" loading="lazy">' : '') +
@@ -96,7 +125,7 @@ HIKES.forEach(function (h, i) {
 });
 
 /* ------------- region filter buttons ------------- */
-var regionGroup = document.querySelector('.filter-group[data-filter="region"]');
+var regionGroup = document.querySelector('.filter-group[data-filter="r"]');
 var regions = [];
 HIKES.forEach(function (h) { if (h.region && regions.indexOf(h.region) === -1) regions.push(h.region); });
 regions.sort();
@@ -109,7 +138,7 @@ regions.forEach(function (r) {
 });
 
 /* ------------- canton filter buttons ------------- */
-var cantonGroup = document.querySelector('.filter-group[data-filter="canton"]');
+var cantonGroup = document.querySelector('.filter-group[data-filter="c"]');
 var cantons = [];
 HIKES.forEach(function (h) { if (h.canton && cantons.indexOf(h.canton) === -1) cantons.push(h.canton); });
 cantons.sort();
@@ -122,126 +151,62 @@ cantons.forEach(function (c) {
 });
 
 /* ------------- filtering ------------- */
-var activeFilters = { grade: "all", region: "all", canton: "all", weather: "all", dist: "all", gain: "all", temp: "all", elev: "all", time: "all", route: "all" };
 
-/* Restore filter state from URL hash before wiring click handlers — so the
-   initial render reflects #g=alpine&di=long etc. Day-picker restore happens
-   later in boot, once HikeMap.DayPicker.mount() has materialized the buttons. */
-var URL_STATE = (window.IndexUrlSync && window.IndexUrlSync.readFromUrl()) || {};
-Object.keys(URL_STATE).forEach(function (k) {
-  if (k === 'weatherDay') return;
-  if (URL_STATE[k] && activeFilters.hasOwnProperty(k)) activeFilters[k] = URL_STATE[k];
-});
-
-function syncFilterButtons() {
+// Restore button active-classes from URL-seeded store state, now that every
+// filter-group (including the JS-injected region/canton buttons) exists.
+function restoreFilterButtons() {
   document.querySelectorAll(".filter-group").forEach(function (group) {
     var key = group.dataset.filter;
-    var val = activeFilters[key] || 'all';
+    if (group.dataset.multi === "true") {
+      var sel = store.get(key) || [];
+      group.querySelectorAll(".filter-btn").forEach(function (b) {
+        var vals = b.dataset.value.split(",");
+        b.classList.toggle("active", vals.every(function (v) { return sel.indexOf(v) !== -1; }));
+      });
+      return;
+    }
+    var val = store.get(key);
     group.querySelectorAll(".filter-btn").forEach(function (b) {
-      b.classList.toggle('active', b.dataset.value === val);
+      b.classList.toggle("active", val ? b.dataset.value === val : b.dataset.value === "all");
     });
   });
 }
 
-function persistUrl() {
-  if (window.IndexUrlSync) window.IndexUrlSync.writeToUrl(activeFilters, mapDayActive, layerState);
-  updateResetVisibility();
-}
-
-/* Webcam + SLF avalanche overlay state (mirrors CC's bottom-bar toggles). */
-var layerState = {
-  webcams:   !!URL_STATE.webcams,
-  avalanche: !!URL_STATE.avalanche,
-};
-var webcamLayerInstance = null;   /* lazily created on first activation */
-var slfLayerInstance = null;
-var slfPending = false;
-
+// Wire filter-group clicks. Multi-select groups (grade) toggle their own
+// button and collect every active button's value(s) into an array. Single-
+// select groups keep the existing "All" button idiom: clicking any button
+// (including "All") clears every sibling's active state first.
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
+  var multi = group.dataset.multi === "true";
   group.addEventListener("click", function (e) {
     var btn = e.target.closest(".filter-btn");
     if (!btn) return;
-    group.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
-    btn.classList.add("active");
-    activeFilters[key] = btn.dataset.value;
-    persistUrl();
+    if (multi) {
+      btn.classList.toggle("active");
+      var active = [];
+      group.querySelectorAll(".filter-btn.active").forEach(function (b) {
+        active = active.concat(b.dataset.value.split(","));
+      });
+      store.set(key, active);
+    } else {
+      group.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      store.set(key, btn.dataset.value === "all" ? null : btn.dataset.value);
+    }
     applyFilters();
   });
 });
 
-function gradeMatch(g, filter) {
-  if (filter === "all") return true;
-  if (filter === "easy") return g >= 1 && g <= 2;
-  if (filter === "demanding") return g === 3;
-  if (filter === "alpine") return g >= 4;
-  return true;
-}
-/* Sky → 3-bucket weather filter category. Uses WeatherService.skyCategory so
-   the page stays consistent with CC's "Sky" filter buckets — this page's
-   3-bucket good/ok/bad is a coarser collapse of the 6 CC categories. */
-function wxCategory(code) {
-  if (!WX) return null;
-  var sky = WX.skyCategory(code);
-  if (sky === 'clear') return 'good';
-  if (sky === 'partly-cloudy' || sky === 'cloudy') return 'ok';
-  return 'bad';  /* rain / snow / storm */
-}
-function updateCardWeather() {
-  if (!WX) return;
+function applyFilters() {
+  var visible = 0;
+  var state = store.state();
   document.querySelectorAll(".card").forEach(function (card) {
     var idx = parseInt(card.dataset.idx, 10);
     var h = HIKES[idx];
-    if (!h) return;
-    var wx = wxLookup.get(h, mapDayActive);
-    if (!wx) return;
-    card.dataset.wx = wxCategory(wx.code);
-    if (wx.tempMax != null) card.dataset.temp = Math.round(wx.tempMax);
-  });
-}
-function applyFilters() {
-  var visible = 0;
-  document.querySelectorAll(".card").forEach(function (card) {
-    var g = parseInt(card.dataset.grade, 10) || 0;
-    var region = card.dataset.region;
-    var ok = gradeMatch(g, activeFilters.grade);
-    if (ok && activeFilters.region !== "all") ok = region === activeFilters.region;
-    if (ok && activeFilters.canton !== "all") ok = card.dataset.canton === activeFilters.canton;
-    if (ok && activeFilters.weather !== "all") ok = card.dataset.wx === activeFilters.weather;
-    if (ok && activeFilters.dist !== "all") {
-      var d = parseFloat(card.dataset.dist);
-      if (activeFilters.dist === "short") ok = !isNaN(d) && d <= 10;
-      else if (activeFilters.dist === "medium") ok = !isNaN(d) && d > 10 && d <= 15;
-      else if (activeFilters.dist === "long") ok = !isNaN(d) && d > 15;
-    }
-    if (ok && activeFilters.gain !== "all") {
-      var g2 = parseFloat(card.dataset.gain);
-      if (activeFilters.gain === "gentle") ok = !isNaN(g2) && g2 <= 700;
-      else if (activeFilters.gain === "moderate") ok = !isNaN(g2) && g2 > 700 && g2 <= 1300;
-      else if (activeFilters.gain === "strenuous") ok = !isNaN(g2) && g2 > 1300;
-    }
-    if (ok && activeFilters.temp !== "all") {
-      var t = parseFloat(card.dataset.temp);
-      if (activeFilters.temp === "cold") ok = !isNaN(t) && t < 5;
-      else if (activeFilters.temp === "cool") ok = !isNaN(t) && t >= 5 && t <= 15;
-      else if (activeFilters.temp === "warm") ok = !isNaN(t) && t > 15;
-    }
-    if (ok && activeFilters.elev !== "all") {
-      var e = parseFloat(card.dataset.elev);
-      if (activeFilters.elev === "low")  ok = !isNaN(e) && e <= 2000;
-      else if (activeFilters.elev === "mid")  ok = !isNaN(e) && e > 2000 && e <= 2500;
-      else if (activeFilters.elev === "high") ok = !isNaN(e) && e > 2500;
-    }
-    if (ok && activeFilters.time !== "all") {
-      var h2 = parseFloat(card.dataset.timeH);
-      if (activeFilters.time === "short")  ok = !isNaN(h2) && h2 <= 4;
-      else if (activeFilters.time === "medium") ok = !isNaN(h2) && h2 > 4 && h2 <= 7;
-      else if (activeFilters.time === "long")   ok = !isNaN(h2) && h2 > 7;
-    }
-    if (ok && activeFilters.route !== "all") ok = card.dataset.route === activeFilters.route;
+    var ok = !!h && matcher.match(hikeToMatchable(h), state);
     card.style.display = ok ? "" : "none";
     if (ok) visible++;
-    var idx = parseInt(card.dataset.idx, 10);
     var m = markers[idx];
     if (m) {
       if (ok) clusterGroup.addLayer(m);
@@ -274,7 +239,7 @@ function cantonColor(canton) {
 
 var markers = [];
 var latlngs = [];
-var mapDayActive = 0;  /* default to Today — matches CC */
+var mapDayActive = store.get("d") || 0;  /* default to Today — matches CC */
 
 /* Cluster pill — count + dominant sky + average temp of contained markers. */
 var clusterGroup = window.HikeMap.ClusterGroupFactory({
@@ -293,11 +258,10 @@ function refreshMarkerIcons() {
 
 function setMapDay(dayIdx) {
   mapDayActive = dayIdx;
+  store.set("d", dayIdx);
   refreshMarkerIcons();
   if (clusterGroup) clusterGroup.refreshClusters();
   renderCardStrips();
-  updateCardWeather();
-  persistUrl();
   applyFilters();
 }
 
@@ -424,29 +388,20 @@ function highlightMarker(i, on) {
   if (on) m.bringToFront();
 }
 
-/* ------------- boot ------------- */
-/* Region/canton filter buttons are injected by JS earlier in this file —
-   syncFilterButtons() needs to run AFTER them so the URL-restored "active"
-   state actually lands on the right buttons. */
-if (URL_STATE.weatherDay != null) mapDayActive = URL_STATE.weatherDay;
-var mapDayPicker = window.HikeMap.DayPicker.mount({
-  container: '#mapDayBtns',
-  initial: mapDayActive,
-  onChange: function (i) { setMapDay(i); },   // existing function handles refreshMarkerIcons, cards, URL, filters
-});
-syncFilterButtons();
-renderCardStrips();
-updateCardWeather();
-/* If we restored a non-default weatherDay, the marker icons built above were
-   for day 0 — refresh now that mapDayActive is correct. */
-if (mapDayActive !== 0) refreshMarkerIcons();
-mountToolbarButtons();
-updateResetVisibility();
-applyFilters();
-
 /* ------------- Layer toggles (webcams / avalanche) ------------- */
+/* Declared before boot() runs — mountToolbarButtons() (called from boot,
+   below) reads layerState and calls setWebcams/setAvalanche. */
+var layerState = {
+  webcams:   !!store.get("wc"),
+  avalanche: !!store.get("av"),
+};
+var webcamLayerInstance = null;   /* lazily created on first activation */
+var slfLayerInstance = null;
+var slfPending = false;
+
 function setWebcams(on) {
   layerState.webcams = !!on;
+  store.set("wc", layerState.webcams);
   if (on) {
     if (!webcamLayerInstance && window.WebcamLayer) {
       webcamLayerInstance = window.WebcamLayer.create();
@@ -455,10 +410,10 @@ function setWebcams(on) {
   } else if (webcamLayerInstance) {
     map.removeLayer(webcamLayerInstance);
   }
-  persistUrl();
 }
 function setAvalanche(on) {
   layerState.avalanche = !!on;
+  store.set("av", layerState.avalanche);
   if (on) {
     if (slfLayerInstance) {
       map.addLayer(slfLayerInstance);
@@ -477,8 +432,31 @@ function setAvalanche(on) {
   } else if (slfLayerInstance) {
     map.removeLayer(slfLayerInstance);
   }
-  persistUrl();
 }
+
+/* ------------- boot ------------- */
+/* Region/canton filter buttons are injected by JS earlier in this file —
+   restoreFilterButtons() needs to run AFTER them so the URL-restored "active"
+   state actually lands on the right buttons. */
+var mapDayPicker = window.HikeMap.DayPicker.mount({
+  container: '#mapDayBtns',
+  initial: mapDayActive,
+  onChange: function (i) { setMapDay(i); },   // existing function handles refreshMarkerIcons, cards, URL, filters
+});
+restoreFilterButtons();
+renderCardStrips();
+/* If we restored a non-default weatherDay, the marker icons built above were
+   for day 0 — refresh now that mapDayActive is correct. */
+if (mapDayActive !== 0) refreshMarkerIcons();
+mountToolbarButtons();
+updateResetVisibility();
+applyFilters();
+store.subscribe(updateResetVisibility);
+window.HikeMap.UrlSync.mountCrossPageBanner({
+  store: store,
+  uiKeys: store.keys,
+  container: '#hm-cross-page-banner',
+});
 
 /* ------------- Reset / Share / Layer toolbar buttons ------------- */
 function mountToolbarButtons() {
@@ -511,8 +489,7 @@ function mountToolbarButtons() {
   resetBtn.title = 'Clear filters';
   resetBtn.style.display = 'none';
   resetBtn.onclick = function () {
-    history.replaceState(null, '', window.location.pathname + window.location.search);
-    window.location.reload();
+    window.HikeMap.UrlSync.reset();
   };
 
   var shareBtn = document.createElement('button');
@@ -520,23 +497,7 @@ function mountToolbarButtons() {
   shareBtn.textContent = 'Share';
   shareBtn.title = 'Copy this view’s URL';
   shareBtn.onclick = function () {
-    var url = window.location.href;
-    var done = function () {
-      var orig = shareBtn.textContent;
-      shareBtn.textContent = 'Copied';
-      setTimeout(function () { shareBtn.textContent = orig; }, 1200);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(done, done);
-    } else {
-      var ta = document.createElement('textarea');
-      ta.value = url;
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand('copy'); } catch (e) {}
-      document.body.removeChild(ta);
-      done();
-    }
+    window.HikeMap.UrlSync.copyLink(shareBtn, 'Copied');
   };
 
   wrap.appendChild(webcamBtn);
@@ -553,6 +514,6 @@ function mountToolbarButtons() {
 function updateResetVisibility() {
   var btn = document.getElementById('resetBtn');
   if (!btn) return;
-  btn.style.display = (window.IndexUrlSync && window.IndexUrlSync.hasHash()) ? '' : 'none';
+  btn.style.display = (window.location.hash && window.location.hash !== '#') ? '' : 'none';
 }
 })();

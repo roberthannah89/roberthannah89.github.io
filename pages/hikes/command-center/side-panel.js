@@ -276,7 +276,7 @@
       html += '</div>';
 
       // Wind + sunrise/sunset + freezing level for selected day
-      var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, Filters.getState().weatherDay);
+      var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, Filters.getState().d);
       if (wxToday) {
         html += '<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
         html += '💨 Max wind: ' + Math.round(wxToday.windMax) + ' km/h';

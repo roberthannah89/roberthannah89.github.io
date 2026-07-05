@@ -81,7 +81,13 @@
   function bestGradeNum(poi) {
     // Mirror Filters.bestGrade / Filters.gradeNum locally so season.js
     // doesn't depend on script-tag order with filters.js.
-    if (!poi || !poi.routes) return 1;
+    if (!poi) return 1;
+    // CC POIs carry multiple routes[]; index hikes (and the shared
+    // matcher's matchablePoi.raw for index) are single-route with a flat
+    // `grade` string instead — fall back to that when routes[] is absent.
+    if (!poi.routes) {
+      return poi.grade ? (parseInt(String(poi.grade).replace('T', ''), 10) || 1) : 1;
+    }
     var best = 'T1';
     for (var i = 0; i < poi.routes.length; i++) {
       var g = poi.routes[i].grade;
