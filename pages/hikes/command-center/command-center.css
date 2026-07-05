@@ -347,6 +347,20 @@ body.chrome-hidden #bottom-bar {
 
 .wx-toggle .icon { font-size: 14px; }
 
+/* Vertical seam between the Discover / Safety / Approach toggle groups.
+   Presentational only — each toggle still fires independently — but the
+   seam gives users an orientation cue while horizontally scrolling on
+   mobile. Height sized to the toggle content, not the pill padding, so
+   the divider doesn't visually stab out the top and bottom of the panel. */
+.wx-toggle-divider {
+  display: inline-block;
+  width: 1px;
+  align-self: stretch;
+  margin: 4px 4px;
+  background: var(--flap-border);
+  opacity: 0.7;
+}
+
 /* --- Bottom-left horizontal strip --- */
 #bottom-bar {
   position: absolute;

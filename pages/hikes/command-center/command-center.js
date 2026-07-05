@@ -485,50 +485,79 @@
   function buildWeatherToggles() {
     var panel = document.getElementById('weather-toggles');
     var s = store.state();
-    // `stateKey` ties the toggle to a store state field so we can reflect
-    // restored URL state. `webcams` isn't filter state — it uses defaultOn.
-    // Tooltip visibility is handled entirely by the filter-bar "Show" pills
-    // (display-name-off + meta presence collapse) — no separate Names toggle.
-    var toggles = [
-      { id: 'hikes',     icon: '🥾', label: 'Hikes',    stateKey: 'h',  defaultOn: true },
-      { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'u',  defaultOn: true },
-      { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hp', defaultOn: false },
-      { id: 'cities',    icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
-      { id: 'webcams',   icon: '📷', label: 'Webcams', defaultOn: true },
-      // Hazard overlays. Avalanche (SLF bulletin + statutory hazard zones) is
-      // NOT in this list — it's always on, no toggle (see bootAvalancheLayer()
-      // in boot()). Safety-relevant hazard layers must never be hidden by
-      // default; this may extend to future "danger segments" layers too.
-      { id: 'slope',     icon: '📐', label: 'Slope ≥30° (avalanche-critical)' },
-      { id: 'snow',      icon: '❄️', label: 'Snow & glaciers (permanent extent)' },
-      // Default-on live-condition layers. All four are WMS tiles from
-      // geo.admin.ch (live daily feeds — no CI refresh needed). Boot activation
-      // is handled by bootConditionLayers() so the map opens with them shown;
-      // this toggle entry is what surfaces the on/off UI. Icons chosen to
-      // match the semantic content, not the source agency.
-      { id: 'closures',  icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil)', defaultOn: true },
-      { id: 'firerisk',  icon: '🔥', label: 'Forest fire danger (BAFU, updated daily)',         defaultOn: true },
-      { id: 'wildlife',  icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)', defaultOn: true },
-      { id: 'rockfall',  icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',      defaultOn: true },
-      // Planning / approach overlays
-      { id: 'transit',   icon: '🚌', label: 'Public transport stops (SBB / PostBus)' },
-      { id: 'parking',   icon: '🅿️', label: 'Trailhead parking (OSM)' },
-      { id: 'water',     icon: '💧', label: 'Drinking water (OSM)' }
+    // Sectioned toggle layout — three visual groups separated by thin
+    // dividers so users can scan by intent (finding hikes vs. safety vs.
+    // approach). SafeAny toggle can still be flipped individually; grouping
+    // is presentational. `stateKey` ties a toggle to a shared filter store
+    // slot so restored URL state wins over defaultOn; the rest use defaultOn
+    // and toggleWeatherLayer's per-id handler.
+    var sections = [
+      {
+        label: 'Discover',
+        toggles: [
+          { id: 'hikes',   icon: '🥾', label: 'Hikes',    stateKey: 'h',  defaultOn: true },
+          { id: 'huts',    icon: '🏚️', label: 'SAC huts', stateKey: 'u',  defaultOn: true },
+          { id: 'haspage', icon: '⭐', label: 'Has page', stateKey: 'hp', defaultOn: false },
+          { id: 'cities',  icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
+          { id: 'webcams', icon: '📷', label: 'Webcams', defaultOn: true }
+        ]
+      },
+      {
+        // Safety / conditions. Avalanche (SLF bulletin + statutory hazard
+        // zones) is NOT in this list — it's always on, no toggle (see
+        // bootAvalancheLayer() in boot()), because burying an avalanche
+        // bulletin behind a click is unacceptable. Every other safety
+        // signal is exposed here as an individual toggle.
+        //
+        // Defaults are curated for signal-to-noise: closures + snow are
+        // the two safety layers that materially change route choice for
+        // most hikers on most days, so they open on. Fire risk, wildlife,
+        // rockfall and slope are all real safety data but noisy when
+        // painted across the whole country — off by default, one tap
+        // to reveal.
+        label: 'Safety',
+        toggles: [
+          { id: 'closures', icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil, live daily)', defaultOn: true  },
+          { id: 'snow',     icon: '❄️', label: 'Snow & glaciers (permanent extent, GLAMOS)',                   defaultOn: true  },
+          { id: 'firerisk', icon: '🔥', label: 'Forest fire danger (BAFU, updated daily)',                     defaultOn: false },
+          { id: 'wildlife', icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)',           defaultOn: false },
+          { id: 'rockfall', icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',                 defaultOn: false },
+          { id: 'slope',    icon: '📐', label: 'Slope ≥30° (avalanche-critical terrain)',                      defaultOn: false }
+        ]
+      },
+      {
+        label: 'Approach',
+        toggles: [
+          { id: 'transit', icon: '🚌', label: 'Public transport stops (SBB / PostBus)', defaultOn: false },
+          { id: 'parking', icon: '🅿️', label: 'Trailhead parking (OSM)',                defaultOn: false },
+          { id: 'water',   icon: '💧', label: 'Drinking water (OSM)',                   defaultOn: false }
+        ]
+      }
     ];
 
-    toggles.forEach(function (t) {
-      // Prefer current store state when the toggle maps to a state field;
-      // otherwise fall back to defaultOn.
-      var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
-      var btn = document.createElement('button');
-      btn.className = 'wx-toggle' + (on ? ' active' : '');
-      btn.innerHTML = '<span class="icon">' + t.icon + '</span>';
-      btn.title = t.label;
-      btn.addEventListener('click', function () {
-        btn.classList.toggle('active');
-        toggleWeatherLayer(t.id, btn.classList.contains('active'));
+    sections.forEach(function (section, si) {
+      if (si > 0) {
+        // Between-section divider — presentational only; the panel scrolls
+        // horizontally on mobile so the divider gives a visual seam users
+        // can use to orient themselves as they swipe past.
+        var div = document.createElement('span');
+        div.className = 'wx-toggle-divider';
+        div.setAttribute('aria-hidden', 'true');
+        panel.appendChild(div);
+      }
+      section.toggles.forEach(function (t) {
+        var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
+        var btn = document.createElement('button');
+        btn.className = 'wx-toggle' + (on ? ' active' : '');
+        btn.innerHTML = '<span class="icon">' + t.icon + '</span>';
+        btn.title = section.label + ' · ' + t.label;
+        btn.setAttribute('data-toggle', t.id);
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('active');
+          toggleWeatherLayer(t.id, btn.classList.contains('active'));
+        });
+        panel.appendChild(btn);
       });
-      panel.appendChild(btn);
     });
   }
 
@@ -649,14 +678,14 @@
     });
   }
 
-  // Boot the four default-on live-condition layers so the map opens with
-  // them already visible. Each id maps 1:1 to a wx-toggle in the bottom bar
-  // AND to an overlayFactories entry; toggleLazyOverlay does the actual
-  // fetch/add. Failure is per-layer — one dead layer id doesn't take out
-  // the other three.
-  var DEFAULT_ON_CONDITIONS = ['closures', 'firerisk', 'wildlife', 'rockfall'];
-  function bootConditionLayers() {
-    DEFAULT_ON_CONDITIONS.forEach(function (id) {
+  // Boot the default-on overlay layers so the map opens with them already
+  // visible. Each id maps 1:1 to a wx-toggle in the bottom bar AND to an
+  // overlayFactories entry; toggleLazyOverlay does the actual fetch/add.
+  // Failure is per-layer — one dead layer id doesn't take out the others.
+  // Must stay in sync with the defaultOn:true entries in buildWeatherToggles.
+  var DEFAULT_ON_OVERLAYS = ['closures', 'snow'];
+  function bootDefaultOnOverlays() {
+    DEFAULT_ON_OVERLAYS.forEach(function (id) {
       toggleLazyOverlay(id, true);
     });
   }
@@ -895,7 +924,7 @@
     wireChromeToggle();
     wireRefreshButton();
     bootAvalancheLayer();
-    bootConditionLayers();
+    bootDefaultOnOverlays();
 
     // CC passes SAC POIs straight through (dataAdapter: identity) — they're
     // already the { name, lat, lon, alt, id, routes[] } shape the panel
