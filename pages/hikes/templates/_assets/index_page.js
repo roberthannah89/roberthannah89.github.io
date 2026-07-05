@@ -151,6 +151,18 @@ cantons.forEach(function (c) {
 
 // Restore button active-classes from URL-seeded store state, now that every
 // filter-group (including the JS-injected region/canton buttons) exists.
+//
+// Single-select groups (r, c, rt, di, tm, el, gn) all render one active
+// button at a time, but the *store* doesn't treat them uniformly: r/c/rt are
+// csv-typed in hike_map/url_sync.js's KEYS (so a URL-restored value arrives
+// as an array, e.g. `#r=bern` -> ['bern']), while di/tm/el/gn are plain
+// str-typed scalars. Comparing `b.dataset.value === val` unconditionally
+// used to silently fail to highlight r/c/rt buttons on URL restore even
+// though the shared matcher (which already tolerates both shapes via
+// inSet()) filtered the cards correctly — see Finding 1, Phase F review.
+// Checking Array.isArray(val) here (rather than consulting UrlSync.KEYS)
+// makes restore agree with whatever shape the click handler below actually
+// wrote, for either representation.
 function restoreFilterButtons() {
   document.querySelectorAll(".filter-group").forEach(function (group) {
     var key = group.dataset.filter;
@@ -163,8 +175,13 @@ function restoreFilterButtons() {
       return;
     }
     var val = store.get(key);
+    var isArrayVal = Array.isArray(val);
+    var hasVal = isArrayVal ? val.length > 0 : !!val;
     group.querySelectorAll(".filter-btn").forEach(function (b) {
-      b.classList.toggle("active", val ? b.dataset.value === val : b.dataset.value === "all");
+      var active = !hasVal
+        ? b.dataset.value === "all"
+        : (isArrayVal ? val.indexOf(b.dataset.value) !== -1 : b.dataset.value === val);
+      b.classList.toggle("active", active);
     });
   });
 }
@@ -173,9 +190,16 @@ function restoreFilterButtons() {
 // button and collect every active button's value(s) into an array. Single-
 // select groups keep the existing "All" button idiom: clicking any button
 // (including "All") clears every sibling's active state first.
+//
+// r/c/rt are csv-typed (see url_sync.js KEYS), so their single-select click
+// handler must also write an array of one — matching what a URL-restored
+// value looks like — instead of a bare string (Finding 1). di/tm/el/gn are
+// str-typed and keep writing a scalar.
+var UrlSyncKeys = window.HikeMap.UrlSync.KEYS;
 document.querySelectorAll(".filter-group").forEach(function (group) {
   var key = group.dataset.filter;
   var multi = group.dataset.multi === "true";
+  var isCsv = !!(UrlSyncKeys[key] && UrlSyncKeys[key].type === "csv");
   group.addEventListener("click", function (e) {
     var btn = e.target.closest(".filter-btn");
     if (!btn) return;
@@ -189,7 +213,8 @@ document.querySelectorAll(".filter-group").forEach(function (group) {
     } else {
       group.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
       btn.classList.add("active");
-      store.set(key, btn.dataset.value === "all" ? null : btn.dataset.value);
+      var val = btn.dataset.value === "all" ? null : btn.dataset.value;
+      store.set(key, isCsv && val !== null ? [val] : val);
     }
     applyFilters();
   });

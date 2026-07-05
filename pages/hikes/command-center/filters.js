@@ -61,7 +61,21 @@
     counterEl = counterElement;
     onFilterChange = changeCb;
     toMatchableFn = toMatchable;
-    if (window.__hmStore) window.__hmStore.subscribe(apply);
+    if (window.__hmStore) {
+      window.__hmStore.subscribe(function (state, changedKeys) {
+        // `dp` (the Display filter — which tooltip/marker fields to show) is
+        // presentation-only: filter_matcher.js's match() never reads it, so
+        // it can never change which markers are visible. Its one call site
+        // (command-center.js's display-filter click handler) already calls
+        // refreshMarkerIcons()/refreshMarkerTooltips() itself right after
+        // Filters.setState('dp', ...), so re-running the full ~960-marker
+        // apply() pass here on every display-pill click is pure waste. The
+        // pre-refactor Filters.setState had the same guard explicitly
+        // (`if (key !== 'display') apply();`) — Finding 2, Phase F review.
+        if (changedKeys && changedKeys.length === 1 && changedKeys[0] === 'dp') return;
+        apply();
+      });
+    }
   }
 
   window.Filters = {
