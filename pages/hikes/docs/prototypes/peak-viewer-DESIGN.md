@@ -175,7 +175,7 @@ All controls live in the right panel header area. Filter state is stored in `win
 
 ### Base tiles
 
-- **Primary:** Google Photorealistic 3D Tiles via Cesium `createGooglePhotorealistic3DTileset`, using the API key from `local-config.js` (reuse the pattern from `3d-photorealistic.html`, including the CDN fallback chain for Cesium itself).
+- **Primary:** Google Photorealistic 3D Tiles via Cesium `createGooglePhotorealistic3DTileset`, using the API key from `local-config.js` (reuse the pattern from `embed/3d.html`, including the CDN fallback chain for Cesium itself).
 - **Fallback:** if the key is missing or the tileset fails to load, initialize with Cesium World Terrain + Bing satellite (the `3d-cesium.html` setup) so the prototype still opens without setup. Show a small banner: "Photorealistic tiles unavailable — set `googleMapsApiKey` in `local-config.js` for better imagery."
 
 ### Default camera (home)

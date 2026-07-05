@@ -35,7 +35,7 @@ HIKES_ROOT = Path(__file__).resolve().parent.parent
 ROUTES = HIKES_ROOT / "routes"
 DEFAULT_HOST = "https://roberthannah89.github.io/pages/hikes"
 HOST = os.environ.get("HIKE_3D_HOST", DEFAULT_HOST).rstrip("/")
-PROTO_URL = f"{HOST}/docs/prototypes/3d-photorealistic.html"
+PROTO_URL = f"{HOST}/embed/3d.html"
 
 VIEWPORT = {"width": 1280, "height": 720}
 TILE_WAIT_MS = 25_000

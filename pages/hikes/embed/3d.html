@@ -2,13 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>3D photorealistic — Google Map Tiles + Cesium</title>
+  <title>3D photorealistic — hike view</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="proto-title" content="3D Photorealistic Tiles (Google + Cesium)">
-  <meta name="proto-icon" content="&#x26F0;&#xFE0F;">
-  <meta name="proto-desc" content="Photogrammetric 3D mesh of the Alps via Google Map Tiles rendered with CesiumJS. GPX track + start/end pins draped on the mesh. Works for any hike via ?hike=<slug>. Needs a Google Maps Platform API key (Map Tiles API enabled).">
-  <meta name="proto-source" content="Google Maps Platform — Map Tiles API + CesiumJS">
-  <meta name="proto-order" content="150">
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
   <style>
@@ -202,7 +197,7 @@
   <!-- Optional: same local-config.js the transit widget already consumes. CI injects this from
        the GOOGLE_MAPS_EMBED_KEY secret on deploy. Locally, copy local-config.example.js → local-config.js.
        The onerror swallow keeps things working when the file isn't present. -->
-  <script src="../../local-config.js" onerror="void 0"></script>
+  <script src="../local-config.js" onerror="void 0"></script>
   <script>
     const KEY_STORAGE     = 'proto:google-tiles:key';
     const MODE_STORAGE    = 'proto:3d-mode';
@@ -390,7 +385,7 @@
       // <img> stays hidden via onerror and we fall back to a gradient.
       $host.innerHTML =
         '<div class="preview-host" id="preview-host">' +
-          '<img class="preview-img" src="../../routes/' + hikeSlug +
+          '<img class="preview-img" src="../routes/' + hikeSlug +
             '/photoreal-preview.jpg" onerror="this.classList.add(\'missing\');' +
             'this.parentElement.classList.add(\'no-img\');">' +
           '<div class="preview-activate">' +
@@ -622,7 +617,7 @@
     function loadTrack(slug) {
       return new Promise((resolve, reject) => {
         const s = document.createElement('script');
-        s.src = '../../routes/' + slug + '/' + slug + '.track.js';
+        s.src = '../routes/' + slug + '/' + slug + '.track.js';
         s.onload = () => resolve();
         s.onerror = () => reject(new Error('No track data for hike "' + slug + '"'));
         document.head.appendChild(s);

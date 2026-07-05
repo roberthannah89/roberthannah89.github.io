@@ -22,19 +22,6 @@ Background: every hike page links to a per-hike 3D view powered by [MapLibre GL 
 - **Why not yet:** MapLibre is good enough for v1 and has zero billing risk. Revisit if visual feedback says "terrain looks blurry" or if we want a marquee 3D experience.
 - **Prototype:** [prototypes/3d-cesium.html](prototypes/3d-cesium.html) (needs an Ion token pasted into the script before it renders).
 
-### CesiumJS + Google Photorealistic 3D Tiles
-
-- **What:** CesiumJS again, but using [Google's Photorealistic 3D Tiles](https://developers.google.com/maps/documentation/tile/3d-tiles-overview) as the terrain + imagery source — actual photogrammetric 3D mesh with buildings, vegetation, textures. This is the closest you can get to FATMAP/Google Earth quality in a browser.
-- **Why:** Genuine "wow" factor. Coverage in Switzerland is dense (cities + Alps).
-- **Cost:**
-  - Setup: Google Maps Platform API key with Map Tiles API enabled, billing card on file. Cesium Ion token *not* required — CesiumJS ≥1.107 reaches Google tiles directly via `createGooglePhotorealistic3DTileset({ key })`.
-  - Money: billing is **per-session, not per-tile** — one "session" = one root tileset query that covers a 3-hour token window of unlimited panning/zooming. Free tier **1,000 sessions/month/project**; then $6 / 1k up to 100k, dropping to $2.40 / 1k past 5M. So a hike page averaging 1k unique 3D-pane opens/month sits in the free tier; 5k opens/month ≈ $24/mo; only goes scary at 5-figure traffic.
-  - Caps: 10,000 root queries/day/project ceiling, 12k tile-renderer QPM rate limit. The daily cap is the real safety net against a runaway bill.
-  - Mobile: heaviest option (real 3D meshes). Fine on flagship phones, may stutter on older ones.
-- **Why not yet:** Need to confirm the visual upgrade is worth $0–$50/mo at our traffic, plus mobile-perf check on real older devices. Build the comparison prototype, eyeball it, then decide.
-- **Prototype:** [prototypes/3d-photorealistic.html](prototypes/3d-photorealistic.html) — side-by-side MapLibre vs Cesium+Google Photorealistic, paste-in API key, localStorage-persisted.
-- **Reference demo:** [Cesium Sandcastle — Google Photorealistic 3D Tiles](https://sandcastle.cesium.com/?src=Google%20Photorealistic%203D%20Tiles.html).
-
 ### Mapbox GL JS v3 Standard Satellite
 
 - **What:** Drop-in alternative to MapLibre using Mapbox's proprietary fork. Their "Standard Satellite" style has 3D terrain + atmosphere built in with more polished defaults.
