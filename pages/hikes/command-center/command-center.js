@@ -590,7 +590,24 @@
     var days = WeatherService.getDayChoices();
     if (days.length === 0) return;
 
-    bar.appendChild(buildDayPicker(days));
+    // Day filter cell: a plain .filter-group wrapping #hm-day-slot, which the
+    // shared HikeMap.DayPicker widget (also used by the index page) mounts
+    // its buttons into.
+    var dayGroup = document.createElement('div');
+    dayGroup.className = 'filter-group filter-group--day';
+    var daySlot = document.createElement('div');
+    daySlot.id = 'hm-day-slot';
+    dayGroup.appendChild(daySlot);
+    bar.appendChild(dayGroup);
+
+    window.HikeMap.DayPicker.mount({
+      container: '#hm-day-slot',
+      initial: Filters.getState().weatherDay,
+      onChange: function (i) {
+        Filters.setState('weatherDay', i);
+        refreshMarkerIcons();
+      },
+    });
 
     // Sky condition — multi-select icon buttons
     bar.appendChild(skyFilterGroup());
@@ -602,35 +619,6 @@
       { label: '>10°', key: 'tempMin', value: 10, title: 'Forecast max temperature above 10 °C' },
       { label: '>15°', key: 'tempMin', value: 15, title: 'Forecast max temperature above 15 °C' }
     ], false, 'weather'));
-  }
-
-  // Day picker — horizontal row of buttons selecting which forecast day
-  // drives the weather filter / marker icons.
-  function buildDayPicker(days) {
-    var group = document.createElement('div');
-    group.className = 'filter-group filter-group--day';
-
-    // No "Day" label — day buttons say "Today / Tomorrow / Sun 31 May".
-    var currentDay = Filters.getState().weatherDay;
-    days.forEach(function (d, idx) {
-      // Mark active if this day's index matches the restored state.
-      var active = d.index === currentDay;
-      var btn = document.createElement('button');
-      btn.className = 'filter-btn' + (active ? ' weather-active' : '');
-      btn.textContent = d.label;
-      btn.title = 'Show weather for ' + (d.title || d.label);
-      btn.addEventListener('click', function () {
-        group.querySelectorAll('.filter-btn').forEach(function (b) {
-          b.classList.remove('weather-active');
-        });
-        btn.classList.add('weather-active');
-        Filters.setState('weatherDay', d.index);
-        refreshMarkerIcons();
-      });
-      group.appendChild(btn);
-    });
-
-    return group;
   }
 
   // Threshold icon buttons for sky conditions: clicking a category means

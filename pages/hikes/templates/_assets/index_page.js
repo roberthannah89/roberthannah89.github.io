@@ -123,7 +123,7 @@ var activeFilters = { grade: "all", region: "all", canton: "all", weather: "all"
 
 /* Restore filter state from URL hash before wiring click handlers — so the
    initial render reflects #g=alpine&di=long etc. Day-picker restore happens
-   later in boot, once buildMapDayBtns has materialized the buttons. */
+   later in boot, once HikeMap.DayPicker.mount() has materialized the buttons. */
 var URL_STATE = (window.IndexUrlSync && window.IndexUrlSync.readFromUrl()) || {};
 Object.keys(URL_STATE).forEach(function (k) {
   if (k === 'weatherDay') return;
@@ -290,47 +290,12 @@ function refreshMarkerIcons() {
 
 function setMapDay(dayIdx) {
   mapDayActive = dayIdx;
-  document.querySelectorAll('.map-day-btn').forEach(function (btn, i) {
-    btn.classList.toggle('active', i === dayIdx);
-  });
   refreshMarkerIcons();
   if (clusterGroup) clusterGroup.refreshClusters();
   renderCardStrips();
   updateCardWeather();
   persistUrl();
   applyFilters();
-}
-
-function buildMapDayBtns() {
-  var bar = document.getElementById('mapDayBtns');
-  if (!bar) return;
-  bar.innerHTML = '';
-  if (!WX) {
-    var msg = document.createElement('button');
-    msg.className = 'map-day-btn';
-    msg.disabled = true;
-    msg.style.opacity = '.5';
-    msg.textContent = 'No forecast — run `make weather`';
-    bar.appendChild(msg);
-    return;
-  }
-  var choices = WX.getDayChoices();
-  if (!choices.length) {
-    var none = document.createElement('button');
-    none.className = 'map-day-btn';
-    none.disabled = true;
-    none.style.opacity = '.5';
-    none.textContent = 'No forecast available';
-    bar.appendChild(none);
-    return;
-  }
-  choices.forEach(function (c, i) {
-    var btn = document.createElement('button');
-    btn.className = 'map-day-btn' + (i === mapDayActive ? ' active' : '');
-    btn.textContent = c.label;
-    btn.onclick = function () { setMapDay(i); };
-    bar.appendChild(btn);
-  });
 }
 
 /* Per-card weather strip — one column per forecast day. Re-renders on
@@ -461,7 +426,11 @@ function highlightMarker(i, on) {
    syncFilterButtons() needs to run AFTER them so the URL-restored "active"
    state actually lands on the right buttons. */
 if (URL_STATE.weatherDay != null) mapDayActive = URL_STATE.weatherDay;
-buildMapDayBtns();
+var mapDayPicker = window.HikeMap.DayPicker.mount({
+  container: '#mapDayBtns',
+  initial: mapDayActive,
+  onChange: function (i) { setMapDay(i); },   // existing function handles refreshMarkerIcons, cards, URL, filters
+});
 syncFilterButtons();
 renderCardStrips();
 updateCardWeather();

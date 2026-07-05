@@ -189,6 +189,21 @@ body.chrome-hidden #bottom-bar {
   font-weight: 600;
 }
 
+/* Day picker (shared HikeMap.DayPicker widget, mounted into #hm-day-slot
+   inside .filter-group--day). The slot itself needs the same flex+gap as
+   .filter-group's other direct children, since DayPicker's buttons are now
+   one level deeper than a plain filter-group's buttons. Colors recolor
+   .hm-day-btn (from hike_map/marker_pill.css) to CC's board palette instead
+   of the dark-theme fallback the index page uses, so the pill fits the
+   amber/blue board aesthetic. */
+#hm-day-slot { display: flex; gap: 2px; }
+#filter-bar .hm-day-btn {
+  --fg: var(--text-secondary);
+  --border: var(--flap-border);
+  --accent: var(--blue);
+}
+#filter-bar .hm-day-btn:hover:not(:disabled) { color: var(--text-primary); }
+
 /* Icon-mode filter button — tighter padding so the icon dominates instead
    of floating in a wide text-sized pill. */
 .filter-btn--icon {
