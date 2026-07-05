@@ -616,8 +616,11 @@
   // ------------------------------------------------------------------
   function tierFor(ele, notable) {
     ele = ele || 0;
-    if (ele >= 3800 || (notable && ele >= 3300)) return 1;
-    if (ele >= 3000 || (notable && ele >= 2000)) return 2;
+    // Tier 1: majors visible at country zoom. Alps 4000ers + biggest notable
+    // peaks. ~60-80 items — clean country overview.
+    if (ele >= 4000 || (notable && ele >= 3500)) return 1;
+    // Tier 2: prominent alpine peaks visible on a region-level view.
+    if (ele >= 3000 || (notable && ele >= 2500)) return 2;
     return 3;
   }
   function toFeature(p) {
@@ -701,24 +704,40 @@
       map.addSource('peaks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addSource('selected-peak', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
 
+      // Invisible click-target layer: bigger radius, no visual, so clicks
+      // register even when the visible dot is small.
+      map.addLayer({
+        id: 'peaks-hit', type: 'circle', source: 'peaks',
+        paint: {
+          'circle-radius': 12,
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-width': 0
+        }
+      });
+      // Visible dot layer, scaled up by zoom so peaks are clearly clickable
+      // once you're framed on them. MapLibre allows only ONE zoom-based
+      // interpolate per property, so structure is:
+      //   outer = interpolate on zoom
+      //   inner = case on tier at each stop (constant w.r.t. zoom)
+      // Hard zoom thresholds (step, not interpolate) so country-view is only
+      // Tier 1 majors — no partial-opacity clutter. Reveals more per zoom step.
+      const opacityByZoom = ['step', ['zoom'],
+                       ['case', ['==', ['get', 'tier'], 1], 1, 0],   //  <9.5: T1 only
+        9.5,  ['case', ['<=', ['get', 'tier'], 2], 1, 0],  // 9.5-11.5: T1+T2
+        11.5, 1                                              //  ≥11.5: all
+      ];
       map.addLayer({
         id: 'peaks-dot', type: 'circle', source: 'peaks',
         paint: {
-          // Matches 3d-peaks.html sizes (tier1: 4, tier2: 3.2, else: 2.4).
-          'circle-radius': ['case', ['==', ['get', 'tier'], 1], 4, ['==', ['get', 'tier'], 2], 3.2, 2.4],
-          'circle-color': '#ffffff',
-          'circle-stroke-color': '#222222',
-          'circle-stroke-width': 1.3,
-          'circle-opacity': ['case',
-            ['==', ['get', 'tier'], 1], 1,
-            ['==', ['get', 'tier'], 2], ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
-            ['interpolate', ['linear'], ['zoom'], 9, 0, 11, 1]
+          'circle-radius': ['interpolate', ['linear'], ['zoom'],
+            7, ['case', ['==', ['get', 'tier'], 1], 4, ['==', ['get', 'tier'], 2], 3, 2.4],
+            13, ['case', ['==', ['get', 'tier'], 1], 7, ['==', ['get', 'tier'], 2], 6, 5.5]
           ],
-          'circle-stroke-opacity': ['case',
-            ['==', ['get', 'tier'], 1], 1,
-            ['==', ['get', 'tier'], 2], ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
-            ['interpolate', ['linear'], ['zoom'], 9, 0, 11, 1]
-          ]
+          'circle-color': '#ffffff',
+          'circle-stroke-color': '#171a1f',
+          'circle-stroke-width': 1.6,
+          'circle-opacity': opacityByZoom,
+          'circle-stroke-opacity': opacityByZoom
         }
       });
       map.addLayer({
@@ -737,7 +756,9 @@
         },
         paint: {
           'text-color': '#1a1a1a', 'text-halo-color': '#ffffff',
-          'text-halo-width': 1.8, 'text-halo-blur': 0.4
+          'text-halo-width': 1.8, 'text-halo-blur': 0.4,
+          // Match dot visibility: labels only appear once their tier's dots do.
+          'text-opacity': opacityByZoom
         }
       });
       map.addLayer({
@@ -765,12 +786,15 @@
         }
       });
 
-      map.on('click', 'peaks-dot',   (e) => e.features && e.features[0] && select(e.features[0].properties.id, { fly: true }));
-      map.on('click', 'peaks-label', (e) => e.features && e.features[0] && select(e.features[0].properties.id, { fly: true }));
-      map.on('mouseenter', 'peaks-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', 'peaks-dot', () => { map.getCanvas().style.cursor = ''; });
+      const HIT_LAYERS = ['peaks-hit', 'peaks-dot', 'peaks-label', 'selected-dot', 'selected-label'];
+      for (const layer of HIT_LAYERS) {
+        map.on('click', layer, (e) => e.features && e.features[0] && select(e.features[0].properties.id, { fly: true }));
+        map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
+      }
+      // Click outside any peak = deselect
       map.on('click', (e) => {
-        const feats = map.queryRenderedFeatures(e.point, { layers: ['peaks-dot', 'peaks-label', 'selected-dot'] });
+        const feats = map.queryRenderedFeatures(e.point, { layers: HIT_LAYERS });
         if (!feats || !feats.length) deselect();
       });
 
