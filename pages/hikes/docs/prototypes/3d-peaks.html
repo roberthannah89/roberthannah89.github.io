@@ -6,7 +6,7 @@
 <title>3D Peak Labels — Zindlenspitz</title>
 <meta name="proto-title" content="3D Peak Labels (nearby named peaks)">
 <meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
-<meta name="proto-desc" content="Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Emoji toggle cycles through nearby summits (~113) / every Swiss peak (~7,500) / off. Second button flies to the summit for a 360° panoramic tour. Data from OpenStreetMap.">
+<meta name="proto-desc" content="Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Emoji toggle cycles through nearby summits (~113) / every Swiss peak (~7,500) / off. 🎥 button flies to the summit for a 360° bird's-eye orbit. Data from OpenStreetMap.">
 <meta name="proto-source" content="OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM">
 <meta name="proto-order" content="140">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -76,7 +76,7 @@
 <header>
   <a class="back" href="index.html">← Prototypes</a>
   <h1>3D Peaks — Zindlenspitz</h1>
-  <span class="meta">SWISSIMAGE on Terrarium DEM · 🏔️ cycles peak sets · 🎥 flies to the summit for a 360°</span>
+  <span class="meta">SWISSIMAGE on Terrarium DEM · 🏔️ peak sets · 🎥 360° tour around the summit</span>
 </header>
 
 <div id="map">
@@ -325,24 +325,22 @@
   peaksCount.textContent = COUNT_NEARBY;
 
   // --- Summit tour -------------------------------------------------------
-  // Fly to a close, high-pitch view of the summit, then sweep bearing
-  // 0 → 360 with the camera orbiting around the peak (linear ease), then
-  // return to the previous camera. Button doubles as a stop control.
+  // Wide bird's-eye orbit — camera flies to Zindlenspitz then sweeps
+  // bearing 0 → 360 while the summit stays centred, then returns to the
+  // previous camera. Button doubles as a stop control.
   //
-  // We tried pinning the camera AT the summit with FreeCameraOptions for a
-  // first-person pan, but MapLibre GL JS does not expose that class or the
-  // matching setFreeCameraOptions() method on the public API (checked in
-  // both 4.7.1 and 5.7.0). Orbit-around is the reliable pattern with the
-  // stock camera API.
+  // We explored a first-person "camera AT the summit" mode too, but
+  // MapLibre GL JS does not expose setFreeCameraOptions on the public API
+  // (verified in 4.7.1 and 5.7.0). Faking it by offsetting `center` runs
+  // into MapLibre's terrain auto-elevation, which clamps pitch/zoom back
+  // toward the wide orbit whenever camera would otherwise land inside the
+  // mesh. Ship the orbit that works.
   var summitBtn = document.getElementById("summit-btn");
   var FLY_MS = 2200;
   var ROTATE_MS = 25000;
   var RETURN_MS = 2000;
-  var TOUR_PITCH = 68;          // steep enough to feel cinematic, low enough
-                                // that the camera stays above neighbouring peaks
-                                // as it orbits — pitch 84 buried it in the mesh.
-  var TOUR_ZOOM = 14.2;         // orbit radius ≈ 8 km — summit stays centred and
-                                // most of the surrounding range is in frame
+  var TOUR_ZOOM = 14.2;         // orbit radius ≈ 5–6 km
+  var TOUR_PITCH = 68;          // low enough to stay above neighbouring peaks
 
   var TOUR_STATE = "idle";      // idle | flying | rotating | returning
   var pendingFlyTimeout = null;
@@ -384,9 +382,6 @@
       pendingFlyTimeout = null;
       if (TOUR_STATE !== "flying") return;
       TOUR_STATE = "rotating";
-      // easeTo({bearing:360}) is a no-op because MapLibre normalises 360→0
-      // and there's nothing to interpolate to. Drive the rotation frame-by-
-      // frame with setBearing() so we can walk the value past 360°.
       rotateStartMs = performance.now();
       rotateStartBearing = map.getBearing();
       rotateRaf = requestAnimationFrame(rotateStep);
