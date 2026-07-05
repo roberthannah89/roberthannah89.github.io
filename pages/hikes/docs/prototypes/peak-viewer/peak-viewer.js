@@ -17,6 +17,7 @@
   const PEAKS = Array.isArray(window.CH_PEAKS) ? window.CH_PEAKS : [];
 
   const MAX_LIST = 500;                // cap DOM cards rendered
+  const MAX_MARKERS = 4500;            // cap Cesium entities (dots)
   const HOME_VIEW = {
     lon: 7.9, lat: 47.4, height: 260000,
     heading: 155, pitch: -42
@@ -25,6 +26,35 @@
   const FLY_ABOVE_M   = 800;
   const FLY_PITCH_DEG = -25;
   const FLY_DURATION_S = 2.5;
+
+  // Per-peak label visibility distance. Bigger + notable peaks stay labelled
+  // from farther away, so the on-screen label density stays roughly constant
+  // as you zoom. Camera-to-peak distance in metres.
+  function labelRangeM(p) {
+    const ele = p.ele || 0;
+    const notable = !!p.wikipedia;
+    // Country-wide view (camera ~260 km up): only the biggest peaks show.
+    if (ele >= 4300 || (notable && ele >= 4000)) return 500000;
+    if (ele >= 3700)                              return 140000;
+    if (ele >= 3000 || (notable && ele >= 2500)) return  45000;
+    if (ele >= 2500)                              return  15000;
+    if (ele >= 2000 || notable)                   return   7000;
+    if (ele >= 1500)                              return   3500;
+    return                                                1800;
+  }
+
+  // Quality tiers — mirrored from 3d-photorealistic.html
+  const QUALITY_STORAGE = 'proto:peak-viewer-quality';
+  const QUALITY_LABELS = { eco: '🐢 Eco', fast: '⚡ Fast', sharp: '🎨 Sharp' };
+  const QUALITY_TITLES = {
+    eco:   'Eco: no HiDPI render, sparse tiles. Click for Fast.',
+    fast:  'Fast: ~4K render cap, balanced tiles. Click for Sharp.',
+    sharp: 'Sharp: full HiDPI, dense tiles. Click for Eco.'
+  };
+  const QUALITY_ORDER = ['eco', 'fast', 'sharp'];
+  let currentQuality = (function () {
+    try { return localStorage.getItem(QUALITY_STORAGE) || 'fast'; } catch (e) { return 'fast'; }
+  })();
 
   // Grade order used for the "hikeable" filter chips.
   const GRADES = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
@@ -86,6 +116,8 @@
     cardList: $('card-list'),
     compass: $('compass'),
     compassArrow: $('compass-arrow'),
+    homeBtn: $('home-btn'),
+    qualityBtn: $('quality-btn'),
   };
 
   // ------------------------------------------------------------------
@@ -581,8 +613,54 @@
       });
     });
 
+    dom.homeBtn.addEventListener('click', flyHome);
+
+    dom.qualityBtn.addEventListener('click', () => {
+      const idx = QUALITY_ORDER.indexOf(currentQuality);
+      currentQuality = QUALITY_ORDER[(idx + 1) % QUALITY_ORDER.length];
+      try { localStorage.setItem(QUALITY_STORAGE, currentQuality); } catch (e) {}
+      applyQuality();
+    });
+    applyQuality();
+
     // Now render markers for whatever filters are active
     render3DMarkers(lastFiltered);
+  }
+
+  function applyQuality() {
+    if (!viewer) return;
+    dom.qualityBtn.textContent = QUALITY_LABELS[currentQuality] || QUALITY_LABELS.fast;
+    dom.qualityBtn.title = QUALITY_TITLES[currentQuality] || QUALITY_TITLES.fast;
+    if (currentQuality === 'eco') {
+      viewer.useBrowserRecommendedResolution = true;
+      viewer.resolutionScale = 1;
+      if (googleTileset) googleTileset.maximumScreenSpaceError = 24;
+    } else if (currentQuality === 'sharp') {
+      viewer.useBrowserRecommendedResolution = false;
+      viewer.resolutionScale = 1;
+      if (googleTileset) googleTileset.maximumScreenSpaceError = 8;
+    } else {
+      viewer.useBrowserRecommendedResolution = false;
+      const dpr = window.devicePixelRatio || 1;
+      const targetMaxWidth = 3840;
+      const fullWidth = window.innerWidth * dpr;
+      viewer.resolutionScale = fullWidth > targetMaxWidth ? targetMaxWidth / fullWidth : 1;
+      if (googleTileset) googleTileset.maximumScreenSpaceError = 12;
+    }
+  }
+
+  function flyHome() {
+    if (!viewer) return;
+    const Cesium = window.Cesium;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(HOME_VIEW.lon, HOME_VIEW.lat, HOME_VIEW.height),
+      orientation: {
+        heading: Cesium.Math.toRadians(HOME_VIEW.heading),
+        pitch:   Cesium.Math.toRadians(HOME_VIEW.pitch),
+        roll: 0
+      },
+      duration: 1.6
+    });
   }
 
   async function useFallbackImagery() {
@@ -603,117 +681,97 @@
   window.addEventListener('resize', resizeCesium);
 
   // ------------------------------------------------------------------
-  // Marker rendering (density scales with camera altitude)
+  // Marker rendering
+  //
+  // Every filtered peak (up to MAX_MARKERS) is a persistent entity: a small
+  // dot always visible, plus a label whose visibility distance is set per-peak
+  // by labelRangeM(). Cesium culls labels beyond that camera distance
+  // automatically — so screen density stays roughly constant as you zoom.
   // ------------------------------------------------------------------
-  let renderScheduled = false;
-  let lastRenderMs = 0;
-  function throttledMarkerRerender() {
-    if (renderScheduled) return;
-    const now = performance.now();
-    if (now - lastRenderMs < 700) return;
-    renderScheduled = true;
-    requestAnimationFrame(() => {
-      renderScheduled = false;
-      lastRenderMs = performance.now();
-      render3DMarkers(lastFiltered);
+  const throttledMarkerRerender = () => {};  // no longer needed — Cesium culls per-entity
+
+  function buildLabelText(p) {
+    return typeof p.ele === 'number'
+      ? p.name + '  ' + Math.round(p.ele) + ' m'
+      : p.name;
+  }
+
+  function makeEntity(p) {
+    const Cesium = window.Cesium;
+    const height = typeof p.ele === 'number' ? p.ele : 2000;
+    const range = labelRangeM(p);
+    return viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat, height),
+      peakId: p.id,
+      point: {
+        pixelSize: 6,
+        color: Cesium.Color.fromCssColorString('#ffffff'),
+        outlineColor: Cesium.Color.fromCssColorString('#171a1f'),
+        outlineWidth: 1.5,
+        disableDepthTestDistance: 200,      // don't render dots hidden behind mountains
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 200000)
+      },
+      label: {
+        text: buildLabelText(p),
+        font: '600 12.5px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+        fillColor: Cesium.Color.fromCssColorString('#ffffff'),
+        showBackground: true,
+        backgroundColor: Cesium.Color.fromCssColorString('rgba(20,22,26,0.82)'),
+        backgroundPadding: new Cesium.Cartesian2(7, 4),
+        pixelOffset: new Cesium.Cartesian2(10, -1),
+        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        style: Cesium.LabelStyle.FILL,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, range)
+      }
     });
   }
 
-  function currentCameraAltitudeM() {
-    if (!viewer) return HOME_VIEW.height;
+  function styleSelected(entity, isSelected) {
     const Cesium = window.Cesium;
-    const carto = viewer.camera.positionCartographic;
-    return carto.height;
-  }
-
-  function pickRenderable(filtered) {
-    const altM = currentCameraAltitudeM();
-    let subset;
-    if (altM > 50000) {
-      subset = filtered.filter(p => p.wikipedia || (typeof p.ele === 'number' && p.ele >= 3500));
-    } else if (altM > 20000) {
-      subset = filtered.filter(p =>
-        p.wikipedia ||
-        (typeof p.ele === 'number' && p.ele >= 2500)
-      );
+    entity.point.pixelSize = isSelected ? 12 : 6;
+    entity.point.color = isSelected
+      ? Cesium.Color.fromCssColorString('#c0392b')
+      : Cesium.Color.fromCssColorString('#ffffff');
+    entity.point.outlineColor = isSelected
+      ? Cesium.Color.fromCssColorString('#ffffff')
+      : Cesium.Color.fromCssColorString('#171a1f');
+    entity.point.outlineWidth = isSelected ? 2 : 1.5;
+    entity.point.disableDepthTestDistance = isSelected ? Number.POSITIVE_INFINITY : 200;
+    if (isSelected) {
+      // Always show the selected label, regardless of camera distance.
+      entity.label.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, 1e12);
+      entity.label.backgroundColor = Cesium.Color.fromCssColorString('rgba(192,57,43,0.92)');
     } else {
-      subset = filtered.slice();
+      const p = findPeak(entity.peakId);
+      entity.label.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, labelRangeM(p));
+      entity.label.backgroundColor = Cesium.Color.fromCssColorString('rgba(20,22,26,0.82)');
     }
-    // Cap total billboards for performance
-    return subset.slice(0, 1200);
-  }
-
-  function labelCount(altM) {
-    if (altM > 50000) return 200;
-    if (altM > 20000) return 60;
-    return 30;
   }
 
   function render3DMarkers(filtered) {
     if (!viewer) return;
-    const Cesium = window.Cesium;
     filtered = filtered || [];
-
-    const renderable = pickRenderable(filtered);
+    // Cap: keep the top MAX_MARKERS by elevation (already sorted by state.sort,
+    // so re-sort here specifically for the cap).
+    const renderable = filtered.length <= MAX_MARKERS
+      ? filtered
+      : filtered.slice().sort((a, b) => (b.ele || 0) - (a.ele || 0)).slice(0, MAX_MARKERS);
     const renderableIds = new Set(renderable.map(p => p.id));
 
-    // Remove entities no longer in set
+    // Drop entities no longer in the filter
     for (const [id, entity] of peakEntities) {
       if (!renderableIds.has(id)) {
         viewer.entities.remove(entity);
         peakEntities.delete(id);
       }
     }
-
-    const altM = currentCameraAltitudeM();
-    const labelN = labelCount(altM);
-    // Pick top N by elevation for labelling
-    const labelled = renderable.slice()
-      .filter(p => typeof p.ele === 'number')
-      .sort((a, b) => (b.ele || 0) - (a.ele || 0))
-      .slice(0, labelN)
-      .reduce((s, p) => (s.add(p.id), s), new Set());
-
+    // Add new
     for (const p of renderable) {
-      const showLabel = labelled.has(p.id);
-      const isSelected = p.id === state.selectedId;
-      const existing = peakEntities.get(p.id);
-
-      const height = typeof p.ele === 'number' ? p.ele : 2000;
-      const position = Cesium.Cartesian3.fromDegrees(p.lon, p.lat, height);
-
-      if (existing) {
-        // Update label visibility only (cheap)
-        existing.position = position;
-        existing.label.show = showLabel && !isSelected;
-        continue;
+      if (!peakEntities.has(p.id)) {
+        peakEntities.set(p.id, makeEntity(p));
       }
-
-      const entity = viewer.entities.add({
-        position: position,
-        peakId: p.id,
-        point: {
-          pixelSize: isSelected ? 10 : 5,
-          color: isSelected ? Cesium.Color.fromCssColorString('#c0392b') : Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 1.5,
-          disableDepthTestDistance: isSelected ? Number.POSITIVE_INFINITY : undefined
-        },
-        label: {
-          text: p.name + (typeof p.ele === 'number' ? '  ' + Math.round(p.ele) + ' m' : ''),
-          font: '11.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.fromCssColorString('rgba(20,22,26,0.85)'),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(8, -2),
-          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-          verticalOrigin: Cesium.VerticalOrigin.CENTER,
-          show: showLabel,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
-        }
-      });
-      peakEntities.set(p.id, entity);
     }
 
     if (state.selectedId) {
@@ -724,47 +782,19 @@
 
   function updateSelectedMarker(p) {
     if (!viewer) return;
-    const Cesium = window.Cesium;
-    // Restyle old
+    // Clear old selection style
     if (selectedEntity) {
-      selectedEntity.point.pixelSize = 5;
-      selectedEntity.point.color = Cesium.Color.WHITE;
-      selectedEntity.point.disableDepthTestDistance = undefined;
-      selectedEntity.label.show = false;
+      styleSelected(selectedEntity, false);
       selectedEntity = null;
     }
     if (!p) return;
     let ent = peakEntities.get(p.id);
     if (!ent) {
-      // Peak not currently rendered — force add
-      const height = typeof p.ele === 'number' ? p.ele : 2000;
-      ent = viewer.entities.add({
-        position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat, height),
-        peakId: p.id,
-        point: { pixelSize: 10, color: Cesium.Color.fromCssColorString('#c0392b'),
-                 outlineColor: Cesium.Color.WHITE, outlineWidth: 2,
-                 disableDepthTestDistance: Number.POSITIVE_INFINITY },
-        label: {
-          text: p.name + (typeof p.ele === 'number' ? '  ' + Math.round(p.ele) + ' m' : ''),
-          font: '12px -apple-system, sans-serif',
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.fromCssColorString('rgba(20,22,26,0.85)'),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          pixelOffset: new Cesium.Cartesian2(8, -2),
-          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-          verticalOrigin: Cesium.VerticalOrigin.CENTER,
-          show: true,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
-        }
-      });
+      // Peak was outside the filter — add it anyway so we can highlight it.
+      ent = makeEntity(p);
       peakEntities.set(p.id, ent);
     }
-    ent.point.pixelSize = 12;
-    ent.point.color = Cesium.Color.fromCssColorString('#c0392b');
-    ent.point.disableDepthTestDistance = Number.POSITIVE_INFINITY;
-    ent.label.show = true;
-    ent.label.fillColor = Cesium.Color.fromCssColorString('#ffffff');
+    styleSelected(ent, true);
     selectedEntity = ent;
   }
 

@@ -44,10 +44,17 @@
       </div>
     </div>
 
-    <!-- Compass (bottom-right) -->
-    <button type="button" class="compass" id="compass" title="Reset heading to north">
-      <span id="compass-arrow">↑</span><strong>N</strong>
-    </button>
+    <!-- Compass + home + quality (bottom-right cluster) -->
+    <div class="corner-cluster" id="corner-cluster">
+      <button type="button" class="corner-btn" id="quality-btn" title="Quality: Fast">⚡ Fast</button>
+      <button type="button" class="corner-btn" id="home-btn" title="Return to overview">⌂</button>
+      <button type="button" class="compass" id="compass" title="Reset heading to north">
+        <span id="compass-arrow">↑</span><strong>N</strong>
+      </button>
+    </div>
+
+    <!-- Bottom-left hint (right-click drag to tilt) -->
+    <div class="controls-hint" id="controls-hint">Right-click + drag to tilt · Scroll to zoom</div>
 
     <!-- Attribution + banner slot -->
     <div class="banner" id="banner" hidden></div>

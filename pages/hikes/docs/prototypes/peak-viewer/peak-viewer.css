@@ -108,9 +108,39 @@ a:hover { text-decoration: underline; }
 .sel-actions .link-btn.muted { color: var(--muted); margin-left: auto; }
 .sel-actions a:hover, .sel-actions .link-btn:hover { text-decoration: underline; }
 
+/* Corner cluster (quality + home + compass) */
+.corner-cluster {
+  position: absolute; bottom: 14px; right: 14px; z-index: 4;
+  display: flex; align-items: center; gap: 8px;
+  transition: right 320ms cubic-bezier(.4,.14,.3,1);
+}
+.corner-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.corner-btn:hover { border-color: var(--border-strong); }
+#home-btn { padding: 6px 10px; font-size: 15px; line-height: 1; }
+
+/* Right-click hint */
+.controls-hint {
+  position: absolute; bottom: 14px; left: 14px; z-index: 4;
+  background: rgba(20,22,26,0.55);
+  color: rgba(255,255,255,0.85);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  pointer-events: none;
+  backdrop-filter: blur(3px);
+}
+
 /* Compass */
 .compass {
-  position: absolute; bottom: 14px; right: 14px; z-index: 4;
   width: 46px; height: 46px;
   background: var(--surface);
   border: 1px solid var(--border); border-radius: 50%;
@@ -119,7 +149,6 @@ a:hover { text-decoration: underline; }
   font-size: 11px; color: var(--muted);
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   cursor: pointer;
-  transition: right 320ms cubic-bezier(.4,.14,.3,1);
 }
 .compass strong { color: var(--accent); font-weight: 700; font-size: 12px; line-height: 1; }
 .compass #compass-arrow {
@@ -128,6 +157,7 @@ a:hover { text-decoration: underline; }
   transform-origin: center;
   transition: transform 200ms;
 }
+.layout.collapsed .corner-cluster { right: 14px; }
 
 /* Banner (fallback / info) */
 .banner {

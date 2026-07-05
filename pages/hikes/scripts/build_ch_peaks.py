@@ -250,6 +250,11 @@ def build() -> None:
     peaks: list[dict] = []
     unmatched_sac_summits: list[str] = []
     matched_sac_ids: set[int] = set()
+    dropped_spot = 0
+
+    # OSM spot-elevation points ("P.2860", "P 2634", "Pt 2000") are elevation
+    # markers, not named peaks. Skip them — they add ~1500 unlabelable dots.
+    spot_ele_pat = re.compile(r"^(P|Pt|Pkt)[.\s]\s*\d")
 
     for i, node in enumerate(peaks_raw):
         if i and i % 1000 == 0:
@@ -258,6 +263,9 @@ def build() -> None:
         tags = node.get("tags", {})
         name = tags.get("name")
         if not name:
+            continue
+        if spot_ele_pat.match(name):
+            dropped_spot += 1
             continue
         lat, lon = node["lat"], node["lon"]
 
@@ -290,7 +298,8 @@ def build() -> None:
 
         peaks.append(peak)
 
-    log(f"      {len(peaks)} peaks kept (dropped {len(peaks_raw) - len(peaks)} without name)")
+    log(f"      {len(peaks)} peaks kept (dropped {dropped_spot} spot-elevation markers, "
+        f"{len(peaks_raw) - len(peaks) - dropped_spot} without name)")
 
     # Build a spatial-ish index for the SAC join (each OSM peak indexed by
     # rounded 0.01-deg cell — ~1 km. SAC join checks the peak's cell + neighbours.)
