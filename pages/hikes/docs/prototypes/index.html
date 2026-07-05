@@ -229,20 +229,20 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">8 demos</span>
+  <span class="title-count">9 demos</span>
 </div>
 
 <!-- Card grid -->
 <div class="grid">
 
-  <a class="card" href="3d-cc.html">
+  <a class="card" href="3d-peaks.html">
     <div class="card-body">
       <div class="card-header">
-        <span class="card-icon">🗺️</span>
-        <span class="card-title">3D Command Center (2D↔3D toggle)</span>
+        <span class="card-icon">🏔️</span>
+        <span class="card-title">3D Peak Explorer (2D↔3D CC-shape)</span>
       </div>
-      <div class="card-desc">Prototype merging the command-center hikes catalogue with the 3D trails+peaks view via a live mode toggle. Filter state, viewport, and selection survive the swap. 2D = Leaflet with grade-colored hike markers and clustering; 3D = MapLibre with satellite + terrain, SAC T1–T6 trails, peak database. Deep-linked via URL hash (`m=3d`).</div>
-      <span class="card-source">Leaflet + swisstopo · MapLibre GL + SWISSIMAGE + Terrarium DEM · OSM Overpass</span>
+      <div class="card-desc">Command Center&#x27;s DOM + hike_map/ engine, with a [2D | 3D] toggle. 2D behavior is byte-identical to CC (same filter store, same side panel, same marker/cluster factories). 3D swaps the map surface to MapLibre with satellite + terrain, peaks colored by the minimum SAC T-grade needed to summit, huts as separate markers, SAC T1–T6 trails overlay. Designed as a genuine CC-replacement candidate — this prototype shares code so productionizing is a rename, not a port.</div>
+      <span class="card-source">hike_map/ engine · SAC_ROUTES · SwissTopo Topo+Trails / SWISSIMAGE + Terrarium · OSM Overpass</span>
     </div>
   </a>
 
@@ -254,6 +254,31 @@
       </div>
       <div class="card-desc">Every named Swiss peak in a filterable/sortable database alongside the 3D SWISSIMAGE map. All OpenStreetMap hiking trails colored by SAC scale (T1 yellow → T6 violet) are fetched from Overpass on pan at zoom ≥ 12. Click a card or dot to fly there; 🎥 runs a 360° tour of the selected peak.</div>
       <span class="card-source">OpenStreetMap · SAC · swisstopo SWISSIMAGE + Terrarium DEM · Overpass API</span>
+    </div>
+  </a>
+
+  <a class="card" href="3d-cc.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🗺️</span>
+        <span class="card-title">3D Command Center (2D↔3D toggle)</span>
+      </div>
+      <div class="card-desc">Prototype merging the hikes catalogue with the 3D trails+peaks view via a live mode toggle. Filter state, viewport, and selection survive the swap. 2D = Leaflet with grade-colored hike markers and clustering; 3D = MapLibre with satellite + terrain, SAC T1–T6 trails, peak database. localStorage remembers the last mode.</div>
+      <span class="card-source">Leaflet + swisstopo · MapLibre GL + SWISSIMAGE + Terrarium DEM · OSM Overpass</span>
+    </div>
+  </a>
+
+  <a class="card" href="geo-layers.html">
+    <div class="card-thumb">
+      <img src="screenshots/geo-layers.png" alt="Swiss Geo Layers" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🗺️</span>
+        <span class="card-title">Swiss Geo Layers</span>
+      </div>
+      <div class="card-desc">Toggle Swiss geodata overlays: hiking trails, nature reserves, cable cars, avalanche zones</div>
+      <span class="card-source">geo.admin.ch WMS</span>
     </div>
   </a>
 
@@ -310,20 +335,6 @@
       </div>
       <div class="card-desc">Live Swiss weather stations, climate normals, and RainViewer radar overlays</div>
       <span class="card-source">MeteoSwiss + RainViewer</span>
-    </div>
-  </a>
-
-  <a class="card" href="geo-layers.html">
-    <div class="card-thumb">
-      <img src="screenshots/geo-layers.png" alt="Swiss Geo Layers" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🗺️</span>
-        <span class="card-title">Swiss Geo Layers</span>
-      </div>
-      <div class="card-desc">Toggle Swiss geodata overlays: hiking trails, nature reserves, cable cars, avalanche zones</div>
-      <span class="card-source">geo.admin.ch WMS</span>
     </div>
   </a>
 
