@@ -17,24 +17,27 @@
 
 <body>
 
-<div class="layout" id="layout">
+<div class="layout collapsed" id="layout">
   <!-- 3D scene -->
   <div class="scene" id="scene">
     <div id="map-host"><div id="map"></div></div>
 
-    <!-- Status overlay (top-left, below the header space) -->
-    <div class="over over-status" id="over-status">
-      <div class="over-title">Swiss Trails</div>
-      <strong id="peak-count-total">Loading…</strong>
-      <span class="stat"><b id="peak-count-filtered">—</b> match your filters</span>
-    </div>
+    <!-- Site nav (top-left) — same pattern as the command center -->
+    <button id="nav-menu-btn" class="map-btn map-btn--nav" type="button"
+            aria-expanded="false" aria-controls="nav-panel" title="Site menu">
+      &#x2630;
+    </button>
 
-    <!-- Map buttons (top-right, circular) -->
+    <!-- Map buttons (top-right, circular). Peaks toggles the right database panel. -->
     <div class="map-buttons">
       <button class="map-btn" id="trails-btn" title="Toggle SAC-graded trails overlay">
         <span>&#x1F97E;</span>
         <span class="count" id="trails-count">—</span>
         <span class="ring hidden" id="trails-ring"></span>
+      </button>
+      <button class="map-btn" id="peaks-btn" title="Toggle the peak database panel">
+        &#x1F3D4;&#xFE0F;
+        <span class="count" id="edge-count">—</span>
       </button>
       <button class="map-btn" id="tour-btn" title="Fly to the selected peak and pan 360°">
         &#x1F3A5;
@@ -84,10 +87,6 @@
     <!-- Banner slot for errors -->
     <div class="banner" id="banner" hidden></div>
 
-    <!-- Edge tab (only visible when panel collapsed) -->
-    <button type="button" class="edge-tab" id="edge-tab" onclick="PeakViewer.togglePanel()" aria-label="Show peak database">
-      <span class="caret">◀</span> <strong>Peaks</strong> <span class="count-lbl" id="edge-count">—</span>
-    </button>
   </div>
 
   <!-- Right panel (peak database) -->
@@ -154,6 +153,10 @@
 <!-- Peak data — every named Swiss peak, joined with SAC routes + nearest hut.
      GENERATED FROM 3d-trails/overpass-peaks.json by scripts/build_ch_peaks.py -->
 <script src="3d-trails/ch-peaks.js"></script>
+
+<!-- Site nav (☰ button) — publishes window.HikesNav + wires #nav-menu-btn -->
+<script src="../../guides/_nav.js"></script>
+<script src="../../command-center/nav-menu.js"></script>
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="3d-trails/3d-trails.js"></script>

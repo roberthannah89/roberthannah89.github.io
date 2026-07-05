@@ -137,6 +137,7 @@
     trailsBtn: $('trails-btn'),
     trailsCount: $('trails-count'),
     trailsRing: $('trails-ring'),
+    peaksBtn: $('peaks-btn'),
     tourBtn: $('tour-btn'),
     hintEl: $('hint'),
     legendEl: $('legend')
@@ -250,8 +251,8 @@
     lastFiltered = filtered;
 
     dom.panelFiltered.textContent = filtered.length.toLocaleString();
-    dom.peakCountFiltered.textContent = filtered.length.toLocaleString();
-    dom.edgeCount.textContent = filtered.length.toLocaleString();
+    if (dom.peakCountFiltered) dom.peakCountFiltered.textContent = filtered.length.toLocaleString();
+    if (dom.edgeCount) dom.edgeCount.textContent = filtered.length.toLocaleString();
 
     dom.cardList.textContent = '';
     if (!filtered.length) {
@@ -492,9 +493,13 @@
   function togglePanel(force) {
     var wantCollapse = (typeof force === 'boolean') ? force : !dom.layout.classList.contains('collapsed');
     dom.layout.classList.toggle('collapsed', wantCollapse);
+    if (dom.peaksBtn) dom.peaksBtn.classList.toggle('active', !wantCollapse);
     setTimeout(function () { if (map) map.resize(); }, 340);
   }
   window.PeakViewer = { togglePanel: togglePanel };
+  if (dom.peaksBtn) {
+    dom.peaksBtn.addEventListener('click', function () { togglePanel(); });
+  }
   window.addEventListener('resize', function () { if (map) map.resize(); });
 
   function showBanner(html) {
@@ -518,7 +523,7 @@
   })();
 
   function initUi() {
-    dom.peakCountTotal.textContent = PEAKS.length.toLocaleString() + ' peaks';
+    if (dom.peakCountTotal) dom.peakCountTotal.textContent = PEAKS.length.toLocaleString() + ' peaks';
     dom.panelTotal.textContent = PEAKS.length.toLocaleString();
     dom.eleMin.min = dom.eleMax.min = ELE_MIN;
     dom.eleMin.max = dom.eleMax.max = ELE_MAX;
@@ -898,7 +903,6 @@
     });
 
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
-    map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
 
     map.on('load', function () {
       // --- Trails source + layers (drawn below the peak dots) --------------
@@ -1065,7 +1069,6 @@
   function boot() {
     if (!PEAKS.length) {
       showBanner('No peak data found. Run <code>python3 scripts/build_ch_peaks.py</code> to generate <code>ch-peaks.js</code>.');
-      dom.peakCountTotal.textContent = 'No data';
       return;
     }
     if (typeof maplibregl === 'undefined') {

@@ -131,7 +131,35 @@ a:hover { text-decoration: underline; }
 .map-btn:hover { background: #ffffff; transform: scale(1.06); }
 .map-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 .map-btn.playing { background: var(--accent); color: #fff; }
+.map-btn.active { background: var(--accent); color: #fff; }
 .map-btn.off { opacity: 0.55; }
+
+/* Site-nav ☰ button — same circular chrome as the map-btn stack but pinned
+   top-left. Kept clear of MapLibre's own NavigationControl at top-left by
+   pushing it down (the NavControl sits ~top:10, height ~130). */
+.map-btn--nav {
+  position: absolute; top: 12px; left: 12px; z-index: 5;
+  font-size: 20px;
+}
+/* Push MapLibre's +/-/compass control below the ☰ button. */
+.maplibregl-ctrl-top-left { top: 66px; }
+#nav-panel {
+  position: absolute; top: 66px; left: 12px; z-index: 6;
+  background: var(--panel);
+  border-radius: 8px; padding: 8px 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  min-width: 180px;
+}
+#nav-panel[hidden] { display: none; }
+#nav-panel a {
+  display: block;
+  padding: 6px 12px;
+  color: var(--fg); text-decoration: none;
+  font-size: 13px;
+  border-radius: 4px;
+}
+#nav-panel a:hover { background: rgba(0,0,0,0.06); }
+#nav-panel a.current { color: var(--accent); font-weight: 600; }
 .map-btn .count {
   position: absolute; bottom: -6px; right: -6px;
   background: #fff; color: var(--fg);
