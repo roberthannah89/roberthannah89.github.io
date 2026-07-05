@@ -37,12 +37,17 @@
   <!-- Map -->
   <div id="map"></div>
 
-  <!-- Filter bar (top left). Starts with an in-row back link (←) and a
+  <!-- Filter bar (top left). Starts with a site-nav menu button (☰) and a
        chrome toggle (🎛️) so they sit inline with the filter pills instead
-       of stacking on their own row. Filter groups themselves are populated
-       by buildFilterBar() via appendChild after these two. -->
+       of stacking on their own row. The menu button opens a dropdown built
+       by nav-menu.js from window.HikesNav (published by ../guides/_nav.js);
+       it replaces a plain "back to hikes" link so users can also jump to
+       Planning / Weather / etc without a two-hop through the gallery.
+       Filter groups themselves are populated by buildFilterBar() via
+       appendChild after these two. -->
   <div id="filter-bar">
-    <a id="back-to-hikes" href="../index.html" title="Back to hikes">←</a>
+    <button id="nav-menu-btn" type="button" aria-expanded="false"
+            aria-controls="nav-panel" title="Site menu">☰</button>
     <button id="chrome-toggle" type="button" aria-pressed="false"
             title="Hide filter controls (filters stay applied)">🎛️</button>
   </div>

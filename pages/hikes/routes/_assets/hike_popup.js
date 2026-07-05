@@ -90,7 +90,7 @@
     }
 
     if (opts.hikeHref) {
-      html += '<a class="popup-open-page" href="' + escAttr(opts.hikeHref) + '">Open hike page →</a>';
+      html += '<a class="popup-open-page" href="' + escAttr(opts.hikeHref) + '" target="_blank" rel="noopener">Open hike page →</a>';
     }
 
     if (opts.showExpand) {

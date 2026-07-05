@@ -1,45 +1,38 @@
 /*
- * Command-center menu pill.
+ * Command-center menu dropdown.
  *
- * Reads window.HikesNav (published by guides/_nav.js) and injects a small
- * top-right pill that reveals the site-consistent horizontal nav strip on
- * click. Keeps the map full-bleed by default while giving one-click access
- * to Hikes, Command center, Planning, Trails & grades, Weather, Gear.
+ * Wires the top-left ☰ button (#nav-menu-btn, rendered inline in the filter
+ * bar) to a floating panel that lists the site-consistent horizontal guide
+ * nav — Hikes · Command center · Planning · Trails & grades · Weather · Gear.
+ * Data comes from window.HikesNav (published by ../guides/_nav.js) so adding
+ * or reordering a guide propagates here automatically.
  */
 (function () {
-  if (!window.HikesNav || !window.HikesNav.buildLinksHTML) return;
-
-  var pill = document.createElement('button');
-  pill.id = 'nav-pill';
-  pill.type = 'button';
-  pill.setAttribute('aria-label', 'Site menu');
-  pill.setAttribute('aria-expanded', 'false');
-  pill.innerHTML = '<span class="nav-pill-icon" aria-hidden="true">☰</span><span class="nav-pill-label">Menu</span>';
+  var btn = document.getElementById('nav-menu-btn');
+  if (!btn || !window.HikesNav || !window.HikesNav.buildLinksHTML) return;
 
   var panel = document.createElement('nav');
   panel.id = 'nav-panel';
   panel.className = 'guide-nav';
   panel.hidden = true;
   panel.innerHTML = window.HikesNav.buildLinksHTML();
-
-  document.body.appendChild(pill);
   document.body.appendChild(panel);
 
   function open() {
     panel.hidden = false;
-    pill.setAttribute('aria-expanded', 'true');
-    pill.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('open');
   }
   function close() {
     panel.hidden = true;
-    pill.setAttribute('aria-expanded', 'false');
-    pill.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('open');
   }
   function toggle() {
     if (panel.hidden) open(); else close();
   }
 
-  pill.addEventListener('click', function (e) {
+  btn.addEventListener('click', function (e) {
     e.stopPropagation();
     toggle();
   });

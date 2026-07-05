@@ -83,35 +83,32 @@ html, body {
 #filter-bar::-webkit-scrollbar { display: none; }
 #filter-bar > * { flex-shrink: 0; }
 
-/* --- Back-to-hikes + chrome-toggle (first pills inside #filter-bar) ---
+/* --- Nav-menu + chrome-toggle (first pills inside #filter-bar) ---
    They sit inline with the filter pills at the very start of the row. */
-#back-to-hikes,
+#nav-menu-btn,
 #chrome-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1;
   color: var(--amber);
   background: rgba(26, 24, 16, 0.92);
   border: 1px solid var(--flap-border);
   border-radius: 6px;
-  padding: 0 9px;
+  padding: 0 7px;
   text-decoration: none;
   backdrop-filter: blur(8px);
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-#back-to-hikes:hover,
+#nav-menu-btn:hover,
+#nav-menu-btn.open,
 #chrome-toggle:hover {
   color: var(--text-primary);
   border-color: var(--amber);
-}
-#chrome-toggle {
-  font-size: 14px;   /* the emoji renders smaller than mono text at 13px */
-  padding: 0 7px;
 }
 #chrome-toggle[aria-pressed="true"] {
   background: rgba(232, 168, 50, 0.18);
@@ -1083,56 +1080,14 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   letter-spacing: 0.6px;
 }
 
-/* --- Site nav pill (top-right) ---
-   Small disclosure button that reveals the site-consistent horizontal guide
-   nav on click. Keeps the map full-bleed by default; the same links live on
-   guides/*.html so the surface is shared.
-*/
-#nav-pill {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 900;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: rgba(26, 24, 16, 0.92);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--flap-border);
-  border-radius: 4px;
-  color: var(--text-primary);
-  font-family: var(--font-display);
-  font-size: 12px;
-  line-height: 1;
-  cursor: pointer;
-  transition: border-color 120ms ease, color 120ms ease;
-}
-#nav-pill:hover,
-#nav-pill.open {
-  border-color: var(--amber);
-  color: var(--amber);
-}
-.nav-pill-icon {
-  font-size: 14px;
-  line-height: 1;
-}
-.nav-pill-label {
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-@media (max-width: 520px) {
-  .nav-pill-label { display: none; }
-  #nav-pill { padding: 6px 8px; }
-}
-
-/* Floating nav strip that drops down under the pill when open. */
+/* --- Site nav dropdown (opens from the ☰ button in the filter bar) ---
+   Floating strip anchored top-left, matching the amber-board aesthetic and
+   the guide-nav styling used on the guide pages. */
 #nav-panel.guide-nav {
   position: absolute;
-  top: 48px;
-  right: 12px;
-  z-index: 899;
+  top: 52px;   /* just under the filter-bar row (12px top + ~28px btn + gap) */
+  left: 12px;
+  z-index: 900;
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem 0.6rem;
@@ -1142,7 +1097,7 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border: 1px solid var(--flap-border);
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.85rem;
   max-width: calc(100vw - 24px);
 }
