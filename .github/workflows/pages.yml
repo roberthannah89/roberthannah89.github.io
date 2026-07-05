@@ -90,9 +90,16 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # RESTORE-ONLY. The counterpart `actions/cache/save` step below is
+      # gated on `fetch == 'true'` so we only ever write a fresh forecast
+      # into the cache. If we used the composite `actions/cache@v6` here it
+      # would auto-save on cache-miss — which on a push flow would poison
+      # the bucket with the stale checked-in weather-cache.js, causing every
+      # subsequent scheduled cron in the same 3-hour window to cache-hit on
+      # the stale entry and skip its refresh (the historical staleness bug).
       - name: Restore weather cache
         id: weather-cache
-        uses: actions/cache@v6
+        uses: actions/cache/restore@v6
         with:
           path: pages/hikes/templates/_assets/hike_map/weather-cache.js
           key: ${{ needs.plan.outputs.weather_key }}
@@ -125,6 +132,15 @@ jobs:
       - name: Fetch weather forecasts (MeteoSwiss ICON-CH2 via Open-Meteo)
         if: steps.decide.outputs.fetch == 'true'
         run: cd pages/hikes && python scripts/fetch_weather.py
+
+      # Only save when we actually fetched fresh forecasts — see the
+      # comment on the restore step above for why the split matters.
+      - name: Save fresh weather to cache
+        if: steps.decide.outputs.fetch == 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: pages/hikes/templates/_assets/hike_map/weather-cache.js
+          key: ${{ needs.plan.outputs.weather_key }}
 
       - name: Upload weather cache
         uses: actions/upload-artifact@v7
