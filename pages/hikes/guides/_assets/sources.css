@@ -188,13 +188,35 @@
 }
 .provider-visual {
   aspect-ratio: 16 / 9;
-  background: var(--bg-soft-2) center/cover no-repeat;
+  background: var(--bg-soft-2);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  color: var(--fg-dim);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .78rem;
-  letter-spacing: .08em; text-transform: uppercase;
+  overflow: hidden;
+}
+.provider-visual img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Logo tiles: white background so colored logos read cleanly on the dark theme. */
+.provider-visual.is-logo {
+  background: #ffffff;
+  padding: 1.1rem 1.4rem;
+}
+.provider-visual.is-logo img {
+  max-width: 100%; max-height: 100%;
+}
+/* Photo tiles: fill edge-to-edge with the image. */
+.provider-visual.is-photo { padding: 0; }
+.provider-visual.is-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Tile-preview tiles (map tiles, DEM tiles): also fill, but from a background-image URL. */
+.provider-visual.is-tile {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .provider-body { padding: .9rem 1rem 1.1rem; }
 .provider-body h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
@@ -207,46 +229,10 @@
 .provider-support { margin-top: .5rem !important; }
 .provider-support a { font-size: .84rem; }
 
-/* Text-only placeholders for providers without a natural visual — use a
-   subtle gradient with the provider mark rendered typographically. */
-.provider-visual-sac       { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%); color: #fff; font-weight: 700; }
-.provider-visual-sac::after       { content: "SAC Route Portal"; }
-.provider-visual-gadm      { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color: #fff; font-weight: 700; }
-.provider-visual-gadm::after      { content: "GADM · Swiss boundary"; }
-.provider-visual-schweizmobil { background: linear-gradient(135deg, #eab308 0%, #b45309 100%); color: #fff; font-weight: 700; }
-.provider-visual-schweizmobil::after { content: "Wanderland"; }
-.provider-visual-openmeteo { background: linear-gradient(135deg, #0e7490 0%, #075985 100%); color: #fff; font-weight: 700; }
-.provider-visual-openmeteo::after { content: "Open-Meteo"; }
-.provider-visual-meteoswiss{ background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: #fff; font-weight: 700; }
-.provider-visual-meteoswiss::after{ content: "MeteoSwiss"; }
-.provider-visual-meteoblue { background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%); color: #fff; font-weight: 700; }
-.provider-visual-meteoblue::after { content: "Meteoblue"; }
-.provider-visual-windy     { background: linear-gradient(135deg, #0891b2 0%, #164e63 100%); color: #fff; font-weight: 700; }
-.provider-visual-windy::after     { content: "Windy webcams + radar"; }
-.provider-visual-slf       { background: linear-gradient(135deg, #64748b 0%, #334155 100%); color: #fff; font-weight: 700; }
-.provider-visual-slf::after       { content: "SLF · WhiteRisk"; }
-.provider-visual-sbb       { background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%); color: #fff; font-weight: 700; }
-.provider-visual-sbb::after       { content: "SBB timetables"; }
-.provider-visual-opendata  { background: linear-gradient(135deg, #059669 0%, #064e3b 100%); color: #fff; font-weight: 700; }
-.provider-visual-opendata::after  { content: "transport.opendata.ch"; }
-.provider-visual-searchch  { background: linear-gradient(135deg, #f97316 0%, #9a3412 100%); color: #fff; font-weight: 700; }
-.provider-visual-searchch::after  { content: "search.ch"; }
-.provider-visual-google    { background: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #fbbc05 75%, #ea4335 100%); color: #fff; font-weight: 700; }
-.provider-visual-google::after    { content: "Maps + Calendar"; }
-.provider-visual-rega      { background: linear-gradient(135deg, #b91c1c 0%, #450a0a 100%); color: #fff; font-weight: 700; }
-.provider-visual-rega::after      { content: "Rega 1414"; }
-.provider-visual-mutterkuh { background: linear-gradient(135deg, #78350f 0%, #431407 100%); color: #fff; font-weight: 700; }
-.provider-visual-mutterkuh::after { content: "Mutterkuh Schweiz"; }
-.provider-visual-vtg       { background: linear-gradient(135deg, #365314 0%, #1a2e05 100%); color: #fff; font-weight: 700; }
-.provider-visual-vtg::after       { content: "VTG shooting bulletin"; }
-.provider-visual-leaflet   { background: linear-gradient(135deg, #16a34a 0%, #14532d 100%); color: #fff; font-weight: 700; }
-.provider-visual-leaflet::after   { content: "Leaflet"; }
-.provider-visual-maplibre  { background: linear-gradient(135deg, #a855f7 0%, #581c87 100%); color: #fff; font-weight: 700; }
-.provider-visual-maplibre::after  { content: "MapLibre GL"; }
-.provider-visual-goatcounter { background: linear-gradient(135deg, #14b8a6 0%, #134e4a 100%); color: #fff; font-weight: 700; }
-.provider-visual-goatcounter::after { content: "GoatCounter"; }
-#cesium-visual             { background: linear-gradient(135deg, #0284c7 0%, #075985 60%, #0f172a 100%); color: #fff; font-weight: 700; }
-#cesium-visual::after      { content: "Cesium · Google 3D Tiles"; }
+/* Some logos need a small display tweak — e.g. the Wanderland yellow diamond
+   is naturally tall and reads better with a wider vertical breathing area,
+   the VTG army coat of arms is very square. Keep these targeted. */
+.provider-visual.is-logo.tight img { max-height: 78%; }
 
 /* --------------------------------------------------------------- SUPPORT + CONTACT */
 .support-section ul, .support-list { padding-left: 1.4rem; }

@@ -97,7 +97,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual" style="background-image: url('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/13/4295/2870.jpeg');"></div>
+        <div class="provider-visual is-photo">
+          <img src="https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/13/4295/2870.jpeg" alt="swisstopo pixelkarte-farbe tile — a small crop of central Switzerland" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.swisstopo.admin.ch/" target="_blank" rel="noopener">swisstopo</a></h3>
           <p>National topographic maps (WMTS tiles), the 3D elevation API, the Wanderwege trail network with SAC grading, canton polygons, and hillshade / slope overlays. The single most-relied-on data source on this site after SAC.</p>
@@ -107,7 +109,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual" style="background-image: url('https://tile.openstreetmap.org/13/4295/2870.png');"></div>
+        <div class="provider-visual is-photo">
+          <img src="https://tile.openstreetmap.org/13/4295/2870.png" alt="OpenStreetMap tile — a small crop of central Switzerland" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a></h3>
           <p>Alternate base tile layer, plus <a href="https://overpass-api.de/" target="_blank" rel="noopener">Overpass</a> queries for the peak catalog and per-trail SAC scale (<code>sac_scale</code>, <code>trail_visibility</code>) used by the difficulty guide. Every hut, peak, water point, and POI in the Command Center comes from OSM.</p>
@@ -117,7 +121,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-sac"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Schweizer_Alpen-Club_logo.svg" alt="Swiss Alpine Club (SAC) logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/" target="_blank" rel="noopener">SAC Route Portal</a></h3>
           <p>Primary source for every hike — route geometry (via the SAC layer API), difficulty grades, ascent/descent times, waypoints, terrain notes, per-photo captions, and route-author biographies.</p>
@@ -127,7 +133,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-gadm"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/gadm.png" alt="GADM logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://gadm.org/" target="_blank" rel="noopener">GADM</a></h3>
           <p>The Swiss national boundary polygon used to clip and shade maps. Downloaded once, bundled into <code>swiss_border.js</code>, then served locally forever.</p>
@@ -137,7 +145,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-schweizmobil"></div>
+        <div class="provider-visual is-logo tight">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/06/Wanderland_logo.svg" alt="Wanderland (SchweizMobil) yellow-diamond hiking-route logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.schweizmobil.ch/en/hiking-in-switzerland" target="_blank" rel="noopener">SchweizMobil (Wanderland)</a></h3>
           <p>National / regional / local hiking route badges shown in the difficulty guide, plus outbound links to Wanderland's route pages.</p>
@@ -157,7 +167,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual" id="cesium-visual"></div>
+        <div class="provider-visual is-photo" id="cesium-visual">
+          <img src="../routes/augstmatthorn/augstmatthorn.3d-preview.jpg" alt="Photorealistic 3D preview of the Augstmatthorn ridge rendered via CesiumJS with Google 3D tiles" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3>
             <a href="https://cesium.com/" target="_blank" rel="noopener">CesiumJS</a> +
@@ -169,7 +181,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual" style="background-image: url('https://s3.amazonaws.com/elevation-tiles-prod/terrarium/12/2147/1435.png');"></div>
+        <div class="provider-visual is-photo">
+          <img src="https://s3.amazonaws.com/elevation-tiles-prod/terrarium/12/2147/1435.png" alt="Terrarium DEM tile — RGB-encoded elevation of central Switzerland" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles (Terrarium)</a></h3>
           <p>Global 30 m DEM served as PNG heightmap tiles, used as the terrain source in the photorealistic 3D prototype. Free public dataset hosted by AWS as part of the Open Data program.</p>
@@ -188,7 +202,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual provider-visual-openmeteo"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/open-meteo.png" alt="Open-Meteo logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></h3>
           <p>The 7-day peak forecast on every hike page. Open-Meteo serves MeteoSwiss's ICON-CH2 / ICON-CH1 models to the public for free, no key required — one of the most generous public data services in existence for the alpine forecasting world.</p>
@@ -198,7 +214,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-meteoswiss"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Logo_der_Schweizerischen_Eidgenossenschaft.svg/330px-Logo_der_Schweizerischen_Eidgenossenschaft.svg.png" alt="Swiss Confederation logo (MeteoSwiss federal branding)" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">MeteoSwiss</a></h3>
           <p>The upstream numerical models (ICON-CH2 / ICON-CH1) behind Open-Meteo, plus outbound links from every hike page and the weather guide to their hazards, föhn index, and inversion forecasts.</p>
@@ -207,7 +225,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-meteoblue"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Meteoblue_Logo.svg" alt="Meteoblue logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.meteoblue.com/" target="_blank" rel="noopener">Meteoblue</a></h3>
           <p>Deep-linked "detailed forecast" button on each hike page (uses the peak's lat/lon), and the multi-model comparison links in the weather guide.</p>
@@ -216,7 +236,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-windy"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Windylogo.png" alt="Windy.com logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.windy.com/" target="_blank" rel="noopener">Windy.com</a></h3>
           <p>Nearby webcam thumbnails around each peak (via the Windy Webcams v3 API), plus outbound links to Windy's rain radar. Thumbnails are hotlinked from Windy's own image proxy.</p>
@@ -236,7 +258,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual provider-visual-slf"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/slf.svg" alt="WSL Institute for Snow and Avalanche Research SLF logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3>
             <a href="https://www.slf.ch/" target="_blank" rel="noopener">SLF</a> /
@@ -259,7 +283,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual provider-visual-sbb"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/SBB_CFF_FFS_logo.svg" alt="SBB / CFF / FFS logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.sbb.ch/" target="_blank" rel="noopener">SBB</a></h3>
           <p>Deep-linked timetables on every hike page — trailhead station and (for point-to-point routes) the arrival station too. URLs are pre-computed at build time from SAC-scraped station names.</p>
@@ -269,7 +295,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-opendata"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/opendata.png" alt="opendata.ch logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://transport.opendata.ch/" target="_blank" rel="noopener">transport.opendata.ch</a></h3>
           <p>Live connection lookups and station autocomplete for the "Getting There" transit widget on every hike page. Free, keyless wrapper over SBB / search.ch data operated by opendata.ch.</p>
@@ -279,7 +307,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-searchch"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Search.ch_Logo.svg" alt="search.ch logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://timetable.search.ch/" target="_blank" rel="noopener">search.ch timetable</a></h3>
           <p>Per-row deep-links from the transit widget — search.ch accepts more precise time-anchoring parameters than SBB's own URL scheme.</p>
@@ -288,7 +318,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-google"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Google_Maps_Logo_2020.svg" alt="Google Maps logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://maps.google.com/" target="_blank" rel="noopener">Google Maps</a> &amp; <a href="https://calendar.google.com/" target="_blank" rel="noopener">Calendar</a></h3>
           <p>Driving / transit directions to the trailhead, and "Add to Google Calendar" for chosen transit legs.</p>
@@ -307,7 +339,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual provider-visual-rega"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Rega-Logo.svg" alt="Rega Swiss Air-Rescue logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.rega.ch/" target="_blank" rel="noopener">Rega</a></h3>
           <p>Referenced throughout the gear &amp; safety guide — the Rega app, emergency number 1414, and the accident statistics that anchor the whole safety section.</p>
@@ -316,7 +350,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-mutterkuh"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/mutterkuh.svg" alt="Mutterkuh Schweiz logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.mutterkuh.ch/" target="_blank" rel="noopener">Mutterkuh Schweiz</a></h3>
           <p>Suckler-cow safety guidance in the gear guide — how to behave around cattle and mother cows in the pasture.</p>
@@ -324,7 +360,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-vtg"></div>
+        <div class="provider-visual is-logo tight">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Logo_of_Swiss_Armed_Forces.svg" alt="Swiss Armed Forces logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.vtg.admin.ch/" target="_blank" rel="noopener">VTG / Swiss Armed Forces</a></h3>
           <p>The military-shooting-range bulletin (referenced in the safety guide) so you can check whether a training range is active on the day of your hike.</p>
@@ -342,7 +380,9 @@
     <div class="provider-grid">
 
       <article class="provider">
-        <div class="provider-visual provider-visual-leaflet"></div>
+        <div class="provider-visual is-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Leaflet_logo.svg" alt="Leaflet.js logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a> + <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank" rel="noopener">Leaflet.markercluster</a></h3>
           <p>The main map on the index, every hike page, and the Command Center. Simple, well-documented, dependency-free — the reason the maps just work.</p>
@@ -350,7 +390,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-maplibre"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/maplibre.svg" alt="MapLibre GL JS logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a></h3>
           <p>WebGL-accelerated vector maps used for the 3D hike view and the peak viewer. Open-source fork of Mapbox GL kept community-driven.</p>
@@ -358,7 +400,9 @@
       </article>
 
       <article class="provider">
-        <div class="provider-visual provider-visual-goatcounter"></div>
+        <div class="provider-visual is-logo">
+          <img src="_assets/logos/goatcounter.svg" alt="GoatCounter logo" loading="lazy">
+        </div>
         <div class="provider-body">
           <h3><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a></h3>
           <p>Privacy-friendly page-view counter on every page. No cookies, no personal data collected, no ads.</p>
