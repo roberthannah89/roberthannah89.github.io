@@ -229,11 +229,22 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">10 demos</span>
+  <span class="title-count">11 demos</span>
 </div>
 
 <!-- Card grid -->
 <div class="grid">
+
+  <a class="card" href="3d-trails.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🥾</span>
+        <span class="card-title">3D Swiss Trails (SAC T1–T6)</span>
+      </div>
+      <div class="card-desc">All OpenStreetMap hiking trails in view, colored by SAC scale (T1 yellow → T6 violet), overlaid on the 3D SWISSIMAGE view. Trails are fetched from the Overpass API on pan at zoom ≥ 12 and cached by z12 tile.</div>
+      <span class="card-source">OpenStreetMap sac_scale via Overpass + swisstopo SWISSIMAGE + Terrarium DEM</span>
+    </div>
+  </a>
 
   <a class="card" href="3d-photorealistic.html">
     <div class="card-thumb">
@@ -249,17 +260,6 @@
     </div>
   </a>
 
-  <a class="card" href="peak-viewer.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🏔️</span>
-        <span class="card-title">Peak Viewer (3D + filterable database)</span>
-      </div>
-      <div class="card-desc">Every named peak in Switzerland from OpenStreetMap, joined with SAC route grades and nearest huts. Side-by-side Cesium 3D view with Google Photorealistic tiles and a filterable, sortable database. Click a peak → the camera flies to it.</div>
-      <span class="card-source">OpenStreetMap · geo.admin.ch · SAC suissealpine · Google Photorealistic 3D Tiles</span>
-    </div>
-  </a>
-
   <a class="card" href="3d-peaks.html">
     <div class="card-body">
       <div class="card-header">
@@ -268,6 +268,17 @@
       </div>
       <div class="card-desc">Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Emoji toggle cycles through nearby summits (~113) / every Swiss peak (~7,500) / off. Second button flies to the summit for a 360° panoramic tour. Data from OpenStreetMap.</div>
       <span class="card-source">OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM</span>
+    </div>
+  </a>
+
+  <a class="card" href="peak-viewer.html">
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-icon">🏔️</span>
+        <span class="card-title">Peak Viewer (3D + filterable database)</span>
+      </div>
+      <div class="card-desc">Every named peak in Switzerland from OpenStreetMap, joined with SAC route grades and nearest huts. Side-by-side Cesium 3D view with Google Photorealistic tiles and a filterable, sortable database. Click a peak → the camera flies to it.</div>
+      <span class="card-source">OpenStreetMap · geo.admin.ch · SAC suissealpine · Google Photorealistic 3D Tiles</span>
     </div>
   </a>
 

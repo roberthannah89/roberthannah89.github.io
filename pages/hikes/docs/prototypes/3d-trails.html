@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Swiss Trails (SAC T1–T6) — Zindlenspitz</title>
+<meta name="proto-title" content="3D Swiss Trails (SAC T1–T6)">
+<meta name="proto-icon" content="&#x1F97E;">
+<meta name="proto-desc" content="All OpenStreetMap hiking trails in view, colored by SAC scale (T1 yellow → T6 violet), overlaid on the 3D SWISSIMAGE view. Trails are fetched from the Overpass API on pan at zoom ≥ 12 and cached by z12 tile.">
+<meta name="proto-source" content="OpenStreetMap sac_scale via Overpass + swisstopo SWISSIMAGE + Terrarium DEM">
+<meta name="proto-order" content="135">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  :root {
+    --fg: #1a1a1a; --muted: #6b6b6b; --bg: #f6f6f4;
+    --accent: #c0392b; --border: #e2e2dd;
+    --panel: rgba(255,255,255,0.94);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+
+  header {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    background: #fff; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 15px; font-weight: 600; }
+  header a.back { color: var(--accent); text-decoration: none; font-size: 12.5px; }
+  header a.back:hover { text-decoration: underline; }
+  header .meta { color: var(--muted); font-size: 12px; margin-left: auto; }
+
+  #map { width: 100%; height: calc(100vh - 44px); position: relative; }
+
+  /* Emoji buttons — top-right of the map, stacked. */
+  .map-buttons {
+    position: absolute; top: 12px; right: 12px; z-index: 5;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .map-btn {
+    position: relative;
+    width: 44px; height: 44px;
+    background: var(--panel);
+    border: 0; border-radius: 50%;
+    font: inherit; font-size: 22px; line-height: 1;
+    color: var(--fg);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .map-btn:hover { background: #ffffff; transform: scale(1.06); }
+  .map-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .map-btn.playing { background: var(--accent); color: #fff; }
+  .map-btn.off { opacity: 0.55; }
+  .map-btn .count {
+    position: absolute; bottom: -6px; right: -6px;
+    background: #fff; color: var(--fg);
+    font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums;
+    padding: 1px 5px; min-width: 18px; text-align: center;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
+  .map-btn .count.hidden { display: none; }
+
+  /* Loading ring on trails button */
+  .map-btn .ring {
+    position: absolute; inset: -3px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--accent);
+    animation: ring-spin 0.9s linear infinite;
+    pointer-events: none;
+  }
+  .map-btn .ring.hidden { display: none; }
+  @keyframes ring-spin { to { transform: rotate(360deg); } }
+
+  /* Hint pill at top-center — appears when zoomed out or when too many tiles */
+  .hint {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 4;
+    background: rgba(0,0,0,0.72); color: #fff;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12px; letter-spacing: 0.2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    pointer-events: none;
+  }
+  .hint.hidden { display: none; }
+
+  /* Legend — bottom-right */
+  .legend {
+    position: absolute; bottom: 34px; right: 12px; z-index: 4;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 11px; line-height: 1.4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    min-width: 128px;
+  }
+  .legend.hidden { display: none; }
+  .legend h4 { margin: 0 0 6px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  .legend .row { display: flex; align-items: center; gap: 8px; padding: 1px 0; }
+  .legend .sw { width: 20px; height: 3px; border-radius: 2px; flex: 0 0 auto; }
+  .legend .grade { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .legend .desc { color: var(--muted); font-size: 10.5px; }
+
+  @media (max-width: 640px) {
+    header { padding: 8px 12px; }
+    header .meta { display: none; }
+    .map-buttons { top: 8px; right: 8px; }
+    .map-btn { width: 40px; height: 40px; font-size: 20px; }
+    .legend { bottom: 24px; right: 8px; padding: 6px 8px; }
+  }
+</style>
+<script data-goatcounter="https://roberthannah89.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<header>
+  <a class="back" href="index.html">← Prototypes</a>
+  <h1>3D Swiss Trails — SAC T1–T6</h1>
+  <span class="meta">OSM sac_scale via Overpass · fetches on pan at z ≥ 12</span>
+</header>
+
+<div id="map">
+  <div class="map-buttons">
+    <button class="map-btn" id="trails-btn" title="Toggle SAC-graded trails overlay">
+      <span id="trails-icon">&#x1F97E;</span>
+      <span class="count" id="trails-count">—</span>
+      <span class="ring hidden" id="trails-ring"></span>
+    </button>
+    <button class="map-btn" id="peaks-btn" title="Peaks: nearby → all Switzerland → off">
+      <span id="peaks-icon">&#x1F3D4;&#xFE0F;</span>
+      <span class="count" id="peaks-count">—</span>
+    </button>
+    <button class="map-btn" id="summit-btn" title="Fly to the summit and pan 360°">
+      &#x1F3A5;
+    </button>
+  </div>
+
+  <div class="hint hidden" id="hint">Zoom in to load trails</div>
+
+  <div class="legend hidden" id="legend">
+    <h4>SAC scale</h4>
+    <div class="row"><span class="sw" style="background:#F5C518"></span><span class="grade">T1</span> <span class="desc">Hiking</span></div>
+    <div class="row"><span class="sw" style="background:#E4572E"></span><span class="grade">T2</span> <span class="desc">Mountain</span></div>
+    <div class="row"><span class="sw" style="background:#B02A1B"></span><span class="grade">T3</span> <span class="desc">Demanding mtn</span></div>
+    <div class="row"><span class="sw" style="background:#2E86DE"></span><span class="grade">T4</span> <span class="desc">Alpine</span></div>
+    <div class="row"><span class="sw" style="background:#1B4F8C"></span><span class="grade">T5</span> <span class="desc">Demanding alpine</span></div>
+    <div class="row"><span class="sw" style="background:#7D3C98"></span><span class="grade">T6</span> <span class="desc">Difficult alpine</span></div>
+  </div>
+</div>
+
+<script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+<script src="../../routes/zindlenspitz/proto-peaks.js"></script>
+<script src="../../routes/zindlenspitz/proto-swiss-peaks.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ==== Config ==========================================================
+  var TRAILHEAD = [8.9303, 47.0851];
+  var SUMMIT    = [8.95987, 47.07627];
+  var SUMMIT_NAME = "Zindlenspitz";
+
+  // Overpass endpoints — try the Swiss mirror first (co-located with the data,
+  // typically 2-3 s for a z11 SAC tile), fall back to the main instance when
+  // the mirror is unavailable.
+  var OVERPASS_ENDPOINTS = [
+    "https://overpass.osm.ch/api/interpreter",
+    "https://overpass-api.de/api/interpreter"
+  ];
+  // Fetch/cache tile grid — z11 tiles are ~18 km × 12 km at Swiss latitude.
+  // A typical pitched view at zoom 13 covers 4–8 of them, well under the cap.
+  // (z12 tiles would take 20+ tiles for the same view, tripping the cap.)
+  var CACHE_ZOOM = 11;
+  var MIN_ZOOM_FOR_TRAILS = 12;      // below this, we don't try to load
+  var MAX_TILES_PER_FETCH = 8;       // safety cap; at 3D pitch 60°+ the visible bbox can spill huge
+  var DEBOUNCE_MS = 400;
+  var MAX_CONCURRENT = 2;            // Overpass rejects (HTTP 406) burst-parallel requests from one IP
+  var RETRY_DELAYS_MS = [1500, 4000]; // per-tile retry backoff on transient (429/406/504) failures
+
+  // Swiss Wanderland signpost colors — matches how they're painted on the rocks IRL.
+  // T1/T2/T3 all share the "yellow → red" hiking-network convention; T4–T6 are the
+  // SAC alpine grades (blue → violet).
+  var SAC_COLOR_EXPR = [
+    "match", ["get", "sac"],
+    "hiking",                    "#F5C518", // T1 yellow
+    "mountain_hiking",           "#E4572E", // T2 red
+    "demanding_mountain_hiking", "#B02A1B", // T3 red-dark
+    "alpine_hiking",             "#2E86DE", // T4 blue
+    "demanding_alpine_hiking",   "#1B4F8C", // T5 blue-dark
+    "difficult_alpine_hiking",   "#7D3C98", // T6 violet
+    "#888"                                   // fallback (unknown sac_scale value)
+  ];
+
+  var SAC_LABEL = {
+    hiking: "T1",
+    mountain_hiking: "T2",
+    demanding_mountain_hiking: "T3",
+    alpine_hiking: "T4",
+    demanding_alpine_hiking: "T5",
+    difficult_alpine_hiking: "T6"
+  };
+
+  // ==== Tile math (WebMercator, standard XYZ) ===========================
+  function lng2tile(lng, z) {
+    return Math.floor(((lng + 180) / 360) * Math.pow(2, z));
+  }
+  function lat2tile(lat, z) {
+    var rad = lat * Math.PI / 180;
+    return Math.floor(
+      (1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2 * Math.pow(2, z)
+    );
+  }
+  function tile2lng(x, z) { return (x / Math.pow(2, z)) * 360 - 180; }
+  function tile2lat(y, z) {
+    var n = Math.PI - (2 * Math.PI * y) / Math.pow(2, z);
+    return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
+  }
+
+  function tileBbox(x, y, z) {
+    // Overpass wants (south, west, north, east)
+    return [tile2lat(y + 1, z), tile2lng(x, z), tile2lat(y, z), tile2lng(x + 1, z)];
+  }
+
+  // Clamp the bounds we ask Overpass about — at high pitch, getBounds() can return
+  // a bbox that spills far past Switzerland's borders (into France, Italy, or the sky).
+  // Clip to the Swiss envelope so we don't hammer Overpass with pointless queries.
+  var CH_BBOX = { s: 45.75, w: 5.85, n: 47.85, e: 10.55 };
+  function clampToCH(bounds) {
+    return {
+      s: Math.max(bounds.getSouth(), CH_BBOX.s),
+      w: Math.max(bounds.getWest(),  CH_BBOX.w),
+      n: Math.min(bounds.getNorth(), CH_BBOX.n),
+      e: Math.min(bounds.getEast(),  CH_BBOX.e)
+    };
+  }
+
+  function tilesForBounds(bounds, z) {
+    var c = clampToCH(bounds);
+    if (c.n <= c.s || c.e <= c.w) return [];
+    var x0 = lng2tile(c.w, z), x1 = lng2tile(c.e, z);
+    var y0 = lat2tile(c.n, z), y1 = lat2tile(c.s, z);
+    var tiles = [];
+    for (var x = x0; x <= x1; x++) for (var y = y0; y <= y1; y++) tiles.push({x: x, y: y, z: z});
+    return tiles;
+  }
+
+  // ==== Fetch + cache ===================================================
+  var tileCache = new Map();         // "z/x/y" → array of GeoJSON Features
+  var inflight  = new Map();         // "z/x/y" → Promise, so parallel refreshes coalesce
+  var fetchGen  = 0;                 // monotonic — used to abandon stale results
+
+  function overpassWayToFeature(way) {
+    if (!way.geometry || way.geometry.length < 2) return null;
+    var coords = way.geometry.map(function (p) { return [p.lon, p.lat]; });
+    var tags = way.tags || {};
+    return {
+      type: "Feature",
+      properties: {
+        sac: tags.sac_scale || "hiking",
+        name: tags.name || tags.ref || null,
+        highway: tags.highway || null,
+        id: way.id
+      },
+      geometry: { type: "LineString", coordinates: coords }
+    };
+  }
+
+  function tileKey(t) { return t.z + "/" + t.x + "/" + t.y; }
+
+  // Simple concurrency limiter — Overpass rejects (HTTP 406) bursts of
+  // parallel requests from one IP. We cap in-flight at MAX_CONCURRENT.
+  var running = 0;
+  var pending = [];   // queue of { run, resolve, reject }
+  function withSlot(runFn) {
+    return new Promise(function (resolve, reject) {
+      var job = { run: runFn, resolve: resolve, reject: reject };
+      pending.push(job);
+      drain();
+    });
+  }
+  function drain() {
+    while (running < MAX_CONCURRENT && pending.length > 0) {
+      var job = pending.shift();
+      running++;
+      Promise.resolve()
+        .then(job.run)
+        .then(function (v) { running--; drain(); job.resolve(v); },
+              function (e) { running--; drain(); job.reject(e); });
+    }
+  }
+
+  function overpassPost(endpoint, query) {
+    return fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "data=" + encodeURIComponent(query)
+    }).then(function (res) {
+      if (!res.ok) {
+        var err = new Error("Overpass " + res.status);
+        err.status = res.status;
+        throw err;
+      }
+      return res.json();
+    });
+  }
+
+  // Try each endpoint in order, retrying transient failures with backoff.
+  // Failing over across endpoints is essential — the main overpass-api.de
+  // instance regularly returns 406 "server too busy" for several minutes at
+  // a time, while the Swiss mirror stays healthy.
+  function overpassWithRetry(query) {
+    var epIdx = 0, retry = 0;
+    function tryOnce() {
+      var endpoint = OVERPASS_ENDPOINTS[epIdx];
+      return overpassPost(endpoint, query).catch(function (err) {
+        var retryable = err.status === 429 || err.status === 406 || err.status === 504 || !err.status;
+        if (!retryable) throw err;
+        // First try the next endpoint; only after exhausting endpoints, back off and retry.
+        if (epIdx < OVERPASS_ENDPOINTS.length - 1) {
+          epIdx++;
+          return tryOnce();
+        }
+        if (retry < RETRY_DELAYS_MS.length) {
+          var delay = RETRY_DELAYS_MS[retry++];
+          epIdx = 0;   // start over from the primary
+          return new Promise(function (r) { setTimeout(r, delay); }).then(tryOnce);
+        }
+        throw err;
+      });
+    }
+    return tryOnce();
+  }
+
+  function fetchTile(t) {
+    var key = tileKey(t);
+    if (tileCache.has(key)) return Promise.resolve(tileCache.get(key));
+    if (inflight.has(key))  return inflight.get(key);
+
+    var bbox = tileBbox(t.x, t.y, t.z);
+    var s = bbox[0], w = bbox[1], n = bbox[2], e = bbox[3];
+    var q = "[out:json][timeout:25];way[\"sac_scale\"](" + s + "," + w + "," + n + "," + e + ");out geom;";
+
+    var p = withSlot(function () { return overpassWithRetry(q); })
+      .then(function (data) {
+        var feats = (data.elements || [])
+          .map(overpassWayToFeature)
+          .filter(function (f) { return !!f; });
+        tileCache.set(key, feats);
+        return feats;
+      })
+      .finally(function () {
+        inflight.delete(key);
+      });
+
+    inflight.set(key, p);
+    return p;
+  }
+
+  // ==== UI wiring =======================================================
+  var trailsOn = true;
+  var trailsBtn   = document.getElementById("trails-btn");
+  var trailsCount = document.getElementById("trails-count");
+  var trailsRing  = document.getElementById("trails-ring");
+  var hintEl      = document.getElementById("hint");
+  var legendEl    = document.getElementById("legend");
+
+  function showHint(text) {
+    hintEl.textContent = text;
+    hintEl.classList.remove("hidden");
+  }
+  function hideHint() { hintEl.classList.add("hidden"); }
+
+  function setSpinner(on) { trailsRing.classList.toggle("hidden", !on); }
+
+  function updateSource(features) {
+    var src = map.getSource("trails");
+    if (src) src.setData({ type: "FeatureCollection", features: features });
+  }
+
+  var debounceTimer = null;
+  function scheduleRefresh() {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(refreshTrails, DEBOUNCE_MS);
+  }
+
+  function refreshTrails() {
+    if (!trailsOn) return;
+    var z = map.getZoom();
+    if (z < MIN_ZOOM_FOR_TRAILS) {
+      showHint("Zoom in to load trails");
+      updateSource([]);
+      trailsCount.textContent = "—";
+      return;
+    }
+    var tiles = tilesForBounds(map.getBounds(), CACHE_ZOOM);
+    if (tiles.length === 0) {
+      showHint("Pan into Switzerland");
+      updateSource([]);
+      trailsCount.textContent = "—";
+      return;
+    }
+    if (tiles.length > MAX_TILES_PER_FETCH) {
+      showHint("Zoom in more to load trails");
+      // Don't wipe the current features — leave what we have so panning feels stable.
+      return;
+    }
+    hideHint();
+
+    var uncached = tiles.filter(function (t) { return !tileCache.has(tileKey(t)); });
+    if (uncached.length > 0) setSpinner(true);
+
+    var gen = ++fetchGen;
+    Promise.all(tiles.map(fetchTile))
+      .then(function (arrs) {
+        if (gen !== fetchGen) return;   // superseded by a newer refresh; drop
+        var features = arrs.reduce(function (acc, a) { return acc.concat(a); }, []);
+        updateSource(features);
+        trailsCount.textContent = features.length.toLocaleString();
+      })
+      .catch(function (err) {
+        console.error("[trails]", err);
+        if (gen === fetchGen) showHint("Overpass unavailable — retry by panning");
+      })
+      .finally(function () {
+        if (gen === fetchGen) setSpinner(false);
+      });
+  }
+
+  trailsBtn.addEventListener("click", function () {
+    trailsOn = !trailsOn;
+    trailsBtn.classList.toggle("off", !trailsOn);
+    legendEl.classList.toggle("hidden", !trailsOn);
+    if (!trailsOn) {
+      updateSource([]);
+      hideHint();
+      trailsCount.textContent = "off";
+      setSpinner(false);
+    } else {
+      refreshTrails();
+    }
+  });
+
+  // ==== Peaks (unchanged from 3d-peaks.html) ============================
+  var SPOT_ELE = /^P\.?\s*\d/;
+  function tierFor(ele, notable) {
+    ele = ele || 0;
+    if (ele >= 2500 || (ele >= 2000 && notable)) return 1;
+    if (ele >= 1800 || notable) return 2;
+    return 3;
+  }
+  var NEARBY = (window.ROUTE_PEAKS && window.ROUTE_PEAKS.peaks || [])
+    .filter(function (p) { return p.ele != null && !SPOT_ELE.test(p.name); })
+    .filter(function (p) { return !!p.wikidata; });
+  var SWISS = ((window.SWISS_PEAKS && window.SWISS_PEAKS.peaks) || [])
+    .filter(function (p) { return p.e != null; });
+
+  function nearbyFeatures() {
+    return NEARBY.map(function (p) {
+      return {
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [p.lon, p.lat] },
+        properties: { name: p.name, ele: p.ele, tier: tierFor(p.ele, !!p.wikidata), isSummit: p.name === SUMMIT_NAME }
+      };
+    });
+  }
+  function swissFeatures() {
+    return SWISS.map(function (p) {
+      return {
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [p.x, p.y] },
+        properties: { name: p.n, ele: p.e, tier: tierFor(p.e, !!p.w), isSummit: p.n === SUMMIT_NAME }
+      };
+    });
+  }
+  var FC_NEARBY = { type: "FeatureCollection", features: nearbyFeatures() };
+  var FC_SWISS  = { type: "FeatureCollection", features: swissFeatures() };
+  var FC_EMPTY  = { type: "FeatureCollection", features: [] };
+  var COUNT_NEARBY = FC_NEARBY.features.length;
+  var COUNT_SWISS  = FC_SWISS.features.length;
+  var PEAK_STATES = [
+    { key: "nearby", fc: FC_NEARBY, emoji: "&#x1F3D4;&#xFE0F;", count: COUNT_NEARBY },
+    { key: "swiss",  fc: FC_SWISS,  emoji: "&#x26F0;&#xFE0F;",  count: COUNT_SWISS.toLocaleString() },
+    { key: "off",    fc: FC_EMPTY,  emoji: "&#x1F5FA;&#xFE0F;", count: null }
+  ];
+
+  // ==== Map =============================================================
+  var map = new maplibregl.Map({
+    container: "map",
+    style: {
+      version: 8,
+      glyphs: "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+      sources: {
+        swissimage: {
+          type: "raster",
+          tiles: ["https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg"],
+          tileSize: 256, maxzoom: 19,
+          attribution: "&copy; swisstopo"
+        },
+        terrarium: {
+          type: "raster-dem",
+          tiles: ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+          tileSize: 256, maxzoom: 15, encoding: "terrarium",
+          attribution: "Terrain: Mapzen / AWS Open Data"
+        }
+      },
+      layers: [{ id: "satellite", type: "raster", source: "swissimage" }],
+      terrain: { source: "terrarium", exaggeration: 1.5 },
+      sky: { "sky-color": "#9fc8ec", "horizon-color": "#dfe7ed", "fog-color": "#dfe7ed", "fog-ground-blend": 0.5 }
+    },
+    center: [(TRAILHEAD[0] + SUMMIT[0]) / 2, (TRAILHEAD[1] + SUMMIT[1]) / 2],
+    zoom: 13.2, pitch: 62, bearing: 35, maxPitch: 85, hash: false
+  });
+
+  map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-left");
+  map.addControl(new maplibregl.FullscreenControl(), "top-left");
+  map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
+
+  var peaksBtn   = document.getElementById("peaks-btn");
+  var peaksIcon  = document.getElementById("peaks-icon");
+  var peaksCount = document.getElementById("peaks-count");
+  var summitBtn  = document.getElementById("summit-btn");
+  var modeIdx = 0;
+
+  function applyPeaksMode() {
+    var state = PEAK_STATES[modeIdx];
+    var src = map.getSource("peaks");
+    if (src) src.setData(state.fc);
+    peaksIcon.innerHTML = state.emoji;
+    if (state.count === null) {
+      peaksCount.classList.add("hidden");
+    } else {
+      peaksCount.classList.remove("hidden");
+      peaksCount.textContent = state.count;
+    }
+  }
+
+  map.on("load", function () {
+    // --- Trails (layered below peaks so labels stay readable) -----------
+    map.addSource("trails", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+    map.addLayer({
+      id: "trails-casing", type: "line", source: "trails",
+      layout: { "line-join": "round", "line-cap": "round" },
+      paint: {
+        "line-color": "#0a0a0a",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 2, 14, 4.5, 17, 8],
+        "line-opacity": 0.55
+      }
+    });
+    map.addLayer({
+      id: "trails-line", type: "line", source: "trails",
+      layout: { "line-join": "round", "line-cap": "round" },
+      paint: {
+        "line-color": SAC_COLOR_EXPR,
+        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 14, 2.6, 17, 4.6],
+        "line-opacity": 0.95
+      }
+    });
+
+    // --- GPX track (Zindlenspitz route, same as parent prototype) -------
+    // We deliberately DON'T fitBounds here: fitBounds with realistic padding
+    // lands the map around zoom 11.9, which is below the trails-load
+    // threshold. The initial view configured on the Map constructor
+    // (zoom 13.2, pitch 62, bearing 35, centred on the route midpoint)
+    // frames the route well and sits above z12 so trails load on open.
+    var src = window.TRACK || [];
+    if (src.length) {
+      var coords = src.map(function (p) { return [p[1], p[0]]; });
+      map.addSource("track", {
+        type: "geojson",
+        data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: coords } }
+      });
+      map.addLayer({
+        id: "track-casing", type: "line", source: "track",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: { "line-color": "#1a1a1a", "line-width": 6, "line-opacity": 0.45 }
+      });
+      map.addLayer({
+        id: "track-line", type: "line", source: "track",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: { "line-color": "#e74c3c", "line-width": 3.5 }
+      });
+    }
+    new maplibregl.Marker({ color: "#27ae60" }).setLngLat(TRAILHEAD)
+      .setPopup(new maplibregl.Popup().setText("Trailhead"))
+      .addTo(map);
+
+    // --- Peaks -----------------------------------------------------------
+    map.addSource("peaks", { type: "geojson", data: FC_NEARBY });
+    map.addLayer({
+      id: "peaks-dot", type: "circle", source: "peaks",
+      paint: {
+        "circle-radius": [
+          "case",
+          ["==", ["get", "isSummit"], true], 6,
+          ["==", ["get", "tier"], 1], 4,
+          ["==", ["get", "tier"], 2], 3.2,
+          2.4
+        ],
+        "circle-color":  ["case", ["==", ["get", "isSummit"], true], "#c0392b", "#ffffff"],
+        "circle-stroke-color": ["case", ["==", ["get", "isSummit"], true], "#ffffff", "#222222"],
+        "circle-stroke-width": ["case", ["==", ["get", "isSummit"], true], 2, 1.3]
+      }
+    });
+    map.addLayer({
+      id: "peaks-label", type: "symbol", source: "peaks",
+      layout: {
+        "text-field": ["concat", ["get", "name"], "  ", ["to-string", ["round", ["get", "ele"]]], " m"],
+        "text-font": ["Open Sans Regular"],
+        "text-size": [
+          "case",
+          ["==", ["get", "tier"], 1], 13,
+          ["==", ["get", "tier"], 2], 11.5,
+          10.5
+        ],
+        "text-anchor": "bottom",
+        "text-offset": [0, -0.6],
+        "text-allow-overlap": true,
+        "text-ignore-placement": true,
+        "symbol-sort-key": ["-", 5000, ["get", "ele"]]
+      },
+      paint: { "text-color": "#1a1a1a", "text-halo-color": "#ffffff", "text-halo-width": 1.8, "text-halo-blur": 0.4 }
+    });
+
+    applyPeaksMode();
+    legendEl.classList.remove("hidden");
+
+    // Click a trail → show its SAC grade
+    map.on("click", "trails-line", function (e) {
+      if (!e.features.length) return;
+      var f = e.features[0];
+      var sac = f.properties.sac;
+      var grade = SAC_LABEL[sac] || "?";
+      var name = f.properties.name || "(unnamed)";
+      var html = '<b>' + name + '</b><br><span style="color:#666">SAC ' + grade + ' · ' + sac + '</span>';
+      new maplibregl.Popup({ closeButton: true }).setLngLat(e.lngLat).setHTML(html).addTo(map);
+    });
+    map.on("mouseenter", "trails-line", function () { map.getCanvas().style.cursor = "pointer"; });
+    map.on("mouseleave", "trails-line", function () { map.getCanvas().style.cursor = ""; });
+
+    map.on("moveend", scheduleRefresh);
+    // First load — fetch what's in the initial view
+    refreshTrails();
+  });
+
+  peaksBtn.addEventListener("click", function () {
+    modeIdx = (modeIdx + 1) % PEAK_STATES.length;
+    applyPeaksMode();
+  });
+  peaksCount.textContent = COUNT_NEARBY;
+
+  // ==== Summit tour (unchanged from 3d-peaks.html) ======================
+  var FLY_MS = 2200;
+  var ROTATE_MS = 25000;
+  var RETURN_MS = 2000;
+  var TOUR_PITCH = 68;
+  var TOUR_ZOOM = 14.2;
+  var TOUR_STATE = "idle";
+  var pendingFlyTimeout = null;
+  var pendingReturnTimeout = null;
+  var rotateRaf = null;
+  var rotateStartMs = 0;
+  var rotateStartBearing = 0;
+  var savedView = null;
+
+  function setSummitIcon(isStop) {
+    summitBtn.innerHTML = isStop ? "&#x23F9;&#xFE0F;" : "&#x1F3A5;";
+    summitBtn.title = isStop ? "Stop tour" : "Fly to the summit and pan 360°";
+  }
+  function beginTour() {
+    if (TOUR_STATE !== "idle") return;
+    TOUR_STATE = "flying";
+    setSummitIcon(true);
+    summitBtn.classList.add("playing");
+    peaksBtn.disabled = true;
+    savedView = {
+      lng: map.getCenter().lng, lat: map.getCenter().lat,
+      zoom: map.getZoom(), pitch: map.getPitch(), bearing: map.getBearing()
+    };
+    map.easeTo({ center: SUMMIT, zoom: TOUR_ZOOM, pitch: TOUR_PITCH, bearing: 0, duration: FLY_MS });
+    pendingFlyTimeout = setTimeout(function () {
+      pendingFlyTimeout = null;
+      if (TOUR_STATE !== "flying") return;
+      TOUR_STATE = "rotating";
+      rotateStartMs = performance.now();
+      rotateStartBearing = map.getBearing();
+      rotateRaf = requestAnimationFrame(rotateStep);
+    }, FLY_MS);
+  }
+  function rotateStep(now) {
+    if (TOUR_STATE !== "rotating") return;
+    var t = Math.min(1, (now - rotateStartMs) / ROTATE_MS);
+    map.setBearing(rotateStartBearing + t * 360);
+    if (t < 1) { rotateRaf = requestAnimationFrame(rotateStep); }
+    else       { rotateRaf = null; endTour(); }
+  }
+  function endTour() {
+    if (TOUR_STATE === "idle" || TOUR_STATE === "returning") return;
+    if (pendingFlyTimeout) { clearTimeout(pendingFlyTimeout); pendingFlyTimeout = null; }
+    if (rotateRaf)         { cancelAnimationFrame(rotateRaf);  rotateRaf = null; }
+    TOUR_STATE = "returning";
+    map.easeTo({
+      center: [savedView.lng, savedView.lat],
+      zoom: savedView.zoom, pitch: savedView.pitch, bearing: savedView.bearing % 360,
+      duration: RETURN_MS
+    });
+    pendingReturnTimeout = setTimeout(function () {
+      pendingReturnTimeout = null;
+      TOUR_STATE = "idle";
+      setSummitIcon(false);
+      summitBtn.classList.remove("playing");
+      peaksBtn.disabled = false;
+    }, RETURN_MS);
+  }
+  summitBtn.addEventListener("click", function () {
+    if (TOUR_STATE === "idle") beginTour();
+    else endTour();
+  });
+
+  // Exposed for browser devtools poking + automated smoke tests.
+  window.map = map;
+})();
+</script>
+
+</body>
+</html>
