@@ -327,7 +327,85 @@
     return { create: create };
   })();
 
-  /* ── 6. Snow & glaciers (permanent snow extent) ──── */
+  /* ── 6a. Trail closures & reroutes (ASTRA / SchweizMobil) ────
+     Live daily feed from the Federal Roads Office and Swiss Hiking
+     Federation of what's closed / detoured on the national hiking network.
+     No CI refresh needed — the WMS server publishes each day's state and
+     Leaflet fetches the current tile on demand. */
+  var TrailClosures = {
+    create: function () {
+      var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
+        layers: 'ch.astra.wanderland-sperrungen_umleitungen',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.9,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        attribution: '&copy; ASTRA / <a href="https://schweizmobil.ch/en/closures-detours" target="_blank" rel="noopener">SchweizMobil</a>'
+      });
+      return Promise.resolve(layer);
+    }
+  };
+
+  /* ── 6b. Forest fire danger (BAFU) ────────────────────
+     BAFU-produced fire-danger index (1–5). Live WMS; the tiles reflect
+     whatever cantonal fire-ban level applies today. Especially load-bearing
+     Jun–Aug when heat + wind push several cantons to level 4/5. */
+  var FireRisk = {
+    create: function () {
+      var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
+        layers: 'ch.bafu.gefahren-waldbrand_warnung',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.55,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        attribution: '&copy; BAFU (Waldbrandgefahr)'
+      });
+      return Promise.resolve(layer);
+    }
+  };
+
+  /* ── 6c. Wildlife rest zones (BAFU) ───────────────────
+     Statutory + recommended Wildruhezonen. Some are seasonally binding
+     (winter only), some year-round; the WMS returns whichever apply on
+     the map date, so the layer reads the same in July and February —
+     what you see is what's currently in force. */
+  var WildlifeZones = {
+    create: function () {
+      var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
+        layers: 'ch.bafu.wrz-wildruhezonen_portal',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.6,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        attribution: '&copy; BAFU (Wildruhezonen)'
+      });
+      return Promise.resolve(layer);
+    }
+  };
+
+  /* ── 6d. Rockfall trajectory hazard (BAFU SilvaProtect-CH) ────
+     General hazard index of potential rockfall + rock-avalanche
+     trajectories. Statutory static map, not a live-event feed — the tile
+     changes when BAFU re-publishes SilvaProtect (~ every few years). */
+  var RockfallHazard = {
+    create: function () {
+      var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
+        layers: 'ch.bafu.silvaprotect-sturz',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.55,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        attribution: '&copy; BAFU (SilvaProtect-CH)'
+      });
+      return Promise.resolve(layer);
+    }
+  };
+
+  /* ── 7. Snow & glaciers (permanent snow extent) ──── */
   // swisstopo's glacier-extent inventory (GLAMOS). Year-round visualisation
   // of where there's permanent snow/ice — accurate in summer, conservative
   // in winter (everything outside the glaciers can also accumulate snow,
@@ -357,6 +435,10 @@
     Transit: Transit,
     DrinkingWater: DrinkingWater,
     Parking: Parking,
-    SnowGlaciers: SnowGlaciers
+    SnowGlaciers: SnowGlaciers,
+    TrailClosures: TrailClosures,
+    FireRisk: FireRisk,
+    WildlifeZones: WildlifeZones,
+    RockfallHazard: RockfallHazard
   };
 })();

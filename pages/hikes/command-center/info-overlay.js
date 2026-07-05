@@ -1,26 +1,42 @@
 /* Coach-mark overlay — "what does everything on this page do?"
  *
- * Toggled by the (i) button in the bottom-right of #app. On open we draw a
- * labeled callout next to every registered UI region, with an elbow-line
- * connector back to the region and a dashed highlight ring around it. Any
- * click anywhere on the page closes the overlay, so it acts like a
+ * Toggled by an (i) button hosted inside Leaflet's top-right control block
+ * (same visual grammar as the +/- zoom buttons — never floats over other
+ * controls, works the same on desktop and mobile). On open we draw a
+ * labelled callout next to every registered UI region, with an elbow-line
+ * connector back to the region and a dashed highlight ring around it.
+ * Any click anywhere on the page closes the overlay, so it acts like a
  * dismiss-on-continue coach-mark rather than a modal.
  *
- * Non-overlap strategy: targets are bucketed into two "zones" — top (filter
- * bar, callouts hang below into the map) and bottom (bottom bar, callouts
- * float above into the map). Within a zone, callouts are packed into
- * horizontal "lanes" (rows) using a first-fit algorithm: sorted by target
- * x-position, each callout takes the first lane whose previous callout
- * ends before this callout would start (plus a small gap). The elbow
- * connector uses the manhattan route target→lane-height→callout, so lines
- * from adjacent targets to non-adjacent lanes don't visually cross each
- * other — every horizontal segment sits at its callout's own lane height.
+ * SCRIM — the dim/blur backdrop is drawn as an SVG rectangle with a
+ * per-target rectangular hole punched by <mask>. The controls the callouts
+ * point at therefore stay visible at their natural brightness while the
+ * map behind them is dimmed. No z-index shuffling — the scrim genuinely
+ * has holes at the target positions, so target hit-testing / hover / focus
+ * behaves normally.
  *
- * First-visit UX: if localStorage['cc.infoSeen'] is unset we auto-open the
- * overlay ~800ms after boot and mark the button with a short attention
- * pulse. The flag is set the moment the overlay first opens (whether from
- * the auto-open or a manual click), so a user who ignores it once never
- * gets nagged again.
+ * NON-OVERLAP — targets are bucketed into two zones (top = filter bar,
+ * callouts hang below; bottom = bottom bar, callouts float above). Within
+ * a zone, callouts are sorted by target x-position and packed into
+ * horizontal lanes via first-fit: each callout takes the first lane whose
+ * previous callout ends before this one starts (plus a small gap). The
+ * elbow connector uses the manhattan route target → same-x stub →
+ * same-y lane track → callout, so lines from adjacent targets to
+ * non-adjacent lanes don't visually cross each other — every horizontal
+ * segment sits at its callout's own lane height.
+ *
+ * WHY body.info-open IS APPLIED BEFORE LAYOUT — the overlay itself is
+ * display:none until body.info-open is set. If we laid callouts out first,
+ * the inserted callout elements would be inside a display:none subtree, so
+ * offsetHeight would be 0 for all of them and every lane would collapse to
+ * the same y-position (that was the launch bug). Set the class first,
+ * measure second.
+ *
+ * FIRST-VISIT UX — if localStorage['cc.infoSeen'] is unset we auto-open
+ * ~800ms after boot and mark the button with a short attention pulse.
+ * The flag is set the moment the overlay first opens (whether from the
+ * auto-open or a manual click), so a user who ignores it once never gets
+ * nagged again.
  */
 (function () {
   'use strict';
@@ -53,27 +69,30 @@
     { sel: '.filter-group--display', zone: 'top', title: 'Marker display',
       desc: 'What each pin shows on the map — name, grade, weather colour, gain, etc.' },
     { sel: '#weather-toggles',       zone: 'bottom', title: 'Map layers',
-      desc: 'POIs (huts, transit, parking, water), hazards (slope, snow), and reference cities.' },
+      desc: 'POIs (huts, transit, parking, water), live conditions (closures, fire risk, wildlife, rockfall) and hazards. Default-on.' },
     { sel: '#route-counter',         zone: 'bottom', title: 'Live counter',
       desc: 'Destinations and routes matching your current filters.' },
     { sel: '.ms-layer-bar',          zone: 'bottom', title: 'Base map',
       desc: 'Topo + trails, plain topo, aerial, or OpenStreetMap.' },
     { sel: '#forecast-meta',         zone: 'bottom', title: 'Forecast freshness',
-      desc: 'Weather model + how recent the pre-baked cache is. Turns amber when it’s over 6 h old.' },
+      desc: 'Weather model + how recent the pre-baked cache is. Turns amber when it is over 6 h old.' },
   ];
 
-  // Callout box target sizing. Height varies with description length; we
-  // measure after insertion, but reserve a stable "row height" so the lane
-  // packer doesn't need a second layout pass.
+  // Callout target sizing. Height varies with description length; we
+  // measure post-insert. Layout applies body.info-open BEFORE this pass, so
+  // offsetHeight returns the real rendered height (not 0 from display:none).
   var CALLOUT_W_DESKTOP = 200;
   var CALLOUT_W_MOBILE  = 168;
   var LANE_GAP          = 8;    // vertical space between rows of callouts
   var HORIZONTAL_GAP    = 12;   // minimum horizontal gap between callouts in the same lane
   var LEG_LENGTH        = 22;   // length of the vertical stub off the target
+  var SCRIM_HOLE_PAD    = 6;    // extra padding around each target in the scrim cutout
 
-  var overlayEl = null;
-  var svgEl     = null;
-  var isOpen    = false;
+  var overlayEl    = null;
+  var scrimSvg     = null;      // SVG that draws the dimmed backdrop with target-shaped holes
+  var scrimMaskEl  = null;      // <mask> element holding the target holes
+  var connectorSvg = null;      // separate SVG for callout connector lines
+  var isOpen       = false;
 
   function isMobile() {
     return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
@@ -89,27 +108,78 @@
     try { return localStorage.getItem(LS_SEEN_KEY) === '1'; } catch (e) { return false; }
   }
 
+  function svgEl(tag, attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    if (attrs) {
+      for (var k in attrs) el.setAttribute(k, attrs[k]);
+    }
+    return el;
+  }
+
   function ensureOverlay() {
     if (overlayEl) return overlayEl;
     overlayEl = document.createElement('div');
     overlayEl.id = 'info-overlay';
-    // SVG lives inside overlayEl but behind the callouts (they're appended
-    // after this, so DOM order gives us the paint order we want).
-    svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svgEl.classList.add('info-svg');
-    svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    overlayEl.appendChild(svgEl);
+
+    // Scrim layer — full-viewport dark rect with a mask that punches
+    // rectangular holes over each target so the actual UI controls stay
+    // visible (unblurred) while the map behind is dimmed.
+    scrimSvg = svgEl('svg', { class: 'info-scrim' });
+    var defs = svgEl('defs');
+    scrimMaskEl = svgEl('mask', { id: 'info-scrim-mask' });
+    // White fill on mask → whole scrim is opaque by default.
+    scrimMaskEl.appendChild(
+      svgEl('rect', { x: 0, y: 0, width: '100%', height: '100%', fill: 'white' })
+    );
+    defs.appendChild(scrimMaskEl);
+    scrimSvg.appendChild(defs);
+    scrimSvg.appendChild(svgEl('rect', {
+      x: 0, y: 0, width: '100%', height: '100%',
+      fill: 'rgba(6, 4, 0, 0.55)',
+      mask: 'url(#info-scrim-mask)'
+    }));
+    overlayEl.appendChild(scrimSvg);
+
+    // Connector layer — drawn ABOVE the scrim but BELOW callouts. Uses a
+    // separate SVG so we can clear and repopulate connectors without
+    // touching the scrim's mask defs each open.
+    connectorSvg = svgEl('svg', { class: 'info-connectors' });
+    overlayEl.appendChild(connectorSvg);
+
     document.getElementById('app').appendChild(overlayEl);
     return overlayEl;
   }
 
   function clearOverlay() {
     if (!overlayEl) return;
-    // Remove everything except the SVG root (keep the reference; empty it).
-    while (overlayEl.lastChild && overlayEl.lastChild !== svgEl) {
-      overlayEl.removeChild(overlayEl.lastChild);
-    }
-    while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+    // Reset the scrim mask to fully opaque (drop any prior holes).
+    while (scrimMaskEl.firstChild) scrimMaskEl.removeChild(scrimMaskEl.firstChild);
+    scrimMaskEl.appendChild(
+      svgEl('rect', { x: 0, y: 0, width: '100%', height: '100%', fill: 'white' })
+    );
+    // Clear connectors.
+    while (connectorSvg.firstChild) connectorSvg.removeChild(connectorSvg.firstChild);
+    // Remove all non-SVG children (highlight rings + callout DIVs). The two
+    // SVG layers stay so we can reuse the mask/defs setup.
+    var kids = Array.prototype.slice.call(overlayEl.children);
+    kids.forEach(function (k) {
+      if (k !== scrimSvg && k !== connectorSvg) overlayEl.removeChild(k);
+    });
+  }
+
+  // Punch a rectangular hole in the scrim mask at the given viewport rect.
+  // Mask uses fill=black to make that region "transparent" in the mask, so
+  // the corresponding scrim area draws no fill and the underlying UI shows
+  // through at full brightness.
+  function punchHole(rect) {
+    scrimMaskEl.appendChild(svgEl('rect', {
+      x: rect.left - SCRIM_HOLE_PAD,
+      y: rect.top  - SCRIM_HOLE_PAD,
+      width:  rect.width  + SCRIM_HOLE_PAD * 2,
+      height: rect.height + SCRIM_HOLE_PAD * 2,
+      rx: 6, ry: 6,
+      fill: 'black'
+    }));
   }
 
   // First-fit lane packer. `entries` are already sorted by target center-x.
@@ -148,16 +218,9 @@
           ' L' + fromX + ' ' + toY +
           ' L' + toX  + ' ' + toY;
     }
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', d);
-    svgEl.appendChild(path);
-
+    connectorSvg.appendChild(svgEl('path', { d: d }));
     // Small dot at the target end so it's obviously anchored.
-    var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('cx', fromX);
-    dot.setAttribute('cy', fromY);
-    dot.setAttribute('r', 2.5);
-    svgEl.appendChild(dot);
+    connectorSvg.appendChild(svgEl('circle', { cx: fromX, cy: fromY, r: 2.5 }));
   }
 
   function drawHighlight(rect) {
@@ -184,54 +247,57 @@
     return el;
   }
 
-  function layoutZone(zone, defs, filterBarBottom, bottomBarTop) {
+  // Preflight pass — measure every visible target from every zone so we can
+  // punch scrim holes BEFORE we start laying callouts. This is what keeps
+  // the toggles unblurred through the scrim.
+  function measureAllTargets() {
+    return TARGETS.map(function (def) {
+      var node = document.querySelector(def.sel);
+      if (!node) return null;
+      var rect = node.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return null;
+      return { def: def, rect: rect };
+    }).filter(Boolean);
+  }
+
+  function layoutZone(zone, visible, filterBarBottom, bottomBarTop) {
     var vpW = window.innerWidth;
-    var vpH = window.innerHeight;
     var calloutW = calloutWidth();
 
-    // Measurement: collect rect + preferred callout center-x per visible target.
-    var entries = [];
-    defs.forEach(function (def) {
-      var node = document.querySelector(def.sel);
-      if (!node) return;
-      var rect = node.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;   // hidden
-      var targetCX = rect.left + rect.width / 2;
-      var targetCY = rect.top  + rect.height / 2;
-      // Preferred callout center-x = target center-x, clamped to viewport.
-      var minCX = calloutW / 2 + 8;
-      var maxCX = vpW - calloutW / 2 - 8;
-      var calloutCX = Math.max(minCX, Math.min(maxCX, targetCX));
-      entries.push({
-        def: def,
-        rect: rect,
-        targetCX: targetCX,
-        targetCY: targetCY,
-        calloutCenterX: calloutCX
+    var entries = visible
+      .filter(function (v) { return v.def.zone === zone; })
+      .map(function (v) {
+        var targetCX = v.rect.left + v.rect.width / 2;
+        var targetCY = v.rect.top  + v.rect.height / 2;
+        var minCX = calloutW / 2 + 8;
+        var maxCX = vpW - calloutW / 2 - 8;
+        var calloutCX = Math.max(minCX, Math.min(maxCX, targetCX));
+        return {
+          def: v.def,
+          rect: v.rect,
+          targetCX: targetCX,
+          targetCY: targetCY,
+          calloutCenterX: calloutCX
+        };
       });
-    });
 
     if (!entries.length) return;
     entries.sort(function (a, b) { return a.calloutCenterX - b.calloutCenterX; });
     packLanes(entries, calloutW);
 
-    // Draw pass. For each callout: figure out its top-y based on lane, insert
-    // element, then draw its connector back to the target.
+    // Draw pass. Each callout is inserted, measured (real height because
+    // body.info-open is already applied), then positioned + connected.
     entries.forEach(function (e) {
       drawHighlight(e.rect);
       var calloutEl = drawCallout(e, calloutW);
-      // Measure post-insert height so lane baselines don't stack tighter than
-      // the tallest callout in the previous lane. Cheap: we do this once per
-      // callout during a single layout pass — no reflow storm.
       var ch = calloutEl.offsetHeight;
       var laneY;
       if (zone === 'top') {
         laneY = filterBarBottom + LEG_LENGTH + e.lane * (ch + LANE_GAP);
-        calloutEl.style.top  = laneY + 'px';
       } else {
         laneY = bottomBarTop - LEG_LENGTH - e.lane * (ch + LANE_GAP) - ch;
-        calloutEl.style.top  = laneY + 'px';
       }
+      calloutEl.style.top  = laneY + 'px';
       calloutEl.style.left = (e.calloutCenterX - calloutW / 2) + 'px';
 
       // Connector endpoints. Target end is the edge closest to the map area
@@ -247,23 +313,34 @@
   function open() {
     if (isOpen) return;
     ensureOverlay();
+    // CRITICAL: set the open class BEFORE any measurement — see the header
+    // comment. Otherwise callouts render inside display:none, offsetHeight
+    // returns 0, and every lane collapses to the same y-position.
+    document.body.classList.add('info-open');
     clearOverlay();
+
+    // Preflight: measure targets, punch scrim holes so controls stay
+    // unblurred through the mask.
+    var visible = measureAllTargets();
+    visible.forEach(function (v) { punchHole(v.rect); });
+
+    // Also punch a hole around the info button itself so the (i) stays
+    // visible / clickable on the same tap as the dismiss.
+    var btnEl = document.getElementById('info-btn');
+    if (btnEl) punchHole(btnEl.getBoundingClientRect());
+
     // Reference measurements so both zones share the same map-clear bounds.
     var filterBar = document.getElementById('filter-bar');
     var bottomBar = document.getElementById('bottom-bar');
     var fbRect = filterBar ? filterBar.getBoundingClientRect() : { bottom: 60 };
     var bbRect = bottomBar ? bottomBar.getBoundingClientRect() : { top: window.innerHeight - 60 };
 
-    var topDefs    = TARGETS.filter(function (t) { return t.zone === 'top';    });
-    var bottomDefs = TARGETS.filter(function (t) { return t.zone === 'bottom'; });
-    layoutZone('top',    topDefs,    fbRect.bottom, bbRect.top);
-    layoutZone('bottom', bottomDefs, fbRect.bottom, bbRect.top);
+    layoutZone('top',    visible, fbRect.bottom, bbRect.top);
+    layoutZone('bottom', visible, fbRect.bottom, bbRect.top);
 
-    document.body.classList.add('info-open');
-    var btn = document.getElementById('info-btn');
-    if (btn) {
-      btn.classList.add('active');
-      btn.classList.remove('pulse');
+    if (btnEl) {
+      btnEl.classList.add('active');
+      btnEl.classList.remove('pulse');
     }
     isOpen = true;
     markSeen();
@@ -282,16 +359,56 @@
     if (isOpen) close(); else open();
   }
 
-  function wire() {
-    var btn = document.getElementById('info-btn');
-    if (!btn) return;
-
+  // Mount the (i) button inside Leaflet's top-right control block so it
+  // stacks like a native Leaflet control (with the fullscreen/zoom
+  // buttons on the other corners) instead of floating over the map. This
+  // solves both the desktop "on top of zoom" collision AND the mobile
+  // placement — Leaflet handles the responsive positioning.
+  function attachInfoButton() {
+    var topRight = document.querySelector('.leaflet-top.leaflet-right');
+    if (!topRight) return null;
+    var bar = document.createElement('div');
+    bar.className = 'leaflet-bar leaflet-control info-btn-wrap';
+    var btn = document.createElement('a');
+    btn.id = 'info-btn';
+    btn.href = '#';
+    btn.setAttribute('role', 'button');
+    btn.setAttribute('aria-label', 'What does everything do?');
+    btn.title = 'What does everything do?';
+    btn.textContent = 'i';
+    bar.appendChild(btn);
+    topRight.appendChild(bar);
+    // Prevent map interactions when using the button. We're vanilla-DOM so
+    // no L.DomEvent.disableClickPropagation available in the module scope.
+    ['mousedown','touchstart','pointerdown','click','dblclick','wheel'].forEach(function (t) {
+      btn.addEventListener(t, function (e) { e.stopPropagation(); });
+      bar.addEventListener(t, function (e) { e.stopPropagation(); });
+    });
     btn.addEventListener('click', function (e) {
-      e.stopPropagation();       // don't let the document click-listener close it
+      e.preventDefault();
       toggle();
     });
+    return btn;
+  }
 
-    // Any other click / touch / key press dismisses. Capture phase so we run
+  // Boot: wait for the Leaflet control container to exist before mounting.
+  // command-center.js creates the map inside its own boot(), which runs on
+  // DOMContentLoaded — so we poll briefly instead of racing it.
+  function wire() {
+    var btn = null;
+    var mountAttempts = 0;
+    var mountTimer = setInterval(function () {
+      mountAttempts++;
+      btn = attachInfoButton();
+      if (btn || mountAttempts > 60) {
+        clearInterval(mountTimer);
+        if (btn) postMount(btn);
+      }
+    }, 100);
+  }
+
+  function postMount(btn) {
+    // Any click / touch / key press dismisses. Capture phase so we run
     // BEFORE Leaflet's map handlers get a chance to swallow the event.
     document.addEventListener('click', function () {
       if (isOpen) close();
@@ -302,20 +419,23 @@
 
     // Repaint on resize while open — target rects shift and lane-packing
     // needs to re-run so callouts don't hang off the edge. Rebuild from
-    // scratch: cheap enough (< 20 elements) and simpler than tracking deltas.
+    // scratch: cheap enough (~15 elements) and simpler than tracking deltas.
     var resizeTimer;
     window.addEventListener('resize', function () {
       if (!isOpen) return;
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
-        // reopen() = close + open, without touching the seen flag.
         clearOverlay();
+        var visible = measureAllTargets();
+        visible.forEach(function (v) { punchHole(v.rect); });
+        var btnEl = document.getElementById('info-btn');
+        if (btnEl) punchHole(btnEl.getBoundingClientRect());
         var filterBar = document.getElementById('filter-bar');
         var bottomBar = document.getElementById('bottom-bar');
         var fbRect = filterBar ? filterBar.getBoundingClientRect() : { bottom: 60 };
         var bbRect = bottomBar ? bottomBar.getBoundingClientRect() : { top: window.innerHeight - 60 };
-        layoutZone('top',    TARGETS.filter(function (t) { return t.zone === 'top'; }),    fbRect.bottom, bbRect.top);
-        layoutZone('bottom', TARGETS.filter(function (t) { return t.zone === 'bottom'; }), fbRect.bottom, bbRect.top);
+        layoutZone('top',    visible, fbRect.bottom, bbRect.top);
+        layoutZone('bottom', visible, fbRect.bottom, bbRect.top);
       }, 120);
     });
 

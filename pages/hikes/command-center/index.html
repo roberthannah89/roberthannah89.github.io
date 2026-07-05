@@ -87,11 +87,11 @@
     <div id="loading-text">Loading...</div>
   </div>
 
-  <!-- Info button (bottom-right). Toggles the coach-mark overlay drawn by
-       info-overlay.js. Auto-opens once per browser on first visit (localStorage
-       flag `cc.infoSeen`) so newcomers see what every control does. Any click
-       — including on this button — dismisses it. -->
-  <button id="info-btn" type="button" aria-label="What does everything do?" title="What does everything do?">i</button>
+  <!-- The (i) coach-mark button is NOT in the static markup any more —
+       info-overlay.js attaches it as a Leaflet control inside
+       .leaflet-top.leaflet-right after boot, so it stacks with any native
+       Leaflet controls (zoom / fullscreen) instead of floating on top of
+       them. See info-overlay.js#attachInfoButton. -->
 </div>
 
 <!--

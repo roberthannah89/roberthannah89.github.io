@@ -501,6 +501,15 @@
       // default; this may extend to future "danger segments" layers too.
       { id: 'slope',     icon: '📐', label: 'Slope ≥30° (avalanche-critical)' },
       { id: 'snow',      icon: '❄️', label: 'Snow & glaciers (permanent extent)' },
+      // Default-on live-condition layers. All four are WMS tiles from
+      // geo.admin.ch (live daily feeds — no CI refresh needed). Boot activation
+      // is handled by bootConditionLayers() so the map opens with them shown;
+      // this toggle entry is what surfaces the on/off UI. Icons chosen to
+      // match the semantic content, not the source agency.
+      { id: 'closures',  icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil)', defaultOn: true },
+      { id: 'firerisk',  icon: '🔥', label: 'Forest fire danger (BAFU, updated daily)',         defaultOn: true },
+      { id: 'wildlife',  icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)', defaultOn: true },
+      { id: 'rockfall',  icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',      defaultOn: true },
       // Planning / approach overlays
       { id: 'transit',   icon: '🚌', label: 'Public transport stops (SBB / PostBus)' },
       { id: 'parking',   icon: '🅿️', label: 'Trailhead parking (OSM)' },
@@ -614,7 +623,16 @@
     snow:      function () { return window.Overlays && window.Overlays.SnowGlaciers.create(); },
     transit:   function () { return window.Overlays && window.Overlays.Transit.create(); },
     parking:   function () { return window.Overlays && window.Overlays.Parking.create(); },
-    water:     function () { return window.Overlays && window.Overlays.DrinkingWater.create(); }
+    water:     function () { return window.Overlays && window.Overlays.DrinkingWater.create(); },
+    // Live-condition WMS layers from geo.admin.ch. All four are default-on
+    // (see buildWeatherToggles) and get their initial map-add via
+    // bootConditionLayers(). No CI refresh needed — WMS tiles are fetched
+    // fresh from wms.geo.admin.ch on every render; there's no runtime cache
+    // for that host in the service worker allowlist.
+    closures:  function () { return window.Overlays && window.Overlays.TrailClosures.create(); },
+    firerisk:  function () { return window.Overlays && window.Overlays.FireRisk.create(); },
+    wildlife:  function () { return window.Overlays && window.Overlays.WildlifeZones.create(); },
+    rockfall:  function () { return window.Overlays && window.Overlays.RockfallHazard.create(); }
   };
 
   // Avalanche hazard layer — always on, no toggle (safety-relevant; may extend
@@ -628,6 +646,18 @@
       map.addLayer(layer);
     }).catch(function (err) {
       console.warn('Avalanche overlay failed to load:', err);
+    });
+  }
+
+  // Boot the four default-on live-condition layers so the map opens with
+  // them already visible. Each id maps 1:1 to a wx-toggle in the bottom bar
+  // AND to an overlayFactories entry; toggleLazyOverlay does the actual
+  // fetch/add. Failure is per-layer — one dead layer id doesn't take out
+  // the other three.
+  var DEFAULT_ON_CONDITIONS = ['closures', 'firerisk', 'wildlife', 'rockfall'];
+  function bootConditionLayers() {
+    DEFAULT_ON_CONDITIONS.forEach(function (id) {
+      toggleLazyOverlay(id, true);
     });
   }
 
@@ -865,6 +895,7 @@
     wireChromeToggle();
     wireRefreshButton();
     bootAvalancheLayer();
+    bootConditionLayers();
 
     // CC passes SAC POIs straight through (dataAdapter: identity) — they're
     // already the { name, lat, lon, alt, id, routes[] } shape the panel
