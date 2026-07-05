@@ -2,6 +2,8 @@
 
 **Status:** Live — core map, filters, weather, webcams, URL state sync all working.
 
+> **Architecture:** Command Center is a thin composition of the shared hike-map engine. See [`../templates/_assets/hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md) for marker/cluster/filter/panel design.
+
 ## Context
 
 The hike planning workflow today: check weather on [MeteoSwiss](https://www.meteoswiss.admin.ch/), browse SAC routes on `sac-map.html`, look at webcams separately, cross-reference difficulty and transport — all in different tabs. The command center consolidates everything into a single full-screen map where you can filter all SAC routes by difficulty AND weather forecast simultaneously.
@@ -19,38 +21,13 @@ The core question this tool answers: **"Where should I hike this weekend given t
 | Global | File | Source |
 |---|---|---|
 | `SAC_ROUTES` | `../guides/sac-routes.js` | Scraped SAC POIs (peaks + huts) |
-| `WEATHER_CACHE` + `WEATHER_CACHE_META` | `weather-cache.js` | Pre-baked by `scripts/fetch_weather.py` |
-| `WINDY_WEBCAMS` | `webcams_windy_data.js` | Pre-fetched by `scripts/fetch_windy_webcams.py` |
-| `SLF_CACHE` + `SLF_CACHE_META` | `slf-cache.js` | Pre-baked by `scripts/fetch_slf_avalanche.py` (lazy-loaded by `SlfLayer.create()`, called automatically at boot — no toggle) |
+| `WEATHER_CACHE` + `WEATHER_CACHE_META` | `../templates/_assets/hike_map/weather-cache.js` | Pre-baked by `scripts/fetch_weather.py` |
+| `WINDY_WEBCAMS` | `../templates/_assets/hike_map/webcams_windy_data.js` | Pre-fetched by `scripts/fetch_windy_webcams.py` |
+| `SLF_CACHE` + `SLF_CACHE_META` | `../templates/_assets/hike_map/slf_cache.js` | Pre-baked by `scripts/fetch_slf_avalanche.py` (lazy-loaded by `AvalancheLayer.create()`, called automatically at boot — no toggle) |
 | `SWISS_BORDER` | `../routes/_assets/swiss_border.js` | GADM boundary |
 | `cantons` data | `cantons.js` | Canton polygons (not currently rendered as overlay) |
 
-### Weather data pipeline
-
-**Model:** [MeteoSwiss ICON-CH2](https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-system.html) (2 km Alpine-tuned grid, 5-day horizon), served via the Open-Meteo API by passing `models=meteoswiss_icon_ch2`. ICON-CH1 is finer (1 km) but only 33 h horizon — too short for multi-day filtering.
-
-**Pipeline:** `scripts/fetch_weather.py` calls Open-Meteo for every unique peak coordinate (40 peaks/batch, 2 s between batches), writes `command-center/weather-cache.js`:
-
-```js
-window.WEATHER_CACHE_META = { updated: "2026-05-25T...", model: "meteoswiss_icon_ch2", peaks: 962, schema: 2 };
-window.WEATHER_CACHE = { "47.123,8.456": { elevation, daily: { ... } }, ... };
-```
-
-The `_META` header is rendered in the bottom bar so the user knows which model and how stale. `schema` bumps whenever a new daily field is added so client code can detect older caches.
-
-**Daily fields** (per-peak `daily.*` arrays, one entry per forecast day):
-
-| Field | Source | Notes |
-|---|---|---|
-| `time` | Open-Meteo daily | `YYYY-MM-DD`, Europe/Zurich |
-| `weathercode` | Open-Meteo daily | WMO code → emoji + sky category |
-| `temperature_2m_max` / `_min` | Open-Meteo daily | Drives Temp filter and marker pill |
-| `precipitation_sum` | Open-Meteo daily | mm |
-| `windspeed_10m_max` | Open-Meteo daily | km/h |
-| `sunrise` / `sunset` | Open-Meteo daily | ISO |
-| `freezing_level_max` | **schema 2** — rolled up from hourly `freezing_level_height` | Metres above sea level. Open-Meteo only exposes freezing-level as an hourly variable, so `fetch_weather.py` requests the hourly series and stores the per-day max. Used by the snow-line indicator on markers and side-panel cards. `null` per day if the hourly samples were missing; field absent entirely on older (schema 1) caches. |
-
-Run `make weather` locally before opening the page.
+Weather pipeline, cache schema, and lookup API are documented in [`hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md#weather-data) (the modules and the generated cache both live in `hike_map/` now — shared with the index page). Run `make weather` locally before opening the page.
 
 ## Layout
 
@@ -76,139 +53,46 @@ Run `make weather` locally before opening the page.
 
 Filter and bottom-bar elements are icon-first: labels for Grade / Time / Day / Sky / Temp are dropped because the buttons themselves carry meaning (SAC trail-marker SVGs for Grade, `h` / `°` suffixes for Time / Temp, day names for Day, weather emoji for Sky). Only Elev, Gain, and Show keep word labels because their button content is otherwise ambiguous.
 
-A side panel slides in from the right when a marker's "Expand details" button is clicked.
+A side panel slides in from the right when a marker's "Expand details" button is clicked. Marker/cluster rendering, filter matching, URL sync, side-panel structure, and the weather/webcam/avalanche layers are all engine concerns now — see [`hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md).
 
-## Markers and clusters
+## Filter groups CC exposes
 
-Markers and clusters are horizontal pills, not generic circles.
+CC mounts `HikeMap.FilterBar` with this subset of the canonical URL keys (full table + semantics in [`hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md#canonical-url-keys)):
 
-**Hike/peak/hut marker (single):**
-- With weather data → pill showing weather emoji + temperature (e.g. `⛅ 9°`), bordered in the route's grade color.
-- Without weather data → small grade-colored dot.
-- Has a built hike page in this repo → small amber ★ at the marker's top-right corner (`.hike-marker--has-page::after`). Matching is delegated to `SidePanel.matchingHike` so the on-map cue can never drift from the side-panel's "Open hike page" link.
-- Peak elevation above the forecast snow line → pale-blue ❄ at the marker's bottom-right corner (`.hike-marker--above-freezing::before`). Computed in `refreshMarkerIcons` from `WeatherService.freezingLevel(lat, lon, dayIndex)` against `poi.alt` — so it tracks the currently selected Day filter. POIs without an `alt` or without freezing data never get the badge (no false negatives surface as "safe").
-- Permanent name tooltip below the marker, hidden via CSS at low zoom (`body.zoom-labels` is added at zoom ≥ 11). Tooltip visibility is controlled by the filter-bar **Show** pills: turning Name off sets `body.display-name-off`, which hides the name line; if no other Show pill (Grade/Gain/Time/Alt) is active, the whole tooltip box also collapses via `:not(:has(.hike-tt__meta))`.
+`g` (grade) · `tm` (time) · `el` (elev) · `gn` (gain) · `d` (day) · `sk` (sky) · `t` (temp min) · `sn` (season) · `h` (show hikes) · `u` (show huts) · `dp` (display — which fields render in the marker tooltip; doesn't affect visibility)
 
-**Cluster:** Horizontal pill `count · dominant-sky-emoji · avg-temp` (e.g. `6 ⛅ 4°`), tinted by the dominant sky category among its children. Tints (`SKY_TINTS` in `command-center.js`):
+No `av` key — the avalanche layer has no toggle (see "Always-on layers" in the engine doc). Region (`r`), canton (`c`), route type (`rt`), and distance (`di`) are index-only filters; CC doesn't expose them since SAC POIs aren't grouped that way in the UI.
 
-| Category | Tint |
-|---|---|
-| clear | amber |
-| partly-cloudy | warm grey |
-| cloudy | dark slate |
-| rain | blue |
-| snow | pale grey-blue |
-| storm | red |
-
-Clustering disabled at zoom ≥ 13 (each marker visible individually).
-
-## Filters
-
-Filter bar at top-left. **No "Any" buttons** — empty/no selection means any. For single-select filters, clicking the active button deactivates it.
-
-| Filter | Type | Values |
-|---|---|---|
-| Grade | multi-select, SAC trail-marker SVG icons | T1-2 (yellow Wanderweg), T3 (white-red-white Bergwanderweg), T4 / T5 / T6 (white-blue-white Alpinwanderweg) |
-| Time | single-select | ≤3h, 3-5h, 5h+ |
-| Elev (peak altitude) | single-select | ≤2000 m, 2-2.5 k, 2.5 k+ |
-| Gain (vertical ascent) | single-select | ≤500, 500-1k, 1-1.5k, 1.5k+ |
-| Day | single-select | Today, Tomorrow, … (driven by `WEATHER_CACHE` day count — up to 5 days per `FORECAST_DAYS` in `fetch_weather.py`) |
-| Sky | threshold-select, emoji icons | ☀️ Clear · ⛅ Partly · ☁️ Cloudy/fog · 🌧 Rain. Snow ❄️ and Storm ⛈ remain in `SKY_CATEGORIES` for ordering (so "Rain or better" still excludes them) and marker emoji, but are hidden from the filter UI — nobody filters "snow or better". |
-| Temp (peak max) | single-select | >0°, >5°, >10°, >15° |
-| Season (in-season now) | single toggle (🍂) | Hides routes whose **heuristic** season window doesn't include the current month. The window is computed from peak altitude + best SAC grade — there is no per-route month data exposed by SAC, so this is explicitly labeled "(estimated)" in the side panel. See `season.js` for the tier table. |
-
-The selected Day drives both the temperature/sky filters and the emoji + temperature shown on every marker and cluster.
-
-POIs without weather data are never filtered out by sky/temp — the data simply isn't available for them.
-
-The counter (bottom bar) shows `📍 <destinations> · 🥾 <routes>` after filters apply. A **Reset** button appears whenever the URL hash is non-empty; clicking it clears the hash and reloads (which also resets non-filter toggles). A separate **Share** pill copies the current URL (including hash state) to the clipboard.
-
-A **Show** multi-select group at the end of the filter bar controls per-POI rendering (not which POIs match): `⛅` toggles the weather pill marker (off = grade-colored dot), and `Name` / `T` / `↑m` / `h` / `alt` toggle which fields appear in the marker tooltip. Default: only `weather` is on — Name tooltips are opt-in to keep the map uncluttered.
-
-## URL state sync (`url-sync.js`)
-
-Filter state is mirrored to `window.location.hash` so views are bookmarkable/shareable. Short keys keep URLs compact and tolerant to schema drift:
-
-| State key | URL key |
-|---|---|
-| grades | `g` |
-| duration | `dur` |
-| elevation | `el` |
-| gain | `gn` |
-| showHikes | `h` |
-| showHuts | `u` |
-| weatherDay | `d` |
-| sky | `sk` |
-| tempMin | `t` |
-| inSeasonNow | `sn` |
-
-`Filters.setState` writes the hash on every change. `Filters.loadState(UrlSync.readFromUrl())` is called before the filter UI is built so buttons reflect the restored state.
+**No "Any" buttons** — empty/no selection means any. For single-select filters, clicking the active button deactivates it.
 
 ## Toggles (bottom bar)
 
 | Toggle | Default | What it does |
 |---|---|---|
-| ⛰ Hikes | on | Show peak/summit/traverse POIs (`Filters.showHikes`) |
-| 🏚 SAC huts | on | Show SAC hut POIs (`Filters.showHuts`) |
-| 📷 Webcams | off | Add the Windy webcam layer (`WebcamLayer.create()`) |
+| ⛰ Hikes | on | Show peak/summit/traverse POIs (filter key `h`) |
+| 🏚 SAC huts | on | Show SAC hut POIs (filter key `u`) |
+| 📷 Webcams | off | Add the Windy webcam layer (`HikeMap.WebcamLayer.create()`) |
 
-Avalanche (SLF bulletin + BAFU statutory hazard zones) is **not** a bottom-bar toggle — it's always on, auto-created at boot (see [SLF avalanche layer](#slf-avalanche-layer-slf-layerjs) below). Safety-relevant hazard layers are never opt-in.
+Avalanche is **not** a bottom-bar toggle — it's always on, auto-created at boot by the engine (`HikeMap.AvalancheLayer.create({ map })`, called unconditionally, no gate). See "Always-on layers" in [`hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md#always-on-layers).
 
-Tooltip/name visibility is controlled by the filter-bar **Show** pills, not a bottom-bar toggle (see Markers and clusters section above).
+Tooltip/name visibility is controlled by the filter-bar **Show** (`dp`) pills, not a bottom-bar toggle.
 
 Base-layer choice (Topo+Trails / Topo / Aerial / OSM) is provided by `MapShared.addLayerControl`, then relocated into the bottom bar.
-
-## Side panel
-
-Opens when "Expand details" is clicked in a marker popup, OR when a marker is clicked while the panel is already open (the panel swaps to the new POI and no popup is shown — see the `popupopen` guard in `createMarkers()`). Sections:
-
-1. Route info: name (linked to SAC peak portal, `/mountain-hiking/` variant), grade badge, elevation, per-route ascent / descent / elevation gain (each linked to its SAC route page)
-2. Forecast cards for the peak — one per day in `WEATHER_CACHE` (currently up to 5). Each card includes a `❄ NNNN m` snow-line value when the cache has freezing-level data; the value pops to pale blue (`day-freeze--above`) when the peak is above it.
-3. Selected-day summary line under the cards: max wind, sunrise/sunset, and a `❄️ Freezing level: NNNN m (peak +/- N m)` indicator so the delta is unambiguous.
-4. Links to [Windy](https://www.windy.com/) (centered on peak) and [Google Maps](https://maps.google.com/) transit directions
-
-The panel re-renders live on every filter change via `Filters.subscribe()`, so flipping Day / Sky / Temp while the panel is open updates the forecast cards in place.
-
-## Webcam layer (`webcams.js`)
-
-- Data: `WINDY_WEBCAMS` from `webcams_windy_data.js` (pre-fetched by `scripts/fetch_windy_webcams.py`).
-- Display: top ~80 webcams by view count as simple `📷` markers.
-- Click → popup with thumbnail, name, location, "Updated N min ago", and "View live →" link.
-- Toggle in the bottom bar; layer is created lazily on first activation.
-
-## SLF avalanche layer (`slf-layer.js`)
-
-- Data: `SLF_CACHE` from `slf-cache.js` (pre-baked by `scripts/fetch_slf_avalanche.py`).
-- Source: the official [SLF EAWS CAAML V6.0 GeoJSON feed](https://aws.slf.ch/api/bulletin/caaml/en/geojson) — the same data the WhiteRisk app uses. Run `make avalanche` to refresh.
-- Display: region polygons / multipolygons filled at 0.4 opacity using the EAWS danger-scale colours:
-  - **1 Low** `#ccff66` · **2 Moderate** `#ffff00` · **3 Considerable** `#ff9900` · **4 High** `#ff0000` · **5 Very High** `#640000`
-- Each feature aggregates many SLF micro-regions sharing the same danger rating + subdivision (minus / neutral / plus); the popup shows the level badge, sub-grade label (e.g. "Considerable +"), region names, validity window, and a link to the full bulletin.
-- Off-season behaviour: SLF returns an empty `FeatureCollection` between roughly mid-June and early November. The layer still loads — it just renders nothing.
-- Always on, no toggle (safety layer — see the design-decision row below). `bootAvalancheLayer()` in `command-center.js` calls `window.Overlays.Avalanche.create()` unconditionally at boot; the cache JS is still lazy-loaded on first call, same mechanism as before, just triggered at boot instead of on click. The module follows the IIFE + `window.SlfLayer` global convention (no ES module `import`/`export`), so it loads cleanly under `file://`.
 
 ## File structure
 
 ```
 command-center/
 ├── index.html              # Page shell (hand-authored)
-├── command-center.js       # Map setup, markers, clusters, filter bar, toggles, reset
-├── command-center.css      # Dark amber theme
-├── filters.js              # Filter state + matching (grade, duration, elev, gain, sky, temp, season)
-├── season.js               # Heuristic season window per POI (altitude + grade → month range)
-├── url-sync.js             # Filter state ↔ window.location.hash
-├── weather.js              # WEATHER_CACHE accessor, sky categories, day choices, meta
-├── side-panel.js           # Expandable detail panel
-├── webcams.js              # Windy webcam Leaflet layer
-├── slf-layer.js            # SLF avalanche-region Leaflet layer
-├── weather-cache.js        # Pre-baked forecasts (generated)
-├── webcams_windy_data.js   # Pre-fetched webcam data (generated)
-├── slf-cache.js            # Pre-baked SLF bulletin (generated)
+├── command-center.js       # Thin composition: HikeMap.* mounts, bottom bar, toggles, reset
+├── command-center.css      # Dark amber theme (CC-specific chrome only)
+├── season.js               # Heuristic season window per POI (altitude + grade → month range) — CC-only filter
+├── overlays.js             # Prototype layer factories (window.Overlays.<name>.create()) not yet promoted to hike_map/
+├── nav-menu.js             # ☰ nav dropdown wiring
+├── cities.js               # Reference city coords for sanity-checking the weather cache — CC-only
 └── cantons.js              # Canton polygons (kept on disk for a future overlay; NOT loaded from index.html)
 
-scripts/
-├── fetch_weather.py        # Open-Meteo (model=meteoswiss_icon_ch2) → weather-cache.js
-├── fetch_windy_webcams.py  # Windy Webcams API → webcams_windy_data.js
-└── fetch_slf_avalanche.py  # SLF EAWS CAAML GeoJSON → slf-cache.js
+templates/_assets/hike_map/  # shared engine — see hike_map/DESIGN.md for the full module list
 ```
 
 ## Data sources

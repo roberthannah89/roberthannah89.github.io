@@ -50,6 +50,16 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 
 ---
 
+## Architecture
+
+The map surfaces on both `index.html` (portfolio + gallery) and `command-center/index.html` (full-screen discovery) share one engine: `templates/_assets/hike_map/`. See its [DESIGN.md](../templates/_assets/hike_map/DESIGN.md) for the module list, matchable-POI contract, canonical URL keys, and first-click popup regression guard.
+
+Page-specific docs:
+- [command-center/DESIGN.md](../command-center/DESIGN.md) — CC's shell + bottom bar + filter subset.
+- [templates/index.DESIGN.md](../templates/index.DESIGN.md) — index gallery's card grid + external filter chrome.
+
+---
+
 ## Reference
 
 | Topic | Document |
