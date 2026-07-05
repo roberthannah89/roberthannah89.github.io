@@ -38,20 +38,25 @@
   <!-- Map -->
   <div id="map"></div>
 
-  <!-- Filter bar (top left). Starts with a site-nav menu button (☰) and a
-       chrome toggle (🎛️) so they sit inline with the filter pills instead
-       of stacking on their own row. The menu button opens a dropdown built
-       by nav-menu.js from window.HikesNav (published by ../guides/_nav.js);
-       it replaces a plain "back to hikes" link so users can also jump to
-       Planning / Weather / etc without a two-hop through the gallery.
-       #cc-filter-bar is a `display: contents` wrapper (see command-center.css)
-       so its children lay out as if they were direct #filter-bar flex items;
-       HikeMap.FilterBar.mount() populates it via appendChild. -->
+  <!-- Filter bar (top left). Starts with a #cc-tools section that groups the
+       three page-level controls (menu ☰, chrome-toggle 🎛️, refresh 🔄) into
+       one pill so they don't visually compete with the filter groups that
+       follow. Menu opens the guide dropdown built by nav-menu.js from
+       window.HikesNav (published by ../guides/_nav.js); chrome-toggle hides
+       every filter group (state stays); refresh unregisters the service
+       worker and hard-reloads to bypass a stale cache. #cc-filter-bar is a
+       `display: contents` wrapper (see command-center.css) so its children
+       lay out as if they were direct #filter-bar flex items; HikeMap.
+       FilterBar.mount() populates it via appendChild. -->
   <div id="filter-bar">
-    <button id="nav-menu-btn" type="button" aria-expanded="false"
-            aria-controls="nav-panel" title="Site menu">☰</button>
-    <button id="chrome-toggle" type="button" aria-pressed="false"
-            title="Hide filter controls (filters stay applied)">🎛️</button>
+    <div id="cc-tools" role="toolbar" aria-label="Page tools">
+      <button id="nav-menu-btn" type="button" aria-expanded="false"
+              aria-controls="nav-panel" title="Site menu">☰</button>
+      <button id="chrome-toggle" type="button" aria-pressed="false"
+              title="Hide filter controls (filters stay applied)">🎛️</button>
+      <button id="refresh-btn" type="button"
+              title="Refresh — reload the latest code &amp; data (bypasses cache)">🔄</button>
+    </div>
     <div id="cc-filter-bar"></div>
   </div>
 
@@ -81,6 +86,12 @@
     <div class="loading-spinner"></div>
     <div id="loading-text">Loading...</div>
   </div>
+
+  <!-- Info button (bottom-right). Toggles the coach-mark overlay drawn by
+       info-overlay.js. Auto-opens once per browser on first visit (localStorage
+       flag `cc.infoSeen`) so newcomers see what every control does. Any click
+       — including on this button — dismisses it. -->
+  <button id="info-btn" type="button" aria-label="What does everything do?" title="What does everything do?">i</button>
 </div>
 
 <!--
@@ -126,6 +137,7 @@
 <script src="../templates/_assets/hike_map/slf_layer.js"></script>
 <script src="overlays.js"></script>
 <script src="command-center.js"></script>
+<script src="info-overlay.js"></script>
 
 <!-- Site nav pill: reveals the horizontal guide nav on click. Loads
      ../guides/_nav.js purely to consume its window.HikesNav data (no

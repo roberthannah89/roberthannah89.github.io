@@ -47,13 +47,17 @@
   // emoji equivalent). CC's .filter-label--icon rule bumps font-size so
   // emoji render at a visible size against the small label slot.
   var LABEL_ICONS = {
+    time: '⏱️',
     elev: '🏔️',
     gain: '📈',
+    temp: '🌡️',
     show: '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 6 Q6 1.5 11 6 Q6 10.5 1 6 Z"/><circle cx="6" cy="6" r="1.6" fill="currentColor"/></svg>'
   };
   var LABEL_TITLES = {
+    time: 'Moving time (Naismith estimate)',
     elev: 'Peak elevation',
     gain: 'Vertical gain',
+    temp: 'Forecast max temperature',
     show: 'What each marker shows on the map'
   };
 
@@ -161,42 +165,51 @@
   // Grade — multi-select. Icon-only (SAC trail markers); no label needed.
   // No "Any" button: empty selection means any.
   function renderGradeGroup(store) {
-    return filterGroup(store, '', [
+    var g = filterGroup(store, '', [
       { label: 'T1-2', icon: sacGradeIcon('T1-2'), key: 'g', value: ['T1', 'T2'], title: 'SAC T1–T2 · hiking / mountain hiking, well-marked paths' },
       { label: 'T3',   icon: sacGradeIcon('T3'),   key: 'g', value: ['T3'],   title: 'SAC T3 · demanding mountain hiking, exposed sections, sure-footedness needed' },
       { label: 'T4',   icon: sacGradeIcon('T4'),   key: 'g', value: ['T4'],   title: 'SAC T4 · alpine hiking, some scrambling and route-finding' },
       { label: 'T5',   icon: sacGradeIcon('T5'),   key: 'g', value: ['T5'],   title: 'SAC T5 · demanding alpine hiking, exposed scrambling' },
       { label: 'T6',   icon: sacGradeIcon('T6'),   key: 'g', value: ['T6'],   title: 'SAC T6 · difficult alpine hiking, roped climbing sections' }
     ], true);
+    g.classList.add('filter-group--grade');
+    return g;
   }
 
-  // Time (moving time, canonical key `tm` — was `duration`) — single-select;
-  // "h" suffix carries the meaning, no label.
+  // Time (moving time, canonical key `tm` — was `duration`) — single-select.
+  // Uses the ⏱️ label icon (see LABEL_ICONS) so the units are self-evident and
+  // the info-overlay can anchor a description to a stable class hook.
   function renderTimeGroup(store) {
-    return filterGroup(store, '', [
+    var g = filterGroup(store, 'time', [
       { label: '≤3h',  key: 'tm', value: 'short', title: 'Duration ≤ 3 h moving time' },
       { label: '3-5h', key: 'tm', value: 'mid',   title: 'Duration 3–5 h moving time' },
       { label: '5h+',  key: 'tm', value: 'long',  title: 'Duration 5 h or more moving time' }
     ]);
+    g.classList.add('filter-group--time');
+    return g;
   }
 
   // Peak elevation
   function renderElevGroup(store) {
-    return filterGroup(store, 'elev', [
+    var g = filterGroup(store, 'elev', [
       { label: '≤2000',  key: 'el', value: 'low',  title: 'Peak elevation ≤ 2000 m' },
       { label: '2-2.5k', key: 'el', value: 'mid',  title: 'Peak elevation 2000–2500 m' },
       { label: '2.5k+',  key: 'el', value: 'high', title: 'Peak elevation ≥ 2500 m' }
     ]);
+    g.classList.add('filter-group--elev');
+    return g;
   }
 
   // Vertical gain
   function renderGainGroup(store) {
-    return filterGroup(store, 'gain', [
+    var g = filterGroup(store, 'gain', [
       { label: '≤500',   key: 'gn', value: 'easy', title: 'Vertical gain ≤ 500 m' },
       { label: '500-1k', key: 'gn', value: 'mod',  title: 'Vertical gain 500–1000 m' },
       { label: '1-1.5k', key: 'gn', value: 'hard', title: 'Vertical gain 1000–1500 m' },
       { label: '1.5k+',  key: 'gn', value: 'epic', title: 'Vertical gain ≥ 1500 m' }
     ], /* multiSelect */ true);
+    g.classList.add('filter-group--gain');
+    return g;
   }
 
   // Day filter cell: a plain .filter-group wrapping the day-slot div, which
@@ -253,16 +266,19 @@
     return group;
   }
 
-  // Temperature (canonical key `t` — was `tempMin`) — single-select; "°"
-  // suffix carries the meaning, no label.
+  // Temperature (canonical key `t` — was `tempMin`) — single-select. Uses the
+  // 🌡️ label icon so units are self-evident and the info-overlay can anchor
+  // a description to a stable class hook.
   function renderTempGroup(store) {
     if (!window.WeatherService || !WeatherService.getDayChoices().length) return null;
-    return filterGroup(store, '', [
+    var g = filterGroup(store, 'temp', [
       { label: '>0°',  key: 't', value: 0,  title: 'Forecast max temperature above 0 °C' },
       { label: '>5°',  key: 't', value: 5,  title: 'Forecast max temperature above 5 °C' },
       { label: '>10°', key: 't', value: 10, title: 'Forecast max temperature above 10 °C' },
       { label: '>15°', key: 't', value: 15, title: 'Forecast max temperature above 15 °C' }
     ], false, 'weather');
+    g.classList.add('filter-group--temp');
+    return g;
   }
 
   // Single-button "in season now" toggle. Same click-active-to-clear idiom as

@@ -569,6 +569,36 @@
     });
   }
 
+  // Refresh button — nuclear cache-buster. Unregisters the service worker,
+  // deletes every CacheStorage entry, then hard-reloads. Users hit this when
+  // they see stale UI or old data despite the SW's normal version bump. Kept
+  // deliberately manual (button, not automatic) because it costs ~all cached
+  // tiles the next session has to re-fetch.
+  function wireRefreshButton() {
+    var btn = document.getElementById('refresh-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      btn.textContent = '…';
+      var steps = [];
+      if ('serviceWorker' in navigator) {
+        steps.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister(); }));
+        }).catch(function () {}));
+      }
+      if (window.caches && caches.keys) {
+        steps.push(caches.keys().then(function (keys) {
+          return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+        }).catch(function () {}));
+      }
+      Promise.all(steps).then(function () {
+        location.reload();
+      }, function () {
+        location.reload();
+      });
+    });
+  }
+
   var webcamLayer = null;
 
   // Generic lazy-loaded overlay registry. Each entry has a factory returning
@@ -833,6 +863,7 @@
     buildWeatherToggles();
     wireResetButton();
     wireChromeToggle();
+    wireRefreshButton();
     bootAvalancheLayer();
 
     // CC passes SAC POIs straight through (dataAdapter: identity) — they're

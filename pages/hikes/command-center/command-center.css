@@ -113,10 +113,25 @@ html, body {
 #cc-filter-bar { display: contents; }
 #cc-filter-bar > * { flex-shrink: 0; }
 
-/* --- Nav-menu + chrome-toggle (first pills inside #filter-bar) ---
-   They sit inline with the filter pills at the very start of the row. */
+/* --- #cc-tools section (menu / chrome-toggle / refresh) ---
+   Three page-level page controls grouped into one pill so they read as a
+   distinct segment from the filter pills that follow. Each button is a
+   transparent sub-pill inside the shared background — matches the visual
+   grammar of .filter-group. Hover / pressed / .open still tint per-button,
+   never the whole section. */
+#cc-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  border-radius: 6px;
+  padding: 3px 4px;
+  backdrop-filter: blur(8px);
+}
 #nav-menu-btn,
-#chrome-toggle {
+#chrome-toggle,
+#refresh-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -125,25 +140,26 @@ html, body {
   font-weight: 600;
   line-height: 1;
   color: var(--amber);
-  background: rgba(26, 24, 16, 0.92);
-  border: 1px solid var(--flap-border);
-  border-radius: 6px;
-  padding: 0 7px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 7px;
   text-decoration: none;
-  backdrop-filter: blur(8px);
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 #nav-menu-btn:hover,
 #nav-menu-btn.open,
-#chrome-toggle:hover {
+#chrome-toggle:hover,
+#refresh-btn:hover {
   color: var(--text-primary);
-  border-color: var(--amber);
+  background: var(--flap-bg);
 }
 #chrome-toggle[aria-pressed="true"] {
   background: rgba(232, 168, 50, 0.18);
-  border-color: var(--amber);
+  color: var(--amber);
 }
+#refresh-btn[disabled] { opacity: 0.5; cursor: wait; }
 
 /* When the toggle is pressed, hide every filter-group rendered into
    #cc-filter-bar plus the whole #bottom-bar — the back arrow and chrome
@@ -1016,5 +1032,164 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
 @keyframes forecast-stale-pulse {
   0%, 100% { box-shadow: 0 0 0 rgba(255, 190, 60, 0); }
   50%      { box-shadow: 0 0 8px rgba(255, 190, 60, 0.4); }
+}
+
+/* --- Leaflet attribution (bottom-right) ---------------------------------
+   Leaflet's default white background pops against the dark board; darken it
+   to match the toolbar pills. Links stay a muted amber so they're still
+   discoverable but don't scream. */
+.leaflet-control-attribution {
+  background: rgba(26, 24, 16, 0.82) !important;
+  color: var(--text-muted) !important;
+  border-top-left-radius: 4px;
+  padding: 2px 6px !important;
+  backdrop-filter: blur(6px);
+}
+.leaflet-control-attribution a {
+  color: var(--text-secondary) !important;
+}
+.leaflet-control-attribution a:hover {
+  color: var(--amber) !important;
+}
+
+/* --- Info button (bottom-right) -----------------------------------------
+   Small circular pill that toggles the coach-mark overlay. Sits above the
+   Leaflet attribution and clear of the map layer bar. z-index tops the
+   #bottom-bar (800) so it stays reachable even when chrome is scrolling. */
+#info-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 44px;
+  z-index: 850;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  color: var(--amber);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s, color 0.15s, border-color 0.15s;
+}
+#info-btn:hover,
+#info-btn.active {
+  color: var(--text-primary);
+  border-color: var(--amber);
+  transform: scale(1.05);
+}
+#info-btn.active {
+  background: rgba(232, 168, 50, 0.18);
+}
+/* First-visit attention pulse. Ends the moment the user opens the overlay
+   (info-overlay.js removes .pulse); we don't want it grinding forever. */
+#info-btn.pulse {
+  animation: info-btn-pulse 1.6s ease-in-out 3;
+}
+@keyframes info-btn-pulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+  50%      { box-shadow: 0 0 0 10px rgba(232, 168, 50, 0.15), 0 2px 8px rgba(0, 0, 0, 0.4); }
+}
+
+/* --- Info overlay (coach marks) -----------------------------------------
+   Painted by info-overlay.js. The root <div id="info-overlay"> is
+   position:fixed above the whole viewport with pointer-events:none so map
+   interactions still work; individual callouts opt back in with
+   pointer-events:auto only for their own hit-testing (they don't need to be
+   clicked — any click dismisses the overlay via a document-level listener).
+   The connector SVG is a full-viewport layer beneath the callouts. */
+#info-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  display: none;
+}
+body.info-open #info-overlay { display: block; }
+/* Faint scrim so callouts read against busy map tiles without stealing focus
+   from what they're pointing at. */
+#info-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 4, 0, 0.35);
+  backdrop-filter: blur(1.5px);
+}
+#info-overlay .info-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+#info-overlay .info-svg path,
+#info-overlay .info-svg line {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+#info-overlay .info-svg circle {
+  fill: var(--amber);
+}
+.info-callout {
+  position: absolute;
+  max-width: 210px;
+  padding: 7px 10px 8px;
+  background: rgba(20, 18, 12, 0.96);
+  border: 1px solid var(--amber);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+}
+.info-callout .info-callout__title {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--amber);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.info-callout .info-callout__desc {
+  display: block;
+  color: var(--text-secondary);
+}
+/* Highlight ring around the target the callout is pointing at. Painted as an
+   absolutely-positioned div by info-overlay.js so we can outline any element
+   without adding a class to it. */
+.info-highlight {
+  position: absolute;
+  border: 1.5px dashed var(--amber);
+  border-radius: 6px;
+  pointer-events: none;
+  box-shadow: 0 0 0 3px rgba(232, 168, 50, 0.12);
+  animation: info-highlight-pulse 2s ease-in-out infinite;
+}
+@keyframes info-highlight-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1;    }
+}
+
+@media (max-width: 768px) {
+  #info-btn {
+    right: 8px;
+    bottom: 60px;   /* clear of the mobile bottom bar (scrollable pill row) */
+  }
+  .info-callout { max-width: 168px; font-size: 11px; }
 }
 
