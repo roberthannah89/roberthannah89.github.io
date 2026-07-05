@@ -87,6 +87,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* touch-action: pan-y lets vertical scroll through (needed for tall popups)
+     while telling the browser NOT to translate horizontal drags into a page
+     pan — hike_popup.js's touchmove handler then handles the swipe itself. */
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Nav arrows are always visible on touch devices — the CSS :hover reveal
+   trick doesn't fire from a tap, so without this rule the arrows are
+   completely undiscoverable on phones. Kept hover-only on real pointers. */
+@media (hover: none) {
+  .leaflet-popup-content .popup-carousel__nav { opacity: 0.85; }
 }
 
 .leaflet-popup-content .popup-carousel__nav {

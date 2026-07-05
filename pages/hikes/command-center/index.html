@@ -57,10 +57,16 @@
       <!-- INLINE onclick — DELIBERATE. This is the "unstick a stale SW"
            escape hatch. If command-center.js has been cached at an older
            version that doesn't define wireRefreshButton(), the addEventListener
-           attached in JS never runs; the inline handler always does. Kept in
-           sync with wireRefreshButton() in command-center.js. -->
+           attached in JS never runs; the inline handler always does.
+
+           Reload strategy — location.reload() still consults the browser's
+           HTTP cache and often returns the SAME cached JS/HTML even after
+           the SW has been unregistered. Navigating to a fresh query-string
+           URL forces the browser to bypass its cache for the top-level
+           document, which cascades to fresh script fetches on that page.
+           Kept in sync with wireRefreshButton() in command-center.js. -->
       <button id="refresh-btn" type="button"
-              onclick="(async function(){this.disabled=true;this.textContent='…';try{if('serviceWorker' in navigator){var r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(function(x){return x.unregister();}));}if(window.caches&amp;&amp;caches.keys){var k=await caches.keys();await Promise.all(k.map(function(n){return caches.delete(n);}));}}catch(e){}location.reload();}).call(this)"
+              onclick="(async function(){var b=this;b.disabled=true;b.textContent='…';try{if('serviceWorker' in navigator){var r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(function(x){return x.unregister();}));}if(window.caches&amp;&amp;caches.keys){var k=await caches.keys();await Promise.all(k.map(function(n){return caches.delete(n);}));}}catch(e){}var u=new URL(location.href);u.searchParams.set('_cb',Date.now().toString(36));location.replace(u.toString());}).call(this)"
               title="Refresh — reload the latest code &amp; data (bypasses cache)">🔄</button>
     </div>
     <div id="cc-filter-bar"></div>

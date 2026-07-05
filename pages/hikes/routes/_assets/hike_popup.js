@@ -144,6 +144,50 @@
 
     if (prev) prev.addEventListener('click', step(-1));
     if (next) next.addEventListener('click', step(1));
+
+    // Touch swipe (mobile). Horizontal drag ≥ 40 px flips the photo; below
+    // that we assume it was a scroll intent and pass through. touchmove is
+    // NON-PASSIVE so we can preventDefault the horizontal swipe (Leaflet
+    // otherwise treats it as a map pan). Vertical scroll intents (dy > dx)
+    // are left alone so the popup body can still scroll on tall content.
+    var SWIPE_THRESHOLD = 40;
+    var startX = 0, startY = 0, tracking = false, decidedHorizontal = false;
+    function onStart(e) {
+      if (!e.touches || e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+      decidedHorizontal = false;
+    }
+    function onMove(e) {
+      if (!tracking || !e.touches || e.touches.length !== 1) return;
+      var dx = e.touches[0].clientX - startX;
+      var dy = e.touches[0].clientY - startY;
+      if (!decidedHorizontal) {
+        // Only lock in horizontal mode once movement is decisive (>8px).
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        decidedHorizontal = Math.abs(dx) > Math.abs(dy);
+      }
+      if (decidedHorizontal) {
+        e.preventDefault();     // stop Leaflet from panning the map
+        e.stopPropagation();
+      }
+    }
+    function onEnd(e) {
+      if (!tracking) return;
+      tracking = false;
+      var t = (e.changedTouches && e.changedTouches[0]) || null;
+      if (!t || !decidedHorizontal) return;
+      var dx = t.clientX - startX;
+      if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+      var cur = parseInt(el.dataset.idx || '0', 10) || 0;
+      show(cur + (dx < 0 ? 1 : -1));   // swipe left → next photo
+    }
+    var img2 = img;
+    img2.addEventListener('touchstart', onStart, { passive: true });
+    img2.addEventListener('touchmove',  onMove,  { passive: false });
+    img2.addEventListener('touchend',   onEnd,   { passive: true });
+    img2.addEventListener('touchcancel', function () { tracking = false; }, { passive: true });
   }
 
   window.HikePopup = { build: build, gradeClass: gradeClass, bindCarousel: bindCarousel };

@@ -629,11 +629,16 @@
           return Promise.all(keys.map(function (k) { return caches.delete(k); }));
         }).catch(function () {}));
       }
-      Promise.all(steps).then(function () {
-        location.reload();
-      }, function () {
-        location.reload();
-      });
+      // Navigate to a cache-busting URL — plain location.reload() still
+      // consults the browser's HTTP cache and often returns the same JS/HTML
+      // the SW just uncached. A fresh query string forces a network fetch
+      // for the top-level document, which cascades to fresh script fetches.
+      function cachebustNav() {
+        var u = new URL(location.href);
+        u.searchParams.set('_cb', Date.now().toString(36));
+        location.replace(u.toString());
+      }
+      Promise.all(steps).then(cachebustNav, cachebustNav);
     });
   }
 
