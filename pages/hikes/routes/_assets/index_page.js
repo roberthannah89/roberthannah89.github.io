@@ -32,20 +32,6 @@ function parseHours(s) {
 function fmtDow(s) { return new Date(s + "T00:00").toLocaleDateString(undefined, { weekday: "short" }); }
 function escAttr(s) { return String(s).replace(/"/g, "&quot;"); }
 
-/* Grade colours — matches command-center.js GRADE_COLORS so markers on both
-   pages tint identically. */
-const GRADE_COLORS = {
-  1: '#5cbf6a', 2: '#5cbf6a',
-  3: '#e8a832',
-  4: '#d97333',
-  5: '#cc3333',
-  6: '#8844cc',
-};
-function gradeColor(g) {
-  const n = parseInt(String(g || 'T1').replace('T', ''), 10) || 1;
-  return GRADE_COLORS[n] || GRADE_COLORS[1];
-}
-
 /* WeatherService.getForPeak keys the cache by `lat.toFixed(3),lon.toFixed(3)`,
    so a hike whose summit coords are even ~110 m from the cached SAC peak
    misses. That's how 16 hikes ended up forecast-less and produced count-only
@@ -396,7 +382,7 @@ function refreshMarkerIcons() {
     var m = markers[i];
     if (!m) return;
     var wx = WX ? getWxForHike(h, mapDayActive) : null;
-    m.setIcon(makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev));
+    m.setIcon(makeMarkerIcon(window.HikeMap.gradeColor(h.grade), wx, h.summitElev));
   });
 }
 
@@ -521,7 +507,7 @@ HIKES.forEach(function (h, i) {
   var wx = WX ? getWxForHike(h, mapDayActive) : null;
   if (!wx) missingForecast.push(h.name);
   var m = L.marker([h.lat, h.lon], {
-    icon: makeMarkerIcon(gradeColor(h.grade), wx, h.summitElev),
+    icon: makeMarkerIcon(window.HikeMap.gradeColor(h.grade), wx, h.summitElev),
   });
   m._hike = h;
   m._idx = i;

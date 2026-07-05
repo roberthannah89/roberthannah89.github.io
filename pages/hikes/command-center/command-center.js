@@ -17,20 +17,6 @@
   var LABEL_ZOOM = 11;
   var labelsBound = false;
 
-  // Grade colors
-  var GRADE_COLORS = {
-    1: '#2d8a4e', 2: '#2d8a4e',
-    3: '#c8a020',
-    4: '#d07030',
-    5: '#cc3333',
-    6: '#8844cc'
-  };
-
-  function gradeColor(grade) {
-    var n = parseInt((grade || 'T1').replace('T', ''), 10) || 1;
-    return GRADE_COLORS[n] || GRADE_COLORS[1];
-  }
-
   /* ── Map setup ─────────────────────────────────────── */
 
   function initMap() {
@@ -100,7 +86,7 @@
       if (!poi.lat || !poi.lon) return;
 
       var grade = Filters.bestGrade(poi);
-      var color = gradeColor(grade);
+      var color = window.HikeMap.gradeColor(grade);
       // Subtle amber ring on markers whose hike has a built page in this repo.
       // Reuses SidePanel.matchingHike so we don't drift from the panel's link logic.
       var hasPage = !!(window.SidePanel && SidePanel.matchingHike && SidePanel.matchingHike(poi));
