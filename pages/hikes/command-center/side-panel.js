@@ -4,6 +4,12 @@
 
   var panelEl = null;
   var currentPoi = null;
+  // Injected by command-center.js's boot() via SidePanel.init(el, deps) —
+  // Phase G removed the Filters.* shim, so the panel needs the shared store
+  // (for the selected weather day) and CC's bestGrade() (SAC-specific:
+  // reads poi.routes[]) passed in directly instead of reaching for globals.
+  var storeRef = null;
+  var bestGradeFn = null;
 
   // SAC URL slugify — matches sac-cas.ch route portal URL conventions.
   // German umlauts transliterate (ä→ae, ö→oe, ü→ue, ß→ss); other diacritics
@@ -33,10 +39,13 @@
       + slugify(route.title) + '-' + route.id + '/';
   }
 
-  function init(el) {
+  function init(el, deps) {
     panelEl = el;
-    if (window.Filters && Filters.subscribe) {
-      Filters.subscribe(function () {
+    deps = deps || {};
+    storeRef = deps.store || null;
+    bestGradeFn = deps.bestGrade || null;
+    if (storeRef) {
+      storeRef.subscribe(function () {
         if (isOpen() && currentPoi) render(currentPoi);
       });
     }
@@ -106,7 +115,7 @@
   }
 
   function render(poi) {
-    var grade = Filters.bestGrade(poi);
+    var grade = bestGradeFn ? bestGradeFn(poi) : 'T1';
     var html = '';
     var hike = matchingHike(poi);
 
@@ -276,7 +285,7 @@
       html += '</div>';
 
       // Wind + sunrise/sunset + freezing level for selected day
-      var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, Filters.getState().d);
+      var wxToday = WeatherService.getForPeak(poi.lat, poi.lon, storeRef ? storeRef.get('d') : 0);
       if (wxToday) {
         html += '<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">';
         html += '💨 Max wind: ' + Math.round(wxToday.windMax) + ' km/h';

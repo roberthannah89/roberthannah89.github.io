@@ -83,6 +83,14 @@ html, body {
 #filter-bar::-webkit-scrollbar { display: none; }
 #filter-bar > * { flex-shrink: 0; }
 
+/* #cc-filter-bar (populated by hike_map/filter_bar.js's FilterBar.mount) is a
+   transparent wrapper around the nav/chrome buttons above — `display:
+   contents` drops its own box so its .filter-group children lay out as flex
+   items of #filter-bar directly, matching the pre-Phase-G markup where every
+   group was a direct #filter-bar child. */
+#cc-filter-bar { display: contents; }
+#cc-filter-bar > * { flex-shrink: 0; }
+
 /* --- Nav-menu + chrome-toggle (first pills inside #filter-bar) ---
    They sit inline with the filter pills at the very start of the row. */
 #nav-menu-btn,
@@ -115,10 +123,13 @@ html, body {
   border-color: var(--amber);
 }
 
-/* When the toggle is pressed, hide every filter-group child of #filter-bar
-   plus the whole #bottom-bar — the back arrow and chrome toggle stay
-   visible so the user can bring the chrome back. Filters keep applying. */
-body.chrome-hidden #filter-bar > .filter-group,
+/* When the toggle is pressed, hide every filter-group rendered into
+   #cc-filter-bar plus the whole #bottom-bar — the back arrow and chrome
+   toggle stay visible so the user can bring the chrome back. Filters keep
+   applying. (.filter-group lives one level deeper than #filter-bar's direct
+   children since Phase G added the #cc-filter-bar wrapper — see its
+   `display: contents` rule above — so this targets #cc-filter-bar directly.) */
+body.chrome-hidden #cc-filter-bar > .filter-group,
 body.chrome-hidden #bottom-bar {
   display: none;
 }
