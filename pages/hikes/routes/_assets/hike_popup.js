@@ -24,7 +24,7 @@
   }
 
   // Keep in sync with the Python `_grade_pill_class` in scripts/render_hike.py
-  // and gradeClass() in command-center/side-panel.js.
+  // and gradeClass() in templates/_assets/hike_map/side_panel.js.
   function gradeClass(grade) {
     var m = /[Tt](\d)/.exec(grade || '');
     return m ? 't' + m[1] : 't1';

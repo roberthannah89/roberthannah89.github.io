@@ -7,7 +7,7 @@
   // Canonical shared filter store + matcher (hike_map/filter_store.js,
   // filter_matcher.js) — constructed in boot(), read by every closure below
   // via these module-scope vars (same pattern as wxLookup/markerFactory).
-  var store, matcher;
+  var store, matcher, panel;
   // Weather lookup wrapper — SAC route coords match the pre-baked cache
   // exactly (unlike index.html's hike summit coords, which can drift), so CC
   // never needs the fuzzy fallback. Constructed here (not inside boot()) so
@@ -97,9 +97,9 @@
 
   // SAC POI → hardest grade across its routes[]. Domain-specific (reads the
   // CC-only routes[] shape), so it stays local here rather than in the
-  // generic hike_map/ engine. Also handed to SidePanel.init() as a dependency
-  // so the panel's route render can display the same grade without CC
-  // reaching back into SidePanel's internals.
+  // generic hike_map/ engine. createMarkers() below caches the result onto
+  // poi.grade so hike_map/side_panel.js's render() can read it back without
+  // CC handing a callback into the panel's mount() config.
   function bestGrade(poi) {
     var best = 'T1';
     if (!poi.routes) return best;
@@ -107,6 +107,45 @@
       if (r.grade && r.grade > best) best = r.grade;
     });
     return best;
+  }
+
+  // SAC POI → matching built hike page (window.HIKES entry), or null. Moved
+  // here from side-panel.js's old module-level matchingHike() — createMarkers()
+  // and openPopup() both need it independent of whether/when the side panel
+  // has mounted, and it's also handed to HikeMap.SidePanel.mount() as the
+  // `matchingHike` adapter (see boot()).
+  //
+  // Match in this order, falling through on miss:
+  //   1. SAC route_id on any of the POI's routes (cleanest — IDs are stable)
+  //   2. SAC peak_id on the POI's id
+  //   3. lat/lon within ~200 m (handles 4-vs-5-decimal rounding)
+  //   4. exact name match (case- and umlaut-insensitive)
+  function matchingHike(poi) {
+    if (!window.HIKES || !poi) return null;
+    var poiRouteIds = (poi.routes || []).map(function (r) { return r.id; });
+
+    function normName(s) {
+      return (s || '')
+        .toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+    }
+    var poiNameN = normName(poi.name);
+
+    for (var i = 0; i < window.HIKES.length; i++) {
+      var h = window.HIKES[i];
+      if (!h) continue;
+      if (h.sac_route_id && poiRouteIds.indexOf(h.sac_route_id) >= 0) return h;
+      if (h.sac_peak_id && h.sac_peak_id === poi.id) return h;
+    }
+    for (var j = 0; j < window.HIKES.length; j++) {
+      var hk = window.HIKES[j];
+      if (!hk) continue;
+      if (poi.lat != null && hk.lat != null
+          && Math.abs(hk.lat - poi.lat) < 0.002
+          && Math.abs(hk.lon - poi.lon) < 0.002) return hk;
+      if (poiNameN && normName(hk.name) === poiNameN) return hk;
+    }
+    return null;
   }
 
   function createMarkers(routes) {
@@ -117,11 +156,11 @@
       // read directly off the POI:
       //   grade   — best (hardest) grade across routes, drives border colour.
       //   hasPage — amber ★ badge for POIs whose hike has a built page here.
-      //             Reuses SidePanel.matchingHike so we don't drift from the
-      //             panel's link logic. toMatchable() reads this cached value
-      //             rather than recomputing matchingHike() per filter pass.
+      //             Reuses matchingHike() so we don't drift from the panel's
+      //             link logic. toMatchable() reads this cached value rather
+      //             than recomputing matchingHike() per filter pass.
       poi.grade = bestGrade(poi);
-      var hasPage = !!(window.SidePanel && SidePanel.matchingHike && SidePanel.matchingHike(poi));
+      var hasPage = !!matchingHike(poi);
       poi._hasPage = hasPage;
       poi.hasPage = hasPage;
 
@@ -138,8 +177,8 @@
       // guard lives with the bindTooltip call in bindMarkerTooltips().
 
       marker.on('click', function () {
-        if (window.SidePanel && SidePanel.isOpen()) {
-          SidePanel.open(poi);
+        if (panel && panel.isOpen()) {
+          panel.open(poi);
         } else {
           openPopup(poi, marker);
         }
@@ -150,9 +189,9 @@
         // click. When the side panel is already open we want clicks to act as
         // pure panel updates with no popup at all — so suppress the popup the
         // moment it opens. Keep this *and* the click-handler branch above:
-        // the click handler also routes directly to SidePanel.open so the
+        // the click handler also routes directly to panel.open so the
         // panel updates immediately without waiting for the popup-then-close.
-        if (window.SidePanel && SidePanel.isOpen()) {
+        if (panel && panel.isOpen()) {
           marker.closePopup();
           return;
         }
@@ -162,7 +201,7 @@
         if (btn) {
           btn.onclick = function () {
             marker.closePopup();
-            SidePanel.open(poi);
+            if (panel) panel.open(poi);
           };
         }
         if (window.HikePopup && HikePopup.bindCarousel) {
@@ -403,10 +442,9 @@
     var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
     /* If a built hike page matches this POI, surface a direct link in the
        popup so users can jump straight to it without opening the side panel
-       first. Reuses SidePanel.matchingHike so we stay in sync with the
-       panel-hero link logic. */
-    var hike = (window.SidePanel && SidePanel.matchingHike)
-      ? SidePanel.matchingHike(poi) : null;
+       first. Reuses matchingHike() so we stay in sync with the panel-hero
+       link logic. */
+    var hike = matchingHike(poi);
 
     // Photos only exist for POIs that match a built hike page — HIKES carries
      // the full carousel URL list; SAC_ROUTES does not.
@@ -646,8 +684,8 @@
   // Flattens routes[] to the hardest route's own grade/gain/time so every
   // bucketed field (tm/el/gn) describes the SAME route, not a mix of maxima
   // across different routes. hasPage reuses the value createMarkers() already
-  // computed via SidePanel.matchingHike (poi.hasPage) rather than
-  // recomputing it on every filter pass.
+  // computed via matchingHike() (poi.hasPage) rather than recomputing it on
+  // every filter pass.
   function toMatchable(poi) {
     var bestRoute = (poi.routes || []).reduce(function (a, b) {
       return (a && parseInt(a.grade[1], 10) > parseInt(b.grade[1], 10)) ? a : b;
@@ -769,7 +807,18 @@
     wireResetButton();
     wireChromeToggle();
 
-    SidePanel.init(document.getElementById('side-panel'), { store: store, bestGrade: bestGrade });
+    // CC passes SAC POIs straight through (dataAdapter: identity) — they're
+    // already the { name, lat, lon, alt, id, routes[] } shape the panel
+    // expects. matchingHike is the local function above (searches
+    // window.HIKES); poi.grade is precomputed by createMarkers() so the
+    // panel never needs a bestGrade callback.
+    panel = window.HikeMap.SidePanel.mount({
+      container: '#side-panel',
+      wxLookup: wxLookup,
+      dataAdapter: function (poi) { return poi; },
+      matchingHike: matchingHike,
+      store: store,
+    });
 
     status('Fetching weather forecasts...');
     WeatherService.init(routes, status).then(function () {

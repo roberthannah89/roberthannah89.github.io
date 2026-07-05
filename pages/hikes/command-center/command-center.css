@@ -35,6 +35,28 @@
   --popup-grade-t4: var(--grade-t4);
   --popup-grade-t5: var(--grade-t5);
   --popup-grade-t6: var(--grade-t6);
+
+  /* Side-panel theming — consumed by templates/_assets/hike_map/side_panel.css
+     (Phase H). Referencing CC's existing tokens (rather than duplicating hex)
+     keeps this in sync with the rest of the amber/board theme automatically.
+     --panel-surface isn't part of the Phase H task brief's 5-variable list —
+     it was added to preserve the two-tone depth between the panel's own
+     background and its cards/links/close-button (previously --board-surface
+     vs --board-bg); collapsing them into one variable would have made every
+     card blend into the panel. --panel-fg-dim also collapses two originally
+     distinct dim tones (--text-secondary and --text-muted) into one — a
+     difference too subtle to matter at the small label sizes involved. */
+  --panel-bg: var(--board-bg);
+  --panel-surface: var(--board-surface);
+  --panel-fg: var(--text-primary);
+  --panel-fg-dim: var(--text-secondary);
+  --panel-accent: var(--amber);
+  --panel-border: var(--flap-border);
+  --grade-t1-color: var(--grade-t1);
+  --grade-t3-color: var(--grade-t3);
+  --grade-t4-color: var(--grade-t4);
+  --grade-t5-color: var(--grade-t5);
+  --grade-t6-color: var(--grade-t6);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -442,217 +464,6 @@ body.chrome-hidden #bottom-bar {
 }
 #filter-reset[hidden] { display: none; }
 
-/* --- Side Panel --- */
-#side-panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 320px;
-  height: 100%;
-  background: var(--board-bg);
-  border-left: 1px solid var(--flap-border);
-  z-index: 900;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-#side-panel.open {
-  transform: translateX(0);
-}
-
-.panel-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 28px;
-  height: 28px;
-  background: var(--flap-bg);
-  border: 1px solid var(--flap-border);
-  border-radius: 4px;
-  color: var(--text-secondary);
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-.panel-close:hover { color: var(--text-primary); border-color: var(--amber); }
-
-.panel-section {
-  padding: 16px;
-  border-bottom: 1px solid var(--flap-border);
-}
-
-.panel-section:first-child { padding-top: 20px; }
-
-.panel-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.panel-route-name {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
-}
-
-.panel-route-meta {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-.grade-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 3px;
-  color: #fff;
-}
-
-.grade-badge.t1, .grade-badge.t2 { background: var(--grade-t1); }
-.grade-badge.t3 { background: var(--grade-t3); }
-.grade-badge.t4 { background: var(--grade-t4); }
-.grade-badge.t5 { background: var(--grade-t5); }
-.grade-badge.t6 { background: var(--grade-t6); }
-
-/* Forecast cards */
-.forecast-row {
-  display: flex;
-  gap: 8px;
-}
-
-.forecast-day {
-  flex: 1;
-  background: var(--board-surface);
-  border: 1px solid var(--flap-border);
-  border-radius: 6px;
-  padding: 10px 8px;
-  text-align: center;
-}
-
-.forecast-day .day-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 4px;
-}
-
-.forecast-day .day-icon { font-size: 22px; margin: 4px 0; }
-
-.forecast-day .day-temp {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.forecast-day .day-precip {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--blue);
-  margin-top: 2px;
-}
-
-/* Freezing-level (snow line) per day. Muted unless the peak is above it,
-   in which case we use the same pale-blue accent as the marker badge so
-   the at-a-glance link between marker and card is obvious. */
-.forecast-day .day-freeze {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-.forecast-day .day-freeze--above {
-  color: #cfe3ff;
-  font-weight: 600;
-}
-
-/* Webcam in panel */
-.panel-webcam {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: var(--board-surface);
-  border: 1px solid var(--flap-border);
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.panel-webcam img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.panel-webcam .live-badge {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: rgba(0,0,0,0.7);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--green);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.panel-webcam .live-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--green);
-  border-radius: 50%;
-}
-
-/* Panel links */
-.panel-links {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.panel-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  background: var(--board-surface);
-  border: 1px solid var(--flap-border);
-  border-radius: 6px;
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 12px;
-  font-family: var(--font-mono);
-  transition: all 0.15s;
-}
-
-.panel-link:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-}
-
-.panel-link .link-icon { font-size: 14px; }
-
 /* --- Loading Overlay --- */
 #loading-overlay {
   position: absolute;
@@ -870,7 +681,8 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
 
 /* --- Mobile --- */
 @media (max-width: 768px) {
-  #side-panel { width: 100%; }
+  /* .hm-side-panel's own full-width-on-mobile rule now lives in
+     hike_map/side_panel.css so it applies on both CC and index. */
 
   /* Base rule already gives us the single-row scroll. On mobile the strip
      stretches edge-to-edge with a bit of side padding for the scroll gutter. */

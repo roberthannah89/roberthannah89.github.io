@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="routes/_assets/map_shared.css">
 <link rel="stylesheet" href="routes/_assets/hike_map/marker_pill.css">
 <link rel="stylesheet" href="routes/_assets/hike_popup.css">
+<link rel="stylesheet" href="routes/_assets/hike_map/side_panel.css">
 <style>
   :root {
     --bg: #0b0c10;
@@ -43,6 +44,24 @@
     --popup-grade-t4: #d97333;
     --popup-grade-t5: #cc3333;
     --popup-grade-t6: #8844cc;
+
+    /* Side-panel theming for routes/_assets/hike_map/side_panel.css (Phase H)
+       — matches Command Center's panel structurally, using index's own
+       red-accent theme. --panel-surface reuses --bg-soft-2, index's existing
+       secondary-surface token (cards/links inside the panel), so it doesn't
+       flatten into --panel-bg like the base --bg-soft would. */
+    --panel-bg: var(--bg-soft);
+    --panel-surface: var(--bg-soft-2);
+    --panel-fg: var(--fg);
+    --panel-fg-dim: var(--fg-dim);
+    --panel-accent: var(--accent);
+    --panel-border: var(--border);
+    --font-mono: var(--popup-mono);
+    --grade-t1-color: var(--popup-grade-t1);
+    --grade-t3-color: var(--popup-grade-t3);
+    --grade-t4-color: var(--popup-grade-t4);
+    --grade-t5-color: var(--popup-grade-t5);
+    --grade-t6-color: var(--popup-grade-t6);
   }
   * { box-sizing: border-box; }
   html, body { background: var(--bg); }
@@ -398,6 +417,12 @@
 </head>
 <body>
 
+<!-- Side panel (slides in from the right on marker click / popup "Expand
+     details"). position: fixed in hike_map/side_panel.css, so its place in
+     the DOM doesn't matter — kept at the top of <body> alongside the other
+     page-level overlays. -->
+<div id="index-side-panel"></div>
+
 <header class="hero">
   <h1>Hike Plans</h1>
   <p>Swiss Alps route notes · transit · weather · trip reports</p>
@@ -520,7 +545,8 @@
 <script src="routes/_assets/hike_map/filter_matcher.js"></script>
 <script src="routes/_assets/hike_map/url_sync.js"></script>
 <script src="routes/_assets/hike_popup.js"></script>
-<script src="routes/_assets/index_page.js?v=h5"></script>
+<script src="routes/_assets/hike_map/side_panel.js"></script>
+<script src="routes/_assets/index_page.js?v=h6"></script>
 <script src="routes/_assets/sw-register.js" defer></script>
 </body>
 </html>

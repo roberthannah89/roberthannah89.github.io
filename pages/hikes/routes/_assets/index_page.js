@@ -50,6 +50,33 @@ var store = window.HikeMap.FilterStore({
 var matcher = window.HikeMap.FilterMatcher.factory({ wxLookup: wxLookup });
 window.HikeMap.UrlSync.bind({ store: store });
 
+/* HIKES entry → the canonical poi shape HikeMap.SidePanel renders (Route +
+   Forecast sections). Unlike hikeToMatchable() above (used for filtering),
+   this doesn't need every display field — just enough for the panel to look
+   up weather (lat/lon), draw the grade badge, and link out to SAC (id +
+   routes[].id). The hero + "Getting There & Back" sections read the full
+   HIKES entry directly via matchingHike below, not this adapter. */
+function hikeToPoi(h) {
+  return {
+    name: h.name, lat: h.lat, lon: h.lon,
+    alt: h.summitElev,
+    id: h.sac_peak_id || null,
+    routes: h.sac_route_id ? [{ id: h.sac_route_id, grade: h.grade }] : [],
+  };
+}
+
+/* Every marker on this page already IS a built hike — pageNative passed to
+   panel.open() is the HIKES entry itself, so "matching" it to a built hike
+   is the identity function (mirrors CC's matchingHike(), which instead
+   searches window.HIKES because CC's markers are SAC POIs, not hikes). */
+var panel = window.HikeMap.SidePanel.mount({
+  container: '#index-side-panel',
+  wxLookup: wxLookup,
+  dataAdapter: hikeToPoi,
+  matchingHike: function (h) { return h; },
+  store: store,
+});
+
 /* ------------- helpers ------------- */
 function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
 function parseNum(s) { const m = String(s || "").match(/([\d.]+)/); return m ? parseFloat(m[1]) : NaN; }
@@ -356,7 +383,7 @@ function buildHikePopupHtml(h) {
       peakAlt: h.summitElev,
     } : null,
     hikeHref: h.href,
-    showExpand: false,
+    showExpand: true,
   });
 }
 
@@ -371,22 +398,41 @@ HIKES.forEach(function (h, i) {
   m._poi = h;
   m._idx = i;
   /* Every marker on this page has a built page (HIKES only contains rendered
-     hikes) — the popup links to it directly. No expand button: there's no
-     side panel here, so the popup is the peek and the hike page is the
-     deep-dive.
+     hikes) — the popup links to it directly, and its "Expand details" button
+     opens the side panel (forecast-first deep-dive; the card grid is the
+     photo-first path to the same page — see the 2026-07-05 unification spec).
+
+     Mirrors CC's marker click handler: if the panel is already open, route
+     straight to panel.open() instead of popping up a popup on top of it.
 
      Bind the popup on click rather than up-front so the weather block picks
      up the currently selected forecast day. Mirrors CC's openPopup pattern
      (getPopup/setPopupContent for re-clicks). */
   m.on('click', function () {
+    if (panel && panel.isOpen()) {
+      panel.open(h);
+      return;
+    }
     var html = buildHikePopupHtml(h);
     if (m.getPopup()) m.setPopupContent(html);
     else m.bindPopup(html);
     m.openPopup();
   });
   m.on('popupopen', function (e) {
+    if (panel && panel.isOpen()) {
+      m.closePopup();
+      return;
+    }
     var el = e.popup.getElement();
-    if (el && window.HikePopup && HikePopup.bindCarousel) {
+    if (!el) return;
+    var btn = el.querySelector('.popup-expand');
+    if (btn) {
+      btn.onclick = function () {
+        m.closePopup();
+        if (panel) panel.open(h);
+      };
+    }
+    if (window.HikePopup && HikePopup.bindCarousel) {
       HikePopup.bindCarousel(el);
     }
   });
