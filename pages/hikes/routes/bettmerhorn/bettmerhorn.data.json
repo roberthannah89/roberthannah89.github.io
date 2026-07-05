@@ -63,20 +63,26 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/2/csm_1559329510_496326394master_2379b72ce5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/2/csm_1559329510_496326394master_2379b72ce5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Slightly above Elselicka",
+      "caption_html": "<p>Slightly above Elselicka</p>",
+      "copyright": "Sabine Joss",
+      "credit_date": "07/2015"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1559329506_633827028master_9a55fe0f36.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1559329506_633827028master_9a55fe0f36.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Exposed passage on Bettmerhorn",
+      "caption_html": "<p>Exposed passage on Bettmerhorn</p>",
+      "copyright": "Sabine Joss",
+      "credit_date": "07/2015"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/0/csm_1561388303_897927224master_dce0465e5f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/0/csm_1561388303_897927224master_dce0465e5f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the ridge of Bettmerhorn",
+      "caption_html": "<p>On the ridge of Bettmerhorn</p>",
+      "copyright": "Sabine Joss",
+      "credit_date": "07/2015"
     }
   ],
   "waypoints": [
@@ -122,7 +128,7 @@
     "elev": 1922,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Bettmeralp"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Sabine Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/traverse-eggishorn-bettmerhorn-4255/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -132,5 +138,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/bettmerhorn-166/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Sabine Joss",
+    "bio_html": "",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/8/a/csm_Joss_824db85f1e.jpg"
+  }
 }

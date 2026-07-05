@@ -63,44 +63,51 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1530865989_708208879master_37b3a9cc03.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/e/csm_1530865989_708208879master_37b3a9cc03.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Start point at Iffigenalp (2016)",
+      "caption_html": "<p>Start point at Iffigenalp (2016)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/b/csm_1530865989_1154717757master_4c09eb5375.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/b/csm_1530865989_1154717757master_4c09eb5375.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View down to Groppi during descent. (2016)",
+      "caption_html": "<p>View down to Groppi during descent. (2016)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1530865988_422864922master_13442aaeb6.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1530865988_422864922master_13442aaeb6.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The Iffigsee. (2016)",
+      "caption_html": "<p>The Iffigsee. (2016)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/0/csm_1530865989_2130961910master_2d28b56a4b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/0/csm_1530865989_2130961910master_2d28b56a4b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Looking back to the deep blue of Iffigsee, which is bypassed on the left side. (2016)",
+      "caption_html": "<p>Looking back to the deep blue of Iffigsee, which is bypassed on the left side. (2016)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/8/csm_1530865989_319768986master_4aee75e6c8.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/8/csm_1530865989_319768986master_4aee75e6c8.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "At Sanbode, looking up towards the Wildhorhütte. (2016)",
+      "caption_html": "<p>At Sanbode, looking up towards the Wildhorhütte. (2016)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1530865989_1033404070master_0c1e03e5a9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1530865989_1033404070master_0c1e03e5a9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Not too far! (2016)",
+      "caption_html": "<p>Not too far! (2016)</p>",
+      "copyright": "davidschweizer.ch"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1595947689_1873058455master_c24664e4b2.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1595947689_1873058455master_c24664e4b2.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Wildhornhütte - SAC section Moléson. (2016)",
+      "caption_html": "<p>Wildhornhütte - SAC section Moléson. (2016)</p>",
+      "copyright": "davidschweizer.ch"
     }
   ],
   "waypoints": [
@@ -138,7 +145,7 @@
       "elev_m": 1584
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: davidschweizer.ch — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildhornhuette-sac-2147000293/mountain-hiking/lenk-iffigenalp-wildhornhuette-sac-460/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -148,5 +155,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wildhornhuette-sac-2147000293/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Bernhard Senn",
+    "bio_html": "Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/5/1/csm_Senn_95a6ac31cd.jpg"
+  }
 }

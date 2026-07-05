@@ -63,50 +63,58 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1576604313_1058671912master_acfb338779.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1576604313_1058671912master_acfb338779.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Am Firnplateau, man kommt über den Sattel in Bildmitte.",
+      "caption_html": "<p>Am Firnplateau, man kommt über den Sattel in Bildmitte.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1576604314_635354484master_59bf23742a.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1576604314_635354484master_59bf23742a.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Der berüchtigte Gipfelkopf.",
+      "caption_html": "<p>Der berüchtigte Gipfelkopf.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1706537516_1999029608master_971f8846d1.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/5/csm_1706537516_1999029608master_971f8846d1.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick zum Ringelspitz.",
+      "caption_html": "<p>Blick zum Ringelspitz.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1576604314_1208491751master_2c12bb9337.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/7/csm_1576604314_1208491751master_2c12bb9337.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Eine der Schlüsselstellen am Grat Tristelhorn - Piz Sax.",
+      "caption_html": "<p>Eine der Schlüsselstellen am Grat Tristelhorn - Piz Sax.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1576604313_203257457master_c6094c0dae.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1576604313_203257457master_c6094c0dae.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Eine aussichtsreiche Grattour der Superlative!",
+      "caption_html": "<p>Eine aussichtsreiche Grattour der Superlative!</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1576604822_1300426977master_b1dd7304f9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/f/csm_1576604822_1300426977master_b1dd7304f9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Bald beim Piz Sax.",
+      "caption_html": "<p>Bald beim Piz Sax.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/0/csm_1576604237_1025079475master_584fb1d190.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/0/csm_1576604237_1025079475master_584fb1d190.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Im Abstieg zur Trinser Furgga.",
+      "caption_html": "<p>Im Abstieg zur Trinser Furgga.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/4/csm_1576603341_1377924669master_85414e673e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/4/csm_1576603341_1377924669master_85414e673e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Auf der Variante: Blick die Glaseregg hinauf zum Tristelhorn.",
+      "caption_html": "<p>Auf der Variante: Blick die Glaseregg hinauf zum Tristelhorn.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -177,5 +185,10 @@
       "elev_m": 2795
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tristelhorn-piz-da-sterls-2031/mountain-hiking/ueberschreitung-tristelhorn-piz-sax-4400/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
+  }
 }

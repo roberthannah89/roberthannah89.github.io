@@ -63,56 +63,65 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1608912344_81294229master_282b1b1313.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/9/csm_1608912344_81294229master_282b1b1313.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Itinéraire de montée et descente à Morgins.",
+      "caption_html": "<p>Itinéraire de montée et descente à Morgins.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/6/csm_1612275251_1311215917master_1f14234fd7.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/6/csm_1612275251_1311215917master_1f14234fd7.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Un itinéraire bien protégé d'un ensoleillement intensif dans sa partie inférieure.",
+      "caption_html": "<p>Un itinéraire bien protégé d'un ensoleillement intensif dans sa partie inférieure.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1612275251_413356027master_49e3371691.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/b/csm_1612275251_413356027master_49e3371691.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Passage dans la clairière de Les Cavoues.",
+      "caption_html": "<p>Passage dans la clairière de Les Cavoues.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1612275252_2010024508master_6d47570966.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1612275252_2010024508master_6d47570966.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Un itinéraire en grande partie en forêt.",
+      "caption_html": "<p>Un itinéraire en grande partie en forêt.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1608911997_1016088430master_9c834c6edf.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1608911997_1016088430master_9c834c6edf.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Peu avant le sommet, à Grand Crau.",
+      "caption_html": "<p>Peu avant le sommet, à Grand Crau.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1612275252_1975432854master_ff4b2edbc8.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1612275252_1975432854master_ff4b2edbc8.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Une vue splendide sur le Chablais et le Lac Léman.",
+      "caption_html": "<p>Une vue splendide sur le Chablais et le Lac Léman.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1608911883_533510168master_38956652d0.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1608911883_533510168master_38956652d0.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Du sommet, la vue sur les Alpes vaudoises.",
+      "caption_html": "<p>Du sommet, la vue sur les Alpes vaudoises.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/8/csm_1608911857_541953008master_0685f71ecc.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/8/csm_1608911857_541953008master_0685f71ecc.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Sur la crête sommitale.",
+      "caption_html": "<p>Sur la crête sommitale.</p>",
+      "copyright": "Georges Sanga"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1608911804_176507480master_30294bbab4.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/d/csm_1608911804_176507480master_30294bbab4.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Du sommet, la vue sur les Dents du Midi.",
+      "caption_html": "<p>Du sommet, la vue sur les Dents du Midi.</p>",
+      "copyright": "Georges Sanga"
     }
   ],
   "waypoints": [
@@ -148,7 +157,7 @@
     "elev": 1294,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Morgins%2C+La+Cergnat"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Georges Sanga — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pointe-de-bellevue-158/mountain-hiking/de-muraz-par-le-versant-e-40130/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -158,5 +167,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pointe-de-bellevue-158/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Georges Sanga",
+    "bio_html": "Georges Sanga, active alpinist in both summer and winter, is the author of several ski tour and alpine hiking guides and an editor of the swisstopo ski tour maps. His passion for the mountains, and mountain photography, takes him to every corner of Switzerland.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/7/d/csm_Sanga_654758e3a3.jpg"
+  }
 }

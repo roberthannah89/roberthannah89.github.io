@@ -63,20 +63,23 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1534161003_1779348565master_2444b3d198.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/c/csm_1534161003_1779348565master_2444b3d198.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Worm’s-eye view of the Speer north ridge",
+      "caption_html": "<p>Worm’s-eye view of the Speer north ridge</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1534161006_985445330master_991d3ea7ed.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1534161006_985445330master_991d3ea7ed.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The first steps on the Speer north ridge",
+      "caption_html": "<p>The first steps on the Speer north ridge</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/3/csm_1534161005_1152504627master_f6fb53bf9c.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/3/csm_1534161005_1152504627master_f6fb53bf9c.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Alpine hiking on Europe’s highest Nagelfluh summit",
+      "caption_html": "<p>Alpine hiking on Europe’s highest Nagelfluh summit</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -120,7 +123,7 @@
     "elev": 1289,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Niederschlag"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/speer-1839/mountain-hiking/from-wolzenalp-on-the-north-ridge-1368/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -130,5 +133,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/speer-1839/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
+  }
 }

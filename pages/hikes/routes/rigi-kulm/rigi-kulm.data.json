@@ -63,20 +63,23 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1513783829_370894793master_eadd71247a.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1513783829_370894793master_eadd71247a.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The lesser known side of Rigi, facing Zugersee",
+      "caption_html": "<p>The lesser known side of Rigi, facing Zugersee</p>",
+      "copyright": "Kundert Remo"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/4/csm_1513784085_1889780430master_c7f709900e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/4/csm_1513784085_1889780430master_c7f709900e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Crossing many gullies, the trail leads to Buechzingelflue.",
+      "caption_html": "<p>Crossing many gullies, the trail leads to Buechzingelflue.</p>",
+      "copyright": "Kundert Remo"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1513783983_242412495master_cde3b9a28b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/6/csm_1513783983_242412495master_cde3b9a28b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The rope with the thick knots is a welcome help on the slippery Nagelfluh ledge.",
+      "caption_html": "<p>The rope with the thick knots is a welcome help on the slippery Nagelfluh ledge.</p>",
+      "copyright": "Remo Kundert"
     }
   ],
   "waypoints": [
@@ -109,7 +112,7 @@
     "by_pt_html": "<p><strong>Cable car</strong> to <strong>Seebodenalp, Bergstation</strong>.</p>"
   },
   "elev_chart_attrib_html": "Computed from the inlined GPX track (elevations from SwissTopo height API).",
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Kundert Remo, and Remo Kundert — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rigi-kulm-1497/mountain-hiking/seebodenalp-arschbaggen-rigi-kulm-leiterliweg-seebodenalp-907/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -119,5 +122,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/rigi-kulm-1497/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Remo Kundert",
+    "bio_html": "Remo Kundert is a hiking guide and owner of the hiking tour operator Per Pedes Bergferien. He also works as a freelance photographer and alpine journalist, and has co-authored numerous hut guidebooks, alpine- and family hiking books.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg"
+  }
 }

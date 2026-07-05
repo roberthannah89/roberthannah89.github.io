@@ -63,20 +63,23 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/b/csm_1629797535_1306639686master_341310e5e2.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/b/csm_1629797535_1306639686master_341310e5e2.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Klein und fein: die Rotstockhütte.",
+      "caption_html": "<p>Klein und fein: die Rotstockhütte.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/5/csm_1629797599_1022620942master_14ac819a87.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/5/csm_1629797599_1022620942master_14ac819a87.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Wegstück zwischne Rotstockhütte und Gspaltenhornhütte SAC.",
+      "caption_html": "<p>Wegstück zwischne Rotstockhütte und Gspaltenhornhütte SAC.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/d/csm_1566899866_173644670master_387e2c713f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/d/csm_1566899866_173644670master_387e2c713f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Am Ziel: Die Gspaltenhornhütte SAC. (2017)",
+      "caption_html": "<p>Am Ziel: Die Gspaltenhornhütte SAC. (2017)</p>",
+      "copyright": "davidschweizer.ch"
     }
   ],
   "waypoints": [
@@ -113,7 +116,7 @@
       "description": "Irgendwie erinnert dieses Haus an Grimms Märchen. Es ist klein, putzig und lebt von lieblich hindrappierten Details im Innern. Natürlich ist hier nicht Rotkäppchen zu Hause, sondern ein Hüttenwartpaar, das sein Handwerk versteht. Hier ist man willkommen und fühlt sich sofort zu Hause – auch wenn dieses eher einfach eingerichtet ist. Geschlafen wird auf dem Dachstock, was ebenso zur Romantik des Gesamterlebnisses beiträgt. Die Rotstockhütte gehört dem Skiclub Stechelberg, bietet 41 Schlafplätze und ist ab Mitte Juni bis Mitte Oktober bewartet."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: David Coulin, and davidschweizer.ch — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gspaltenhornhuette-sac-2147000127/mountain-hiking/von-muerren-via-rotstockhuette-und-ueber-die-sefinafurgga-40630/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -123,5 +126,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gspaltenhornhuette-sac-2147000127/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "David Coulin",
+    "bio_html": "David Coulin works as a communications manager, photojournalist and author. In addition, he provides mountain experiences throughout Switzerland and has published several alpine hiking and snowshoeing guides through the SAC.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }

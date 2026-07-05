@@ -63,8 +63,9 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1515490379_361521516master_c2767e3ac6.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/7/csm_1515490379_361521516master_c2767e3ac6.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta",
+      "caption_html": "<p>The descent from Monte Tamaro towards Monte Gambarogno; view to the Maggia delta</p>",
+      "copyright": "Remo Kundert"
     }
   ],
   "waypoints": [
@@ -108,7 +109,7 @@
     "elev": 980,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Indemini%2C+Paese"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Remo Kundert — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/monte-tamaro-and-monte-gambarogno-1014/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -118,5 +119,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/monte-tamaro-1928/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Remo Kundert",
+    "bio_html": "Remo Kundert is a hiking guide and owner of the hiking tour operator Per Pedes Bergferien. He also works as a freelance photographer and alpine journalist, and has co-authored numerous hut guidebooks, alpine- and family hiking books.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg"
+  }
 }

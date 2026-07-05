@@ -1,0 +1,268 @@
+/* Sources & credits page — visual layout for the credits grid,
+   provider tiles, and photographer/author cards. */
+
+.sources-wrap { max-width: 1120px; }
+
+/* --------------------------------------------------------------- HERO */
+.sources-hero {
+  position: relative;
+  margin: 0 -1.25rem 2.4rem;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  background: var(--bg-soft);
+  isolation: isolate;
+}
+.sources-hero img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: .55;
+}
+.sources-hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11,12,16,.15) 0%, rgba(11,12,16,.85) 100%);
+  z-index: 1;
+}
+.sources-hero-body {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.6rem 1.6rem 1.4rem;
+  z-index: 2;
+}
+.sources-hero-body h1 { margin: 0 0 .5rem; font-size: 2.4rem; }
+.sources-hero-body .lede { margin: 0; max-width: 700px; }
+.hero-credit {
+  position: absolute; right: .9rem; top: .8rem; z-index: 2;
+  font-size: .8rem; color: var(--fg);
+  background: rgba(11,12,16,.55);
+  padding: .3rem .55rem; border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+.hero-credit a { color: var(--fg); border-bottom-color: rgba(232,232,234,.3); }
+.hero-credit a:hover { border-bottom-color: var(--accent); }
+
+/* --------------------------------------------------------------- TOC */
+.sources-toc {
+  display: flex; flex-wrap: wrap;
+  gap: .35rem .6rem;
+  padding: .8rem 1rem;
+  margin: 0 0 2rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .88rem;
+}
+.sources-toc a {
+  color: var(--fg-dim);
+  padding: .15rem .5rem;
+  border-radius: 4px;
+  border-bottom: none;
+}
+.sources-toc a:hover { color: var(--fg); background: var(--bg-soft-2); border-bottom: none; }
+
+/* --------------------------------------------------------------- SECTIONS */
+.credits-section { margin: 3rem 0; }
+.credits-section h2 {
+  display: flex; align-items: baseline; gap: .5rem;
+  font-size: 1.6rem;
+}
+.credits-section h2 .section-count {
+  font-size: .85rem; font-weight: 400;
+  color: var(--fg-dim); letter-spacing: 0;
+  border-bottom: 0;
+}
+.credits-section > p { max-width: 780px; }
+
+/* ------------------------------------------------- PHOTOGRAPHER GRID */
+.credit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0 .8rem;
+}
+.credit-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform .15s ease, border-color .15s ease;
+  display: flex; flex-direction: column;
+}
+.credit-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--fg-dim);
+}
+.credit-card a { color: inherit; border-bottom: none; }
+.credit-card-photo {
+  aspect-ratio: 4 / 3;
+  background: var(--bg-soft-2) center/cover no-repeat;
+  border-bottom: 1px solid var(--border);
+}
+.credit-card-body { padding: .7rem .85rem .8rem; }
+.credit-card-name {
+  font-weight: 600; color: var(--fg);
+  margin: 0 0 .15rem;
+  font-size: .96rem;
+  line-height: 1.25;
+}
+.credit-card-meta {
+  font-size: .78rem; color: var(--fg-dim);
+  margin: 0;
+}
+.credit-card-meta .count { color: var(--accent); font-weight: 600; }
+.credit-tail {
+  font-size: .88rem; color: var(--fg-dim);
+  margin-top: 1.2rem;
+}
+.credit-tail .name {
+  display: inline-block;
+  margin: 0 .2rem 0 0;
+  padding: .12rem .5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .8rem;
+  color: var(--fg);
+}
+
+/* ------------------------------------------------- ROUTE AUTHOR GRID */
+.author-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.author-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.author-portrait {
+  flex: 0 0 auto;
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  background: var(--bg-soft-2) center/cover no-repeat;
+  border: 1px solid var(--border);
+}
+.author-body { min-width: 0; }
+.author-name {
+  font-weight: 600; color: var(--fg);
+  margin: 0 0 .1rem;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.author-count {
+  font-size: .78rem; color: var(--fg-dim);
+  margin: 0 0 .35rem;
+}
+.author-count .count { color: var(--accent); font-weight: 600; }
+.author-bio {
+  font-size: .82rem; color: var(--fg-dim);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------- PROVIDER GRID */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.provider {
+  display: flex; flex-direction: column;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.provider-visual {
+  aspect-ratio: 16 / 9;
+  background: var(--bg-soft-2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.provider-visual img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Logo tiles: white background so colored logos read cleanly on the dark theme. */
+.provider-visual.is-logo {
+  background: #ffffff;
+  padding: 1.1rem 1.4rem;
+}
+.provider-visual.is-logo img {
+  max-width: 100%; max-height: 100%;
+}
+/* Photo tiles: fill edge-to-edge with the image. */
+.provider-visual.is-photo { padding: 0; }
+.provider-visual.is-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Tile-preview tiles (map tiles, DEM tiles): also fill, but from a background-image URL. */
+.provider-visual.is-tile {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.provider-body { padding: .9rem 1rem 1.1rem; }
+.provider-body h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.provider-body h3 a { color: var(--fg); border-bottom-color: transparent; }
+.provider-body h3 a:hover { border-bottom-color: var(--accent); }
+.provider-body p { margin: .3rem 0; font-size: .88rem; line-height: 1.55; color: var(--fg-dim); }
+.provider-body p strong { color: var(--fg); }
+.provider-how { font-size: .78rem; opacity: .85; }
+.provider-how code { font-size: .74rem; padding: 0 .3em; }
+.provider-support { margin-top: .5rem !important; }
+.provider-support a { font-size: .84rem; }
+
+/* Some logos need a small display tweak — e.g. the Wanderland yellow diamond
+   is naturally tall and reads better with a wider vertical breathing area,
+   the VTG army coat of arms is very square. Keep these targeted. */
+.provider-visual.is-logo.tight img { max-height: 78%; }
+
+/* --------------------------------------------------------------- SUPPORT + CONTACT */
+.support-section ul, .support-list { padding-left: 1.4rem; }
+.support-list li { margin: .55rem 0; }
+.contact-section {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+}
+.contact-line { font-size: 1.1rem; }
+.contact-note { font-size: .85rem; color: var(--fg-dim); margin-top: 1rem; }
+
+/* --------------------------------------------------------------- FRESHNESS FOOTER */
+.freshness {
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+  font-size: .8rem;
+  color: var(--fg-dim);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------- RESPONSIVE */
+@media (max-width: 600px) {
+  .sources-hero { aspect-ratio: 4 / 3; margin: 0 -.75rem 1.8rem; }
+  .sources-hero-body h1 { font-size: 1.6rem; }
+  .sources-hero-body .lede { font-size: .95rem; }
+  .credit-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .author-card { flex-direction: column; }
+  .author-portrait { width: 72px; height: 72px; }
+  .provider-grid { grid-template-columns: 1fr; }
+}

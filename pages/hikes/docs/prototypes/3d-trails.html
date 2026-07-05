@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Swiss Trails + Peak Database — SAC T1–T6</title>
+<meta name="proto-title" content="3D Swiss Trails + Peak Database">
+<meta name="proto-icon" content="&#x1F97E;">
+<meta name="proto-desc" content="Every named Swiss peak in a filterable/sortable database alongside the 3D SWISSIMAGE map. All OpenStreetMap hiking trails colored by SAC scale (T1 yellow → T6 violet) are fetched from Overpass on pan at zoom ≥ 12. Click a card or dot to fly there; 🎥 runs a 360° tour of the selected peak.">
+<meta name="proto-source" content="OpenStreetMap · SAC · swisstopo SWISSIMAGE + Terrarium DEM · Overpass API">
+<meta name="proto-order" content="130">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="3d-trails/3d-trails.css" rel="stylesheet">
+<script data-goatcounter="https://roberthannah89.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+<div class="layout" id="layout">
+  <!-- 3D scene -->
+  <div class="scene" id="scene">
+    <div id="map-host"><div id="map"></div></div>
+
+    <!-- Status overlay (top-left, below the header space) -->
+    <div class="over over-status" id="over-status">
+      <div class="over-title">Swiss Trails</div>
+      <strong id="peak-count-total">Loading…</strong>
+      <span class="stat"><b id="peak-count-filtered">—</b> match your filters</span>
+    </div>
+
+    <!-- Map buttons (top-right, circular) -->
+    <div class="map-buttons">
+      <button class="map-btn" id="trails-btn" title="Toggle SAC-graded trails overlay">
+        <span>&#x1F97E;</span>
+        <span class="count" id="trails-count">—</span>
+        <span class="ring hidden" id="trails-ring"></span>
+      </button>
+      <button class="map-btn" id="tour-btn" title="Fly to the selected peak and pan 360°">
+        &#x1F3A5;
+      </button>
+    </div>
+
+    <!-- Selected-peak overlay (top-right, below the buttons cluster) -->
+    <div class="over over-peak" id="over-peak" hidden>
+      <div class="over-title">Selected peak</div>
+      <div class="peak-name-row">
+        <strong id="sel-name"></strong>
+        <span class="stat" id="sel-ele"></span>
+      </div>
+      <div class="stat" id="sel-loc"></div>
+      <div class="stat" id="sel-sac" hidden></div>
+      <div class="stat" id="sel-hut"></div>
+      <div class="sel-actions">
+        <a id="sel-wiki" href="#" target="_blank" rel="noopener" hidden>Wikipedia ↗</a>
+        <button type="button" id="sel-fly" class="link-btn">Fly here</button>
+        <button type="button" id="sel-tour" class="link-btn">360° tour</button>
+        <button type="button" id="sel-deselect" class="link-btn muted" aria-label="Deselect">✕</button>
+      </div>
+    </div>
+
+    <!-- Trails "zoom in" hint (top-center) -->
+    <div class="hint hidden" id="hint">Zoom in to load trails</div>
+
+    <!-- Trails legend (bottom-right, sits above the home button) -->
+    <div class="legend" id="legend">
+      <h4>SAC scale</h4>
+      <div class="row"><span class="sw" style="background:#F5C518"></span><span class="grade-lbl">T1</span> <span class="desc">Hiking</span></div>
+      <div class="row"><span class="sw" style="background:#E4572E"></span><span class="grade-lbl">T2</span> <span class="desc">Mountain</span></div>
+      <div class="row"><span class="sw" style="background:#B02A1B"></span><span class="grade-lbl">T3</span> <span class="desc">Demanding mtn</span></div>
+      <div class="row"><span class="sw" style="background:#2E86DE"></span><span class="grade-lbl">T4</span> <span class="desc">Alpine</span></div>
+      <div class="row"><span class="sw" style="background:#1B4F8C"></span><span class="grade-lbl">T5</span> <span class="desc">Demanding alpine</span></div>
+      <div class="row"><span class="sw" style="background:#7D3C98"></span><span class="grade-lbl">T6</span> <span class="desc">Difficult alpine</span></div>
+    </div>
+
+    <!-- Home button (bottom-right) -->
+    <div class="corner-cluster" id="corner-cluster">
+      <button type="button" class="corner-btn" id="home-btn" title="Return to Zindlenspitz overview">⌂ Home</button>
+    </div>
+
+    <!-- Controls hint (bottom-left, above ScaleControl) -->
+    <div class="controls-hint" id="controls-hint">Right-click + drag to tilt · Scroll to zoom</div>
+
+    <!-- Banner slot for errors -->
+    <div class="banner" id="banner" hidden></div>
+
+    <!-- Edge tab (only visible when panel collapsed) -->
+    <button type="button" class="edge-tab" id="edge-tab" onclick="PeakViewer.togglePanel()" aria-label="Show peak database">
+      <span class="caret">◀</span> <strong>Peaks</strong> <span class="count-lbl" id="edge-count">—</span>
+    </button>
+  </div>
+
+  <!-- Right panel (peak database) -->
+  <div class="panel-right" id="panel">
+    <div class="panel-header">
+      <h2>Peaks</h2>
+      <span class="count"><b id="panel-filtered">—</b> shown · <span id="panel-total">—</span> total</span>
+      <select id="sort-select" title="Sort">
+        <option value="ele-desc">Elevation ↓</option>
+        <option value="name-asc">Name A–Z</option>
+        <option value="prom-desc">Prominence ↓</option>
+        <option value="canton-asc">Canton</option>
+      </select>
+      <button type="button" class="min-btn" onclick="PeakViewer.togglePanel()" aria-label="Minimize database">
+        <span aria-hidden="true">▶</span> Minimize
+      </button>
+    </div>
+
+    <div class="filter-row">
+      <label class="search">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-5-5"/>
+        </svg>
+        <input type="search" id="search-input" placeholder="Search peaks…" autocomplete="off">
+      </label>
+
+      <div class="range-row" id="elev-range">
+        <span class="range-label">Elevation</span>
+        <span class="range-vals"><span id="elev-min-val">400</span> – <span id="elev-max-val">4634</span> m</span>
+        <div class="range-track">
+          <input type="range" id="elev-min" min="400" max="4634" step="50" value="400" aria-label="Min elevation">
+          <input type="range" id="elev-max" min="400" max="4634" step="50" value="4634" aria-label="Max elevation">
+        </div>
+      </div>
+
+      <div class="chip-group" id="chip-toggles">
+        <button type="button" class="chip outline" data-toggle="notable" title="Has a Wikipedia article">Notable ★</button>
+        <button type="button" class="chip outline" data-toggle="hikeable" title="Has an SAC route">Hikeable</button>
+      </div>
+
+      <div class="chip-group" id="chip-grades" hidden>
+        <span class="chip-group-label">Grade:</span>
+        <button type="button" class="chip outline" data-grade="T1">T1</button>
+        <button type="button" class="chip outline" data-grade="T2">T2</button>
+        <button type="button" class="chip outline" data-grade="T3">T3</button>
+        <button type="button" class="chip outline" data-grade="T4">T4</button>
+        <button type="button" class="chip outline" data-grade="T5">T5</button>
+        <button type="button" class="chip outline" data-grade="T6">T6</button>
+      </div>
+
+      <details class="canton-details">
+        <summary>Canton <span class="chip-count" id="canton-count-lbl"></span></summary>
+        <div class="chip-group" id="chip-cantons"></div>
+      </details>
+    </div>
+
+    <div class="card-list" id="card-list" role="listbox" aria-label="Peaks"></div>
+  </div>
+</div>
+
+<!-- Zindlenspitz GPX track (for the route line + trailhead marker) -->
+<script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
+
+<!-- Peak data — every named Swiss peak, joined with SAC routes + nearest hut.
+     GENERATED FROM 3d-trails/overpass-peaks.json by scripts/build_ch_peaks.py -->
+<script src="3d-trails/ch-peaks.js"></script>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="3d-trails/3d-trails.js"></script>
+</body>
+</html>

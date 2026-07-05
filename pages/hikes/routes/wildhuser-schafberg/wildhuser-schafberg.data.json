@@ -63,32 +63,37 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1533562765_766408838master_594c4fbd7a.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/3/csm_1533562765_766408838master_594c4fbd7a.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Just before the Zwinglipasshütte, on the left the Altmann.",
+      "caption_html": "<p>Just before the Zwinglipasshütte, on the left the Altmann.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/5/csm_1578930037_1360068741master_70234d049d.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/5/csm_1578930037_1360068741master_70234d049d.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The karst landscape around Zwinglipass with Zwinglipasshütte",
+      "caption_html": "<p>The karst landscape around Zwinglipass with Zwinglipasshütte</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/a/csm_1578930036_784338401master_e9cfa39d52.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/a/csm_1578930036_784338401master_e9cfa39d52.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Nädligergrat, in the background Moor, Jöchliturm and Wildhauser Schafberg.",
+      "caption_html": "<p>Nädligergrat, in the background Moor, Jöchliturm and Wildhauser Schafberg.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/9/csm_1554991023_173591553master_5b0741e763.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/9/csm_1554991023_173591553master_5b0741e763.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the Nädliger ridge; the view goes westward to Jöchliturm (centre) and Wildhuser Schofberg (right).",
+      "caption_html": "<p>On the Nädliger ridge; the view goes westward to Jöchliturm (centre) and Wildhuser Schofberg (right).</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/5/csm_1554991023_1727305038master_78bf31ba4d.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/5/csm_1554991023_1727305038master_78bf31ba4d.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View from Jöchliturm to Nädliger and Altmann",
+      "caption_html": "<p>View from Jöchliturm to Nädliger and Altmann</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -133,7 +138,7 @@
     "elev": 1349,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gampl%C3%BCt"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/joechliturm-973/mountain-hiking/traverse-joechliturm-naedliger-1098/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -143,5 +148,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/joechliturm-973/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
+  }
 }

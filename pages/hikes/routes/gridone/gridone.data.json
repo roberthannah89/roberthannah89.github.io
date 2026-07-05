@@ -63,14 +63,16 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/d/csm_1515425337_1866771108master_f5200e9378.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/d/csm_1515425337_1866771108master_f5200e9378.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Gridone (centre) and Monte Rosa",
+      "caption_html": "<p>Gridone (centre) and Monte Rosa</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/7/csm_1515419869_312566618master_c03e4073c5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/7/csm_1515419869_312566618master_c03e4073c5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Viewed from Valle Vigezzo, Gridone (left) and Rocce del Gridone look impressive.",
+      "caption_html": "<p>Viewed from Valle Vigezzo, Gridone (left) and Rocce del Gridone look impressive.</p>",
+      "copyright": "Kundert Remo"
     }
   ],
   "waypoints": [
@@ -117,7 +119,7 @@
     "lon": 8.66706490962741,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Brissago%2C+Piodina+Paese"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken, and Kundert Remo — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gridone-monte-limidario-4112/mountain-hiking/rasa-gridone-rifugio-al-legn-1011/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -127,5 +129,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gridone-monte-limidario-4112/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Remo Kundert",
+    "bio_html": "Remo Kundert is a hiking guide and owner of the hiking tour operator Per Pedes Bergferien. He also works as a freelance photographer and alpine journalist, and has co-authored numerous hut guidebooks, alpine- and family hiking books.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg"
+  }
 }

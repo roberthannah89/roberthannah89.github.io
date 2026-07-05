@@ -63,38 +63,44 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/9/csm_1596556786_1026402706master_1c650d5451.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/9/csm_1596556786_1026402706master_1c650d5451.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Im Aufstieg zwischen Baumgarten und der Privathütte auf 1850 m.",
+      "caption_html": "<p>Im Aufstieg zwischen Baumgarten und der Privathütte auf 1850 m.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/4/csm_1596556787_1050547370master_781494df05.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/4/csm_1596556787_1050547370master_781494df05.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Bei der erwähnten Privathütte hat man die steilsten Partien hinter sich.",
+      "caption_html": "<p>Bei der erwähnten Privathütte hat man die steilsten Partien hinter sich.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/b/csm_1687253843_1536629244master_f4482edbd4.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/b/csm_1687253843_1536629244master_f4482edbd4.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die verkarsteten Felsen auf ca. 1960 m beherbergen ebenfalls eine Privathütte.",
+      "caption_html": "<p>Die verkarsteten Felsen auf ca. 1960 m beherbergen ebenfalls eine Privathütte.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1596556786_1988714985master_40ccb4b8c2.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1596556786_1988714985master_40ccb4b8c2.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die letzten Meter zum First.",
+      "caption_html": "<p>Die letzten Meter zum First.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/a/csm_1596555006_2068860513master_212794fa09.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/a/csm_1596555006_2068860513master_212794fa09.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Auf dem First.",
+      "caption_html": "<p>Auf dem First.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/a/csm_1596556786_268010503master_32d41d10ea.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/a/csm_1596556786_268010503master_32d41d10ea.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Der Tiefblick vom First auf den Oberblegisee.",
+      "caption_html": "<p>Der Tiefblick vom First auf den Oberblegisee.</p>",
+      "copyright": "Marco Volken"
     }
   ],
   "waypoints": [
@@ -130,7 +136,7 @@
       "elev_m": 1410
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/first-gl-9796/mountain-hiking/von-der-bergstation-brunnenberg-6766/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -140,5 +146,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/first-gl-9796/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

@@ -63,14 +63,16 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1535451627_613093224master_cccfa56b7b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1535451627_613093224master_cccfa56b7b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the Marwees ridge, view eastward: alpine hiking at its best!",
+      "caption_html": "<p>On the Marwees ridge, view eastward: alpine hiking at its best!</p>",
+      "copyright": "Ivo Deininger"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/f/csm_1535451627_2107247510master_8458d7140f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/f/csm_1535451627_2107247510master_8458d7140f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Marwees ridge, view westward to the main summit, Säntis (right) and Altmann/Hundstein (left).",
+      "caption_html": "<p>Marwees ridge, view westward to the main summit, Säntis (right) and Altmann/Hundstein (left).</p>",
+      "copyright": "Ivo Deininger"
     }
   ],
   "waypoints": [
@@ -109,7 +111,7 @@
       "elev_m": 1709
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Ivo Deininger — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/marwees-1130/mountain-hiking/traverse-east-west-from-wasserauen-2362/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -119,5 +121,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/marwees-1130/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }

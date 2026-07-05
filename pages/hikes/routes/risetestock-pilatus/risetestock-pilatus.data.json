@@ -63,56 +63,74 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/4/csm_1560077115_20792563master_25fad6fe64.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/4/csm_1560077115_20792563master_25fad6fe64.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The meadow leading up to the edge of the forest at ca. 1420 m",
+      "caption_html": "<p>The meadow leading up to the edge of the forest at ca. 1420 m</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/b/csm_1560077114_2117296704master_c185755624.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/b/csm_1560077114_2117296704master_c185755624.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the forest, at ca. 1450 m",
+      "caption_html": "<p>In the forest, at ca. 1450 m</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/6/csm_1560077114_1255694444master_a51d56df0d.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/6/csm_1560077114_1255694444master_a51d56df0d.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.",
+      "caption_html": "<p>On the grassy shoulder at 1630 m, the boulder in the centre can be reached from the left.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/5/csm_1560077102_1596360012master_cc2f059986.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/5/csm_1560077102_1596360012master_cc2f059986.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The passage from the boulder to the rocky ledge",
+      "caption_html": "<p>The passage from the boulder to the rocky ledge</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/5/csm_1560077102_295237288master_6d58723fc0.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/5/csm_1560077102_295237288master_6d58723fc0.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.",
+      "caption_html": "<p>The rung ladder: the first metres of the ledge are overhanging, but further up it flattens.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1560077102_1339036483master_8f30f82145.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/a/csm_1560077102_1339036483master_8f30f82145.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The summit of Blaue Tosse",
+      "caption_html": "<p>The summit of Blaue Tosse</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/6/csm_1560077102_228587591master_827063c03e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/6/csm_1560077102_228587591master_827063c03e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Descending below the rocks of Blaue Tosse",
+      "caption_html": "<p>Descending below the rocks of Blaue Tosse</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/7/csm_1560077103_2024635569master_b28f323620.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/7/csm_1560077103_2024635569master_b28f323620.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Descending the steepest passage equipped with fixed ropes",
+      "caption_html": "<p>Descending the steepest passage equipped with fixed ropes</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/a/csm_1560077103_1709541666master_5ba372f51f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/a/csm_1560077103_1709541666master_5ba372f51f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "This is the face of the descent, above to the left is Blaue Tosse.",
+      "caption_html": "<p>This is the face of the descent, above to the left is Blaue Tosse.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2019"
     }
   ],
   "waypoints": [
@@ -150,7 +168,7 @@
       "elev_m": 1802
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/traverse-from-gfellen-to-blaue-tosse-4347/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -160,5 +178,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/risetestock-pilatus-4101/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

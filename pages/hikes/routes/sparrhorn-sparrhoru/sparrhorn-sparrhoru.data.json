@@ -63,26 +63,31 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1527057723_787027202master_d854adbfdc.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1527057723_787027202master_d854adbfdc.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Aufstieg über weite Matten oberhalb vom Tynndaldenkmal.",
+      "caption_html": "<p>Aufstieg über weite Matten oberhalb vom Tynndaldenkmal.</p>",
+      "copyright": "Bernhard Senn-Erismann"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/7/csm_1528455342_18139674master_f274c5863c.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/7/csm_1528455342_18139674master_f274c5863c.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Im Aufstieg kommt man am Denkmal für John Tyndall vorbei, Erforscher der Alpen und Erfinder.",
+      "caption_html": "<p>Im Aufstieg kommt man am Denkmal für John Tyndall vorbei, Erforscher der Alpen und Erfinder.</p>",
+      "copyright": "Bernhard Senn-Erismann"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/3/csm_1527057725_132870546master_fc006756a9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/3/csm_1527057725_132870546master_fc006756a9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Hohstock im Morgenlicht.",
+      "caption_html": "<p>Hohstock im Morgenlicht.</p>",
+      "copyright": "Bernhard Senn-Erismann",
+      "credit_date": "08/2014"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1527057727_1106122657master_80f1c65a89.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1527057727_1106122657master_80f1c65a89.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Ausblick vom Sparrhorngipfel zum Nesthorn (August 2014)",
+      "caption_html": "<p>Ausblick vom Sparrhorngipfel zum Nesthorn (August 2014)</p>",
+      "copyright": "Bernhard Senn-Erismann"
     }
   ],
   "waypoints": [
@@ -116,7 +121,7 @@
       "elev_m": 2351
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Bernhard Senn-Erismann — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/sparrhorn-sparrhoru-1836/mountain-hiking/s-grat-2209/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -126,5 +131,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/sparrhorn-sparrhoru-1836/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Bernhard Senn",
+    "bio_html": "Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/5/1/csm_Senn_95a6ac31cd.jpg"
+  }
 }

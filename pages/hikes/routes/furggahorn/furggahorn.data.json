@@ -63,32 +63,37 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1629981597_820364914master_53b5442294.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1629981597_820364914master_53b5442294.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick zur Amselflue",
+      "caption_html": "<p>Blick zur Amselflue</p>",
+      "copyright": "Martin Scherrer"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/f/csm_1629981597_2047416561master_0299fca07f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/f/csm_1629981597_2047416561master_0299fca07f.jpg",
       "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "caption_html": "",
+      "copyright": "Martin Scherrer"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/3/csm_1629981597_1308726419master_3398b286a7.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/3/csm_1629981597_1308726419master_3398b286a7.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick in Richtung Landwassertal, dahinter das Rinerhorn.",
+      "caption_html": "<p>Blick in Richtung Landwassertal, dahinter das Rinerhorn.</p>",
+      "copyright": "Martin Scherrer"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1629981597_336571034master_376f6185e4.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1629981597_336571034master_376f6185e4.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Pfadspuren auf dem schwach ausgeprägten Südgrat.",
+      "caption_html": "<p>Pfadspuren auf dem schwach ausgeprägten Südgrat.</p>",
+      "copyright": "Martin Scherrer"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1631524044_436167047master_1c4642f98b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1631524044_436167047master_1c4642f98b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Links Furrgahorn mit dem Aufstieg an der Licht-Schattengrenze, Schwarzhorn in Bildmitte, davor die Maienfelder Furgga.",
+      "caption_html": "<p>Links Furrgahorn mit dem Aufstieg an der Licht-Schattengrenze, Schwarzhorn in Bildmitte, davor die Maienfelder Furgga.</p>",
+      "copyright": "Andres Passwirth / wikimedia.org"
     }
   ],
   "waypoints": [
@@ -157,5 +162,10 @@
       "description": "Endpunkt der Variante."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: Martin Scherrer, and Andres Passwirth / wikimedia.org — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/furggahorn-705/mountain-hiking/von-arosa-ueber-den-suedhang-40635/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
+  }
 }

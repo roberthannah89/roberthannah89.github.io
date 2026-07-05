@@ -63,32 +63,42 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1519240103_1431979030master_bafdb832c6.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1519240103_1431979030master_bafdb832c6.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Das Brudelhorn von Norden.",
+      "caption_html": "<p>Das Brudelhorn von Norden.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2007"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1544722786_31485215master_5b223d7602.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/5/csm_1544722786_31485215master_5b223d7602.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Der einladende Gipfel des Brudelhorns von Bru aus gesehen.",
+      "caption_html": "<p>Der einladende Gipfel des Brudelhorns von Bru aus gesehen.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2007"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1519240115_223455920master_2111d3569d.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/7/csm_1519240115_223455920master_2111d3569d.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Das Brudelhorn spiegelt sich in einem namenlosen See auf seiner Ostseite.",
+      "caption_html": "<p>Das Brudelhorn spiegelt sich in einem namenlosen See auf seiner Ostseite.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2007"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1544722786_2097905868master_29de9db679.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1544722786_2097905868master_29de9db679.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Tiefblick vom Brudelhorn auf das Goms zwischen Ulrichen und Oberwald.",
+      "caption_html": "<p>Tiefblick vom Brudelhorn auf das Goms zwischen Ulrichen und Oberwald.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2007"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1544722786_386401218master_e3ab1fea3e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1544722786_386401218master_e3ab1fea3e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Zwei namenlose Seen unter dem Distelgrat, dahinter die Nufenen-Region.",
+      "caption_html": "<p>Zwei namenlose Seen unter dem Distelgrat, dahinter die Nufenen-Region.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2007"
     }
   ],
   "waypoints": [
@@ -163,5 +173,10 @@
       "description": "Endpunkt der Variante."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/brudelhorn-248/mountain-hiking/ueberschreitung-ladstafel-geschinen-1288/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "Sabine und Fredy Joss",
+    "bio_html": "Alpine hiking, climbing and other mountain sports Sabine and Fredy Joss's passion. They have been writing and photographing for the SAC publishing house and the club magazine Die Alpen for many years. Sabine is also a biologist and tour guide; Fredy a proofreader and editor for various magazines.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/8/a/csm_Joss_824db85f1e.jpg"
+  }
 }

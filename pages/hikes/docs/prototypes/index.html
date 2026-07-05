@@ -229,126 +229,20 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">17 demos</span>
+  <span class="title-count">7 demos</span>
 </div>
 
 <!-- Card grid -->
 <div class="grid">
 
-  <a class="card" href="peak-viewer.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🏔️</span>
-        <span class="card-title">Peak Viewer (3D + filterable database)</span>
-      </div>
-      <div class="card-desc">Every named peak in Switzerland from OpenStreetMap, joined with SAC route grades and nearest huts. Side-by-side Cesium 3D view with Google Photorealistic tiles and a filterable, sortable database. Click a peak → the camera flies to it.</div>
-      <span class="card-source">OpenStreetMap · geo.admin.ch · SAC suissealpine · Google Photorealistic 3D Tiles</span>
-    </div>
-  </a>
-
-  <a class="card" href="3d-photorealistic.html">
-    <div class="card-thumb">
-      <img src="screenshots/3d-photorealistic.png" alt="3D Photorealistic Tiles (Google + Cesium)" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">⛰️</span>
-        <span class="card-title">3D Photorealistic Tiles (Google + Cesium)</span>
-      </div>
-      <div class="card-desc">Photogrammetric 3D mesh of the Alps via Google Map Tiles rendered with CesiumJS. GPX track + start/end pins draped on the mesh. Works for any hike via ?hike=&lt;slug&gt;. Needs a Google Maps Platform API key (Map Tiles API enabled).</div>
-      <span class="card-source">Google Maps Platform — Map Tiles API + CesiumJS</span>
-    </div>
-  </a>
-
-  <a class="card" href="3d-peaks.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🏔️</span>
-        <span class="card-title">3D Peak Labels (nearby named peaks)</span>
-      </div>
-      <div class="card-desc">Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Emoji toggle cycles through nearby summits (~113) / every Swiss peak (~7,500) / off. Second button flies to the summit for a 360° panoramic tour. Data from OpenStreetMap.</div>
-      <span class="card-source">OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM</span>
-    </div>
-  </a>
-
-  <a class="card" href="transit-widget-v3.html">
-    <div class="card-thumb">
-      <img src="screenshots/transit-widget-v3.png" alt="Transit Widget v3 (Google-style)" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🚄</span>
-        <span class="card-title">Transit Widget v3 (Google-style)</span>
-      </div>
-      <div class="card-desc">Google Maps–style transit results: list of options, drill into a vertical timeline with stop-by-stop detail</div>
-      <span class="card-source">transport.opendata.ch</span>
-    </div>
-  </a>
-
-  <a class="card" href="transit-widget-v2.html">
-    <div class="card-thumb">
-      <img src="screenshots/transit-widget-v2.png" alt="Transit Widget v2" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🚆</span>
-        <span class="card-title">Transit Widget v2</span>
-      </div>
-      <div class="card-desc">Google-style connections list with SBB-colored line chips, per-leg durations, walking icons, and SBB deep-links</div>
-      <span class="card-source">transport.opendata.ch</span>
-    </div>
-  </a>
-
-  <a class="card" href="feat-3d-flythrough.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">⛰️</span>
-        <span class="card-title">3D Flythrough</span>
-      </div>
-      <div class="card-desc">Cinematic MapLibre camera flythrough following the GPX ascent on every hike page</div>
-      <span class="card-source">Feature integration / worktree</span>
-    </div>
-  </a>
-
-  <a class="card" href="feat-transport-widget.html">
-    <div class="card-thumb">
-      <img src="screenshots/feat-transport-widget.png" alt="Live Transport Widget" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🚆</span>
-        <span class="card-title">Live Transport Widget</span>
-      </div>
-      <div class="card-desc">Inline next-3 outbound + last-3 return connections via transport.opendata.ch, on every hike page</div>
-      <span class="card-source">Feature integration / worktree</span>
-    </div>
-  </a>
-
-  <a class="card" href="sac-grade-hybrid.html">
-    <div class="card-thumb">
-      <img src="screenshots/sac-grade-hybrid.png" alt="SAC T-grade segments (hybrid OSM + swisstopo)" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🧭</span>
-        <span class="card-title">SAC T-grade segments (hybrid OSM + swisstopo)</span>
-      </div>
-      <div class="card-desc">OSM sac_scale primary, swissTLM3D Wanderwegart fallback for gaps — best coverage + T1–T6 precision</div>
-      <span class="card-source">OpenStreetMap + swisstopo</span>
-    </div>
-  </a>
-
-  <a class="card" href="sac-grade-osm.html">
-    <div class="card-thumb">
-      <img src="screenshots/sac-grade-osm.png" alt="SAC T-grade segments (OSM)" loading="lazy">
-    </div>
+  <a class="card" href="3d-trails.html">
     <div class="card-body">
       <div class="card-header">
         <span class="card-icon">🥾</span>
-        <span class="card-title">SAC T-grade segments (OSM)</span>
+        <span class="card-title">3D Swiss Trails + Peak Database</span>
       </div>
-      <div class="card-desc">Per-segment T1–T6 along a GPX track from OSM sac_scale tags via Overpass</div>
-      <span class="card-source">OpenStreetMap (Overpass API)</span>
+      <div class="card-desc">Every named Swiss peak in a filterable/sortable database alongside the 3D SWISSIMAGE map. All OpenStreetMap hiking trails colored by SAC scale (T1 yellow → T6 violet) are fetched from Overpass on pan at zoom ≥ 12. Click a card or dot to fly there; 🎥 runs a 360° tour of the selected peak.</div>
+      <span class="card-source">OpenStreetMap · SAC · swisstopo SWISSIMAGE + Terrarium DEM · Overpass API</span>
     </div>
   </a>
 
@@ -408,20 +302,6 @@
     </div>
   </a>
 
-  <a class="card" href="google-directions.html">
-    <div class="card-thumb">
-      <img src="screenshots/google-directions.png" alt="Google Directions" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🧭</span>
-        <span class="card-title">Google Directions</span>
-      </div>
-      <div class="card-desc">Transit/driving directions to trailheads via Google Maps embed</div>
-      <span class="card-source">Google Maps</span>
-    </div>
-  </a>
-
   <a class="card" href="geo-layers.html">
     <div class="card-thumb">
       <img src="screenshots/geo-layers.png" alt="Swiss Geo Layers" loading="lazy">
@@ -447,20 +327,6 @@
       </div>
       <div class="card-desc">Query OpenStreetMap for hiker POIs: water, huts, shelters, viewpoints, parking</div>
       <span class="card-source">Overpass API</span>
-    </div>
-  </a>
-
-  <a class="card" href="transport.html">
-    <div class="card-thumb">
-      <img src="screenshots/transport.png" alt="Swiss Transit" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🚂</span>
-        <span class="card-title">Swiss Transit</span>
-      </div>
-      <div class="card-desc">Live SBB/public transport connections and station search</div>
-      <span class="card-source">transport.opendata.ch</span>
     </div>
   </a>
 

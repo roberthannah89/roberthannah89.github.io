@@ -148,8 +148,7 @@ Returns matching stations with ID, name, coordinates (WGS84), and relevance scor
 - **CORS:** Yes
 - **Rate limit:** Constrained by timetable.search.ch (undocumented, generous in practice)
 - **`fields[]` param:** Cherry-pick response fields to reduce payload
-- **Prototype:** [`prototypes/transport.html`](prototypes/transport.html)
-- **Integration idea:** Replace static SBB link with live "next departures" widget on hike pages. Each `data.json` already has `transit_dest` — call `/connections?from=Zürich+HB&to={transit_dest}`.
+- **Live use:** shipped as the transit widget on every hike page (`templates/_assets/transit_widget.js`).
 
 ### geo.admin.ch WMS — Additional Map Layers
 

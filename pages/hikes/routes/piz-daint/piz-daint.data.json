@@ -63,32 +63,40 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1556136431_1547012914master_2128b4b11f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/8/csm_1556136431_1547012914master_2128b4b11f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Erosionsformen gleich hinter dem Ofenpass unter dem Il Jalet (Nachbargipfel). (Fredy Joss)",
+      "caption_html": "<p>Erosionsformen gleich hinter dem Ofenpass unter dem Il Jalet (Nachbargipfel). (Fredy Joss)</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1556136432_9869907master_c087150580.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1556136432_9869907master_c087150580.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die «innere Spitze», der Piz Daint, von Muliniersch aus gesehen.",
+      "caption_html": "<p>Die «innere Spitze», der Piz Daint, von Muliniersch aus gesehen.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "09/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1519722979_601051286master_78e3021de4.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/1/csm_1519722979_601051286master_78e3021de4.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Auf dem Westgrat des Piz Daint, mit Blick ins Spöl-Tal und in die Nationalparkregion. (Fredy Joss)",
+      "caption_html": "<p>Auf dem Westgrat des Piz Daint, mit Blick ins Spöl-Tal und in die Nationalparkregion. (Fredy Joss)</p>",
+      "copyright": "Fredy Joss"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/f/csm_1519722983_1216260444master_7c9fb443b9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/f/csm_1519722983_1216260444master_7c9fb443b9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Auf dem Westgrat kurz vor dem Gipfel des Piz Daint.",
+      "caption_html": "<p>Auf dem Westgrat kurz vor dem Gipfel des Piz Daint.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "09/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1556136432_1777305194master_2d954866c5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/a/csm_1556136432_1777305194master_2d954866c5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Erosion in der Südwestflanke des Piz Daint.",
+      "caption_html": "<p>Erosion in der Südwestflanke des Piz Daint.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "09/2009"
     }
   ],
   "waypoints": [
@@ -163,5 +171,10 @@
       "description": "Sattel, der im Abstieg passiert wird."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-daint-480/mountain-hiking/ueberschreitung-westgrat-suedgrat-1346/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "Sabine und Fredy Joss",
+    "bio_html": "Alpine hiking, climbing and other mountain sports Sabine and Fredy Joss's passion. They have been writing and photographing for the SAC publishing house and the club magazine Die Alpen for many years. Sabine is also a biologist and tour guide; Fredy a proofreader and editor for various magazines.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/8/a/csm_Joss_824db85f1e.jpg"
+  }
 }

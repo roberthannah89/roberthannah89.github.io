@@ -63,14 +63,18 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/9/csm_1512573851_779360544master_26f3f92c98.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/9/csm_1512573851_779360544master_26f3f92c98.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Faint trail on the south-east ridge of Tschuggen",
+      "caption_html": "<p>Faint trail on the south-east ridge of Tschuggen</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "10/2014"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/9/csm_1512573709_2044014547master_8b23367035.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/9/csm_1512573709_2044014547master_8b23367035.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Tschuggen rises up between Mönch and Jungfrau. View from the Männlichen summit station.",
+      "caption_html": "<p>Tschuggen rises up between Mönch and Jungfrau. View from the Männlichen summit station.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "10/2014"
     }
   ],
   "waypoints": [
@@ -113,7 +117,7 @@
     "elev": 2061,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Kleine+Scheidegg"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tschuggen-be-2056/mountain-hiking/south-east-ridge-665/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -123,5 +127,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tschuggen-be-2056/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Sabine und Fredy Joss",
+    "bio_html": "Alpine hiking, climbing and other mountain sports Sabine and Fredy Joss's passion. They have been writing and photographing for the SAC publishing house and the club magazine Die Alpen for many years. Sabine is also a biologist and tour guide; Fredy a proofreader and editor for various magazines.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/8/a/csm_Joss_824db85f1e.jpg"
+  }
 }

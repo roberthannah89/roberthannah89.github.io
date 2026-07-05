@@ -63,20 +63,26 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/b/csm_1658409190_64528589master_7584309dd3.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/b/csm_1658409190_64528589master_7584309dd3.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Approach via a via ferrata which passes the rocks at 3200m.",
+      "caption_html": "<p>Approach via a via ferrata which passes the rocks at 3200m.</p>",
+      "copyright": "Stephane Schenk",
+      "credit_date": "07/2022"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1658409239_1927016944master_0638a1f8ed.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1658409239_1927016944master_0638a1f8ed.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Detail approach via a via ferrata which passes the rocks at 3200m.",
+      "caption_html": "<p>Detail approach via a via ferrata which passes the rocks at 3200m.</p>",
+      "copyright": "Stephane Schenk",
+      "credit_date": "07/2022"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/6/csm_1528984904_1467180677master_1b2555f420.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/6/csm_1528984904_1467180677master_1b2555f420.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The spectacularly postitioned Cabane de Bertol - SAC section Neuchâtel.",
+      "caption_html": "<p>The spectacularly postitioned Cabane de Bertol - SAC section Neuchâtel.</p>",
+      "copyright": "SAC",
+      "credit_date": "08/2003"
     }
   ],
   "waypoints": [
@@ -113,7 +119,7 @@
       "elev_m": 3264
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Stephane Schenk, and SAC — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-bertol-cas-2147000031/mountain-hiking/from-arolla-via-plans-de-bertol-246/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",

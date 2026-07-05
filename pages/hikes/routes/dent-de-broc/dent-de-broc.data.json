@@ -63,26 +63,34 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1523200732_1762843584master_3645a2eadb.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1523200732_1762843584master_3645a2eadb.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Dent de Broc",
+      "caption_html": "<p>Dent de Broc</p>",
+      "copyright": "Neumann Oliver",
+      "credit_date": "04/2017"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1525154558_191465699master_7f70ba82a5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/c/csm_1525154558_191465699master_7f70ba82a5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The last stretch of the ascent to Dent de Broc",
+      "caption_html": "<p>The last stretch of the ascent to Dent de Broc</p>",
+      "copyright": "Neumann Oliver",
+      "credit_date": "04/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/5/csm_1523201627_732966382master_f54cec5883.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/5/csm_1523201627_732966382master_f54cec5883.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The Dent de Broc summit",
+      "caption_html": "<p>The Dent de Broc summit</p>",
+      "copyright": "Neumann Oliver",
+      "credit_date": "04/2014"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/8/csm_1538735367_1221994659master_5685862e06.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/8/csm_1538735367_1221994659master_5685862e06.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Gorges de la Jogne",
+      "caption_html": "<p>Gorges de la Jogne</p>",
+      "copyright": "Neumann Oliver",
+      "credit_date": "09/2017"
     }
   ],
   "waypoints": [
@@ -126,7 +134,7 @@
     "elev": 746,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gruy%C3%A8res"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Neumann Oliver — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/dent-de-broc-246/mountain-hiking/broc-dent-de-broc-gruyeres-1629/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -136,5 +144,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/dent-de-broc-246/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Daniel Anker",
+    "bio_html": "Daniel Anker is a Bernese author and photographer. The historian has written around 40 ski tour, hiking, via ferrata and mountain bike guide books as well as detailed monographs on individual peaks in Switzerland.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Anker_Daniel_13cbaef561.jpg"
+  }
 }

@@ -63,14 +63,18 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1513345440_707849656master_11cf147a13.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1513345440_707849656master_11cf147a13.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View from Vorder Jochli across the steep pasture of the ascent (left), which leads up to the small spires below P. 2171.",
+      "caption_html": "<p>View from Vorder Jochli across the steep pasture of the ascent (left), which leads up to the small spires below P. 2171.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/a/csm_1513345547_2041627222master_e0fa0450c7.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/a/csm_1513345547_2041627222master_e0fa0450c7.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the descent from Schwalmis; the view goes back across the green ridge of Aren and the mighty rock slabs of the north face.",
+      "caption_html": "<p>On the descent from Schwalmis; the view goes back across the green ridge of Aren and the mighty rock slabs of the north face.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     }
   ],
   "waypoints": [
@@ -115,7 +119,7 @@
     "elev": 1755,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Niederrickenbach+Dorf"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/schwalmis-1736/mountain-hiking/from-gitschenen-across-schwalmis-to-musenalp-810/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -125,5 +129,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/schwalmis-1736/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

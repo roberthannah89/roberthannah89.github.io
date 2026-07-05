@@ -63,44 +63,58 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1526480938_367290200master_5450547bd8.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1526480938_367290200master_5450547bd8.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The Oeschinensee always offers fantastic moods. On the left in shadow: Alp Underbergli; above the rock band the Alp Oberbergli.",
+      "caption_html": "<p>The Oeschinensee always offers fantastic moods. On the left in shadow: Alp Underbergli; above the rock band the Alp Oberbergli.</p>",
+      "copyright": "Senn-Erismann Bernhard",
+      "credit_date": "10/2011"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1628059618_571391350master_0f131539fc.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/f/csm_1628059618_571391350master_0f131539fc.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Shortly before Underbergli",
+      "caption_html": "<p>Shortly before Underbergli</p>",
+      "copyright": "Senn-Erismann Bernhard",
+      "credit_date": "10/2011"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/a/csm_1534697983_2044191581master_44201326ca.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/a/csm_1534697983_2044191581master_44201326ca.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Near Alp Oberbergli.",
+      "caption_html": "<p>Near Alp Oberbergli.</p>",
+      "copyright": "Senn-Erismann Bernhard",
+      "credit_date": "10/2011"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/f/csm_1536679776_1309497655master_fad8d6dd97.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/f/csm_1536679776_1309497655master_fad8d6dd97.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Ahead, the final steep ascent to Hohtürli and the hut.",
+      "caption_html": "<p>Ahead, the final steep ascent to Hohtürli and the hut.</p>",
+      "copyright": "Bernhard Senn-Erismann",
+      "credit_date": "09/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1536679836_1575598823master_ac3ad11100.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/f/csm_1536679836_1575598823master_ac3ad11100.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Under the two arms of the Blüemlisalp glacier - soon to be two separate glaciers.",
+      "caption_html": "<p>Under the two arms of the Blüemlisalp glacier - soon to be two separate glaciers.</p>",
+      "copyright": "Sandra Senn-Erismann",
+      "credit_date": "08/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/c/csm_1536679833_1706435816master_b8c0ecaf9e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/c/csm_1536679833_1706435816master_b8c0ecaf9e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Near Hohtürli",
+      "caption_html": "<p>Near Hohtürli</p>",
+      "copyright": "Sandra Senn-Erismann",
+      "credit_date": "08/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1536679828_694683108master_a26cc0d8ab.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/1/csm_1536679828_694683108master_a26cc0d8ab.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Cairns funnel you up the final scree slope to the hut (useful in fog).",
+      "caption_html": "<p>Cairns funnel you up the final scree slope to the hut (useful in fog).</p>",
+      "copyright": "Sandra Senn-Erismann",
+      "credit_date": "08/2018"
     }
   ],
   "waypoints": [
@@ -139,7 +153,7 @@
       "description": "Alternative starting point."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Senn-Erismann Bernhard, Bernhard Senn-Erismann, and Sandra Senn-Erismann — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/blueemlisalphuette-sac-2147000036/mountain-hiking/from-the-top-station-of-the-kandersteg-oeschinen-cableway-470/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -149,5 +163,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/blueemlisalphuette-sac-2147000036/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Bernhard Senn",
+    "bio_html": "Bernhard Senn is a physiotherapist specializing in workplace ergonomics and workplace health promotion. Bernhard has been an SAC author since 2013 and will often be found 'out and about' in the mountains; whether with rock gear, skis, mountain bike or paraglider.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/5/1/csm_Senn_95a6ac31cd.jpg"
+  }
 }
