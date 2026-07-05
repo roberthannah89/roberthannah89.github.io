@@ -6,7 +6,7 @@
 <title>3D Peak Labels — Zindlenspitz</title>
 <meta name="proto-title" content="3D Peak Labels (nearby named peaks)">
 <meta name="proto-icon" content="&#x1F3D4;&#xFE0F;">
-<meta name="proto-desc" content="Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Default shows main summits within 10 km (~113); the pill toggle expands to every named peak in Switzerland (~7,500). Data from OpenStreetMap.">
+<meta name="proto-desc" content="Named peaks around the Zindlenspitz route as terrain-aware labels over the 3D SWISSIMAGE view. Emoji toggle cycles through nearby summits (~113) / every Swiss peak (~7,500) / off. Second button flies to the summit for a 360° panoramic tour. Data from OpenStreetMap.">
 <meta name="proto-source" content="OpenStreetMap peaks + swisstopo SWISSIMAGE + Terrarium DEM">
 <meta name="proto-order" content="140">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -30,31 +30,42 @@
 
   #map { width: 100%; height: calc(100vh - 44px); position: relative; }
 
-  /* Compact toggle pill — top-right of the map. Two states: main peaks / all peaks. */
-  .peaks-toggle {
+  /* Emoji buttons — top-right of the map, stacked. */
+  .map-buttons {
     position: absolute; top: 12px; right: 12px; z-index: 5;
-    display: inline-flex; align-items: center; gap: 8px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .map-btn {
+    position: relative;
+    width: 44px; height: 44px;
     background: var(--panel);
-    border: 0; border-radius: 999px;
-    padding: 7px 14px 7px 12px;
-    font: inherit; font-size: 13px; font-weight: 500;
+    border: 0; border-radius: 50%;
+    font: inherit; font-size: 22px; line-height: 1;
     color: var(--fg);
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     cursor: pointer;
-    transition: background 0.15s;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.15s, background 0.15s;
   }
-  .peaks-toggle:hover { background: #ffffff; }
-  .peaks-toggle.active { background: var(--accent); color: #fff; }
-  .peaks-toggle.active .count { color: rgba(255,255,255,0.85); }
-  .peaks-toggle .icon { font-size: 16px; line-height: 1; }
-  .peaks-toggle .count {
-    color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums;
+  .map-btn:hover { background: #ffffff; transform: scale(1.06); }
+  .map-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .map-btn.playing { background: var(--accent); color: #fff; }
+  .map-btn .count {
+    position: absolute; bottom: -6px; right: -6px;
+    background: #fff; color: var(--fg);
+    font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums;
+    padding: 1px 5px; min-width: 18px; text-align: center;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    pointer-events: none;
   }
+  .map-btn .count.hidden { display: none; }
 
   @media (max-width: 640px) {
     header { padding: 8px 12px; }
     header .meta { display: none; }
-    .peaks-toggle { top: 8px; right: 8px; padding: 6px 12px 6px 10px; font-size: 12.5px; }
+    .map-buttons { top: 8px; right: 8px; }
+    .map-btn { width: 40px; height: 40px; font-size: 20px; }
   }
 </style>
 <script data-goatcounter="https://roberthannah89.goatcounter.com/count"
@@ -65,15 +76,19 @@
 <header>
   <a class="back" href="index.html">← Prototypes</a>
   <h1>3D Peaks — Zindlenspitz</h1>
-  <span class="meta">SWISSIMAGE on Terrarium DEM · click the pill to sweep every named peak in Switzerland onto the map</span>
+  <span class="meta">SWISSIMAGE on Terrarium DEM · 🏔️ cycles peak sets · 🎥 flies to the summit for a 360°</span>
 </header>
 
 <div id="map">
-  <button class="peaks-toggle" id="peaks-toggle" title="Toggle: nearby main summits ↔ every named peak in Switzerland">
-    <span class="icon" id="toggle-icon">&#x1F3D4;&#xFE0F;</span>
-    <span id="toggle-label">Nearby peaks</span>
-    <span class="count" id="toggle-count">—</span>
-  </button>
+  <div class="map-buttons">
+    <button class="map-btn" id="peaks-btn" title="Peaks: nearby → all Switzerland → off">
+      <span id="peaks-icon">&#x1F3D4;&#xFE0F;</span>
+      <span class="count" id="peaks-count">—</span>
+    </button>
+    <button class="map-btn" id="summit-btn" title="Fly to the summit and pan 360°">
+      &#x1F3A5;
+    </button>
+  </div>
 </div>
 
 <script src="../../routes/zindlenspitz/zindlenspitz.track.js"></script>
@@ -142,8 +157,17 @@
 
   var FC_NEARBY = { type: "FeatureCollection", features: nearbyFeatures() };
   var FC_SWISS  = { type: "FeatureCollection", features: swissFeatures() };
+  var FC_EMPTY  = { type: "FeatureCollection", features: [] };
   var COUNT_NEARBY = FC_NEARBY.features.length;
   var COUNT_SWISS  = FC_SWISS.features.length;
+
+  // Peaks button cycles nearby → all Swiss → off. Each state maps to
+  // (feature collection, emoji, badge text).
+  var PEAK_STATES = [
+    { key: "nearby", fc: FC_NEARBY, emoji: "&#x1F3D4;&#xFE0F;", count: COUNT_NEARBY },              // 🏔️
+    { key: "swiss",  fc: FC_SWISS,  emoji: "&#x26F0;&#xFE0F;",  count: COUNT_SWISS.toLocaleString() }, // ⛰️
+    { key: "off",    fc: FC_EMPTY,  emoji: "&#x1F6AB;",         count: null }                          // 🚫
+  ];
 
   var map = new maplibregl.Map({
     container: "map",
@@ -273,37 +297,95 @@
     applyMode();
   });
 
-  // --- Toggle ------------------------------------------------------------
-  // Two modes: "nearby" (main summits within 10 km, default) or "swiss"
-  // (every named peak in Switzerland). Swaps the source's data on toggle.
-  var mode = "nearby";
-  var btn = document.getElementById("peaks-toggle");
-  var iconEl = document.getElementById("toggle-icon");
-  var labelEl = document.getElementById("toggle-label");
-  var countEl = document.getElementById("toggle-count");
+  // --- Peaks toggle ------------------------------------------------------
+  // Cycles nearby → all Switzerland → off → nearby …
+  var modeIdx = 0;
+  var peaksBtn = document.getElementById("peaks-btn");
+  var peaksIcon = document.getElementById("peaks-icon");
+  var peaksCount = document.getElementById("peaks-count");
 
   function applyMode() {
+    var state = PEAK_STATES[modeIdx];
     var src = map.getSource("peaks");
-    if (src) src.setData(mode === "nearby" ? FC_NEARBY : FC_SWISS);
-    if (mode === "nearby") {
-      iconEl.innerHTML = "&#x1F3D4;&#xFE0F;";   // 🏔️
-      labelEl.textContent = "Nearby peaks";
-      countEl.textContent = COUNT_NEARBY;
-      btn.classList.remove("active");
+    if (src) src.setData(state.fc);
+    peaksIcon.innerHTML = state.emoji;
+    if (state.count === null) {
+      peaksCount.classList.add("hidden");
     } else {
-      iconEl.innerHTML = "&#x26F0;&#xFE0F;";    // ⛰️
-      labelEl.textContent = "All Swiss peaks";
-      countEl.textContent = COUNT_SWISS.toLocaleString();
-      btn.classList.add("active");
+      peaksCount.classList.remove("hidden");
+      peaksCount.textContent = state.count;
     }
   }
 
-  btn.addEventListener("click", function () {
-    mode = mode === "nearby" ? "swiss" : "nearby";
+  peaksBtn.addEventListener("click", function () {
+    modeIdx = (modeIdx + 1) % PEAK_STATES.length;
     applyMode();
   });
 
-  countEl.textContent = COUNT_NEARBY;
+  peaksCount.textContent = COUNT_NEARBY;
+
+  // --- Summit tour -------------------------------------------------------
+  // Fly to a viewpoint just above the summit, do a full 360° bearing sweep,
+  // then ease back to the previous camera. Buttons are locked while running
+  // so a second click can't queue overlapping camera moves.
+  var summitBtn = document.getElementById("summit-btn");
+  var FLY_MS = 2200;
+  var ROTATE_MS = 18000;
+  var RETURN_MS = 2000;
+  var touring = false;
+
+  function runSummitTour() {
+    if (touring) return;
+    touring = true;
+    summitBtn.classList.add("playing");
+    peaksBtn.disabled = true;
+    summitBtn.disabled = true;
+
+    var saved = {
+      center: map.getCenter(),
+      zoom: map.getZoom(),
+      pitch: map.getPitch(),
+      bearing: map.getBearing()
+    };
+
+    // Step 1 — fly to the summit at a steep, tight camera.
+    map.easeTo({
+      center: SUMMIT,
+      zoom: 15,
+      pitch: 80,
+      bearing: 0,
+      duration: FLY_MS
+    });
+
+    // Step 2 — after the fly-in, sweep bearing 0 → 360 linearly.
+    setTimeout(function () {
+      map.easeTo({
+        bearing: 360,
+        duration: ROTATE_MS,
+        easing: function (t) { return t; }
+      });
+    }, FLY_MS);
+
+    // Step 3 — return to the previous camera and re-enable controls.
+    setTimeout(function () {
+      map.easeTo({
+        center: [saved.center.lng, saved.center.lat],
+        zoom: saved.zoom,
+        pitch: saved.pitch,
+        bearing: saved.bearing,
+        duration: RETURN_MS
+      });
+    }, FLY_MS + ROTATE_MS);
+
+    setTimeout(function () {
+      touring = false;
+      summitBtn.classList.remove("playing");
+      peaksBtn.disabled = false;
+      summitBtn.disabled = false;
+    }, FLY_MS + ROTATE_MS + RETURN_MS);
+  }
+
+  summitBtn.addEventListener("click", runSummitTour);
 })();
 </script>
 
