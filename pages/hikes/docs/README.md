@@ -47,7 +47,9 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | `make_swiss_boundary.py` | One-shot generator: download GADM boundary → simplify → write `swiss_border.js`. Re-run only if boundary data needs regenerating |
 | `fetch_windy_webcams.py` | Windy Webcams API → `command-center/webcams_windy_data.js`. Re-run when refreshing the webcam list |
 | `render_proto_index.py` | Auto-generate `docs/prototypes/index.html` from `proto-*` meta tags in each prototype HTML |
-| `build_ch_peaks.py` | One-shot Peak Viewer pipeline: Overpass `natural=peak` → canton/region point-in-polygon → SAC route fuzzy join → nearest hut → `docs/prototypes/peak-viewer/ch-peaks.js`. See [`docs/prototypes/peak-viewer-DESIGN.md`](prototypes/peak-viewer-DESIGN.md) |
+| `build_peak_db.py` | **Peak Database** — canonical single source of truth for every named Swiss peak. Merges OSM Overpass + Wikidata + Wikipedia + SAC routes/huts + cantons/regions polygons into `guides/peaks-db.{json,js}`. See [`docs/schemas/PEAK-DATABASE.md`](schemas/PEAK-DATABASE.md) for schema + consumer examples. |
+| `fetch_osm_peaks.py`, `fetch_wikidata_peaks.py`, `fetch_wikipedia_peaks.py` | Cache builders that feed `build_peak_db.py`. Each caches independently under `scripts/cache/` (Wikidata / Wikipedia) or `docs/prototypes/3d-trails/overpass-peaks.json` (OSM). Safe to delete + refetch. |
+| `build_ch_peaks.py`, `build_swiss_peaks.py`, `build_route_peaks.py` | **Projections** of the Peak Database — emit `docs/prototypes/3d-trails/ch-peaks.js`, `guides/peaks-compact.js`, and per-route `routes/<slug>/nearby-peaks.js`. Never touch the source data; add a new projector to add a new consumer file. |
 
 ---
 
@@ -56,6 +58,7 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 | Topic | Document |
 |---|---|
 | Data field reference (every field in `data.json`) | [`docs/schemas/DATA-SCHEMA.md`](schemas/DATA-SCHEMA.md) |
+| **Peak Database** — schema, sources, projection scripts, prototype consumer example | [`docs/schemas/PEAK-DATABASE.md`](schemas/PEAK-DATABASE.md) |
 | Adding a hike, end-to-end workflow | [`docs/workflows/HIKING-WORKFLOW.md`](workflows/HIKING-WORKFLOW.md) |
 | Extracting data from SAC route portal | [`docs/workflows/SAC-EXTRACTION.md`](workflows/SAC-EXTRACTION.md) |
 | SAC suissealpine API reference | [`docs/SAC-API.md`](SAC-API.md) |

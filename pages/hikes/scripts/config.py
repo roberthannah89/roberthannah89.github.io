@@ -78,6 +78,34 @@ SAC_JOIN_DISTANCE_M = 100
 SAC_JOIN_NAME_THRESHOLD = 0.7
 
 # ---------------------------------------------------------------------------
+# Master peak DB (scripts/build_peaks_master.py + fetchers)
+# ---------------------------------------------------------------------------
+# Public Wikidata SPARQL endpoint. Requires a descriptive User-Agent per
+# Wikimedia policy — hits without one get rate-limited or 403'd.
+WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
+WIKIDATA_USER_AGENT = (
+    "hikes.robert.blog peaks-db "
+    "(contact: github.com/roberthannah89)"
+)
+# SPARQL VALUES clauses much larger than this tend to time out on the public
+# endpoint (60s hard limit). 300 gives ~15-25s per batch with headroom.
+WIKIDATA_BATCH_SIZE = 300
+
+# Preferred Wikipedia languages for peak summaries — first present wins.
+WIKIPEDIA_LANG_PREFERENCE = ("en", "de", "fr", "it", "rm")
+WIKIPEDIA_USER_AGENT = WIKIDATA_USER_AGENT
+# Concurrent Wikipedia REST requests. The global limit is 200 req/s, but the
+# smaller-language subdomains (fr.wikipedia, it.wikipedia, rm.wikipedia)
+# throttle much more aggressively per-IP. 6 workers with Retry-After honour
+# gets us ~95 % completion in ~10 min without a single give-up.
+WIKIPEDIA_CONCURRENCY = 6
+
+# Notability heuristic — peaks flagged as "notable" when at least one is true.
+# Used by consumers for label tiering / filtering.
+NOTABLE_MIN_PROMINENCE_M = 100
+NOTABLE_MIN_ELEVATION_M = 3000
+
+# ---------------------------------------------------------------------------
 # SLF avalanche bulletin (EAWS CAAML V6.0 GeoJSON endpoint)
 # ---------------------------------------------------------------------------
 # Live GeoJSON: features carry merged region polygons + dangerRatings.

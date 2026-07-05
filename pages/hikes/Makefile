@@ -14,7 +14,7 @@ PYTHON  := ~/venvs/dev/bin/python
 SCRIPTS := scripts
 port    ?= 8000
 
-.PHONY: help new new-gpx render credits validate check-stations serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews
+.PHONY: help new new-gpx render credits validate check-stations serve weather avalanche inspect-sac check-gaps combine-gpx swiss-border add-sac 3d-previews peaks peaks-refresh
 
 # -----------------------------------------------------------------------------
 ## help : Print usage summary (default target)
@@ -42,6 +42,8 @@ help:
 	@echo "  combine-gpx    Stitch two GPX tracks (gpx1=... gpx2=... output=...)"
 	@echo "  swiss-border   Regenerate swiss_border.js from GADM"
 	@echo "  add-sac        Add a hike via the v2 SAC pipeline (URL=... SLUG=... REGION=... CANTON=... GRADE=...)"
+	@echo "  peaks          Rebuild the Peak Database + downstream projections (cached; ~30s)"
+	@echo "  peaks-refresh  Force-refetch Wikidata + Wikipedia caches then rebuild (~15 min)"
 	@echo ""
 	@echo "Variables for 'new':"
 	@echo "  slug            (required) URL-safe hike slug, e.g. lisengrat"
@@ -150,6 +152,26 @@ combine-gpx:
 ## swiss-border : Regenerate swiss_border.js from GADM boundary data
 swiss-border:
 	$(PYTHON) $(SCRIPTS)/make_swiss_boundary.py
+
+# -----------------------------------------------------------------------------
+## peaks : Rebuild the Peak Database + every downstream projection.
+##       : Emits guides/peaks-db.{json,js}, guides/peaks-compact.js,
+##       : docs/prototypes/3d-trails/ch-peaks.js,
+##       : routes/<slug>/nearby-peaks.js.  Uses cached data (~30s).
+peaks:
+	$(PYTHON) $(SCRIPTS)/build_peak_db.py
+	$(PYTHON) $(SCRIPTS)/build_ch_peaks.py
+	$(PYTHON) $(SCRIPTS)/build_swiss_peaks.py
+	$(PYTHON) $(SCRIPTS)/build_route_peaks.py --slug zindlenspitz
+
+# -----------------------------------------------------------------------------
+## peaks-refresh : Force-refetch Wikidata + Wikipedia caches, then rebuild.
+##               : Takes ~10-15 min. Use when Wikidata data is out of date.
+peaks-refresh:
+	$(PYTHON) $(SCRIPTS)/build_peak_db.py --refresh-wikidata --refresh-wikipedia
+	$(PYTHON) $(SCRIPTS)/build_ch_peaks.py
+	$(PYTHON) $(SCRIPTS)/build_swiss_peaks.py
+	$(PYTHON) $(SCRIPTS)/build_route_peaks.py --slug zindlenspitz
 
 # -----------------------------------------------------------------------------
 ## add-sac : Add a hike via the v2 SAC pipeline (post-2026-06 architecture)
