@@ -1083,3 +1083,83 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   letter-spacing: 0.6px;
 }
 
+/* --- Site nav pill (top-right) ---
+   Small disclosure button that reveals the site-consistent horizontal guide
+   nav on click. Keeps the map full-bleed by default; the same links live on
+   guides/*.html so the surface is shared.
+*/
+#nav-pill {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(26, 24, 16, 0.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--flap-border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+#nav-pill:hover,
+#nav-pill.open {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.nav-pill-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+.nav-pill-label {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+@media (max-width: 520px) {
+  .nav-pill-label { display: none; }
+  #nav-pill { padding: 6px 8px; }
+}
+
+/* Floating nav strip that drops down under the pill when open. */
+#nav-panel.guide-nav {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  z-index: 899;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(26, 24, 16, 0.94);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--flap-border);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  max-width: calc(100vw - 24px);
+}
+#nav-panel.guide-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+#nav-panel.guide-nav a:hover { color: var(--amber); }
+#nav-panel.guide-nav a.active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+#nav-panel.guide-nav .dot {
+  color: var(--flap-border);
+  user-select: none;
+}
+/* The [hidden] attribute normally sets display:none, but our display:flex above
+   would win by specificity — force it back off when hidden is present. */
+#nav-panel[hidden] { display: none; }
+

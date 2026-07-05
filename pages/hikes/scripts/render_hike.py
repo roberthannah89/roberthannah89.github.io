@@ -1210,7 +1210,11 @@ def render_difficulty(root: Path, data_files: list[Path]) -> tuple[Path, float]:
 def render_guide_nav_js(hikes_root: Path) -> list[tuple[Path, float]]:
     """Generate _nav.js in every nav-consuming directory.
 
-    The script auto-injects a horizontal guide nav after the ``.crumbs`` element.
+    Exposes ``window.HikesNav`` with the guide-page list plus a ``buildLinksHTML``
+    helper so any page can reuse the same data (e.g. the command-center menu pill).
+    Also auto-injects the horizontal guide nav after a ``.crumbs`` element when one
+    is present, matching the guide-page layout.
+
     Hrefs are stored with a ``../`` prefix so they resolve correctly from any page
     that lives exactly one directory below ``pages/hikes/`` (guides/, command-center/).
     Active match is by suffix of ``location.pathname``.
@@ -1221,18 +1225,23 @@ def render_guide_nav_js(hikes_root: Path) -> list[tuple[Path, float]]:
     js = (
         "(function(){\n"
         f"var pages={entries};\n"
-        "var cur=location.pathname;\n"
+        "function buildLinksHTML(){\n"
+        "  var cur=location.pathname;\n"
+        "  var parts=[];\n"
+        "  var galleryActive=/\\/pages\\/hikes\\/(index\\.html)?$/.test(cur);\n"
+        "  parts.push('<a href=\"../index.html\"'+(galleryActive?' class=\"active\"':'')+'>Hikes</a>');\n"
+        "  pages.forEach(function(p){\n"
+        "    var active=cur.indexOf('/'+p.path)>=0||cur.endsWith(p.path);\n"
+        "    parts.push('<a href=\"../'+p.path+'\"'+(active?' class=\"active\"':'')+'>'+p.label+'</a>');\n"
+        "  });\n"
+        "  return parts.join('<span class=\"dot\">\\u00b7</span>');\n"
+        "}\n"
+        "window.HikesNav={pages:pages,buildLinksHTML:buildLinksHTML};\n"
         'var crumbs=document.querySelector(".crumbs");\n'
         "if(!crumbs)return;\n"
         'var nav=document.createElement("nav");\n'
         'nav.className="guide-nav";\n'
-        "var parts=[];\n"
-        'parts.push(\'<a href="../index.html">Hikes</a>\');\n'
-        "pages.forEach(function(p){\n"
-        '  var active=cur.indexOf("/"+p.path)>=0||cur.endsWith(p.path);\n'
-        '  parts.push(\'<a href="../\'+p.path+\'"\'+(active?\' class="active"\':"")+">"+p.label+"</a>");\n'
-        "});\n"
-        'nav.innerHTML=parts.join(\'<span class="dot">\\u00b7</span>\');\n'
+        "nav.innerHTML=buildLinksHTML();\n"
         'crumbs.insertAdjacentElement("afterend",nav);\n'
         "})();\n"
     )
