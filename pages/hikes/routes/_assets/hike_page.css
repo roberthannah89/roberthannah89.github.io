@@ -107,10 +107,23 @@ footer a { color: #fff; }
 .transit-widget { margin: .6rem 0 1.2rem; padding: .75rem .9rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; font-size: .9rem; }
 .transit-widget .tw-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .55rem; }
 .transit-widget .tw-head h3 { margin: 0; font-size: 1rem; }
-.transit-widget .tw-origin { display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); font-size: .8rem; }
+.transit-widget .tw-origin { display: inline-flex; align-items: center; gap: .4rem; color: var(--muted); font-size: .82rem; cursor: pointer; }
+.transit-widget .tw-origin-label { color: var(--muted); font-weight: 500; letter-spacing: .01em; }
 .transit-widget .tw-origin-wrap { position: relative; display: inline-block; }
-.transit-widget .tw-origin input { background: var(--soft); border: 1px solid var(--border); border-radius: 3px; color: var(--fg); font: inherit; padding: .15rem .4rem; width: 14ch; }
-.transit-widget .tw-origin input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.transit-widget .tw-origin input {
+  background: var(--soft); border: 1px solid var(--border); border-radius: 5px;
+  color: var(--fg); font: inherit; padding: .28rem 1.5rem .28rem .55rem;
+  width: 18ch; min-width: 14ch;
+  transition: border-color .12s ease, background-color .12s ease, box-shadow .12s ease;
+}
+.transit-widget .tw-origin input:hover { border-color: var(--accent); background: var(--card); }
+.transit-widget .tw-origin input:focus { outline: none; border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 30%, transparent); }
+.transit-widget .tw-origin input::placeholder { color: var(--muted); opacity: .8; }
+.transit-widget .tw-origin-caret {
+  position: absolute; top: 50%; right: .5rem; transform: translateY(-50%);
+  color: var(--muted); font-size: .75rem; pointer-events: none; line-height: 1;
+}
+.transit-widget .tw-origin input:focus + .tw-origin-caret { color: var(--accent); }
 .transit-widget .tw-suggest {
   position: absolute; top: calc(100% + 2px); right: 0; z-index: 50;
   min-width: 18ch; max-width: 28ch; max-height: 260px; overflow-y: auto;

@@ -35,7 +35,15 @@
   var H = window.HIKE || {};
   var cfg = window.HIKING_CONFIG || {};
 
-  var ORIGIN_KEY = "hike-transit:origin";
+  var ORIGIN_KEY  = "hike-transit:origin";
+  var HISTORY_KEY = "hike-transit:history";
+  var HISTORY_MAX = 8;
+  // Popular Swiss transit hubs — shown as fallback recommendations when the
+  // input is focused with an empty query and the user has no history yet.
+  var DEFAULT_STATIONS = [
+    "Zürich HB", "Bern", "Basel SBB", "Luzern",
+    "Genève", "Lausanne", "St. Gallen", "Chur", "Winterthur"
+  ];
   var DEFAULT_ORIGIN = cfg.defaultOrigin || "Zürich HB";
   var origin = readOrigin();
 
@@ -48,6 +56,21 @@
   }
   function writeOrigin(v) {
     try { window.localStorage && window.localStorage.setItem(ORIGIN_KEY, v); }
+    catch (e) { /* ignore */ }
+  }
+  function readHistory() {
+    try {
+      var raw = window.localStorage && window.localStorage.getItem(HISTORY_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr.filter(function (x) { return typeof x === "string"; }) : [];
+    } catch (e) { return []; }
+  }
+  function pushHistory(name) {
+    if (!name) return;
+    var hist = readHistory().filter(function (x) { return x !== name; });
+    hist.unshift(name);
+    if (hist.length > HISTORY_MAX) hist.length = HISTORY_MAX;
+    try { window.localStorage && window.localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); }
     catch (e) { /* ignore */ }
   }
 
@@ -720,10 +743,13 @@
     host.innerHTML =
       '<div class="tw-head">' +
         '<h3 class="tw-title">Public transport — today</h3>' +
-        '<label class="tw-origin">From&nbsp;' +
+        '<label class="tw-origin" for="tw-origin">' +
+          '<span class="tw-origin-label">📍 From</span>' +
           '<span class="tw-origin-wrap">' +
             '<input type="text" id="tw-origin" autocomplete="off" spellcheck="false" ' +
+              'placeholder="Pick a station" ' +
               'role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="tw-suggest">' +
+            '<span class="tw-origin-caret" aria-hidden="true">▾</span>' +
             '<ul class="tw-suggest" id="tw-suggest" role="listbox" hidden></ul>' +
           '</span>' +
         '</label>' +
@@ -905,6 +931,7 @@
       if (!v || v === origin) return;
       origin = v;
       writeOrigin(v);
+      pushHistory(v);
       applyHeader();
       refresh();
       try {
@@ -983,15 +1010,46 @@
       return true;
     }
 
+    // Fallback suggestions shown before the user types anything: recent
+    // stations they've picked before, then a curated list of major Swiss
+    // hubs. Deduped, current origin filtered out (already selected).
+    function defaultSuggestions() {
+      var seen = {};
+      var out = [];
+      readHistory().forEach(function (name) {
+        if (!name || seen[name] || name === origin) return;
+        seen[name] = true;
+        out.push({ name: name, icon: "recent" });
+      });
+      DEFAULT_STATIONS.forEach(function (name) {
+        if (!name || seen[name] || name === origin) return;
+        seen[name] = true;
+        out.push({ name: name, icon: "popular" });
+      });
+      return out;
+    }
+    function showDefaultSug() {
+      var items = defaultSuggestions();
+      if (items.length) {
+        $origin.select();   // preselect current value so the first keystroke replaces it
+        renderSug(items);
+      }
+    }
+
     $origin.addEventListener("input", function () {
       var q = $origin.value.trim();
       if (sugDebounce) clearTimeout(sugDebounce);
-      if (!q) { hideSug(); return; }
+      if (!q) { showDefaultSug(); return; }
       sugDebounce = setTimeout(function () { fetchSug(q); }, 180);
     });
     $origin.addEventListener("focus", function () {
+      // On focus the input almost always shows the currently-selected origin;
+      // treat that as "nothing to search yet" and offer the fallback list so
+      // the user sees choices before typing.
       var q = $origin.value.trim();
-      if (q && sugCache[q]) renderSug(sugCache[q]);
+      if (!q || q === origin) { showDefaultSug(); return; }
+      if (sugCache[q]) renderSug(sugCache[q]);
+      else showDefaultSug();
     });
     $origin.addEventListener("keydown", function (e) {
       if ($sug.hidden) {
