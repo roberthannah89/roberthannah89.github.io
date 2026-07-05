@@ -1,12 +1,10 @@
 /* Peak Viewer prototype — app logic.
  *
- * Data:    window.CH_PEAKS  (from ch-peaks.js)
- * 3D:      Cesium 1.122 with Google Photorealistic 3D Tiles when a key is set
- *          (window.HIKING_CONFIG.googleMapsApiKey), Cesium World Terrain + Bing
- *          otherwise. Falls back gracefully so the page opens without setup.
+ * Data:  window.CH_PEAKS  (from ch-peaks.js)
+ * Map:   MapLibre GL with swisstopo SWISSIMAGE aerial imagery + Terrarium DEM
+ *        for 3D terrain — same stack as 3d-peaks.html. No API key required.
  *
- * Publicly-exposed hook (only): window.PeakViewer.togglePanel()  -- wired to
- * the DOM onclick attributes.
+ * Public hook: window.PeakViewer.togglePanel()  — wired to the DOM onclick.
  */
 (function () {
   'use strict';
@@ -16,50 +14,15 @@
   // ------------------------------------------------------------------
   const PEAKS = Array.isArray(window.CH_PEAKS) ? window.CH_PEAKS : [];
 
-  const MAX_LIST = 500;                // cap DOM cards rendered
-  const MAX_MARKERS = 4500;            // cap Cesium entities (dots)
+  const MAX_LIST = 500;                 // cap DOM cards rendered
   const HOME_VIEW = {
-    lon: 7.9, lat: 47.4, height: 260000,
-    heading: 155, pitch: -42
+    center: [8.2, 46.7], zoom: 7, pitch: 55, bearing: 20
   };
-  const FLY_OFFSET_KM = 2;
-  const FLY_ABOVE_M   = 800;
-  const FLY_PITCH_DEG = -25;
-  const FLY_DURATION_S = 2.5;
+  const FLY_DURATION_MS = 2500;
 
-  // Per-peak label visibility distance. Bigger + notable peaks stay labelled
-  // from farther away, so the on-screen label density stays roughly constant
-  // as you zoom. Camera-to-peak distance in metres.
-  function labelRangeM(p) {
-    const ele = p.ele || 0;
-    const notable = !!p.wikipedia;
-    // Country-wide view (camera ~260 km up): only the biggest peaks show.
-    if (ele >= 4300 || (notable && ele >= 4000)) return 500000;
-    if (ele >= 3700)                              return 140000;
-    if (ele >= 3000 || (notable && ele >= 2500)) return  45000;
-    if (ele >= 2500)                              return  15000;
-    if (ele >= 2000 || notable)                   return   7000;
-    if (ele >= 1500)                              return   3500;
-    return                                                1800;
-  }
-
-  // Quality tiers — mirrored from 3d-photorealistic.html
-  const QUALITY_STORAGE = 'proto:peak-viewer-quality';
-  const QUALITY_LABELS = { eco: '🐢 Eco', fast: '⚡ Fast', sharp: '🎨 Sharp' };
-  const QUALITY_TITLES = {
-    eco:   'Eco: no HiDPI render, sparse tiles. Click for Fast.',
-    fast:  'Fast: ~4K render cap, balanced tiles. Click for Sharp.',
-    sharp: 'Sharp: full HiDPI, dense tiles. Click for Eco.'
-  };
-  const QUALITY_ORDER = ['eco', 'fast', 'sharp'];
-  let currentQuality = (function () {
-    try { return localStorage.getItem(QUALITY_STORAGE) || 'fast'; } catch (e) { return 'fast'; }
-  })();
-
-  // Grade order used for the "hikeable" filter chips.
-  const GRADES = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
-
-  // Elevation range bounds computed from data
+  // ------------------------------------------------------------------
+  // Elevation range bounds
+  // ------------------------------------------------------------------
   const ELE_MIN = 400;
   const ELE_MAX = (() => {
     let m = 0;
@@ -67,15 +30,17 @@
     return Math.ceil(m / 100) * 100;
   })();
 
-  // Filter state (URL hash synced)
+  // ------------------------------------------------------------------
+  // Filter state
+  // ------------------------------------------------------------------
   const state = {
     search: '',
     eleMin: ELE_MIN,
     eleMax: ELE_MAX,
-    cantons: new Set(),      // empty = all
+    cantons: new Set(),
     notable: false,
     hikeable: false,
-    grades: new Set(),       // empty = all grades (subject to hikeable)
+    grades: new Set(),
     sort: 'ele-desc',
     selectedId: null
   };
@@ -87,6 +52,7 @@
   const dom = {
     layout: $('layout'),
     scene: $('scene'),
+    map: $('map'),
     banner: $('banner'),
     overStatus: $('over-status'),
     overPeak: $('over-peak'),
@@ -114,14 +80,11 @@
     cantonCountLbl: $('canton-count-lbl'),
     sortSelect: $('sort-select'),
     cardList: $('card-list'),
-    compass: $('compass'),
-    compassArrow: $('compass-arrow'),
     homeBtn: $('home-btn'),
-    qualityBtn: $('quality-btn'),
   };
 
   // ------------------------------------------------------------------
-  // Init: counts, canton chips, ranges
+  // Init UI: counts, canton chips, ranges
   // ------------------------------------------------------------------
   const CANTONS = (function () {
     const m = new Map();
@@ -132,7 +95,6 @@
   function initUi() {
     dom.peakCountTotal.textContent = PEAKS.length.toLocaleString() + ' peaks';
     dom.panelTotal.textContent = PEAKS.length.toLocaleString();
-
     dom.eleMin.min = dom.eleMax.min = ELE_MIN;
     dom.eleMin.max = dom.eleMax.max = ELE_MAX;
     dom.eleMin.value = ELE_MIN;
@@ -152,7 +114,7 @@
   }
 
   // ------------------------------------------------------------------
-  // Filter / sort / selection
+  // Filter / sort
   // ------------------------------------------------------------------
   function norm(s) {
     return (s || '').toLowerCase()
@@ -161,13 +123,11 @@
   }
 
   function matchesFilters(p) {
-    if (state.search) {
-      if (!norm(p.name).includes(state.search)) return false;
-    }
+    if (state.search && !norm(p.name).includes(state.search)) return false;
     if (typeof p.ele === 'number') {
       if (p.ele < state.eleMin || p.ele > state.eleMax) return false;
     } else if (state.eleMin > ELE_MIN || state.eleMax < ELE_MAX) {
-      return false; // hide unknown-elevation when the range is not full
+      return false;
     }
     if (state.cantons.size && !state.cantons.has(p.canton)) return false;
     if (state.notable && !p.wikipedia) return false;
@@ -202,7 +162,7 @@
   }
 
   // ------------------------------------------------------------------
-  // Render list
+  // Render list (DOM cards)
   // ------------------------------------------------------------------
   function el(tag, cls, text) {
     const e = document.createElement(tag);
@@ -239,8 +199,7 @@
     const elev = el('div', 'elev');
     if (typeof p.ele === 'number') {
       elev.textContent = Math.round(p.ele).toLocaleString();
-      const u = el('small', null, 'm');
-      elev.appendChild(u);
+      elev.appendChild(el('small', null, 'm'));
     } else {
       elev.classList.add('unknown');
       elev.textContent = '—';
@@ -281,7 +240,7 @@
       dom.cardList.appendChild(frag);
     }
 
-    render3DMarkers(filtered);
+    updatePeakSource(filtered);
     updateHash();
   }
 
@@ -294,7 +253,6 @@
     opts = opts || {};
     state.selectedId = id;
 
-    // Update card highlighting
     for (const card of dom.cardList.querySelectorAll('.peak-card')) {
       card.classList.toggle('selected', card.dataset.id === id);
     }
@@ -306,9 +264,11 @@
     const p = findPeak(id);
     if (!p) {
       dom.overPeak.hidden = true;
+      updateSelectedSource(null);
       updateHash();
       return;
     }
+
     dom.selName.textContent = p.name;
     dom.selEle.textContent = typeof p.ele === 'number' ? p.ele.toLocaleString() + ' m' : '';
 
@@ -324,7 +284,7 @@
       if (typeof p.sac.gain === 'number') parts.push(p.sac.gain + ' m gain');
       if (typeof p.sac.time_up === 'number') {
         const h = Math.floor(p.sac.time_up / 60), m = p.sac.time_up % 60;
-        parts.push(h + 'h ' + (m ? m + 'm' : '').trim());
+        parts.push(h + 'h' + (m ? ' ' + m + 'm' : ''));
       }
       dom.selSac.textContent = parts.join(' · ');
       dom.selSac.hidden = false;
@@ -348,9 +308,8 @@
     }
 
     dom.overPeak.hidden = false;
-
+    updateSelectedSource(p);
     if (opts.fly !== false) flyTo(p);
-    updateSelectedMarker(p);
     updateHash();
   }
 
@@ -360,7 +319,7 @@
       card.classList.remove('selected');
     }
     dom.overPeak.hidden = true;
-    updateSelectedMarker(null);
+    updateSelectedSource(null);
     updateHash();
   }
 
@@ -406,7 +365,6 @@
         case 'peak': state.selectedId = val; break;
       }
     }
-    // Push state back into inputs
     dom.searchInput.value = state.search;
     dom.eleMin.value = state.eleMin;
     dom.eleMax.value = state.eleMax;
@@ -513,313 +471,276 @@
       ? force
       : !dom.layout.classList.contains('collapsed');
     dom.layout.classList.toggle('collapsed', wantCollapse);
-    // Resize Cesium after transition finishes
-    setTimeout(resizeCesium, 340);
+    // Resize MapLibre after CSS transition finishes so its canvas fills again.
+    setTimeout(() => { if (map) map.resize(); }, 340);
   }
   window.PeakViewer = { togglePanel };
 
   // ------------------------------------------------------------------
-  // Cesium 3D
+  // MapLibre — map, layers, and interactions
   // ------------------------------------------------------------------
-  let viewer = null;
-  let googleTileset = null;
-  let peakEntities = new Map();  // id -> billboard entity
-  let selectedEntity = null;
+  let map = null;
+
+  // Peak tier used by MapLibre style expressions.
+  // 1 = major (visible from country view)
+  // 2 = mid  (visible zoomed in a step)
+  // 3 = local (only close-in)
+  // notable OR high elevation bumps into higher tiers.
+  function tierFor(ele, notable) {
+    ele = ele || 0;
+    if (ele >= 3800 || (notable && ele >= 3300)) return 1;
+    if (ele >= 3000 || (notable && ele >= 2000)) return 2;
+    return 3;
+  }
+
+  function toFeature(p) {
+    return {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+      properties: {
+        id: p.id,
+        name: p.name,
+        ele: typeof p.ele === 'number' ? Math.round(p.ele) : null,
+        tier: tierFor(p.ele, !!p.wikipedia),
+        notable: !!p.wikipedia,
+        hikeable: !!p.sac,
+      }
+    };
+  }
+
+  function updatePeakSource(filtered) {
+    if (!map) return;
+    const src = map.getSource('peaks');
+    if (!src) return;
+    src.setData({
+      type: 'FeatureCollection',
+      features: filtered.map(toFeature)
+    });
+  }
+
+  function updateSelectedSource(p) {
+    if (!map) return;
+    const src = map.getSource('selected-peak');
+    if (!src) return;
+    src.setData({
+      type: 'FeatureCollection',
+      features: p ? [toFeature(p)] : []
+    });
+  }
 
   function showBanner(html) {
     dom.banner.hidden = false;
     dom.banner.innerHTML = html;
   }
 
-  async function initCesium() {
-    try {
-      await window.__cesiumReady;
-    } catch (err) {
-      showBanner('Cesium failed to load. Ad-blocker or network filter is likely blocking it. Details: ' + err.message);
-      return;
-    }
-    const Cesium = window.Cesium;
-
-    viewer = new Cesium.Viewer('cesium-container', {
-      terrainProvider: new Cesium.EllipsoidTerrainProvider(),
-      baseLayerPicker: false,
-      timeline: false,
-      animation: false,
-      geocoder: false,
-      homeButton: false,
-      navigationHelpButton: false,
-      sceneModePicker: false,
-      infoBox: false,
-      selectionIndicator: false,
-      fullscreenButton: false
-    });
-    viewer.scene.skyBox.show = true;
-    viewer.scene.globe.enableLighting = false;
-
-    // Try Google Photorealistic tiles; on failure, use Cesium World Terrain + Bing.
-    const key = (window.HIKING_CONFIG && window.HIKING_CONFIG.googleMapsApiKey) || '';
-    if (key) {
-      try {
-        googleTileset = await Cesium.createGooglePhotorealistic3DTileset(key);
-        viewer.scene.primitives.add(googleTileset);
-      } catch (err) {
-        console.warn('Google 3D tileset failed, falling back:', err);
-        showBanner('Google Photorealistic tiles failed to load — using Cesium terrain + Bing satellite fallback.<br>Set <code>googleMapsApiKey</code> in <code>local-config.js</code> and reload for the photorealistic mesh.');
-        await useFallbackImagery();
-      }
-    } else {
-      showBanner('No Google Maps API key — using Cesium terrain + Bing satellite fallback.<br>For the photorealistic mesh, copy <code>local-config.example.js → local-config.js</code> and set <code>googleMapsApiKey</code>.');
-      await useFallbackImagery();
-    }
-
-    // Home camera
-    viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(HOME_VIEW.lon, HOME_VIEW.lat, HOME_VIEW.height),
-      orientation: {
-        heading: Cesium.Math.toRadians(HOME_VIEW.heading),
-        pitch:   Cesium.Math.toRadians(HOME_VIEW.pitch),
-        roll: 0
-      }
-    });
-
-    // Left-click on a peak billboard = select. Left-click elsewhere = deselect.
-    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-    handler.setInputAction((movement) => {
-      const picked = viewer.scene.pick(movement.position);
-      if (picked && picked.id && picked.id.peakId) {
-        select(picked.id.peakId, { fly: true });
-      } else {
-        deselect();
-      }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-    // Camera heading → compass arrow
-    viewer.scene.postRender.addEventListener(() => {
-      const heading = Cesium.Math.toDegrees(viewer.camera.heading);
-      dom.compassArrow.style.transform = 'rotate(' + (-heading) + 'deg)';
-      // Re-render markers when camera moves a lot; throttle so we don't thrash.
-      throttledMarkerRerender();
-    });
-
-    dom.compass.addEventListener('click', () => {
-      viewer.camera.flyTo({
-        destination: viewer.camera.positionWC.clone(),
-        orientation: {
-          heading: 0,
-          pitch: viewer.camera.pitch,
-          roll: 0
+  function initMap() {
+    map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        glyphs: 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
+        sources: {
+          swissimage: {
+            type: 'raster',
+            tiles: ['https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg'],
+            tileSize: 256, maxzoom: 19,
+            attribution: '&copy; swisstopo'
+          },
+          terrarium: {
+            type: 'raster-dem',
+            tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+            tileSize: 256, maxzoom: 15, encoding: 'terrarium',
+            attribution: 'Terrain: Mapzen / AWS Open Data'
+          }
         },
-        duration: 0.8
+        layers: [{ id: 'satellite', type: 'raster', source: 'swissimage' }],
+        terrain: { source: 'terrarium', exaggeration: 1.4 },
+        sky: {
+          'sky-color': '#a8c6de',
+          'horizon-color': '#dfe7ed',
+          'fog-color': '#dfe7ed',
+          'fog-ground-blend': 0.5
+        }
+      },
+      center: HOME_VIEW.center, zoom: HOME_VIEW.zoom,
+      pitch: HOME_VIEW.pitch, bearing: HOME_VIEW.bearing,
+      maxPitch: 85, hash: false
+    });
+
+    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
+    map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
+
+    map.on('load', () => {
+      map.addSource('peaks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      map.addSource('selected-peak', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+
+      // Dots — zoom-based visibility per tier so the country view stays clean
+      // and detail appears as you zoom in.
+      map.addLayer({
+        id: 'peaks-dot',
+        type: 'circle',
+        source: 'peaks',
+        paint: {
+          'circle-radius': [
+            'case',
+            ['==', ['get', 'tier'], 1], 5,
+            ['==', ['get', 'tier'], 2], 3.6,
+            2.4
+          ],
+          'circle-color': '#ffffff',
+          'circle-stroke-color': '#171a1f',
+          'circle-stroke-width': 1.4,
+          'circle-opacity': [
+            'case',
+            ['==', ['get', 'tier'], 1], 1,
+            ['==', ['get', 'tier'], 2],
+              ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
+            ['interpolate', ['linear'], ['zoom'], 9, 0, 11, 1]
+          ],
+          'circle-stroke-opacity': [
+            'case',
+            ['==', ['get', 'tier'], 1], 1,
+            ['==', ['get', 'tier'], 2],
+              ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
+            ['interpolate', ['linear'], ['zoom'], 9, 0, 11, 1]
+          ]
+        }
       });
+
+      // Peak labels — MapLibre's automatic collision detection culls
+      // overlapping labels. symbol-sort-key keeps high-elevation peaks
+      // visible when there's a conflict.
+      map.addLayer({
+        id: 'peaks-label',
+        type: 'symbol',
+        source: 'peaks',
+        layout: {
+          'text-field': [
+            'case',
+            ['==', ['get', 'ele'], null], ['get', 'name'],
+            ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'ele']], ' m']
+          ],
+          'text-font': ['Open Sans Semibold'],
+          'text-size': [
+            'case',
+            ['==', ['get', 'tier'], 1], 13,
+            ['==', ['get', 'tier'], 2], 11.5,
+            10.5
+          ],
+          'text-anchor': 'bottom',
+          'text-offset': [0, -0.65],
+          'text-allow-overlap': false,
+          'text-ignore-placement': false,
+          'text-padding': 3,
+          // Higher elevation wins ties (lower sort key = drawn first).
+          'symbol-sort-key': ['-', 5000, ['coalesce', ['get', 'ele'], 0]]
+        },
+        paint: {
+          'text-color': '#171a1f',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 1.6,
+          'text-halo-blur': 0.4
+        }
+      });
+
+      // Selected peak — pulse ring + red dot + big label, always on top.
+      map.addLayer({
+        id: 'selected-halo',
+        type: 'circle',
+        source: 'selected-peak',
+        paint: {
+          'circle-radius': 14,
+          'circle-color': '#c0392b',
+          'circle-opacity': 0.22
+        }
+      });
+      map.addLayer({
+        id: 'selected-dot',
+        type: 'circle',
+        source: 'selected-peak',
+        paint: {
+          'circle-radius': 6.5,
+          'circle-color': '#c0392b',
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 2
+        }
+      });
+      map.addLayer({
+        id: 'selected-label',
+        type: 'symbol',
+        source: 'selected-peak',
+        layout: {
+          'text-field': [
+            'case',
+            ['==', ['get', 'ele'], null], ['get', 'name'],
+            ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'ele']], ' m']
+          ],
+          'text-font': ['Open Sans Bold'],
+          'text-size': 14,
+          'text-anchor': 'bottom',
+          'text-offset': [0, -0.95],
+          'text-allow-overlap': true,
+          'text-ignore-placement': true
+        },
+        paint: {
+          'text-color': '#ffffff',
+          'text-halo-color': '#c0392b',
+          'text-halo-width': 2.2
+        }
+      });
+
+      // Click a peak → select it
+      map.on('click', 'peaks-dot', (e) => {
+        if (!e.features || !e.features.length) return;
+        select(e.features[0].properties.id, { fly: true });
+      });
+      map.on('click', 'peaks-label', (e) => {
+        if (!e.features || !e.features.length) return;
+        select(e.features[0].properties.id, { fly: true });
+      });
+      // Cursor over hits
+      map.on('mouseenter', 'peaks-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'peaks-dot', () => { map.getCanvas().style.cursor = ''; });
+
+      // Click empty terrain = deselect
+      map.on('click', (e) => {
+        const feats = map.queryRenderedFeatures(e.point, { layers: ['peaks-dot', 'peaks-label', 'selected-dot'] });
+        if (!feats || !feats.length) deselect();
+      });
+
+      // Populate with current filter state
+      updatePeakSource(lastFiltered);
+      if (state.selectedId) {
+        const p = findPeak(state.selectedId);
+        if (p) { updateSelectedSource(p); flyTo(p); }
+      }
     });
 
     dom.homeBtn.addEventListener('click', flyHome);
-
-    dom.qualityBtn.addEventListener('click', () => {
-      const idx = QUALITY_ORDER.indexOf(currentQuality);
-      currentQuality = QUALITY_ORDER[(idx + 1) % QUALITY_ORDER.length];
-      try { localStorage.setItem(QUALITY_STORAGE, currentQuality); } catch (e) {}
-      applyQuality();
-    });
-    applyQuality();
-
-    // Now render markers for whatever filters are active
-    render3DMarkers(lastFiltered);
   }
 
-  function applyQuality() {
-    if (!viewer) return;
-    dom.qualityBtn.textContent = QUALITY_LABELS[currentQuality] || QUALITY_LABELS.fast;
-    dom.qualityBtn.title = QUALITY_TITLES[currentQuality] || QUALITY_TITLES.fast;
-    if (currentQuality === 'eco') {
-      viewer.useBrowserRecommendedResolution = true;
-      viewer.resolutionScale = 1;
-      if (googleTileset) googleTileset.maximumScreenSpaceError = 24;
-    } else if (currentQuality === 'sharp') {
-      viewer.useBrowserRecommendedResolution = false;
-      viewer.resolutionScale = 1;
-      if (googleTileset) googleTileset.maximumScreenSpaceError = 8;
-    } else {
-      viewer.useBrowserRecommendedResolution = false;
-      const dpr = window.devicePixelRatio || 1;
-      const targetMaxWidth = 3840;
-      const fullWidth = window.innerWidth * dpr;
-      viewer.resolutionScale = fullWidth > targetMaxWidth ? targetMaxWidth / fullWidth : 1;
-      if (googleTileset) googleTileset.maximumScreenSpaceError = 12;
-    }
+  function flyTo(p) {
+    if (!map || !map.loaded()) return;
+    map.flyTo({
+      center: [p.lon, p.lat],
+      zoom: 13.5,
+      pitch: 70,
+      bearing: 20,
+      speed: 1.2,
+      duration: FLY_DURATION_MS,
+      essential: true
+    });
   }
 
   function flyHome() {
-    if (!viewer) return;
-    const Cesium = window.Cesium;
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(HOME_VIEW.lon, HOME_VIEW.lat, HOME_VIEW.height),
-      orientation: {
-        heading: Cesium.Math.toRadians(HOME_VIEW.heading),
-        pitch:   Cesium.Math.toRadians(HOME_VIEW.pitch),
-        roll: 0
-      },
-      duration: 1.6
-    });
-  }
-
-  async function useFallbackImagery() {
-    const Cesium = window.Cesium;
-    try {
-      viewer.scene.setTerrain(Cesium.Terrain.fromWorldTerrain({ requestVertexNormals: true }));
-    } catch (e) { /* keep default terrain */ }
-    try {
-      const bing = await Cesium.IonImageryProvider.fromAssetId(3);
-      viewer.imageryLayers.removeAll();
-      viewer.imageryLayers.addImageryProvider(bing);
-    } catch (e) { /* fallback default imagery stays */ }
-  }
-
-  function resizeCesium() {
-    if (viewer) viewer.resize();
-  }
-  window.addEventListener('resize', resizeCesium);
-
-  // ------------------------------------------------------------------
-  // Marker rendering
-  //
-  // Every filtered peak (up to MAX_MARKERS) is a persistent entity: a small
-  // dot always visible, plus a label whose visibility distance is set per-peak
-  // by labelRangeM(). Cesium culls labels beyond that camera distance
-  // automatically — so screen density stays roughly constant as you zoom.
-  // ------------------------------------------------------------------
-  const throttledMarkerRerender = () => {};  // no longer needed — Cesium culls per-entity
-
-  function buildLabelText(p) {
-    return typeof p.ele === 'number'
-      ? p.name + '  ' + Math.round(p.ele) + ' m'
-      : p.name;
-  }
-
-  function makeEntity(p) {
-    const Cesium = window.Cesium;
-    const height = typeof p.ele === 'number' ? p.ele : 2000;
-    const range = labelRangeM(p);
-    return viewer.entities.add({
-      position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat, height),
-      peakId: p.id,
-      point: {
-        pixelSize: 6,
-        color: Cesium.Color.fromCssColorString('#ffffff'),
-        outlineColor: Cesium.Color.fromCssColorString('#171a1f'),
-        outlineWidth: 1.5,
-        disableDepthTestDistance: 200,      // don't render dots hidden behind mountains
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 200000)
-      },
-      label: {
-        text: buildLabelText(p),
-        font: '600 12.5px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
-        fillColor: Cesium.Color.fromCssColorString('#ffffff'),
-        showBackground: true,
-        backgroundColor: Cesium.Color.fromCssColorString('rgba(20,22,26,0.82)'),
-        backgroundPadding: new Cesium.Cartesian2(7, 4),
-        pixelOffset: new Cesium.Cartesian2(10, -1),
-        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-        verticalOrigin: Cesium.VerticalOrigin.CENTER,
-        style: Cesium.LabelStyle.FILL,
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, range)
-      }
-    });
-  }
-
-  function styleSelected(entity, isSelected) {
-    const Cesium = window.Cesium;
-    entity.point.pixelSize = isSelected ? 12 : 6;
-    entity.point.color = isSelected
-      ? Cesium.Color.fromCssColorString('#c0392b')
-      : Cesium.Color.fromCssColorString('#ffffff');
-    entity.point.outlineColor = isSelected
-      ? Cesium.Color.fromCssColorString('#ffffff')
-      : Cesium.Color.fromCssColorString('#171a1f');
-    entity.point.outlineWidth = isSelected ? 2 : 1.5;
-    entity.point.disableDepthTestDistance = isSelected ? Number.POSITIVE_INFINITY : 200;
-    if (isSelected) {
-      // Always show the selected label, regardless of camera distance.
-      entity.label.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, 1e12);
-      entity.label.backgroundColor = Cesium.Color.fromCssColorString('rgba(192,57,43,0.92)');
-    } else {
-      const p = findPeak(entity.peakId);
-      entity.label.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, labelRangeM(p));
-      entity.label.backgroundColor = Cesium.Color.fromCssColorString('rgba(20,22,26,0.82)');
-    }
-  }
-
-  function render3DMarkers(filtered) {
-    if (!viewer) return;
-    filtered = filtered || [];
-    // Cap: keep the top MAX_MARKERS by elevation (already sorted by state.sort,
-    // so re-sort here specifically for the cap).
-    const renderable = filtered.length <= MAX_MARKERS
-      ? filtered
-      : filtered.slice().sort((a, b) => (b.ele || 0) - (a.ele || 0)).slice(0, MAX_MARKERS);
-    const renderableIds = new Set(renderable.map(p => p.id));
-
-    // Drop entities no longer in the filter
-    for (const [id, entity] of peakEntities) {
-      if (!renderableIds.has(id)) {
-        viewer.entities.remove(entity);
-        peakEntities.delete(id);
-      }
-    }
-    // Add new
-    for (const p of renderable) {
-      if (!peakEntities.has(p.id)) {
-        peakEntities.set(p.id, makeEntity(p));
-      }
-    }
-
-    if (state.selectedId) {
-      const p = findPeak(state.selectedId);
-      if (p) updateSelectedMarker(p);
-    }
-  }
-
-  function updateSelectedMarker(p) {
-    if (!viewer) return;
-    // Clear old selection style
-    if (selectedEntity) {
-      styleSelected(selectedEntity, false);
-      selectedEntity = null;
-    }
-    if (!p) return;
-    let ent = peakEntities.get(p.id);
-    if (!ent) {
-      // Peak was outside the filter — add it anyway so we can highlight it.
-      ent = makeEntity(p);
-      peakEntities.set(p.id, ent);
-    }
-    styleSelected(ent, true);
-    selectedEntity = ent;
-  }
-
-  // ------------------------------------------------------------------
-  // Fly-to
-  // ------------------------------------------------------------------
-  function flyTo(p) {
-    if (!viewer) return;
-    const Cesium = window.Cesium;
-    const summitEle = typeof p.ele === 'number' ? p.ele : 2000;
-
-    // 2 km south of summit, +800 m above summit
-    const kmPerDeg = 111.32;
-    const camLat = p.lat - (FLY_OFFSET_KM / kmPerDeg);
-    const camLon = p.lon;
-    const camHeight = summitEle + FLY_ABOVE_M;
-
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(camLon, camLat, camHeight),
-      orientation: {
-        heading: 0,
-        pitch: Cesium.Math.toRadians(FLY_PITCH_DEG),
-        roll: 0
-      },
-      duration: FLY_DURATION_S
+    if (!map) return;
+    map.flyTo({
+      center: HOME_VIEW.center,
+      zoom: HOME_VIEW.zoom,
+      pitch: HOME_VIEW.pitch,
+      bearing: HOME_VIEW.bearing,
+      duration: 1800,
+      essential: true
     });
   }
 
@@ -832,14 +753,15 @@
       dom.peakCountTotal.textContent = 'No data';
       return;
     }
+    if (typeof maplibregl === 'undefined') {
+      showBanner('MapLibre GL failed to load. Ad-blocker or network filter is likely blocking <code>unpkg.com</code>.');
+      return;
+    }
     initUi();
     bindFilterUi();
     readHash();
     renderList();
-    initCesium().then(() => {
-      // If a peak was selected via URL hash, fly to it now that Cesium is ready.
-      if (state.selectedId) select(state.selectedId, { fly: true, scrollIntoView: true });
-    });
+    initMap();
   }
 
   if (document.readyState === 'loading') {

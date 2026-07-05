@@ -10,7 +10,7 @@
 <meta name="proto-source" content="OpenStreetMap · geo.admin.ch · SAC suissealpine · Google Photorealistic 3D Tiles">
 <meta name="proto-order" content="130">
 
-<link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <link href="peak-viewer/peak-viewer.css" rel="stylesheet">
 </head>
 
@@ -18,7 +18,7 @@
 <div class="layout" id="layout">
   <!-- 3D pane -->
   <div class="scene" id="scene">
-    <div id="cesium-container"></div>
+    <div id="map"></div>
 
     <!-- Overlay: status (top-left) -->
     <div class="over over-status" id="over-status">
@@ -44,13 +44,10 @@
       </div>
     </div>
 
-    <!-- Compass + home + quality (bottom-right cluster) -->
+    <!-- Home button (bottom-right) — MapLibre's own NavigationControl handles
+         compass + zoom + pitch in the top-left corner. -->
     <div class="corner-cluster" id="corner-cluster">
-      <button type="button" class="corner-btn" id="quality-btn" title="Quality: Fast">⚡ Fast</button>
-      <button type="button" class="corner-btn" id="home-btn" title="Return to overview">⌂</button>
-      <button type="button" class="compass" id="compass" title="Reset heading to north">
-        <span id="compass-arrow">↑</span><strong>N</strong>
-      </button>
+      <button type="button" class="corner-btn" id="home-btn" title="Return to overview">⌂ Home</button>
     </div>
 
     <!-- Bottom-left hint (right-click drag to tilt) -->
@@ -123,31 +120,10 @@
   </div>
 </div>
 
-<!-- Optional local-config.js (git-ignored) with window.HIKING_CONFIG.googleMapsApiKey -->
-<script src="../../local-config.js" onerror="void 0"></script>
-
-<!-- Cesium loader with CDN fallback chain -->
-<script>
-(function () {
-  var CDNS = [
-    'https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js',
-    'https://unpkg.com/cesium@1.122/Build/Cesium/Cesium.js',
-    'https://cdn.jsdelivr.net/npm/cesium@1.122/Build/Cesium/Cesium.js'
-  ];
-  window.__cesiumReady = new Promise(function (resolve, reject) {
-    var i = 0;
-    (function tryNext() {
-      if (typeof window.Cesium !== 'undefined') return resolve();
-      if (i >= CDNS.length) return reject(new Error('Cesium failed to load from all CDNs.'));
-      var s = document.createElement('script');
-      s.src = CDNS[i++];
-      s.onload = function () { typeof window.Cesium !== 'undefined' ? resolve() : tryNext(); };
-      s.onerror = tryNext;
-      document.head.appendChild(s);
-    })();
-  });
-})();
-</script>
+<!-- MapLibre GL — 3D terrain, no API key required (uses swisstopo SWISSIMAGE
+     for imagery and Terrarium DEM for terrain). Same tile stack as
+     3d-peaks.html. -->
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
 <!-- Peak data. GENERATED FROM overpass-peaks.json by scripts/build_ch_peaks.py -->
 <script src="peak-viewer/ch-peaks.js" onerror="void 0"></script>

@@ -47,25 +47,29 @@ a:hover { text-decoration: underline; }
 .scene {
   position: relative;
   overflow: hidden;
-  background: #99aab4;  /* pre-Cesium ground fill */
+  background: #b8d0dc;  /* sky-ish fill while imagery loads */
   border-right: 1px solid var(--border);
 }
 .layout.collapsed .scene { border-right: none; }
-#cesium-container { position: absolute; inset: 0; }
+#map { position: absolute; inset: 0; }
 
-/* Cesium chrome cleanup */
-.cesium-viewer-toolbar,
-.cesium-viewer-animationContainer,
-.cesium-viewer-timelineContainer,
-.cesium-viewer-fullscreenContainer,
-.cesium-viewer-vrContainer { display: none !important; }
-.cesium-viewer-bottom, .cesium-widget-credits {
-  background: transparent !important;
+/* MapLibre chrome tweaks. */
+
+/* Push the top-left NavigationControl below our "Peak Viewer" status card. */
+.maplibregl-ctrl-top-left { top: 90px; }
+
+/* Keep attribution/scale visible but out of our controls-hint's way. */
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-bottom-right { z-index: 3; }
+.maplibregl-ctrl-attrib.maplibregl-compact { background: rgba(255,255,255,0.85); }
+.maplibregl-ctrl-scale {
+  background: rgba(255,255,255,0.75) !important;
+  color: #171a1f !important;
+  border-color: #171a1f !important;
 }
-.cesium-widget-credits, .cesium-widget-credits * {
-  color: rgba(255,255,255,0.85) !important;
-  font-size: 10.5px !important;
-}
+
+/* Bottom-left stacking: controls-hint above the ScaleControl. */
+.maplibregl-ctrl-bottom-left { bottom: 40px; }
 
 /* Overlays */
 .over {
