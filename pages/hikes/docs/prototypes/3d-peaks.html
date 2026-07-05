@@ -325,26 +325,31 @@
   peaksCount.textContent = COUNT_NEARBY;
 
   // --- Summit tour -------------------------------------------------------
-  // Fly to a viewpoint at the summit's elevation, sweep bearing 0 → 360
-  // with the camera pinned to that spot via setFreeCameraOptions so the
-  // view looks OUTWARD from the peak, then ease back to the previous
-  // camera. Button doubles as a stop control while the tour is running.
+  // Fly to a close, high-pitch view of the summit, then sweep bearing
+  // 0 → 360 with the camera orbiting around the peak (linear ease), then
+  // return to the previous camera. Button doubles as a stop control.
+  //
+  // We tried pinning the camera AT the summit with FreeCameraOptions for a
+  // first-person pan, but MapLibre GL JS does not expose that class or the
+  // matching setFreeCameraOptions() method on the public API (checked in
+  // both 4.7.1 and 5.7.0). Orbit-around is the reliable pattern with the
+  // stock camera API.
   var summitBtn = document.getElementById("summit-btn");
   var FLY_MS = 2200;
   var ROTATE_MS = 25000;
   var RETURN_MS = 2000;
-  var CAMERA_ALT_MARGIN = 20;   // metres above the summit for the eye point
-  var TOUR_PITCH = 85;          // 85° from vertical ≈ almost-horizontal look
-
-  // Pull the peak's elevation from the OSM feed so this stays route-agnostic
-  // if we ever wire the prototype to a different summit. Fallback = 2111 m.
-  var _summitPeak = NEARBY.find(function (p) { return p.name === SUMMIT_NAME; });
-  var SUMMIT_ELEV = (_summitPeak && _summitPeak.ele) || 2111;
+  var TOUR_PITCH = 68;          // steep enough to feel cinematic, low enough
+                                // that the camera stays above neighbouring peaks
+                                // as it orbits — pitch 84 buried it in the mesh.
+  var TOUR_ZOOM = 14.2;         // orbit radius ≈ 8 km — summit stays centred and
+                                // most of the surrounding range is in frame
 
   var TOUR_STATE = "idle";      // idle | flying | rotating | returning
   var pendingFlyTimeout = null;
+  var pendingReturnTimeout = null;
   var rotateRaf = null;
   var rotateStartMs = 0;
+  var rotateStartBearing = 0;
   var savedView = null;
 
   function setSummitIcon(isStop) {
@@ -369,8 +374,8 @@
 
     map.easeTo({
       center: SUMMIT,
-      zoom: 15.5,
-      pitch: 82,
+      zoom: TOUR_ZOOM,
+      pitch: TOUR_PITCH,
       bearing: 0,
       duration: FLY_MS
     });
@@ -379,7 +384,11 @@
       pendingFlyTimeout = null;
       if (TOUR_STATE !== "flying") return;
       TOUR_STATE = "rotating";
+      // easeTo({bearing:360}) is a no-op because MapLibre normalises 360→0
+      // and there's nothing to interpolate to. Drive the rotation frame-by-
+      // frame with setBearing() so we can walk the value past 360°.
       rotateStartMs = performance.now();
+      rotateStartBearing = map.getBearing();
       rotateRaf = requestAnimationFrame(rotateStep);
     }, FLY_MS);
   }
@@ -387,16 +396,7 @@
   function rotateStep(now) {
     if (TOUR_STATE !== "rotating") return;
     var t = Math.min(1, (now - rotateStartMs) / ROTATE_MS);
-    var bearing = t * 360;
-
-    // Camera position = actual summit point at (elevation + margin) metres.
-    // Pitch/bearing rotate the look direction in place — so we get a true
-    // first-person pan, not an orbit around the peak.
-    var pos = maplibregl.MercatorCoordinate.fromLngLat(SUMMIT, SUMMIT_ELEV + CAMERA_ALT_MARGIN);
-    var opts = new maplibregl.FreeCameraOptions(pos);
-    opts.setPitchBearing(TOUR_PITCH, bearing);
-    map.setFreeCameraOptions(opts);
-
+    map.setBearing(rotateStartBearing + t * 360);
     if (t < 1) {
       rotateRaf = requestAnimationFrame(rotateStep);
     } else {
@@ -408,18 +408,19 @@
   function endTour() {
     if (TOUR_STATE === "idle" || TOUR_STATE === "returning") return;
     if (pendingFlyTimeout) { clearTimeout(pendingFlyTimeout); pendingFlyTimeout = null; }
-    if (rotateRaf) { cancelAnimationFrame(rotateRaf); rotateRaf = null; }
+    if (rotateRaf)         { cancelAnimationFrame(rotateRaf);  rotateRaf = null; }
     TOUR_STATE = "returning";
 
     map.easeTo({
       center: [savedView.lng, savedView.lat],
       zoom: savedView.zoom,
       pitch: savedView.pitch,
-      bearing: savedView.bearing,
+      bearing: savedView.bearing % 360,
       duration: RETURN_MS
     });
 
-    setTimeout(function () {
+    pendingReturnTimeout = setTimeout(function () {
+      pendingReturnTimeout = null;
       TOUR_STATE = "idle";
       setSummitIcon(false);
       summitBtn.classList.remove("playing");
