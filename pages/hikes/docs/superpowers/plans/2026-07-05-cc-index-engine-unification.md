@@ -946,6 +946,14 @@ EOF
     u:  { type: 'bool', defaultTrue: true },
     wc: { type: 'bool'  },
     av: { type: 'bool'  },
+    // dp — CC-only tooltip content toggles (weather/name/T/↑m/h/alt). Included
+    // in the canonical map so a CC hash round-trips; index doesn't render the
+    // toggles and the matcher doesn't read this key, so `dp` in an index URL
+    // is a no-op.
+    dp: { type: 'csv'   },
+    // hp — CC-only "only routes with a built page" toggle. Short-keyed for
+    // URL compactness and consistency with the other boolean toggles.
+    hp: { type: 'bool'  },
   };
 
   function encodeVal(k, v) {
@@ -1128,7 +1136,8 @@ Then in `command-center/filters.js`:
   | `inSeasonNow` | `sn` |
   | `showHikes` | `h` |
   | `showHuts` | `u` |
-  | `hasPage` | `hasPage` (unchanged — not a short key in URL yet; keep as long form or add `hp` short if you want URL parity) |
+  | `hasPage` | `hp` |
+  | `display` | `dp` |
 
 - [ ] **Step 5: Migrate the index page to the shared store + matcher**
 
@@ -1326,6 +1335,8 @@ window.HikeMap.DayPicker.mount({
 ```
 
 Delete `buildFilterBar`, `filterGroup`, `seasonFilterGroup`, `displayFilterGroup`, `buildWeatherFilters`, `skyFilterGroup`, `buildDayPicker`, `sacGradeIcon` from `command-center.js`. Any helpers referenced only by those functions can also go.
+
+Also delete the Phase F transitional shims: `window.__hmStore`, `window.__hmMatcher`, and the `Filters` passthrough object (its callers were the deleted filter-bar functions). The remaining `Filters` API — if any — is `bestGrade(poi)` and `matches(poi)`; move those onto the composition script (or delete if unused) and remove the `filters.js` file.
 
 - [ ] **Step 3: Include the script**
 
