@@ -521,8 +521,9 @@ body.chrome-hidden #bottom-bar {
 }
 
 /* Marker cluster, hike-marker pill/dot, has-page ★, above-freezing ❄, and the
-   .leaflet-tooltip-pane click guard all live in command-center/marker-pill.css
-   so they can be shared with the Hikes index page without drifting. */
+   .leaflet-tooltip-pane click guard all live in
+   templates/_assets/hike_map/marker_pill.css so they can be shared with the
+   Hikes index page without drifting. */
 
 /* Reference-city markers (Zürich, Geneva, Zermatt, …). Squared corners and a
    cool slate border read as "not a hike" against the warm, round, grade-tinted

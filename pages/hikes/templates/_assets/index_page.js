@@ -511,6 +511,20 @@ bootAvalancheLayer();
 updateResetVisibility();
 applyFilters();
 store.subscribe(updateResetVisibility);
+// Recompute card/marker visibility on every store change. Needed so that
+// cross-page state changes driven from outside index's own UI — e.g. the
+// hike_map/url_sync.js cross-page banner's Clear button, which fires a
+// single store.setAll() patching sk/t/sn/dp/h/hp back to null — actually
+// re-run the visibility pipeline. Without this, updateResetVisibility()
+// above was the only subscriber, so e.g. index.html#h=0 (all cards hidden)
+// stayed hidden even after the banner's Clear button cleared the URL.
+// Mirrors CC's command-center.js store.subscribe pattern; index has no
+// display pills, so there's no 'dp'-only fast path to special-case here.
+store.subscribe(function () {
+  applyFilters();
+  refreshMarkerIcons();
+  renderCardStrips();
+});
 window.HikeMap.UrlSync.mountCrossPageBanner({
   store: store,
   uiKeys: store.keys,

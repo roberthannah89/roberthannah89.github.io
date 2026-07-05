@@ -93,11 +93,14 @@ window.HikeMap.SidePanel = {
   // returns { open(pageNative), close(), refresh() }
 };
 
-// webcams.js, slf_layer.js — always-on / opt-in map layers. See "Always-on
-// layers" below for why avalanche has no create-time gate.
-window.HikeMap.WebcamLayer   = { create({ map }) };
-window.HikeMap.AvalancheLayer = { create({ map }) };
+// webcams.js — attaches to `window.WebcamLayer` (not HikeMap.*, historical).
+window.WebcamLayer = { create() → Promise<L.Layer> };   // caller adds to map
+
+// slf_layer.js — attaches to `window.SlfLayer` (not HikeMap.*, historical).
+window.SlfLayer = { create() → Promise<L.Layer> };
 ```
+
+**Historical namespaces.** `WebcamLayer` and `SlfLayer` predate the `HikeMap.*` convention and attach directly to `window.*`. They're used identically to the HikeMap modules by both composition scripts. A future refactor may rename them to `HikeMap.WebcamLayer` / `HikeMap.AvalancheLayer` for consistency; there is no user-facing behavior change to make first.
 
 ## Weather data
 
@@ -130,7 +133,7 @@ Adapters:
 
 `FilterStore({ keys, initial })` holds one page's filter state as a plain object. `store.set(k, v)` (or `setAll(partial)`) updates state and calls every subscriber as `fn(state, changedKeys)`, where `changedKeys` is the array of keys that actually changed in that call.
 
-**Only listed keys fire subscribers.** A `set()` call that doesn't change any value (same value written back) does not notify. This is what makes the `dp`-only guard below safe: a subscriber can inspect `changedKeys` and skip expensive work when it knows a particular key can't affect its output.
+**All keys — listed and unknown — fire subscribers.** Listed keys are the ones the page's UI writes back through the store; unknown keys arrive via URL replay and are applied through the matcher. Subscribers can inspect `changedKeys` to skip work on keys that don't affect them (see the `dp`-only guard in CC composition below). Separately, a `set()` call whose new value is reference-equal (`===`) to the current value does not notify — arrays and objects don't get deep equality, so pass new references when you mean to change one.
 
 **Hot-path optimization pattern — the `dp`-only skip.** `dp` (Display) controls which fields render in the marker tooltip (name/temp/gain/time/alt) and whether the weather pill or a grade dot is drawn — it never changes *which* POIs are visible. `filter_matcher.js` never reads `dp` at all. So CC's main store subscriber (`command-center.js`) special-cases it:
 
@@ -230,6 +233,8 @@ This invariant ported over verbatim from Command Center during Phase D and now l
 
 ## Always-on layers
 
-The SLF avalanche layer (`AvalancheLayer.create({ map })`) is auto-created at boot on both pages — there is no toggle, no `av` URL key, and no bottom-bar/filter-bar control for it. Rationale: this is a safety-relevant layer (avalanche danger regions), and safety layers must never be hidden behind a click a user might not think to make. Off-season, the underlying SLF feed returns an empty `FeatureCollection`, so there's no summer clutter cost to being always-on.
+The SLF avalanche layer is auto-created at boot on both pages — there is no toggle, no `av` URL key, and no bottom-bar/filter-bar control for it. Rationale: this is a safety-relevant layer (avalanche danger regions), and safety layers must never be hidden behind a click a user might not think to make. Off-season, the underlying SLF feed returns an empty `FeatureCollection`, so there's no summer clutter cost to being always-on.
 
-Any future "danger segment" or similarly safety-critical layer should follow the same pattern: `create({ map })` called unconditionally at boot, no opt-out. This also keeps URL state simpler — one less key to encode, read, and reason about in the cross-page banner.
+The two pages call this at boot through different wrappers: index calls `window.SlfLayer.create()` directly (`bootAvalancheLayer()` in `index_page.js`); CC calls `window.Overlays.Avalanche.create()` (`command-center/overlays.js`), a composite that layers SLF's `SlfLayer.create()` output together with the BAFU statutory hazard-zone WMS (CC's `bootAvalancheLayer()` in `command-center.js`). Both resolve to `Promise<L.Layer>` with no `create()` arguments — the caller adds the resolved layer to the map itself.
+
+Any future "danger segment" or similarly safety-critical layer should follow the same pattern: `create()` called unconditionally at boot, no opt-out. This also keeps URL state simpler — one less key to encode, read, and reason about in the cross-page banner.

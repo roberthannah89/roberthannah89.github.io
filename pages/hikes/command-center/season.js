@@ -28,9 +28,10 @@
    When those land, return `source: 'sac'` and a derived window.
 
    Loaded as a plain <script> (no ES modules — pages run via file://),
-   exposes window.Season. We compute the best grade locally rather than
-   calling Filters.bestGrade — keeps season.js a leaf (filters.js consumes
-   Season, not the other way around) and avoids a script-order coupling. */
+   exposes window.Season. We compute the best grade locally (bestGradeNum
+   below) rather than depending on another module's grade helper — keeps
+   season.js a leaf module with no script-order coupling to filter_matcher.js
+   or anything else that reads Season's output. */
 (function () {
   'use strict';
 
@@ -79,8 +80,9 @@
   }
 
   function bestGradeNum(poi) {
-    // Mirror Filters.bestGrade / Filters.gradeNum locally so season.js
-    // doesn't depend on script-tag order with filters.js.
+    // Local, self-contained grade lookup — season.js is a leaf module with
+    // no dependency on filters.js (removed) or any other module's grade
+    // helper, so there's no script-tag ordering to worry about.
     if (!poi) return 1;
     // CC POIs carry multiple routes[]; index hikes (and the shared
     // matcher's matchablePoi.raw for index) are single-route with a flat

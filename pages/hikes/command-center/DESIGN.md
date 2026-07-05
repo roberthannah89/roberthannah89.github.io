@@ -23,7 +23,7 @@ The core question this tool answers: **"Where should I hike this weekend given t
 | `SAC_ROUTES` | `../guides/sac-routes.js` | Scraped SAC POIs (peaks + huts) |
 | `WEATHER_CACHE` + `WEATHER_CACHE_META` | `../templates/_assets/hike_map/weather-cache.js` | Pre-baked by `scripts/fetch_weather.py` |
 | `WINDY_WEBCAMS` | `../templates/_assets/hike_map/webcams_windy_data.js` | Pre-fetched by `scripts/fetch_windy_webcams.py` |
-| `SLF_CACHE` + `SLF_CACHE_META` | `../templates/_assets/hike_map/slf_cache.js` | Pre-baked by `scripts/fetch_slf_avalanche.py` (lazy-loaded by `AvalancheLayer.create()`, called automatically at boot — no toggle) |
+| `SLF_CACHE` + `SLF_CACHE_META` | `../templates/_assets/hike_map/slf_cache.js` | Pre-baked by `scripts/fetch_slf_avalanche.py` (lazy-loaded by `window.Overlays.Avalanche.create()`, called automatically at boot — no toggle) |
 | `SWISS_BORDER` | `../routes/_assets/swiss_border.js` | GADM boundary |
 | `cantons` data | `cantons.js` | Canton polygons (not currently rendered as overlay) |
 
@@ -71,9 +71,9 @@ No `av` key — the avalanche layer has no toggle (see "Always-on layers" in the
 |---|---|---|
 | ⛰ Hikes | on | Show peak/summit/traverse POIs (filter key `h`) |
 | 🏚 SAC huts | on | Show SAC hut POIs (filter key `u`) |
-| 📷 Webcams | off | Add the Windy webcam layer (`HikeMap.WebcamLayer.create()`) |
+| 📷 Webcams | off | Add the Windy webcam layer (`window.WebcamLayer.create()`) |
 
-Avalanche is **not** a bottom-bar toggle — it's always on, auto-created at boot by the engine (`HikeMap.AvalancheLayer.create({ map })`, called unconditionally, no gate). See "Always-on layers" in [`hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md#always-on-layers).
+Avalanche is **not** a bottom-bar toggle — it's always on, auto-created at boot by `bootAvalancheLayer()` in `command-center.js` (`window.Overlays.Avalanche.create()`, called unconditionally, no gate). See "Always-on layers" in [`hike_map/DESIGN.md`](../templates/_assets/hike_map/DESIGN.md#always-on-layers).
 
 Tooltip/name visibility is controlled by the filter-bar **Show** (`dp`) pills, not a bottom-bar toggle.
 
