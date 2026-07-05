@@ -166,7 +166,7 @@
   var PEAK_STATES = [
     { key: "nearby", fc: FC_NEARBY, emoji: "&#x1F3D4;&#xFE0F;", count: COUNT_NEARBY },              // 🏔️
     { key: "swiss",  fc: FC_SWISS,  emoji: "&#x26F0;&#xFE0F;",  count: COUNT_SWISS.toLocaleString() }, // ⛰️
-    { key: "off",    fc: FC_EMPTY,  emoji: "&#x1F6AB;",         count: null }                          // 🚫
+    { key: "off",    fc: FC_EMPTY,  emoji: "&#x1F5FA;&#xFE0F;", count: null }                          // 🗺️
   ];
 
   var map = new maplibregl.Map({
@@ -325,67 +325,112 @@
   peaksCount.textContent = COUNT_NEARBY;
 
   // --- Summit tour -------------------------------------------------------
-  // Fly to a viewpoint just above the summit, do a full 360° bearing sweep,
-  // then ease back to the previous camera. Buttons are locked while running
-  // so a second click can't queue overlapping camera moves.
+  // Fly to a viewpoint at the summit's elevation, sweep bearing 0 → 360
+  // with the camera pinned to that spot via setFreeCameraOptions so the
+  // view looks OUTWARD from the peak, then ease back to the previous
+  // camera. Button doubles as a stop control while the tour is running.
   var summitBtn = document.getElementById("summit-btn");
   var FLY_MS = 2200;
-  var ROTATE_MS = 18000;
+  var ROTATE_MS = 25000;
   var RETURN_MS = 2000;
-  var touring = false;
+  var CAMERA_ALT_MARGIN = 20;   // metres above the summit for the eye point
+  var TOUR_PITCH = 85;          // 85° from vertical ≈ almost-horizontal look
 
-  function runSummitTour() {
-    if (touring) return;
-    touring = true;
+  // Pull the peak's elevation from the OSM feed so this stays route-agnostic
+  // if we ever wire the prototype to a different summit. Fallback = 2111 m.
+  var _summitPeak = NEARBY.find(function (p) { return p.name === SUMMIT_NAME; });
+  var SUMMIT_ELEV = (_summitPeak && _summitPeak.ele) || 2111;
+
+  var TOUR_STATE = "idle";      // idle | flying | rotating | returning
+  var pendingFlyTimeout = null;
+  var rotateRaf = null;
+  var rotateStartMs = 0;
+  var savedView = null;
+
+  function setSummitIcon(isStop) {
+    summitBtn.innerHTML = isStop ? "&#x23F9;&#xFE0F;" : "&#x1F3A5;";  // ⏹️ or 🎥
+    summitBtn.title = isStop ? "Stop tour" : "Fly to the summit and pan 360°";
+  }
+
+  function beginTour() {
+    if (TOUR_STATE !== "idle") return;
+    TOUR_STATE = "flying";
+    setSummitIcon(true);
     summitBtn.classList.add("playing");
     peaksBtn.disabled = true;
-    summitBtn.disabled = true;
 
-    var saved = {
-      center: map.getCenter(),
+    savedView = {
+      lng: map.getCenter().lng,
+      lat: map.getCenter().lat,
       zoom: map.getZoom(),
       pitch: map.getPitch(),
       bearing: map.getBearing()
     };
 
-    // Step 1 — fly to the summit at a steep, tight camera.
     map.easeTo({
       center: SUMMIT,
-      zoom: 15,
-      pitch: 80,
+      zoom: 15.5,
+      pitch: 82,
       bearing: 0,
       duration: FLY_MS
     });
 
-    // Step 2 — after the fly-in, sweep bearing 0 → 360 linearly.
-    setTimeout(function () {
-      map.easeTo({
-        bearing: 360,
-        duration: ROTATE_MS,
-        easing: function (t) { return t; }
-      });
+    pendingFlyTimeout = setTimeout(function () {
+      pendingFlyTimeout = null;
+      if (TOUR_STATE !== "flying") return;
+      TOUR_STATE = "rotating";
+      rotateStartMs = performance.now();
+      rotateRaf = requestAnimationFrame(rotateStep);
     }, FLY_MS);
-
-    // Step 3 — return to the previous camera and re-enable controls.
-    setTimeout(function () {
-      map.easeTo({
-        center: [saved.center.lng, saved.center.lat],
-        zoom: saved.zoom,
-        pitch: saved.pitch,
-        bearing: saved.bearing,
-        duration: RETURN_MS
-      });
-    }, FLY_MS + ROTATE_MS);
-
-    setTimeout(function () {
-      touring = false;
-      summitBtn.classList.remove("playing");
-      peaksBtn.disabled = false;
-      summitBtn.disabled = false;
-    }, FLY_MS + ROTATE_MS + RETURN_MS);
   }
 
-  summitBtn.addEventListener("click", runSummitTour);
+  function rotateStep(now) {
+    if (TOUR_STATE !== "rotating") return;
+    var t = Math.min(1, (now - rotateStartMs) / ROTATE_MS);
+    var bearing = t * 360;
+
+    // Camera position = actual summit point at (elevation + margin) metres.
+    // Pitch/bearing rotate the look direction in place — so we get a true
+    // first-person pan, not an orbit around the peak.
+    var pos = maplibregl.MercatorCoordinate.fromLngLat(SUMMIT, SUMMIT_ELEV + CAMERA_ALT_MARGIN);
+    var opts = new maplibregl.FreeCameraOptions(pos);
+    opts.setPitchBearing(TOUR_PITCH, bearing);
+    map.setFreeCameraOptions(opts);
+
+    if (t < 1) {
+      rotateRaf = requestAnimationFrame(rotateStep);
+    } else {
+      rotateRaf = null;
+      endTour();
+    }
+  }
+
+  function endTour() {
+    if (TOUR_STATE === "idle" || TOUR_STATE === "returning") return;
+    if (pendingFlyTimeout) { clearTimeout(pendingFlyTimeout); pendingFlyTimeout = null; }
+    if (rotateRaf) { cancelAnimationFrame(rotateRaf); rotateRaf = null; }
+    TOUR_STATE = "returning";
+
+    map.easeTo({
+      center: [savedView.lng, savedView.lat],
+      zoom: savedView.zoom,
+      pitch: savedView.pitch,
+      bearing: savedView.bearing,
+      duration: RETURN_MS
+    });
+
+    setTimeout(function () {
+      TOUR_STATE = "idle";
+      setSummitIcon(false);
+      summitBtn.classList.remove("playing");
+      peaksBtn.disabled = false;
+    }, RETURN_MS);
+  }
+
+  summitBtn.addEventListener("click", function () {
+    if (TOUR_STATE === "idle") beginTour();
+    else endTour();
+  });
 })();
 </script>
 
