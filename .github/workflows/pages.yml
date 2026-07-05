@@ -27,7 +27,7 @@ jobs:
       needs_render: ${{ steps.scope.outputs.needs_render }}
       weather_key: ${{ steps.bucket.outputs.key }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2  # need previous commit for the change-scope diff
 
@@ -88,11 +88,11 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Restore weather cache
         id: weather-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: pages/hikes/command-center/weather-cache.js
           key: ${{ needs.plan.outputs.weather_key }}
@@ -111,7 +111,7 @@ jobs:
             echo "Cache miss on push — reusing committed weather-cache.js (next cron xx:15 refreshes)"
           fi
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         if: steps.decide.outputs.fetch == 'true'
         with:
           python-version: "3.12"
@@ -127,7 +127,7 @@ jobs:
         run: cd pages/hikes && python scripts/fetch_weather.py
 
       - name: Upload weather cache
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: weather-cache
           path: pages/hikes/command-center/weather-cache.js
@@ -142,9 +142,9 @@ jobs:
     if: needs.plan.outputs.needs_render == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -165,7 +165,7 @@ jobs:
       # Upload only the generated files. Least common ancestor is
       # `pages/hikes/`, so download into `pages/hikes/` to restore paths.
       - name: Upload rendered site
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: rendered-site
           path: |
@@ -193,17 +193,17 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Download weather cache
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: weather-cache
           path: pages/hikes/command-center/
 
       - name: Download rendered site
         if: needs.plan.outputs.needs_render == 'true'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: rendered-site
           path: pages/hikes/
@@ -221,9 +221,9 @@ jobs:
           fi
 
       - name: Upload site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: .
 
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
