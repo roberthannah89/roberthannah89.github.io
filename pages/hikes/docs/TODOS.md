@@ -45,6 +45,18 @@ Background: every hike page links to a per-hike 3D view powered by [MapLibre GL 
 
 ---
 
+## 3D command center
+
+- **What:** A 3D-terrain version of [`command-center/`](../command-center/index.html) — the current Leaflet 2D view (hikes, cantons, cities, webcams, weather stations, SLF avy stations, season filter) rendered on tilted swisstopo terrain via MapLibre GL, same stack as [`prototypes/3d-peaks.html`](prototypes/3d-peaks.html).
+- **Why:** Would give the map a "planning-from-above" feel — you can actually see which hikes sit on which ridges, why one canton's terrain differs from its neighbor, and where webcams point. The 3D peaks prototype already proves swisstopo raster + Terrarium DEM renders Swiss terrain well enough.
+- **Cost:**
+  - Setup: everything Leaflet-specific gets rewritten — marker clustering, layer toggles, first-click popup fix, `url-sync`, `side-panel` wiring. MapLibre has native `Marker`/`Popup`/`NavigationControl` equivalents but the wiring is different.
+  - Perf: mobile GPU cost is meaningfully higher with hundreds of markers on tilted terrain. Label collision on 3D is much harder than on 2D — the peaks prototype gets away with it because it's ~50 labels for one route.
+  - Money: none (MapLibre + swisstopo + Terrarium DEM are all free).
+- **Why not yet:** Full port is a lot of surface area for a "nice to have". A hybrid path is probably better: keep 2D as default, add a "3D view" pill that swaps to a MapLibre canvas with a reduced marker set (hikes + summits only, no webcams/stations). Ship that first, see if anyone uses it.
+
+---
+
 ## How to use this doc
 
 - Skim before starting a new feature — chances are it's been thought about.
