@@ -1,0 +1,152 @@
+/* GENERATED FROM ../../templates/_assets/hike_map/marker_pill.css — edit the template, not this file.
+   scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI). */
+
+/* Shared marker styling for the Command Center and Hikes index pages.
+ *
+ * Includes:
+ *   - .hike-marker (dot + weather-pill modes)
+ *   - .marker-cluster (count + dominant-sky-emoji + avg-temp pill)
+ *   - .hike-marker--has-page (amber ★ top-right)
+ *   - .hike-marker--above-freezing (pale-blue ❄ bottom-right)
+ *   - .leaflet-tooltip-pane pointer-events guard (first-click popup fix)
+ *
+ * CSS variables are scoped to the marker classes so they don't leak into
+ * either page's broader theming. Values mirror the Command Center palette
+ * (--amber, --text-primary, --font-mono, --font-display in command-center.css).
+ */
+
+.hike-marker,
+.marker-cluster,
+.marker-cluster > div {
+  --mp-amber: #e8a832;
+  --mp-text-primary: #f0e8d8;
+  --mp-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --mp-font-display: 'Familjen Grotesk', system-ui, sans-serif;
+}
+
+.marker-cluster {
+  background: transparent !important;
+  border: none !important;
+}
+
+.marker-cluster > div {
+  width: 64px !important;
+  height: 28px !important;
+  border-radius: 14px !important;
+  border: 2px solid var(--mp-amber) !important;
+  background: rgba(26, 24, 16, 0.92) !important;
+  color: var(--mp-amber) !important;
+  font-family: var(--mp-font-mono) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  padding: 0 6px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+  line-height: 1 !important;
+}
+
+.marker-cluster .cl-n {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.marker-cluster .cl-wx {
+  font-size: 13px;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.6));
+}
+
+.marker-cluster .cl-t {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* Hike markers — two visual modes */
+.hike-marker {
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* Default: small grade-colored dot */
+.hike-marker--dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.6);
+}
+
+/* Weather mode: pill with emoji + temperature */
+.hike-marker--wx {
+  width: 40px;
+  height: 28px;
+  border-radius: 14px;
+  border: 2px solid #000;
+  background: rgba(26, 24, 16, 0.92) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.hike-marker__wx {
+  font-size: 13px;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.6));
+}
+
+.hike-marker__temp {
+  font-family: var(--mp-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--mp-text-primary);
+  line-height: 1;
+}
+
+/* Subtle amber star superscript on markers whose hike has a built page in
+   this repo. The star overflows the marker's top-right corner; the dark
+   text-shadow keeps it legible over any base-map tile. */
+.hike-marker--has-page::after {
+  content: "★";
+  position: absolute;
+  top: -7px;
+  right: -6px;
+  color: var(--mp-amber);
+  font-size: 12px;
+  line-height: 1;
+  font-family: var(--mp-font-display);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+}
+
+/* Snowflake at bottom-right when the peak's elevation exceeds the forecast
+   freezing-level (daily max) for the currently selected Day. Sits opposite
+   the ★ has-page badge so the two never collide. text-shadow keeps the
+   glyph legible against snow/glacier/forest tiles alike. ::before so it
+   stacks independently of the existing ::after star pseudo-element. */
+.hike-marker--above-freezing::before {
+  content: "❄";
+  position: absolute;
+  bottom: -7px;
+  right: -6px;
+  color: #cfe3ff;
+  font-size: 11px;
+  line-height: 1;
+  font-family: var(--mp-font-display);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+}
+/* Dot mode is only 12 × 12, so nudge the badge a hair further out so it
+   doesn't crowd the dot itself. */
+.hike-marker--dot.hike-marker--above-freezing::before {
+  bottom: -8px;
+  right: -8px;
+  font-size: 10px;
+}
+
+/* Tooltip pane never intercepts clicks — markers must always receive them.
+   ⚠️ DO NOT REMOVE: half of the first-click-popup regression guard. See the
+   FIRST-CLICK REGRESSION GUARD comment in command-center.js (createMarkers). */
+.leaflet-tooltip-pane { pointer-events: none; }

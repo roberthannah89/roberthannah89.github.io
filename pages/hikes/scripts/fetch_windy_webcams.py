@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Fetch Swiss mountain webcams from the Windy Webcams API v3.
 
-Writes results to docs/prototypes/webcams_windy_data.js as a JS global
-(`window.WINDY_WEBCAMS`), so the prototype page can load it via a
+Writes results to templates/_assets/hike_map/webcams_windy_data.js as a JS global
+(`window.WINDY_WEBCAMS`), so pages can load it via a
 <script> tag (no fetch — works under file://).
 
 The API key must be supplied via the WINDY_API_KEY env var. Never commit it.
@@ -28,7 +28,7 @@ MIN_VIEWS = 1000  # filter out very low-traffic cams (often dead/private)
 
 OUTPUT = (
     Path(__file__).resolve().parent.parent
-    / "docs" / "prototypes" / "webcams_windy_data.js"
+    / "templates" / "_assets" / "hike_map" / "webcams_windy_data.js"
 )
 
 

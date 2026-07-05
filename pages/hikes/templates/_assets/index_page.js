@@ -1,7 +1,7 @@
 // Index page runtime. Reads hike data from window.HIKES (set inline by the template).
 //
 // Weather comes from window.WEATHER_CACHE (pre-baked by `make weather` →
-// command-center/weather-cache.js), accessed through window.WeatherService.
+// hike_map/weather-cache.js), accessed through window.WeatherService.
 // Same data source as Command Center — the two pages can't drift on forecast
 // content, model, or schema.
 (function () {

@@ -857,7 +857,7 @@
   // Walk the GPX via Naismith from a user-chosen start time; sample weather at each whole
   // hour position. One batched Open-Meteo call covers all sampled grid cells. Temperatures
   // are lapse-rate corrected from the model's grid elevation down to the actual trail point.
-  // WMO code → emoji (mirrors command-center/weather.js → WeatherService.weatherIcon).
+  // WMO code → emoji (mirrors hike_map/weather.js → WeatherService.weatherIcon).
   // The U+FE0F selector forces colour-emoji presentation, matching the map markers.
   function wxIcon(code) {
     if (code == null) return "—";

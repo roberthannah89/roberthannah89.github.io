@@ -931,38 +931,48 @@ def sync_assets(root: Path) -> tuple[int, int]:
     dst_dir.mkdir(parents=True, exist_ok=True)
     copied = 0
     total = 0
-    for src in src_dir.iterdir():
-        if not src.is_file():
-            continue
-        total += 1
-        dst = dst_dir / src.name
-        ext = src.suffix.lower()
-        if ext == ".js":
-            banner = (
-                f"// GENERATED FROM ../../templates/_assets/{src.name} — edit the template, not this file.\n"
-                f"// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).\n\n"
-            )
-            payload = banner.encode() + src.read_bytes()
-            if not dst.exists() or dst.read_bytes() != payload:
-                dst.write_bytes(payload)
-                shutil.copystat(src, dst)
-                copied += 1
-        elif ext == ".css":
-            banner = (
-                f"/* GENERATED FROM ../../templates/_assets/{src.name} — edit the template, not this file.\n"
-                f"   scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI). */\n\n"
-            )
-            payload = banner.encode() + src.read_bytes()
-            if not dst.exists() or dst.read_bytes() != payload:
-                dst.write_bytes(payload)
-                shutil.copystat(src, dst)
-                copied += 1
-        else:
-            if (not dst.exists()
-                    or dst.stat().st_size != src.stat().st_size
-                    or dst.read_bytes() != src.read_bytes()):
-                shutil.copy2(src, dst)
-                copied += 1
+
+    def copy_recursive(src_path: Path, dst_path: Path, rel_path: str = "") -> None:
+        """Recursively copy files/directories, handling subdirs for hike_map etc."""
+        nonlocal copied, total
+        for src in src_path.iterdir():
+            rel = f"{rel_path}/{src.name}" if rel_path else src.name
+            if src.is_dir():
+                dst = dst_path / src.name
+                dst.mkdir(parents=True, exist_ok=True)
+                copy_recursive(src, dst, rel)
+            else:
+                total += 1
+                dst = dst_path / src.name
+                ext = src.suffix.lower()
+                if ext == ".js":
+                    banner = (
+                        f"// GENERATED FROM ../../templates/_assets/{rel} — edit the template, not this file.\n"
+                        f"// scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI).\n\n"
+                    )
+                    payload = banner.encode() + src.read_bytes()
+                    if not dst.exists() or dst.read_bytes() != payload:
+                        dst.write_bytes(payload)
+                        shutil.copystat(src, dst)
+                        copied += 1
+                elif ext == ".css":
+                    banner = (
+                        f"/* GENERATED FROM ../../templates/_assets/{rel} — edit the template, not this file.\n"
+                        f"   scripts/render_hike.py sync_assets() overwrites this on every `make render` (and on CI). */\n\n"
+                    )
+                    payload = banner.encode() + src.read_bytes()
+                    if not dst.exists() or dst.read_bytes() != payload:
+                        dst.write_bytes(payload)
+                        shutil.copystat(src, dst)
+                        copied += 1
+                else:
+                    if (not dst.exists()
+                            or dst.stat().st_size != src.stat().st_size
+                            or dst.read_bytes() != src.read_bytes()):
+                        shutil.copy2(src, dst)
+                        copied += 1
+
+    copy_recursive(src_dir, dst_dir)
     return copied, total
 
 

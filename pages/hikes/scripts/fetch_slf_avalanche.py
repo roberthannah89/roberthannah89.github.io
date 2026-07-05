@@ -40,7 +40,7 @@ from config import (  # noqa: E402  (sys.path bump above)
     SLF_DANGER_LEVELS,
 )
 
-OUTPUT = HIKES_ROOT / "command-center" / "slf-cache.js"
+OUTPUT = HIKES_ROOT / "templates" / "_assets" / "hike_map" / "slf_cache.js"
 CACHE_DIR = HIKES_ROOT / "scripts" / "cache" / "slf"
 
 REQUEST_TIMEOUT = 30
@@ -157,7 +157,7 @@ def _danger_label(level: int) -> str:
 
 
 def write_cache(payload: dict, regions: list[dict], active_at: str | None) -> None:
-    """Write command-center/slf-cache.js as window.SLF_CACHE globals."""
+    """Write templates/_assets/hike_map/slf_cache.js as window.SLF_CACHE globals."""
     iso_now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     # Extract publicationTime from the first feature if present — that's the
     # "real" bulletin time, while iso_now is just when we fetched it.

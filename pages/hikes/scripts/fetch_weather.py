@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch Open-Meteo forecasts for all SAC peaks and write weather-cache.js."""
+"""Fetch Open-Meteo forecasts for all SAC peaks and write templates/_assets/hike_map/weather-cache.js."""
 
 import json
 import time
@@ -10,7 +10,7 @@ from pathlib import Path
 HIKES_ROOT = Path(__file__).resolve().parent.parent
 SAC_ROUTES_JS = HIKES_ROOT / "guides" / "sac-routes.js"
 CITIES_JS = HIKES_ROOT / "command-center" / "cities.js"
-OUTPUT = HIKES_ROOT / "command-center" / "weather-cache.js"
+OUTPUT = HIKES_ROOT / "templates" / "_assets" / "hike_map" / "weather-cache.js"
 
 BATCH_SIZE = 40
 DELAY_BETWEEN = 2.0

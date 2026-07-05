@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <link rel="stylesheet" href="routes/_assets/map_shared.css">
-<link rel="stylesheet" href="command-center/marker-pill.css">
+<link rel="stylesheet" href="routes/_assets/hike_map/marker_pill.css">
 <link rel="stylesheet" href="routes/_assets/hike_popup.css">
 <style>
   :root {
@@ -82,7 +82,8 @@
     margin-bottom: 1.25rem;
   }
   /* Marker-popup styling lives in routes/_assets/hike_popup.css — shared with
-     the command-center map so both popups render identically. */
+     the command-center map so both popups render identically. Marker cluster
+     colors and pill styling live in routes/_assets/hike_map/marker_pill.css. */
 
   /* Filters */
   .filters { margin: 0 0 1.25rem; }
@@ -336,7 +337,7 @@
   .map-day-btn:hover { background: var(--bg-soft-2); }
   .map-day-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
   /* Hike markers (.hike-marker--wx pill / .hike-marker--dot) and marker
-     clusters (.marker-cluster) are styled by command-center/marker-pill.css
+     clusters (.marker-cluster) are styled by routes/_assets/hike_map/marker_pill.css
      so this page and the Command Center stay visually in sync. */
 
   /* Highlighted nav link for the command center — the headline interactive
@@ -491,14 +492,14 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="routes/_assets/swiss_border.js"></script>
 <script src="routes/_assets/map_shared.js"></script>
-<script src="command-center/weather-cache.js"></script>
-<script src="command-center/weather.js"></script>
-<script src="command-center/webcams_windy_data.js"></script>
-<script src="command-center/webcams.js"></script>
+<script src="routes/_assets/hike_map/weather-cache.js"></script>
+<script src="routes/_assets/hike_map/weather.js"></script>
+<script src="routes/_assets/hike_map/webcams_windy_data.js"></script>
+<script src="routes/_assets/hike_map/webcams.js"></script>
 <!-- slf-layer.js lazy-loads slf-cache.js from the current page dir; for this
      page that path is wrong, so eagerly load the cache here instead. -->
-<script src="command-center/slf-cache.js"></script>
-<script src="command-center/slf-layer.js"></script>
+<script src="routes/_assets/hike_map/slf_cache.js"></script>
+<script src="routes/_assets/hike_map/slf_layer.js"></script>
 <script>window.HIKES = {{ hikes | tojson }};</script>
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
 <script>window.REGIONS_GJ = {{ regions_geojson | tojson }};</script>

@@ -37,7 +37,7 @@
 //   - every commit bumps SW_VERSION → shell-cache invalidates on deploy
 //   - scheduled cron rebuilds (no new commit) do NOT churn the cache
 // Never edit this literal by hand — it will be overwritten on next render.
-const SW_VERSION = "20260705-b7da1ce1";
+const SW_VERSION = "20260705-35479da9";
 const SHELL_CACHE = `hikes-shell-${SW_VERSION}`;
 const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 
@@ -50,8 +50,8 @@ const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 // See docs/design/offline.md §4 "Never cache" — the design always called
 // for network-first here; this list is the implementation.
 const NETWORK_FIRST_SUFFIXES = [
-  "/command-center/weather-cache.js",
-  "/command-center/slf-cache.js",
+  "/routes/_assets/hike_map/weather-cache.js",
+  "/routes/_assets/hike_map/slf_cache.js",
 ];
 
 // Files that must be present for the site to render at all. Listed
