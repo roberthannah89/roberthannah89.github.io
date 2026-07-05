@@ -4,6 +4,15 @@
 
   var map, clusterGroup;
   var allMarkers = [];
+  // Weather lookup wrapper — SAC route coords match the pre-baked cache
+  // exactly (unlike index.html's hike summit coords, which can drift), so CC
+  // never needs the fuzzy fallback. Constructed here (not inside boot()) so
+  // every closure below — marker icons, city pills, cluster tint, popups —
+  // shares the same instance without threading it through as an argument.
+  // (Named wxLookup, not wx — several functions below already use a local
+  // `var wx` for the resolved forecast object; reusing the name would shadow
+  // this wrapper and break `wx.get(...)`.)
+  var wxLookup = window.HikeMap.WxLookup({ fuzzy: false });
   // Reference-city markers — not hikes, not filtered, not clustered. Added
   // directly to the map in their own layer group so the toggle simply
   // add/removes the group without touching the hike pipeline.
@@ -188,7 +197,7 @@
     var showWeather = (s.display || []).indexOf('weather') !== -1;
     allMarkers.forEach(function (m) {
       var poi = m._poi;
-      var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
+      var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
       var fl = wx ? wx.freezingLevel : null;
       var aboveFreezing = !!(poi.alt && fl != null && poi.alt > fl);
       m._aboveFreezing = aboveFreezing;
@@ -361,7 +370,7 @@
     var dayIdx = Filters.getState().weatherDay;
     cityMarkers.forEach(function (m) {
       var c = m._city;
-      var wx = WeatherService.getForPeak(c.lat, c.lon, dayIdx);
+      var wx = wxLookup.get(c.lat, c.lon, dayIdx);
       var emoji = wx ? WeatherService.weatherIcon(wx.code) : null;
       var tempStr = wx && wx.tempMax != null ? Math.round(wx.tempMax) + '°' : '';
       m.setIcon(makeCityIcon(emoji, tempStr));
@@ -370,7 +379,7 @@
 
   function openCityPopup(city, marker) {
     var dayIdx = Filters.getState().weatherDay;
-    var wx = WeatherService.getForPeak(city.lat, city.lon, dayIdx);
+    var wx = wxLookup.get(city.lat, city.lon, dayIdx);
     var html = '<div class="popup-name">🏙️ ' + esc(city.name) + '</div>';
     html += '<div class="popup-meta">' + (city.alt || '—') + ' m · reference point</div>';
     if (wx) {
@@ -415,7 +424,7 @@
     cluster.getAllChildMarkers().forEach(function (m) {
       var poi = m._poi;
       if (!poi) return;
-      var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
+      var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
       if (!wx) return;
       var cat = WeatherService.skyCategory(wx.code);
       if (cat) counts[cat] = (counts[cat] || 0) + 1;
@@ -449,7 +458,7 @@
 
   function openPopup(poi, marker) {
     var dayIdx = Filters.getState().weatherDay;
-    var wx = WeatherService.getForPeak(poi.lat, poi.lon, dayIdx);
+    var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
     /* If a built hike page matches this POI, surface a direct link in the
        popup so users can jump straight to it without opening the side panel
        first. Reuses SidePanel.matchingHike so we stay in sync with the
