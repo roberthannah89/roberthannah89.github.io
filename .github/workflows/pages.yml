@@ -94,7 +94,7 @@ jobs:
         id: weather-cache
         uses: actions/cache@v6
         with:
-          path: pages/hikes/command-center/weather-cache.js
+          path: pages/hikes/templates/_assets/hike_map/weather-cache.js
           key: ${{ needs.plan.outputs.weather_key }}
 
       - name: Decide whether to fetch fresh weather
@@ -130,7 +130,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: weather-cache
-          path: pages/hikes/command-center/weather-cache.js
+          path: pages/hikes/templates/_assets/hike_map/weather-cache.js
           if-no-files-found: error
           retention-days: 1
 
@@ -199,7 +199,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: weather-cache
-          path: pages/hikes/command-center/
+          path: pages/hikes/templates/_assets/hike_map/
 
       - name: Download rendered site
         if: needs.plan.outputs.needs_render == 'true'
