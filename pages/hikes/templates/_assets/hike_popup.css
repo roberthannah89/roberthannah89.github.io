@@ -149,9 +149,9 @@
 }
 
 .leaflet-popup-content .popup-name .grade-badge.t1,
-.leaflet-popup-content .popup-name .grade-badge.t2 { background: var(--popup-grade-t1, #2d8a4e); }
-.leaflet-popup-content .popup-name .grade-badge.t3 { background: var(--popup-grade-t3, #c8a020); }
-.leaflet-popup-content .popup-name .grade-badge.t4 { background: var(--popup-grade-t4, #d07030); }
+.leaflet-popup-content .popup-name .grade-badge.t2 { background: var(--popup-grade-t1, #5cbf6a); }
+.leaflet-popup-content .popup-name .grade-badge.t3 { background: var(--popup-grade-t3, #e8a832); }
+.leaflet-popup-content .popup-name .grade-badge.t4 { background: var(--popup-grade-t4, #d97333); }
 .leaflet-popup-content .popup-name .grade-badge.t5 { background: var(--popup-grade-t5, #cc3333); }
 .leaflet-popup-content .popup-name .grade-badge.t6 { background: var(--popup-grade-t6, #8844cc); }
 
