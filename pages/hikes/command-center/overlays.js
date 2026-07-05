@@ -331,7 +331,15 @@
      Live daily feed from the Federal Roads Office and Swiss Hiking
      Federation of what's closed / detoured on the national hiking network.
      No CI refresh needed — the WMS server publishes each day's state and
-     Leaflet fetches the current tile on demand. */
+     Leaflet fetches the current tile on demand.
+
+     minZoom is 11 so this layer paints only at planning zoom, not the
+     national-overview extent. There are thousands of active closures on
+     any given day; at zoom ≤ 10 the tiles paint an unreadable mass of
+     dots and clutter every route on the map, which was the "too many"
+     complaint. From zoom 11 in (roughly single-canton / one-valley
+     extent) the marks resolve to individual segments and become
+     useful again. */
   var TrailClosures = {
     create: function () {
       var layer = L.tileLayer.wms('https://wms.geo.admin.ch/', {
@@ -341,6 +349,7 @@
         opacity: 0.9,
         version: '1.3.0',
         crs: L.CRS.EPSG3857,
+        minZoom: 11,
         attribution: '&copy; ASTRA / <a href="https://schweizmobil.ch/en/closures-detours" target="_blank" rel="noopener">SchweizMobil</a>'
       });
       return Promise.resolve(layer);

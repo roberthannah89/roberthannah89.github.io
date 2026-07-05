@@ -54,7 +54,13 @@
               aria-controls="nav-panel" title="Site menu">☰</button>
       <button id="chrome-toggle" type="button" aria-pressed="false"
               title="Hide filter controls (filters stay applied)">🎛️</button>
+      <!-- INLINE onclick — DELIBERATE. This is the "unstick a stale SW"
+           escape hatch. If command-center.js has been cached at an older
+           version that doesn't define wireRefreshButton(), the addEventListener
+           attached in JS never runs; the inline handler always does. Kept in
+           sync with wireRefreshButton() in command-center.js. -->
       <button id="refresh-btn" type="button"
+              onclick="(async function(){this.disabled=true;this.textContent='…';try{if('serviceWorker' in navigator){var r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(function(x){return x.unregister();}));}if(window.caches&amp;&amp;caches.keys){var k=await caches.keys();await Promise.all(k.map(function(n){return caches.delete(n);}));}}catch(e){}location.reload();}).call(this)"
               title="Refresh — reload the latest code &amp; data (bypasses cache)">🔄</button>
     </div>
     <div id="cc-filter-bar"></div>
@@ -87,11 +93,13 @@
     <div id="loading-text">Loading...</div>
   </div>
 
-  <!-- The (i) coach-mark button is NOT in the static markup any more —
-       info-overlay.js attaches it as a Leaflet control inside
-       .leaflet-top.leaflet-right after boot, so it stacks with any native
-       Leaflet controls (zoom / fullscreen) instead of floating on top of
-       them. See info-overlay.js#attachInfoButton. -->
+  <!-- Info button — static in the corner so any previously-cached copy of
+       info-overlay.js (which hunted for #info-btn by ID) still works after
+       a stale-SW deploy. The current info-overlay.js detects the existing
+       node and wires it in place instead of creating a duplicate; on first
+       run it also relocates it into the Leaflet top-right control block so
+       it stacks with the native zoom / fullscreen controls. -->
+  <button id="info-btn" type="button" aria-label="What does everything do?" title="What does everything do?">i</button>
 </div>
 
 <!--

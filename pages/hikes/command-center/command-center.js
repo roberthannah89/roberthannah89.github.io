@@ -517,8 +517,8 @@
         // to reveal.
         label: 'Safety',
         toggles: [
-          { id: 'closures', icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil, live daily)', defaultOn: true  },
-          { id: 'snow',     icon: '❄️', label: 'Snow & glaciers (permanent extent, GLAMOS)',                   defaultOn: false },
+          { id: 'closures', icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil, live daily — zoom in to see)', defaultOn: false },
+          { id: 'snow',     icon: '❄️', label: 'Snow & glaciers (permanent extent, GLAMOS)',                                 defaultOn: false },
           { id: 'firerisk', icon: '🔥', label: 'Forest fire danger (BAFU, updated daily)',                     defaultOn: false },
           { id: 'wildlife', icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)',           defaultOn: false },
           { id: 'rockfall', icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',                 defaultOn: false },
@@ -683,7 +683,9 @@
   // overlayFactories entry; toggleLazyOverlay does the actual fetch/add.
   // Failure is per-layer — one dead layer id doesn't take out the others.
   // Must stay in sync with the defaultOn:true entries in buildWeatherToggles.
-  var DEFAULT_ON_OVERLAYS = ['closures'];
+  // Empty at present — every Safety layer is opt-in to keep the map clean
+  // on first load. Avalanche is still always-on via bootAvalancheLayer().
+  var DEFAULT_ON_OVERLAYS = [];
   function bootDefaultOnOverlays() {
     DEFAULT_ON_OVERLAYS.forEach(function (id) {
       toggleLazyOverlay(id, true);

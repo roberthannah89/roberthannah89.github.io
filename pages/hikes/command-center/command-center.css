@@ -1066,38 +1066,64 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
   color: var(--amber) !important;
 }
 
-/* --- Info button (Leaflet control block, top-right) ---------------------
-   The (i) button is mounted by info-overlay.js as a child of Leaflet's
-   .leaflet-top.leaflet-right container so it stacks with any other native
-   Leaflet controls (zoom / fullscreen / scale) without ever overlapping
-   them, on desktop and mobile alike. We reuse .leaflet-bar sizing so it
-   reads as a first-class map control, then override the palette to match
-   the amber board theme. */
-.info-btn-wrap {
-  margin-top: 10px !important;   /* clear of the fullscreen / zoom stack */
-}
+/* --- Info button --------------------------------------------------------
+   Starts as a floating pill in the top-right corner (present in the static
+   markup so any still-cached copy of info-overlay.js finds it by id) and
+   gets relocated by info-overlay.js into Leaflet's .leaflet-top.leaflet-
+   right control block once the map has mounted. body.info-btn-in-leaflet
+   flips the sizing / positioning to the leaflet-bar variant so it stacks
+   with the native zoom / fullscreen controls without ever overlapping
+   them. Top-right corner is deliberate — CC's zoom lives at the top-left
+   (Leaflet default) so this corner is clear on desktop and mobile. */
 #info-btn {
-  display: block;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 850;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(26, 24, 16, 0.92);
+  border: 1px solid var(--flap-border);
+  color: var(--amber);
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   font-style: italic;
-  color: var(--amber);
-  background: rgba(26, 24, 16, 0.92);
+  line-height: 1;
+  text-align: center;
   text-decoration: none;
-  border-radius: 4px;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s, transform 0.15s;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.15s;
 }
 #info-btn:hover,
 #info-btn.active {
   color: var(--text-primary);
+  border-color: var(--amber);
   background: rgba(232, 168, 50, 0.22);
-  transform: scale(1.04);
+  transform: scale(1.05);
+}
+
+/* Leaflet-hosted variant (set by info-overlay.js#relocateIntoLeafletBar
+   once #info-btn is nested inside .leaflet-top.leaflet-right). Hand
+   positioning to Leaflet and shrink to match the +/- zoom control. */
+body.info-btn-in-leaflet #info-btn {
+  position: static;
+  top: auto;
+  right: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  line-height: 30px;
+  font-size: 16px;
+}
+body.info-btn-in-leaflet .info-btn-wrap {
+  margin-top: 10px !important;
 }
 /* First-visit attention pulse. Ends the moment the user opens the overlay
    (info-overlay.js removes .pulse); we don't want it grinding forever. */

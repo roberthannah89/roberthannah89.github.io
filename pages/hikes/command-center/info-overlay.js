@@ -69,7 +69,7 @@
     { sel: '.filter-group--display', zone: 'top', title: 'Marker display',
       desc: 'What each pin shows on the map — name, grade, weather colour, gain, etc.' },
     { sel: '#weather-toggles',       zone: 'bottom', title: 'Map layers',
-      desc: 'Three groups: Discover (hikes, huts, cities, webcams), Safety (closures on by default; snow, fire, wildlife, rockfall, slope on tap), Approach (transit, parking, water).' },
+      desc: 'Three groups: Discover (hikes, huts, cities, webcams), Safety (all off by default — closures, snow, fire, wildlife, rockfall, slope; enable to see), Approach (transit, parking, water).' },
     { sel: '#route-counter',         zone: 'bottom', title: 'Live counter',
       desc: 'Destinations and routes matching your current filters.' },
     { sel: '.ms-layer-bar',          zone: 'bottom', title: 'Base map',
@@ -359,50 +359,68 @@
     if (isOpen) close(); else open();
   }
 
-  // Mount the (i) button inside Leaflet's top-right control block so it
-  // stacks like a native Leaflet control (with the fullscreen/zoom
-  // buttons on the other corners) instead of floating over the map. This
-  // solves both the desktop "on top of zoom" collision AND the mobile
-  // placement — Leaflet handles the responsive positioning.
+  // Mount the (i) button. The button is present in the static HTML at boot
+  // (bottom-right corner via CSS) so older cached copies of this script
+  // that only look up `#info-btn` also work. When the Leaflet control
+  // container has finished mounting, we RELOCATE the same button into
+  // .leaflet-top.leaflet-right so it stacks with the native zoom /
+  // fullscreen controls instead of floating over them.
   function attachInfoButton() {
-    var topRight = document.querySelector('.leaflet-top.leaflet-right');
-    if (!topRight) return null;
-    var bar = document.createElement('div');
-    bar.className = 'leaflet-bar leaflet-control info-btn-wrap';
-    var btn = document.createElement('a');
-    btn.id = 'info-btn';
-    btn.href = '#';
-    btn.setAttribute('role', 'button');
-    btn.setAttribute('aria-label', 'What does everything do?');
-    btn.title = 'What does everything do?';
-    btn.textContent = 'i';
-    bar.appendChild(btn);
-    topRight.appendChild(bar);
-    // Prevent map interactions when using the button. We're vanilla-DOM so
-    // no L.DomEvent.disableClickPropagation available in the module scope.
-    ['mousedown','touchstart','pointerdown','click','dblclick','wheel'].forEach(function (t) {
-      btn.addEventListener(t, function (e) { e.stopPropagation(); });
-      bar.addEventListener(t, function (e) { e.stopPropagation(); });
-    });
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      toggle();
-    });
+    var btn = document.getElementById('info-btn');
+    if (!btn) return null;
+    // Wire click if not already wired. The `data-wired` guard makes this
+    // safe to call more than once (both from the initial DOMContentLoaded
+    // pass and from a later Leaflet-ready relocation).
+    if (btn.getAttribute('data-wired') !== '1') {
+      ['mousedown','touchstart','pointerdown','click','dblclick','wheel'].forEach(function (t) {
+        btn.addEventListener(t, function (e) { e.stopPropagation(); });
+      });
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggle();
+      });
+      btn.setAttribute('data-wired', '1');
+    }
     return btn;
   }
 
-  // Boot: wait for the Leaflet control container to exist before mounting.
-  // command-center.js creates the map inside its own boot(), which runs on
-  // DOMContentLoaded — so we poll briefly instead of racing it.
+  // Move the (already-wired) button into the Leaflet top-right control
+  // block so it participates in Leaflet's responsive stacking. Called
+  // once the control container has appeared. Wraps the button in a
+  // .leaflet-bar / .leaflet-control div so it visually matches native
+  // controls (zoom, fullscreen). Idempotent — bails if the button is
+  // already inside the Leaflet container.
+  function relocateIntoLeafletBar(btn) {
+    if (!btn) return;
+    var topRight = document.querySelector('.leaflet-top.leaflet-right');
+    if (!topRight) return;
+    if (topRight.contains(btn)) return;
+    var bar = document.createElement('div');
+    bar.className = 'leaflet-bar leaflet-control info-btn-wrap';
+    // Stop the wrapper too so map dragging isn't triggered by grabbing
+    // the padding around the button.
+    ['mousedown','touchstart','pointerdown','click','dblclick','wheel'].forEach(function (t) {
+      bar.addEventListener(t, function (e) { e.stopPropagation(); });
+    });
+    bar.appendChild(btn);
+    topRight.appendChild(bar);
+    document.body.classList.add('info-btn-in-leaflet');
+  }
+
+  // Boot: wire the static button immediately, then poll briefly for the
+  // Leaflet control container and relocate the button when it appears.
+  // If Leaflet never boots (e.g. offline) the button still works from its
+  // static corner position.
   function wire() {
-    var btn = null;
-    var mountAttempts = 0;
-    var mountTimer = setInterval(function () {
-      mountAttempts++;
-      btn = attachInfoButton();
-      if (btn || mountAttempts > 60) {
-        clearInterval(mountTimer);
-        if (btn) postMount(btn);
+    var btn = attachInfoButton();
+    if (btn) postMount(btn);
+    var attempts = 0;
+    var timer = setInterval(function () {
+      attempts++;
+      var topRight = document.querySelector('.leaflet-top.leaflet-right');
+      if (topRight || attempts > 60) {
+        clearInterval(timer);
+        relocateIntoLeafletBar(btn || document.getElementById('info-btn'));
       }
     }, 100);
   }
