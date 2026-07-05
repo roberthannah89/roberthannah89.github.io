@@ -1,4 +1,7 @@
-/* Peak Viewer prototype — layout C with minimizable right panel. */
+/* 3D Swiss Trails prototype — split layout with minimizable right panel.
+ * Merged from peak-viewer.css + the trails overlay styling that used to live
+ * inline in 3d-trails.html.
+ */
 
 :root {
   --bg: #f6f6f4;
@@ -13,6 +16,7 @@
   --chip: #eeece5;
   --chip-active: #171a1f;
   --chip-active-fg: #f6f6f4;
+  --panel: rgba(255,255,255,0.94);
   --shadow: 0 1px 2px rgba(20,22,26,0.05), 0 8px 24px rgba(20,22,26,0.06);
   --panel-w: 440px;
 }
@@ -32,9 +36,7 @@ input, select { font: inherit; color: inherit; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
-
-/* Layout grid */
+/* ---- Layout ---- */
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--panel-w);
@@ -43,55 +45,18 @@ a:hover { text-decoration: underline; }
 }
 .layout.collapsed { grid-template-columns: minmax(0, 1fr) 0; }
 
-/* Scene */
 .scene {
   position: relative;
   overflow: hidden;
-  background: #b8d0dc;  /* sky-ish fill while imagery loads */
+  background: #b8d0dc;
   border-right: 1px solid var(--border);
 }
 .layout.collapsed .scene { border-right: none; }
 #map-host { position: absolute; inset: 0; }
-#map-host #map,
-#map-host #cesium-container { position: absolute; inset: 0; }
+#map-host #map { position: absolute; inset: 0; }
 
-/* Mode toggle — top-left, above MapLibre's chrome. */
-.modebar {
-  position: absolute; top: 12px; left: 12px; z-index: 6;
-  display: flex; gap: 4px;
-  font-size: 12px;
-}
-.mode-btn {
-  padding: 6px 10px;
-  background: rgba(20,22,26,0.62); color: rgba(255,255,255,0.88);
-  border: 0; border-radius: 4px;
-  font: inherit; font-size: 12px; cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background 0.15s, color 0.15s;
-}
-.mode-btn.active { background: var(--accent); color: #fff; }
-.mode-btn:hover:not(.active) { background: rgba(20,22,26,0.85); color: #fff; }
-.mode-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
-
-/* Cesium chrome cleanup (used by Photorealistic mode). */
-.cesium-viewer-toolbar,
-.cesium-viewer-animationContainer,
-.cesium-viewer-timelineContainer,
-.cesium-viewer-fullscreenContainer,
-.cesium-viewer-vrContainer { display: none !important; }
-.cesium-viewer-bottom, .cesium-widget-credits { background: transparent !important; }
-.cesium-widget-credits, .cesium-widget-credits * {
-  color: rgba(255,255,255,0.85) !important;
-  font-size: 10.5px !important;
-}
-
-/* MapLibre chrome tweaks. */
-
-/* Push the top-left NavigationControl below both the mode toggle AND the
-   "Peak Viewer" status card. */
+/* MapLibre chrome tweaks — top-left nav sits below the status card */
 .maplibregl-ctrl-top-left { top: 130px; }
-
-/* Keep attribution/scale visible but out of our controls-hint's way. */
 .maplibregl-ctrl-bottom-left,
 .maplibregl-ctrl-bottom-right { z-index: 3; }
 .maplibregl-ctrl-attrib.maplibregl-compact { background: rgba(255,255,255,0.85); }
@@ -100,11 +65,9 @@ a:hover { text-decoration: underline; }
   color: #171a1f !important;
   border-color: #171a1f !important;
 }
-
-/* Bottom-left stacking: controls-hint above the ScaleControl. */
 .maplibregl-ctrl-bottom-left { bottom: 40px; }
 
-/* Overlays */
+/* ---- Info overlays ---- */
 .over {
   position: absolute; z-index: 4;
   background: var(--surface);
@@ -123,9 +86,11 @@ a:hover { text-decoration: underline; }
 .over .stat { color: var(--muted); font-size: 11.5px; display: block; margin-top: 2px; }
 .over .stat b { color: var(--fg); font-weight: 600; }
 
-.over-status { top: 54px; left: 14px; min-width: 200px; }
-.over-peak { top: 14px; right: 14px; min-width: 240px; transition: right 320ms cubic-bezier(.4,.14,.3,1); }
-.layout.collapsed .over-peak { right: 220px; }
+.over-status { top: 14px; left: 14px; min-width: 200px; }
+
+/* Selected-peak overlay: below the map-buttons cluster to avoid stacking */
+.over-peak { top: 14px; right: 78px; min-width: 240px; transition: right 320ms cubic-bezier(.4,.14,.3,1); }
+.layout.collapsed .over-peak { right: 284px; }
 
 .over-peak .peak-name-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .over-peak .peak-name-row strong { font-size: 15px; }
@@ -145,7 +110,81 @@ a:hover { text-decoration: underline; }
 .sel-actions .link-btn.muted { color: var(--muted); margin-left: auto; }
 .sel-actions a:hover, .sel-actions .link-btn:hover { text-decoration: underline; }
 
-/* Corner cluster (quality + home + compass) */
+/* ---- Map-buttons cluster (top-right, circular emoji controls) ---- */
+.map-buttons {
+  position: absolute; top: 12px; right: 12px; z-index: 5;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: right 320ms cubic-bezier(.4,.14,.3,1);
+}
+.map-btn {
+  position: relative;
+  width: 44px; height: 44px;
+  background: var(--panel);
+  border: 0; border-radius: 50%;
+  font: inherit; font-size: 22px; line-height: 1;
+  color: var(--fg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+}
+.map-btn:hover { background: #ffffff; transform: scale(1.06); }
+.map-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.map-btn.playing { background: var(--accent); color: #fff; }
+.map-btn.off { opacity: 0.55; }
+.map-btn .count {
+  position: absolute; bottom: -6px; right: -6px;
+  background: #fff; color: var(--fg);
+  font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums;
+  padding: 1px 5px; min-width: 18px; text-align: center;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+.map-btn .count.hidden { display: none; }
+
+.map-btn .ring {
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  animation: ring-spin 0.9s linear infinite;
+  pointer-events: none;
+}
+.map-btn .ring.hidden { display: none; }
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+
+/* ---- Trails hint pill (top-center of map area) ---- */
+.hint {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 4;
+  background: rgba(0,0,0,0.72); color: #fff;
+  padding: 6px 12px; border-radius: 999px;
+  font-size: 12px; letter-spacing: 0.2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+.hint.hidden { display: none; }
+
+/* ---- Trails legend (bottom-right) ---- */
+.legend {
+  position: absolute; bottom: 60px; right: 12px; z-index: 4;
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11px; line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  min-width: 128px;
+  transition: right 320ms cubic-bezier(.4,.14,.3,1);
+}
+.legend.hidden { display: none; }
+.legend h4 { margin: 0 0 6px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.legend .row { display: flex; align-items: center; gap: 8px; padding: 1px 0; }
+.legend .sw { width: 20px; height: 3px; border-radius: 2px; flex: 0 0 auto; }
+.legend .grade-lbl { font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend .desc { color: var(--muted); font-size: 10.5px; }
+
+/* ---- Corner cluster (home button, bottom-right) ---- */
 .corner-cluster {
   position: absolute; bottom: 14px; right: 14px; z-index: 4;
   display: flex; align-items: center; gap: 8px;
@@ -164,7 +203,7 @@ a:hover { text-decoration: underline; }
 .corner-btn:hover { border-color: var(--border-strong); }
 #home-btn { padding: 6px 10px; font-size: 15px; line-height: 1; }
 
-/* Right-click hint */
+/* ---- Right-click hint (bottom-left) ---- */
 .controls-hint {
   position: absolute; bottom: 14px; left: 14px; z-index: 4;
   background: rgba(20,22,26,0.55);
@@ -176,27 +215,7 @@ a:hover { text-decoration: underline; }
   backdrop-filter: blur(3px);
 }
 
-/* Compass */
-.compass {
-  width: 46px; height: 46px;
-  background: var(--surface);
-  border: 1px solid var(--border); border-radius: 50%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 0;
-  font-size: 11px; color: var(--muted);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  cursor: pointer;
-}
-.compass strong { color: var(--accent); font-weight: 700; font-size: 12px; line-height: 1; }
-.compass #compass-arrow {
-  display: inline-block;
-  font-size: 14px; line-height: 1;
-  transform-origin: center;
-  transition: transform 200ms;
-}
-.layout.collapsed .corner-cluster { right: 14px; }
-
-/* Banner (fallback / info) */
+/* ---- Banner (info / errors) ---- */
 .banner {
   position: absolute; bottom: 12px; left: 12px; z-index: 5;
   background: rgba(20,22,26,0.85);
@@ -209,9 +228,9 @@ a:hover { text-decoration: underline; }
 }
 .banner code { background: rgba(255,255,255,0.12); padding: 1px 6px; border-radius: 3px; font-size: 11px; }
 
-/* Edge tab */
+/* ---- Edge tab (visible when panel collapsed) ---- */
 .edge-tab {
-  position: absolute; top: 14px; right: 14px;
+  position: absolute; top: 14px; right: 78px;
   z-index: 5;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -239,7 +258,7 @@ a:hover { text-decoration: underline; }
 .edge-tab:hover { border-color: var(--border-strong); }
 .edge-tab .caret { font-family: ui-monospace, monospace; color: var(--accent); font-weight: 700; }
 
-/* Right panel */
+/* ---- Right panel ---- */
 .panel-right {
   display: flex; flex-direction: column;
   background: var(--surface);
@@ -266,7 +285,6 @@ a:hover { text-decoration: underline; }
   flex: 1 1 auto;
 }
 .panel-header .count b { color: var(--fg); font-weight: 600; }
-
 .panel-header select {
   background: var(--surface-alt);
   border: 1px solid var(--border);
@@ -288,7 +306,6 @@ a:hover { text-decoration: underline; }
 }
 .panel-header .min-btn:hover { color: var(--fg); border-color: var(--border-strong); }
 
-/* Filter row */
 .filter-row {
   display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center;
   padding: 10px 14px 12px;
@@ -378,9 +395,7 @@ a:hover { text-decoration: underline; }
 .chip.outline:hover { color: var(--fg); border-color: var(--border-strong); }
 .chip.outline.active { background: var(--chip-active); color: var(--chip-active-fg); border-color: var(--chip-active); }
 
-.canton-details {
-  flex-basis: 100%;
-}
+.canton-details { flex-basis: 100%; }
 .canton-details summary {
   font-size: 12px; color: var(--muted);
   cursor: pointer;
@@ -397,7 +412,6 @@ a:hover { text-decoration: underline; }
 .canton-details .chip { font-size: 11px; padding: 3px 8px; }
 .chip-count { color: var(--muted); font-size: 11px; margin-left: 4px; }
 
-/* Card list */
 .card-list {
   flex: 1;
   overflow-y: auto;
@@ -415,10 +429,7 @@ a:hover { text-decoration: underline; }
   cursor: pointer;
 }
 .peak-card:hover { background: var(--surface-alt); }
-.peak-card.selected {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-}
+.peak-card.selected { background: var(--accent-soft); border-color: var(--accent); }
 .peak-card .name { font-weight: 600; font-size: 13.5px; }
 .peak-card .meta {
   color: var(--muted); font-size: 11.5px; margin-top: 2px;
@@ -450,7 +461,6 @@ a:hover { text-decoration: underline; }
 .grade.t5 { background: #e6cec5; color: #5c2517; }
 .grade.t6 { background: #e0bab0; color: #4a1810; }
 
-/* Empty state */
 .empty-state {
   padding: 32px 20px;
   text-align: center;
@@ -459,7 +469,6 @@ a:hover { text-decoration: underline; }
 }
 .empty-state strong { color: var(--fg); font-weight: 600; display: block; margin-bottom: 4px; }
 
-/* Loading state */
 .loading {
   padding: 20px;
   text-align: center;
@@ -467,7 +476,7 @@ a:hover { text-decoration: underline; }
   font-size: 12.5px;
 }
 
-/* Narrow screens: stack the layout */
+/* ---- Narrow screens: stack the layout ---- */
 @media (max-width: 860px) {
   :root { --panel-w: 100%; }
   .layout {
@@ -479,7 +488,10 @@ a:hover { text-decoration: underline; }
   .scene { border-right: none; border-bottom: 1px solid var(--border); }
   .layout.collapsed .scene { border-bottom: none; }
   .panel-right { border-left: none; border-top: 1px solid var(--border); }
-  .over-peak { max-width: 62vw; }
-  .layout.collapsed .over-peak { right: 14px; top: 66px; }
+  .over-peak { max-width: 62vw; right: 66px; }
+  .layout.collapsed .over-peak { right: 66px; top: 66px; }
   .edge-tab { top: auto; bottom: 14px; right: 14px; }
+  .legend { bottom: 40px; right: 8px; padding: 6px 8px; }
+  .map-buttons { top: 8px; right: 8px; }
+  .map-btn { width: 40px; height: 40px; font-size: 20px; }
 }

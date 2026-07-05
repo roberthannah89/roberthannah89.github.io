@@ -10,11 +10,11 @@ Pipeline:
      (ratio >= SAC_JOIN_NAME_THRESHOLD after normalising diacritics + ü/ue etc.),
      attach the best route (lowest T-grade).
   4. Nearest hut — for each OSM peak, nearest SAC hut (type == 'hut').
-  5. Emit docs/prototypes/peak-viewer/ch-peaks.js as
+  5. Emit docs/prototypes/3d-trails/ch-peaks.js as
         window.CH_PEAKS = [...]
      sorted by elevation descending.
 
-Raw Overpass response is cached at docs/prototypes/peak-viewer/overpass-peaks.json
+Raw Overpass response is cached at docs/prototypes/3d-trails/overpass-peaks.json
 so re-runs are cheap. Pass --refresh to force refetch.
 
 Usage:
@@ -38,7 +38,7 @@ import requests
 import config
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-OUT_DIR = REPO_ROOT / "docs" / "prototypes" / "peak-viewer"
+OUT_DIR = REPO_ROOT / "docs" / "prototypes" / "3d-trails"
 OVERPASS_CACHE = OUT_DIR / "overpass-peaks.json"
 OUTPUT_JS = OUT_DIR / "ch-peaks.js"
 

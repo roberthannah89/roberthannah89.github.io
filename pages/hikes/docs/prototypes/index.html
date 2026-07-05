@@ -229,7 +229,7 @@
     <h1>API Prototypes</h1>
     <p>Swiss hiking data &amp; weather layers</p>
   </div>
-  <span class="title-count">8 demos</span>
+  <span class="title-count">7 demos</span>
 </div>
 
 <!-- Card grid -->
@@ -239,21 +239,10 @@
     <div class="card-body">
       <div class="card-header">
         <span class="card-icon">🥾</span>
-        <span class="card-title">3D Swiss Trails (SAC T1–T6)</span>
+        <span class="card-title">3D Swiss Trails + Peak Database</span>
       </div>
-      <div class="card-desc">All OpenStreetMap hiking trails in view, colored by SAC scale (T1 yellow → T6 violet), overlaid on the 3D SWISSIMAGE view. Trails are fetched from the Overpass API on pan at zoom ≥ 12 and cached by z12 tile.</div>
-      <span class="card-source">OpenStreetMap sac_scale via Overpass + swisstopo SWISSIMAGE + Terrarium DEM</span>
-    </div>
-  </a>
-
-  <a class="card" href="peak-viewer.html">
-    <div class="card-body">
-      <div class="card-header">
-        <span class="card-icon">🏔️</span>
-        <span class="card-title">Peak Viewer (3D + filterable database)</span>
-      </div>
-      <div class="card-desc">Every named peak in Switzerland from OpenStreetMap, joined with SAC route grades and nearest huts. Side-by-side Cesium 3D view with Google Photorealistic tiles and a filterable, sortable database. Click a peak → the camera flies to it.</div>
-      <span class="card-source">OpenStreetMap · geo.admin.ch · SAC suissealpine · Google Photorealistic 3D Tiles</span>
+      <div class="card-desc">Every named Swiss peak in a filterable/sortable database alongside the 3D SWISSIMAGE map. All OpenStreetMap hiking trails colored by SAC scale (T1 yellow → T6 violet) are fetched from Overpass on pan at zoom ≥ 12. Click a card or dot to fly there; 🎥 runs a 360° tour of the selected peak.</div>
+      <span class="card-source">OpenStreetMap · SAC · swisstopo SWISSIMAGE + Terrarium DEM · Overpass API</span>
     </div>
   </a>
 
