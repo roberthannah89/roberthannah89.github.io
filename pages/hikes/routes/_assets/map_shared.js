@@ -10,13 +10,7 @@
   var TILE_URLS = {
     color:  "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
     grey:   "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-grau/default/current/3857/{z}/{x}/{y}.jpeg",
-    // Wanderland — SchweizMobil's curated national/regional/local walking
-    // routes. Much cleaner than the previous ch.swisstopo.swisstlm3d-
-    // wanderwege overlay, which painted every farmer's yellow footpath in
-    // the country on top of the topo tiles and turned the map into noise.
-    // The base swisstopo topo already shows all trails baked in; this
-    // overlay just adds the numbered SchweizMobil route badges + emphasis.
-    trails: "https://wms.geo.admin.ch/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true&LAYERS=ch.astra.wanderland&CRS=EPSG:3857&STYLES=&WIDTH=256&HEIGHT=256&BBOX={bbox-epsg-3857}",
+    trails: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-wanderwege/default/current/3857/{z}/{x}/{y}.png",
     aerial: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg",
     osm:    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   };
@@ -26,23 +20,11 @@
   // opaque responses on Chrome). SwissTopo serves Access-Control-Allow-
   // Origin: *, so this is free. OSM is left as-is — not in the SW cache
   // allowlist, so opaque-padding doesn't apply.
-  //
-  // "trails" uses L.tileLayer.wms (not the WMTS URL template above); the
-  // TILE_URLS.trails string is kept for reference / documentation but not
-  // consumed. Every other layer stays WMTS.
   function makeLayers() {
     return {
       color:  L.tileLayer(TILE_URLS.color,  { attribution: "&copy; swisstopo", maxZoom: 18, crossOrigin: "anonymous" }),
       grey:   L.tileLayer(TILE_URLS.grey,   { attribution: "&copy; swisstopo", maxZoom: 18, crossOrigin: "anonymous" }),
-      trails: L.tileLayer.wms("https://wms.geo.admin.ch/", {
-        layers: "ch.astra.wanderland",
-        format: "image/png",
-        transparent: true,
-        version: "1.3.0",
-        crs: L.CRS.EPSG3857,
-        maxZoom: 18,
-        attribution: "&copy; ASTRA / SchweizMobil (Wanderland)"
-      }),
+      trails: L.tileLayer(TILE_URLS.trails, { attribution: "&copy; swisstopo (Wanderwege)", maxZoom: 18, crossOrigin: "anonymous" }),
       aerial: L.tileLayer(TILE_URLS.aerial, { attribution: "&copy; swisstopo (SWISSIMAGE)", maxZoom: 19, crossOrigin: "anonymous" }),
       osm:    L.tileLayer(TILE_URLS.osm,    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }),
     };
@@ -50,7 +32,7 @@
 
   // Layer definitions: key → label (shown on button), title (hover tooltip / a11y), factory fn
   var LAYER_DEFS = [
-    { key: "hike",   label: "🥾",  title: "Topo + Wanderland routes (SchweizMobil)", trails: true,  make: function (l) { return L.layerGroup([l.color, l.trails]); } },
+    { key: "hike",   label: "🥾",  title: "Topo + trails",       trails: true,  make: function (l) { return L.layerGroup([l.color, l.trails]); } },
     { key: "color",  label: "🗺️", title: "Topo (swisstopo)",    trails: false, make: function (l) { return l.color; } },
     { key: "aerial", label: "🛰️", title: "Aerial (SWISSIMAGE)", trails: false, make: function (l) { return l.aerial; } },
     { key: "osm",    label: "OSM",           title: "OpenStreetMap",       trails: false, make: function (l) { return l.osm; } },

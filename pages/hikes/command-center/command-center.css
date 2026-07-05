@@ -306,17 +306,39 @@ body.chrome-hidden #bottom-bar {
   outline: 1px solid rgba(0, 0, 0, 0.35);
 }
 
-/* --- Weather / POI Toggles (lives in #bottom-bar) --- */
+/* --- Weather / POI Toggles (lives in #bottom-bar) ---
+   #weather-toggles is a transparent flex row whose children are the
+   three .wx-toggle-group pills (Discover / Safety / Approach). Each
+   pill carries its own outline + backdrop so the sections read as
+   distinct groups even at a glance. Gap between the group pills is
+   wider than gap between toggle buttons inside a pill. */
 #weather-toggles {
   position: static;
   display: flex;
   flex-direction: row;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  backdrop-filter: none;
+}
+
+.wx-toggle-group {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
   gap: 2px;
   background: rgba(26, 24, 16, 0.92);
   border: 1px solid var(--flap-border);
   border-radius: 6px;
   padding: 3px 4px;
   backdrop-filter: blur(8px);
+}
+/* Amber-tinted outline on the Safety pill so hikers eye-catch it —
+   it's the group holding hazards + closures. Subtle: same weight,
+   just a warmer border. */
+.wx-toggle-group--safety {
+  border-color: rgba(232, 168, 50, 0.5);
 }
 
 .wx-toggle {
@@ -347,19 +369,6 @@ body.chrome-hidden #bottom-bar {
 
 .wx-toggle .icon { font-size: 14px; }
 
-/* Vertical seam between the Discover / Safety / Approach toggle groups.
-   Presentational only — each toggle still fires independently — but the
-   seam gives users an orientation cue while horizontally scrolling on
-   mobile. Height sized to the toggle content, not the pill padding, so
-   the divider doesn't visually stab out the top and bottom of the panel. */
-.wx-toggle-divider {
-  display: inline-block;
-  width: 1px;
-  align-self: stretch;
-  margin: 4px 4px;
-  background: var(--flap-border);
-  opacity: 0.7;
-}
 
 /* --- Bottom-left horizontal strip --- */
 #bottom-bar {

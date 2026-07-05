@@ -535,16 +535,15 @@
       }
     ];
 
-    sections.forEach(function (section, si) {
-      if (si > 0) {
-        // Between-section divider — presentational only; the panel scrolls
-        // horizontally on mobile so the divider gives a visual seam users
-        // can use to orient themselves as they swipe past.
-        var div = document.createElement('span');
-        div.className = 'wx-toggle-divider';
-        div.setAttribute('aria-hidden', 'true');
-        panel.appendChild(div);
-      }
+    // Each section is its own outlined pill so the sectioning is obvious
+    // instead of a 1-px vertical seam that vanishes against the dark
+    // board. #weather-toggles is now a transparent flex row that
+    // horizontally arranges the section pills with a wider gap between
+    // them (see the .wx-toggle-group rules in command-center.css).
+    sections.forEach(function (section) {
+      var group = document.createElement('div');
+      group.className = 'wx-toggle-group wx-toggle-group--' + section.label.toLowerCase();
+      group.setAttribute('data-section', section.label);
       section.toggles.forEach(function (t) {
         var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
         var btn = document.createElement('button');
@@ -556,8 +555,9 @@
           btn.classList.toggle('active');
           toggleWeatherLayer(t.id, btn.classList.contains('active'));
         });
-        panel.appendChild(btn);
+        group.appendChild(btn);
       });
+      panel.appendChild(group);
     });
   }
 

@@ -5,6 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hike Command Center</title>
 
+<!-- Self-healing cache-bust. When the browser installs a new service
+     worker in the background and it takes control (skipWaiting +
+     clients.claim in service-worker.js), controllerchange fires. That's
+     our cue that the page is showing OLD HTML+JS on top of a NEW SW;
+     reload with a fresh query string so the top-level document AND its
+     scripts bypass the browser HTTP cache. sessionStorage guard stops
+     an infinite reload loop if something misbehaves. Runs before all
+     other scripts so a stale command-center.js can't disable it. -->
+<script>
+(function () {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    try {
+      if (sessionStorage.getItem('cc.autoReloaded') === '1') return;
+      sessionStorage.setItem('cc.autoReloaded', '1');
+    } catch (e) {}
+    var u = new URL(location.href);
+    u.searchParams.set('_cb', Date.now().toString(36));
+    location.replace(u.toString());
+  });
+  // Clear the guard on a fresh navigation after the cache-bust reload.
+  window.addEventListener('load', function () {
+    try {
+      if (location.search.indexOf('_cb=') !== -1) {
+        sessionStorage.removeItem('cc.autoReloaded');
+      }
+    } catch (e) {}
+  });
+})();
+</script>
+
 <!-- Guide nav metadata (auto-discovered by render_hike.py) -->
 <meta name="guide-label" content="Command center">
 <meta name="guide-card-title" content="Command center">
