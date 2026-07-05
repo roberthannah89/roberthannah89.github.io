@@ -1,18 +1,21 @@
 /* Map overlays — prototype layer factories for the command-center.
 
    Each overlay exposes  window.Overlays.<name>.create()  →  Promise<L.Layer>
-   so command-center.js can lazy-instantiate it the first time the user flips
-   the toggle on. Same pattern as SlfLayer / WebcamLayer.
+   so command-center.js can lazy-instantiate it. For Slope/Transit/
+   DrinkingWater/Parking/SnowGlaciers that happens the first time the user
+   flips the toggle on (same pattern as WebcamLayer). Avalanche is the one
+   exception: it's a safety-relevant hazard layer, so command-center.js
+   auto-creates it at boot with no toggle (bootAvalancheLayer()) — the factory
+   shape is identical, only the caller's timing differs.
 
    The factories return Leaflet layers (tile, layerGroup, geoJSON…) — never
-   add to/remove from the map themselves; that's the caller's job so the
-   add/remove can be tied to a toggle button.
+   add to/remove from the map themselves; that's the caller's job.
 
    Layer sources:
    - Slope ≥30°        : WMTS tile from geo.admin.ch (ch.swisstopo.hangneigung-ueber_30)
    - Avalanche         : SLF bulletin (winter-only, via SlfLayer) + BAFU statutory
                          hazard zones WMS (ch.bafu.gefaehrdungskarte-lawinen).
-                         One toggle activates both — SLF renders nothing May–Oct.
+                         Always-on, no toggle — SLF renders nothing May–Oct.
    - Transit stops     : WMS tile from geo.admin.ch (ch.bav.haltestellen-oev)
    - Drinking water    : Overpass API (OSM amenity=drinking_water)
    - Parking           : Overpass API (OSM amenity=parking, fee=no preferred)
@@ -109,12 +112,12 @@
   };
 
   /* ── 2. Avalanche (SLF bulletin + statutory hazard zones) ── */
-  // One toggle, two layers: the daily SLF bulletin (winter-only — empty
+  // Always on, no toggle: the daily SLF bulletin (winter-only — empty
   // regions array May–Oct, so renders nothing) and the permanent BAFU
-  // statutory hazard map (year-round). Both speak to the same planning
-  // question ("is this terrain avalanche-exposed?") so they share an icon.
-  // In summer the toggle effectively just shows the statutory zones, which
-  // is the right default for off-season planning.
+  // statutory hazard map (year-round). Both speak to the same safety
+  // question ("is this terrain avalanche-exposed?") so they're one layer
+  // group. In summer that's effectively just the statutory zones, which is
+  // the right default for off-season planning.
   var Avalanche = {
     create: function () {
       var zones = L.tileLayer.wms('https://wms.geo.admin.ch/', {

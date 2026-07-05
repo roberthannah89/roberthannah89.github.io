@@ -41,7 +41,7 @@ var markerFactory = window.HikeMap.MarkerFactory({
    see docs/superpowers/specs/2026-07-05-cc-index-engine-unification-design.md)
    but still apply if replayed via a cross-page URL from Command Center. */
 var store = window.HikeMap.FilterStore({
-  keys: ['g', 'r', 'c', 'rt', 'di', 'tm', 'el', 'gn', 'd', 'wc', 'av'],
+  keys: ['g', 'r', 'c', 'rt', 'di', 'tm', 'el', 'gn', 'd', 'wc'],
   initial: window.HikeMap.UrlSync.readFromUrl(),
 });
 var matcher = window.HikeMap.FilterMatcher.factory({ wxLookup: wxLookup });
@@ -456,16 +456,13 @@ function highlightMarker(i, on) {
   if (on) m.bringToFront();
 }
 
-/* ------------- Layer toggles (webcams / avalanche) ------------- */
+/* ------------- Layer toggles (webcams) ------------- */
 /* Declared before boot() runs — mountToolbarButtons() (called from boot,
-   below) reads layerState and calls setWebcams/setAvalanche. */
+   below) reads layerState and calls setWebcams. */
 var layerState = {
-  webcams:   !!store.get("wc"),
-  avalanche: !!store.get("av"),
+  webcams: !!store.get("wc"),
 };
 var webcamLayerInstance = null;   /* lazily created on first activation */
-var slfLayerInstance = null;
-var slfPending = false;
 
 function setWebcams(on) {
   layerState.webcams = !!on;
@@ -479,27 +476,20 @@ function setWebcams(on) {
     map.removeLayer(webcamLayerInstance);
   }
 }
-function setAvalanche(on) {
-  layerState.avalanche = !!on;
-  store.set("av", layerState.avalanche);
-  if (on) {
-    if (slfLayerInstance) {
-      map.addLayer(slfLayerInstance);
-    } else if (!slfPending && window.SlfLayer) {
-      slfPending = true;
-      window.SlfLayer.create().then(function (layer) {
-        slfPending = false;
-        slfLayerInstance = layer;
-        /* User may have toggled off again while loading; respect current state. */
-        if (layerState.avalanche) map.addLayer(slfLayerInstance);
-      }).catch(function (err) {
-        slfPending = false;
-        console.warn('[hikes] SLF layer failed to load:', err);
-      });
-    }
-  } else if (slfLayerInstance) {
-    map.removeLayer(slfLayerInstance);
-  }
+
+/* Avalanche / SLF danger layer — always on, no toggle (safety-relevant hazard
+   layers must never be hidden by default; may extend to future "danger
+   segments" layers the same way). Auto-created at boot instead of on first
+   toggle click. SlfLayer.create() still lazy-loads slf_cache.js internally
+   (empty May–Oct) — only the add-to-map moment moved from click-time to
+   boot-time, the cache stays lazy. */
+function bootAvalancheLayer() {
+  if (!window.SlfLayer) return;
+  window.SlfLayer.create().then(function (layer) {
+    map.addLayer(layer);
+  }).catch(function (err) {
+    console.warn('[hikes] SLF layer failed to load:', err);
+  });
 }
 
 /* ------------- boot ------------- */
@@ -517,6 +507,7 @@ renderCardStrips();
    for day 0 — refresh now that mapDayActive is correct. */
 if (mapDayActive !== 0) refreshMarkerIcons();
 mountToolbarButtons();
+bootAvalancheLayer();
 updateResetVisibility();
 applyFilters();
 store.subscribe(updateResetVisibility);
@@ -548,7 +539,6 @@ function mountToolbarButtons() {
   }
 
   var webcamBtn = makeToggle('📷 Webcams', 'Show Windy webcams', layerState.webcams, setWebcams);
-  var slfBtn    = makeToggle('❄️ Avalanche', 'Show SLF avalanche bulletin (winter only)', layerState.avalanche, setAvalanche);
 
   var resetBtn = document.createElement('button');
   resetBtn.id = 'resetBtn';
@@ -569,14 +559,12 @@ function mountToolbarButtons() {
   };
 
   wrap.appendChild(webcamBtn);
-  wrap.appendChild(slfBtn);
   wrap.appendChild(resetBtn);
   wrap.appendChild(shareBtn);
   filtersEl.appendChild(wrap);
 
-  /* If URL state had layers on, materialise them now that the map exists. */
-  if (layerState.webcams)   setWebcams(true);
-  if (layerState.avalanche) setAvalanche(true);
+  /* If URL state had webcams on, materialise it now that the map exists. */
+  if (layerState.webcams) setWebcams(true);
 }
 
 function updateResetVisibility() {

@@ -25,7 +25,6 @@
     h:  { type: 'bool', defaultTrue: true },
     u:  { type: 'bool', defaultTrue: true },
     wc: { type: 'bool'  },
-    av: { type: 'bool'  },
     // dp — CC-only tooltip content toggles (weather/name/T/↑m/h/alt). Included
     // in the canonical map so a CC hash round-trips; index doesn't render the
     // toggles and the matcher doesn't read this key, so `dp` in an index URL

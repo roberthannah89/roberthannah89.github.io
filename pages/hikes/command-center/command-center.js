@@ -495,8 +495,10 @@
       { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hp', defaultOn: false },
       { id: 'cities',    icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
       { id: 'webcams',   icon: '📷', label: 'Webcams', defaultOn: true },
-      // Hazard overlays
-      { id: 'avalanche', icon: '⚠️', label: 'Avalanche (SLF bulletin + statutory hazard zones)' },
+      // Hazard overlays. Avalanche (SLF bulletin + statutory hazard zones) is
+      // NOT in this list — it's always on, no toggle (see bootAvalancheLayer()
+      // in boot()). Safety-relevant hazard layers must never be hidden by
+      // default; this may extend to future "danger segments" layers too.
       { id: 'slope',     icon: '📐', label: 'Slope ≥30° (avalanche-critical)' },
       { id: 'snow',      icon: '❄️', label: 'Snow & glaciers (permanent extent)' },
       // Planning / approach overlays
@@ -572,18 +574,32 @@
   // Generic lazy-loaded overlay registry. Each entry has a factory returning
   // Promise<L.Layer>; the layer is cached on first activation and wantedById
   // tracks intent in case the user toggles off before the layer resolves.
-  // Avalanche, slope, snow/glaciers, transit, drinking water, parking — all
-  // share this single add/remove machinery.
+  // Slope, snow/glaciers, transit, drinking water, parking — all share this
+  // single add/remove machinery. Avalanche is NOT here — it has no toggle (see
+  // bootAvalancheLayer()) so it never goes through add/remove.
   var overlayLayers = {};   // id → L.Layer (resolved)
   var overlayWanted = {};   // id → boolean (latest user intent)
   var overlayFactories = {
-    avalanche: function () { return window.Overlays && window.Overlays.Avalanche.create(); },
     slope:     function () { return window.Overlays && window.Overlays.Slope.create(); },
     snow:      function () { return window.Overlays && window.Overlays.SnowGlaciers.create(); },
     transit:   function () { return window.Overlays && window.Overlays.Transit.create(); },
     parking:   function () { return window.Overlays && window.Overlays.Parking.create(); },
     water:     function () { return window.Overlays && window.Overlays.DrinkingWater.create(); }
   };
+
+  // Avalanche hazard layer — always on, no toggle (safety-relevant; may extend
+  // to future "danger segments" layers the same way). Auto-created at boot
+  // instead of on first toggle click. window.Overlays.Avalanche.create()
+  // still lazily loads SlfLayer (which itself lazy-loads slf_cache.js) —
+  // only the add-to-map moment moved from click-time to boot-time.
+  function bootAvalancheLayer() {
+    if (!window.Overlays || !window.Overlays.Avalanche) return;
+    window.Overlays.Avalanche.create().then(function (layer) {
+      map.addLayer(layer);
+    }).catch(function (err) {
+      console.warn('Avalanche overlay failed to load:', err);
+    });
+  }
 
   function toggleLazyOverlay(id, show) {
     overlayWanted[id] = show;
@@ -765,7 +781,7 @@
     // 0, hikes/huts shown, weather-pill display on) — FilterStore itself has
     // no notion of defaults, it only holds what's handed to it.
     store = window.HikeMap.FilterStore({
-      keys: ['g', 'tm', 'el', 'gn', 'd', 'sk', 't', 'sn', 'h', 'u', 'hp', 'dp', 'wc', 'av'],
+      keys: ['g', 'tm', 'el', 'gn', 'd', 'sk', 't', 'sn', 'h', 'u', 'hp', 'dp', 'wc'],
       initial: Object.assign({ h: true, u: true, d: 0, dp: ['weather'] }, window.HikeMap.UrlSync.readFromUrl()),
     });
     matcher = window.HikeMap.FilterMatcher.factory({ wxLookup: wxLookup });
@@ -806,6 +822,7 @@
     buildWeatherToggles();
     wireResetButton();
     wireChromeToggle();
+    bootAvalancheLayer();
 
     // CC passes SAC POIs straight through (dataAdapter: identity) — they're
     // already the { name, lat, lon, alt, id, routes[] } shape the panel

@@ -223,7 +223,7 @@ One table, in `hike_map/url_sync.js`. Both pages use the same short keys — a h
 | showHikes | `h` | bool | ✅ | — | ✅ |
 | showHuts | `u` | bool | ✅ | — | ✅ (no huts on index anyway) |
 | webcams | `wc` | bool | ✅ toggle | ✅ toggle | not a filter |
-| avalanche | `av` | bool | ✅ toggle | ✅ toggle | not a filter |
+| avalanche | *(none — superseded 2026-07)* | — | always on, no toggle | always on, no toggle | not a filter |
 
 **Breaking rename:** CC's `dur` → `tm`. Old CC hash bookmarks stop resolving. Acceptable on a personal site.
 

@@ -90,9 +90,11 @@
   window.SlfLayer); command-center.js orchestrates them via those globals.
 
   Lazy-loaded caches (NOT listed here):
-  - slf-cache.js (0 KB off-season, ~50 KB in winter): only used when the user
-    enables the SLF avalanche overlay. Loaded by SlfLayer.create() via a
-    dynamic <script> tag on first activation (same pattern as webcams).
+  - slf-cache.js (0 KB off-season, ~50 KB in winter): the avalanche overlay is
+    always on (no toggle — safety layer), but the ~50 KB winter blob still
+    lazy-loads via a dynamic <script> tag inside SlfLayer.create(), called
+    unconditionally at boot by bootAvalancheLayer() in command-center.js
+    (same lazy-load pattern as webcams, just triggered at boot not on click).
 -->
 <!-- Data -->
 <script src="../routes/_assets/swiss_border.js"></script>
@@ -104,8 +106,8 @@
 <script src="../templates/_assets/hike_map/webcams_windy_data.js"></script>
 
 <!-- App modules -->
-<!-- slf-cache.js (0 KB off-season, ~50 KB in winter): only used when the user
-     enables the SLF avalanche overlay. Lazy-loaded inside SlfLayer.create via
+<!-- slf-cache.js (0 KB off-season, ~50 KB in winter): the avalanche overlay
+     auto-loads at boot (no toggle). Lazy-loaded inside SlfLayer.create via
      a dynamic <script> tag, same pattern as the windy webcam data. -->
 <script src="../templates/_assets/hike_map/grade_colors.js"></script>
 <script src="../templates/_assets/hike_map/weather.js"></script>
