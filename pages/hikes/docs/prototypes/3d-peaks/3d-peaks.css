@@ -8,6 +8,17 @@
  *   - Grade legend for the SAC-graded peak coloring
  */
 
+/* ---------- 3D-only UI: hide most CC filter chips ----------
+ * 3D is a peak-exploration lens, not a weather/hike-planning lens. The
+ * CC-shape filter bar (grade / duration / elev / gain / sky / temp / season)
+ * lives at the top of the page; hide it in 3D so the map dominates.
+ * Filters still ACTIVE (they drive both renderers) — just no UI in 3D.
+ */
+body.mode-3d #cc-filter-bar { display: none; }
+
+/* Peaks toggle button — only visible in 3D. */
+body.mode-2d .wx-toggle[data-toggle="peaks"] { display: none; }
+
 /* ---------- Mode toggle ---------- */
 .cc-mode-toggle {
   display: inline-flex; margin-left: 4px;

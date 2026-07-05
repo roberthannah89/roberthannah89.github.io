@@ -23,8 +23,9 @@
   var mode = null;
   var switching = false;
 
-  var routes = [];               // window.SAC_ROUTES
-  var slfLayerInstance = null;   // 2D only; created lazily by SlfLayer
+  var routes = [];                // window.SAC_ROUTES (peaks + huts + traverses)
+  var chPeaks = [];               // window.CH_PEAKS pre-wrapped as SAC POIs
+  var slfLayerInstance = null;    // 2D only; created lazily by SlfLayer
   var webcamLayerInstance = null; // 2D only; created on 'wc' toggle
 
   window.CC3DPeaks = window.CC3DPeaks || {};
@@ -74,6 +75,41 @@
     return null;
   }
   function stripGradeMod(g) { return g ? g.replace(/[+-]/g, '') : g; }
+  // CH_PEAKS have a different shape than SAC_ROUTES — no `routes[]`, `ele`
+  // instead of `alt`, and an optional `sac` singleton. Wrap so the shared
+  // SidePanel can render it identically to a SAC POI. Wrap once at boot and
+  // pass the wrapped array to the 3D renderer; the wrapped id starts with
+  // "chpeak-" so click handlers can dispatch cleanly.
+  function chPeakToSacPoi(peak) {
+    var routes = [];
+    if (peak.sac) {
+      routes.push({
+        id: peak.sac.route_id,
+        title: peak.sac.route_title,
+        grade: peak.sac.grade,
+        gain: peak.sac.gain,
+        time_up: peak.sac.time_up,
+        time_down: null
+      });
+    }
+    return {
+      id: 'chpeak-' + peak.id,
+      name: peak.name,
+      alt: peak.ele,
+      lat: peak.lat, lon: peak.lon,
+      type: 'summit',
+      routes: routes,
+      grade: peak.sac ? peak.sac.grade : null,
+      hasPage: false,
+      _isChPeak: true,
+      _minGrade: peak._minGrade,
+      _prominence: peak.prominence,
+      _wikipedia: peak.wikipedia,
+      _nearest_hut: peak.nearest_hut,
+      _canton: peak.canton
+    };
+  }
+
   function toMatchable(poi) {
     var bestRoute = poi.routes && poi.routes[0];
     return {
@@ -156,6 +192,8 @@
 
     renderer.init('map', v).then(function () {
       renderer.setPois(routes);
+      renderer.setChPeaks(chPeaks);
+      renderer.setLayerVisibility('peaks', !!store.get('pk'));
       renderer.applyVisibility(store.state());
       renderer.refreshIcons();
       // Re-hydrate 2D-only overlays (SLF avalanche layer, optional webcam layer)
@@ -178,8 +216,18 @@
     var loadingText = document.getElementById('loading-text');
     function status(msg) { if (loadingText) loadingText.textContent = msg; }
 
-    // Precompute min-grade for the peak coloring.
+    // Precompute min-grade for both datasets (drives peak-label color in 3D).
     routes.forEach(function (poi) { poi._minGrade = computeMinGrade(poi); });
+    // Wrap CH_PEAKS into SAC-POI shape at boot so the click adapter is a
+    // no-op — panel + renderer see the same object shape.
+    var chPeaksRaw = window.CH_PEAKS || [];
+    chPeaks = chPeaksRaw.map(function (p) {
+      // sac.grade → minGrade for the coloring expression
+      p._minGrade = p.sac && p.sac.grade
+        ? (parseInt(p.sac.grade.replace(/[^0-9]/g, ''), 10) || null)
+        : null;
+      return chPeakToSacPoi(p);
+    });
 
     // Shared engine setup — identical to CC's boot().
     wxLookup = window.HikeMap.WxLookup({ fuzzy: false });
@@ -195,8 +243,11 @@
     });
 
     store = window.HikeMap.FilterStore({
-      keys: ['g', 'tm', 'el', 'gn', 'd', 'sk', 't', 'sn', 'h', 'u', 'hp', 'dp', 'wc'],
-      initial: Object.assign({ h: true, u: true, d: 0, dp: ['weather'] }, window.HikeMap.UrlSync.readFromUrl())
+      // `pk` = show bare peaks from CH_PEAKS (7,512 named Swiss peaks).
+      // 3D-only visual, but the store carries it in both modes so a bookmark
+      // survives a mode swap.
+      keys: ['g', 'tm', 'el', 'gn', 'd', 'sk', 't', 'sn', 'h', 'u', 'hp', 'dp', 'wc', 'pk'],
+      initial: Object.assign({ h: true, u: true, d: 0, dp: ['weather'], pk: true }, window.HikeMap.UrlSync.readFromUrl())
     });
     matcher = window.HikeMap.FilterMatcher.factory({ wxLookup: wxLookup });
     window.HikeMap.UrlSync.bind({ store: store });
@@ -211,16 +262,24 @@
         if (renderer) { renderer.refreshIcons(); renderer.refreshTooltips(); }
         return;
       }
+      // pk-only skip — matches the dp pattern. `pk` controls the CH_PEAKS
+      // layer visibility (3D only); it never changes SAC POI visibility, so
+      // no need to run the full applyVisibility pass.
+      if (changedKeys && changedKeys.length === 1 && changedKeys[0] === 'pk') {
+        if (renderer && renderer.setLayerVisibility) renderer.setLayerVisibility('peaks', !!state.pk);
+        return;
+      }
       if (renderer) renderer.applyVisibility(state);
       updateRouteCounter(state);
     });
 
     // Panel opens before renderer init so click handlers can call panel.open()
-    // right away.
+    // right away. Adapter passes SAC POIs through unchanged; CH_PEAKS get
+    // wrapped into a SAC-POI shape (see chPeakToSacPoi below).
     panel = window.HikeMap.SidePanel.mount({
       container: '#side-panel',
       wxLookup: wxLookup,
-      dataAdapter: function (poi) { return poi; },
+      dataAdapter: function (poi) { return poi._isChPeak ? poi : poi; },
       matchingHike: matchingHike,
       store: store
     });
@@ -234,6 +293,8 @@
     renderer.init('map', mode === '3d' ? HOME_3D : HOME_2D).then(function () {
       status('Creating ' + routes.length + ' markers...');
       renderer.setPois(routes);
+      renderer.setChPeaks(chPeaks);
+      renderer.setLayerVisibility('peaks', !!store.get('pk'));
       renderer.applyVisibility(store.state());
 
       // Avalanche layer — always-on in CC, 2D-only here (Leaflet layer)
@@ -305,6 +366,40 @@
     wireChromeToggle();
     wireResetButton();
     wireRefreshButton();
+
+    buildWeatherToggles();
+  }
+
+  // Minimal bottom-bar toggle set — hikes / huts / peaks / webcams. Matches
+  // CC's "Discover" section (dropped Safety and Approach — those are
+  // planning-heavy and 3d-peaks is exploration-first). The "peaks" toggle
+  // is CSS-hidden in 2D because showing 7,500 markers on a Leaflet map is
+  // both slow and low-signal — the CC-shape 2D lens is already about
+  // route-having SAC POIs.
+  function buildWeatherToggles() {
+    var panel = document.getElementById('weather-toggles');
+    if (!panel) return;
+    var s = store.state();
+    var toggles = [
+      { id: 'hikes',   icon: '🥾', label: 'Hikes',            stateKey: 'h',  defaultOn: true },
+      { id: 'huts',    icon: '🏚️', label: 'SAC huts',         stateKey: 'u',  defaultOn: true },
+      { id: 'peaks',   icon: '🏔️', label: 'Peaks (3D only)',  stateKey: 'pk', defaultOn: true },
+      { id: 'webcams', icon: '📷', label: 'Webcams',          stateKey: 'wc', defaultOn: false }
+    ];
+    toggles.forEach(function (t) {
+      var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
+      var btn = document.createElement('button');
+      btn.className = 'wx-toggle' + (on ? ' active' : '');
+      btn.innerHTML = '<span class="icon">' + t.icon + '</span>';
+      btn.title = t.label;
+      btn.setAttribute('data-toggle', t.id);
+      btn.addEventListener('click', function () {
+        var next = !btn.classList.contains('active');
+        btn.classList.toggle('active', next);
+        if (t.stateKey) store.set(t.stateKey, next);
+      });
+      panel.appendChild(btn);
+    });
   }
 
   function updateRouteCounter(state) {

@@ -62,6 +62,8 @@
     var map = null;
     var mapReady = false;
     var lastPois = [];
+    var lastChPeaks = [];
+    var chPeaksOn = true;
     var trailsOn = true;
     var visibleIds = null;      // set of poi identifiers that pass filters; null = show all
 
@@ -97,12 +99,18 @@
       });
       return { type: 'FeatureCollection', features: use.map(poiToFeature) };
     }
+    function buildChPeakFC() {
+      if (!chPeaksOn) return { type: 'FeatureCollection', features: [] };
+      return { type: 'FeatureCollection', features: lastChPeaks.map(poiToFeature) };
+    }
     function refreshSources() {
       if (!map || !mapReady) return;
       var peakSrc = map.getSource('peaks');
       var hutSrc = map.getSource('huts');
+      var chPeakSrc = map.getSource('ch-peaks');
       if (peakSrc) peakSrc.setData(buildPeakFC());
       if (hutSrc) hutSrc.setData(buildHutFC());
+      if (chPeakSrc) chPeakSrc.setData(buildChPeakFC());
     }
 
     /* ── Trails overlay ─────────────────────────────────── */
@@ -402,6 +410,47 @@
             }
           });
 
+          // Bare peaks (CH_PEAKS) — 7,512 named Swiss peaks, most of them
+          // without a matched SAC route. Smaller and de-emphasized vs. the
+          // SAC "peaks" layer so the actionable, route-having summits stay
+          // prominent. Labels only above zoom 11 to keep the country view
+          // legible with all peaks on.
+          map.addSource('ch-peaks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+          map.addLayer({
+            id: 'ch-peaks-hit', type: 'circle', source: 'ch-peaks',
+            paint: { 'circle-radius': 8, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-width': 0 }
+          });
+          map.addLayer({
+            id: 'ch-peaks-dot', type: 'circle', source: 'ch-peaks',
+            paint: {
+              'circle-radius': ['interpolate', ['linear'], ['zoom'], 7, 1.8, 13, 4],
+              'circle-color': PEAK_COLOR_EXPR,
+              'circle-stroke-color': '#1a1810',
+              'circle-stroke-width': 0.8,
+              'circle-opacity': 0.85
+            }
+          });
+          map.addLayer({
+            id: 'ch-peaks-label', type: 'symbol', source: 'ch-peaks',
+            minzoom: 11,
+            layout: {
+              'text-field': ['case',
+                ['==', ['get', 'alt'], null], ['get', 'name'],
+                ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'alt']], ' m']
+              ],
+              'text-font': ['Open Sans Regular'], 'text-size': 10.5,
+              'text-anchor': 'bottom', 'text-offset': [0, -0.6],
+              'text-allow-overlap': false, 'text-padding': 2,
+              'text-optional': true,
+              'symbol-sort-key': ['-', 5000, ['coalesce', ['get', 'alt'], 0]]
+            },
+            paint: {
+              'text-color': PEAK_COLOR_EXPR,
+              'text-halo-color': '#1a1810',
+              'text-halo-width': 1.4, 'text-halo-blur': 0.4
+            }
+          });
+
           // Huts — brown filled markers, distinct silhouette
           map.addSource('huts', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
           map.addLayer({
@@ -429,15 +478,22 @@
             }
           });
 
-          // Interactions
+          // Click a peak/hut → fly to it and open the side panel. Panel calls
+          // the shared HikeMap.SidePanel so the interaction is identical to
+          // CC's 2D behavior; the fly-to is the 3D-specific bit.
           function clickPoi(e) {
             var f = e.features && e.features[0]; if (!f) return;
             var id = f.properties.id;
             var poi = lastPois.find(function (p) { return poiId(p) === id; });
-            if (poi && panel) panel.open(poi);
+            if (!poi) poi = lastChPeaks.find(function (p) { return poiId(p) === id; });
+            if (!poi) return;
             window.CC3DPeaks._selected = poi;
+            flyTo({ lat: poi.lat, lon: poi.lon });
+            if (panel) panel.open(poi);
           }
-          ['peaks-hit', 'peaks-dot', 'peaks-label', 'huts-dot', 'huts-label'].forEach(function (l) {
+          ['peaks-hit', 'peaks-dot', 'peaks-label',
+           'huts-dot', 'huts-label',
+           'ch-peaks-hit', 'ch-peaks-dot', 'ch-peaks-label'].forEach(function (l) {
             map.on('click', l, clickPoi);
             map.on('mouseenter', l, function () { map.getCanvas().style.cursor = 'pointer'; });
             map.on('mouseleave', l, function () { map.getCanvas().style.cursor = ''; });
@@ -466,11 +522,30 @@
     }
 
     function setPois(pois) { lastPois = pois; refreshSources(); }
+    function setChPeaks(peaks) { lastChPeaks = peaks || []; refreshSources(); }
+    function setLayerVisibility(layerId, on) {
+      if (layerId === 'peaks') {   // "peaks" toggle controls the CH_PEAKS layer
+        chPeaksOn = !!on;
+        refreshSources();
+      } else if (layerId === 'trails') {
+        trailsOn = !!on;
+        if (!trailsOn) {
+          var src = map && map.getSource('trails');
+          if (src) src.setData({ type: 'FeatureCollection', features: [] });
+          var countEl = document.getElementById('trails-count');
+          if (countEl) countEl.textContent = 'off';
+        } else refreshTrails();
+      }
+    }
     function applyVisibility(state) {
       var set = new Set();
       lastPois.forEach(function (poi) {
         if (matcher.match(toMatchable(poi), state)) set.add(poiId(poi));
       });
+      // CH_PEAKS aren't matched by the CC filter matcher (they're a separate
+      // geographic layer, controlled only by the `pk` toggle). Always include
+      // them in visibleIds so the source builder includes them.
+      lastChPeaks.forEach(function (poi) { set.add(poiId(poi)); });
       visibleIds = set;
       refreshSources();
     }
@@ -517,11 +592,13 @@
     return {
       init: init, teardown: teardown,
       setPois: setPois,
+      setChPeaks: setChPeaks,
+      setLayerVisibility: setLayerVisibility,
       applyVisibility: applyVisibility,
       refreshIcons: refreshIcons,
       refreshTooltips: refreshTooltips,
       getViewport: getViewport, setViewport: setViewport, flyTo: flyTo,
-      supports: { trails: true, tour: true },
+      supports: { trails: true, tour: true, peaks: true },
       toggleTrails: toggleTrails,
       toggleTour: toggleTour,
       // MapLibre can render WMS/raster overlays but Leaflet layers coming from

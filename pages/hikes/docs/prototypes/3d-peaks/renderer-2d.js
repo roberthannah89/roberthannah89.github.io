@@ -264,11 +264,16 @@
     return {
       init: init, teardown: teardown,
       setPois: setPois,
+      // CH_PEAKS + the `peaks` toggle are 3D-only concepts — 2D silently
+      // ignores them. Showing 7,500 dots on a Leaflet map isn't valuable
+      // and would trash the CC-parity feel.
+      setChPeaks: function () {},
+      setLayerVisibility: function () {},
       applyVisibility: applyVisibility,
       refreshIcons: refreshIcons,
       refreshTooltips: refreshTooltips,
       getViewport: getViewport, setViewport: setViewport, flyTo: flyTo,
-      supports: { trails: false, tour: false },
+      supports: { trails: false, tour: false, peaks: false },
       // Called by the orchestrator's async avalanche/webcam boot to hand us
       // a Leaflet layer to add. In 3D these no-op.
       addLayer: function (layer) { if (map && layer) map.addLayer(layer); },
