@@ -682,9 +682,9 @@
           { id: 'bg', type: 'background', paint: { 'background-color': '#8ba58c' } },
           { id: 'satellite', type: 'raster', source: 'swissimage' }
         ],
-        terrain: { source: 'terrarium', exaggeration: 1.4 },
+        terrain: { source: 'terrarium', exaggeration: 1.5 },
         sky: {
-          'sky-color': '#a8c6de', 'horizon-color': '#dfe7ed',
+          'sky-color': '#9fc8ec', 'horizon-color': '#dfe7ed',
           'fog-color': '#dfe7ed', 'fog-ground-blend': 0.5
         }
       },
@@ -704,10 +704,11 @@
       map.addLayer({
         id: 'peaks-dot', type: 'circle', source: 'peaks',
         paint: {
-          'circle-radius': ['case', ['==', ['get', 'tier'], 1], 5, ['==', ['get', 'tier'], 2], 3.6, 2.4],
+          // Matches 3d-peaks.html sizes (tier1: 4, tier2: 3.2, else: 2.4).
+          'circle-radius': ['case', ['==', ['get', 'tier'], 1], 4, ['==', ['get', 'tier'], 2], 3.2, 2.4],
           'circle-color': '#ffffff',
-          'circle-stroke-color': '#171a1f',
-          'circle-stroke-width': 1.4,
+          'circle-stroke-color': '#222222',
+          'circle-stroke-width': 1.3,
           'circle-opacity': ['case',
             ['==', ['get', 'tier'], 1], 1,
             ['==', ['get', 'tier'], 2], ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
@@ -727,15 +728,16 @@
             ['==', ['get', 'ele'], null], ['get', 'name'],
             ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'ele']], ' m']
           ],
-          'text-font': ['Open Sans Semibold'],
+          'text-font': ['Open Sans Regular'],
           'text-size': ['case', ['==', ['get', 'tier'], 1], 13, ['==', ['get', 'tier'], 2], 11.5, 10.5],
-          'text-anchor': 'bottom', 'text-offset': [0, -0.65],
+          'text-anchor': 'bottom', 'text-offset': [0, -0.6],
+          // Collision-avoidance ON (we have 7,500 peaks vs 3d-peaks' ~140).
           'text-allow-overlap': false, 'text-ignore-placement': false, 'text-padding': 3,
           'symbol-sort-key': ['-', 5000, ['coalesce', ['get', 'ele'], 0]]
         },
         paint: {
-          'text-color': '#171a1f', 'text-halo-color': '#ffffff',
-          'text-halo-width': 1.6, 'text-halo-blur': 0.4
+          'text-color': '#1a1a1a', 'text-halo-color': '#ffffff',
+          'text-halo-width': 1.8, 'text-halo-blur': 0.4
         }
       });
       map.addLayer({
@@ -781,10 +783,25 @@
   }
 
   function flyToMapLibre(p) {
-    if (!map || !map.loaded()) return;
-    map.flyTo({
-      center: [p.lon, p.lat], zoom: 13.5, pitch: 70, bearing: 20,
-      speed: 1.2, duration: 2500, essential: true
+    if (!map) return;
+    // Fit a ~3 km buffer around the peak (matches 3d-peaks.html's fitBounds
+    // pattern). Yields a natural angled view showing the peak in context —
+    // surrounding peaks stay visible instead of the camera burying into the
+    // terrain like a raw flyTo to zoom 13.5 does. Do NOT gate on
+    // map.loaded() — swisstopo returns 400 for tiles outside Switzerland, so
+    // loaded() can stay false indefinitely.
+    const pad = 0.028;  // ~3 km in each direction
+    const bounds = [
+      [p.lon - pad, p.lat - pad],
+      [p.lon + pad, p.lat + pad]
+    ];
+    map.fitBounds(bounds, {
+      padding: 60,
+      pitch: 65,
+      bearing: 20,
+      duration: 2500,
+      maxZoom: 13,
+      essential: true
     });
   }
   function flyHomeMapLibre() {
