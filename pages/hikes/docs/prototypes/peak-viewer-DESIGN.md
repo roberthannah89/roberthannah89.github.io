@@ -137,7 +137,7 @@ Add to `scripts/config.py` (per project convention):
 - `CH_BBOX` — bounding box for Overpass query
 - `SAC_JOIN_DISTANCE_M = 100`
 - `SAC_JOIN_NAME_THRESHOLD = 0.7`
-- `OVERPASS_ENDPOINT` (already implied — factor from `3d-peaks.html` if hardcoded)
+- `OVERPASS_ENDPOINT` (already implied — factor from `3d-trails.html` if hardcoded)
 
 ## Filters + sort
 

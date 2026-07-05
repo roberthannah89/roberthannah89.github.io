@@ -47,7 +47,7 @@ Background: every hike page links to a per-hike 3D view powered by [MapLibre GL 
 
 ## 3D command center
 
-- **What:** A 3D-terrain version of [`command-center/`](../command-center/index.html) — the current Leaflet 2D view (hikes, cantons, cities, webcams, weather stations, SLF avy stations, season filter) rendered on tilted swisstopo terrain via MapLibre GL, same stack as [`prototypes/3d-peaks.html`](prototypes/3d-peaks.html).
+- **What:** A 3D-terrain version of [`command-center/`](../command-center/index.html) — the current Leaflet 2D view (hikes, cantons, cities, webcams, weather stations, SLF avy stations, season filter) rendered on tilted swisstopo terrain via MapLibre GL, same stack as [`prototypes/3d-trails.html`](prototypes/3d-trails.html).
 - **Why:** Would give the map a "planning-from-above" feel — you can actually see which hikes sit on which ridges, why one canton's terrain differs from its neighbor, and where webcams point. The 3D peaks prototype already proves swisstopo raster + Terrarium DEM renders Swiss terrain well enough.
 - **Cost:**
   - Setup: everything Leaflet-specific gets rewritten — marker clustering, layer toggles, first-click popup fix, `url-sync`, `side-panel` wiring. MapLibre has native `Marker`/`Popup`/`NavigationControl` equivalents but the wiring is different.

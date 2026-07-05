@@ -750,7 +750,7 @@
           'text-font': ['Open Sans Regular'],
           'text-size': ['case', ['==', ['get', 'tier'], 1], 13, ['==', ['get', 'tier'], 2], 11.5, 10.5],
           'text-anchor': 'bottom', 'text-offset': [0, -0.6],
-          // Collision-avoidance ON (we have 7,500 peaks vs 3d-peaks' ~140).
+          // Collision-avoidance ON (we have 7,500 peaks vs 3d-trails' ~140).
           'text-allow-overlap': false, 'text-ignore-placement': false, 'text-padding': 3,
           'symbol-sort-key': ['-', 5000, ['coalesce', ['get', 'ele'], 0]]
         },
@@ -808,7 +808,7 @@
 
   function flyToMapLibre(p) {
     if (!map) return;
-    // Fit a ~3 km buffer around the peak (matches 3d-peaks.html's fitBounds
+    // Fit a ~3 km buffer around the peak (matches 3d-trails.html's fitBounds
     // pattern). Yields a natural angled view showing the peak in context —
     // surrounding peaks stay visible instead of the camera burying into the
     // terrain like a raw flyTo to zoom 13.5 does. Do NOT gate on
