@@ -1,9 +1,12 @@
 /* Peak Viewer prototype — app logic.
  *
  * Data:  window.CH_PEAKS  (from ch-peaks.js)
- * Map:   MapLibre GL with swisstopo SWISSIMAGE aerial imagery + Terrarium DEM
- *        for 3D terrain — same stack as 3d-peaks.html. No API key required.
+ * Modes:
+ *   maplibre: SWISSIMAGE + Terrarium DEM (default; no API key required).
+ *   cesium:   Google Photorealistic 3D Tiles (needs
+ *             window.HIKING_CONFIG.googleMapsApiKey in local-config.js).
  *
+ * Click a peak in either mode → camera flies to it, info card appears.
  * Public hook: window.PeakViewer.togglePanel()  — wired to the DOM onclick.
  */
 (function () {
@@ -13,12 +16,14 @@
   // Data + constants
   // ------------------------------------------------------------------
   const PEAKS = Array.isArray(window.CH_PEAKS) ? window.CH_PEAKS : [];
+  const MAX_LIST = 500;
 
-  const MAX_LIST = 500;                 // cap DOM cards rendered
-  const HOME_VIEW = {
-    center: [8.2, 46.7], zoom: 7, pitch: 55, bearing: 20
-  };
-  const FLY_DURATION_MS = 2500;
+  const HOME_MAPLIBRE = { center: [8.2, 46.7], zoom: 8, pitch: 55, bearing: 20 };
+  // Cesium home: rough equivalent looking at the same central Switzerland spot.
+  const HOME_CESIUM = { lon: 8.2, lat: 45.8, height: 250000, heading: 20, pitch: -55 };
+
+  const MODE_STORAGE = 'proto:peak-viewer-mode';
+  const GOOGLE_KEY = (window.HIKING_CONFIG && window.HIKING_CONFIG.googleMapsApiKey) || '';
 
   // ------------------------------------------------------------------
   // Elevation range bounds
@@ -31,7 +36,7 @@
   })();
 
   // ------------------------------------------------------------------
-  // Filter state
+  // Filter + mode state
   // ------------------------------------------------------------------
   const state = {
     search: '',
@@ -45,6 +50,15 @@
     selectedId: null
   };
 
+  let mode = (function () {
+    try { return localStorage.getItem(MODE_STORAGE) || 'maplibre'; } catch (e) { return 'maplibre'; }
+  })();
+  if (mode === 'cesium' && !GOOGLE_KEY) mode = 'maplibre';
+
+  // Camera state preserved across mode switches. Shape:
+  //   { lng, lat, distance (m), heading (deg), pitch (deg, negative = looking down) }
+  let sharedCamera = null;
+
   // ------------------------------------------------------------------
   // DOM refs
   // ------------------------------------------------------------------
@@ -52,7 +66,7 @@
   const dom = {
     layout: $('layout'),
     scene: $('scene'),
-    map: $('map'),
+    host: $('map-host'),
     banner: $('banner'),
     overStatus: $('over-status'),
     overPeak: $('over-peak'),
@@ -81,10 +95,12 @@
     sortSelect: $('sort-select'),
     cardList: $('card-list'),
     homeBtn: $('home-btn'),
+    modeMaplibre: $('mode-maplibre'),
+    modeCesium: $('mode-cesium'),
   };
 
   // ------------------------------------------------------------------
-  // Init UI: counts, canton chips, ranges
+  // Init UI
   // ------------------------------------------------------------------
   const CANTONS = (function () {
     const m = new Map();
@@ -101,7 +117,6 @@
     dom.eleMax.value = ELE_MAX;
     dom.eleMinVal.textContent = ELE_MIN;
     dom.eleMaxVal.textContent = ELE_MAX;
-
     for (const [ak, count] of CANTONS) {
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -111,6 +126,19 @@
       btn.title = ak + ' — ' + count + ' peaks';
       dom.chipCantons.appendChild(btn);
     }
+    // Mode toggle
+    updateModeBar();
+    if (!GOOGLE_KEY) {
+      dom.modeCesium.disabled = true;
+      dom.modeCesium.title = 'Photorealistic mode needs a Google Maps API key. Copy local-config.example.js → local-config.js and set googleMapsApiKey.';
+    }
+    dom.modeMaplibre.addEventListener('click', () => switchMode('maplibre'));
+    dom.modeCesium.addEventListener('click', () => switchMode('cesium'));
+  }
+
+  function updateModeBar() {
+    dom.modeMaplibre.classList.toggle('active', mode === 'maplibre');
+    dom.modeCesium.classList.toggle('active', mode === 'cesium');
   }
 
   // ------------------------------------------------------------------
@@ -162,7 +190,7 @@
   }
 
   // ------------------------------------------------------------------
-  // Render list (DOM cards)
+  // Card list render
   // ------------------------------------------------------------------
   function el(tag, cls, text) {
     const e = document.createElement(tag);
@@ -205,7 +233,6 @@
       elev.textContent = '—';
     }
     card.appendChild(elev);
-
     card.addEventListener('click', () => select(p.id, { fly: true }));
     return card;
   }
@@ -231,15 +258,13 @@
       const frag = document.createDocumentFragment();
       for (const p of shown) frag.appendChild(renderCard(p));
       if (filtered.length > MAX_LIST) {
-        const more = el('div', 'loading',
+        frag.appendChild(el('div', 'loading',
           'Showing top ' + MAX_LIST.toLocaleString() +
           ' of ' + filtered.length.toLocaleString() +
-          ' — narrow the filters to see more.');
-        frag.appendChild(more);
+          ' — narrow the filters to see more.'));
       }
       dom.cardList.appendChild(frag);
     }
-
     updatePeakSource(filtered);
     updateHash();
   }
@@ -260,7 +285,6 @@
     if (activeCard && opts.scrollIntoView !== false) {
       activeCard.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
-
     const p = findPeak(id);
     if (!p) {
       dom.overPeak.hidden = true;
@@ -268,10 +292,8 @@
       updateHash();
       return;
     }
-
     dom.selName.textContent = p.name;
     dom.selEle.textContent = typeof p.ele === 'number' ? p.ele.toLocaleString() + ' m' : '';
-
     const bits = [];
     if (p.canton) bits.push('Kanton ' + p.canton);
     if (p.region) bits.push(p.region);
@@ -291,13 +313,11 @@
     } else {
       dom.selSac.hidden = true;
     }
-
     if (p.nearest_hut) {
       dom.selHut.textContent = 'Nearest hut: ' + p.nearest_hut.name + ' (' + p.nearest_hut.dist_km + ' km)';
     } else {
       dom.selHut.textContent = '';
     }
-
     if (p.wikipedia) {
       const parts = p.wikipedia.split(':');
       const lang = parts[0], title = parts.slice(1).join(':');
@@ -306,7 +326,6 @@
     } else {
       dom.selWiki.hidden = true;
     }
-
     dom.overPeak.hidden = false;
     updateSelectedSource(p);
     if (opts.fly !== false) flyTo(p);
@@ -327,7 +346,6 @@
   // URL hash sync
   // ------------------------------------------------------------------
   let suppressHashUpdate = false;
-
   function updateHash() {
     if (suppressHashUpdate) return;
     const parts = [];
@@ -372,8 +390,7 @@
     dom.eleMaxVal.textContent = state.eleMax;
     dom.sortSelect.value = state.sort;
     for (const chip of dom.chipToggles.querySelectorAll('.chip')) {
-      const key = chip.dataset.toggle;
-      chip.classList.toggle('active', !!state[key]);
+      chip.classList.toggle('active', !!state[chip.dataset.toggle]);
     }
     dom.chipGrades.hidden = !state.hikeable;
     for (const chip of dom.chipGrades.querySelectorAll('.chip')) {
@@ -386,19 +403,18 @@
     suppressHashUpdate = false;
   }
 
-  // ------------------------------------------------------------------
-  // Filter UI wiring
-  // ------------------------------------------------------------------
   function updateCantonCount() {
     dom.cantonCountLbl.textContent = state.cantons.size ? '(' + state.cantons.size + ')' : '';
   }
 
+  // ------------------------------------------------------------------
+  // Filter UI wiring
+  // ------------------------------------------------------------------
   function bindFilterUi() {
     dom.searchInput.addEventListener('input', () => {
       state.search = norm(dom.searchInput.value.trim());
       renderList();
     });
-
     function updateElevInputs() {
       let lo = +dom.eleMin.value, hi = +dom.eleMax.value;
       if (lo > hi) { [lo, hi] = [hi, lo]; }
@@ -409,7 +425,6 @@
     }
     dom.eleMin.addEventListener('input', updateElevInputs);
     dom.eleMax.addEventListener('input', updateElevInputs);
-
     dom.chipToggles.addEventListener('click', (e) => {
       const chip = e.target.closest('.chip');
       if (!chip) return;
@@ -422,7 +437,6 @@
       }
       renderList();
     });
-
     dom.chipGrades.addEventListener('click', (e) => {
       const chip = e.target.closest('.chip');
       if (!chip) return;
@@ -432,7 +446,6 @@
       chip.classList.toggle('active', state.grades.has(g));
       renderList();
     });
-
     dom.chipCantons.addEventListener('click', (e) => {
       const chip = e.target.closest('.chip');
       if (!chip) return;
@@ -443,18 +456,16 @@
       updateCantonCount();
       renderList();
     });
-
     dom.sortSelect.addEventListener('change', () => {
       state.sort = dom.sortSelect.value;
       renderList();
     });
-
     dom.selDeselect.addEventListener('click', deselect);
     dom.selFly.addEventListener('click', () => {
       const p = findPeak(state.selectedId);
       if (p) flyTo(p);
     });
-
+    dom.homeBtn.addEventListener('click', flyHome);
     window.addEventListener('keydown', (e) => {
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
       if (e.key === 'Escape') deselect();
@@ -471,69 +482,180 @@
       ? force
       : !dom.layout.classList.contains('collapsed');
     dom.layout.classList.toggle('collapsed', wantCollapse);
-    // Resize MapLibre after CSS transition finishes so its canvas fills again.
-    setTimeout(() => { if (map) map.resize(); }, 340);
+    setTimeout(resizeViewer, 340);
   }
   window.PeakViewer = { togglePanel };
 
+  function resizeViewer() {
+    if (map) map.resize();
+    if (viewer) viewer.resize();
+  }
+  window.addEventListener('resize', resizeViewer);
+
+  function showBanner(html) {
+    dom.banner.hidden = false;
+    dom.banner.innerHTML = html;
+    clearTimeout(showBanner._t);
+    showBanner._t = setTimeout(() => { dom.banner.hidden = true; }, 8000);
+  }
+
   // ------------------------------------------------------------------
-  // MapLibre — map, layers, and interactions
+  // Mode switching
   // ------------------------------------------------------------------
   let map = null;
+  let viewer = null;
+  let cesiumTileset = null;
+  let cesiumEntities = new Map();
+  let cesiumSelectedEntity = null;
+  let cesiumClickHandler = null;
 
-  // Peak tier used by MapLibre style expressions.
-  // 1 = major (visible from country view)
-  // 2 = mid  (visible zoomed in a step)
-  // 3 = local (only close-in)
-  // notable OR high elevation bumps into higher tiers.
+  function switchMode(newMode) {
+    if (newMode === mode) return;
+    if (newMode === 'cesium' && !GOOGLE_KEY) {
+      showBanner('Photorealistic mode needs a Google Maps API key. Copy <code>local-config.example.js → local-config.js</code> and set <code>googleMapsApiKey</code>.');
+      return;
+    }
+    sharedCamera = captureCamera();
+    teardown();
+    mode = newMode;
+    try { localStorage.setItem(MODE_STORAGE, mode); } catch (e) {}
+    updateModeBar();
+    if (mode === 'maplibre') initMapLibre();
+    else initCesium();
+  }
+
+  function teardown() {
+    if (map) { try { map.remove(); } catch (e) {} map = null; }
+    if (viewer) {
+      if (cesiumClickHandler) { try { cesiumClickHandler.destroy(); } catch (e) {} cesiumClickHandler = null; }
+      cesiumEntities.clear();
+      cesiumSelectedEntity = null;
+      cesiumTileset = null;
+      try { viewer.destroy(); } catch (e) {}
+      viewer = null;
+    }
+    dom.host.innerHTML = '';
+  }
+
+  function captureCamera() {
+    if (mode === 'maplibre' && map) return captureCameraMapLibre();
+    if (mode === 'cesium' && viewer) return captureCameraCesium();
+    return sharedCamera;
+  }
+
+  // Cross-mode helpers (MapLibre pitch = 0 top-down, 60 tilted;
+  // Cesium pitch = -90 top-down, 0 horizon)
+  function distanceToZoom(distance, lat) {
+    const c = 40075016.686 * Math.cos(lat * Math.PI / 180);
+    return Math.log2((window.innerWidth * c) / (256 * Math.max(distance, 1)));
+  }
+  function zoomToDistance(zoom, lat) {
+    const c = 40075016.686 * Math.cos(lat * Math.PI / 180);
+    return (window.innerWidth * c) / (256 * Math.pow(2, zoom));
+  }
+
+  function captureCameraMapLibre() {
+    if (!map) return null;
+    const c = map.getCenter();
+    return {
+      lng: c.lng, lat: c.lat,
+      distance: zoomToDistance(map.getZoom(), c.lat),
+      heading: map.getBearing(),
+      pitch: -(90 - map.getPitch())
+    };
+  }
+  function applyCameraMapLibre(cam) {
+    if (!map || !cam) return;
+    map.jumpTo({
+      center: [cam.lng, cam.lat],
+      zoom: distanceToZoom(cam.distance, cam.lat),
+      bearing: cam.heading,
+      pitch: 90 + cam.pitch
+    });
+  }
+  function captureCameraCesium() {
+    if (!viewer) return null;
+    const Cesium = window.Cesium;
+    const cam = viewer.camera;
+    const w = viewer.canvas.clientWidth || window.innerWidth;
+    const h = viewer.canvas.clientHeight || window.innerHeight;
+    const center = cam.pickEllipsoid(new Cesium.Cartesian2(w / 2, h / 2));
+    if (!center) return null;
+    const carto = Cesium.Cartographic.fromCartesian(center);
+    return {
+      lng: Cesium.Math.toDegrees(carto.longitude),
+      lat: Cesium.Math.toDegrees(carto.latitude),
+      distance: Cesium.Cartesian3.distance(cam.position, center),
+      heading: Cesium.Math.toDegrees(cam.heading),
+      pitch:   Cesium.Math.toDegrees(cam.pitch)
+    };
+  }
+
+  // ------------------------------------------------------------------
+  // Source updates — delegate to the active renderer.
+  // ------------------------------------------------------------------
+  function updatePeakSource(filtered) {
+    if (mode === 'maplibre') updatePeakSourceMapLibre(filtered);
+    else updatePeakSourceCesium(filtered);
+  }
+  function updateSelectedSource(p) {
+    if (mode === 'maplibre') updateSelectedSourceMapLibre(p);
+    else updateSelectedSourceCesium(p);
+  }
+  function flyTo(p) {
+    if (mode === 'maplibre') flyToMapLibre(p);
+    else flyToCesium(p);
+  }
+  function flyHome() {
+    if (mode === 'maplibre') flyHomeMapLibre();
+    else flyHomeCesium();
+  }
+
+  // ------------------------------------------------------------------
+  // MapLibre renderer
+  // ------------------------------------------------------------------
   function tierFor(ele, notable) {
     ele = ele || 0;
     if (ele >= 3800 || (notable && ele >= 3300)) return 1;
     if (ele >= 3000 || (notable && ele >= 2000)) return 2;
     return 3;
   }
-
   function toFeature(p) {
     return {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
       properties: {
-        id: p.id,
-        name: p.name,
+        id: p.id, name: p.name,
         ele: typeof p.ele === 'number' ? Math.round(p.ele) : null,
         tier: tierFor(p.ele, !!p.wikipedia),
         notable: !!p.wikipedia,
-        hikeable: !!p.sac,
       }
     };
   }
-
-  function updatePeakSource(filtered) {
+  function updatePeakSourceMapLibre(filtered) {
     if (!map) return;
     const src = map.getSource('peaks');
     if (!src) return;
-    src.setData({
-      type: 'FeatureCollection',
-      features: filtered.map(toFeature)
-    });
+    src.setData({ type: 'FeatureCollection', features: filtered.map(toFeature) });
   }
-
-  function updateSelectedSource(p) {
+  function updateSelectedSourceMapLibre(p) {
     if (!map) return;
     const src = map.getSource('selected-peak');
     if (!src) return;
-    src.setData({
-      type: 'FeatureCollection',
-      features: p ? [toFeature(p)] : []
-    });
+    src.setData({ type: 'FeatureCollection', features: p ? [toFeature(p)] : [] });
   }
 
-  function showBanner(html) {
-    dom.banner.hidden = false;
-    dom.banner.innerHTML = html;
-  }
+  function initMapLibre() {
+    dom.host.innerHTML = '<div id="map"></div>';
+    const initialView = sharedCamera
+      ? {
+          center: [sharedCamera.lng, sharedCamera.lat],
+          zoom: distanceToZoom(sharedCamera.distance, sharedCamera.lat),
+          bearing: sharedCamera.heading,
+          pitch: Math.max(0, Math.min(85, 90 + sharedCamera.pitch))
+        }
+      : HOME_MAPLIBRE;
 
-  function initMap() {
     map = new maplibregl.Map({
       container: 'map',
       style: {
@@ -543,8 +665,9 @@
           swissimage: {
             type: 'raster',
             tiles: ['https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg'],
-            tileSize: 256, maxzoom: 19,
-            attribution: '&copy; swisstopo'
+            // swisstopo only serves tiles from zoom 8 up. Below that, minzoom
+            // keeps MapLibre from requesting non-existent low-zoom tiles.
+            tileSize: 256, minzoom: 8, maxzoom: 19, attribution: '&copy; swisstopo'
           },
           terrarium: {
             type: 'raster-dem',
@@ -553,194 +676,317 @@
             attribution: 'Terrain: Mapzen / AWS Open Data'
           }
         },
-        layers: [{ id: 'satellite', type: 'raster', source: 'swissimage' }],
+        // Background fills in for out-of-range zooms + edges (swisstopo is
+        // Switzerland-only; anything outside its coverage falls back to this).
+        layers: [
+          { id: 'bg', type: 'background', paint: { 'background-color': '#8ba58c' } },
+          { id: 'satellite', type: 'raster', source: 'swissimage' }
+        ],
         terrain: { source: 'terrarium', exaggeration: 1.4 },
         sky: {
-          'sky-color': '#a8c6de',
-          'horizon-color': '#dfe7ed',
-          'fog-color': '#dfe7ed',
-          'fog-ground-blend': 0.5
+          'sky-color': '#a8c6de', 'horizon-color': '#dfe7ed',
+          'fog-color': '#dfe7ed', 'fog-ground-blend': 0.5
         }
       },
-      center: HOME_VIEW.center, zoom: HOME_VIEW.zoom,
-      pitch: HOME_VIEW.pitch, bearing: HOME_VIEW.bearing,
+      center: initialView.center, zoom: initialView.zoom,
+      pitch: initialView.pitch, bearing: initialView.bearing,
       maxPitch: 85, hash: false
     });
 
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
 
+    window.__peakViewerMap = map;
     map.on('load', () => {
       map.addSource('peaks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addSource('selected-peak', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
 
-      // Dots — zoom-based visibility per tier so the country view stays clean
-      // and detail appears as you zoom in.
       map.addLayer({
-        id: 'peaks-dot',
-        type: 'circle',
-        source: 'peaks',
+        id: 'peaks-dot', type: 'circle', source: 'peaks',
         paint: {
-          'circle-radius': [
-            'case',
-            ['==', ['get', 'tier'], 1], 5,
-            ['==', ['get', 'tier'], 2], 3.6,
-            2.4
-          ],
+          'circle-radius': ['case', ['==', ['get', 'tier'], 1], 5, ['==', ['get', 'tier'], 2], 3.6, 2.4],
           'circle-color': '#ffffff',
           'circle-stroke-color': '#171a1f',
           'circle-stroke-width': 1.4,
-          'circle-opacity': [
-            'case',
+          'circle-opacity': ['case',
             ['==', ['get', 'tier'], 1], 1,
-            ['==', ['get', 'tier'], 2],
-              ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
+            ['==', ['get', 'tier'], 2], ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
             ['interpolate', ['linear'], ['zoom'], 9, 0, 11, 1]
           ],
-          'circle-stroke-opacity': [
-            'case',
+          'circle-stroke-opacity': ['case',
             ['==', ['get', 'tier'], 1], 1,
-            ['==', ['get', 'tier'], 2],
-              ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
+            ['==', ['get', 'tier'], 2], ['interpolate', ['linear'], ['zoom'], 6, 0, 8.5, 1],
             ['interpolate', ['linear'], ['zoom'], 9, 0, 11, 1]
           ]
         }
       });
-
-      // Peak labels — MapLibre's automatic collision detection culls
-      // overlapping labels. symbol-sort-key keeps high-elevation peaks
-      // visible when there's a conflict.
       map.addLayer({
-        id: 'peaks-label',
-        type: 'symbol',
-        source: 'peaks',
+        id: 'peaks-label', type: 'symbol', source: 'peaks',
         layout: {
-          'text-field': [
-            'case',
+          'text-field': ['case',
             ['==', ['get', 'ele'], null], ['get', 'name'],
             ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'ele']], ' m']
           ],
           'text-font': ['Open Sans Semibold'],
-          'text-size': [
-            'case',
-            ['==', ['get', 'tier'], 1], 13,
-            ['==', ['get', 'tier'], 2], 11.5,
-            10.5
-          ],
-          'text-anchor': 'bottom',
-          'text-offset': [0, -0.65],
-          'text-allow-overlap': false,
-          'text-ignore-placement': false,
-          'text-padding': 3,
-          // Higher elevation wins ties (lower sort key = drawn first).
+          'text-size': ['case', ['==', ['get', 'tier'], 1], 13, ['==', ['get', 'tier'], 2], 11.5, 10.5],
+          'text-anchor': 'bottom', 'text-offset': [0, -0.65],
+          'text-allow-overlap': false, 'text-ignore-placement': false, 'text-padding': 3,
           'symbol-sort-key': ['-', 5000, ['coalesce', ['get', 'ele'], 0]]
         },
         paint: {
-          'text-color': '#171a1f',
-          'text-halo-color': '#ffffff',
-          'text-halo-width': 1.6,
-          'text-halo-blur': 0.4
-        }
-      });
-
-      // Selected peak — pulse ring + red dot + big label, always on top.
-      map.addLayer({
-        id: 'selected-halo',
-        type: 'circle',
-        source: 'selected-peak',
-        paint: {
-          'circle-radius': 14,
-          'circle-color': '#c0392b',
-          'circle-opacity': 0.22
+          'text-color': '#171a1f', 'text-halo-color': '#ffffff',
+          'text-halo-width': 1.6, 'text-halo-blur': 0.4
         }
       });
       map.addLayer({
-        id: 'selected-dot',
-        type: 'circle',
-        source: 'selected-peak',
-        paint: {
-          'circle-radius': 6.5,
-          'circle-color': '#c0392b',
-          'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 2
-        }
+        id: 'selected-halo', type: 'circle', source: 'selected-peak',
+        paint: { 'circle-radius': 14, 'circle-color': '#c0392b', 'circle-opacity': 0.22 }
       });
       map.addLayer({
-        id: 'selected-label',
-        type: 'symbol',
-        source: 'selected-peak',
+        id: 'selected-dot', type: 'circle', source: 'selected-peak',
+        paint: { 'circle-radius': 6.5, 'circle-color': '#c0392b',
+                 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 }
+      });
+      map.addLayer({
+        id: 'selected-label', type: 'symbol', source: 'selected-peak',
         layout: {
-          'text-field': [
-            'case',
+          'text-field': ['case',
             ['==', ['get', 'ele'], null], ['get', 'name'],
             ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'ele']], ' m']
           ],
-          'text-font': ['Open Sans Bold'],
-          'text-size': 14,
-          'text-anchor': 'bottom',
-          'text-offset': [0, -0.95],
-          'text-allow-overlap': true,
-          'text-ignore-placement': true
+          'text-font': ['Open Sans Bold'], 'text-size': 14,
+          'text-anchor': 'bottom', 'text-offset': [0, -0.95],
+          'text-allow-overlap': true, 'text-ignore-placement': true
         },
         paint: {
-          'text-color': '#ffffff',
-          'text-halo-color': '#c0392b',
-          'text-halo-width': 2.2
+          'text-color': '#ffffff', 'text-halo-color': '#c0392b', 'text-halo-width': 2.2
         }
       });
 
-      // Click a peak → select it
-      map.on('click', 'peaks-dot', (e) => {
-        if (!e.features || !e.features.length) return;
-        select(e.features[0].properties.id, { fly: true });
-      });
-      map.on('click', 'peaks-label', (e) => {
-        if (!e.features || !e.features.length) return;
-        select(e.features[0].properties.id, { fly: true });
-      });
-      // Cursor over hits
+      map.on('click', 'peaks-dot',   (e) => e.features && e.features[0] && select(e.features[0].properties.id, { fly: true }));
+      map.on('click', 'peaks-label', (e) => e.features && e.features[0] && select(e.features[0].properties.id, { fly: true }));
       map.on('mouseenter', 'peaks-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'peaks-dot', () => { map.getCanvas().style.cursor = ''; });
-
-      // Click empty terrain = deselect
       map.on('click', (e) => {
         const feats = map.queryRenderedFeatures(e.point, { layers: ['peaks-dot', 'peaks-label', 'selected-dot'] });
         if (!feats || !feats.length) deselect();
       });
 
-      // Populate with current filter state
-      updatePeakSource(lastFiltered);
+      updatePeakSourceMapLibre(lastFiltered);
       if (state.selectedId) {
         const p = findPeak(state.selectedId);
-        if (p) { updateSelectedSource(p); flyTo(p); }
+        if (p) updateSelectedSourceMapLibre(p);
+      }
+    });
+  }
+
+  function flyToMapLibre(p) {
+    if (!map || !map.loaded()) return;
+    map.flyTo({
+      center: [p.lon, p.lat], zoom: 13.5, pitch: 70, bearing: 20,
+      speed: 1.2, duration: 2500, essential: true
+    });
+  }
+  function flyHomeMapLibre() {
+    if (!map) return;
+    map.flyTo({
+      center: HOME_MAPLIBRE.center, zoom: HOME_MAPLIBRE.zoom,
+      pitch: HOME_MAPLIBRE.pitch, bearing: HOME_MAPLIBRE.bearing,
+      duration: 1800, essential: true
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // Cesium renderer
+  // ------------------------------------------------------------------
+  // Per-peak label visibility distance (metres). Cesium doesn't have
+  // MapLibre's automatic collision, so we cap what shows via elevation tiers.
+  function labelRangeM(p) {
+    const ele = p.ele || 0;
+    const notable = !!p.wikipedia;
+    if (ele >= 4300 || (notable && ele >= 4000)) return 500000;
+    if (ele >= 3700) return 140000;
+    if (ele >= 3000 || (notable && ele >= 2500)) return 45000;
+    if (ele >= 2500) return 15000;
+    if (ele >= 2000 || notable) return 7000;
+    if (ele >= 1500) return 3500;
+    return 1800;
+  }
+
+  function makeCesiumEntity(p) {
+    const Cesium = window.Cesium;
+    const height = typeof p.ele === 'number' ? p.ele : 2000;
+    const range = labelRangeM(p);
+    return viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat, height),
+      peakId: p.id,
+      point: {
+        pixelSize: 6,
+        color: Cesium.Color.fromCssColorString('#ffffff'),
+        outlineColor: Cesium.Color.fromCssColorString('#171a1f'),
+        outlineWidth: 1.5,
+        disableDepthTestDistance: 200,
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 200000)
+      },
+      label: {
+        text: p.name + (typeof p.ele === 'number' ? '  ' + Math.round(p.ele) + ' m' : ''),
+        font: '600 12.5px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+        fillColor: Cesium.Color.fromCssColorString('#ffffff'),
+        showBackground: true,
+        backgroundColor: Cesium.Color.fromCssColorString('rgba(20,22,26,0.82)'),
+        backgroundPadding: new Cesium.Cartesian2(7, 4),
+        pixelOffset: new Cesium.Cartesian2(10, -1),
+        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        style: Cesium.LabelStyle.FILL,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, range)
+      }
+    });
+  }
+
+  function styleCesiumSelected(entity, isSelected) {
+    if (!entity) return;
+    const Cesium = window.Cesium;
+    entity.point.pixelSize = isSelected ? 12 : 6;
+    entity.point.color = isSelected
+      ? Cesium.Color.fromCssColorString('#c0392b')
+      : Cesium.Color.fromCssColorString('#ffffff');
+    entity.point.outlineColor = isSelected
+      ? Cesium.Color.fromCssColorString('#ffffff')
+      : Cesium.Color.fromCssColorString('#171a1f');
+    entity.point.outlineWidth = isSelected ? 2 : 1.5;
+    entity.point.disableDepthTestDistance = isSelected ? Number.POSITIVE_INFINITY : 200;
+    entity.label.showBackground = true;
+    if (isSelected) {
+      entity.label.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, 1e12);
+      entity.label.backgroundColor = Cesium.Color.fromCssColorString('rgba(192,57,43,0.92)');
+    } else {
+      const p = findPeak(entity.peakId);
+      entity.label.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, labelRangeM(p));
+      entity.label.backgroundColor = Cesium.Color.fromCssColorString('rgba(20,22,26,0.82)');
+    }
+  }
+
+  function updatePeakSourceCesium(filtered) {
+    if (!viewer) return;
+    // Cap at 4500 to keep entity count bounded
+    const renderable = filtered.length <= 4500
+      ? filtered
+      : filtered.slice().sort((a, b) => (b.ele || 0) - (a.ele || 0)).slice(0, 4500);
+    const ids = new Set(renderable.map(p => p.id));
+    for (const [id, ent] of cesiumEntities) {
+      if (!ids.has(id)) { viewer.entities.remove(ent); cesiumEntities.delete(id); }
+    }
+    for (const p of renderable) {
+      if (!cesiumEntities.has(p.id)) cesiumEntities.set(p.id, makeCesiumEntity(p));
+    }
+    if (state.selectedId) {
+      const p = findPeak(state.selectedId);
+      if (p) updateSelectedSourceCesium(p);
+    }
+  }
+
+  function updateSelectedSourceCesium(p) {
+    if (!viewer) return;
+    if (cesiumSelectedEntity) {
+      styleCesiumSelected(cesiumSelectedEntity, false);
+      cesiumSelectedEntity = null;
+    }
+    if (!p) return;
+    let ent = cesiumEntities.get(p.id);
+    if (!ent) { ent = makeCesiumEntity(p); cesiumEntities.set(p.id, ent); }
+    styleCesiumSelected(ent, true);
+    cesiumSelectedEntity = ent;
+  }
+
+  async function initCesium() {
+    dom.host.innerHTML = '<div id="cesium-container"></div>';
+    try {
+      await window.__cesiumReady;
+    } catch (err) {
+      showBanner('Cesium failed to load — falling back to Satellite mode. ' + err.message);
+      mode = 'maplibre'; updateModeBar(); initMapLibre();
+      return;
+    }
+    const Cesium = window.Cesium;
+    viewer = new Cesium.Viewer('cesium-container', {
+      baseLayer: false, baseLayerPicker: false,
+      timeline: false, animation: false, geocoder: false,
+      sceneModePicker: false, navigationHelpButton: false,
+      homeButton: false, infoBox: false, selectionIndicator: false, fullscreenButton: false
+    });
+    viewer.scene.globe.show = false;
+    viewer.scene.globe.depthTestAgainstTerrain = false;
+    viewer.scene.skyAtmosphere.show = true;
+    if (viewer.scene.postProcessStages && viewer.scene.postProcessStages.fxaa) {
+      viewer.scene.postProcessStages.fxaa.enabled = true;
+    }
+
+    try {
+      cesiumTileset = await Cesium.createGooglePhotorealistic3DTileset(GOOGLE_KEY);
+      viewer.scene.primitives.add(cesiumTileset);
+    } catch (err) {
+      showBanner('Google Photorealistic tiles failed to load. Check that <code>googleMapsApiKey</code> is valid and the Map Tiles API is enabled. Falling back to Satellite.');
+      teardown(); mode = 'maplibre'; updateModeBar(); initMapLibre();
+      return;
+    }
+
+    // Camera: reuse sharedCamera if present, else default home.
+    const cam = sharedCamera || {
+      lng: HOME_CESIUM.lon, lat: HOME_CESIUM.lat,
+      distance: HOME_CESIUM.height, heading: HOME_CESIUM.heading, pitch: HOME_CESIUM.pitch
+    };
+    viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(cam.lng, cam.lat - 0.5, Math.max(cam.distance, 5000)),
+      orientation: {
+        heading: Cesium.Math.toRadians(cam.heading || 0),
+        pitch:   Cesium.Math.toRadians(cam.pitch != null ? cam.pitch : -45),
+        roll: 0
       }
     });
 
-    dom.homeBtn.addEventListener('click', flyHome);
+    // Click detection
+    cesiumClickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    cesiumClickHandler.setInputAction((movement) => {
+      const picked = viewer.scene.pick(movement.position);
+      if (picked && picked.id && picked.id.peakId) select(picked.id.peakId, { fly: true });
+      else deselect();
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+    // Populate
+    updatePeakSourceCesium(lastFiltered);
   }
 
-  function flyTo(p) {
-    if (!map || !map.loaded()) return;
-    map.flyTo({
-      center: [p.lon, p.lat],
-      zoom: 13.5,
-      pitch: 70,
-      bearing: 20,
-      speed: 1.2,
-      duration: FLY_DURATION_MS,
-      essential: true
+  function flyToCesium(p) {
+    if (!viewer) return;
+    const Cesium = window.Cesium;
+    const summitEle = typeof p.ele === 'number' ? p.ele : 2000;
+    const kmPerDeg = 111.32;
+    const camLat = p.lat - (2.0 / kmPerDeg);
+    const camLon = p.lon;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(camLon, camLat, summitEle + 800),
+      orientation: {
+        heading: 0,
+        pitch: Cesium.Math.toRadians(-25),
+        roll: 0
+      },
+      duration: 2.5
     });
   }
 
-  function flyHome() {
-    if (!map) return;
-    map.flyTo({
-      center: HOME_VIEW.center,
-      zoom: HOME_VIEW.zoom,
-      pitch: HOME_VIEW.pitch,
-      bearing: HOME_VIEW.bearing,
-      duration: 1800,
-      essential: true
+  function flyHomeCesium() {
+    if (!viewer) return;
+    const Cesium = window.Cesium;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(HOME_CESIUM.lon, HOME_CESIUM.lat, HOME_CESIUM.height),
+      orientation: {
+        heading: Cesium.Math.toRadians(HOME_CESIUM.heading),
+        pitch:   Cesium.Math.toRadians(HOME_CESIUM.pitch),
+        roll: 0
+      },
+      duration: 1.8
     });
   }
 
@@ -749,19 +995,20 @@
   // ------------------------------------------------------------------
   function boot() {
     if (!PEAKS.length) {
-      showBanner('No peak data found. Run <code>python3 scripts/build_ch_peaks.py</code> to generate <code>docs/prototypes/peak-viewer/ch-peaks.js</code>.');
+      showBanner('No peak data found. Run <code>python3 scripts/build_ch_peaks.py</code> to generate <code>ch-peaks.js</code>.');
       dom.peakCountTotal.textContent = 'No data';
       return;
     }
     if (typeof maplibregl === 'undefined') {
-      showBanner('MapLibre GL failed to load. Ad-blocker or network filter is likely blocking <code>unpkg.com</code>.');
+      showBanner('MapLibre GL failed to load — check the network.');
       return;
     }
     initUi();
     bindFilterUi();
     readHash();
     renderList();
-    initMap();
+    if (mode === 'cesium') initCesium();
+    else initMapLibre();
   }
 
   if (document.readyState === 'loading') {

@@ -11,6 +11,7 @@
 <meta name="proto-order" content="130">
 
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 <link href="peak-viewer/peak-viewer.css" rel="stylesheet">
 </head>
 
@@ -18,7 +19,14 @@
 <div class="layout" id="layout">
   <!-- 3D pane -->
   <div class="scene" id="scene">
-    <div id="map"></div>
+    <div id="map-host"></div>
+
+    <!-- Mode toggle — top-left. Photorealistic requires a Google Maps API key
+         in local-config.js; the button is disabled otherwise. -->
+    <div class="modebar" id="modebar">
+      <button type="button" class="mode-btn active" id="mode-maplibre" data-mode="maplibre" title="Satellite imagery on 3D terrain (swisstopo + Terrarium)">🗺 Satellite</button>
+      <button type="button" class="mode-btn" id="mode-cesium" data-mode="cesium" title="Photorealistic 3D mesh (Google Map Tiles + Cesium)">🛰 Photorealistic</button>
+    </div>
 
     <!-- Overlay: status (top-left) -->
     <div class="over over-status" id="over-status">
@@ -120,10 +128,35 @@
   </div>
 </div>
 
-<!-- MapLibre GL — 3D terrain, no API key required (uses swisstopo SWISSIMAGE
-     for imagery and Terrarium DEM for terrain). Same tile stack as
-     3d-peaks.html. -->
+<!-- Optional local-config.js (git-ignored) — provides
+     window.HIKING_CONFIG.googleMapsApiKey used by Photorealistic mode. -->
+<script src="../../local-config.js" onerror="void 0"></script>
+
+<!-- MapLibre GL — 3D terrain, no API key required (SWISSIMAGE + Terrarium). -->
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+<!-- Cesium loader with CDN fallback chain; used by Photorealistic mode only. -->
+<script>
+(function () {
+  var CDNS = [
+    'https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js',
+    'https://unpkg.com/cesium@1.122/Build/Cesium/Cesium.js',
+    'https://cdn.jsdelivr.net/npm/cesium@1.122/Build/Cesium/Cesium.js'
+  ];
+  window.__cesiumReady = new Promise(function (resolve, reject) {
+    var i = 0;
+    (function tryNext() {
+      if (typeof window.Cesium !== 'undefined') return resolve();
+      if (i >= CDNS.length) return reject(new Error('Cesium failed to load from all CDNs.'));
+      var s = document.createElement('script');
+      s.src = CDNS[i++];
+      s.onload = function () { typeof window.Cesium !== 'undefined' ? resolve() : tryNext(); };
+      s.onerror = tryNext;
+      document.head.appendChild(s);
+    })();
+  });
+})();
+</script>
 
 <!-- Peak data. GENERATED FROM overpass-peaks.json by scripts/build_ch_peaks.py -->
 <script src="peak-viewer/ch-peaks.js" onerror="void 0"></script>

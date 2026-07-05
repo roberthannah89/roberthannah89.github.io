@@ -51,12 +51,45 @@ a:hover { text-decoration: underline; }
   border-right: 1px solid var(--border);
 }
 .layout.collapsed .scene { border-right: none; }
-#map { position: absolute; inset: 0; }
+#map-host { position: absolute; inset: 0; }
+#map-host #map,
+#map-host #cesium-container { position: absolute; inset: 0; }
+
+/* Mode toggle — top-left, above MapLibre's chrome. */
+.modebar {
+  position: absolute; top: 12px; left: 12px; z-index: 6;
+  display: flex; gap: 4px;
+  font-size: 12px;
+}
+.mode-btn {
+  padding: 6px 10px;
+  background: rgba(20,22,26,0.62); color: rgba(255,255,255,0.88);
+  border: 0; border-radius: 4px;
+  font: inherit; font-size: 12px; cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, color 0.15s;
+}
+.mode-btn.active { background: var(--accent); color: #fff; }
+.mode-btn:hover:not(.active) { background: rgba(20,22,26,0.85); color: #fff; }
+.mode-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+/* Cesium chrome cleanup (used by Photorealistic mode). */
+.cesium-viewer-toolbar,
+.cesium-viewer-animationContainer,
+.cesium-viewer-timelineContainer,
+.cesium-viewer-fullscreenContainer,
+.cesium-viewer-vrContainer { display: none !important; }
+.cesium-viewer-bottom, .cesium-widget-credits { background: transparent !important; }
+.cesium-widget-credits, .cesium-widget-credits * {
+  color: rgba(255,255,255,0.85) !important;
+  font-size: 10.5px !important;
+}
 
 /* MapLibre chrome tweaks. */
 
-/* Push the top-left NavigationControl below our "Peak Viewer" status card. */
-.maplibregl-ctrl-top-left { top: 90px; }
+/* Push the top-left NavigationControl below both the mode toggle AND the
+   "Peak Viewer" status card. */
+.maplibregl-ctrl-top-left { top: 130px; }
 
 /* Keep attribution/scale visible but out of our controls-hint's way. */
 .maplibregl-ctrl-bottom-left,
@@ -90,7 +123,7 @@ a:hover { text-decoration: underline; }
 .over .stat { color: var(--muted); font-size: 11.5px; display: block; margin-top: 2px; }
 .over .stat b { color: var(--fg); font-weight: 600; }
 
-.over-status { top: 14px; left: 14px; min-width: 200px; }
+.over-status { top: 54px; left: 14px; min-width: 200px; }
 .over-peak { top: 14px; right: 14px; min-width: 240px; transition: right 320ms cubic-bezier(.4,.14,.3,1); }
 .layout.collapsed .over-peak { right: 220px; }
 
