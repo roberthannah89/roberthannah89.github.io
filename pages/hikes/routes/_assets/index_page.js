@@ -28,6 +28,15 @@ if (WX) WX.init([]);
    this wrapper and break `wx.get(...)`.) */
 var wxLookup = window.HikeMap.WxLookup({ fuzzy: true });
 
+/* Every hike here has a built page (HIKES only contains rendered hikes), so
+   the ★ has-page badge would be on 100% of markers — showHasPage: false
+   drops it entirely (no information). The ❄ above-freezing badge is kept. */
+var markerFactory = window.HikeMap.MarkerFactory({
+  wxLookup: wxLookup,
+  showHasPage: false,
+  showFreezing: true,
+});
+
 /* ------------- helpers ------------- */
 function num(s) { const m = String(s).match(/-?[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
 function gradeNum(g) { const m = String(g).match(/T(\d)/); return m ? parseInt(m[1], 10) : 0; }
@@ -267,104 +276,18 @@ var markers = [];
 var latlngs = [];
 var mapDayActive = 0;  /* default to Today — matches CC */
 
-/* Cluster pill — count + dominant sky + average temp of contained markers.
-   Mirrors command-center.js's dominantClusterWeather, but built off
-   WeatherService instead of per-marker `_wx` so it stays correct after
-   day-picker changes without needing manual recomputation. */
-var SKY_TINTS = {
-  'clear':         { bg: 'rgba(232, 168, 50, 0.85)',  border: '#e8a832', color: '#1a1810' },
-  'partly-cloudy': { bg: 'rgba(168, 152, 120, 0.85)', border: '#a89878', color: '#1a1810' },
-  'cloudy':        { bg: 'rgba(60, 60, 70, 0.85)',    border: '#6a6a78', color: '#f0e8d8' },
-  'rain':          { bg: 'rgba(80, 130, 200, 0.85)',  border: '#5082c8', color: '#f0e8d8' },
-  'snow':          { bg: 'rgba(220, 230, 240, 0.85)', border: '#dce6f0', color: '#1a1810' },
-  'storm':         { bg: 'rgba(180, 60, 60, 0.85)',   border: '#b43c3c', color: '#f0e8d8' },
-};
-
-function dominantClusterWeather(cluster) {
-  if (!WX || !WX.skyCategory || !WX.SKY_CATEGORIES) return null;
-  var counts = {}, tempSum = 0, tempN = 0;
-  cluster.getAllChildMarkers().forEach(function (m) {
-    var h = m._hike;
-    if (!h) return;
-    var wx = wxLookup.get(h, mapDayActive);
-    if (!wx) return;
-    var cat = WX.skyCategory(wx.code);
-    if (cat) counts[cat] = (counts[cat] || 0) + 1;
-    if (typeof wx.tempMax === 'number') { tempSum += wx.tempMax; tempN++; }
-  });
-  var best = null, max = 0;
-  Object.keys(counts).forEach(function (k) {
-    if (counts[k] > max) { best = k; max = counts[k]; }
-  });
-  if (!best) return null;
-  var defn = WX.SKY_CATEGORIES.find(function (c) { return c.key === best; });
-  return {
-    tint: SKY_TINTS[best],
-    emoji: defn ? defn.icon : '',
-    temp: tempN ? (tempSum / tempN) : null,
-  };
-}
-
-var clusterGroup = L.markerClusterGroup({
-  maxClusterRadius: 45,
-  disableClusteringAtZoom: 13,
-  spiderfyOnMaxZoom: true,
-  showCoverageOnHover: false,
-  chunkedLoading: true,
-  iconCreateFunction: function (cluster) {
-    var count = cluster.getChildCount();
-    var info = dominantClusterWeather(cluster);
-    var style = info && info.tint
-      ? 'background:' + info.tint.bg + ';border-color:' + info.tint.border + ';color:' + info.tint.color
-      : '';
-    var emoji = info && info.emoji ? info.emoji : '';
-    var tempStr = info && info.temp !== null ? Math.round(info.temp) + '°' : '';
-    return L.divIcon({
-      html: '<div style="' + style + '">'
-        + '<span class="cl-n">' + count + '</span>'
-        + (emoji ? '<span class="cl-wx">' + emoji + '</span>' : '')
-        + (tempStr ? '<span class="cl-t">' + tempStr + '</span>' : '')
-        + '</div>',
-      className: 'marker-cluster',
-      iconSize: L.point(64, 28),
-    });
-  },
+/* Cluster pill — count + dominant sky + average temp of contained markers. */
+var clusterGroup = window.HikeMap.ClusterGroupFactory({
+  wxLookup: wxLookup,
+  dayIndexGetter: function () { return mapDayActive; },
 });
 map.addLayer(clusterGroup);
-
-/* Marker icon — CC's two-mode style.
-   Every hike here has a built page in this repo, so the ★ has-page badge
-   would apply to 100% of markers — we drop it entirely (no information).
-   The ❄ above-freezing pip is kept; it varies per peak/day. */
-function makeMarkerIcon(color, wx, summitElev) {
-  var aboveFreezing = !!(summitElev && wx && wx.freezingLevel != null && summitElev > wx.freezingLevel);
-  var frzCls = aboveFreezing ? ' hike-marker--above-freezing' : '';
-  if (wx && wx.code != null) {
-    var emoji = WX ? WX.weatherIcon(wx.code) : '';
-    var tempStr = (wx.tempMax != null) ? Math.round(wx.tempMax) + '°' : '';
-    var temp = tempStr ? '<span class="hike-marker__temp">' + tempStr + '</span>' : '';
-    return L.divIcon({
-      className: '',
-      html: '<div class="hike-marker hike-marker--wx' + frzCls + '" style="border-color:' + color + ';background:' + color + '22">'
-          + '<span class="hike-marker__wx">' + emoji + '</span>' + temp + '</div>',
-      iconSize: [40, 28],
-      iconAnchor: [20, 14],
-    });
-  }
-  return L.divIcon({
-    className: '',
-    html: '<div class="hike-marker hike-marker--dot' + frzCls + '" style="background:' + color + '"></div>',
-    iconSize: [12, 12],
-    iconAnchor: [6, 6],
-  });
-}
 
 function refreshMarkerIcons() {
   HIKES.forEach(function (h, i) {
     var m = markers[i];
     if (!m) return;
-    var wx = WX ? wxLookup.get(h, mapDayActive) : null;
-    m.setIcon(makeMarkerIcon(window.HikeMap.gradeColor(h.grade), wx, h.summitElev));
+    m.setIcon(markerFactory.makeIcon(h, mapDayActive));
   });
 }
 
@@ -489,9 +412,9 @@ HIKES.forEach(function (h, i) {
   var wx = WX ? wxLookup.get(h, mapDayActive) : null;
   if (!wx) missingForecast.push(h.name);
   var m = L.marker([h.lat, h.lon], {
-    icon: makeMarkerIcon(window.HikeMap.gradeColor(h.grade), wx, h.summitElev),
+    icon: markerFactory.makeIcon(h, mapDayActive),
   });
-  m._hike = h;
+  m._poi = h;
   m._idx = i;
   /* Every marker on this page has a built page (HIKES only contains rendered
      hikes) — the popup links to it directly. No expand button: there's no

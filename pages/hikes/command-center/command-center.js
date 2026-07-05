@@ -13,6 +13,27 @@
   // `var wx` for the resolved forecast object; reusing the name would shadow
   // this wrapper and break `wx.get(...)`.)
   var wxLookup = window.HikeMap.WxLookup({ fuzzy: false });
+
+  // Wrapper handed to the marker factory so the pill/dot decision also
+  // respects the "Display: weather" filter toggle (index has no such toggle —
+  // it always shows the pill when a forecast exists). The ❄️ above-freezing
+  // badge must keep tracking the forecast regardless of that toggle, so only
+  // `code` is stripped (forcing the factory's dot branch) — `freezingLevel`
+  // passes through untouched.
+  var markerWxLookup = {
+    get: function (lat, lon, dayIndex) {
+      var wx = wxLookup.get(lat, lon, dayIndex);
+      if (!wx) return null;
+      var showWeather = (Filters.getState().display || []).indexOf('weather') !== -1;
+      return showWeather ? wx : { freezingLevel: wx.freezingLevel };
+    }
+  };
+  var markerFactory = window.HikeMap.MarkerFactory({
+    wxLookup: markerWxLookup,
+    showHasPage: true,
+    showFreezing: true,
+  });
+
   // Reference-city markers — not hikes, not filtered, not clustered. Added
   // directly to the map in their own layer group so the toggle simply
   // add/removes the group without touching the hike pipeline.
@@ -52,33 +73,13 @@
       }).addTo(map);
     }
 
-    // Cluster group — tinted by dominant weather of contained markers
-    clusterGroup = L.markerClusterGroup({
-      maxClusterRadius: 45,
-      disableClusteringAtZoom: 13,
-      spiderfyOnMaxZoom: true,
-      showCoverageOnHover: false,
-      // Time-slice marker add/remove so a pan that brings hundreds of markers
-      // into view doesn't block a single frame.
-      chunkedLoading: true,
-      iconCreateFunction: function (cluster) {
-        var count = cluster.getChildCount();
-        var info = dominantClusterWeather(cluster);
-        var style = info && info.tint
-          ? 'background:' + info.tint.bg + ';border-color:' + info.tint.border + ';color:' + info.tint.color
-          : '';
-        var emoji = info && info.emoji ? info.emoji : '';
-        var tempStr = info && info.temp !== null ? Math.round(info.temp) + '°' : '';
-        return L.divIcon({
-          html: '<div style="' + style + '">'
-            + '<span class="cl-n">' + count + '</span>'
-            + (emoji ? '<span class="cl-wx">' + emoji + '</span>' : '')
-            + (tempStr ? '<span class="cl-t">' + tempStr + '</span>' : '')
-            + '</div>',
-          className: 'marker-cluster',
-          iconSize: L.point(64, 28)
-        });
-      }
+    // Cluster group — tinted by dominant weather of contained markers.
+    // Cluster tint always reflects raw forecast data (not gated by the
+    // "Display: weather" toggle), so this uses wxLookup directly, not the
+    // markerWxLookup gating wrapper used for marker icons.
+    clusterGroup = window.HikeMap.ClusterGroupFactory({
+      wxLookup: wxLookup,
+      dayIndexGetter: function () { return Filters.getState().weatherDay; },
     });
     map.addLayer(clusterGroup);
 
@@ -94,20 +95,23 @@
     routes.forEach(function (poi) {
       if (!poi.lat || !poi.lon) return;
 
-      var grade = Filters.bestGrade(poi);
-      var color = window.HikeMap.gradeColor(grade);
-      // Subtle amber ring on markers whose hike has a built page in this repo.
-      // Reuses SidePanel.matchingHike so we don't drift from the panel's link logic.
+      // Precompute the fields markerFactory.makeIcon reads directly off the
+      // POI (it doesn't know about Filters or SidePanel):
+      //   grade   — best (hardest) grade across routes, drives border colour.
+      //   hasPage — amber ★ badge for POIs whose hike has a built page here.
+      //             Reuses SidePanel.matchingHike so we don't drift from the
+      //             panel's link logic. Filters.matchesHasPage still reads
+      //             poi._hasPage, so both names are set.
+      poi.grade = Filters.bestGrade(poi);
       var hasPage = !!(window.SidePanel && SidePanel.matchingHike && SidePanel.matchingHike(poi));
       poi._hasPage = hasPage;
+      poi.hasPage = hasPage;
 
       var marker = L.marker([poi.lat, poi.lon], {
-        icon: makeHikeIcon(color, 'dot', null, null, hasPage)
+        icon: markerFactory.makeIcon(poi, Filters.getState().weatherDay)
       });
 
       marker._poi = poi;
-      marker._color = color;
-      marker._hasPage = hasPage;
       marker._filtered = false;
 
       // Permanent name tooltips are bound lazily by updateLabelVisibility()
@@ -155,60 +159,17 @@
     refreshCluster();
   }
 
-  // Three marker modes:
-  //   'dot'     — small grade-colored dot (default, clean view)
-  //   'weather' — larger ring with weather emoji + temp (when user opts in)
-  // Extras:
-  //   hasPage        → amber ★ at top-right (built hike page exists in repo)
-  //   aboveFreezing  → ❄️ at bottom-right (peak's elev > forecast snow line)
-  function makeHikeIcon(color, mode, wxIcon, tempStr, hasPage, aboveFreezing) {
-    var pageCls = hasPage ? ' hike-marker--has-page' : '';
-    var frzCls = aboveFreezing ? ' hike-marker--above-freezing' : '';
-    if (mode === 'weather' && wxIcon) {
-      var temp = tempStr ? '<span class="hike-marker__temp">' + tempStr + '</span>' : '';
-      return L.divIcon({
-        className: '',
-        html: '<div class="hike-marker hike-marker--wx' + pageCls + frzCls + '" style="border-color:' + color + ';background:' + color + '22">'
-          + '<span class="hike-marker__wx">' + wxIcon + '</span>' + temp + '</div>',
-        iconSize: [40, 28],
-        iconAnchor: [20, 14]
-      });
-    }
-    return L.divIcon({
-      className: '',
-      html: '<div class="hike-marker hike-marker--dot' + pageCls + frzCls + '" style="background:' + color + '"></div>',
-      iconSize: [12, 12],
-      iconAnchor: [6, 6]
-    });
-  }
-
   // Re-render every marker's icon based on the currently selected weather day
-  // and the Display filter. When 'weather' is in display, markers show the
-  // weather pill (emoji + temp); when it isn't, every marker is a small
-  // grade-colored dot regardless of forecast data.
-  //
-  // The ❄️ "above freezing line" badge is computed here so it tracks the
-  // selected forecast day — Today might have a 3500 m snow line, Friday might
-  // drop to 2200 m. POIs without an `alt` or without forecast freezing data
-  // never get the badge.
+  // and the Display filter. markerFactory decides pill vs. dot from
+  // markerWxLookup, which strips the forecast `code` (forcing the dot
+  // branch) whenever 'weather' isn't in the Display filter — see its
+  // definition above. The ❄️ "above freezing line" badge keeps tracking the
+  // selected forecast day regardless of that toggle (markerWxLookup passes
+  // `freezingLevel` through untouched).
   function refreshMarkerIcons() {
-    var s = Filters.getState();
-    var dayIdx = s.weatherDay;
-    var showWeather = (s.display || []).indexOf('weather') !== -1;
+    var dayIdx = Filters.getState().weatherDay;
     allMarkers.forEach(function (m) {
-      var poi = m._poi;
-      var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
-      var fl = wx ? wx.freezingLevel : null;
-      var aboveFreezing = !!(poi.alt && fl != null && poi.alt > fl);
-      m._aboveFreezing = aboveFreezing;
-      if (!showWeather || !wx) {
-        m.setIcon(makeHikeIcon(m._color, 'dot', null, null, m._hasPage, aboveFreezing));
-        return;
-      }
-      var emoji = WeatherService.weatherIcon(wx.code);
-      var tempStr = wx.tempMax !== null && wx.tempMax !== undefined
-        ? Math.round(wx.tempMax) + '°' : '';
-      m.setIcon(makeHikeIcon(m._color, 'weather', emoji, tempStr, m._hasPage, aboveFreezing));
+      m.setIcon(markerFactory.makeIcon(m._poi, dayIdx));
     });
     // Reference-city pills track the same Day selection so they're directly
     // comparable to the hike markers around them.
@@ -404,43 +365,6 @@
     if (marker.getPopup()) marker.setPopupContent(html);
     else marker.bindPopup(html, { maxWidth: 280 });
     marker.openPopup();
-  }
-
-  // Mapping from sky category to cluster fill/border/text colors.
-  var SKY_TINTS = {
-    'clear':         { bg: 'rgba(232, 168, 50, 0.85)',  border: '#e8a832', color: '#1a1810' },
-    'partly-cloudy': { bg: 'rgba(168, 152, 120, 0.85)', border: '#a89878', color: '#1a1810' },
-    'cloudy':        { bg: 'rgba(60, 60, 70, 0.85)',    border: '#6a6a78', color: '#f0e8d8' },
-    'rain':          { bg: 'rgba(80, 130, 200, 0.85)',  border: '#5082c8', color: '#f0e8d8' },
-    'snow':          { bg: 'rgba(220, 230, 240, 0.85)', border: '#dce6f0', color: '#1a1810' },
-    'storm':         { bg: 'rgba(180, 60, 60, 0.85)',   border: '#b43c3c', color: '#f0e8d8' }
-  };
-
-  function dominantClusterWeather(cluster) {
-    if (!WeatherService || !WeatherService.skyCategory) return null;
-    var dayIdx = Filters.getState().weatherDay;
-    var counts = {};
-    var tempSum = 0, tempN = 0;
-    cluster.getAllChildMarkers().forEach(function (m) {
-      var poi = m._poi;
-      if (!poi) return;
-      var wx = wxLookup.get(poi.lat, poi.lon, dayIdx);
-      if (!wx) return;
-      var cat = WeatherService.skyCategory(wx.code);
-      if (cat) counts[cat] = (counts[cat] || 0) + 1;
-      if (typeof wx.tempMax === 'number') { tempSum += wx.tempMax; tempN++; }
-    });
-    var best = null, max = 0;
-    Object.keys(counts).forEach(function (k) {
-      if (counts[k] > max) { best = k; max = counts[k]; }
-    });
-    if (!best) return null;
-    var defn = WeatherService.SKY_CATEGORIES.find(function (c) { return c.key === best; });
-    return {
-      tint: SKY_TINTS[best],
-      emoji: defn ? defn.icon : '',
-      temp: tempN > 0 ? (tempSum / tempN) : null
-    };
   }
 
   /* Build the metadata line shown under the name in the popup. Kept short —
