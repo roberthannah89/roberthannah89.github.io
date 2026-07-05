@@ -63,26 +63,30 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_6c38ac304a.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/9/csm_1578062140_1357492339master_6c38ac304a.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Tiefblick vom Rautispitz nach Näfels-Mollis am Glarner Talausgang.",
+      "caption_html": "<p>Tiefblick vom Rautispitz nach Näfels-Mollis am Glarner Talausgang.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1578062264_860485313master_ed410b94ee.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/e/csm_1578062264_860485313master_ed410b94ee.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Am Kanzelartigen Gipfel der Wiggis.",
+      "caption_html": "<p>Am Kanzelartigen Gipfel der Wiggis.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1578062140_18442979master_12da82a5ce.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/c/csm_1578062140_18442979master_12da82a5ce.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Der exponierte Verbindungspfad zwischen Rautispitz und Wiggis.",
+      "caption_html": "<p>Der exponierte Verbindungspfad zwischen Rautispitz und Wiggis.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1578061198_1275649207master_be077b66da.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1578061198_1275649207master_be077b66da.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die \"Zwei auf einen Streich\": links Rautispitz, rechts Wiggis.",
+      "caption_html": "<p>Die \"Zwei auf einen Streich\": links Rautispitz, rechts Wiggis.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -124,7 +128,7 @@
       "description": "Wird nur der Rautispitz via Geisskappel bestiegen, ist die Tour eine Stunde kürzer, Schwierigkeit T3+. Besteigt man den Rautispitz via die längere, aber landschaftlich lohnende Route Grapplistafel – Rautialp, beschränken sich die Schwierigkeiten auf T2."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/vom-obersee-ueber-geisskappel-und-den-rautispitz-5353/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -134,5 +138,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wiggis-2213/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
+  }
 }

@@ -63,50 +63,59 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1603816327_1100237474master_4f90e73603.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1603816327_1100237474master_4f90e73603.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "At Lai Blo; in the background are Piz Platta (right), Piz Forbesch and Piz Arblatsch.",
+      "caption_html": "<p>At Lai Blo; in the background are Piz Platta (right), Piz Forbesch and Piz Arblatsch.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/b/csm_1603816271_1064189400master_c6a2141d26.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/b/csm_1603816271_1064189400master_c6a2141d26.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the ascent on the south side of the Ava da las Tigias.",
+      "caption_html": "<p>In the ascent on the south side of the Ava da las Tigias.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1603816271_231418098master_b0ebf8eaeb.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1603816271_231418098master_b0ebf8eaeb.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The pasture landscape near Malpass.",
+      "caption_html": "<p>The pasture landscape near Malpass.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/7/csm_1603816271_414751897master_be2a9ff7e1.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/7/csm_1603816271_414751897master_be2a9ff7e1.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Easy scramble passages on the southwest ridge of the Piz d'Agnel.",
+      "caption_html": "<p>Easy scramble passages on the southwest ridge of the Piz d'Agnel.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/6/csm_1536328164_477117727master_4dc1bd3ddc.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/6/csm_1536328164_477117727master_4dc1bd3ddc.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Shortly before the exposed summit of Piz d'Agnel",
+      "caption_html": "<p>Shortly before the exposed summit of Piz d'Agnel</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/d/csm_1536328164_709272678master_33bf7212f8.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/d/csm_1536328164_709272678master_33bf7212f8.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Piz d'Agnel (to the left of the centre) viewed from the glacier snout of Vadret d’Agnel (alternative descent)",
+      "caption_html": "<p>Piz d'Agnel (to the left of the centre) viewed from the glacier snout of Vadret d’Agnel (alternative descent)</p>",
+      "copyright": "Fabian Lippuner",
+      "credit_date": "07/2017"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1536328509_1814675290master_546230ab12.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/1/csm_1536328509_1814675290master_546230ab12.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Piz d'Agnel (to the left of the centre) viewed from the glacier forefield (alternative descent)",
+      "caption_html": "<p>Piz d'Agnel (to the left of the centre) viewed from the glacier forefield (alternative descent)</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/f/csm_1603817001_446433563master_2405b5d95b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/f/csm_1603817001_446433563master_2405b5d95b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View back to the Piz d'Agnel.",
+      "caption_html": "<p>View back to the Piz d'Agnel.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -175,5 +184,10 @@
       "description": "End-point of the variant"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-dagnel-11/mountain-hiking/from-alp-flix-2386/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }

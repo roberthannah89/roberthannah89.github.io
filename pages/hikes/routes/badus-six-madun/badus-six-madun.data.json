@@ -63,32 +63,40 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1630674766_2137243796master_a827f2c663.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1630674766_2137243796master_a827f2c663.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the ascent across Six Madun Egg.",
+      "caption_html": "<p>On the ascent across Six Madun Egg.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2013"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/4/csm_1630676013_78741342master_9799d5e2db.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/4/csm_1630676013_78741342master_9799d5e2db.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the way to Rossbodenälpelti.",
+      "caption_html": "<p>On the way to Rossbodenälpelti.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/e/csm_1630675021_1385347994master_9a89828171.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/e/csm_1630675021_1385347994master_9a89828171.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On Rossbodenälpelti: under the steep part the deer trail to Six Madun Egg (on the right) is well visible.",
+      "caption_html": "<p>On Rossbodenälpelti: under the steep part the deer trail to Six Madun Egg (on the right) is well visible.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1513339314_1930238714master_46f196be46.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1513339314_1930238714master_46f196be46.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Characteristic scrambling terrain on the summit face of Badus.",
+      "caption_html": "<p>Characteristic scrambling terrain on the summit face of Badus.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2013"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1579611791_1790884637master_c718a2a292.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/0/csm_1579611791_1790884637master_c718a2a292.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Badus with the ascent trail, the preceding, rocky-grassy and sunlit Six Madun Egg.",
+      "caption_html": "<p>Badus with the ascent trail, the preceding, rocky-grassy and sunlit Six Madun Egg.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2013"
     }
   ],
   "waypoints": [
@@ -124,7 +132,7 @@
     "elev": 2041,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Oberalppass"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/badus-six-madun-121/mountain-hiking/from-naetschen-via-six-madun-egg-western-rib-to-oberalppass-806/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -134,5 +142,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/badus-six-madun-121/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

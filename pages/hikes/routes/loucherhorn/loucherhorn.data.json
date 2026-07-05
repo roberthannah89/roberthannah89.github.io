@@ -63,26 +63,34 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1557316954_557517573master_335fac9c34.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1557316954_557517573master_335fac9c34.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die letzten Meter auf dem Nordgrat vor dem Gipfel.",
+      "caption_html": "<p>Die letzten Meter auf dem Nordgrat vor dem Gipfel.</p>",
+      "copyright": "Sabine Joss",
+      "credit_date": "07/2015"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/2/csm_1557316954_2041032329master_f7fcb95424.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/2/csm_1557316954_2041032329master_f7fcb95424.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Das Loucherhorn, von der Schynigen Platte aus gesehen.",
+      "caption_html": "<p>Das Loucherhorn, von der Schynigen Platte aus gesehen.</p>",
+      "copyright": "Sabine Joss",
+      "credit_date": "07/2015"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/4/csm_1557316954_1322943721master_8f649a97df.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/4/csm_1557316954_1322943721master_8f649a97df.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Rinne in der Ostflanke des Loucherhorns.",
+      "caption_html": "<p>Rinne in der Ostflanke des Loucherhorns.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "07/2015"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/b/csm_1557316954_847462910master_aa47076256.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/b/csm_1557316954_847462910master_aa47076256.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Im Ausstieg aus der Ostflanke.",
+      "caption_html": "<p>Im Ausstieg aus der Ostflanke.</p>",
+      "copyright": "Sabine Joss",
+      "credit_date": "07/2015"
     }
   ],
   "waypoints": [
@@ -120,7 +128,7 @@
       "description": "Postautohaltestelle, Ausgangspunkt für Variante 2: Aufstieg von Bönigen."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Sabine Joss, and Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/loucherhorn-1071/mountain-hiking/ostflanke-4193/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -130,5 +138,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/loucherhorn-1071/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Sabine Joss",
+    "bio_html": "",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/8/a/csm_Joss_824db85f1e.jpg"
+  }
 }

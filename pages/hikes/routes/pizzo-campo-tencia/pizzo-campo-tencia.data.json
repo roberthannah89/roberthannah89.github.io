@@ -63,38 +63,44 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1597763065_204440270master_1bd0e316b0.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/1/csm_1597763065_204440270master_1bd0e316b0.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "From Bocchetta di Croslina (to the right of the centre) the ascent follows the ridge to the highest point.",
+      "caption_html": "<p>From Bocchetta di Croslina (to the right of the centre) the ascent follows the ridge to the highest point.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/9/csm_1593178328_2142315641master_17ff5791aa.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/9/csm_1593178328_2142315641master_17ff5791aa.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the red rocks above the lake at 2642 m the trail traverses to the right and up to the crest.",
+      "caption_html": "<p>In the red rocks above the lake at 2642 m the trail traverses to the right and up to the crest.</p>",
+      "copyright": "Stefan Reimann"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/6/csm_1593178737_126360921master_6b5014b4bc.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/6/csm_1593178737_126360921master_6b5014b4bc.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the red rocks.",
+      "caption_html": "<p>In the red rocks.</p>",
+      "copyright": "Stefan Reimann"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1593178169_1287781254master_986c0656a5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/e/csm_1593178169_1287781254master_986c0656a5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The wide summit plateau of Pizzo Campo Tencia.",
+      "caption_html": "<p>The wide summit plateau of Pizzo Campo Tencia.</p>",
+      "copyright": "Stefan Reimann"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1715768415_1694631160master_9bdd5163b0.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/e/csm_1715768415_1694631160master_9bdd5163b0.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The first metres on the summit ridge, before (in the following col) the trail goes to the right and down to Maggiatal",
+      "caption_html": "<p>The first metres on the summit ridge, before (in the following col) the trail goes to the right and down to Maggiatal</p>",
+      "copyright": "Stefan Reimann"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1689608725_1235237097master_e398753d33.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/d/csm_1689608725_1235237097master_e398753d33.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the way down in the Val di Prato.",
+      "caption_html": "<p>On the way down in the Val di Prato.</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -140,7 +146,7 @@
     "lon": 8.655453627813891,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Prato%2C+Ponte"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken, Stefan Reimann, and Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-campo-tencia-291/mountain-hiking/from-capanna-campo-tencia-cas-via-pizzo-campo-tencia-to-prato-1019/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -150,5 +156,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-campo-tencia-291/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Remo Kundert",
+    "bio_html": "Remo Kundert is a hiking guide and owner of the hiking tour operator Per Pedes Bergferien. He also works as a freelance photographer and alpine journalist, and has co-authored numerous hut guidebooks, alpine- and family hiking books.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/1/b/csm_Kundert_f10164eb9f.jpg"
+  }
 }

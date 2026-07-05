@@ -63,32 +63,38 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1530193569_1344479428master_c1fb04f8b9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1530193569_1344479428master_c1fb04f8b9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Roc de la Vache in shadow in the foreground. (2017)",
+      "caption_html": "<p>Roc de la Vache in shadow in the foreground. (2017)</p>",
+      "copyright": "Zettel/Schulthess"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1569587161_177673898master_e8057b2621.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/2/csm_1569587161_177673898master_e8057b2621.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "At Combautanna, Cabane de Tracuit left on the horizon. (2017)",
+      "caption_html": "<p>At Combautanna, Cabane de Tracuit left on the horizon. (2017)</p>",
+      "copyright": "Zettel/Schulthess"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1569587161_1185026067master_1702b57689.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1569587161_1185026067master_1702b57689.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Just below the Cabane de Tracuit",
+      "caption_html": "<p>Just below the Cabane de Tracuit</p>",
+      "copyright": "Zettel/Schulthess"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1625036306_519120098master_d28719406f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/1/csm_1625036306_519120098master_d28719406f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Col de Tracuit with the die Diablons des Dames behind.",
+      "caption_html": "<p>Col de Tracuit with the die Diablons des Dames behind.</p>",
+      "copyright": "Thomas Jantscher",
+      "credit_date": "08/2013"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1530191451_1115146398master_b10d717b60.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1530191451_1115146398master_b10d717b60.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The ultra-modern Cabane de Tracuit - SAC section Chaussy.",
+      "caption_html": "<p>The ultra-modern Cabane de Tracuit - SAC section Chaussy.</p>",
+      "copyright": "Zettel/Schulthess"
     }
   ],
   "waypoints": [
@@ -127,7 +133,7 @@
       "description": "The normal approach path passes a little SE of the 'main' pass."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Zettel/Schulthess, and Thomas Jantscher — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/cabane-de-tracuit-cas-2147000273/mountain-hiking/from-zinal-591/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",

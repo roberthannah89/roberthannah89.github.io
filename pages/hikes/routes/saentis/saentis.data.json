@@ -63,14 +63,17 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1533555866_787592781master_871698939f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/d/csm_1533555866_787592781master_871698939f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route",
+      "caption_html": "<p>Öhrli (Öhrlikopf) viewed from Hintere Öhrligrueb at the end of the Nasenlöcher route</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1660206042_120038184master_252471b225.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1660206042_120038184master_252471b225.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The nostrils - the trail to the actual \"holes\" is a dead end",
+      "caption_html": "<p>The nostrils - the trail to the actual \"holes\" is a dead end</p>",
+      "copyright": "Pascal Keller",
+      "credit_date": "08/2022"
     }
   ],
   "waypoints": [
@@ -125,7 +128,7 @@
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fabian Lippuner, and Pascal Keller — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/saentis-1638/mountain-hiking/from-schwaegalp-via-nasenloecher-2360/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "scraped_waypoints": [
     {
       "name": "Hüenerberg",
@@ -139,5 +142,10 @@
     "lat": 47.2563,
     "lon": 9.3185,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=S%C3%A4ntis"
+  },
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
   }
 }

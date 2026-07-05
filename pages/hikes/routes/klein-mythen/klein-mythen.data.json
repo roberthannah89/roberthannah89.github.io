@@ -63,20 +63,26 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/0/csm_1555759263_476626866master_a69952e518.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/0/csm_1555759263_476626866master_a69952e518.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "At the secondary summit: view back to the steep meadow above Zwischenmythen",
+      "caption_html": "<p>At the secondary summit: view back to the steep meadow above Zwischenmythen</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "08/2011"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1560255561_1006818121master_e87498519a.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1560255561_1006818121master_e87498519a.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the way to the saddle of Zwischenmythen",
+      "caption_html": "<p>On the way to the saddle of Zwischenmythen</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "08/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/b/csm_1555759598_471791620master_3c051ac304.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/b/csm_1555759598_471791620master_3c051ac304.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "From the secondary summit the itinerary is on a path on the right of the ridge line on the east face until shortly below the summit.",
+      "caption_html": "<p>From the secondary summit the itinerary is on a path on the right of the ridge line on the east face until shortly below the summit.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "08/2018"
     }
   ],
   "waypoints": [
@@ -115,7 +121,7 @@
       "elev_m": 1437
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/klein-mythen-1268/mountain-hiking/from-the-south-zwischenmythen-4160/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -125,5 +131,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/klein-mythen-1268/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

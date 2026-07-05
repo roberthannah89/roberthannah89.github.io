@@ -63,8 +63,10 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_152c47710b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/1/csm_1522143532_1823287803master_152c47710b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Lago Ritom. To the left just above the lake is the small chapel San Carlo.",
+      "caption_html": "<p>Lago Ritom. To the left just above the lake is the small chapel San Carlo.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2016"
     }
   ],
   "waypoints": [
@@ -102,7 +104,7 @@
       "elev_m": 1850
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-cadagno-2147000052/mountain-hiking/from-piora-1708/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -112,5 +114,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-cadagno-2147000052/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

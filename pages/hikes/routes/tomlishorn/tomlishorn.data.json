@@ -63,50 +63,64 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/5/csm_1658912198_1111779650master_3af08a0ec9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/5/csm_1658912198_1111779650master_3af08a0ec9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the lower part of the route, on the \"Heitertannliweg\".",
+      "caption_html": "<p>In the lower part of the route, on the \"Heitertannliweg\".</p>",
+      "copyright": "Yves-Laurent Grize"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/5/csm_1658912198_1547087315master_958b60ed2a.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/5/csm_1658912198_1547087315master_958b60ed2a.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the lower part of the route, on the \"Heitertannliweg\".",
+      "caption_html": "<p>In the lower part of the route, on the \"Heitertannliweg\".</p>",
+      "copyright": "Yves-Laurent Grize"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1658397495_453093587master_7edb640cc6.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/4/csm_1658397495_453093587master_7edb640cc6.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View towards Klimsenhorn and Klimsenchapel.",
+      "caption_html": "<p>View towards Klimsenhorn and Klimsenchapel.</p>",
+      "copyright": "Yves-Laurent Grize",
+      "credit_date": "07/2022"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/0/csm_1658397495_456187378master_b32d2f40d7.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/0/csm_1658397495_456187378master_b32d2f40d7.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The spectacular ledges of the alte Tomliweg.",
+      "caption_html": "<p>The spectacular ledges of the alte Tomliweg.</p>",
+      "copyright": "Yves-Laurent Grize",
+      "credit_date": "07/2022"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/9/csm_1658397496_1425506033master_9eb356d6d1.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/9/csm_1658397496_1425506033master_9eb356d6d1.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Fixed ropes in the exposed sections of the route.",
+      "caption_html": "<p>Fixed ropes in the exposed sections of the route.</p>",
+      "copyright": "Yves-Laurent Grize",
+      "credit_date": "07/2022"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1513341274_1941308109master_05e30ef0d9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/2/csm_1513341274_1941308109master_05e30ef0d9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "In the upper part of the Alter Tomliweg. In early summer the fixed ropes are buried under old snow, which makes the tour more precarious.",
+      "caption_html": "<p>In the upper part of the Alter Tomliweg. In early summer the fixed ropes are buried under old snow, which makes the tour more precarious.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1658397494_1461788689master_b009e96c42.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1658397494_1461788689master_b009e96c42.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View towards Widderfeld.",
+      "caption_html": "<p>View towards Widderfeld.</p>",
+      "copyright": "Yves-Laurent Grize",
+      "credit_date": "07/2022"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/0/csm_1601641996_1561270344master_c62d6c8c56.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/0/csm_1601641996_1561270344master_c62d6c8c56.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Tomlishorn, the highest peak of the Pilatus range.",
+      "caption_html": "<p>Tomlishorn, the highest peak of the Pilatus range.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2012"
     }
   ],
   "waypoints": [
@@ -142,7 +156,7 @@
     "elev": 2118,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Pilatus+Kulm"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Yves-Laurent Grize, and Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/alter-tomliweg-807/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -152,5 +166,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/tomlishorn-1988/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

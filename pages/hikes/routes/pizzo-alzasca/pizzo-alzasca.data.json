@@ -63,26 +63,34 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1588747109_647216865master_3e2ea42c81.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/b/csm_1588747109_647216865master_3e2ea42c81.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Am Weg zur Bocchetta di Cansgei: der Lago d'Alzasca.",
+      "caption_html": "<p>Am Weg zur Bocchetta di Cansgei: der Lago d'Alzasca.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1597848241_62685530master_742e6dec81.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1597848241_62685530master_742e6dec81.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Der Pizzo Alzasca im Profil. Die Route steigt von links her zum Südwestgipfel. Ganz rechts, knapp erkennbar, das Felsfenster im Ostgrat.",
+      "caption_html": "<p>Der Pizzo Alzasca im Profil. Die Route steigt von links her zum Südwestgipfel. Ganz rechts, knapp erkennbar, das Felsfenster im Ostgrat.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "10/2012"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1555588516_1446305308master_afbe21a85e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/f/csm_1555588516_1446305308master_afbe21a85e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Der Verbindungsgrat vom Südwestgipfel (leicht rechts der Bildmitte). Hinten links Pizzo Molinera und Salariel, hinten rechts Cima di Catögn, Gemelli und Colmetta.",
+      "caption_html": "<p>Der Verbindungsgrat vom Südwestgipfel (leicht rechts der Bildmitte). Hinten links Pizzo Molinera und Salariel, hinten rechts Cima di Catögn, Gemelli und Colmetta.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1555588517_1182313061master_ef63ea6585.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/b/csm_1555588517_1182313061master_ef63ea6585.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die ausgesetzte Stelle unmittelbar unter dem Nordostgipfel.",
+      "caption_html": "<p>Die ausgesetzte Stelle unmittelbar unter dem Nordostgipfel.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2009"
     }
   ],
   "waypoints": [
@@ -117,7 +125,7 @@
       "description": "Deutliche Einsattelung zwischen Pizzo Alzasca und Pizzo Molinera, verbindet die Vallemaggia mit der Valle di Campo."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-alzasca-54/mountain-hiking/suedwestgrat-von-der-bocchetta-di-cansgei-4152/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -127,5 +135,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-alzasca-54/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

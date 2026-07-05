@@ -63,20 +63,23 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1555341147_1526623915master_4248a02e58.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/4/csm_1555341147_1526623915master_4248a02e58.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Traversing Hanslirus: difficulties depending on the condition / presence of the trail.",
+      "caption_html": "<p>Traversing Hanslirus: difficulties depending on the condition / presence of the trail.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/e/csm_1534163323_2029062832master_fa9d3f5141.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/e/csm_1534163323_2029062832master_fa9d3f5141.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.",
+      "caption_html": "<p>Descending to Hintersackberg / Klöntal: steep, but the difficulties are manageable thanks to the well-designed alpine hiking trail.</p>",
+      "copyright": "Fabian Lippuner"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/4/csm_1555402905_160773831master_55926d4a94.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/4/csm_1555402905_160773831master_55926d4a94.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The bifurcation on the descent via Schlattalpli",
+      "caption_html": "<p>The bifurcation on the descent via Schlattalpli</p>",
+      "copyright": "Fabian Lippuner"
     }
   ],
   "waypoints": [
@@ -114,7 +117,7 @@
     "elev": 850,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Kl%C3%B6ntal%2C+Rhodannenberg"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fabian Lippuner — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glaernisch-794/mountain-hiking/traverse-from-schwaendi-to-kloentalersee-1369/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -124,5 +127,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/vorder-glaernisch-794/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Fabian Lippuner",
+    "bio_html": "",
+    "portrait_url": ""
+  }
 }

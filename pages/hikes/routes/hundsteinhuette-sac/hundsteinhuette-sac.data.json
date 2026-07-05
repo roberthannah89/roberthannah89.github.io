@@ -63,32 +63,38 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1577974125_1825716274master_58f907fd52.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1577974125_1825716274master_58f907fd52.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Ein bequemer Zubringer: die Stauberen-Kleinseilbahn.",
+      "caption_html": "<p>Ein bequemer Zubringer: die Stauberen-Kleinseilbahn.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1577974125_1911727231master_381a81cc71.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1577974125_1911727231master_381a81cc71.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Unterwegs zur Saxer Lücke: Blick zum Säntis und Wissenswertes zur Geologie.",
+      "caption_html": "<p>Unterwegs zur Saxer Lücke: Blick zum Säntis und Wissenswertes zur Geologie.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/4/csm_1577974125_2123444891master_2d49eac183.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/4/csm_1577974125_2123444891master_2d49eac183.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Auf dem Weg zur Saxer Lücke. Rechts unten die Hundsteinhütte, darüber die Felszinnen von Hundstein & Co.",
+      "caption_html": "<p>Auf dem Weg zur Saxer Lücke. Rechts unten die Hundsteinhütte, darüber die Felszinnen von Hundstein & Co.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1577974125_1290328598master_38b702cec5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/1/a/csm_1577974125_1290328598master_38b702cec5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die Saxer Lücke ist ein beliebtes Wanderziel.",
+      "caption_html": "<p>Die Saxer Lücke ist ein beliebtes Wanderziel.</p>",
+      "copyright": "Marco Volken"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/2/csm_1529322499_1316079545master_4fce9dacef.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/2/csm_1529322499_1316079545master_4fce9dacef.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Am Ziel: Die Hundsteinhütte der Sektion Säntis.",
+      "caption_html": "<p>Am Ziel: Die Hundsteinhütte der Sektion Säntis.</p>",
+      "copyright": "Anita und Hans Lieberherr",
+      "credit_date": "09/2015"
     }
   ],
   "waypoints": [
@@ -125,7 +131,7 @@
       "description": "Hierher auch direkt aus dem Rheintal: ab Sax ca. 2:30 Std, ab Nasseel ca. 2 Std."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken, and Anita und Hans Lieberherr — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/hundsteinhuette-sac-2147000138/mountain-hiking/von-der-bergstation-stauberen-2313/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",

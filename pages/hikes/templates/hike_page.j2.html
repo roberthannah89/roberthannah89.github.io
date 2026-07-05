@@ -51,12 +51,7 @@
 {%- for p in photos %}
     <figure>
       <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}" title="{% if p.get('copyright') %}© {{ p.copyright }}{% if p.get('credit_date') %} · {{ p.credit_date }}{% endif %} — via SAC Route Portal{% else %}{{ _photos_src_plain }}{% endif %}"></a>
-      <figcaption>
-        {{ p.caption_html | safe }}
-{%- if p.get('copyright') %}
-        <small class="photo-credit">© {{ p.copyright }}{% if p.get('credit_date') %} · {{ p.credit_date }}{% endif %}</small>
-{%- endif %}
-      </figcaption>
+      <figcaption>{{ p.caption_html | safe }}{% if p.get('copyright') %} <span class="photo-credit">© {{ p.copyright }}{% if p.get('credit_date') %} · {{ p.credit_date }}{% endif %}</span>{% endif %}</figcaption>
     </figure>
 {%- endfor %}
   </div>

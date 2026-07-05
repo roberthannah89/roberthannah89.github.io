@@ -63,26 +63,34 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/f/8/csm_1560507656_1239560384master_10d1e04ab4.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.",
+      "caption_html": "<p>The normal route to Gross Mythen zig-zags up the south face. At the bend on the very left, bend 22, Schafweg branches off. Below on the right-hand side is Holzegg.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "12/2016"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/1/csm_1555336019_2020425297master_cc4bffaef4.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Exposed passages, but equipped with safety features, descend the south-west face.",
+      "caption_html": "<p>Exposed passages, but equipped with safety features, descend the south-west face.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "10/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/b/csm_1555336036_466914493master_05a481fd23.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Nollenbrünneli",
+      "caption_html": "<p>Nollenbrünneli</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "10/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1555336544_431294073master_00a1b6c334.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.",
+      "caption_html": "<p>Rot Grätli has some easy climbing passages. Here and there you find belaying bolts.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "05/2012"
     }
   ],
   "waypoints": [
@@ -122,7 +130,7 @@
       "description": "A col, which is passed on the variant."
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/schafweg-mythenmatt-and-rot-graetli-4136/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -132,5 +140,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/gross-mythen-1267/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

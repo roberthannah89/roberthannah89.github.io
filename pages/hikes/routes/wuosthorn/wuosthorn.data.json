@@ -63,32 +63,37 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1589879167_1390490053master_b919dd0725.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1589879167_1390490053master_b919dd0725.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Bergfrühling mit Soldanellenfeldern beim Wuosthorn",
+      "caption_html": "<p>Bergfrühling mit Soldanellenfeldern beim Wuosthorn</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1589879167_573775307master_b58d8593e2.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1589879167_573775307master_b58d8593e2.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick zurück vom Wuosthorn über den gesamten Grat bis zum Jakobshorn.",
+      "caption_html": "<p>Blick zurück vom Wuosthorn über den gesamten Grat bis zum Jakobshorn.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/4/csm_1589879167_887046649master_79a1bbd969.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/4/csm_1589879167_887046649master_79a1bbd969.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick vom Wuosthorn südwärts.",
+      "caption_html": "<p>Blick vom Wuosthorn südwärts.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1589879167_827639813master_93e40f2440.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/e/csm_1589879167_827639813master_93e40f2440.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Wuosthorn vom Witihüreli P. 2623 aus gesehen. Rechts das Tällihorn.",
+      "caption_html": "<p>Wuosthorn vom Witihüreli P. 2623 aus gesehen. Rechts das Tällihorn.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1589879167_1551975497master_0e434568df.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/6/csm_1589879167_1551975497master_0e434568df.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Herrliche Variante: Gratwanderung vom Jakobshorn (hinten), hier auf dem Jatzhorn.",
+      "caption_html": "<p>Herrliche Variante: Gratwanderung vom Jakobshorn (hinten), hier auf dem Jatzhorn.</p>",
+      "copyright": "David Coulin"
     }
   ],
   "waypoints": [
@@ -157,5 +162,10 @@
       "elev_m": 2567
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: David Coulin — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/wuosthorn-2248/mountain-hiking/von-sertig-doerfli-5037/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "David Coulin",
+    "bio_html": "David Coulin works as a communications manager, photojournalist and author. In addition, he provides mountain experiences throughout Switzerland and has published several alpine hiking and snowshoeing guides through the SAC.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }

@@ -63,20 +63,26 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1556711056_874820674master_61644b99aa.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/b/csm_1556711056_874820674master_61644b99aa.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Ascending to Piz Languard: view towards Moritz",
+      "caption_html": "<p>Ascending to Piz Languard: view towards Moritz</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "07/2017"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/7/csm_1556708271_18769266master_a972206440.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/7/csm_1556708271_18769266master_a972206440.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Piz Languard",
+      "caption_html": "<p>Piz Languard</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "07/2017"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1556708271_216317717master_7192985e1f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/e/csm_1556708271_216317717master_7192985e1f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Shortly before the summit, below is Georgys Hütte and behind the Bernina range.",
+      "caption_html": "<p>Shortly before the summit, below is Georgys Hütte and behind the Bernina range.</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "07/2017"
     }
   ],
   "waypoints": [
@@ -111,7 +117,7 @@
       "description": "Starting point of the variant"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/south-west-face-4058/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -121,5 +127,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-languard-1012/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "David Coulin",
+    "bio_html": "David Coulin works as a communications manager, photojournalist and author. In addition, he provides mountain experiences throughout Switzerland and has published several alpine hiking and snowshoeing guides through the SAC.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }

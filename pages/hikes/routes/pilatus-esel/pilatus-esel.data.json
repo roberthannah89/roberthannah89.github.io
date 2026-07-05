@@ -63,44 +63,58 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1555602799_1387917038master_82e0fb421e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/c/csm_1555602799_1387917038master_82e0fb421e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Slightly above Tellenfadlücke",
+      "caption_html": "<p>Slightly above Tellenfadlücke</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/9/csm_1555602795_1183739067master_64ee172b27.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/9/csm_1555602795_1183739067master_64ee172b27.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the way to Windegg",
+      "caption_html": "<p>On the way to Windegg</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1555602791_373328040master_1d2bae63cb.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/c/csm_1555602791_373328040master_1d2bae63cb.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The last few metres before Rosegg",
+      "caption_html": "<p>The last few metres before Rosegg</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1743452455_365992897master_b7d0a1b046.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/3/csm_1743452455_365992897master_b7d0a1b046.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Looking back from Rosegg.",
+      "caption_html": "<p>Looking back from Rosegg.</p>",
+      "copyright": "Pashija Demolli",
+      "credit_date": "10/2023"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1743452801_1102789913master_8b98bb7aa5.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/0/3/csm_1743452801_1102789913master_8b98bb7aa5.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Esel viewed from Rosegg: on the left-hand side is the south ridge (variant), and directly across from the viewer is the east face.",
+      "caption_html": "<p>Esel viewed from Rosegg: on the left-hand side is the south ridge (variant), and directly across from the viewer is the east face.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "06/2010"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/f/csm_1555602773_177389841master_26fa87a3b9.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/9/f/csm_1555602773_177389841master_26fa87a3b9.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the lower part of the east face",
+      "caption_html": "<p>On the lower part of the east face</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2012"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/b/csm_1555602783_105535658master_e9f5c5c948.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/b/csm_1555602783_105535658master_e9f5c5c948.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The hole with the mess tin and the summit book",
+      "caption_html": "<p>The hole with the mess tin and the summit book</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2010"
     }
   ],
   "waypoints": [
@@ -144,7 +158,7 @@
     "lon": 8.255367818223778,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Pilatus+Kulm"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken, and Pashija Demolli — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/esel-pilatus-6248/mountain-hiking/on-the-east-ridge-4155/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -154,5 +168,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/esel-pilatus-6248/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

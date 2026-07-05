@@ -63,14 +63,18 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/4/csm_1522064556_1355825414master_9cd1ccaff0.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/4/csm_1522064556_1355825414master_9cd1ccaff0.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "On the descent from Pizzo Centrale towards Lago della Sella.",
+      "caption_html": "<p>On the descent from Pizzo Centrale towards Lago della Sella.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2013"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/b/csm_1522064062_1424867712master_74ef41178b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/2/b/csm_1522064062_1424867712master_74ef41178b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Pizzo Centrale (in the background to the left) towers above the Gotthard area and the upper Leventina. View from Monte Prosa.",
+      "caption_html": "<p>Pizzo Centrale (in the background to the left) towers above the Gotthard area and the upper Leventina. View from Monte Prosa.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "09/2009"
     }
   ],
   "waypoints": [
@@ -111,7 +115,7 @@
       "description": "Saddle between Val Prevat and Gafallental"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-centrale-330/mountain-hiking/traverse-from-east-to-south-west-909/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -121,5 +125,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/pizzo-centrale-330/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

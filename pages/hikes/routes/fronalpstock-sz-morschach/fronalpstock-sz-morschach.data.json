@@ -63,38 +63,50 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1554823064_441906616master_dae6becc6d.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/8/9/csm_1554823064_441906616master_dae6becc6d.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Already from the start, the route ahead impresses and dissuades. You can't imagine theres an easy way up through those cliffs... but there is.",
+      "caption_html": "<p>Already from the start, the route ahead impresses and dissuades. You can't imagine theres an easy way up through those cliffs... but there is.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "07/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1554823064_1218265832master_1b89d5b37c.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/0/csm_1554823064_1218265832master_1b89d5b37c.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "At Alp Eu, with a view towards the shapely Mythen.",
+      "caption_html": "<p>At Alp Eu, with a view towards the shapely Mythen.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "07/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/4/csm_1532967387_300351340master_30a9a19b3d.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/4/csm_1532967387_300351340master_30a9a19b3d.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "One of the continuation gullies leading up through the rock band.",
+      "caption_html": "<p>One of the continuation gullies leading up through the rock band.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "07/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/c/csm_1554823064_1057866140master_95b9a43c39.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/c/csm_1554823064_1057866140master_95b9a43c39.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The Crux!",
+      "caption_html": "<p>The Crux!</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "07/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1554823064_1127956517master_053df7ed40.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/8/csm_1554823064_1127956517master_053df7ed40.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "You can just make out the path through the steep grass flank. This can be dangerous with snow.",
+      "caption_html": "<p>You can just make out the path through the steep grass flank. This can be dangerous with snow.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "07/2018"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1554823064_748960265master_c2efd63254.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/5/2/csm_1554823064_748960265master_c2efd63254.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "From the base of the Charenstöckli you can join the hiking \"highway\" to the top.",
+      "caption_html": "<p>From the base of the Charenstöckli you can join the hiking \"highway\" to the top.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "07/2018"
     }
   ],
   "waypoints": [
@@ -137,7 +149,7 @@
     "elev": 1906,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Fronalpstock"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-sz-684/mountain-hiking/from-morschach-via-chaelen-2400/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -147,5 +159,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/fronalpstock-sz-684/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

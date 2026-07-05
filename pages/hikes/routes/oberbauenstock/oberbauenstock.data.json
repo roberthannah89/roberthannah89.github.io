@@ -63,20 +63,26 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/e/2/csm_1513343786_861097896master_5eb4edde61.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "To the left of the rocky Oberbauenstock the gentle dome of Niderbauen Chulm is visible.",
+      "caption_html": "<p>To the left of the rocky Oberbauenstock the gentle dome of Niderbauen Chulm is visible.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "10/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/a/csm_1513344014_516627004master_3e080dc88c.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The scrambling passages on the ascent to Oberbauenstock.",
+      "caption_html": "<p>The scrambling passages on the ascent to Oberbauenstock.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "10/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/7/csm_1513344080_1154043125master_63e90d482c.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "A long, mostly grassy ridge leads from Oberbauenstock to Lückli.",
+      "caption_html": "<p>A long, mostly grassy ridge leads from Oberbauenstock to Lückli.</p>",
+      "copyright": "Marco Volken",
+      "credit_date": "10/2009"
     }
   ],
   "waypoints": [
@@ -120,7 +126,7 @@
     "elev": 1277,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Stockh%C3%BCtte+%28Bergstation%29"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Marco Volken — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/oberbauenstock-1313/mountain-hiking/traverse-from-niderbauen-chulm-to-stockhuette-809/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -130,5 +136,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/oberbauenstock-1313/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Marco Volken",
+    "bio_html": "Marco Volken is a freelance photographer and alpine journalist. He has co-authored numerous books on the Alpine region, including illustrated books, non-fiction books, hut guides, hiking and club guides, ski touring and climbing guidebooks.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/3/3/csm_Volken_805c0bbaa4.jpg"
+  }
 }

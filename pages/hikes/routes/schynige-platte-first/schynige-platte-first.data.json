@@ -63,8 +63,9 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1534266885_1864266862master_a64e92af1f.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/d/7/csm_1534266885_1864266862master_a64e92af1f.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Am Ziel: das Berghaus Männdlenen auf 2344 Meter.",
+      "caption_html": "<p>Am Ziel: das Berghaus Männdlenen auf 2344 Meter.</p>",
+      "copyright": "Barbara Reichen"
     }
   ],
   "waypoints": [
@@ -126,5 +127,10 @@
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/"
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal"
+  "photos_attrib_html": "Photos: Barbara Reichen — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/berghaus-maenndlenen-2147000162/mountain-hiking/von-schynige-platte-1467/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
+  "route_author": {
+    "name": "Marco Bomio",
+    "bio_html": "Marco Bomio worked as a teacher in Grindelwald for over 30 years before turning his part-time job as a mountain guide into his main job. In the Grindelwald Section of the SAC he was first the JO boss and later the president. He has headed the Grindelwald Museum for 10 years.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/0/8/csm_Bomio_Marco_287475cb95.jpeg"
+  }
 }

@@ -63,32 +63,37 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/8/csm_1534858965_1952469272master_d27bd41f1e.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/3/8/csm_1534858965_1952469272master_d27bd41f1e.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Die Capanna Monte Bar auf dem weiten Weiderücken, der Weg von Corticiasca kommt von rechts.",
+      "caption_html": "<p>Die Capanna Monte Bar auf dem weiten Weiderücken, der Weg von Corticiasca kommt von rechts.</p>",
+      "copyright": "SAC-CAS"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/4/csm_1719904141_1683247725master_9d58ded307.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/4/csm_1719904141_1683247725master_9d58ded307.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Alpe Rompiago.",
+      "caption_html": "<p>Alpe Rompiago.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1593165094_446858049master_2befdcbd67.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/2/csm_1593165094_446858049master_2befdcbd67.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick vom Caval Drossa in Richtung Süd über den Motto della Croce ins Luganese.",
+      "caption_html": "<p>Blick vom Caval Drossa in Richtung Süd über den Motto della Croce ins Luganese.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/a/csm_1593165094_1301483994master_7f1b1fe784.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/c/a/csm_1593165094_1301483994master_7f1b1fe784.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Bergnarzissen am Monte Bar.",
+      "caption_html": "<p>Bergnarzissen am Monte Bar.</p>",
+      "copyright": "David Coulin"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/9/csm_1579270819_1690333209master_ea5d76ae3b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/9/csm_1579270819_1690333209master_ea5d76ae3b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Blick vom Monte Bar in Richtung Gazzirola.",
+      "caption_html": "<p>Blick vom Monte Bar in Richtung Gazzirola.</p>",
+      "copyright": "David Coulin"
     }
   ],
   "waypoints": [
@@ -124,7 +129,7 @@
       "elev_m": 1275
     }
   ],
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: SAC-CAS, and David Coulin — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-monte-bar-2147000180/mountain-hiking/von-albumo-di-corticiasca-2502/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -134,5 +139,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/capanna-monte-bar-2147000180/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "David Coulin",
+    "bio_html": "David Coulin works as a communications manager, photojournalist and author. In addition, he provides mountain experiences throughout Switzerland and has published several alpine hiking and snowshoeing guides through the SAC.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }

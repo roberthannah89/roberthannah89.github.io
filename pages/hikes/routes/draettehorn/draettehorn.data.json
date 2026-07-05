@@ -63,14 +63,18 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1574345585_1782495963master_77f8b4d6d2.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/6/d/csm_1574345585_1782495963master_77f8b4d6d2.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Drättehorn, Hoganthorn, Schwalmere (from the left), viewed from Bietenlücke",
+      "caption_html": "<p>Drättehorn, Hoganthorn, Schwalmere (from the left), viewed from Bietenlücke</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2016"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1512567944_1716368564master_ca04afbfdf.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/a/e/csm_1512567944_1716368564master_ca04afbfdf.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View from Drättehorn across Hoganthorn on to Schwalmere",
+      "caption_html": "<p>View from Drättehorn across Hoganthorn on to Schwalmere</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2016"
     }
   ],
   "waypoints": [
@@ -113,7 +117,7 @@
     "elev": 1486,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Gr%C3%BCtschalp"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/draettehorn-2244/mountain-hiking/traverse-draettehorn-hoganthorn-schwalmere-663/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -123,5 +127,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/draettehorn-2244/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "Sabine und Fredy Joss",
+    "bio_html": "Alpine hiking, climbing and other mountain sports Sabine and Fredy Joss's passion. They have been writing and photographing for the SAC publishing house and the club magazine Die Alpen for many years. Sabine is also a biologist and tour guide; Fredy a proofreader and editor for various magazines.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/8/a/csm_Joss_824db85f1e.jpg"
+  }
 }

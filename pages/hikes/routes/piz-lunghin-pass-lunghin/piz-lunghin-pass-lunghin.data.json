@@ -63,20 +63,26 @@
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/9/csm_1556014683_1479957759master_fc70b8de4b.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/7/9/csm_1556014683_1479957759master_fc70b8de4b.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "View from Piz Lunghin to the Bondasca range (Bregaglia)",
+      "caption_html": "<p>View from Piz Lunghin to the Bondasca range (Bregaglia)</p>",
+      "copyright": "David Coulin",
+      "credit_date": "08/2006"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/a/csm_1556014682_509808841master_95285882d7.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/4/a/csm_1556014682_509808841master_95285882d7.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "Maloja and Lej da Segl, above is Piz Lunghin (left), Piz Grevasalvas (centre) and Piz Materdell (right).",
+      "caption_html": "<p>Maloja and Lej da Segl, above is Piz Lunghin (left), Piz Grevasalvas (centre) and Piz Materdell (right).</p>",
+      "copyright": "Fredy Joss",
+      "credit_date": "08/2009"
     },
     {
       "url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1554031959_1639489803master_df95ba8f5c.jpg",
       "lightbox_url": "https://www.sac-cas.ch/processed/sa2020assetsprod/b/9/csm_1554031959_1639489803master_df95ba8f5c.jpg",
-      "alt": "Route photo (SAC)",
-      "caption_html": ""
+      "alt": "The three-way watershed on Pass Lunghin",
+      "caption_html": "<p>The three-way watershed on Pass Lunghin</p>",
+      "copyright": "David Coulin",
+      "credit_date": "08/2006"
     }
   ],
   "waypoints": [
@@ -119,7 +125,7 @@
     "elev": 1458,
     "sbb_url": "https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml?language=en&von=&nach=Casaccia%2C+Villaggio"
   },
-  "photos_attrib_html": "All photos: SAC Route Portal",
+  "photos_attrib_html": "Photos: David Coulin, and Fredy Joss — via <a href=\"https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-lunghin-1084/mountain-hiking/from-pass-lunghin-4017/\" target=\"_blank\" rel=\"noopener\">SAC Route Portal</a>",
   "sources": [
     {
       "name": "SAC Route Portal (route)",
@@ -129,5 +135,10 @@
       "name": "SAC Route Portal (peak)",
       "url": "https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/piz-lunghin-1084/mountain-hiking/"
     }
-  ]
+  ],
+  "route_author": {
+    "name": "David Coulin",
+    "bio_html": "David Coulin works as a communications manager, photojournalist and author. In addition, he provides mountain experiences throughout Switzerland and has published several alpine hiking and snowshoeing guides through the SAC.",
+    "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/f/d/csm_Coulin_9811f4854b.jpg"
+  }
 }
