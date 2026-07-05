@@ -14,6 +14,15 @@
 (function () {
   'use strict';
 
+  // Resolve the sibling cache file relative to *this script's* own URL, not
+  // the page's directory. document.currentScript is only populated while
+  // this script is being parsed — it's null by the time ensureData() runs
+  // later (e.g. on a click), so it must be captured here at the top of the
+  // IIFE. This lets slf_layer.js be included from any page (command-center/,
+  // routes/<slug>/, index.html) and still find slf_cache.js next to itself.
+  var HERE = (document.currentScript && document.currentScript.src) || '';
+  var CACHE_URL = HERE.replace(/[^/]*$/, 'slf_cache.js');
+
   // Official EAWS / SLF danger-level colours. Match scripts/config.py
   // (SLF_DANGER_COLORS) and WhiteRisk's CSS custom properties.
   var DANGER_COLORS = {
@@ -50,9 +59,9 @@
     if (dataPromise) return dataPromise;
     dataPromise = new Promise(function (resolve, reject) {
       var s = document.createElement('script');
-      s.src = 'slf-cache.js';
+      s.src = CACHE_URL;
       s.onload = function () { resolve(); };
-      s.onerror = function () { reject(new Error('Failed to load slf-cache.js')); };
+      s.onerror = function () { reject(new Error('Failed to load ' + CACHE_URL)); };
       document.head.appendChild(s);
     }).catch(function (err) {
       console.warn(err);

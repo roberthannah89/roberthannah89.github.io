@@ -496,9 +496,6 @@
 <script src="routes/_assets/hike_map/weather.js"></script>
 <script src="routes/_assets/hike_map/webcams_windy_data.js"></script>
 <script src="routes/_assets/hike_map/webcams.js"></script>
-<!-- slf-layer.js lazy-loads slf-cache.js from the current page dir; for this
-     page that path is wrong, so eagerly load the cache here instead. -->
-<script src="routes/_assets/hike_map/slf_cache.js"></script>
 <script src="routes/_assets/hike_map/slf_layer.js"></script>
 <script>window.HIKES = {{ hikes | tojson }};</script>
 <script>window.CANTONS_GJ = {{ cantons_geojson | tojson }};</script>
