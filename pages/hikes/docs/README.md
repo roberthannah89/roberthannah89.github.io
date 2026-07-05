@@ -41,6 +41,7 @@ Swiss Alpine hike pages. You supply GPX + photos; scripts validate and render HT
 |---|---|
 | `inspect_sac_json.py` | Print SAC JSON structure (photos, segments, waypoints, metadata) for debugging captures |
 | `scrape_sac_pois.py` | Paginate the SAC suissealpine POI search API → `guides/sac-routes.js`. Re-run to refresh the peak/hut lookup table that powers the command center markers + the v2 pipeline |
+| `backfill_sac_credits.py` | Walk all hikes and re-scrape SAC route pages for any with `sac-cas.ch/processed/` photos missing `copyright`. Dry-run by default; pass `--apply` to fetch + patch |
 | `check_gpx_gaps.py` | Verify GPX track connectivity after extraction — flags gaps exceeding a threshold |
 | `combine_gpx.py` | Stitch two GPX tracks end-to-end for multi-route traverses (e.g. Schynige Platte–First) |
 | `make_swiss_boundary.py` | One-shot generator: download GADM boundary → simplify → write `swiss_border.js`. Re-run only if boundary data needs regenerating |

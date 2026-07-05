@@ -240,15 +240,21 @@ Gallery photos displayed on the page.
 
 **Optional fields:**
 - `lightbox_url` (string): URL for lightbox view (defaults to `url`)
+- `copyright` (string): Photographer name — rendered inline with the caption
+  and in the hover tooltip. Required by Swiss URG Art. 9 (moral rights) for
+  third-party photos; the SAC scraper populates this from figcaptions.
+- `credit_date` (string): Photo date, `"MM/YYYY"` format. Rendered next to
+  the photographer name when present.
 
 **Example:**
 ```json
 [
   {
-    "url": "https://hikr.org/photo-123.jpg",
-    "alt": "Augstmatthorn ridge looking north",
-    "caption_html": "The Augstmatthorn ridge from <strong>Suggiture</strong>",
-    "lightbox_url": "https://hikr.org/photo-123-large.jpg"
+    "url": "https://www.sac-cas.ch/processed/.../csm_...master_....jpg",
+    "alt": "At Hohfläschen, the three summits of the day in sight",
+    "caption_html": "<p>At Hohfläschen, the three summits of the day in sight</p>",
+    "copyright": "Marco Volken",
+    "credit_date": "09/2019"
   }
 ]
 ```
@@ -418,7 +424,35 @@ Attribution text for the elevation chart data source.
 
 ### `photos_attrib_html` (string, optional)
 
-Attribution text for the photo gallery sources.
+Attribution text for the photo gallery sources. Rendered below the gallery.
+For SAC hikes the scraper builds this as
+`"Photos: Name1, Name2, and Name3 — via <a href='SAC URL'>SAC Route Portal</a>"`
+so distinct photographers are named alongside the aggregator link.
+
+---
+
+### `route_author` (object, optional)
+
+The SAC contributor who authored the route description. Populated by
+`scrape_sac_route_page.py` from the sidebar "Author" box. Rendered as a
+"Route author" row in Quick Facts, linking the name to the SAC route page.
+
+**Fields:**
+- `name` (string): Author display name
+- `bio_html` (string): Short bio HTML from the SAC sidebar
+- `portrait_url` (string): Portrait image URL on SAC
+
+**Example:**
+```json
+{
+  "name": "Marco Volken",
+  "bio_html": "Marco Volken is a freelance photographer and alpine journalist...",
+  "portrait_url": "https://www.sac-cas.ch/processed/fileadmin/.../csm_Volken_....jpg"
+}
+```
+
+Backfill for old hikes: `python scripts/backfill_sac_credits.py --apply`
+(dry-run by default; walks all SAC hikes with photos missing `copyright`).
 
 ---
 
