@@ -518,7 +518,7 @@
         label: 'Safety',
         toggles: [
           { id: 'closures', icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil, live daily)', defaultOn: true  },
-          { id: 'snow',     icon: '❄️', label: 'Snow & glaciers (permanent extent, GLAMOS)',                   defaultOn: true  },
+          { id: 'snow',     icon: '❄️', label: 'Snow & glaciers (permanent extent, GLAMOS)',                   defaultOn: false },
           { id: 'firerisk', icon: '🔥', label: 'Forest fire danger (BAFU, updated daily)',                     defaultOn: false },
           { id: 'wildlife', icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)',           defaultOn: false },
           { id: 'rockfall', icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',                 defaultOn: false },
@@ -683,7 +683,7 @@
   // overlayFactories entry; toggleLazyOverlay does the actual fetch/add.
   // Failure is per-layer — one dead layer id doesn't take out the others.
   // Must stay in sync with the defaultOn:true entries in buildWeatherToggles.
-  var DEFAULT_ON_OVERLAYS = ['closures', 'snow'];
+  var DEFAULT_ON_OVERLAYS = ['closures'];
   function bootDefaultOnOverlays() {
     DEFAULT_ON_OVERLAYS.forEach(function (id) {
       toggleLazyOverlay(id, true);
