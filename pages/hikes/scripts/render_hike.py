@@ -421,6 +421,7 @@ def build_display_quick_facts(
     routes: list[dict] | None = None,
     hike_sources: list[dict] | None = None,
     index_card: dict | None = None,
+    route_author: dict | None = None,
 ) -> list[list[str]]:
     """Return quick facts with one consolidated difficulty row and route sources."""
     facts = list(quick_facts or [])
@@ -479,6 +480,26 @@ def build_display_quick_facts(
                 source_links.append(link)
             sources_html = "; ".join(source_links)
             facts.append(["Route sources", sources_html])
+
+    # Route author (SAC contributor). Link to the SAC route page so the credit
+    # points at where the description was authored.
+    if route_author and isinstance(route_author, dict):
+        name = (route_author.get("name") or "").strip()
+        if name:
+            sac_url = ""
+            for s in hike_sources or []:
+                url = (s or {}).get("url", "")
+                if "sac-cas.ch" in url:
+                    sac_url = url
+                    break
+            if sac_url:
+                value = (
+                    f'<a href="{sac_url}" target="_blank" rel="noopener">{name}</a> '
+                    f'<span style="opacity:.7">(via SAC Route Portal)</span>'
+                )
+            else:
+                value = f'{name} <span style="opacity:.7">(via SAC Route Portal)</span>'
+            facts.append(["Route author", value])
 
     return facts
 
@@ -695,6 +716,7 @@ def augment_hike_data(data: dict, gpx_stats: dict[str, float], hike_dir: Path) -
         data.get("routes"),
         data.get("sources"),
         data.get("index_card"),
+        data.get("route_author"),
     )
     _build_transport_notes(data)
     _filter_todo_sections(data)

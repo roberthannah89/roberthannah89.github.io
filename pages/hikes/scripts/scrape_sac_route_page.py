@@ -52,6 +52,15 @@ USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
 # are NOT used to navigate the tree (use BS4 finders/selectors for that).
 _ASCENT_RE = re.compile(r"(?P<h>\d+):(?P<m>\d+)\s*h.*?(?P<gain>\d+)\s*m", re.I)
 _TIME_RE = re.compile(r"(\d+):(\d+)\s*h", re.I)
+# SAC figcaptions look like: "<caption text> (MM/YYYY) © Photographer Name".
+# The date and credit are optional; older gallery entries sometimes omit one
+# or both, in which case we keep whatever's present as the caption.
+_FIGCAPTION_RE = re.compile(
+    r"^(?P<caption>.*?)"
+    r"(?:\s*\((?P<date>\d{2}/\d{4})\))?"
+    r"\s*©\s*(?P<credit>[^©]+)$",
+    re.DOTALL,
+)
 
 
 @dataclass
@@ -76,6 +85,7 @@ class ScrapedRoute:
     segments: list[str] = field(default_factory=list)   # per-leg "A → B, T3, 2 Std. 45 Min." strings
     waypoints: list[dict] = field(default_factory=list) # [{name, elev_m, description}]
     photos: list[dict] = field(default_factory=list)
+    route_author: dict | None = None    # {name, bio_html, portrait_url} — SAC contributor of the route
 
 
 def _meta(soup: BeautifulSoup, prop: str) -> str | None:
@@ -300,6 +310,11 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
     we group by SAC's master ID (``csm_<master_id>master_<hash>``) and keep
     only the full-size variant per group.
 
+    Each gallery item has a ``<figcaption class="m-media-gallery__caption">``
+    with the pattern ``"<caption> (MM/YYYY) © Photographer"``. We parse it so
+    per-photo credit is preserved (Swiss URG Art. 9 moral rights) and rendered
+    on the hike page.
+
     Anything outside ``m-media-gallery`` (navigation chrome, related-content
     cards, footer logos, paywall banner) is ignored.
     """
@@ -315,38 +330,98 @@ def _extract_photos(soup: BeautifulSoup) -> list[dict]:
             return 5  # smaller — only used if no full-size found
         return 3  # other gallery-internal images
 
-    by_master: dict[str, tuple[int, str, str]] = {}
-    for img in gallery.find_all("img"):
-        if not isinstance(img, Tag):
+    # by_master: master_id -> (rank, url, alt, caption_text, date, credit)
+    by_master: dict[str, tuple[int, str, str, str, str, str]] = {}
+    for item in gallery.find_all(class_="m-media-gallery__media-list-item"):
+        if not isinstance(item, Tag):
             continue
-        src = str(img.get("src") or "").strip()
-        if "/processed/" not in src:
-            continue  # ignore inline data: URIs etc.
-        url = src if src.startswith("http") else "https://www.sac-cas.ch" + src
-        m = _MASTER_RE.search(url)
-        if not m:
-            continue  # not a SAC master-ID image; skip rather than guess
-        master_id = m.group(1)
-        caption = str(img.get("alt") or "").strip()
-        r = rank_for(img)
-        existing = by_master.get(master_id)
-        if existing is None or r < existing[0]:
-            by_master[master_id] = (r, url, caption)
+        figcap_tag = item.find("figcaption")
+        figcap_text = figcap_tag.get_text(" ", strip=True) if isinstance(figcap_tag, Tag) else ""
+        caption_text, date, credit = _parse_figcaption(figcap_text)
+        for img in item.find_all("img"):
+            if not isinstance(img, Tag):
+                continue
+            src = str(img.get("src") or "").strip()
+            if "/processed/" not in src:
+                continue
+            url = src if src.startswith("http") else "https://www.sac-cas.ch" + src
+            m = _MASTER_RE.search(url)
+            if not m:
+                continue
+            master_id = m.group(1)
+            alt = str(img.get("alt") or "").strip()
+            r = rank_for(img)
+            existing = by_master.get(master_id)
+            if existing is None or r < existing[0]:
+                by_master[master_id] = (r, url, alt, caption_text, date, credit)
 
     out: list[dict] = []
     seen_urls: set[str] = set()
-    for _, url, caption in by_master.values():
+    for _, url, alt, caption_text, date, credit in by_master.values():
         key = url.split("?", 1)[0]
         if key in seen_urls:
             continue
         seen_urls.add(key)
-        out.append({
+        # Prefer the figcaption text over the alt (SAC's alts are usually empty).
+        display_caption = caption_text or alt
+        photo: dict = {
             "url": url,
             "lightbox_url": url,
-            "alt": caption or "Route photo (SAC)",
-            "caption_html": f"<p>{caption}</p>" if caption else "",
-        })
+            "alt": display_caption or "Route photo (SAC)",
+            "caption_html": f"<p>{display_caption}</p>" if display_caption else "",
+        }
+        if credit:
+            photo["copyright"] = credit
+        if date:
+            photo["credit_date"] = date
+        out.append(photo)
     return out
+
+
+def _parse_figcaption(text: str) -> tuple[str, str, str]:
+    """Split ``"caption (MM/YYYY) © Photographer"`` into (caption, date, credit).
+
+    Any of the three parts may be empty if the source doesn't provide it.
+    """
+    text = re.sub(r"\s+", " ", text).strip()
+    if not text:
+        return "", "", ""
+    m = _FIGCAPTION_RE.match(text)
+    if not m:
+        # No copyright symbol — the whole string is caption text.
+        return text.strip(), "", ""
+    caption = (m.group("caption") or "").strip().rstrip("—-–,;: ").strip()
+    date = (m.group("date") or "").strip()
+    credit = (m.group("credit") or "").strip()
+    return caption, date, credit
+
+
+def _extract_route_author(soup: BeautifulSoup) -> dict | None:
+    """Return ``{name, bio_html, portrait_url}`` for the SAC author sidebar box,
+    or ``None`` if the page has no author block.
+    """
+    box = soup.find(class_="m-sidebar-author-box")
+    if not isinstance(box, Tag):
+        return None
+    name_tag = box.find(class_="m-sidebar-author-box__name")
+    name = name_tag.get_text(strip=True) if isinstance(name_tag, Tag) else ""
+    if not name:
+        return None
+    content = box.find(class_="m-sidebar-author-box__content")
+    bio_html = ""
+    if isinstance(content, Tag):
+        # First <p> inside the content wrapper is the bio.
+        bio_p = content.find("p")
+        if isinstance(bio_p, Tag):
+            bio_html = bio_p.decode_contents().strip()
+    portrait_url = ""
+    img = box.find("img")
+    if isinstance(img, Tag):
+        src = str(img.get("src") or "").strip()
+        if src.startswith("/"):
+            src = "https://www.sac-cas.ch" + src
+        portrait_url = src
+    return {"name": name, "bio_html": bio_html, "portrait_url": portrait_url}
 
 
 def _extract_description(soup: BeautifulSoup, teaser: str | None,
@@ -499,6 +574,7 @@ def scrape(html: str) -> ScrapedRoute:
     res.waypoints = _parse_waypoints(_dt_dd_lookup(soup, "Waypoints", "Via points") or "")
 
     res.photos = _extract_photos(soup)
+    res.route_author = _extract_route_author(soup)
     # Strip terrain HTML wrapper so the substring comparison sees raw text.
     terrain_text = re.sub(r"<[^>]+>", "", res.terrain_html or "")
     res.description_html = _extract_description(soup, res.teaser,
@@ -540,6 +616,43 @@ def _humanize_time(minutes: int | None) -> str | None:
         return None
     h, m = divmod(minutes, 60)
     return f"{h} h {m:02d} min" if h else f"{m} min"
+
+
+def _photos_attribution_html(photos: list[dict], sources: list[dict]) -> str:
+    """Build the per-page photo attribution line.
+
+    Names the distinct photographers when known, plus a link back to the SAC
+    route page (source of the images). This is stronger attribution than a
+    single "All photos: SAC Route Portal" line — Swiss URG Art. 9 gives the
+    photographer the moral right to be named, and blanket-crediting SAC alone
+    doesn't satisfy that for third-party contributors.
+    """
+    # Preserve first-seen order of distinct photographer names.
+    seen: set[str] = set()
+    names: list[str] = []
+    for p in photos:
+        credit = (p.get("copyright") or "").strip()
+        if credit and credit not in seen:
+            seen.add(credit)
+            names.append(credit)
+
+    sac_url = ""
+    for s in sources:
+        url = (s or {}).get("url", "")
+        if "sac-cas.ch" in url:
+            sac_url = url
+            break
+    sac_link = (
+        f'<a href="{sac_url}" target="_blank" rel="noopener">SAC Route Portal</a>'
+        if sac_url else "SAC Route Portal"
+    )
+
+    if not names:
+        return f"All photos: {sac_link}"
+    if len(names) == 1:
+        return f"Photos: {names[0]} — via {sac_link}"
+    joined = ", ".join(names[:-1]) + ", and " + names[-1]
+    return f"Photos: {joined} — via {sac_link}"
 
 
 def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: bool = True) -> list[str]:
@@ -755,13 +868,51 @@ def patch_data_json(data_path: Path, sr: ScrapedRoute, *, replace_todo_only: boo
         # Take up to 12 photos to avoid huge pages
         data["photos"] = gallery[:12]
         changed.append("photos")
+    # Backfill per-photo credit/date/caption on existing photos when we can
+    # match a scraped photo by URL. Runs even when photos were curated
+    # manually, so old hikes gain per-photo attribution without losing edits.
+    if data.get("photos") and sr.photos:
+        by_url = {p["url"].split("?", 1)[0]: p for p in sr.photos}
+        for existing in data["photos"]:
+            key = (existing.get("url") or "").split("?", 1)[0]
+            match = by_url.get(key)
+            if not match:
+                continue
+            for fld in ("copyright", "credit_date"):
+                val = match.get(fld)
+                if val and existing.get(fld) != val:
+                    existing[fld] = val
+                    if "photos" not in changed:
+                        changed.append("photos")
+            # Only overwrite caption_html/alt if they were blank or a generic
+            # placeholder — never clobber manual editorial text.
+            scraped_caption = match.get("caption_html") or ""
+            if scraped_caption and existing.get("caption_html", "").strip() in (
+                "", "<p></p>", "<p>Route photo (SAC)</p>",
+            ):
+                existing["caption_html"] = scraped_caption
+                if "photos" not in changed:
+                    changed.append("photos")
+            scraped_alt = match.get("alt") or ""
+            if scraped_alt and existing.get("alt", "").strip() in (
+                "", "Route photo (SAC)",
+            ):
+                existing["alt"] = scraped_alt
+                if "photos" not in changed:
+                    changed.append("photos")
     # Set the correct attribution when our photos came from SAC. The template's
     # default ("All photos: Wikimedia Commons …") is wrong for SAC photos.
     if data.get("photos") and (sr.photos or any("/processed/" in (p.get("url") or "") for p in data.get("photos", []))):
-        attrib = "All photos: SAC Route Portal"
+        attrib = _photos_attribution_html(data["photos"], data.get("sources") or [])
         if data.get("photos_attrib_html") != attrib:
             data["photos_attrib_html"] = attrib
             changed.append("photos_attrib_html")
+
+    # Route author — the SAC contributor named in the sidebar "Author" box.
+    # Store a compact dict; the renderer uses it for the Quick Facts row.
+    if sr.route_author and data.get("route_author") != sr.route_author:
+        data["route_author"] = sr.route_author
+        changed.append("route_author")
 
     # Public transport (getting_there)
     gt = data.get("getting_there") or {}

@@ -43,19 +43,26 @@
   </table>
 </section>
 
-{%- set _photos_src = (photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true)) | striptags %}
+{%- set _photos_attrib = photos_attrib_html | default('All photos: Wikimedia Commons (CC BY-SA / public domain — see file pages.)', true) %}
+{%- set _photos_src_plain = _photos_attrib | striptags %}
 <section class="photos-section">
   <h2>Photos</h2>
   <div class="photo-grid">
 {%- for p in photos %}
     <figure>
-      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}" title="{% if p.get('copyright') %}© {{ p.copyright }}{% else %}{{ _photos_src }}{% endif %}"></a>
-      <figcaption>{{ p.caption_html | safe }}</figcaption>
+      <a href="#lightbox-{{ loop.index }}"><img src="{{ p.url }}" alt="{{ p.alt }}" title="{% if p.get('copyright') %}© {{ p.copyright }}{% if p.get('credit_date') %} · {{ p.credit_date }}{% endif %} — via SAC Route Portal{% else %}{{ _photos_src_plain }}{% endif %}"></a>
+      <figcaption>
+        {{ p.caption_html | safe }}
+{%- if p.get('copyright') %}
+        <small class="photo-credit">© {{ p.copyright }}{% if p.get('credit_date') %} · {{ p.credit_date }}{% endif %}</small>
+{%- endif %}
+      </figcaption>
     </figure>
 {%- endfor %}
   </div>
+  <p class="photos-attrib">{{ _photos_attrib | safe }}</p>
 {%- for p in photos %}
-      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt="" title="{% if p.get('copyright') %}© {{ p.copyright }}{% else %}{{ _photos_src }}{% endif %}"></a>
+      <a class="lightbox" id="lightbox-{{ loop.index }}" href="#"><img src="{{ p.get('lightbox_url') or p.url }}" alt="" title="{% if p.get('copyright') %}© {{ p.copyright }}{% if p.get('credit_date') %} · {{ p.credit_date }}{% endif %} — via SAC Route Portal{% else %}{{ _photos_src_plain }}{% endif %}"></a>
 {%- endfor %}
 </section>
 

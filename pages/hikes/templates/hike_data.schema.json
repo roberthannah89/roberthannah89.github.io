@@ -90,8 +90,17 @@
           "alt":          { "type": "string" },
           "caption_html": { "type": "string" },
           "lightbox_url": { "type": "string" },
-          "copyright":    { "type": "string" }
+          "copyright":    { "type": "string" },
+          "credit_date":  { "type": "string" }
         }
+      }
+    },
+    "route_author": {
+      "type": "object",
+      "properties": {
+        "name":         { "type": "string" },
+        "bio_html":     { "type": "string" },
+        "portrait_url": { "type": "string" }
       }
     },
     "waypoints": {
