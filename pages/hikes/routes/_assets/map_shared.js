@@ -30,12 +30,12 @@
     };
   }
 
-  // Layer definitions: key → label, factory fn
+  // Layer definitions: key → label (shown on button), title (hover tooltip / a11y), factory fn
   var LAYER_DEFS = [
-    { key: "hike",   label: "Topo + Trails",    trails: true, make: function (l) { return L.layerGroup([l.color, l.trails]); } },
-    { key: "color",  label: "Topo",              trails: false, make: function (l) { return l.color; } },
-    { key: "aerial", label: "Aerial",            trails: false, make: function (l) { return l.aerial; } },
-    { key: "osm",    label: "OpenStreetMap",     trails: false, make: function (l) { return l.osm; } },
+    { key: "hike",   label: "🥾",  title: "Topo + trails",       trails: true,  make: function (l) { return L.layerGroup([l.color, l.trails]); } },
+    { key: "color",  label: "🗺️", title: "Topo (swisstopo)",    trails: false, make: function (l) { return l.color; } },
+    { key: "aerial", label: "🛰️", title: "Aerial (SWISSIMAGE)", trails: false, make: function (l) { return l.aerial; } },
+    { key: "osm",    label: "OSM",           title: "OpenStreetMap",       trails: false, make: function (l) { return l.osm; } },
   ];
 
   function addLayerControl(map, opts) {
@@ -62,6 +62,8 @@
     defs.forEach(function (d) {
       var btn = document.createElement("button");
       btn.textContent = d.label;
+      btn.title = d.title || d.label;
+      btn.setAttribute("aria-label", d.title || d.label);
       btn.className = "ms-layer-btn" + (d.key === defaultKey ? " active" : "");
       btn.addEventListener("click", function () {
         if (layers[d.key] === current) return;

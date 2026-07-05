@@ -128,16 +128,23 @@
     { key: 'storm',         icon: '⛈️', label: 'Storm', hidden: true }
   ];
 
+  // Compact form "Thu 4" — weekday-abbrev + day-of-month. Always renders the
+  // actual date so a stale cache can't disguise itself as "Today"; the
+  // day-picker relies on this so users can spot when the pre-baked forecast
+  // hasn't refreshed.
   function formatDayLabel(dateStr) {
+    var d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('en', { weekday: 'short' }) + ' ' + d.getDate();
+  }
+
+  // Days between today and the given cache date string (YYYY-MM-DD). Positive
+  // when the cache date is in the past (stale), 0 when it's today, negative
+  // when it's in the future.
+  function _dayDelta(dateStr) {
     var d = new Date(dateStr + 'T12:00:00');
     var today = new Date();
     today.setHours(12, 0, 0, 0);
-    var diff = Math.round((d - today) / 86400000);
-    if (diff === 0) return 'Today';
-    if (diff === 1) return 'Tomorrow';
-    // Compact form "Thu 4" — the forecast window is short, so the month is
-    // implicit; the day-of-month + weekday is enough to disambiguate.
-    return d.toLocaleDateString('en', { weekday: 'short' }) + ' ' + d.getDate();
+    return Math.round((today - d) / 86400000);
   }
 
   function getDayChoices() {
@@ -147,13 +154,36 @@
       break;
     }
     if (!first || !first.daily) return [];
-    // Cache is fetched with timezone=Europe/Zurich, so index 0 is always Switzerland-today,
-    // index 1 is tomorrow, etc. Use index-based labels for 0/1 so user-browser timezone
-    // (e.g. EDT) doesn't misalign "Today"/"Tomorrow" by a day.
+    // Label is ALWAYS the compact date form (e.g. "Sun 5"). The .isToday /
+    // .isTomorrow booleans are computed against the browser's real calendar
+    // so callers can render badges or highlights if desired, but the pill
+    // label itself never hides the underlying date — that's the whole point
+    // of this bug fix, since a stale cache used to be labelled "Today".
     return first.daily.time.map(function (t, i) {
-      var label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : formatDayLabel(t);
-      return { index: i, date: t, label: label };
+      var delta = _dayDelta(t);
+      return {
+        index: i,
+        date: t,
+        label: formatDayLabel(t),
+        isToday: delta === 0,
+        isTomorrow: delta === -1
+      };
     });
+  }
+
+  // How many days stale the cache's first (day-0) entry is versus today's
+  // real calendar date. 0 means fresh (cache day-0 == today), 1 means the
+  // cache's "today" is actually yesterday, etc. Negative if the cache's
+  // day-0 is in the future (shouldn't normally happen). Returns null if the
+  // cache is empty.
+  function cacheAgeDays() {
+    var first = null;
+    for (var key in cache) {
+      first = cache[key];
+      break;
+    }
+    if (!first || !first.daily || !first.daily.time || !first.daily.time.length) return null;
+    return _dayDelta(first.daily.time[0]);
   }
 
   // Returns "2h ago" / "3d ago" / "just now" for an ISO timestamp string.
@@ -187,6 +217,7 @@
     SKY_CATEGORIES: SKY_CATEGORIES,
     getDayChoices: getDayChoices,
     formatDayLabel: formatDayLabel,
+    cacheAgeDays: cacheAgeDays,
     getMeta: getMeta,
     relativeTime: relativeTime
   };

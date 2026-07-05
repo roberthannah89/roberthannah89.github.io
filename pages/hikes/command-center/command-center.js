@@ -490,7 +490,7 @@
     // Tooltip visibility is handled entirely by the filter-bar "Show" pills
     // (display-name-off + meta presence collapse) — no separate Names toggle.
     var toggles = [
-      { id: 'hikes',     icon: '⛰️', label: 'Hikes',    stateKey: 'h',  defaultOn: true },
+      { id: 'hikes',     icon: '🥾', label: 'Hikes',    stateKey: 'h',  defaultOn: true },
       { id: 'huts',      icon: '🏚️', label: 'SAC huts', stateKey: 'u',  defaultOn: true },
       { id: 'haspage',   icon: '⭐', label: 'Has page', stateKey: 'hp', defaultOn: false },
       { id: 'cities',    icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
@@ -667,13 +667,24 @@
     'icon_eu':             'ICON-EU'
   };
 
+  // Anything older than this makes the meta strip pulse amber. The GH Actions
+  // cron refreshes every 3h, so 6h means we've missed at least one scheduled
+  // run — worth screaming about since the day-picker labels are otherwise
+  // just dates and give no other cue that the numbers are stale.
+  var FORECAST_STALE_HOURS = 6;
+
   function renderForecastMeta() {
     var el = document.getElementById('forecast-meta');
     if (!el) return;
     var meta = WeatherService.getMeta();
-    if (!meta) { el.textContent = ''; return; }
+    if (!meta) { el.textContent = ''; el.classList.remove('stale'); return; }
     var modelLabel = MODEL_LABELS[meta.model] || meta.model;
-    el.innerHTML = '<strong>' + modelLabel + '</strong> · updated ' + WeatherService.relativeTime(meta.updated);
+    var updatedMs = meta.updated ? new Date(meta.updated).getTime() : NaN;
+    var ageHours = isNaN(updatedMs) ? Infinity : (Date.now() - updatedMs) / 3600000;
+    var stale = ageHours > FORECAST_STALE_HOURS;
+    var body = '<strong>' + modelLabel + '</strong> · updated ' + WeatherService.relativeTime(meta.updated);
+    el.innerHTML = stale ? ('⚠ STALE — ' + body) : body;
+    el.classList.toggle('stale', stale);
   }
 
   /* ── Utilities ─────────────────────────────────────── */

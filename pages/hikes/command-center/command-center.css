@@ -693,17 +693,23 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
     padding: 0 8px;
   }
 
-  /* Bottom bar: wrap to multiple rows so every toggle (weather layers, map
-     switcher) is visible at rest. Horizontal scrolling here hides the
-     weather toggles behind the wide map-layer bar and isn't discoverable. */
+  /* Bottom bar: keep every child (weather toggles, route counter, map-layer
+     switcher, forecast meta) on a single row and let the user swipe
+     horizontally to reach the rest. Wrapping to multiple rows crowded the
+     bottom of the viewport too much on phones. */
   #bottom-bar {
     left: 0;
     right: 0;
     max-width: none;
     padding: 0 8px;
     bottom: 12px;
-    row-gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  #bottom-bar::-webkit-scrollbar { display: none; }
+  #bottom-bar > * { flex-shrink: 0; }
 
   /* Compact the map-layer bar so it doesn't overflow its own row. */
   .ms-layer-bar { padding: 2px 3px; }
@@ -996,4 +1002,19 @@ body.display-name-off .leaflet-tooltip.hike-tooltip:not(:has(.hike-tt__meta)) {
 /* The [hidden] attribute normally sets display:none, but our display:flex above
    would win by specificity — force it back off when hidden is present. */
 #nav-panel[hidden] { display: none; }
+
+/* --- Stale-forecast warning ---------------------------------------------
+   Applied by renderForecastMeta() in command-center.js when the pre-baked
+   weather cache is older than FORECAST_STALE_HOURS (6h). Amber pulse
+   matches the amber-board palette; the text also gets a "⚠ STALE — "
+   prefix, so this is a defence-in-depth cue rather than the only signal. */
+#forecast-meta.stale {
+  color: #ffcc44;
+  border-color: rgba(255, 190, 60, 0.6);
+  animation: forecast-stale-pulse 2s ease-in-out infinite;
+}
+@keyframes forecast-stale-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 190, 60, 0); }
+  50%      { box-shadow: 0 0 8px rgba(255, 190, 60, 0.4); }
+}
 
