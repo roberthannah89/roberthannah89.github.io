@@ -4,20 +4,24 @@
  */
 
 :root {
-  --bg: #f6f6f4;
-  --surface: #ffffff;
-  --surface-alt: #faf9f2;
-  --fg: #171a1f;
-  --muted: #6b7078;
-  --border: #e2e2dd;
-  --border-strong: #c9c9c1;
-  --accent: #c0392b;
-  --accent-soft: #f2d8d2;
-  --chip: #eeece5;
-  --chip-active: #171a1f;
-  --chip-active-fg: #f6f6f4;
-  --panel: rgba(255,255,255,0.94);
-  --shadow: 0 1px 2px rgba(20,22,26,0.05), 0 8px 24px rgba(20,22,26,0.06);
+  /* Dark palette — see the light-theme reference below in comments if we
+     ever restore a toggle. Contrast tuned for readability on satellite +
+     terrain imagery. */
+  --bg: #0f1215;
+  --surface: #1a1e24;
+  --surface-alt: #232830;
+  --fg: #e6e6e2;
+  --muted: #8a8f97;
+  --border: #2c323b;
+  --border-strong: #40474f;
+  --accent: #e74c3c;
+  --accent-soft: #4a1f1a;
+  --chip: #232830;
+  --chip-active: #e6e6e2;
+  --chip-active-fg: #0f1215;
+  --panel: rgba(20,24,30,0.92);
+  --panel-solid: #1a1e24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.5);
   --panel-w: 440px;
 }
 
@@ -48,23 +52,38 @@ a:hover { text-decoration: underline; }
 .scene {
   position: relative;
   overflow: hidden;
-  background: #b8d0dc;
+  background: var(--bg);
   border-right: 1px solid var(--border);
 }
 .layout.collapsed .scene { border-right: none; }
 #map-host { position: absolute; inset: 0; }
 #map-host #map { position: absolute; inset: 0; }
 
-/* MapLibre chrome tweaks — top-left nav sits below the status card */
+/* MapLibre chrome tweaks — dark chrome to match the panel palette. */
 .maplibregl-ctrl-top-left { top: 130px; }
 .maplibregl-ctrl-bottom-left,
 .maplibregl-ctrl-bottom-right { z-index: 3; }
-.maplibregl-ctrl-attrib.maplibregl-compact { background: rgba(255,255,255,0.85); }
+.maplibregl-ctrl-attrib.maplibregl-compact { background: rgba(20,24,30,0.85); color: var(--fg); }
+.maplibregl-ctrl-attrib.maplibregl-compact a { color: var(--fg); }
+/* MapLibre's default nav control has a white background — invert it. */
+.maplibregl-ctrl-group { background: var(--panel-solid) !important; border: 1px solid var(--border); }
+.maplibregl-ctrl-group button { background-color: transparent !important; }
+.maplibregl-ctrl-group button:hover { background-color: rgba(255,255,255,0.06) !important; }
+.maplibregl-ctrl-group button span { filter: invert(1) hue-rotate(180deg); }
 .maplibregl-ctrl-scale {
-  background: rgba(255,255,255,0.75) !important;
-  color: #171a1f !important;
-  border-color: #171a1f !important;
+  background: rgba(20,24,30,0.75) !important;
+  color: var(--fg) !important;
+  border-color: var(--fg) !important;
 }
+/* Popups — MapLibre's default is opaque white. Match the panel. */
+.maplibregl-popup-content {
+  background: var(--panel-solid) !important;
+  color: var(--fg) !important;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+}
+.maplibregl-popup-tip { border-top-color: var(--panel-solid) !important; border-bottom-color: var(--panel-solid) !important; }
+.maplibregl-popup-close-button { color: var(--fg) !important; }
 .maplibregl-ctrl-bottom-left { bottom: 40px; }
 
 /* ---- Info overlays ---- */
@@ -128,7 +147,7 @@ a:hover { text-decoration: underline; }
   display: inline-flex; align-items: center; justify-content: center;
   transition: transform 0.15s, background 0.15s;
 }
-.map-btn:hover { background: #ffffff; transform: scale(1.06); }
+.map-btn:hover { background: var(--panel-solid); transform: scale(1.06); }
 .map-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 .map-btn.playing { background: var(--accent); color: #fff; }
 .map-btn.active { background: var(--accent); color: #fff; }
@@ -158,11 +177,11 @@ a:hover { text-decoration: underline; }
   font-size: 13px;
   border-radius: 4px;
 }
-#nav-panel a:hover { background: rgba(0,0,0,0.06); }
+#nav-panel a:hover { background: rgba(255,255,255,0.06); }
 #nav-panel a.current { color: var(--accent); font-weight: 600; }
 .map-btn .count {
   position: absolute; bottom: -6px; right: -6px;
-  background: #fff; color: var(--fg);
+  background: var(--panel-solid); color: var(--fg);
   font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums;
   padding: 1px 5px; min-width: 18px; text-align: center;
   border-radius: 999px;
@@ -482,12 +501,14 @@ a:hover { text-decoration: underline; }
   font-size: 10.5px;
   color: var(--muted);
 }
-.grade.t1 { background: #e0eadb; color: #445d34; }
-.grade.t2 { background: #e0eadb; color: #445d34; }
-.grade.t3 { background: #f5e8c8; color: #7a5a1c; }
-.grade.t4 { background: #f5dcd0; color: #814024; }
-.grade.t5 { background: #e6cec5; color: #5c2517; }
-.grade.t6 { background: #e0bab0; color: #4a1810; }
+/* Grade chips take the SAC signpost color on a dark chip background — same
+   family as the trail lines on the map so the visual reads across surfaces. */
+.grade.t1 { background: #2a2a1a; color: #F5C518; }
+.grade.t2 { background: #2a1c17; color: #E4572E; }
+.grade.t3 { background: #2a1815; color: #E4572E; }
+.grade.t4 { background: #17222e; color: #2E86DE; }
+.grade.t5 { background: #131a26; color: #6aa5e0; }
+.grade.t6 { background: #251a2e; color: #a774c9; }
 
 .empty-state {
   padding: 32px 20px;
