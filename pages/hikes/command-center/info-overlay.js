@@ -69,7 +69,7 @@
     { sel: '.filter-group--display', zone: 'top', title: 'Marker display',
       desc: 'What each pin shows on the map — name, grade, weather colour, gain, etc.' },
     { sel: '#weather-toggles',       zone: 'bottom', title: 'Map layers',
-      desc: 'Three groups: Discover (hikes, huts, cities, webcams), Safety (all off by default — closures, snow, fire, wildlife, rockfall, slope; enable to see), Approach (transit, parking, water).' },
+      desc: 'Three groups: Discover (hikes, huts, cities, webcams), Approach (transit, parking, water), Safety (all off by default — closures, snow, fire, wildlife, rockfall, slope; enable to see).' },
     { sel: '#route-counter',         zone: 'bottom', title: 'Live counter',
       desc: 'Destinations and routes matching your current filters.' },
     { sel: '.ms-layer-bar',          zone: 'bottom', title: 'Base map',

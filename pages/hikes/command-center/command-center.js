@@ -503,6 +503,14 @@
         ]
       },
       {
+        label: 'Approach',
+        toggles: [
+          { id: 'transit', icon: '🚌', label: 'Public transport stops (SBB / PostBus)', defaultOn: false },
+          { id: 'parking', icon: '🅿️', label: 'Trailhead parking (OSM)',                defaultOn: false },
+          { id: 'water',   icon: '💧', label: 'Drinking water (OSM)',                   defaultOn: false }
+        ]
+      },
+      {
         // Safety / conditions. Avalanche (SLF bulletin + statutory hazard
         // zones) is NOT in this list — it's always on, no toggle (see
         // bootAvalancheLayer() in boot()), because burying an avalanche
@@ -515,6 +523,10 @@
         // rockfall and slope are all real safety data but noisy when
         // painted across the whole country — off by default, one tap
         // to reveal.
+        //
+        // Last section (after Discover / Approach) — it's the least-used
+        // group day to day, so it shouldn't be the first thing a user's
+        // eye/thumb hits in the bottom bar.
         label: 'Safety',
         toggles: [
           { id: 'closures', icon: '🚧', label: 'Trail closures & reroutes (ASTRA / SchweizMobil, live daily — zoom in to see)', defaultOn: false },
@@ -523,14 +535,6 @@
           { id: 'wildlife', icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)',           defaultOn: false },
           { id: 'rockfall', icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',                 defaultOn: false },
           { id: 'slope',    icon: '📐', label: 'Slope ≥30° (avalanche-critical terrain)',                      defaultOn: false }
-        ]
-      },
-      {
-        label: 'Approach',
-        toggles: [
-          { id: 'transit', icon: '🚌', label: 'Public transport stops (SBB / PostBus)', defaultOn: false },
-          { id: 'parking', icon: '🅿️', label: 'Trailhead parking (OSM)',                defaultOn: false },
-          { id: 'water',   icon: '💧', label: 'Drinking water (OSM)',                   defaultOn: false }
         ]
       }
     ];
