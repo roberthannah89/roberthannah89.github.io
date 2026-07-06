@@ -568,8 +568,15 @@
     function flyTo(target) {
       if (!map) return;
       var pad = 0.028;
+      // Preserve the user's current camera orientation across the fly-to.
+      // Snapping bearing/pitch to a fixed north-up view every click was
+      // disorienting when panning around the range. Only the center + zoom
+      // move; how you were looking stays how you look.
       map.fitBounds([[target.lon - pad, target.lat - pad], [target.lon + pad, target.lat + pad]], {
-        padding: 60, pitch: 65, bearing: 20, duration: 2000, maxZoom: 13.6, essential: true
+        padding: 60,
+        pitch: map.getPitch(),
+        bearing: map.getBearing(),
+        duration: 2000, maxZoom: 13.6, essential: true
       });
     }
     function toggleTrails() {
