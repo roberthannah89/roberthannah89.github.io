@@ -49,9 +49,17 @@ const RUNTIME_CACHE = "hikes-runtime";   // versionless on purpose
 // Command Center weather filter. Falls back to cache when offline.
 // See docs/design/offline.md §4 "Never cache" — the design always called
 // for network-first here; this list is the implementation.
+//
+// Matched by SUFFIX (not full path) because the same generated files are
+// served from two different directories: routes/_assets/hike_map/ (used by
+// index.html and routes/<slug>/ pages) AND templates/_assets/hike_map/
+// (used directly by command-center/, which sits outside routes/). Matching
+// on the full "/routes/_assets/..." path silently excluded Command Center
+// from network-first and let its weather cache go stale — the exact bug
+// this list exists to prevent.
 const NETWORK_FIRST_SUFFIXES = [
-  "/routes/_assets/hike_map/weather-cache.js",
-  "/routes/_assets/hike_map/slf_cache.js",
+  "/hike_map/weather-cache.js",
+  "/hike_map/slf_cache.js",
 ];
 
 // Files that must be present for the site to render at all. Listed
