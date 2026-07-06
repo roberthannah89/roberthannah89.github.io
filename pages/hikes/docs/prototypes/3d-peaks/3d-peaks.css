@@ -111,7 +111,7 @@ body.mode-2d .cc-grade-legend { display: none; }
 .cc-grade-legend .sw.t4 { background: #d97333; }
 .cc-grade-legend .sw.t5 { background: #cc3333; }
 .cc-grade-legend .sw.t6 { background: #8844cc; }
-.cc-grade-legend .sw.none { background: #6b7078; border-color: var(--text-muted); }
+.cc-grade-legend .sw.none { background: #c8b892; border-color: var(--text-muted); }
 
 /* ---------- MapLibre chrome — dark to match CC ---------- */
 .maplibregl-map { background: var(--board-bg); }

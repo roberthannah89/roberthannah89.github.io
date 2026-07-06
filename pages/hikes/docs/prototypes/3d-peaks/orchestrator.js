@@ -216,8 +216,15 @@
     var loadingText = document.getElementById('loading-text');
     function status(msg) { if (loadingText) loadingText.textContent = msg; }
 
-    // Precompute min-grade for both datasets (drives peak-label color in 3D).
-    routes.forEach(function (poi) { poi._minGrade = computeMinGrade(poi); });
+    // Precompute min-grade + has-page for both datasets. Both renderers read
+    // these off the POI object; computing here (not inside a renderer) keeps
+    // the flag consistent across mode swaps and makes the initial 3D boot
+    // show the ★ star badge without waiting for a first 2D pass.
+    routes.forEach(function (poi) {
+      poi._minGrade = computeMinGrade(poi);
+      poi._hasPage = !!matchingHike(poi);
+      poi.hasPage = poi._hasPage;   // matcher reads camelCase; keep both in sync
+    });
     // Wrap CH_PEAKS into SAC-POI shape at boot so the click adapter is a
     // no-op — panel + renderer see the same object shape.
     var chPeaksRaw = window.CH_PEAKS || [];

@@ -48,7 +48,7 @@
     4, '#d97333',   // T4 · Alpine
     5, '#cc3333',   // T5 · Demanding alpine
     6, '#8844cc',   // T6 · Difficult alpine
-    '#6b7078'       // fallback — no matched SAC route
+    '#c8b892'       // fallback — no matched SAC route (warm tan, reads on dark satellite)
   ];
 
   window.CC3DPeaks = window.CC3DPeaks || {};
@@ -79,7 +79,8 @@
           name: poi.name,
           alt: typeof poi.alt === 'number' ? Math.round(poi.alt) : null,
           minGrade: (poi._minGrade == null) ? -1 : poi._minGrade,
-          isHut: isHut(poi)
+          isHut: isHut(poi),
+          hasPage: !!poi._hasPage
         }
       };
     }
@@ -249,6 +250,51 @@
         .finally(function () { if (gen === fetchGen && ring) ring.classList.add('hidden'); });
     }
 
+    /* ── Hike GPX track draping ─────────────────────────────────── */
+    // .track.js files are simple `window.TRACK = [[lat, lng, ele], ...]`
+    // globals. We load them via dynamic <script> tag rather than fetch()
+    // so the prototype works under file:// too. Each new load overwrites
+    // window.TRACK — we capture it into the source immediately then null
+    // it out to avoid stale-read races on the next click.
+    var trackLoadGen = 0;
+    function trackUrlForHike(hike) {
+      if (!hike || !hike.href) return null;
+      // hike.href looks like "routes/augstmatthorn/augstmatthorn.html";
+      // the sibling GPX-as-JS file is the same path with .track.js.
+      var base = hike.href.replace(/\.html$/, '');
+      return '../../' + base + '.track.js';
+    }
+    function showHikeTrack(hike) {
+      if (!map || !mapReady) return;
+      var url = trackUrlForHike(hike);
+      if (!url) return;
+      var gen = ++trackLoadGen;
+      window.TRACK = null;
+      var s = document.createElement('script');
+      s.src = url + '?t=' + Date.now();   // cache-bust in case the last hike had a stale global
+      s.onload = function () {
+        if (gen !== trackLoadGen) return;   // superseded by a newer click
+        var pts = window.TRACK;
+        window.TRACK = null;
+        if (!pts || !pts.length) return;
+        var coords = pts.map(function (p) { return [p[1], p[0]]; });
+        var src = map.getSource('hike-track');
+        if (!src) return;
+        src.setData({
+          type: 'Feature', properties: {},
+          geometry: { type: 'LineString', coordinates: coords }
+        });
+      };
+      s.onerror = function () { /* silent — some hikes may not have .track.js */ };
+      document.head.appendChild(s);
+    }
+    function clearHikeTrack() {
+      if (!map || !mapReady) return;
+      var src = map.getSource('hike-track');
+      if (src) src.setData({ type: 'FeatureCollection', features: [] });
+      trackLoadGen++;
+    }
+
     /* ── Summit tour ─────────────────────────────────── */
     var FLY_MS = 2200, ROTATE_MS = 25000, RETURN_MS = 2000;
     var TOUR_STATE = 'idle';
@@ -366,6 +412,21 @@
             }
           });
 
+          // GPX track for the currently-clicked hike (drawn above the SAC
+          // trails so it stands out). Empty until a peak with a matching
+          // built page is clicked.
+          map.addSource('hike-track', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+          map.addLayer({
+            id: 'hike-track-casing', type: 'line', source: 'hike-track',
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: { 'line-color': '#0a0a0a', 'line-width': 6, 'line-opacity': 0.55 }
+          });
+          map.addLayer({
+            id: 'hike-track-line', type: 'line', source: 'hike-track',
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: { 'line-color': '#e8a832', 'line-width': 3.2, 'line-opacity': 0.95 }
+          });
+
           // Swiss border
           if (window.SWISS_BORDER) {
             map.addSource('swiss-border', { type: 'geojson', data: window.SWISS_BORDER });
@@ -393,9 +454,17 @@
           map.addLayer({
             id: 'peaks-label', type: 'symbol', source: 'peaks',
             layout: {
-              'text-field': ['case',
-                ['==', ['get', 'alt'], null], ['get', 'name'],
-                ['concat', ['get', 'name'], '  ', ['to-string', ['get', 'alt']], ' m']
+              // ★ prefix on peaks whose POI matches a built hike page in this
+              // repo — same intent as CC's amber-ring "has-page" badge, just
+              // rendered as a leading glyph so it survives at label-only zoom
+              // levels where the dot is small.
+              'text-field': ['concat',
+                ['case', ['get', 'hasPage'], '★ ', ''],
+                ['get', 'name'],
+                ['case',
+                  ['==', ['get', 'alt'], null], '',
+                  ['concat', '  ', ['to-string', ['get', 'alt']], ' m']
+                ]
               ],
               'text-font': ['Open Sans Regular'], 'text-size': 12,
               'text-anchor': 'bottom', 'text-offset': [0, -0.6],
@@ -480,7 +549,9 @@
 
           // Click a peak/hut → fly to it and open the side panel. Panel calls
           // the shared HikeMap.SidePanel so the interaction is identical to
-          // CC's 2D behavior; the fly-to is the 3D-specific bit.
+          // CC's 2D behavior; the fly-to is the 3D-specific bit. When the
+          // clicked POI matches a built hike page, drape its GPX track on the
+          // terrain so the actual route reads at a glance.
           function clickPoi(e) {
             var f = e.features && e.features[0]; if (!f) return;
             var id = f.properties.id;
@@ -490,6 +561,10 @@
             window.CC3DPeaks._selected = poi;
             flyTo({ lat: poi.lat, lon: poi.lon });
             if (panel) panel.open(poi);
+            // GPX draping — only when this POI has a matching built hike page.
+            var hike = deps.matchingHike ? deps.matchingHike(poi) : null;
+            if (hike && hike.href) showHikeTrack(hike);
+            else clearHikeTrack();
           }
           ['peaks-hit', 'peaks-dot', 'peaks-label',
            'huts-dot', 'huts-label',
