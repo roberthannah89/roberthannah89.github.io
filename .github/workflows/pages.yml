@@ -94,28 +94,49 @@ jobs:
       # gated on `fetch == 'true'` so we only ever write a fresh forecast
       # into the cache. If we used the composite `actions/cache@v6` here it
       # would auto-save on cache-miss — which on a push flow would poison
-      # the bucket with the stale checked-in weather-cache.js, causing every
-      # subsequent scheduled cron in the same 3-hour window to cache-hit on
-      # the stale entry and skip its refresh (the historical staleness bug).
+      # the bucket with the stale checked-in weather-cache.js.
+      #
+      # restore-keys lets us fall back to the most recently written
+      # `weather-*` cache when the current 3-hour bucket has no entry yet
+      # (e.g. a push right after the top of a new bucket, before the cron
+      # at xx:15 has fired). Without this fallback the push flow was
+      # deploying the git-tracked weather-cache.js — which is never
+      # committed by CI and can be a week or more out of date.
       - name: Restore weather cache
         id: weather-cache
         uses: actions/cache/restore@v6
         with:
           path: pages/hikes/templates/_assets/hike_map/weather-cache.js
           key: ${{ needs.plan.outputs.weather_key }}
+          restore-keys: |
+            weather-
 
       - name: Decide whether to fetch fresh weather
         id: decide
+        env:
+          MATCHED_KEY: ${{ steps.weather-cache.outputs.cache-matched-key }}
         run: |
           if [ "${{ steps.weather-cache.outputs.cache-hit }}" = "true" ]; then
             echo "fetch=false" >> $GITHUB_OUTPUT
             echo "Cache hit — reusing bucket ${{ needs.plan.outputs.weather_key }}"
           elif [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Scheduled refreshes always fetch fresh — the whole point of the
+            # cron. Even if restore-keys pulled an older bucket, we want new
+            # data for the current 3-hour window.
             echo "fetch=true" >> $GITHUB_OUTPUT
             echo "Cache miss on ${{ github.event_name }} — refreshing weather"
-          else
+          elif [ -n "$MATCHED_KEY" ]; then
+            # Push flow, exact-key miss, but restore-keys found an older
+            # cron output. Ship it — up to ~3 h stale, not a week.
             echo "fetch=false" >> $GITHUB_OUTPUT
-            echo "Cache miss on push — reusing committed weather-cache.js (next cron xx:15 refreshes)"
+            echo "Cache miss on push — reusing prior cron output ($MATCHED_KEY)"
+          else
+            # Push flow with no prior cron cache at all (first-ever deploy
+            # or the cache was manually cleared). We have to fetch — the
+            # git-tracked weather-cache.js is not maintained by CI and is
+            # frequently a week+ out of date.
+            echo "fetch=true" >> $GITHUB_OUTPUT
+            echo "Cache miss on push AND no fallback bucket — fetching fresh (~6 min)"
           fi
 
       - uses: actions/setup-python@v6
