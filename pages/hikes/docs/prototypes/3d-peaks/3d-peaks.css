@@ -16,8 +16,17 @@
  */
 body.mode-3d #cc-filter-bar { display: none; }
 
-/* Peaks toggle button — only visible in 3D. */
-body.mode-2d .wx-toggle[data-toggle="peaks"] { display: none; }
+/* 3D-only bottom-bar toggles (peaks, trails, cinematic tour) — hidden in 2D
+   so the CC-shape 2D lens keeps its route-having-POI focus and doesn't show
+   controls that don't apply. */
+body.mode-2d .wx-toggle[data-toggle="peaks"],
+body.mode-2d .wx-toggle[data-toggle="trails"],
+body.mode-2d .wx-toggle[data-toggle="cinematic"] { display: none; }
+
+/* Nudge the grade legend off MapLibre's bottom-right zoom control so they
+   don't stack. Zoom lives at bottom:0, the legend sits above the info
+   button and beside it. */
+.cc-grade-legend { bottom: 116px !important; right: 60px !important; }
 
 /* ---------- Mode toggle ---------- */
 .cc-mode-toggle {

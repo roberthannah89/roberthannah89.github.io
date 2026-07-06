@@ -175,6 +175,15 @@
     var loadingOverlay = document.getElementById('loading-overlay');
     if (loadingOverlay) loadingOverlay.classList.remove('hidden');
 
+    // info-overlay.js relocates #info-btn into Leaflet's top-right control
+    // bar in 2D. That container lives inside #map — Leaflet's map.remove()
+    // AND our innerHTML wipe would both drop the button. Rescue it BEFORE
+    // renderer.teardown() runs; the overlay's poller re-relocates it if
+    // 2D reappears.
+    var infoBtn = document.getElementById('info-btn');
+    var app = document.getElementById('app');
+    if (infoBtn && app && infoBtn.parentElement !== app) app.appendChild(infoBtn);
+
     if (renderer) {
       try { renderer.teardown(); } catch (e) { console.error('teardown', e); }
     }
@@ -377,21 +386,28 @@
     buildWeatherToggles();
   }
 
-  // Minimal bottom-bar toggle set — hikes / huts / peaks / webcams. Matches
-  // CC's "Discover" section (dropped Safety and Approach — those are
-  // planning-heavy and 3d-peaks is exploration-first). The "peaks" toggle
-  // is CSS-hidden in 2D because showing 7,500 markers on a Leaflet map is
-  // both slow and low-signal — the CC-shape 2D lens is already about
-  // route-having SAC POIs.
+  // Bottom-bar toggles — same location and styling as CC. Shared "Discover"
+  // set (hikes / huts / webcams) plus three mode-specific additions:
+  //   peaks     — CH_PEAKS layer; 3D only (CSS-hidden in 2D)
+  //   trails    — SAC T1–T6 Overpass overlay; 3D only
+  //   cinematic — fly-to-and-orbit selected peak; 3D only
+  // Framework goal: whichever renderer is active exposes its supported
+  // features via renderer.supports.*, and the button's onclick dispatches
+  // to the right renderer method. Solving problems in one mode's toggle
+  // handling automatically propagates because the button + wiring live in
+  // one place.
   function buildWeatherToggles() {
     var panel = document.getElementById('weather-toggles');
     if (!panel) return;
+    panel.innerHTML = '';
     var s = store.state();
     var toggles = [
-      { id: 'hikes',   icon: '🥾', label: 'Hikes',            stateKey: 'h',  defaultOn: true },
-      { id: 'huts',    icon: '🏚️', label: 'SAC huts',         stateKey: 'u',  defaultOn: true },
-      { id: 'peaks',   icon: '🏔️', label: 'Peaks (3D only)',  stateKey: 'pk', defaultOn: true },
-      { id: 'webcams', icon: '📷', label: 'Webcams',          stateKey: 'wc', defaultOn: false }
+      { id: 'hikes',     icon: '🥾', label: 'Hikes',                       stateKey: 'h' },
+      { id: 'huts',      icon: '🏚️', label: 'SAC huts',                    stateKey: 'u' },
+      { id: 'peaks',     icon: '🏔️', label: 'Peaks (3D only)',             stateKey: 'pk' },
+      { id: 'webcams',   icon: '📷', label: 'Webcams',                     stateKey: 'wc' },
+      { id: 'trails',    icon: '👣', label: 'SAC T1–T6 trails (3D only)',  action: 'trails',    defaultOn: true  },
+      { id: 'cinematic', icon: '🎥', label: 'Cinematic tour (3D only)',    action: 'cinematic', defaultOn: false }
     ];
     toggles.forEach(function (t) {
       var on = t.stateKey ? !!s[t.stateKey] : !!t.defaultOn;
@@ -401,9 +417,21 @@
       btn.title = t.label;
       btn.setAttribute('data-toggle', t.id);
       btn.addEventListener('click', function () {
-        var next = !btn.classList.contains('active');
-        btn.classList.toggle('active', next);
-        if (t.stateKey) store.set(t.stateKey, next);
+        if (t.action === 'trails') {
+          if (renderer && renderer.toggleTrails) {
+            renderer.toggleTrails();
+            btn.classList.toggle('active');
+          }
+        } else if (t.action === 'cinematic') {
+          if (renderer && renderer.toggleTour) {
+            renderer.toggleTour();
+            btn.classList.toggle('active');
+          }
+        } else if (t.stateKey) {
+          var next = !btn.classList.contains('active');
+          btn.classList.toggle('active', next);
+          store.set(t.stateKey, next);
+        }
       });
       panel.appendChild(btn);
     });

@@ -388,7 +388,28 @@
           bearing: typeof v.bearing === 'number' ? v.bearing : 20,
           maxPitch: 85, hash: false
         });
-        map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
+        // Zoom + compass control at bottom-right — matches Leaflet CC's zoom
+        // position so the two modes look consistent. Also gets it out from
+        // under the filter bar that overlays the top of the map.
+        map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+
+        // Compass button (bottom of the +/- stack) — override the default
+        // reset-north-and-pitch behavior into a bird's-eye ⇄ previous-orientation
+        // toggle. First click captures current pitch/bearing and flattens to
+        // top-down north; second click restores what you had before.
+        var savedOrient = null;
+        var origResetNorthPitch = map.resetNorthPitch.bind(map);
+        map.resetNorthPitch = function (opts) {
+          var pitch = map.getPitch();
+          var bearing = map.getBearing();
+          if (Math.abs(pitch) < 2 && Math.abs(bearing % 360) < 2 && savedOrient) {
+            map.easeTo({ pitch: savedOrient.pitch, bearing: savedOrient.bearing, duration: 600 });
+            savedOrient = null;
+          } else {
+            savedOrient = { pitch: pitch, bearing: bearing };
+            origResetNorthPitch(opts);
+          }
+        };
 
         map.on('load', function () {
           // Trails
@@ -440,7 +461,10 @@
           map.addSource('peaks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
           map.addLayer({
             id: 'peaks-hit', type: 'circle', source: 'peaks',
-            paint: { 'circle-radius': 12, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-width': 0 }
+            // Generous click target — small dots on a 3D-pitched view were
+            // too fiddly with r=12. This invisible ring extends the tappable
+            // area to a comfortable ~22px around each peak center.
+            paint: { 'circle-radius': 22, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-width': 0 }
           });
           map.addLayer({
             id: 'peaks-dot', type: 'circle', source: 'peaks',
@@ -487,7 +511,7 @@
           map.addSource('ch-peaks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
           map.addLayer({
             id: 'ch-peaks-hit', type: 'circle', source: 'ch-peaks',
-            paint: { 'circle-radius': 8, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-width': 0 }
+            paint: { 'circle-radius': 16, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-width': 0 }
           });
           map.addLayer({
             id: 'ch-peaks-dot', type: 'circle', source: 'ch-peaks',
@@ -522,6 +546,10 @@
 
           // Huts — brown filled markers, distinct silhouette
           map.addSource('huts', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+          map.addLayer({
+            id: 'huts-hit', type: 'circle', source: 'huts',
+            paint: { 'circle-radius': 22, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-width': 0 }
+          });
           map.addLayer({
             id: 'huts-dot', type: 'circle', source: 'huts',
             paint: {
@@ -567,7 +595,7 @@
             else clearHikeTrack();
           }
           ['peaks-hit', 'peaks-dot', 'peaks-label',
-           'huts-dot', 'huts-label',
+           'huts-hit', 'huts-dot', 'huts-label',
            'ch-peaks-hit', 'ch-peaks-dot', 'ch-peaks-label'].forEach(function (l) {
             map.on('click', l, clickPoi);
             map.on('mouseenter', l, function () { map.getCanvas().style.cursor = 'pointer'; });

@@ -76,19 +76,8 @@
   <!-- Side panel (same as CC) -->
   <div id="side-panel"></div>
 
-  <!-- 3D-only right button stack: trails + tour. Hidden in 2D. -->
-  <div id="mode-buttons" class="cc-mode-buttons">
-    <button class="cc-mode-btn" id="trails-btn" title="Toggle SAC-graded trails overlay (3D only)">
-      <span>&#x1F97E;</span>
-      <span class="cc-count" id="trails-count">—</span>
-      <span class="cc-ring hidden" id="trails-ring"></span>
-    </button>
-    <button class="cc-mode-btn" id="tour-btn" title="Fly to the selected peak and pan 360° (3D only)">
-      &#x1F3A5;
-    </button>
-  </div>
-
-  <!-- 3D-only SAC grade legend, bottom-right above the info button -->
+  <!-- 3D-only SAC grade legend, positioned above the info button and to the
+       left of MapLibre's bottom-right zoom control. -->
   <div id="grade-legend" class="cc-grade-legend hidden">
     <h4>Min. T to summit</h4>
     <div class="row"><span class="sw t1"></span>T1 · Hiking</div>
@@ -105,6 +94,10 @@
     <div class="loading-spinner"></div>
     <div id="loading-text">Loading...</div>
   </div>
+
+  <!-- (i) info coach-marks — same button and wiring as CC. info-overlay.js
+       (loaded below) auto-opens once per browser via localStorage. -->
+  <button id="info-btn" type="button" aria-label="What does everything do?" title="What does everything do?">i</button>
 </div>
 
 <!-- Data — same as CC -->
@@ -141,6 +134,9 @@
 <script src="3d-peaks/renderer-2d.js"></script>
 <script src="3d-peaks/renderer-3d.js"></script>
 <script src="3d-peaks/orchestrator.js"></script>
+
+<!-- (i) info coach-marks — same wiring as CC's #info-btn -->
+<script src="../../command-center/info-overlay.js"></script>
 
 <!-- Site nav dropdown (same as CC) -->
 <script src="../../guides/_nav.js"></script>
