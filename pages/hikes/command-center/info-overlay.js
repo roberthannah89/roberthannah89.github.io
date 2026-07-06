@@ -69,7 +69,7 @@
     { sel: '.filter-group--display', zone: 'top', title: 'Marker display',
       desc: 'What each pin shows on the map — name, grade, weather colour, gain, etc.' },
     { sel: '#weather-toggles',       zone: 'bottom', title: 'Map layers',
-      desc: 'Three groups: Discover (hikes, huts, cities, webcams), Safety (all off by default — closures, snow, fire, wildlife, rockfall, slope; enable to see), Approach (transit, parking, water).' },
+      desc: 'Three groups: Discover (hikes, huts, cities, webcams), Approach (transit, parking, water), Safety (all off by default — closures, snow, fire, wildlife, rockfall, slope; enable to see).' },
     { sel: '#route-counter',         zone: 'bottom', title: 'Live counter',
       desc: 'Destinations and routes matching your current filters.' },
     { sel: '.ms-layer-bar',          zone: 'bottom', title: 'Base map',
@@ -428,8 +428,13 @@
   function postMount(btn) {
     // Any click / touch / key press dismisses. Capture phase so we run
     // BEFORE Leaflet's map handlers get a chance to swallow the event.
-    document.addEventListener('click', function () {
-      if (isOpen) close();
+    // Exclude the info button itself — this capture listener otherwise fires
+    // (and closes) BEFORE the button's own click handler runs its toggle(),
+    // which would immediately reopen what this just closed. Net effect
+    // without the guard: clicking the (i) button while open appears to do
+    // nothing, since it closes and reopens in the same click.
+    document.addEventListener('click', function (e) {
+      if (isOpen && e.target !== btn) close();
     }, true);
     document.addEventListener('keydown', function (e) {
       if (isOpen && (e.key === 'Escape' || e.key === 'Esc')) close();

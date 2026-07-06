@@ -491,6 +491,8 @@
     // is presentational. `stateKey` ties a toggle to a shared filter store
     // slot so restored URL state wins over defaultOn; the rest use defaultOn
     // and toggleWeatherLayer's per-id handler.
+    // Order is Discover, Approach, Safety — Safety sorts last because it's
+    // the least-used group day-to-day (see label comment below).
     var sections = [
       {
         label: 'Discover',
@@ -500,6 +502,14 @@
           { id: 'haspage', icon: '⭐', label: 'Has page', stateKey: 'hp', defaultOn: false },
           { id: 'cities',  icon: '🏙️', label: 'Reference cities (sanity-check forecast)', defaultOn: true },
           { id: 'webcams', icon: '📷', label: 'Webcams', defaultOn: true }
+        ]
+      },
+      {
+        label: 'Approach',
+        toggles: [
+          { id: 'transit', icon: '🚌', label: 'Public transport stops (SBB / PostBus)', defaultOn: false },
+          { id: 'parking', icon: '🅿️', label: 'Trailhead parking (OSM)',                defaultOn: false },
+          { id: 'water',   icon: '💧', label: 'Drinking water (OSM)',                   defaultOn: false }
         ]
       },
       {
@@ -523,14 +533,6 @@
           { id: 'wildlife', icon: '🦌', label: 'Wildlife rest zones (Wildruhezonen — some binding)',           defaultOn: false },
           { id: 'rockfall', icon: '🪨', label: 'Rockfall trajectory hazard (SilvaProtect-CH)',                 defaultOn: false },
           { id: 'slope',    icon: '📐', label: 'Slope ≥30° (avalanche-critical terrain)',                      defaultOn: false }
-        ]
-      },
-      {
-        label: 'Approach',
-        toggles: [
-          { id: 'transit', icon: '🚌', label: 'Public transport stops (SBB / PostBus)', defaultOn: false },
-          { id: 'parking', icon: '🅿️', label: 'Trailhead parking (OSM)',                defaultOn: false },
-          { id: 'water',   icon: '💧', label: 'Drinking water (OSM)',                   defaultOn: false }
         ]
       }
     ];

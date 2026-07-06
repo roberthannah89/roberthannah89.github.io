@@ -308,7 +308,7 @@ body.chrome-hidden #bottom-bar {
 
 /* --- Weather / POI Toggles (lives in #bottom-bar) ---
    #weather-toggles is a transparent flex row whose children are the
-   three .wx-toggle-group pills (Discover / Safety / Approach). Each
+   three .wx-toggle-group pills (Discover / Approach / Safety). Each
    pill carries its own outline + backdrop so the sections read as
    distinct groups even at a glance. Gap between the group pills is
    wider than gap between toggle buttons inside a pill. */
