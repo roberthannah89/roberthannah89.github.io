@@ -428,8 +428,14 @@
   function postMount(btn) {
     // Any click / touch / key press dismisses. Capture phase so we run
     // BEFORE Leaflet's map handlers get a chance to swallow the event.
-    document.addEventListener('click', function () {
-      if (isOpen) close();
+    // EXCEPT clicks on the info button itself — those need to reach the
+    // button's own toggle handler so a "click to close" gesture actually
+    // closes instead of close-then-reopen-in-the-same-tick.
+    document.addEventListener('click', function (e) {
+      if (!isOpen) return;
+      var btn = document.getElementById('info-btn');
+      if (btn && (e.target === btn || (btn.contains && btn.contains(e.target)))) return;
+      close();
     }, true);
     document.addEventListener('keydown', function (e) {
       if (isOpen && (e.key === 'Escape' || e.key === 'Esc')) close();
@@ -484,6 +490,17 @@
   }
 
   // Expose a tiny handle so a console user (or future keybinding) can open
-  // the overlay without hunting the button.
-  window.HikeCcInfo = { open: open, close: close, toggle: toggle };
+  // the overlay without hunting the button. Also useful as a "did the script
+  // even load?" diagnostic — if window.HikeCcInfo is undefined the file
+  // never executed (SW-cache regression, syntax error, whatever); if it IS
+  // defined but window.HikeCcInfo.toggle() does nothing when called, the
+  // failure is inside open() (measure/layout/DOM), not the button wiring.
+  window.HikeCcInfo = {
+    open: open,
+    close: close,
+    toggle: toggle,
+    isOpen: function () { return isOpen; },
+    hasButton: function () { return !!document.getElementById('info-btn'); }
+  };
+  try { console.info('[info-overlay] loaded — call window.HikeCcInfo.toggle() to test'); } catch (e) {}
 })();
