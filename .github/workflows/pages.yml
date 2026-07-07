@@ -232,18 +232,65 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Download weather cache
-        uses: actions/download-artifact@v8
-        with:
-          name: weather-cache
-          path: pages/hikes/templates/_assets/hike_map/
-
       - name: Download rendered site
         if: needs.plan.outputs.needs_render == 'true'
         uses: actions/download-artifact@v8
         with:
           name: rendered-site
           path: pages/hikes/
+
+      # Weather MUST be downloaded AFTER rendered-site, straight into the
+      # served path (routes/_assets/hike_map/), so it overlays whatever the
+      # render job produced.
+      #
+      # Why: render and weather run in parallel. render calls sync_assets(),
+      # which copies templates/_assets/hike_map/weather-cache.js → routes/_assets/
+      # hike_map/weather-cache.js. Since the fresh weather hasn't been fetched
+      # yet at that point, sync_assets copies the git-tracked template — which
+      # is not maintained by CI and can be weeks stale. That stale copy rides
+      # into the rendered-site artifact. index.html and the service worker
+      # both load routes/_assets/hike_map/weather-cache.js (NOT templates/),
+      # so unless we overwrite that path here with the fresh artifact, the
+      # deployed site serves stale forecasts. This was the July 2026 bug:
+      # scheduled cron runs succeeded, fetched fresh weather, uploaded the
+      # artifact — but only into templates/, which nothing on the live site
+      # ever reads.
+      - name: Overlay fresh weather cache into served path
+        uses: actions/download-artifact@v8
+        with:
+          name: weather-cache
+          path: pages/hikes/routes/_assets/hike_map/
+
+      - name: Verify weather cache freshness (fail deploy if stale)
+        run: |
+          # Guard against future regressions of the "stale weather deployed"
+          # bug: refuse to ship if the weather-cache.js at the served path is
+          # older than 6 hours (2× the cron interval — accepts a legitimate
+          # restore-keys fallback to the previous bucket, rejects anything
+          # older). If this fails, either fetch_weather.py is silently
+          # producing stale data or the overlay above got reordered/moved.
+          file=pages/hikes/routes/_assets/hike_map/weather-cache.js
+          if [ ! -f "$file" ]; then
+            echo "ERROR: $file missing after artifact download."
+            exit 1
+          fi
+          updated=$(grep -oE '"updated":"[^"]+"' "$file" | head -1 | sed 's/.*"updated":"//;s/".*//')
+          if [ -z "$updated" ]; then
+            echo "ERROR: could not parse WEATHER_CACHE_META.updated from $file"
+            head -5 "$file"
+            exit 1
+          fi
+          now_epoch=$(date -u +%s)
+          updated_epoch=$(date -u -d "$updated" +%s)
+          age=$(( now_epoch - updated_epoch ))
+          max_age=$(( 6 * 3600 ))
+          printf 'weather-cache.js updated=%s age=%ss max=%ss\n' "$updated" "$age" "$max_age"
+          if [ "$age" -gt "$max_age" ]; then
+            echo "ERROR: weather-cache.js at served path is ${age}s old (> ${max_age}s / 6h)."
+            echo "Refusing to deploy stale weather. Check that the 'Overlay fresh weather cache' step"
+            echo "still targets routes/_assets/hike_map/ and runs AFTER 'Download rendered site'."
+            exit 1
+          fi
 
       - name: Inject site-local config (API keys etc) from repo secrets
         env:
