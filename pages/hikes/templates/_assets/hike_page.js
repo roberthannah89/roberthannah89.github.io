@@ -859,7 +859,7 @@
   function wxIcon(code) {
     if (code == null) return "—";
     if (code <= 1)  return "☀️";
-    if (code <= 2)  return "⛅";
+    if (code <= 2)  return "🌤️";
     if (code <= 48) return "☁️";
     if (code <= 67) return "🌧️";
     if (code <= 77) return "❄️";

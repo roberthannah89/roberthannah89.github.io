@@ -72,7 +72,7 @@
   function weatherIcon(code) {
     if (code === null || code === undefined) return '—';
     if (code <= 1) return '☀️';
-    if (code <= 2) return '⛅';      // only code 2 = partly cloudy
+    if (code <= 2) return '🌤️';     // only code 2 = partly cloudy
     if (code <= 48) return '☁️';     // 3=overcast, 45/48=fog → cloudy
     if (code <= 57) return '🌧️';
     if (code <= 67) return '🌧️';
@@ -121,7 +121,7 @@
   // display ❄️ / ⛈️ for snow/storm weather codes.
   var SKY_CATEGORIES = [
     { key: 'clear',         icon: '☀️', label: 'Clear' },
-    { key: 'partly-cloudy', icon: '⛅', label: 'Partly cloudy' },
+    { key: 'partly-cloudy', icon: '🌤️', label: 'Partly cloudy' },
     { key: 'cloudy',        icon: '☁️', label: 'Cloudy / fog' },
     { key: 'rain',          icon: '🌧️', label: 'Rain' },
     { key: 'snow',          icon: '❄️', label: 'Snow',  hidden: true },
